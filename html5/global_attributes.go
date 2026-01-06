@@ -20,13 +20,22 @@ import (
 
 // GlobalAttributes represents global HTML attributes
 type GlobalAttributes struct {
+	Style string
+	Title string
+	Role string
+	Lang string
+	AccessKey string
 	AriaLabel string
 	AutoCapitalize autocapitalize.AutoCapitalize
 	AutoCorrect autocorrect.AutoCorrect
 	ContentEditable contenteditable.ContentEditable
 	Dir dir.Dir
 	EnterKeyHint enterkeyhint.EnterKeyHint
+	ExportParts string
 	InputMode inputmode.InputMode
+	ItemProp string
+	ItemRef string
+	Part string
 	Popover popover.Popover
 	SpellCheck spellcheck.Spellcheck
 	Translate translate.Translate
@@ -61,6 +70,31 @@ func (ga *GlobalAttributes) Attributes() *[]node.Attribute {
 
 // AttributeBuilder writes all global attributes to the buffer
 func (ga *GlobalAttributes) AttributeBuilder(buf *bytes.Buffer) {
+	if ga.Style != "" {
+		buf.Write(AttrStyle)
+		buf.WriteString(ga.Style)
+		buf.Write(MarkupQuote)
+	}
+	if ga.Title != "" {
+		buf.Write(AttrTitle)
+		buf.WriteString(ga.Title)
+		buf.Write(MarkupQuote)
+	}
+	if ga.Role != "" {
+		buf.Write(AttrRole)
+		buf.WriteString(ga.Role)
+		buf.Write(MarkupQuote)
+	}
+	if ga.Lang != "" {
+		buf.Write(AttrLang)
+		buf.WriteString(ga.Lang)
+		buf.Write(MarkupQuote)
+	}
+	if ga.AccessKey != "" {
+		buf.Write(AttrAccessKey)
+		buf.WriteString(ga.AccessKey)
+		buf.Write(MarkupQuote)
+	}
 	if ga.AriaLabel != "" {
 		buf.Write(AttrAriaLabel)
 		buf.WriteString(ga.AriaLabel)
@@ -91,9 +125,29 @@ func (ga *GlobalAttributes) AttributeBuilder(buf *bytes.Buffer) {
 		buf.Write(ga.EnterKeyHint)
 		buf.Write(MarkupQuote)
 	}
+	if ga.ExportParts != "" {
+		buf.Write(AttrExportParts)
+		buf.WriteString(ga.ExportParts)
+		buf.Write(MarkupQuote)
+	}
 	if len(ga.InputMode) > 0 {
 		buf.Write(AttrInputMode)
 		buf.Write(ga.InputMode)
+		buf.Write(MarkupQuote)
+	}
+	if ga.ItemProp != "" {
+		buf.Write(AttrItemProp)
+		buf.WriteString(ga.ItemProp)
+		buf.Write(MarkupQuote)
+	}
+	if ga.ItemRef != "" {
+		buf.Write(AttrItemRef)
+		buf.WriteString(ga.ItemRef)
+		buf.Write(MarkupQuote)
+	}
+	if ga.Part != "" {
+		buf.Write(AttrPart)
+		buf.WriteString(ga.Part)
 		buf.Write(MarkupQuote)
 	}
 	if len(ga.Popover) > 0 {

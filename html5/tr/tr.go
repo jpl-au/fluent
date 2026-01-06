@@ -31,17 +31,8 @@ type Element = element
 // element represents the <tr> HTML element
 type element struct {
 	nodes []node.Node
-	accesskey string
 	class string
-	exportparts string
 	id string
-	itemprop string
-	itemref string
-	lang string
-	part string
-	role string
-	style string
-	title string
 	attr *[]node.Attribute
 	ea *html5.EventAttributes
 	ga *html5.GlobalAttributes
@@ -153,10 +144,10 @@ func (e *element) ID(id string) *element {
 // and make maintenance difficult. Best used for programmatically generated styles, dynamic values, or critical
 // above-the-fold styling.
 func (e *element) Style(css string) *element {
-	if e.style == "" {
-		e.style = css
+	if e.global().Style == "" {
+		e.global().Style = css
 	} else {
-		e.style = strings.Join([]string{e.style, css}, "; ")
+		e.global().Style = strings.Join([]string{e.global().Style, css}, "; ")
 	}
 	return e
 }
@@ -164,7 +155,7 @@ func (e *element) Style(css string) *element {
 // Title Contains a text representing advisory information related to the element it belongs to. Such information can
 // typically, but not necessarily, be presented to the user as a tooltip.
 func (e *element) Title(text string) *element {
-	e.title = text
+	e.global().Title = text
 	return e
 }
 
@@ -190,14 +181,14 @@ func (e *element) TabIndex(index int) *element {
 // are added to HTML elements using role="role_type", where role_type is the name of a role in the ARIA
 // specification.
 func (e *element) Role(role string) *element {
-	e.role = role
+	e.global().Role = role
 	return e
 }
 
 // Lang Helps define the language of an element the language that non-editable elements are in, or the language that
 // editable elements should be written in by the user.
 func (e *element) Lang(language string) *element {
-	e.lang = language
+	e.global().Lang = language
 	return e
 }
 
@@ -206,10 +197,10 @@ func (e *element) Lang(language string) *element {
 // Essential for accessibility and power-user workflows, but should be used thoughtfully to avoid conflicts with
 // browser/OS shortcuts.
 func (e *element) AccessKey(key string) *element {
-	if e.accesskey == "" {
-		e.accesskey = key
+	if e.global().AccessKey == "" {
+		e.global().AccessKey = key
 	} else {
-		e.accesskey = strings.Join([]string{e.accesskey, key}, " ")
+		e.global().AccessKey = strings.Join([]string{e.global().AccessKey, key}, " ")
 	}
 	return e
 }
@@ -307,7 +298,7 @@ func (e *element) EnterKeyHint(hint enterkeyhint.EnterKeyHint) *element {
 
 // ExportParts Used to transitively export shadow parts from a nested shadow tree into a containing light tree.
 func (e *element) ExportParts(parts string) *element {
-	e.exportparts = parts
+	e.global().ExportParts = parts
 	return e
 }
 
@@ -342,14 +333,14 @@ func (e *element) ItemId(id string) *element {
 // ItemProp Used to add properties to an item. Every HTML element may have an itemprop attribute specified, where an
 // itemprop consists of a name and value pair.
 func (e *element) ItemProp(properties string) *element {
-	e.itemprop = properties
+	e.global().ItemProp = properties
 	return e
 }
 
 // ItemRef Properties that are not descendants of an element with the itemscope attribute can be associated with the item
 // using an itemref.
 func (e *element) ItemRef(refs string) *element {
-	e.itemref = refs
+	e.global().ItemRef = refs
 	return e
 }
 
@@ -377,10 +368,10 @@ func (e *element) Nonce(value string) *element {
 // Part A space-separated list of the part names of the element. Part names allows CSS to select and style specific
 // elements in a shadow tree via the ::part pseudo-element.
 func (e *element) Part(names string) *element {
-	if e.part == "" {
-		e.part = names
+	if e.global().Part == "" {
+		e.global().Part = names
 	} else {
-		e.part = strings.Join([]string{e.part, names}, " ")
+		e.global().Part = strings.Join([]string{e.global().Part, names}, " ")
 	}
 	return e
 }
@@ -1049,16 +1040,6 @@ func (e *element) AttributeBuilder(buf *bytes.Buffer) {
 		buf.WriteString(e.id)
 		buf.Write(html5.MarkupQuote)
 	}
-	if e.style != "" {
-		buf.Write(html5.AttrStyle)
-		buf.WriteString(e.style)
-		buf.Write(html5.MarkupQuote)
-	}
-	if e.title != "" {
-		buf.Write(html5.AttrTitle)
-		buf.WriteString(e.title)
-		buf.Write(html5.MarkupQuote)
-	}
 	if e.hidden {
 		buf.Write(html5.AttrHidden)
 	}
@@ -1067,52 +1048,17 @@ func (e *element) AttributeBuilder(buf *bytes.Buffer) {
 		buf.Write(strconv.AppendInt(nil, int64(e.tabindex), 10))
 		buf.Write(html5.MarkupQuote)
 	}
-	if e.role != "" {
-		buf.Write(html5.AttrRole)
-		buf.WriteString(e.role)
-		buf.Write(html5.MarkupQuote)
-	}
-	if e.lang != "" {
-		buf.Write(html5.AttrLang)
-		buf.WriteString(e.lang)
-		buf.Write(html5.MarkupQuote)
-	}
-	if e.accesskey != "" {
-		buf.Write(html5.AttrAccessKey)
-		buf.WriteString(e.accesskey)
-		buf.Write(html5.MarkupQuote)
-	}
 	if e.autofocus {
 		buf.Write(html5.AttrAutoFocus)
 	}
 	if e.draggable {
 		buf.Write(html5.AttrDraggable)
 	}
-	if e.exportparts != "" {
-		buf.Write(html5.AttrExportParts)
-		buf.WriteString(e.exportparts)
-		buf.Write(html5.MarkupQuote)
-	}
 	if e.inert {
 		buf.Write(html5.AttrInert)
 	}
-	if e.itemprop != "" {
-		buf.Write(html5.AttrItemProp)
-		buf.WriteString(e.itemprop)
-		buf.Write(html5.MarkupQuote)
-	}
-	if e.itemref != "" {
-		buf.Write(html5.AttrItemRef)
-		buf.WriteString(e.itemref)
-		buf.Write(html5.MarkupQuote)
-	}
 	if e.itemscope {
 		buf.Write(html5.AttrItemScope)
-	}
-	if e.part != "" {
-		buf.Write(html5.AttrPart)
-		buf.WriteString(e.part)
-		buf.Write(html5.MarkupQuote)
 	}
 
 	if e.attr != nil {
