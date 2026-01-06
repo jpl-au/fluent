@@ -440,9 +440,9 @@ Perhaps the most similar framework to Fluent is [gostar](https://github.com/pure
 
 I have also worked with [Templ](https://github.com/a-h/templ) and while it's great, the pre-compile step just feels awkward to me, and ultimately led me to search for alternatives.
 
-### Performance
+### Benchmark Performance
 
-In my own benchmarks against gomponents, gostar and hb, Fluent had better performance characteristics in both CPU and memory profiles, with significantly lower allocation counts due to its buffer pooling strategy. Using Fluent JIT further optimises the performance characteristics. Benchmarking is subjective and results can vary depending on how and what you're measuring.
+During the creation of Fluent I ran several benchmarks against gocomponents, gostar, hb and even templ. In comparison with the non-compiled (i.e.: not templ) solutions, Fluent seems to have better CPU and memory profiles, with significantly lower allocations due to the buffer pooling strategy. The Fluent JIT package further optimises the performance characteristics. I decided against publishing the results as benchmarking can be subjective, and the results vary depending on how and what you are measuring. I welcome the opportunity for others to create their own benchmarks and share them.
 
 ## Licence
 
