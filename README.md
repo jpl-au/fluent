@@ -436,7 +436,13 @@ I know Fluent's approach leads to a more verbose import declaration area, but `g
 
 Another framework I looked into quite a while into the development of Fluent is [hb](https://github.com/dracory/hb) - and it is in many ways practically similar in syntax to Fluent. As I'd already started with Fluent, it gave me an alternate framework to work against in my internal benchmarking. I also don't think it is great that you have to import all extensions (htmx, Alpine, Swal, ...) as I always prefer an opt-in approach that tries to keep your code lean.
 
+Perhaps the most similar framework to Fluent is [gostar](https://github.com/puregarlic/gostar) - which also uses a fluent API style with method chaining, a generator, and follows the HTML5 spec.
+
 I have also worked with [Templ](https://github.com/a-h/templ) and while it's great, the pre-compile step just feels awkward to me, and ultimately led me to search for alternatives.
+
+### Performance
+
+In my own benchmarks against gomponents, gostar and hb, Fluent had better performance characteristics in both CPU and memory profiles, with significantly lower allocation counts due to its buffer pooling strategy. Using Fluent JIT further optimises the performance characteristics. Benchmarking is subjective and results can vary depending on how and what you're measuring.
 
 ## Licence
 
