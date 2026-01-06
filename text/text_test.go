@@ -7,10 +7,10 @@ import (
 	"testing"
 )
 
-func TestTextNode(t *testing.T) {
+func TestNode(t *testing.T) {
 	tests := []struct {
 		name     string
-		node     *TextNode
+		node     *Node
 		expected string
 	}{
 		{
@@ -57,7 +57,7 @@ func TestTextNode(t *testing.T) {
 	}
 }
 
-func TestTextNode_Render_Writer(t *testing.T) {
+func TestNode_Render_Writer(t *testing.T) {
 	node := Text("Hello")
 	var buf bytes.Buffer
 	node.Render(&buf)

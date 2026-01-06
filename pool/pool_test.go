@@ -41,7 +41,7 @@ func TestPoolGetPut(t *testing.T) {
 
 func TestPoolThresholds(t *testing.T) {
 	Enabled()
-	threshold := PoolThreshold()
+	threshold := Threshold()
 
 	// Small buffer
 	smallBuf := Get(threshold - 1)
@@ -77,4 +77,5 @@ func TestDiscardOversized(t *testing.T) {
 	buf := bytes.NewBuffer(make([]byte, 0, max+1))
 	Put(buf)
 	// We can't easily verify it was discarded without internal counters, but we can ensure it doesn't panic
+	t.Log("oversized buffer handled without panic")
 }

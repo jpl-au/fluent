@@ -78,7 +78,7 @@ func (c *ConditionalBuilder) Render(w ...io.Writer) []byte {
 	c.RenderBuilder(buf)
 
 	if len(w) > 0 && w[0] != nil {
-		buf.WriteTo(w[0])
+		_, _ = buf.WriteTo(w[0])
 		fluent.PutBuffer(buf)
 		return nil
 	}
@@ -109,6 +109,6 @@ func (c *ConditionalBuilder) Nodes() []Node {
 }
 
 // SetAttribute is a no-op for ConditionalBuilder as it does not have attributes.
-func (c *ConditionalBuilder) SetAttribute(key string, value string) {
+func (c *ConditionalBuilder) SetAttribute(_ string, _ string) {
 	// ConditionalBuilder does not support attributes
 }

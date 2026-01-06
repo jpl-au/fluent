@@ -2,7 +2,7 @@ package security
 
 import (
 	"bytes"
-	"fmt"
+	"errors"
 	"io"
 	"regexp"
 
@@ -38,7 +38,7 @@ func Sanitise(comp node.Node) *SanitiseBuilder {
 	}
 
 	if comp == nil {
-		sb.err = fmt.Errorf("component is nil")
+		sb.err = errors.New("component is nil")
 		return sb
 	}
 
@@ -48,7 +48,7 @@ func Sanitise(comp node.Node) *SanitiseBuilder {
 
 	// Apply sanitisation rule
 	if pattern.Match(sb.content) {
-		sb.err = fmt.Errorf("content contains disallowed pattern")
+		sb.err = errors.New("content contains disallowed pattern")
 		return sb
 	}
 
@@ -80,7 +80,7 @@ func (sb *SanitiseBuilder) Render(w ...io.Writer) []byte {
 	}
 
 	if len(w) > 0 {
-		w[0].Write(sb.content)
+		_, _ = w[0].Write(sb.content)
 		return nil
 	}
 	return sb.content
@@ -108,7 +108,7 @@ func (sb *SanitiseBuilder) Nodes() []node.Node {
 // without wrapping it in a component. Returns an error if validation fails.
 func Validate(content string) error {
 	if pattern.MatchString(content) {
-		return fmt.Errorf("content contains disallowed pattern")
+		return errors.New("content contains disallowed pattern")
 	}
 	return nil
 }

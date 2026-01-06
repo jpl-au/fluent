@@ -41,7 +41,7 @@ func (f *FunctionComponent) Render(w ...io.Writer) []byte {
 	f.RenderBuilder(buf)
 
 	if len(w) > 0 && w[0] != nil {
-		buf.WriteTo(w[0])
+		_, _ = buf.WriteTo(w[0])
 		fluent.PutBuffer(buf)
 		return nil
 	}
@@ -66,6 +66,6 @@ func (f *FunctionComponent) Nodes() []Node {
 }
 
 // SetAttribute is a no-op for FunctionComponent as it does not have attributes.
-func (f *FunctionComponent) SetAttribute(key string, value string) {
+func (f *FunctionComponent) SetAttribute(_ string, _ string) {
 	// FunctionComponent does not support attributes
 }

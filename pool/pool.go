@@ -60,11 +60,11 @@ func Get(hint int) *bytes.Buffer {
 	var pooled *bytes.Buffer
 	if hint < poolThreshold {
 		if p := smallPool.Get(); p != nil {
-			pooled = p.(*bytes.Buffer)
+			pooled = p.(*bytes.Buffer) //nolint:forcetypeassert // Pool only contains *bytes.Buffer
 		}
 	} else {
 		if p := largePool.Get(); p != nil {
-			pooled = p.(*bytes.Buffer)
+			pooled = p.(*bytes.Buffer) //nolint:forcetypeassert // Pool only contains *bytes.Buffer
 		}
 	}
 
@@ -107,8 +107,8 @@ func Put(buf *bytes.Buffer) {
 
 // Configuration setters
 
-// SetPoolThreshold sets the size threshold between small and large pools in bytes
-func SetPoolThreshold(size int) {
+// SetThreshold sets the size threshold between small and large pools in bytes
+func SetThreshold(size int) {
 	poolThreshold = size
 }
 
@@ -122,8 +122,8 @@ func SetMaxPoolSize(size int, discard bool) {
 
 // Configuration getters
 
-// PoolThreshold returns the size threshold between small and large pools in bytes
-func PoolThreshold() int {
+// Threshold returns the size threshold between small and large pools in bytes
+func Threshold() int {
 	return poolThreshold
 }
 

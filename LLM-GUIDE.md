@@ -560,7 +560,7 @@ fluent.PutBuffer(buf)              // Return buffer to pool
 Configure globally via the `pool` package:
 ```go
 pool.SetEnabled(false)                    // Disable pooling entirely
-pool.SetPoolThreshold(4096)               // Small vs large pool threshold
+pool.SetThreshold(4096)                   // Small vs large pool threshold
 pool.SetMaxPoolSize(65536, true)          // Max size to pool, discard oversized
 ```
 

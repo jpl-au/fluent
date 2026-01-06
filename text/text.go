@@ -10,10 +10,10 @@ import (
 	"github.com/jpl-au/fluent/node"
 )
 
-// TextNode represents text content that can be either HTML-escaped (safe) or raw (unescaped).
+// Node represents text content that can be either HTML-escaped (safe) or raw (unescaped).
 // It implements the node.Node interface and is used internally by Text() and RawText()
 // constructor functions to handle different security models.
-type TextNode struct {
+type Node struct {
 	content string // The text content, possibly HTML-escaped
 	dynamic bool   // Whether the content is dynamically generated
 }
@@ -25,8 +25,8 @@ type TextNode struct {
 // Example:
 //
 //	text.Static("Copyright 2024") // Renders as: Copyright 2024
-func Static(str string) *TextNode {
-	return &TextNode{
+func Static(str string) *Node {
+	return &Node{
 		content: str,
 		dynamic: false,
 	}
@@ -40,8 +40,8 @@ func Static(str string) *TextNode {
 // Example:
 //
 //	text.Text(userName) // Renders with HTML escaping, marked as dynamic
-func Text(str string) *TextNode {
-	return &TextNode{
+func Text(str string) *Node {
+	return &Node{
 		content: html.EscapeString(str),
 		dynamic: true,
 	}
@@ -54,8 +54,8 @@ func Text(str string) *TextNode {
 // Example:
 //
 //	text.RawText(htmlContent) // Renders unescaped, marked as dynamic
-func RawText(str string) *TextNode {
-	return &TextNode{
+func RawText(str string) *Node {
+	return &Node{
 		content: str,
 		dynamic: true,
 	}
@@ -68,8 +68,8 @@ func RawText(str string) *TextNode {
 // Example:
 //
 //	text.Textf("Hello, %s!", "<world>") // Renders as: Hello, &lt;world&gt;!
-func Textf(format string, a ...any) *TextNode {
-	return &TextNode{
+func Textf(format string, a ...any) *Node {
+	return &Node{
 		content: html.EscapeString(fmt.Sprintf(format, a...)),
 		dynamic: true,
 	}
@@ -81,8 +81,8 @@ func Textf(format string, a ...any) *TextNode {
 // Example:
 //
 //	text.RawTextf("<a href='%s'>%s</a>", "/home", "Home") // Renders as: <a href='/home'>Home</a>
-func RawTextf(format string, a ...any) *TextNode {
-	return &TextNode{
+func RawTextf(format string, a ...any) *Node {
+	return &Node{
 		content: fmt.Sprintf(format, a...),
 		dynamic: true,
 	}
@@ -90,17 +90,17 @@ func RawTextf(format string, a ...any) *TextNode {
 
 // RenderBuilder writes the text content directly to the provided buffer.
 // This method provides efficient rendering for large node trees.
-func (tn *TextNode) RenderBuilder(buf *bytes.Buffer) {
+func (tn *Node) RenderBuilder(buf *bytes.Buffer) {
 	buf.WriteString(tn.content)
 }
 
 // Render returns the text content as a byte slice or writes to the provided writer.
-func (tn *TextNode) Render(w ...io.Writer) []byte {
+func (tn *Node) Render(w ...io.Writer) []byte {
 	buf := fluent.NewBuffer()
 	tn.RenderBuilder(buf)
 
 	if len(w) > 0 && w[0] != nil {
-		buf.WriteTo(w[0])
+		_, _ = buf.WriteTo(w[0])
 		fluent.PutBuffer(buf)
 		return nil
 	}
@@ -108,23 +108,23 @@ func (tn *TextNode) Render(w ...io.Writer) []byte {
 }
 
 // Nodes returns an empty slice as text nodes do not have children.
-func (tn *TextNode) Nodes() []node.Node {
+func (tn *Node) Nodes() []node.Node {
 	return []node.Node{}
 }
 
 // Dynamic returns true if this text content is dynamically generated (created with Textf or RawTextf)
-func (tn *TextNode) Dynamic() bool {
+func (tn *Node) Dynamic() bool {
 	return tn.dynamic
 }
 
 // Base returns nil as RawText nodes do not have attributes.
-// SetAttribute is a no-op for TextNode as it does not have attributes.
-func (tn *TextNode) SetAttribute(key string, value string) {
-	// TextNode does not support attributes
+// SetAttribute is a no-op for Node as it does not have attributes.
+func (tn *Node) SetAttribute(_ string, _ string) {
+	// Node does not support attributes
 }
 
 // String returns the text content as a string.
 // This allows RawText to be used in contexts that require string values.
-func (tn *TextNode) String() string {
+func (tn *Node) String() string {
 	return tn.content
 }
