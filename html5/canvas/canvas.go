@@ -3,15 +3,10 @@
 package canvas
 
 import (
-	"github.com/jpl-au/fluent/html5"
-	"strings"
-	"github.com/jpl-au/fluent/text"
-	"fmt"
-	"strconv"
 	"bytes"
-	"io"
+	"fmt"
 	"github.com/jpl-au/fluent"
-	"github.com/jpl-au/fluent/node"
+	"github.com/jpl-au/fluent/html5"
 	"github.com/jpl-au/fluent/html5/attr/autocapitalize"
 	"github.com/jpl-au/fluent/html5/attr/autocorrect"
 	"github.com/jpl-au/fluent/html5/attr/contenteditable"
@@ -23,6 +18,11 @@ import (
 	"github.com/jpl-au/fluent/html5/attr/translate"
 	"github.com/jpl-au/fluent/html5/attr/virtualkeyboardpolicy"
 	"github.com/jpl-au/fluent/html5/attr/writingsuggestions"
+	"github.com/jpl-au/fluent/node"
+	"github.com/jpl-au/fluent/text"
+	"io"
+	"strconv"
+	"strings"
 )
 
 // Element is an exported alias for the private element type
@@ -30,21 +30,21 @@ type Element = element
 
 // element represents the <canvas> HTML element
 type element struct {
-	nodes []node.Node
-	class string
-	id string
-	attr *[]node.Attribute
-	ea *html5.EventAttributes
-	ga *html5.GlobalAttributes
+	nodes      []node.Node
+	class      string
+	id         string
+	attr       *[]node.Attribute
+	ea         *html5.EventAttributes
+	ga         *html5.GlobalAttributes
 	bufferhint int
-	height int
-	tabindex int
-	width int
-	autofocus bool
-	draggable bool
-	hidden bool
-	inert bool
-	itemscope bool
+	height     int
+	tabindex   int
+	width      int
+	autofocus  bool
+	draggable  bool
+	hidden     bool
+	inert      bool
+	itemscope  bool
 }
 
 // global returns the GlobalAttributes, initializing if nil
@@ -71,7 +71,6 @@ func New(nodes ...node.Node) *element {
 		nodes: nodes,
 	}
 }
-
 
 // Height The height of the coordinate space in CSS pixels. This defines the vertical resolution of the canvas
 // drawing surface. Defaults to 150 pixels if not specified. Important: This is different from CSS height -
@@ -200,7 +199,7 @@ func (e *element) AriaLabel(label string) *element {
 // readers and other accessibility tools understand and interact with dynamic web content. Essential for creating
 // accessible web applications.
 func (e *element) SetAria(key string, value string) *element {
-	e.SetAttribute("aria-" + key, value)
+	e.SetAttribute("aria-"+key, value)
 	return e
 }
 
@@ -243,7 +242,7 @@ func (e *element) ContentEditable(value contenteditable.ContentEditable) *elemen
 // via the HTMLElement interface of the element the attribute is set on. The HTMLElement.dataset property gives
 // access to them.
 func (e *element) SetData(key string, value string) *element {
-	e.SetAttribute("data-" + key, value)
+	e.SetAttribute("data-"+key, value)
 	return e
 }
 
@@ -1101,4 +1100,3 @@ func (e *element) Attributes() *[]node.Attribute {
 	}
 	return e.attr
 }
-

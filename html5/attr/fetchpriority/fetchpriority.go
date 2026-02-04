@@ -9,17 +9,16 @@ type FetchPriority []byte
 // Variables for FetchPriority values
 var (
 	// High High priority resource loading. Browser should prioritize this resource over others.
-// Best for hero images, above-the-fold content, and critical visual elements.
+	// Best for hero images, above-the-fold content, and critical visual elements.
 	High = FetchPriority("high")
 
 	// Low Low priority resource loading. Browser should deprioritize this resource.
-// Suitable for below-the-fold images, decorative elements, and non-critical content.
+	// Suitable for below-the-fold images, decorative elements, and non-critical content.
 	Low = FetchPriority("low")
 
 	// Auto Automatic priority based on browser heuristics and resource context. Default
-// behavior that lets browser determine optimal loading priority.
+	// behavior that lets browser determine optimal loading priority.
 	Auto = FetchPriority("auto")
-
 )
 
 // Custom allows setting a custom FetchPriority value for edge cases or future specifications.

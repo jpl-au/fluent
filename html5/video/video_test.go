@@ -5,20 +5,21 @@ package video_test
 import (
 	"testing"
 
-	"github.com/jpl-au/fluent/html5/video"
-	"github.com/jpl-au/fluent/html5/attr/translate"
-	"github.com/jpl-au/fluent/html5/attr/writingsuggestions"
-	"github.com/jpl-au/fluent/html5/attr/enterkeyhint"
-	"github.com/jpl-au/fluent/html5/attr/inputmode"
-	"github.com/jpl-au/fluent/html5/attr/popover"
-	"github.com/jpl-au/fluent/html5/attr/virtualkeyboardpolicy"
 	"github.com/jpl-au/fluent/html5/attr/autocapitalize"
 	"github.com/jpl-au/fluent/html5/attr/autocorrect"
 	"github.com/jpl-au/fluent/html5/attr/contenteditable"
+	"github.com/jpl-au/fluent/html5/attr/controlslist"
+	"github.com/jpl-au/fluent/html5/attr/crossorigin"
 	"github.com/jpl-au/fluent/html5/attr/dir"
+	"github.com/jpl-au/fluent/html5/attr/enterkeyhint"
+	"github.com/jpl-au/fluent/html5/attr/inputmode"
+	"github.com/jpl-au/fluent/html5/attr/popover"
 	"github.com/jpl-au/fluent/html5/attr/spellcheck"
+	"github.com/jpl-au/fluent/html5/attr/translate"
+	"github.com/jpl-au/fluent/html5/attr/virtualkeyboardpolicy"
+	"github.com/jpl-au/fluent/html5/attr/writingsuggestions"
+	"github.com/jpl-au/fluent/html5/video"
 )
-
 
 func TestNewCtor(t *testing.T) {
 	// Test empty element
@@ -175,6 +176,61 @@ func TestPosterAttr(t *testing.T) {
 func TestPreloadAttr(t *testing.T) {
 	got := string(video.New().Preload("test").Render())
 	want := `<video preload="test"></video>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
+func TestCrossOriginAttr(t *testing.T) {
+	got := string(video.New().CrossOrigin(crossorigin.Anonymous).Render())
+	want := `<video crossorigin="anonymous"></video>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
+func TestControlsListAttr(t *testing.T) {
+	got := string(video.New().ControlsList(controlslist.NoDownload).Render())
+	want := `<video controlslist="nodownload"></video>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
+func TestControlsListMulti(t *testing.T) {
+	got := string(video.New().ControlsList(controlslist.NoDownload, controlslist.NoFullscreen, controlslist.NoRemotePlayback).Render())
+	want := `<video controlslist="nodownload nofullscreen noremoteplayback"></video>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+
+	// Test multiple chained calls
+	got = string(video.New().ControlsList(controlslist.NoDownload).ControlsList(controlslist.NoFullscreen).ControlsList(controlslist.NoRemotePlayback).Render())
+	want = `<video controlslist="nodownload nofullscreen noremoteplayback"></video>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
+func TestDisablePictureInPictureAttr(t *testing.T) {
+	got := string(video.New().DisablePictureInPicture().Render())
+	want := `<video disablepictureinpicture="disablepictureinpicture"></video>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
+func TestDisableRemotePlaybackAttr(t *testing.T) {
+	got := string(video.New().DisableRemotePlayback().Render())
+	want := `<video disableremoteplayback="disableremoteplayback"></video>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
+func TestPlaysInlineAttr(t *testing.T) {
+	got := string(video.New().PlaysInline().Render())
+	want := `<video playsinline="playsinline"></video>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
 	}
@@ -1112,4 +1168,3 @@ func TestTextChaining(t *testing.T) {
 		t.Errorf("got %q, want %q", got, want)
 	}
 }
-

@@ -3,29 +3,29 @@
 package iframe
 
 import (
-	"github.com/jpl-au/fluent/html5"
-	"strconv"
-	"strings"
-	"github.com/jpl-au/fluent/text"
-	"fmt"
 	"bytes"
-	"io"
+	"fmt"
 	"github.com/jpl-au/fluent"
-	"github.com/jpl-au/fluent/node"
-	"github.com/jpl-au/fluent/html5/attr/loading"
-	"github.com/jpl-au/fluent/html5/attr/referrerpolicy"
-	"github.com/jpl-au/fluent/html5/attr/sandbox"
+	"github.com/jpl-au/fluent/html5"
 	"github.com/jpl-au/fluent/html5/attr/autocapitalize"
 	"github.com/jpl-au/fluent/html5/attr/autocorrect"
 	"github.com/jpl-au/fluent/html5/attr/contenteditable"
 	"github.com/jpl-au/fluent/html5/attr/dir"
 	"github.com/jpl-au/fluent/html5/attr/enterkeyhint"
 	"github.com/jpl-au/fluent/html5/attr/inputmode"
+	"github.com/jpl-au/fluent/html5/attr/loading"
 	"github.com/jpl-au/fluent/html5/attr/popover"
+	"github.com/jpl-au/fluent/html5/attr/referrerpolicy"
+	"github.com/jpl-au/fluent/html5/attr/sandbox"
 	"github.com/jpl-au/fluent/html5/attr/spellcheck"
 	"github.com/jpl-au/fluent/html5/attr/translate"
 	"github.com/jpl-au/fluent/html5/attr/virtualkeyboardpolicy"
 	"github.com/jpl-au/fluent/html5/attr/writingsuggestions"
+	"github.com/jpl-au/fluent/node"
+	"github.com/jpl-au/fluent/text"
+	"io"
+	"strconv"
+	"strings"
 )
 
 // Element is an exported alias for the private element type
@@ -33,25 +33,25 @@ type Element = element
 
 // element represents the <iframe> HTML element
 type element struct {
-	loading loading.Loading
-	nodes []node.Node
-	referrerpolicy referrerpolicy.ReferrerPolicy
-	sandbox sandbox.Sandbox
-	class string
-	id string
-	name string
-	src string
-	attr *[]node.Attribute
-	ea *html5.EventAttributes
-	ga *html5.GlobalAttributes
-	bufferhint int
-	tabindex int
+	loading         loading.Loading
+	nodes           []node.Node
+	referrerpolicy  referrerpolicy.ReferrerPolicy
+	sandbox         sandbox.Sandbox
+	class           string
+	id              string
+	name            string
+	src             string
+	attr            *[]node.Attribute
+	ea              *html5.EventAttributes
+	ga              *html5.GlobalAttributes
+	bufferhint      int
+	tabindex        int
 	allowfullscreen bool
-	autofocus bool
-	draggable bool
-	hidden bool
-	inert bool
-	itemscope bool
+	autofocus       bool
+	draggable       bool
+	hidden          bool
+	inert           bool
+	itemscope       bool
 }
 
 // global returns the GlobalAttributes, initializing if nil
@@ -130,7 +130,7 @@ func RawTextf(format string, args ...any) *element {
 // Note: Iframe will only load when it enters or is near the viewport
 func Lazy(src string) *element {
 	return &element{
-		src: src,
+		src:     src,
 		loading: loading.Lazy,
 	}
 }
@@ -141,11 +141,10 @@ func Lazy(src string) *element {
 // Note: Iframe loads immediately, regardless of viewport position
 func Eager(src string) *element {
 	return &element{
-		src: src,
+		src:     src,
 		loading: loading.Eager,
 	}
 }
-
 
 // Src The URL of the page to embed within the iframe. This creates a nested browsing context that loads and displays the specified document. The URL can be absolute (https://example.com) or relative (/page.html). The embedded page operates in its own browsing context with potential security restrictions applied via sandbox and other attributes.
 func (e *element) Src(url string) *element {
@@ -345,7 +344,7 @@ func (e *element) AriaLabel(label string) *element {
 // readers and other accessibility tools understand and interact with dynamic web content. Essential for creating
 // accessible web applications.
 func (e *element) SetAria(key string, value string) *element {
-	e.SetAttribute("aria-" + key, value)
+	e.SetAttribute("aria-"+key, value)
 	return e
 }
 
@@ -388,7 +387,7 @@ func (e *element) ContentEditable(value contenteditable.ContentEditable) *elemen
 // via the HTMLElement interface of the element the attribute is set on. The HTMLElement.dataset property gives
 // access to them.
 func (e *element) SetData(key string, value string) *element {
-	e.SetAttribute("data-" + key, value)
+	e.SetAttribute("data-"+key, value)
 	return e
 }
 
@@ -1264,4 +1263,3 @@ func (e *element) Attributes() *[]node.Attribute {
 	}
 	return e.attr
 }
-

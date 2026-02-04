@@ -3,29 +3,31 @@
 package link
 
 import (
-	"github.com/jpl-au/fluent/html5"
-	"strings"
-	"strconv"
 	"bytes"
-	"io"
 	"github.com/jpl-au/fluent"
-	"github.com/jpl-au/fluent/node"
+	"github.com/jpl-au/fluent/html5"
 	"github.com/jpl-au/fluent/html5/attr/as"
+	"github.com/jpl-au/fluent/html5/attr/autocapitalize"
+	"github.com/jpl-au/fluent/html5/attr/autocorrect"
+	"github.com/jpl-au/fluent/html5/attr/blocking"
+	"github.com/jpl-au/fluent/html5/attr/contenteditable"
 	"github.com/jpl-au/fluent/html5/attr/crossorigin"
+	"github.com/jpl-au/fluent/html5/attr/dir"
+	"github.com/jpl-au/fluent/html5/attr/enterkeyhint"
+	"github.com/jpl-au/fluent/html5/attr/fetchpriority"
+	"github.com/jpl-au/fluent/html5/attr/inputmode"
+	"github.com/jpl-au/fluent/html5/attr/popover"
 	"github.com/jpl-au/fluent/html5/attr/referrerpolicy"
 	"github.com/jpl-au/fluent/html5/attr/rel"
 	"github.com/jpl-au/fluent/html5/attr/sizes"
-	"github.com/jpl-au/fluent/html5/attr/autocapitalize"
-	"github.com/jpl-au/fluent/html5/attr/autocorrect"
-	"github.com/jpl-au/fluent/html5/attr/contenteditable"
-	"github.com/jpl-au/fluent/html5/attr/dir"
-	"github.com/jpl-au/fluent/html5/attr/enterkeyhint"
-	"github.com/jpl-au/fluent/html5/attr/inputmode"
-	"github.com/jpl-au/fluent/html5/attr/popover"
 	"github.com/jpl-au/fluent/html5/attr/spellcheck"
 	"github.com/jpl-au/fluent/html5/attr/translate"
 	"github.com/jpl-au/fluent/html5/attr/virtualkeyboardpolicy"
 	"github.com/jpl-au/fluent/html5/attr/writingsuggestions"
+	"github.com/jpl-au/fluent/node"
+	"io"
+	"strconv"
+	"strings"
 )
 
 // Element is an exported alias for the private element type
@@ -33,27 +35,32 @@ type Element = element
 
 // element represents the <link> HTML element
 type element struct {
-	as as.As
-	crossorigin crossorigin.CrossOrigin
-	nodes []node.Node
+	as             as.As
+	blocking       blocking.Blocking
+	crossorigin    crossorigin.CrossOrigin
+	fetchpriority  fetchpriority.FetchPriority
+	nodes          []node.Node
 	referrerpolicy referrerpolicy.ReferrerPolicy
-	rel rel.Rel
-	sizes sizes.Size
-	class string
-	href string
-	id string
-	mimeType string
-	attr *[]node.Attribute
-	ea *html5.EventAttributes
-	ga *html5.GlobalAttributes
-	bufferhint int
-	tabindex int
-	autofocus bool
-	disabled bool
-	draggable bool
-	hidden bool
-	inert bool
-	itemscope bool
+	rel            rel.Rel
+	sizes          sizes.Size
+	class          string
+	color          string
+	href           string
+	id             string
+	imagesizes     string
+	imagesrcset    string
+	mimeType       string
+	attr           *[]node.Attribute
+	ea             *html5.EventAttributes
+	ga             *html5.GlobalAttributes
+	bufferhint     int
+	tabindex       int
+	autofocus      bool
+	disabled       bool
+	draggable      bool
+	hidden         bool
+	inert          bool
+	itemscope      bool
 }
 
 // global returns the GlobalAttributes, initializing if nil
@@ -84,7 +91,7 @@ func New() *element {
 // Renders: <link rel="stylesheet" href="/styles.css" />
 func Stylesheet(href string) *element {
 	return &element{
-		rel: rel.Stylesheet,
+		rel:  rel.Stylesheet,
 		href: href,
 	}
 }
@@ -94,7 +101,7 @@ func Stylesheet(href string) *element {
 // Renders: <link rel="icon" href="/favicon.ico" />
 func Icon(href string) *element {
 	return &element{
-		rel: rel.Icon,
+		rel:  rel.Icon,
 		href: href,
 	}
 }
@@ -104,12 +111,11 @@ func Icon(href string) *element {
 // Renders: <link rel="preload" href="/font.woff2" as="font" />
 func Preload(href string, as as.As) *element {
 	return &element{
-		rel: rel.Preload,
+		rel:  rel.Preload,
 		href: href,
-		as: as,
+		as:   as,
 	}
 }
-
 
 // Rel Defines the relationship between the current document and the linked resource. This attribute determines how the browser should handle and interpret the linked resource.
 // Possible values: stylesheet, icon, preload, prefetch, dns-prefetch, preconnect, canonical, alternate, prev, next, help, license, manifest, modulepreload, apple-touch-icon
@@ -225,6 +231,41 @@ func (e *element) Type(mimeType string) *element {
 	return e
 }
 
+// FetchPriority Hints at the relative priority for fetching this resource compared to other resources.
+// Possible values: high, low, auto
+func (e *element) FetchPriority(priority fetchpriority.FetchPriority) *element {
+	e.fetchpriority = priority
+	return e
+}
+
+// Blocking Indicates that certain operations should be blocked until the resource is loaded.
+// For stylesheets, blocks rendering until the stylesheet is applied.
+func (e *element) Blocking(blocking blocking.Blocking) *element {
+	e.blocking = blocking
+	return e
+}
+
+// ImageSrcset For rel="preload" and as="image" only. Specifies image sources for responsive preloading.
+// Uses same syntax as img srcset attribute.
+func (e *element) ImageSrcset(srcset string) *element {
+	e.imagesrcset = srcset
+	return e
+}
+
+// ImageSizes For rel="preload" and as="image" only. Specifies image display sizes for responsive preloading.
+// Works with imagesrcset to help browser select appropriate image.
+func (e *element) ImageSizes(sizes string) *element {
+	e.imagesizes = sizes
+	return e
+}
+
+// Color Specifies color for rel="mask-icon" (Safari pinned tab icons).
+// Accepts any valid CSS color value.
+func (e *element) Color(color string) *element {
+	e.color = color
+	return e
+}
+
 // Class A space-separated list of CSS class names assigned to the element. Classes are the primary mechanism for
 // styling elements with CSS and selecting elements with JavaScript. Multiple classes can be applied to create
 // flexible, reusable styling systems and enable complex element selection patterns. Essential for
@@ -329,7 +370,7 @@ func (e *element) AriaLabel(label string) *element {
 // readers and other accessibility tools understand and interact with dynamic web content. Essential for creating
 // accessible web applications.
 func (e *element) SetAria(key string, value string) *element {
-	e.SetAttribute("aria-" + key, value)
+	e.SetAttribute("aria-"+key, value)
 	return e
 }
 
@@ -372,7 +413,7 @@ func (e *element) ContentEditable(value contenteditable.ContentEditable) *elemen
 // via the HTMLElement interface of the element the attribute is set on. The HTMLElement.dataset property gives
 // access to them.
 func (e *element) SetData(key string, value string) *element {
-	e.SetAttribute("data-" + key, value)
+	e.SetAttribute("data-"+key, value)
 	return e
 }
 
@@ -1139,6 +1180,31 @@ func (e *element) AttributeBuilder(buf *bytes.Buffer) {
 	if e.disabled {
 		buf.Write(html5.AttrDisabled)
 	}
+	if len(e.fetchpriority) > 0 {
+		buf.Write(html5.AttrFetchPriority)
+		buf.Write(e.fetchpriority)
+		buf.Write(html5.MarkupQuote)
+	}
+	if len(e.blocking) > 0 {
+		buf.Write(html5.AttrBlocking)
+		buf.Write(e.blocking)
+		buf.Write(html5.MarkupQuote)
+	}
+	if e.imagesrcset != "" {
+		buf.Write(html5.AttrImageSrcset)
+		buf.WriteString(e.imagesrcset)
+		buf.Write(html5.MarkupQuote)
+	}
+	if e.imagesizes != "" {
+		buf.Write(html5.AttrImageSizes)
+		buf.WriteString(e.imagesizes)
+		buf.Write(html5.MarkupQuote)
+	}
+	if e.color != "" {
+		buf.Write(html5.AttrColor)
+		buf.WriteString(e.color)
+		buf.Write(html5.MarkupQuote)
+	}
 	if e.class != "" {
 		buf.Write(html5.AttrClass)
 		buf.WriteString(e.class)
@@ -1222,4 +1288,3 @@ func (e *element) Attributes() *[]node.Attribute {
 	}
 	return e.attr
 }
-

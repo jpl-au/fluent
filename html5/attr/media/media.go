@@ -9,69 +9,68 @@ type Media []byte
 // Variables for Media values
 var (
 	// Screen Computer screens, tablets, smartphones, and other screen-based devices.
-// Most common media type for interactive web content and applications.
+	// Most common media type for interactive web content and applications.
 	Screen = Media("screen")
 
 	// Print Printed pages and print preview mode. Used for print-specific styling
-// and layout optimizations when users print web pages.
+	// and layout optimizations when users print web pages.
 	Print = Media("print")
 
 	// All All media types including screen, print, speech, and others.
-// Default value when no specific media targeting is needed.
+	// Default value when no specific media targeting is needed.
 	All = Media("all")
 
 	// Speech Screen readers and speech synthesizers for accessibility.
-// Used for audio presentation and assistive technology optimization.
+	// Used for audio presentation and assistive technology optimization.
 	Speech = Media("speech")
 
 	// Mobile Mobile devices with screens up to 767px wide. Targets phones
-// and small mobile devices in portrait orientation.
+	// and small mobile devices in portrait orientation.
 	Mobile = Media("(max-width: 767px)")
 
 	// Tablet Tablet devices with screens between 768px and 1023px wide.
-// Covers most tablets in both portrait and landscape modes.
+	// Covers most tablets in both portrait and landscape modes.
 	Tablet = Media("(min-width: 768px) and (max-width: 1023px)")
 
 	// Desktop Desktop computers and large screens 1024px and wider.
-// Targets laptop screens, desktop monitors, and large displays.
+	// Targets laptop screens, desktop monitors, and large displays.
 	Desktop = Media("(min-width: 1024px)")
 
 	// SmallMobile Small mobile phones with screens up to 479px wide.
-// Targets compact smartphones and narrow mobile devices.
+	// Targets compact smartphones and narrow mobile devices.
 	SmallMobile = Media("(max-width: 479px)")
 
 	// LargeMobile Large mobile phones with screens between 480px and 767px.
-// Covers larger smartphones and phablet devices.
+	// Covers larger smartphones and phablet devices.
 	LargeMobile = Media("(min-width: 480px) and (max-width: 767px)")
 
 	// SmallTablet Small tablets and portrait iPad-sized devices.
-// Targets compact tablets and medium-sized screens.
+	// Targets compact tablets and medium-sized screens.
 	SmallTablet = Media("(min-width: 768px) and (max-width: 991px)")
 
 	// LargeTablet Large tablets and laptop screens up to 1199px wide.
-// Covers landscape tablets and smaller laptop displays.
+	// Covers landscape tablets and smaller laptop displays.
 	LargeTablet = Media("(min-width: 992px) and (max-width: 1199px)")
 
 	// LargeDesktop Large desktop screens and high-resolution displays.
-// Targets wide monitors, large laptops, and desktop computers.
+	// Targets wide monitors, large laptops, and desktop computers.
 	LargeDesktop = Media("(min-width: 1200px)")
 
 	// Portrait Devices in portrait orientation where height exceeds width.
-// Common for mobile phones and rotated tablets.
+	// Common for mobile phones and rotated tablets.
 	Portrait = Media("(orientation: portrait)")
 
 	// Landscape Devices in landscape orientation where width exceeds height.
-// Common for desktop screens and rotated mobile devices.
+	// Common for desktop screens and rotated mobile devices.
 	Landscape = Media("(orientation: landscape)")
 
 	// Retina High-resolution displays with 2x pixel density or higher.
-// Targets Retina displays and other high-DPI screens for crisp graphics.
+	// Targets Retina displays and other high-DPI screens for crisp graphics.
 	Retina = Media("(-webkit-min-device-pixel-ratio: 2)")
 
 	// HighDPI High-resolution displays with 192 DPI or higher pixel density.
-// Standard approach for targeting high-resolution screens and displays.
+	// Standard approach for targeting high-resolution screens and displays.
 	HighDPI = Media("(min-resolution: 192dpi)")
-
 )
 
 // Custom allows setting a custom Media value for edge cases or future specifications.

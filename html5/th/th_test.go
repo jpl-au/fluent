@@ -5,7 +5,7 @@ package th_test
 import (
 	"testing"
 
-	"github.com/jpl-au/fluent/html5/th"
+	"github.com/jpl-au/fluent/html5/attr/autocapitalize"
 	"github.com/jpl-au/fluent/html5/attr/autocorrect"
 	"github.com/jpl-au/fluent/html5/attr/contenteditable"
 	"github.com/jpl-au/fluent/html5/attr/dir"
@@ -16,9 +16,8 @@ import (
 	"github.com/jpl-au/fluent/html5/attr/translate"
 	"github.com/jpl-au/fluent/html5/attr/virtualkeyboardpolicy"
 	"github.com/jpl-au/fluent/html5/attr/writingsuggestions"
-	"github.com/jpl-au/fluent/html5/attr/autocapitalize"
+	"github.com/jpl-au/fluent/html5/th"
 )
-
 
 func TestNewCtor(t *testing.T) {
 	// Test empty element
@@ -135,6 +134,14 @@ func TestHeadersAttr(t *testing.T) {
 func TestScopeAttr(t *testing.T) {
 	got := string(th.New().Scope("test").Render())
 	want := `<th scope="test"></th>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
+func TestAbbrAttr(t *testing.T) {
+	got := string(th.New().Abbr("test").Render())
+	want := `<th abbr="test"></th>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
 	}
@@ -1072,4 +1079,3 @@ func TestTextChaining(t *testing.T) {
 		t.Errorf("got %q, want %q", got, want)
 	}
 }
-

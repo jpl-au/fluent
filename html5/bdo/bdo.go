@@ -3,19 +3,14 @@
 package bdo
 
 import (
-	"github.com/jpl-au/fluent/html5"
-	"strings"
-	"github.com/jpl-au/fluent/text"
-	"fmt"
-	"strconv"
 	"bytes"
-	"io"
+	"fmt"
 	"github.com/jpl-au/fluent"
-	"github.com/jpl-au/fluent/node"
-	"github.com/jpl-au/fluent/html5/attr/dir"
+	"github.com/jpl-au/fluent/html5"
 	"github.com/jpl-au/fluent/html5/attr/autocapitalize"
 	"github.com/jpl-au/fluent/html5/attr/autocorrect"
 	"github.com/jpl-au/fluent/html5/attr/contenteditable"
+	"github.com/jpl-au/fluent/html5/attr/dir"
 	"github.com/jpl-au/fluent/html5/attr/enterkeyhint"
 	"github.com/jpl-au/fluent/html5/attr/inputmode"
 	"github.com/jpl-au/fluent/html5/attr/popover"
@@ -23,6 +18,11 @@ import (
 	"github.com/jpl-au/fluent/html5/attr/translate"
 	"github.com/jpl-au/fluent/html5/attr/virtualkeyboardpolicy"
 	"github.com/jpl-au/fluent/html5/attr/writingsuggestions"
+	"github.com/jpl-au/fluent/node"
+	"github.com/jpl-au/fluent/text"
+	"io"
+	"strconv"
+	"strings"
 )
 
 // Element is an exported alias for the private element type
@@ -30,20 +30,20 @@ type Element = element
 
 // element represents the <bdo> HTML element
 type element struct {
-	dir dir.Dir
-	nodes []node.Node
-	class string
-	id string
-	attr *[]node.Attribute
-	ea *html5.EventAttributes
-	ga *html5.GlobalAttributes
+	dir        dir.Dir
+	nodes      []node.Node
+	class      string
+	id         string
+	attr       *[]node.Attribute
+	ea         *html5.EventAttributes
+	ga         *html5.GlobalAttributes
 	bufferhint int
-	tabindex int
-	autofocus bool
-	draggable bool
-	hidden bool
-	inert bool
-	itemscope bool
+	tabindex   int
+	autofocus  bool
+	draggable  bool
+	hidden     bool
+	inert      bool
+	itemscope  bool
 }
 
 // global returns the GlobalAttributes, initializing if nil
@@ -115,7 +115,6 @@ func RawTextf(format string, args ...any) *element {
 		nodes: []node.Node{text.RawTextf(format, args...)},
 	}
 }
-
 
 // Dir The direction in which text should be rendered in this element's contents. This attribute is required for
 // the bdo element to function correctly. Use dir.LeftToRight for left-to-right or dir.RightToLeft for
@@ -237,7 +236,7 @@ func (e *element) AriaLabel(label string) *element {
 // readers and other accessibility tools understand and interact with dynamic web content. Essential for creating
 // accessible web applications.
 func (e *element) SetAria(key string, value string) *element {
-	e.SetAttribute("aria-" + key, value)
+	e.SetAttribute("aria-"+key, value)
 	return e
 }
 
@@ -280,7 +279,7 @@ func (e *element) ContentEditable(value contenteditable.ContentEditable) *elemen
 // via the HTMLElement interface of the element the attribute is set on. The HTMLElement.dataset property gives
 // access to them.
 func (e *element) SetData(key string, value string) *element {
-	e.SetAttribute("data-" + key, value)
+	e.SetAttribute("data-"+key, value)
 	return e
 }
 
@@ -1126,4 +1125,3 @@ func (e *element) Attributes() *[]node.Attribute {
 	}
 	return e.attr
 }
-

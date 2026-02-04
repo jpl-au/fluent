@@ -5,25 +5,25 @@ package img_test
 import (
 	"testing"
 
-	"github.com/jpl-au/fluent/html5/img"
-	"github.com/jpl-au/fluent/html5/attr/translate"
-	"github.com/jpl-au/fluent/html5/attr/sizes"
-	"github.com/jpl-au/fluent/html5/attr/contenteditable"
-	"github.com/jpl-au/fluent/html5/attr/popover"
-	"github.com/jpl-au/fluent/html5/attr/virtualkeyboardpolicy"
-	"github.com/jpl-au/fluent/html5/attr/fetchpriority"
 	"github.com/jpl-au/fluent/html5/attr/autocapitalize"
 	"github.com/jpl-au/fluent/html5/attr/autocorrect"
-	"github.com/jpl-au/fluent/html5/attr/dir"
-	"github.com/jpl-au/fluent/html5/attr/writingsuggestions"
-	"github.com/jpl-au/fluent/html5/attr/loading"
+	"github.com/jpl-au/fluent/html5/attr/contenteditable"
 	"github.com/jpl-au/fluent/html5/attr/crossorigin"
 	"github.com/jpl-au/fluent/html5/attr/decoding"
-	"github.com/jpl-au/fluent/html5/attr/inputmode"
-	"github.com/jpl-au/fluent/html5/attr/spellcheck"
+	"github.com/jpl-au/fluent/html5/attr/dir"
 	"github.com/jpl-au/fluent/html5/attr/enterkeyhint"
+	"github.com/jpl-au/fluent/html5/attr/fetchpriority"
+	"github.com/jpl-au/fluent/html5/attr/inputmode"
+	"github.com/jpl-au/fluent/html5/attr/loading"
+	"github.com/jpl-au/fluent/html5/attr/popover"
+	"github.com/jpl-au/fluent/html5/attr/referrerpolicy"
+	"github.com/jpl-au/fluent/html5/attr/sizes"
+	"github.com/jpl-au/fluent/html5/attr/spellcheck"
+	"github.com/jpl-au/fluent/html5/attr/translate"
+	"github.com/jpl-au/fluent/html5/attr/virtualkeyboardpolicy"
+	"github.com/jpl-au/fluent/html5/attr/writingsuggestions"
+	"github.com/jpl-au/fluent/html5/img"
 )
-
 
 func TestNewCtor(t *testing.T) {
 	got := string(img.New().Src("photo.jpg").Alt("A beautiful sunset").Render())
@@ -155,6 +155,30 @@ func TestDecodingAttr(t *testing.T) {
 func TestFetchPriorityAttr(t *testing.T) {
 	got := string(img.New().FetchPriority(fetchpriority.High).Render())
 	want := `<img fetchpriority="high" />`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
+func TestReferrerPolicyAttr(t *testing.T) {
+	got := string(img.New().ReferrerPolicy(referrerpolicy.NoReferrer).Render())
+	want := `<img referrerpolicy="no-referrer" />`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
+func TestIsMapAttr(t *testing.T) {
+	got := string(img.New().IsMap().Render())
+	want := `<img ismap="ismap" />`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
+func TestUseMapAttr(t *testing.T) {
+	got := string(img.New().UseMap("test").Render())
+	want := `<img usemap="test" />`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
 	}
@@ -995,4 +1019,3 @@ func TestOnWaitingAttr(t *testing.T) {
 		t.Errorf("got %q, want %q", got, want)
 	}
 }
-

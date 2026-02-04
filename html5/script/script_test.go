@@ -5,22 +5,23 @@ package script_test
 import (
 	"testing"
 
-	"github.com/jpl-au/fluent/html5/script"
-	"github.com/jpl-au/fluent/html5/attr/writingsuggestions"
-	"github.com/jpl-au/fluent/html5/attr/referrerpolicy"
 	"github.com/jpl-au/fluent/html5/attr/autocapitalize"
+	"github.com/jpl-au/fluent/html5/attr/autocorrect"
+	"github.com/jpl-au/fluent/html5/attr/blocking"
+	"github.com/jpl-au/fluent/html5/attr/contenteditable"
+	"github.com/jpl-au/fluent/html5/attr/crossorigin"
 	"github.com/jpl-au/fluent/html5/attr/dir"
 	"github.com/jpl-au/fluent/html5/attr/enterkeyhint"
+	"github.com/jpl-au/fluent/html5/attr/fetchpriority"
 	"github.com/jpl-au/fluent/html5/attr/inputmode"
 	"github.com/jpl-au/fluent/html5/attr/popover"
-	"github.com/jpl-au/fluent/html5/attr/crossorigin"
-	"github.com/jpl-au/fluent/html5/attr/autocorrect"
-	"github.com/jpl-au/fluent/html5/attr/contenteditable"
+	"github.com/jpl-au/fluent/html5/attr/referrerpolicy"
 	"github.com/jpl-au/fluent/html5/attr/spellcheck"
 	"github.com/jpl-au/fluent/html5/attr/translate"
 	"github.com/jpl-au/fluent/html5/attr/virtualkeyboardpolicy"
+	"github.com/jpl-au/fluent/html5/attr/writingsuggestions"
+	"github.com/jpl-au/fluent/html5/script"
 )
-
 
 func TestNewCtor(t *testing.T) {
 	// Test empty element
@@ -169,6 +170,22 @@ func TestNonceAttr(t *testing.T) {
 func TestReferrerPolicyAttr(t *testing.T) {
 	got := string(script.New().ReferrerPolicy(referrerpolicy.NoReferrer).Render())
 	want := `<script referrerpolicy="no-referrer"></script>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
+func TestBlockingAttr(t *testing.T) {
+	got := string(script.New().Blocking(blocking.Render).Render())
+	want := `<script blocking="render"></script>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
+func TestFetchPriorityAttr(t *testing.T) {
+	got := string(script.New().FetchPriority(fetchpriority.High).Render())
+	want := `<script fetchpriority="high"></script>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
 	}
@@ -1098,4 +1115,3 @@ func TestTextChaining(t *testing.T) {
 		t.Errorf("got %q, want %q", got, want)
 	}
 }
-

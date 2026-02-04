@@ -3,27 +3,27 @@
 package textarea
 
 import (
-	"github.com/jpl-au/fluent/html5"
-	"strconv"
-	"strings"
-	"github.com/jpl-au/fluent/text"
-	"fmt"
 	"bytes"
-	"io"
+	"fmt"
 	"github.com/jpl-au/fluent"
-	"github.com/jpl-au/fluent/node"
-	"github.com/jpl-au/fluent/html5/attr/autocomplete"
-	"github.com/jpl-au/fluent/html5/attr/spellcheck"
+	"github.com/jpl-au/fluent/html5"
 	"github.com/jpl-au/fluent/html5/attr/autocapitalize"
+	"github.com/jpl-au/fluent/html5/attr/autocomplete"
 	"github.com/jpl-au/fluent/html5/attr/autocorrect"
 	"github.com/jpl-au/fluent/html5/attr/contenteditable"
 	"github.com/jpl-au/fluent/html5/attr/dir"
 	"github.com/jpl-au/fluent/html5/attr/enterkeyhint"
 	"github.com/jpl-au/fluent/html5/attr/inputmode"
 	"github.com/jpl-au/fluent/html5/attr/popover"
+	"github.com/jpl-au/fluent/html5/attr/spellcheck"
 	"github.com/jpl-au/fluent/html5/attr/translate"
 	"github.com/jpl-au/fluent/html5/attr/virtualkeyboardpolicy"
 	"github.com/jpl-au/fluent/html5/attr/writingsuggestions"
+	"github.com/jpl-au/fluent/node"
+	"github.com/jpl-au/fluent/text"
+	"io"
+	"strconv"
+	"strings"
 )
 
 // Element is an exported alias for the private element type
@@ -32,27 +32,28 @@ type Element = element
 // element represents the <textarea> HTML element
 type element struct {
 	autocomplete autocomplete.AutoComplete
-	nodes []node.Node
-	spellcheck spellcheck.Spellcheck
-	class string
-	id string
-	name string
-	placeholder string
-	attr *[]node.Attribute
-	ea *html5.EventAttributes
-	ga *html5.GlobalAttributes
-	bufferhint int
-	cols int
-	rows int
-	tabindex int
-	autofocus bool
-	disabled bool
-	draggable bool
-	hidden bool
-	inert bool
-	itemscope bool
-	readOnly bool
-	required bool
+	nodes        []node.Node
+	spellcheck   spellcheck.Spellcheck
+	class        string
+	dirname      string
+	id           string
+	name         string
+	placeholder  string
+	attr         *[]node.Attribute
+	ea           *html5.EventAttributes
+	ga           *html5.GlobalAttributes
+	bufferhint   int
+	cols         int
+	rows         int
+	tabindex     int
+	autofocus    bool
+	disabled     bool
+	draggable    bool
+	hidden       bool
+	inert        bool
+	itemscope    bool
+	readOnly     bool
+	required     bool
 }
 
 // global returns the GlobalAttributes, initializing if nil
@@ -124,7 +125,6 @@ func RawTextf(format string, args ...any) *element {
 		nodes: []node.Node{text.RawTextf(format, args...)},
 	}
 }
-
 
 // Name Specifies the name of the textarea element for form submission and programmatic access. This name is used
 // to identify the textarea's value in form data when submitted to the server. The name appears as the key
@@ -258,6 +258,15 @@ func (e *element) Wrap(wrap string) *element {
 	return e
 }
 
+// DirName Enables automatic submission of the text directionality (left-to-right or right-to-left) of the textarea's
+// content along with the form data. When specified, the browser includes an additional field with this name
+// containing the directionality value ('ltr' or 'rtl'). Useful for international applications that need to
+// track text direction for proper display and processing.
+func (e *element) DirName(name string) *element {
+	e.dirname = name
+	return e
+}
+
 // Class A space-separated list of CSS class names assigned to the element. Classes are the primary mechanism for
 // styling elements with CSS and selecting elements with JavaScript. Multiple classes can be applied to create
 // flexible, reusable styling systems and enable complex element selection patterns. Essential for
@@ -369,7 +378,7 @@ func (e *element) AriaLabel(label string) *element {
 // readers and other accessibility tools understand and interact with dynamic web content. Essential for creating
 // accessible web applications.
 func (e *element) SetAria(key string, value string) *element {
-	e.SetAttribute("aria-" + key, value)
+	e.SetAttribute("aria-"+key, value)
 	return e
 }
 
@@ -403,7 +412,7 @@ func (e *element) ContentEditable(value contenteditable.ContentEditable) *elemen
 // via the HTMLElement interface of the element the attribute is set on. The HTMLElement.dataset property gives
 // access to them.
 func (e *element) SetData(key string, value string) *element {
-	e.SetAttribute("data-" + key, value)
+	e.SetAttribute("data-"+key, value)
 	return e
 }
 
@@ -1194,6 +1203,11 @@ func (e *element) AttributeBuilder(buf *bytes.Buffer) {
 		buf.Write(e.autocomplete)
 		buf.Write(html5.MarkupQuote)
 	}
+	if e.dirname != "" {
+		buf.Write(html5.AttrDirName)
+		buf.WriteString(e.dirname)
+		buf.Write(html5.MarkupQuote)
+	}
 	if e.class != "" {
 		buf.Write(html5.AttrClass)
 		buf.WriteString(e.class)
@@ -1283,4 +1297,3 @@ func (e *element) Attributes() *[]node.Attribute {
 	}
 	return e.attr
 }
-

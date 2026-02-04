@@ -9,17 +9,16 @@ type Method []byte
 // Variables for Method values
 var (
 	// Get Send form data as URL parameters in query string. Data is visible in URL and browser
-// history. Limited data size and suitable for non-sensitive search forms.
+	// history. Limited data size and suitable for non-sensitive search forms.
 	Get = Method("get")
 
 	// Post Send form data in request body. Data is not visible in URL, supports larger payloads,
-// and is required for file uploads and sensitive information.
+	// and is required for file uploads and sensitive information.
 	Post = Method("post")
 
 	// Dialog Close containing dialog and submit form data. Special method for forms inside dialog
-// elements that closes the dialog when submitted.
+	// elements that closes the dialog when submitted.
 	Dialog = Method("dialog")
-
 )
 
 // Custom allows setting a custom Method value for edge cases or future specifications.

@@ -3,29 +3,30 @@
 package img
 
 import (
-	"github.com/jpl-au/fluent/html5"
-	"strings"
-	"strconv"
 	"bytes"
-	"io"
 	"github.com/jpl-au/fluent"
-	"github.com/jpl-au/fluent/node"
-	"github.com/jpl-au/fluent/html5/attr/crossorigin"
-	"github.com/jpl-au/fluent/html5/attr/decoding"
-	"github.com/jpl-au/fluent/html5/attr/fetchpriority"
-	"github.com/jpl-au/fluent/html5/attr/loading"
-	"github.com/jpl-au/fluent/html5/attr/sizes"
+	"github.com/jpl-au/fluent/html5"
 	"github.com/jpl-au/fluent/html5/attr/autocapitalize"
 	"github.com/jpl-au/fluent/html5/attr/autocorrect"
 	"github.com/jpl-au/fluent/html5/attr/contenteditable"
+	"github.com/jpl-au/fluent/html5/attr/crossorigin"
+	"github.com/jpl-au/fluent/html5/attr/decoding"
 	"github.com/jpl-au/fluent/html5/attr/dir"
 	"github.com/jpl-au/fluent/html5/attr/enterkeyhint"
+	"github.com/jpl-au/fluent/html5/attr/fetchpriority"
 	"github.com/jpl-au/fluent/html5/attr/inputmode"
+	"github.com/jpl-au/fluent/html5/attr/loading"
 	"github.com/jpl-au/fluent/html5/attr/popover"
+	"github.com/jpl-au/fluent/html5/attr/referrerpolicy"
+	"github.com/jpl-au/fluent/html5/attr/sizes"
 	"github.com/jpl-au/fluent/html5/attr/spellcheck"
 	"github.com/jpl-au/fluent/html5/attr/translate"
 	"github.com/jpl-au/fluent/html5/attr/virtualkeyboardpolicy"
 	"github.com/jpl-au/fluent/html5/attr/writingsuggestions"
+	"github.com/jpl-au/fluent/node"
+	"io"
+	"strconv"
+	"strings"
 )
 
 // Element is an exported alias for the private element type
@@ -33,28 +34,31 @@ type Element = element
 
 // element represents the <img> HTML element
 type element struct {
-	crossorigin crossorigin.CrossOrigin
-	decoding decoding.Decoding
-	fetchpriority fetchpriority.FetchPriority
-	loading loading.Loading
-	nodes []node.Node
-	sizes sizes.Size
-	alt string
-	class string
-	id string
-	src string
-	attr *[]node.Attribute
-	ea *html5.EventAttributes
-	ga *html5.GlobalAttributes
-	bufferhint int
-	height int
-	tabindex int
-	width int
-	autofocus bool
-	draggable bool
-	hidden bool
-	inert bool
-	itemscope bool
+	crossorigin    crossorigin.CrossOrigin
+	decoding       decoding.Decoding
+	fetchpriority  fetchpriority.FetchPriority
+	loading        loading.Loading
+	nodes          []node.Node
+	referrerpolicy referrerpolicy.ReferrerPolicy
+	sizes          sizes.Size
+	alt            string
+	class          string
+	id             string
+	src            string
+	usemap         string
+	attr           *[]node.Attribute
+	ea             *html5.EventAttributes
+	ga             *html5.GlobalAttributes
+	bufferhint     int
+	height         int
+	tabindex       int
+	width          int
+	autofocus      bool
+	draggable      bool
+	hidden         bool
+	inert          bool
+	ismap          bool
+	itemscope      bool
 }
 
 // global returns the GlobalAttributes, initializing if nil
@@ -107,8 +111,8 @@ func Image(src string, alt string) *element {
 func Lazy(src string, alt string) *element {
 	return &element{
 		loading: loading.Lazy,
-		src: src,
-		alt: alt,
+		src:     src,
+		alt:     alt,
 	}
 }
 
@@ -119,11 +123,10 @@ func Lazy(src string, alt string) *element {
 func Eager(src string, alt string) *element {
 	return &element{
 		loading: loading.Eager,
-		src: src,
-		alt: alt,
+		src:     src,
+		alt:     alt,
 	}
 }
-
 
 // Src Specifies the URL or path to the image resource. This is the most essential attribute for the img element, defining what image to display. The URL can be absolute (https://example.com/image.jpg), relative (/images/photo.png), or a data URL. The browser will fetch and display the image from this location. If the image cannot be loaded, the alt text will be displayed instead.
 func (e *element) Src(url string) *element {
@@ -204,6 +207,31 @@ func (e *element) Decoding(hint decoding.Decoding) *element {
 // Possible values: high (prioritize this image), low (deprioritize this image), auto (let browser decide based on context, default)
 func (e *element) FetchPriority(priority fetchpriority.FetchPriority) *element {
 	e.fetchpriority = priority
+	return e
+}
+
+// ReferrerPolicy Controls how much referrer information is sent when fetching the image, affecting privacy and security
+// when loading images from external sources.
+// Possible values: no-referrer, no-referrer-when-downgrade, origin, origin-when-cross-origin, same-origin,
+// strict-origin, strict-origin-when-cross-origin, unsafe-url
+func (e *element) ReferrerPolicy(policy referrerpolicy.ReferrerPolicy) *element {
+	e.referrerpolicy = policy
+	return e
+}
+
+// IsMap Indicates that the image is part of a server-side image map. When clicked inside a link, the coordinates
+// of the click are appended to the link URL as query parameters. The image must be inside an anchor element
+// for this to work. Server-side image maps are largely superseded by client-side image maps using usemap.
+func (e *element) IsMap() *element {
+	e.ismap = true
+	return e
+}
+
+// UseMap Associates the image with a client-side image map defined by a <map> element, enabling clickable regions
+// within the image. The value must be a hash reference to the map's name attribute (e.g., "#mymap").
+// Client-side image maps provide better accessibility than server-side maps.
+func (e *element) UseMap(mapName string) *element {
+	e.usemap = mapName
 	return e
 }
 
@@ -318,7 +346,7 @@ func (e *element) AriaLabel(label string) *element {
 // readers and other accessibility tools understand and interact with dynamic web content. Essential for creating
 // accessible web applications.
 func (e *element) SetAria(key string, value string) *element {
-	e.SetAttribute("aria-" + key, value)
+	e.SetAttribute("aria-"+key, value)
 	return e
 }
 
@@ -361,7 +389,7 @@ func (e *element) ContentEditable(value contenteditable.ContentEditable) *elemen
 // via the HTMLElement interface of the element the attribute is set on. The HTMLElement.dataset property gives
 // access to them.
 func (e *element) SetData(key string, value string) *element {
-	e.SetAttribute("data-" + key, value)
+	e.SetAttribute("data-"+key, value)
 	return e
 }
 
@@ -1135,6 +1163,19 @@ func (e *element) AttributeBuilder(buf *bytes.Buffer) {
 		buf.Write(e.fetchpriority)
 		buf.Write(html5.MarkupQuote)
 	}
+	if len(e.referrerpolicy) > 0 {
+		buf.Write(html5.AttrReferrerPolicy)
+		buf.Write(e.referrerpolicy)
+		buf.Write(html5.MarkupQuote)
+	}
+	if e.ismap {
+		buf.Write(html5.AttrIsMap)
+	}
+	if e.usemap != "" {
+		buf.Write(html5.AttrUseMap)
+		buf.WriteString(e.usemap)
+		buf.Write(html5.MarkupQuote)
+	}
 	if e.class != "" {
 		buf.Write(html5.AttrClass)
 		buf.WriteString(e.class)
@@ -1218,4 +1259,3 @@ func (e *element) Attributes() *[]node.Attribute {
 	}
 	return e.attr
 }
-

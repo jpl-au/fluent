@@ -9,13 +9,12 @@ type FormMethod []byte
 // Variables for FormMethod values
 var (
 	// Get Use HTTP GET method for form submission. Data appears in URL parameters and is
-// visible in browser history. Suitable for search forms and non-sensitive data.
+	// visible in browser history. Suitable for search forms and non-sensitive data.
 	Get = FormMethod("get")
 
 	// Post Use HTTP POST method for form submission. Data is sent in request body and not
-// visible in URL. Required for sensitive data, file uploads, and data modification.
+	// visible in URL. Required for sensitive data, file uploads, and data modification.
 	Post = FormMethod("post")
-
 )
 
 // Custom allows setting a custom FormMethod value for edge cases or future specifications.

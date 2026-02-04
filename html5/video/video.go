@@ -3,18 +3,15 @@
 package video
 
 import (
-	"github.com/jpl-au/fluent/html5"
-	"strings"
-	"github.com/jpl-au/fluent/text"
-	"fmt"
-	"strconv"
 	"bytes"
-	"io"
+	"fmt"
 	"github.com/jpl-au/fluent"
-	"github.com/jpl-au/fluent/node"
+	"github.com/jpl-au/fluent/html5"
 	"github.com/jpl-au/fluent/html5/attr/autocapitalize"
 	"github.com/jpl-au/fluent/html5/attr/autocorrect"
 	"github.com/jpl-au/fluent/html5/attr/contenteditable"
+	"github.com/jpl-au/fluent/html5/attr/controlslist"
+	"github.com/jpl-au/fluent/html5/attr/crossorigin"
 	"github.com/jpl-au/fluent/html5/attr/dir"
 	"github.com/jpl-au/fluent/html5/attr/enterkeyhint"
 	"github.com/jpl-au/fluent/html5/attr/inputmode"
@@ -23,6 +20,11 @@ import (
 	"github.com/jpl-au/fluent/html5/attr/translate"
 	"github.com/jpl-au/fluent/html5/attr/virtualkeyboardpolicy"
 	"github.com/jpl-au/fluent/html5/attr/writingsuggestions"
+	"github.com/jpl-au/fluent/node"
+	"github.com/jpl-au/fluent/text"
+	"io"
+	"strconv"
+	"strings"
 )
 
 // Element is an exported alias for the private element type
@@ -30,28 +32,33 @@ type Element = element
 
 // element represents the <video> HTML element
 type element struct {
-	nodes []node.Node
-	class string
-	id string
-	poster string
-	preload string
-	src string
-	attr *[]node.Attribute
-	ea *html5.EventAttributes
-	ga *html5.GlobalAttributes
-	bufferhint int
-	height int
-	tabindex int
-	width int
-	autofocus bool
-	autoplay bool
-	controls bool
-	draggable bool
-	hidden bool
-	inert bool
-	itemscope bool
-	loop bool
-	muted bool
+	controlslist            controlslist.ControlsList
+	crossorigin             crossorigin.CrossOrigin
+	nodes                   []node.Node
+	class                   string
+	id                      string
+	poster                  string
+	preload                 string
+	src                     string
+	attr                    *[]node.Attribute
+	ea                      *html5.EventAttributes
+	ga                      *html5.GlobalAttributes
+	bufferhint              int
+	height                  int
+	tabindex                int
+	width                   int
+	autofocus               bool
+	autoplay                bool
+	controls                bool
+	disablepictureinpicture bool
+	disableremoteplayback   bool
+	draggable               bool
+	hidden                  bool
+	inert                   bool
+	itemscope               bool
+	loop                    bool
+	muted                   bool
+	playsinline             bool
 }
 
 // global returns the GlobalAttributes, initializing if nil
@@ -130,7 +137,7 @@ func RawTextf(format string, args ...any) *element {
 func Src(src string, nodes ...node.Node) *element {
 	return &element{
 		nodes: nodes,
-		src: src,
+		src:   src,
 	}
 }
 
@@ -139,7 +146,7 @@ func Src(src string, nodes ...node.Node) *element {
 // Renders: <video preload="auto"></video>
 func PreloadAuto(nodes ...node.Node) *element {
 	return &element{
-		nodes: nodes,
+		nodes:   nodes,
 		preload: "auto",
 	}
 }
@@ -149,7 +156,7 @@ func PreloadAuto(nodes ...node.Node) *element {
 // Renders: <video preload="metadata"></video>
 func PreloadMetadata(nodes ...node.Node) *element {
 	return &element{
-		nodes: nodes,
+		nodes:   nodes,
 		preload: "metadata",
 	}
 }
@@ -159,11 +166,10 @@ func PreloadMetadata(nodes ...node.Node) *element {
 // Renders: <video preload="none"></video>
 func PreloadNone(nodes ...node.Node) *element {
 	return &element{
-		nodes: nodes,
+		nodes:   nodes,
 		preload: "none",
 	}
 }
-
 
 // Src Specifies the URL of the video file to embed and play. This can be an absolute URL (https://example.com/video.mp4)
 // or a relative path (/media/video.mp4). While this attribute provides a simple way to specify a single video
@@ -244,6 +250,61 @@ func (e *element) Poster(url string) *element {
 // dimensions), auto (preload the entire video if feasible)
 func (e *element) Preload(value string) *element {
 	e.preload = value
+	return e
+}
+
+// CrossOrigin Controls CORS behavior when fetching the video. Required when the video will be used with canvas or WebGL
+// to avoid tainting the context. Also affects whether credentials are sent with cross-origin requests.
+// Possible values: anonymous (no credentials), use-credentials (send cookies and auth)
+func (e *element) CrossOrigin(policy crossorigin.CrossOrigin) *element {
+	e.crossorigin = policy
+	return e
+}
+
+// ControlsList Specifies which browser-native controls to hide from the default video player interface. Multiple values
+// can be combined to hide multiple controls. Useful for customizing the player experience.
+// Possible values: nodownload, nofullscreen, noremoteplayback
+func (e *element) ControlsList(options ...controlslist.ControlsList) *element {
+	if len(options) == 0 {
+		return e
+	}
+	if len(e.controlslist) == 0 {
+		for i, item := range options {
+			if i > 0 {
+				e.controlslist = append(e.controlslist, " "...)
+			}
+			e.controlslist = append(e.controlslist, item...)
+		}
+	} else {
+		e.controlslist = append(e.controlslist, " "...)
+		for i, item := range options {
+			if i > 0 {
+				e.controlslist = append(e.controlslist, " "...)
+			}
+			e.controlslist = append(e.controlslist, item...)
+		}
+	}
+	return e
+}
+
+// DisablePictureInPicture Disables Picture-in-Picture mode for this video and removes the option from context menus and browser UI.
+// Picture-in-Picture allows videos to play in a floating window while users interact with other content.
+func (e *element) DisablePictureInPicture() *element {
+	e.disablepictureinpicture = true
+	return e
+}
+
+// DisableRemotePlayback Disables remote playback on connected devices such as Chromecast, AirPlay, and other casting technologies.
+// Useful when the content should only be viewed on the current device.
+func (e *element) DisableRemotePlayback() *element {
+	e.disableremoteplayback = true
+	return e
+}
+
+// PlaysInline Hints that the video should play inline within the page rather than automatically entering fullscreen mode
+// on mobile devices. Essential for iOS Safari where videos default to fullscreen playback.
+func (e *element) PlaysInline() *element {
+	e.playsinline = true
 	return e
 }
 
@@ -358,7 +419,7 @@ func (e *element) AriaLabel(label string) *element {
 // readers and other accessibility tools understand and interact with dynamic web content. Essential for creating
 // accessible web applications.
 func (e *element) SetAria(key string, value string) *element {
-	e.SetAttribute("aria-" + key, value)
+	e.SetAttribute("aria-"+key, value)
 	return e
 }
 
@@ -401,7 +462,7 @@ func (e *element) ContentEditable(value contenteditable.ContentEditable) *elemen
 // via the HTMLElement interface of the element the attribute is set on. The HTMLElement.dataset property gives
 // access to them.
 func (e *element) SetData(key string, value string) *element {
-	e.SetAttribute("data-" + key, value)
+	e.SetAttribute("data-"+key, value)
 	return e
 }
 
@@ -1197,6 +1258,25 @@ func (e *element) AttributeBuilder(buf *bytes.Buffer) {
 		buf.WriteString(e.preload)
 		buf.Write(html5.MarkupQuote)
 	}
+	if len(e.crossorigin) > 0 {
+		buf.Write(html5.AttrCrossOrigin)
+		buf.Write(e.crossorigin)
+		buf.Write(html5.MarkupQuote)
+	}
+	if len(e.controlslist) > 0 {
+		buf.Write(html5.AttrControlsList)
+		buf.Write(e.controlslist)
+		buf.Write(html5.MarkupQuote)
+	}
+	if e.disablepictureinpicture {
+		buf.Write(html5.AttrDisablePictureInPicture)
+	}
+	if e.disableremoteplayback {
+		buf.Write(html5.AttrDisableRemotePlayback)
+	}
+	if e.playsinline {
+		buf.Write(html5.AttrPlaysInline)
+	}
 	if e.class != "" {
 		buf.Write(html5.AttrClass)
 		buf.WriteString(e.class)
@@ -1286,4 +1366,3 @@ func (e *element) Attributes() *[]node.Attribute {
 	}
 	return e.attr
 }
-

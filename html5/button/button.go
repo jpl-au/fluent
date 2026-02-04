@@ -3,30 +3,30 @@
 package button
 
 import (
-	"github.com/jpl-au/fluent/html5"
-	"strings"
-	"github.com/jpl-au/fluent/text"
-	"fmt"
-	"strconv"
 	"bytes"
-	"io"
+	"fmt"
 	"github.com/jpl-au/fluent"
-	"github.com/jpl-au/fluent/node"
-	"github.com/jpl-au/fluent/html5/attr/enctype"
-	"github.com/jpl-au/fluent/html5/attr/method"
-	"github.com/jpl-au/fluent/html5/attr/popovertargetaction"
-	"github.com/jpl-au/fluent/html5/attr/target"
+	"github.com/jpl-au/fluent/html5"
 	"github.com/jpl-au/fluent/html5/attr/autocapitalize"
 	"github.com/jpl-au/fluent/html5/attr/autocorrect"
 	"github.com/jpl-au/fluent/html5/attr/contenteditable"
 	"github.com/jpl-au/fluent/html5/attr/dir"
+	"github.com/jpl-au/fluent/html5/attr/enctype"
 	"github.com/jpl-au/fluent/html5/attr/enterkeyhint"
 	"github.com/jpl-au/fluent/html5/attr/inputmode"
+	"github.com/jpl-au/fluent/html5/attr/method"
 	"github.com/jpl-au/fluent/html5/attr/popover"
+	"github.com/jpl-au/fluent/html5/attr/popovertargetaction"
 	"github.com/jpl-au/fluent/html5/attr/spellcheck"
+	"github.com/jpl-au/fluent/html5/attr/target"
 	"github.com/jpl-au/fluent/html5/attr/translate"
 	"github.com/jpl-au/fluent/html5/attr/virtualkeyboardpolicy"
 	"github.com/jpl-au/fluent/html5/attr/writingsuggestions"
+	"github.com/jpl-au/fluent/node"
+	"github.com/jpl-au/fluent/text"
+	"io"
+	"strconv"
+	"strings"
 )
 
 // Element is an exported alias for the private element type
@@ -34,28 +34,28 @@ type Element = element
 
 // element represents the <button> HTML element
 type element struct {
-	enctype enctype.EncType
-	method method.Method
-	nodes []node.Node
+	enctype             enctype.EncType
+	method              method.Method
+	nodes               []node.Node
 	popovertargetaction popovertargetaction.PopoverTargetAction
-	target target.Target
-	buttonType string
-	class string
-	id string
-	name string
-	value string
-	attr *[]node.Attribute
-	ea *html5.EventAttributes
-	ga *html5.GlobalAttributes
-	bufferhint int
-	tabindex int
-	autofocus bool
-	disabled bool
-	draggable bool
-	formnovalidate bool
-	hidden bool
-	inert bool
-	itemscope bool
+	target              target.Target
+	buttonType          string
+	class               string
+	id                  string
+	name                string
+	value               string
+	attr                *[]node.Attribute
+	ea                  *html5.EventAttributes
+	ga                  *html5.GlobalAttributes
+	bufferhint          int
+	tabindex            int
+	autofocus           bool
+	disabled            bool
+	draggable           bool
+	formnovalidate      bool
+	hidden              bool
+	inert               bool
+	itemscope           bool
 }
 
 // global returns the GlobalAttributes, initializing if nil
@@ -133,7 +133,7 @@ func RawTextf(format string, args ...any) *element {
 // Renders: <button type="submit">Send Form</button>
 func Submit(str string) *element {
 	return &element{
-		nodes: []node.Node{text.Text(str)},
+		nodes:      []node.Node{text.Text(str)},
 		buttonType: "submit",
 	}
 }
@@ -143,7 +143,7 @@ func Submit(str string) *element {
 // Renders: <button type="reset">Clear Form</button>
 func Reset(str string) *element {
 	return &element{
-		nodes: []node.Node{text.Text(str)},
+		nodes:      []node.Node{text.Text(str)},
 		buttonType: "reset",
 	}
 }
@@ -153,11 +153,10 @@ func Reset(str string) *element {
 // Renders: <button type="button">Click Me</button>
 func Button(str string) *element {
 	return &element{
-		nodes: []node.Node{text.Text(str)},
+		nodes:      []node.Node{text.Text(str)},
 		buttonType: "button",
 	}
 }
-
 
 // AutoFocus This Boolean attribute specifies that the button should have input focus when the page loads. Only one
 // element in a document can have this attribute.
@@ -374,7 +373,7 @@ func (e *element) AriaLabel(label string) *element {
 // readers and other accessibility tools understand and interact with dynamic web content. Essential for creating
 // accessible web applications.
 func (e *element) SetAria(key string, value string) *element {
-	e.SetAttribute("aria-" + key, value)
+	e.SetAttribute("aria-"+key, value)
 	return e
 }
 
@@ -408,7 +407,7 @@ func (e *element) ContentEditable(value contenteditable.ContentEditable) *elemen
 // via the HTMLElement interface of the element the attribute is set on. The HTMLElement.dataset property gives
 // access to them.
 func (e *element) SetData(key string, value string) *element {
-	e.SetAttribute("data-" + key, value)
+	e.SetAttribute("data-"+key, value)
 	return e
 }
 
@@ -1297,4 +1296,3 @@ func (e *element) Attributes() *[]node.Attribute {
 	}
 	return e.attr
 }
-

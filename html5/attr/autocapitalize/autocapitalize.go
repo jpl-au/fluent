@@ -9,29 +9,28 @@ type AutoCapitalize []byte
 // Variables for AutoCapitalize values
 var (
 	// Off Disable automatic capitalization. No text is automatically capitalized. Best for
-// technical terms, codes, usernames, or when precise text entry is required.
+	// technical terms, codes, usernames, or when precise text entry is required.
 	Off = AutoCapitalize("off")
 
 	// None Same as 'off' - disable automatic capitalization. Alternative syntax that achieves
-// identical behavior to the 'off' value.
+	// identical behavior to the 'off' value.
 	None = AutoCapitalize("none")
 
 	// On Enable automatic capitalization using default behavior. Typically capitalizes the
-// first letter of sentences, similar to 'sentences' value.
+	// first letter of sentences, similar to 'sentences' value.
 	On = AutoCapitalize("on")
 
 	// Sentences Capitalize the first letter of each sentence. Standard behavior for most text input
-// where users enter natural language content like messages or comments.
+	// where users enter natural language content like messages or comments.
 	Sentences = AutoCapitalize("sentences")
 
 	// Words Capitalize the first letter of each word. Useful for fields like names, titles,
-// addresses where each word should start with a capital letter.
+	// addresses where each word should start with a capital letter.
 	Words = AutoCapitalize("words")
 
 	// Characters Capitalize every character entered. Creates ALL CAPS text input, useful for
-// special codes, abbreviations, or when uppercase input is required.
+	// special codes, abbreviations, or when uppercase input is required.
 	Characters = AutoCapitalize("characters")
-
 )
 
 // Custom allows setting a custom AutoCapitalize value for edge cases or future specifications.

@@ -9,13 +9,12 @@ type VirtualKeyboardPolicy []byte
 // Variables for VirtualKeyboardPolicy values
 var (
 	// Auto Automatic virtual keyboard behavior based on browser heuristics. Browser decides
-// when to show or hide virtual keyboard based on element focus and interaction.
+	// when to show or hide virtual keyboard based on element focus and interaction.
 	Auto = VirtualKeyboardPolicy("auto")
 
 	// Manual Manual virtual keyboard control via JavaScript. Application controls virtual
-// keyboard visibility programmatically instead of relying on automatic behavior.
+	// keyboard visibility programmatically instead of relying on automatic behavior.
 	Manual = VirtualKeyboardPolicy("manual")
-
 )
 
 // Custom allows setting a custom VirtualKeyboardPolicy value for edge cases or future specifications.

@@ -5,20 +5,19 @@ package object_test
 import (
 	"testing"
 
-	"github.com/jpl-au/fluent/html5/object"
-	"github.com/jpl-au/fluent/html5/attr/spellcheck"
-	"github.com/jpl-au/fluent/html5/attr/translate"
-	"github.com/jpl-au/fluent/html5/attr/writingsuggestions"
 	"github.com/jpl-au/fluent/html5/attr/autocapitalize"
 	"github.com/jpl-au/fluent/html5/attr/autocorrect"
 	"github.com/jpl-au/fluent/html5/attr/contenteditable"
+	"github.com/jpl-au/fluent/html5/attr/dir"
 	"github.com/jpl-au/fluent/html5/attr/enterkeyhint"
 	"github.com/jpl-au/fluent/html5/attr/inputmode"
 	"github.com/jpl-au/fluent/html5/attr/popover"
+	"github.com/jpl-au/fluent/html5/attr/spellcheck"
+	"github.com/jpl-au/fluent/html5/attr/translate"
 	"github.com/jpl-au/fluent/html5/attr/virtualkeyboardpolicy"
-	"github.com/jpl-au/fluent/html5/attr/dir"
+	"github.com/jpl-au/fluent/html5/attr/writingsuggestions"
+	"github.com/jpl-au/fluent/html5/object"
 )
-
 
 func TestNewCtor(t *testing.T) {
 	// Test empty element
@@ -1096,4 +1095,3 @@ func TestTextChaining(t *testing.T) {
 		t.Errorf("got %q, want %q", got, want)
 	}
 }
-

@@ -9,21 +9,20 @@ type Shape []byte
 // Variables for Shape values
 var (
 	// Rect Rectangular area defined by coordinates. Requires coords with left, top, right, bottom
-// values to define the clickable rectangular region.
+	// values to define the clickable rectangular region.
 	Rect = Shape("rect")
 
 	// Circle Circular area defined by center point and radius. Requires coords with center x, y
-// coordinates and radius value to define the clickable circular region.
+	// coordinates and radius value to define the clickable circular region.
 	Circle = Shape("circle")
 
 	// Poly Polygonal area defined by multiple coordinate points. Requires coords with pairs of
-// x,y coordinates defining the vertices of the clickable polygon.
+	// x,y coordinates defining the vertices of the clickable polygon.
 	Poly = Shape("poly")
 
 	// Default Default area covering entire image not covered by other areas. Acts as fallback
-// for any part of the image not defined by other shape areas.
+	// for any part of the image not defined by other shape areas.
 	Default = Shape("default")
-
 )
 
 // Custom allows setting a custom Shape value for edge cases or future specifications.

@@ -5,20 +5,20 @@ package style_test
 import (
 	"testing"
 
-	"github.com/jpl-au/fluent/html5/style"
+	"github.com/jpl-au/fluent/html5/attr/autocapitalize"
 	"github.com/jpl-au/fluent/html5/attr/autocorrect"
+	"github.com/jpl-au/fluent/html5/attr/blocking"
+	"github.com/jpl-au/fluent/html5/attr/contenteditable"
 	"github.com/jpl-au/fluent/html5/attr/dir"
 	"github.com/jpl-au/fluent/html5/attr/enterkeyhint"
-	"github.com/jpl-au/fluent/html5/attr/translate"
-	"github.com/jpl-au/fluent/html5/attr/virtualkeyboardpolicy"
-	"github.com/jpl-au/fluent/html5/attr/writingsuggestions"
-	"github.com/jpl-au/fluent/html5/attr/autocapitalize"
-	"github.com/jpl-au/fluent/html5/attr/contenteditable"
 	"github.com/jpl-au/fluent/html5/attr/inputmode"
 	"github.com/jpl-au/fluent/html5/attr/popover"
 	"github.com/jpl-au/fluent/html5/attr/spellcheck"
+	"github.com/jpl-au/fluent/html5/attr/translate"
+	"github.com/jpl-au/fluent/html5/attr/virtualkeyboardpolicy"
+	"github.com/jpl-au/fluent/html5/attr/writingsuggestions"
+	"github.com/jpl-au/fluent/html5/style"
 )
-
 
 func TestNewCtor(t *testing.T) {
 	// Test empty element
@@ -111,6 +111,14 @@ func TestNonceAttr(t *testing.T) {
 func TestTitleAttr(t *testing.T) {
 	got := string(style.New().Title("test").Render())
 	want := `<style title="test"></style>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
+func TestBlockingAttr(t *testing.T) {
+	got := string(style.New().Blocking(blocking.Render).Render())
+	want := `<style blocking="render"></style>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
 	}
@@ -1032,4 +1040,3 @@ func TestTextChaining(t *testing.T) {
 		t.Errorf("got %q, want %q", got, want)
 	}
 }
-

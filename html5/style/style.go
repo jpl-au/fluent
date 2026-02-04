@@ -3,17 +3,13 @@
 package style
 
 import (
-	"github.com/jpl-au/fluent/html5"
-	"strings"
-	"github.com/jpl-au/fluent/text"
-	"fmt"
-	"strconv"
 	"bytes"
-	"io"
+	"fmt"
 	"github.com/jpl-au/fluent"
-	"github.com/jpl-au/fluent/node"
+	"github.com/jpl-au/fluent/html5"
 	"github.com/jpl-au/fluent/html5/attr/autocapitalize"
 	"github.com/jpl-au/fluent/html5/attr/autocorrect"
+	"github.com/jpl-au/fluent/html5/attr/blocking"
 	"github.com/jpl-au/fluent/html5/attr/contenteditable"
 	"github.com/jpl-au/fluent/html5/attr/dir"
 	"github.com/jpl-au/fluent/html5/attr/enterkeyhint"
@@ -23,6 +19,11 @@ import (
 	"github.com/jpl-au/fluent/html5/attr/translate"
 	"github.com/jpl-au/fluent/html5/attr/virtualkeyboardpolicy"
 	"github.com/jpl-au/fluent/html5/attr/writingsuggestions"
+	"github.com/jpl-au/fluent/node"
+	"github.com/jpl-au/fluent/text"
+	"io"
+	"strconv"
+	"strings"
 )
 
 // Element is an exported alias for the private element type
@@ -30,21 +31,22 @@ type Element = element
 
 // element represents the <style> HTML element
 type element struct {
-	nodes []node.Node
-	class string
-	id string
-	mime string
-	title string
-	attr *[]node.Attribute
-	ea *html5.EventAttributes
-	ga *html5.GlobalAttributes
+	blocking   blocking.Blocking
+	nodes      []node.Node
+	class      string
+	id         string
+	mime       string
+	title      string
+	attr       *[]node.Attribute
+	ea         *html5.EventAttributes
+	ga         *html5.GlobalAttributes
 	bufferhint int
-	tabindex int
-	autofocus bool
-	draggable bool
-	hidden bool
-	inert bool
-	itemscope bool
+	tabindex   int
+	autofocus  bool
+	draggable  bool
+	hidden     bool
+	inert      bool
+	itemscope  bool
 }
 
 // global returns the GlobalAttributes, initializing if nil
@@ -123,10 +125,9 @@ func RawTextf(format string, args ...any) *element {
 func CSS(css string) *element {
 	return &element{
 		nodes: []node.Node{text.RawText(css)},
-		mime: "text/css",
+		mime:  "text/css",
 	}
 }
-
 
 // Type Specifies the MIME type of the style sheet content. In practice, this is almost always 'text/css' for CSS
 // stylesheets. While this attribute is optional in HTML5 (browsers assume CSS by default), it can be useful
@@ -162,6 +163,14 @@ func (e *element) Nonce(nonce string) *element {
 // Example: style.New().Title("Dark Theme").Text("body { background: black; color: white; }")
 func (e *element) Title(title string) *element {
 	e.title = title
+	return e
+}
+
+// Blocking Indicates that certain operations should be blocked until the stylesheet is loaded and applied.
+// Currently only supports the "render" value which blocks rendering until styles are applied,
+// preventing flash of unstyled content (FOUC).
+func (e *element) Blocking(blocking blocking.Blocking) *element {
+	e.blocking = blocking
 	return e
 }
 
@@ -269,7 +278,7 @@ func (e *element) AriaLabel(label string) *element {
 // readers and other accessibility tools understand and interact with dynamic web content. Essential for creating
 // accessible web applications.
 func (e *element) SetAria(key string, value string) *element {
-	e.SetAttribute("aria-" + key, value)
+	e.SetAttribute("aria-"+key, value)
 	return e
 }
 
@@ -312,7 +321,7 @@ func (e *element) ContentEditable(value contenteditable.ContentEditable) *elemen
 // via the HTMLElement interface of the element the attribute is set on. The HTMLElement.dataset property gives
 // access to them.
 func (e *element) SetData(key string, value string) *element {
-	e.SetAttribute("data-" + key, value)
+	e.SetAttribute("data-"+key, value)
 	return e
 }
 
@@ -1074,6 +1083,11 @@ func (e *element) AttributeBuilder(buf *bytes.Buffer) {
 		buf.WriteString(e.title)
 		buf.Write(html5.MarkupQuote)
 	}
+	if len(e.blocking) > 0 {
+		buf.Write(html5.AttrBlocking)
+		buf.Write(e.blocking)
+		buf.Write(html5.MarkupQuote)
+	}
 	if e.class != "" {
 		buf.Write(html5.AttrClass)
 		buf.WriteString(e.class)
@@ -1163,4 +1177,3 @@ func (e *element) Attributes() *[]node.Attribute {
 	}
 	return e.attr
 }
-

@@ -5,28 +5,27 @@ package input_test
 import (
 	"testing"
 
-	"github.com/jpl-au/fluent/html5/input"
-	"github.com/jpl-au/fluent/html5/attr/popover"
-	"github.com/jpl-au/fluent/html5/attr/spellcheck"
-	"github.com/jpl-au/fluent/html5/attr/inputtype"
+	"github.com/jpl-au/fluent/html5/attr/accept"
+	"github.com/jpl-au/fluent/html5/attr/autocapitalize"
+	"github.com/jpl-au/fluent/html5/attr/autocomplete"
+	"github.com/jpl-au/fluent/html5/attr/autocorrect"
 	"github.com/jpl-au/fluent/html5/attr/capture"
-	"github.com/jpl-au/fluent/html5/attr/target"
-	"github.com/jpl-au/fluent/html5/attr/popovertargetaction"
+	"github.com/jpl-au/fluent/html5/attr/contenteditable"
+	"github.com/jpl-au/fluent/html5/attr/dir"
+	"github.com/jpl-au/fluent/html5/attr/enctype"
+	"github.com/jpl-au/fluent/html5/attr/enterkeyhint"
+	"github.com/jpl-au/fluent/html5/attr/formmethod"
 	"github.com/jpl-au/fluent/html5/attr/inputmode"
+	"github.com/jpl-au/fluent/html5/attr/inputtype"
+	"github.com/jpl-au/fluent/html5/attr/popover"
+	"github.com/jpl-au/fluent/html5/attr/popovertargetaction"
+	"github.com/jpl-au/fluent/html5/attr/spellcheck"
+	"github.com/jpl-au/fluent/html5/attr/target"
+	"github.com/jpl-au/fluent/html5/attr/translate"
 	"github.com/jpl-au/fluent/html5/attr/virtualkeyboardpolicy"
 	"github.com/jpl-au/fluent/html5/attr/writingsuggestions"
-	"github.com/jpl-au/fluent/html5/attr/accept"
-	"github.com/jpl-au/fluent/html5/attr/enctype"
-	"github.com/jpl-au/fluent/html5/attr/autocapitalize"
-	"github.com/jpl-au/fluent/html5/attr/dir"
-	"github.com/jpl-au/fluent/html5/attr/enterkeyhint"
-	"github.com/jpl-au/fluent/html5/attr/autocomplete"
-	"github.com/jpl-au/fluent/html5/attr/formmethod"
-	"github.com/jpl-au/fluent/html5/attr/contenteditable"
-	"github.com/jpl-au/fluent/html5/attr/translate"
-	"github.com/jpl-au/fluent/html5/attr/autocorrect"
+	"github.com/jpl-au/fluent/html5/input"
 )
-
 
 func TestNewCtor(t *testing.T) {
 	got := string(input.New().Type(inputtype.Text).Name("username").Render())
@@ -1326,4 +1325,3 @@ func TestOnWaitingAttr(t *testing.T) {
 		t.Errorf("got %q, want %q", got, want)
 	}
 }
-

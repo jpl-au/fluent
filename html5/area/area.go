@@ -3,18 +3,10 @@
 package area
 
 import (
-	"github.com/jpl-au/fluent/html5"
-	"strings"
-	"strconv"
 	"bytes"
-	"io"
-	"github.com/jpl-au/fluent"
-	"github.com/jpl-au/fluent/node"
-	"github.com/jpl-au/fluent/html5/attr/referrerpolicy"
-	"github.com/jpl-au/fluent/html5/attr/rel"
-	"github.com/jpl-au/fluent/html5/attr/shape"
-	"github.com/jpl-au/fluent/html5/attr/target"
 	"fmt"
+	"github.com/jpl-au/fluent"
+	"github.com/jpl-au/fluent/html5"
 	"github.com/jpl-au/fluent/html5/attr/autocapitalize"
 	"github.com/jpl-au/fluent/html5/attr/autocorrect"
 	"github.com/jpl-au/fluent/html5/attr/contenteditable"
@@ -22,10 +14,18 @@ import (
 	"github.com/jpl-au/fluent/html5/attr/enterkeyhint"
 	"github.com/jpl-au/fluent/html5/attr/inputmode"
 	"github.com/jpl-au/fluent/html5/attr/popover"
+	"github.com/jpl-au/fluent/html5/attr/referrerpolicy"
+	"github.com/jpl-au/fluent/html5/attr/rel"
+	"github.com/jpl-au/fluent/html5/attr/shape"
 	"github.com/jpl-au/fluent/html5/attr/spellcheck"
+	"github.com/jpl-au/fluent/html5/attr/target"
 	"github.com/jpl-au/fluent/html5/attr/translate"
 	"github.com/jpl-au/fluent/html5/attr/virtualkeyboardpolicy"
 	"github.com/jpl-au/fluent/html5/attr/writingsuggestions"
+	"github.com/jpl-au/fluent/node"
+	"io"
+	"strconv"
+	"strings"
 )
 
 // Element is an exported alias for the private element type
@@ -33,28 +33,28 @@ type Element = element
 
 // element represents the <area> HTML element
 type element struct {
-	nodes []node.Node
+	nodes          []node.Node
 	referrerpolicy referrerpolicy.ReferrerPolicy
-	rel rel.Rel
-	shape shape.Shape
-	target target.Target
-	alt string
-	areaType string
-	class string
-	coords string
-	href string
-	id string
-	ping string
-	attr *[]node.Attribute
-	ea *html5.EventAttributes
-	ga *html5.GlobalAttributes
-	bufferhint int
-	tabindex int
-	autofocus bool
-	draggable bool
-	hidden bool
-	inert bool
-	itemscope bool
+	rel            rel.Rel
+	shape          shape.Shape
+	target         target.Target
+	alt            string
+	areaType       string
+	class          string
+	coords         string
+	href           string
+	id             string
+	ping           string
+	attr           *[]node.Attribute
+	ea             *html5.EventAttributes
+	ga             *html5.GlobalAttributes
+	bufferhint     int
+	tabindex       int
+	autofocus      bool
+	draggable      bool
+	hidden         bool
+	inert          bool
+	itemscope      bool
 }
 
 // global returns the GlobalAttributes, initializing if nil
@@ -86,9 +86,9 @@ func New() *element {
 // Renders: <area shape="rect" coords="34,44,270,350" href="https://example.com" />
 func Rect(x1 int, y1 int, x2 int, y2 int, href string) *element {
 	return &element{
-		shape: shape.Rect,
+		shape:  shape.Rect,
 		coords: fmt.Sprintf("%d,%d,%d,%d", x1, y1, x2, y2),
-		href: href,
+		href:   href,
 	}
 }
 
@@ -98,9 +98,9 @@ func Rect(x1 int, y1 int, x2 int, y2 int, href string) *element {
 // Renders: <area shape="circle" coords="130,136,60" href="/products" />
 func Circle(x int, y int, radius int, href string) *element {
 	return &element{
-		shape: shape.Circle,
+		shape:  shape.Circle,
 		coords: fmt.Sprintf("%d,%d,%d", x, y, radius),
-		href: href,
+		href:   href,
 	}
 }
 
@@ -110,9 +110,9 @@ func Circle(x int, y int, radius int, href string) *element {
 // Renders: <area shape="poly" coords="74,0,113,29,98,72,52,72,38,29" href="/contact" />
 func Poly(coords string, href string) *element {
 	return &element{
-		shape: shape.Poly,
+		shape:  shape.Poly,
 		coords: coords,
-		href: href,
+		href:   href,
 	}
 }
 
@@ -123,10 +123,9 @@ func Poly(coords string, href string) *element {
 func Default(href string) *element {
 	return &element{
 		shape: shape.Default,
-		href: href,
+		href:  href,
 	}
 }
-
 
 // Shape The shape of the area. The shape determines how the coords attribute should be interpreted.
 // Possible values: rect (rectangles), circle (circles), poly (polygons), default (entire image).
@@ -354,7 +353,7 @@ func (e *element) AriaLabel(label string) *element {
 // readers and other accessibility tools understand and interact with dynamic web content. Essential for creating
 // accessible web applications.
 func (e *element) SetAria(key string, value string) *element {
-	e.SetAttribute("aria-" + key, value)
+	e.SetAttribute("aria-"+key, value)
 	return e
 }
 
@@ -397,7 +396,7 @@ func (e *element) ContentEditable(value contenteditable.ContentEditable) *elemen
 // via the HTMLElement interface of the element the attribute is set on. The HTMLElement.dataset property gives
 // access to them.
 func (e *element) SetData(key string, value string) *element {
-	e.SetAttribute("data-" + key, value)
+	e.SetAttribute("data-"+key, value)
 	return e
 }
 
@@ -1254,4 +1253,3 @@ func (e *element) Attributes() *[]node.Attribute {
 	}
 	return e.attr
 }
-
