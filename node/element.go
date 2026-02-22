@@ -2,18 +2,19 @@ package node
 
 import "bytes"
 
-// Element extends Node with methods for rendering opening and closing tags separately.
-// This interface enables JIT compilation to pre-render static wrapper tags while
-// preserving dynamic content rendering.
+// Element extends Node for HTML elements that have attributes and an open/close tag structure.
+// Not all nodes are elements — text nodes, function components, and conditionals are not.
+// This separation allows extensions (htmx, turbo, shoelace) to accept only types that
+// genuinely support attributes, and allows JIT compilation to pre-render static wrapper
+// tags independently of dynamic content.
 type Element interface {
 	Node
 
-	// RenderOpen writes the opening tag and attributes to the buffer.
-	// For example, for a div with class="container", this writes: <div class="container">
-	RenderOpen(buf *bytes.Buffer)
+	SetAttribute(key string, value string)
 
-	// RenderClose writes the closing tag to the buffer.
-	// For example, for a div, this writes: </div>
-	// For self-closing elements, this is a no-op.
+	// RenderOpen and RenderClose split the element's rendering so that JIT can
+	// cache the opening tag separately from the children.
+	// For example: RenderOpen writes <div class="container">, RenderClose writes </div>.
+	RenderOpen(buf *bytes.Buffer)
 	RenderClose(buf *bytes.Buffer)
 }

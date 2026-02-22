@@ -5,25 +5,18 @@ import (
 	"io"
 )
 
-// Node represents any element in an HTML document tree.
-// All nodes implement both direct output rendering and efficient buffer rendering
-// for optimal performance in different scenarios.
+// Node represents any renderable item in an HTML document tree.
+// This is the base contract that all renderable types satisfy — text, elements,
+// function components, and conditionals alike.
 type Node interface {
-	// Render generates the complete HTML representation of the node.
-	// If a writer is provided, the output is written to it and nil is returned.
-	// If no writer is provided, the output is returned as a byte slice.
+	// Render returns the HTML as a byte slice, or writes it to the provided writer.
+	// Use this for top-level rendering where you need the final output.
 	Render(w ...io.Writer) []byte
 
-	// RenderBuilder writes the HTML representation directly to a buffer.
-	// This method is used for building complex node trees efficiently
-	// by allowing nodes to render into a shared buffer.
+	// RenderBuilder writes HTML into a shared buffer to avoid allocations
+	// when composing a tree of nodes. Parent nodes call this on their children.
 	RenderBuilder(*bytes.Buffer)
 
-	// Nodes returns a slice of child nodes.
-	// For nodes that do not have children, it returns an empty slice.
+	// Nodes returns the direct children of this node.
 	Nodes() []Node
-
-	// SetAttribute sets an attribute on the node.
-	// This is the primary method for extensions to add attributes safely.
-	SetAttribute(key string, value string)
 }

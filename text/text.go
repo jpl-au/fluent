@@ -117,12 +117,6 @@ func (tn *Node) Dynamic() bool {
 	return tn.dynamic
 }
 
-// Base returns nil as RawText nodes do not have attributes.
-// SetAttribute is a no-op for Node as it does not have attributes.
-func (tn *Node) SetAttribute(_ string, _ string) {
-	// Node does not support attributes
-}
-
 // String returns the text content as a string.
 // This allows RawText to be used in contexts that require string values.
 func (tn *Node) String() string {

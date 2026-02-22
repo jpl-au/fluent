@@ -107,8 +107,3 @@ func (c *ConditionalBuilder) Nodes() []Node {
 	}
 	return children
 }
-
-// SetAttribute is a no-op for ConditionalBuilder as it does not have attributes.
-func (c *ConditionalBuilder) SetAttribute(_ string, _ string) {
-	// ConditionalBuilder does not support attributes
-}

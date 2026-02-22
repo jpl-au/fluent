@@ -68,7 +68,3 @@ func (f *FunctionsComponent) Nodes() []Node {
 	return []Node{}
 }
 
-// SetAttribute is a no-op for FunctionsComponent as it does not have attributes.
-func (f *FunctionsComponent) SetAttribute(_ string, _ string) {
-	// FunctionsComponent does not support attributes
-}
