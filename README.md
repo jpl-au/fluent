@@ -265,7 +265,7 @@ Fluent is organised into several packages:
 
 | Package | Description |
 |---------|-------------|
-| `node` | Core `Node` interface that all elements implement: `Render()`, `RenderBuilder()`, `Nodes()`, `SetAttribute()` |
+| `node` | Core `Node` interface for all renderable types: `Render()`, `RenderBuilder()`, `Nodes()`. The `Element` interface extends `Node` with `SetAttribute()`, `RenderOpen()`, `RenderClose()` for HTML elements |
 | `html5/*` | HTML5 elements, one package per element (e.g., `div`, `span`, `input`). Each provides `New()`, `Text()`, `Static()` constructors |
 | `html5/attr/*` | Type-safe attribute constants (e.g., `inputtype.Email`, `autocomplete.Off`, `rel.Stylesheet`) |
 | `text` | Text node implementations for `Static()`, `Text()`, `RawText()` and their formatted variants |
@@ -276,6 +276,8 @@ Fluent is organised into several packages:
 ### Everything is a Node
 
 The `node.Node` interface is the foundation of Fluent. Every renderable piece of content implements it: HTML elements, text nodes, conditionals (`node.Condition`), and function wrappers (`node.Func`). This unified interface enables arbitrary composition - any `node.Node` can be a child of any element.
+
+HTML elements also implement `node.Element`, which extends `Node` with `SetAttribute()`, `RenderOpen()`, and `RenderClose()`. Text nodes, function components, and conditionals are not elements — they don't have attributes or tags.
 
 When in doubt about return types for your components, `node.Node` is always safe:
 

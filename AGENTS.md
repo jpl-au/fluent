@@ -8,6 +8,8 @@ Guide to help LLMs work with the Fluent HTML generation framework.
 
 The `node.Node` interface is Fluent's foundation. Every renderable piece implements it: HTML elements, text nodes, conditionals (`node.Condition`), and function wrappers (`node.Func`, `node.FuncNodes`). This enables arbitrary composition - any `node.Node` can be a child of any element.
 
+HTML elements also implement `node.Element`, which extends `Node` with `SetAttribute()`, `RenderOpen()`, and `RenderClose()`. Text nodes, function components, and conditionals are **not** elements — they don't have attributes or tags. Extensions like fluent-htmx accept `node.Element` rather than `node.Node` because they need to set attributes.
+
 **When in doubt, return `node.Node`** - it's always safe and provides maximum flexibility:
 
 ```go
@@ -596,16 +598,25 @@ Fluent uses two separate `sync.Pool` instances: a small pool and a large pool. T
 
 ## Extending Fluent
 
-Implement `node.Node` interface for custom elements or components.
+Implement `node.Node` for composite components, or `node.Element` for custom HTML elements that need attributes and open/close tags.
 
-### Node Interface
+### Interfaces
 
 ```go
+// Base contract for all renderable types — text, elements, function components, conditionals.
 type Node interface {
     Render(w ...io.Writer) []byte
     RenderBuilder(*bytes.Buffer)
     Nodes() []Node
+}
+
+// Element extends Node for HTML elements that have attributes and open/close tags.
+// Not all nodes are elements — text nodes, function components, and conditionals are not.
+type Element interface {
+    Node
     SetAttribute(key string, value string)
+    RenderOpen(buf *bytes.Buffer)
+    RenderClose(buf *bytes.Buffer)
 }
 ```
 
@@ -674,10 +685,6 @@ func (c *CustomCard) RenderBuilder(buf *bytes.Buffer) {
 func (c *CustomCard) Nodes() []node.Node {
     return c.nodes
 }
-
-func (c *CustomCard) SetAttribute(key string, value string) {
-    // Store attributes if needed
-}
 ```
 
 **Constants in `html5` package:**
@@ -693,6 +700,10 @@ Combine multiple HTML elements with type-safe attributes in fluent API.
 
 **Email Field Component:**
 
+A composite component is not an HTML element — it composes elements internally.
+It satisfies `node.Node` (not `node.Element`) because it doesn't have its own tag,
+attributes, or open/close structure. Configuration is done through fluent methods.
+
 ```go
 package field
 
@@ -706,7 +717,8 @@ import (
     "github.com/jpl-au/fluent/node"
 )
 
-// EmailField renders a complete form field with label and input
+// EmailField renders a complete form field with label and input.
+// It satisfies node.Node so it can be used as a child of any element.
 type EmailField struct {
     labelText   string
     id          string
@@ -716,7 +728,6 @@ type EmailField struct {
     class       string
     inputClass  string
     labelClass  string
-    attr        *[]node.Attribute
 }
 
 // Email creates a new email field component
@@ -728,7 +739,7 @@ func Email(name string, labelText string) *EmailField {
     }
 }
 
-// Fluent API methods
+// Fluent API methods — all return *EmailField for chaining
 func (f *EmailField) Placeholder(text string) *EmailField {
     f.placeholder = text
     return f
@@ -754,7 +765,8 @@ func (f *EmailField) LabelClass(class string) *EmailField {
     return f
 }
 
-// Implement node.Node interface
+// node.Node implementation
+
 func (f *EmailField) Render(w ...io.Writer) []byte {
     var buf bytes.Buffer
     f.RenderBuilder(&buf)
@@ -766,13 +778,11 @@ func (f *EmailField) Render(w ...io.Writer) []byte {
 }
 
 func (f *EmailField) RenderBuilder(buf *bytes.Buffer) {
-    // Build label with type-safe attributes
     labelElem := label.For(f.id, f.labelText)
     if f.labelClass != "" {
         labelElem.Class(f.labelClass)
     }
 
-    // Build input using type-safe constants
     inputElem := input.Email(f.name).
         ID(f.id).
         AutoComplete(autocomplete.Email)
@@ -789,18 +799,9 @@ func (f *EmailField) RenderBuilder(buf *bytes.Buffer) {
         inputElem.Class(f.inputClass)
     }
 
-    // Combine into container
     container := div.New(labelElem, inputElem)
-
     if f.class != "" {
         container.Class(f.class)
-    }
-
-    // Apply custom attributes
-    if f.attr != nil {
-        for _, attr := range *f.attr {
-            container.SetAttribute(attr.Key, attr.Value)
-        }
     }
 
     container.RenderBuilder(buf)
@@ -808,19 +809,6 @@ func (f *EmailField) RenderBuilder(buf *bytes.Buffer) {
 
 func (f *EmailField) Nodes() []node.Node {
     return nil
-}
-
-func (f *EmailField) SetAttribute(key string, value string) {
-    if f.attr == nil {
-        f.attr = &[]node.Attribute{}
-    }
-    for i, attr := range *f.attr {
-        if attr.Key == key {
-            (*f.attr)[i].Value = value
-            return
-        }
-    }
-    *f.attr = append(*f.attr, node.Attribute{Key: key, Value: value})
 }
 ```
 
@@ -904,55 +892,44 @@ func (t *TextField) RenderBuilder(buf *bytes.Buffer) {
 
 ### Wrapper Pattern
 
-For adding attributes to existing nodes:
+For adding attributes to existing elements (e.g. framework wrappers like HTMX, Alpine.js).
+The wrapper accepts `node.Element` because only elements support `SetAttribute`:
 
 ```go
 type AttributeWrapper struct {
-    node node.Node
-    attr *[]node.Attribute
+    element node.Element
 }
 
-func Wrap(n node.Node) *AttributeWrapper {
-    return &AttributeWrapper{node: n}
+func Wrap(n node.Element) *AttributeWrapper {
+    return &AttributeWrapper{element: n}
 }
 
 func (w *AttributeWrapper) SetAttribute(key, value string) {
-    if w.attr == nil {
-        slice := make([]node.Attribute, 0, 1)
-        w.attr = &slice
-    }
-
-    // Update existing or add new
-    for i, existing := range *w.attr {
-        if existing.Key == key {
-            (*w.attr)[i].Value = value
-            return
-        }
-    }
-
-    *w.attr = append(*w.attr, node.Attribute{Key: key, Value: value})
+    w.element.SetAttribute(key, value)
 }
 
 func (w *AttributeWrapper) RenderBuilder(buf *bytes.Buffer) {
-    // Apply wrapper attributes to node
-    if w.attr != nil {
-        for _, attr := range *w.attr {
-            w.node.SetAttribute(attr.Key, attr.Value)
-        }
-    }
-    w.node.RenderBuilder(buf)
+    w.element.RenderBuilder(buf)
 }
 
 func (w *AttributeWrapper) Render(wr ...io.Writer) []byte {
-    return w.node.Render(wr...)
+    return w.element.Render(wr...)
 }
 
 func (w *AttributeWrapper) Nodes() []node.Node {
-    return w.node.Nodes()
+    return w.element.Nodes()
+}
+
+func (w *AttributeWrapper) RenderOpen(buf *bytes.Buffer) {
+    w.element.RenderOpen(buf)
+}
+
+func (w *AttributeWrapper) RenderClose(buf *bytes.Buffer) {
+    w.element.RenderClose(buf)
 }
 ```
 
-**Use:** Custom elements, third-party libraries, framework wrappers (HTMX, Alpine.js), specialised rendering.
+**Use:** Framework wrappers (HTMX, Alpine.js), third-party libraries, specialised rendering.
 
 ## Typed Attributes Reference
 
