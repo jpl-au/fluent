@@ -8,7 +8,7 @@ import (
 	"sync/atomic"
 )
 
-// Global pool configuration - internal variables, access via getter/setter methods
+// Pool behaviour — configure via the exported setter functions.
 var (
 	poolThreshold    = 4 * 1024   // Threshold defines the pool (small, large) the builder is returned to
 	maxPoolSize      = 256 * 1024 // Maximum size to keep in pools - discard larger buffers
@@ -30,7 +30,7 @@ func init() {
 	enabled.Store(true) // Enable pool by default
 }
 
-// Diagnostic pool names.
+// Labels for diagnostic output — identify which pool handled the operation.
 const (
 	small   = "small"
 	large   = "large"
@@ -74,27 +74,24 @@ func Get(hint int) *bytes.Buffer {
 		return bytes.NewBuffer(make([]byte, 0, hint))
 	}
 
-	var pooled *bytes.Buffer
+	var src *sync.Pool
 	var pool string
 	if hint < poolThreshold {
+		src = &smallPool
 		pool = small
-		if p := smallPool.Get(); p != nil {
-			pooled = p.(*bytes.Buffer) //nolint:forcetypeassert // Pool only contains *bytes.Buffer
-		}
 	} else {
+		src = &largePool
 		pool = large
-		if p := largePool.Get(); p != nil {
-			pooled = p.(*bytes.Buffer) //nolint:forcetypeassert // Pool only contains *bytes.Buffer
-		}
 	}
 
-	if pooled != nil {
-		pooled.Reset()
+	if p := src.Get(); p != nil {
+		buf := p.(*bytes.Buffer) //nolint:forcetypeassert // Pool only contains *bytes.Buffer
+		buf.Reset()
 		if hint > 0 {
-			pooled.Grow(hint)
+			buf.Grow(hint)
 		}
-		emitDiag("get", hint, 0, pooled.Cap(), pool)
-		return pooled
+		emitDiag("get", hint, 0, buf.Cap(), pool)
+		return buf
 	}
 
 	buf := bytes.NewBuffer(make([]byte, 0, hint))
@@ -111,28 +108,20 @@ func Put(buf *bytes.Buffer) {
 
 	cap := buf.Cap()
 
-	// Check if buffer is oversized
-	if cap > maxPoolSize {
-		if discardOversized {
-			emitDiag("put", 0, buf.Len(), cap, discard)
-			return
-		}
+	if cap > maxPoolSize && discardOversized {
+		emitDiag("put", 0, buf.Len(), cap, discard)
+		return
 	}
 
 	// Capture length before reset so diagnostics show how much was used.
 	length := buf.Len()
-	var pool string
-	if cap < poolThreshold {
-		pool = small
-	} else {
-		pool = large
-	}
-	emitDiag("put", 0, length, cap, pool)
-
 	buf.Reset()
+
 	if cap < poolThreshold {
+		emitDiag("put", 0, length, cap, small)
 		smallPool.Put(buf)
 	} else {
+		emitDiag("put", 0, length, cap, large)
 		largePool.Put(buf)
 	}
 }
