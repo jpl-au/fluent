@@ -64,7 +64,7 @@ func main() {
 
 ## Documentation for LLM's
 
-- `LLM-GUIDE.md` - Comprehensive guide to help LLM's to work with Fluent (but it is also useful for humans who want a deeper dive into Fluent too)
+- `AGENTS.md` - Comprehensive guide to help LLM's to work with Fluent (but it is also useful for humans who want a deeper dive into Fluent too)
 
 ## Static vs Dynamic Content
 
@@ -376,7 +376,7 @@ pool.SetMaxPoolSize(262144, true)     // Max pooled size, discard oversized (def
 pool.SetEnabled(false)                // Disable pooling entirely
 ```
 
-For detailed mechanics and tuning guidance, see [LLM-GUIDE.md](LLM-GUIDE.md#how-the-two-tier-pool-works).
+For detailed mechanics and tuning guidance, see [AGENTS.md](AGENTS.md).
 
 ## Performance
 
@@ -445,6 +445,36 @@ I have also worked with [Templ](https://github.com/a-h/templ) and while it's gre
 ### Benchmark Performance
 
 During the creation of Fluent I ran several benchmarks against gocomponents, gostar, hb and even templ. In comparison with the non-compiled (i.e.: not templ) solutions, Fluent seems to have better CPU and memory profiles, with significantly lower allocations due to the buffer pooling strategy. The Fluent JIT package further optimises the performance characteristics. I decided against publishing the results as benchmarking can be subjective, and the results vary depending on how and what you are measuring. I welcome the opportunity for others to create their own benchmarks and share them.
+
+## Profile-Guided Optimization (PGO)
+
+Go supports [Profile-Guided Optimization](https://go.dev/doc/pgo) from version 1.21+. PGO uses a CPU profile from your running application to make more aggressive inlining and optimisation decisions at compile time. Benchmarks show **10-20% speed improvements** with no code changes.
+
+To enable PGO in your application:
+
+1. Add profiling to your app (e.g. `import _ "net/http/pprof"`)
+2. Collect a CPU profile under realistic load:
+   ```bash
+   curl -o default.pgo http://localhost:8080/debug/pprof/profile?seconds=30
+   ```
+3. Place `default.pgo` in your main package directory
+4. `go build` — PGO is applied automatically
+
+The profile captures which functions are hot in *your* application, so the compiler optimises the specific call paths you actually use — including Fluent's rendering pipeline, buffer pooling, and any JIT strategies. Allocations are unaffected; PGO improves speed only.
+
+Collect fresh profiles periodically as your application evolves. Profiles from one platform can optimise builds for another (e.g. a Linux profile can optimise a macOS build).
+
+## Ecosystem
+
+Fluent has companion packages that extend its capabilities:
+
+| Package | Description |
+|---------|-------------|
+| [Fluent JIT](https://github.com/jpl-au/fluent-jit) | Performance optimisation with three strategies: **Compile** (pre-render static portions), **Tune** (adaptive buffer sizing), **Flatten** (pre-render fully static content to raw bytes). Also provides the **Diff** engine for reactive updates. |
+| [Fluent HTMX](https://github.com/jpl-au/fluent-htmx) | HTMX integration. Accepts `node.Element` to set HTMX attributes (`hx-get`, `hx-post`, `hx-swap`, etc.) on any Fluent element. |
+| [Fluent Poly](https://github.com/jpl-au/fluent-poly) | Server-driven reactive UI. Manages sessions, WebSocket transport, and a client-side runtime that applies targeted DOM patches using the JIT diff engine. Mark elements with `.Dynamic("key")` and Poly handles the rest. |
+
+All companion packages are optional. Fluent works standalone for static HTML generation.
 
 ## Licence
 
