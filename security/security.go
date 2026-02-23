@@ -140,7 +140,8 @@ func SafeStyle(css string) node.Node {
 	return text.RawText("<style>" + css + "</style>")
 }
 
-// Dynamic returns true as SanitiseBuilder performs runtime validation.
-func (sb *SanitiseBuilder) Dynamic() bool {
+// IsDynamic returns true — SanitiseBuilder performs runtime validation
+// so its output depends on the content passed at render time.
+func (sb *SanitiseBuilder) IsDynamic() bool {
 	return true
 }

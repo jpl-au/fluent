@@ -60,6 +60,12 @@ func (f *FunctionComponent) RenderBuilder(buf *bytes.Buffer) {
 	}
 }
 
+// IsDynamic returns true — function components always contain dynamic content
+// because their output depends on a function call at render time.
+func (f *FunctionComponent) IsDynamic() bool {
+	return true
+}
+
 // Nodes returns an empty slice as FunctionComponent nodes do not have static children.
 func (f *FunctionComponent) Nodes() []Node {
 	return []Node{}

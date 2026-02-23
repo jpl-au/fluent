@@ -96,6 +96,12 @@ func (c *ConditionalBuilder) RenderBuilder(buf *bytes.Buffer) {
 	// If condition doesn't match or no node is set, render nothing
 }
 
+// IsDynamic returns true — conditionals always contain dynamic content
+// because their output depends on a runtime condition.
+func (c *ConditionalBuilder) IsDynamic() bool {
+	return true
+}
+
 // Nodes returns the potential child nodes of the ConditionalBuilder.
 func (c *ConditionalBuilder) Nodes() []Node {
 	children := []Node{}

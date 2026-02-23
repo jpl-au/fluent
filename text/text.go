@@ -112,8 +112,8 @@ func (tn *Node) Nodes() []node.Node {
 	return []node.Node{}
 }
 
-// Dynamic returns true if this text content is dynamically generated (created with Textf or RawTextf)
-func (tn *Node) Dynamic() bool {
+// IsDynamic returns true if this text content is dynamically generated (created with Text, RawText, Textf, or RawTextf).
+func (tn *Node) IsDynamic() bool {
 	return tn.dynamic
 }
 
