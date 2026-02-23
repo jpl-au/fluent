@@ -2,6 +2,8 @@ package pool
 
 import (
 	"bytes"
+	"encoding/json"
+	"io"
 	"sync"
 	"sync/atomic"
 )
@@ -17,9 +19,24 @@ var (
 // Can be safely toggled at runtime using atomic operations.
 var enabled atomic.Bool
 
+// diagnostics receives JSONL entries for every Get and Put when set.
+// Protected by diagMu so SetDiagnostics is safe to call at any time.
+var (
+	diagWriter io.Writer
+	diagMu     sync.Mutex
+)
+
 func init() {
 	enabled.Store(true) // Enable pool by default
 }
+
+// Diagnostic pool names.
+const (
+	small   = "small"
+	large   = "large"
+	fresh   = "new"
+	discard = "discard"
+)
 
 // Pool instances for any poolable objects
 var (
@@ -58,11 +75,14 @@ func Get(hint int) *bytes.Buffer {
 	}
 
 	var pooled *bytes.Buffer
+	var pool string
 	if hint < poolThreshold {
+		pool = small
 		if p := smallPool.Get(); p != nil {
 			pooled = p.(*bytes.Buffer) //nolint:forcetypeassert // Pool only contains *bytes.Buffer
 		}
 	} else {
+		pool = large
 		if p := largePool.Get(); p != nil {
 			pooled = p.(*bytes.Buffer) //nolint:forcetypeassert // Pool only contains *bytes.Buffer
 		}
@@ -73,10 +93,13 @@ func Get(hint int) *bytes.Buffer {
 		if hint > 0 {
 			pooled.Grow(hint)
 		}
+		emitDiag("get", hint, 0, pooled.Cap(), pool)
 		return pooled
 	}
 
-	return bytes.NewBuffer(make([]byte, 0, hint))
+	buf := bytes.NewBuffer(make([]byte, 0, hint))
+	emitDiag("get", hint, 0, buf.Cap(), fresh)
+	return buf
 }
 
 // Put returns a buffer to the pool.
@@ -91,13 +114,22 @@ func Put(buf *bytes.Buffer) {
 	// Check if buffer is oversized
 	if cap > maxPoolSize {
 		if discardOversized {
-			// Discard oversized buffers to prevent memory bloat
+			emitDiag("put", 0, buf.Len(), cap, discard)
 			return
 		}
 	}
 
+	// Capture length before reset so diagnostics show how much was used.
+	length := buf.Len()
+	var pool string
+	if cap < poolThreshold {
+		pool = small
+	} else {
+		pool = large
+	}
+	emitDiag("put", 0, length, cap, pool)
+
 	buf.Reset()
-	// Route to appropriate pool based on capacity
 	if cap < poolThreshold {
 		smallPool.Put(buf)
 	} else {
@@ -113,11 +145,11 @@ func SetThreshold(size int) {
 }
 
 // SetMaxPoolSize configures the maximum buffer size to keep in pools.
-// Buffers larger than this will be discarded if discard is true, otherwise
+// Buffers larger than this will be discarded if drop is true, otherwise
 // they will be resized back to maxSize before being pooled.
-func SetMaxPoolSize(size int, discard bool) {
+func SetMaxPoolSize(size int, drop bool) {
 	maxPoolSize = size
-	discardOversized = discard
+	discardOversized = drop
 }
 
 // Configuration getters
@@ -135,4 +167,46 @@ func MaxPoolSize() int {
 // DiscardOversized returns whether oversized buffers should be discarded
 func DiscardOversized() bool {
 	return discardOversized
+}
+
+// SetDiagnostics enables pool diagnostics. When w is non-nil, every Get
+// and Put writes a JSONL entry to w. Pass nil to disable. Safe to call
+// at any time — typically called once at application startup.
+func SetDiagnostics(w io.Writer) {
+	diagMu.Lock()
+	diagWriter = w
+	diagMu.Unlock()
+}
+
+// diagEntry is a single JSONL record written by the diagnostics writer.
+type diagEntry struct {
+	Op       string `json:"op"`
+	Hint     int    `json:"hint,omitempty"`
+	Length   int    `json:"len"`
+	Capacity int    `json:"cap"`
+	Pool     string `json:"pool"`
+}
+
+func emitDiag(op string, hint, length, capacity int, pool string) {
+	diagMu.Lock()
+	w := diagWriter
+	diagMu.Unlock()
+
+	if w == nil {
+		return
+	}
+
+	entry := diagEntry{
+		Op:       op,
+		Hint:     hint,
+		Length:   length,
+		Capacity: capacity,
+		Pool:     pool,
+	}
+	line, _ := json.Marshal(entry)
+	line = append(line, '\n')
+
+	diagMu.Lock()
+	w.Write(line) //nolint:errcheck // best-effort diagnostics
+	diagMu.Unlock()
 }
