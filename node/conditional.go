@@ -102,6 +102,11 @@ func (c *ConditionalBuilder) IsDynamic() bool {
 	return true
 }
 
+// DynamicKey returns an empty string — conditionals do not carry tracking keys.
+func (c *ConditionalBuilder) DynamicKey() string {
+	return ""
+}
+
 // Nodes returns the potential child nodes of the ConditionalBuilder.
 func (c *ConditionalBuilder) Nodes() []Node {
 	children := []Node{}

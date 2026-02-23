@@ -69,6 +69,11 @@ func (f *FunctionsComponent) IsDynamic() bool {
 	return true
 }
 
+// DynamicKey returns an empty string — function components do not carry tracking keys.
+func (f *FunctionsComponent) DynamicKey() string {
+	return ""
+}
+
 // Nodes returns an empty slice as FunctionsComponent nodes do not have static children.
 func (f *FunctionsComponent) Nodes() []Node {
 	return []Node{}
