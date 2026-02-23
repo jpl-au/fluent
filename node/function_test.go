@@ -59,10 +59,10 @@ func TestFuncRenderToWriter(t *testing.T) {
 	}
 }
 
-// TestFuncNodesReturnsOutput verifies that Nodes evaluates the function
+// TestFuncNodeReturnsOutput verifies that Nodes evaluates the function
 // and returns its output. This ensures tree walkers see the same children
 // that Render produces.
-func TestFuncNodesReturnsOutput(t *testing.T) {
+func TestFuncNodeReturnsOutput(t *testing.T) {
 	f := Func(func() Node { return stub("hello") })
 	nodes := f.Nodes()
 	if len(nodes) != 1 {
@@ -73,9 +73,9 @@ func TestFuncNodesReturnsOutput(t *testing.T) {
 	}
 }
 
-// TestFuncNodesNilReturn verifies that Nodes returns empty when the
+// TestFuncNodeNilReturn verifies that Nodes returns empty when the
 // function returns nil.
-func TestFuncNodesNilReturn(t *testing.T) {
+func TestFuncNodeNilReturn(t *testing.T) {
 	f := Func(func() Node { return nil })
 	nodes := f.Nodes()
 	if len(nodes) != 0 {

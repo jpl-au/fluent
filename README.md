@@ -223,7 +223,7 @@ node.Func(func() node.Node {
 The second form returns a slice `[]node.Node`:
 
 ```go
-node.FuncNodes(func() []node.Node {
+node.Funcs(func() []node.Node {
     items := make([]node.Node, len(products))
     for i, product := range products {
         items[i] = li.New(
@@ -234,8 +234,6 @@ node.FuncNodes(func() []node.Node {
     return items
 })
 ```
-
-*I was really at a stretch for what to call the method that returns a slice of node.Node `FuncNode` and if anything changes in the API, it will be this.*
 
 ## Type-Safe Attributes
 

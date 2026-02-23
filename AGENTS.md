@@ -57,7 +57,7 @@ div.New().SetAttribute("hx-get", "/items")        // YES — HTMX attribute
 
 ### Node and Element Interfaces
 
-The `node.Node` interface is Fluent's foundation. Every renderable piece implements it: HTML elements, text nodes, conditionals (`node.Condition`), and function wrappers (`node.Func`, `node.FuncNodes`).
+The `node.Node` interface is Fluent's foundation. Every renderable piece implements it: HTML elements, text nodes, conditionals (`node.Condition`), and function wrappers (`node.Func`, `node.Funcs`).
 
 ```go
 type Node interface {
@@ -368,10 +368,10 @@ node.Func(func() node.Node {
 })
 ```
 
-**Multiple nodes** — `node.FuncNodes()`:
+**Multiple nodes** — `node.Funcs()`:
 
 ```go
-node.FuncNodes(func() []node.Node {
+node.Funcs(func() []node.Node {
     nodes := []node.Node{}
     for _, item := range items {
         nodes = append(nodes, li.Text(item.Name))
@@ -394,7 +394,7 @@ type Dynamic interface {
 **`IsDynamic()`** returns `true` if the node's output may change between renders:
 - `Text()`, `RawText()`, `Textf()`, `RawTextf()` nodes — always dynamic
 - `Static()` nodes — never dynamic
-- `node.Condition`, `node.Func`, `node.FuncNodes` — always dynamic
+- `node.Condition`, `node.Func`, `node.Funcs` — always dynamic
 - HTML elements — dynamic if marked with `.Dynamic()` or if any child is dynamic
 
 **`DynamicKey()`** returns the developer-assigned key for reactive tracking, or an empty string if unset.
