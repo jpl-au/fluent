@@ -107,14 +107,19 @@ func (c *ConditionalBuilder) DynamicKey() string {
 	return ""
 }
 
-// Nodes returns the potential child nodes of the ConditionalBuilder.
+// Nodes returns only the active branch — the one that Render will actually
+// produce output for. Returning both branches would mislead tree walkers
+// into believing that inactive content exists in the rendered tree, which
+// breaks the Differ's structural change detection for keyed elements.
 func (c *ConditionalBuilder) Nodes() []Node {
-	children := []Node{}
-	if c.trueNode != nil {
-		children = append(children, c.trueNode)
+	if c.condition {
+		if c.trueNode != nil {
+			return []Node{c.trueNode}
+		}
+	} else {
+		if c.falseNode != nil {
+			return []Node{c.falseNode}
+		}
 	}
-	if c.falseNode != nil {
-		children = append(children, c.falseNode)
-	}
-	return children
+	return nil
 }

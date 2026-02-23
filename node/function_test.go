@@ -1,0 +1,93 @@
+package node
+
+import (
+	"bytes"
+	"testing"
+)
+
+// TestFuncRendersOutput verifies that Func calls the function at render
+// time and produces its output.
+func TestFuncRendersOutput(t *testing.T) {
+	got := string(Func(func() Node {
+		return stub("hello")
+	}).Render())
+	if got != "hello" {
+		t.Errorf("Func should render function output, got %q", got)
+	}
+}
+
+// TestFuncNilReturn verifies that Func safely renders nothing when the
+// function returns nil.
+func TestFuncNilReturn(t *testing.T) {
+	got := string(Func(func() Node { return nil }).Render())
+	if got != "" {
+		t.Errorf("Func returning nil should render nothing, got %q", got)
+	}
+}
+
+// TestFuncNilFunction verifies that a Func with a nil function renders
+// nothing rather than panicking.
+func TestFuncNilFunction(t *testing.T) {
+	got := string(Func(nil).Render())
+	if got != "" {
+		t.Errorf("Func(nil) should render nothing, got %q", got)
+	}
+}
+
+// TestFuncRenderBuilder verifies that RenderBuilder writes the same output
+// as Render.
+func TestFuncRenderBuilder(t *testing.T) {
+	f := Func(func() Node { return stub("hello") })
+	var buf bytes.Buffer
+	f.RenderBuilder(&buf)
+	if buf.String() != "hello" {
+		t.Errorf("RenderBuilder should write %q, got %q", "hello", buf.String())
+	}
+}
+
+// TestFuncRenderToWriter verifies that Render writes to a provided writer
+// and returns nil.
+func TestFuncRenderToWriter(t *testing.T) {
+	f := Func(func() Node { return stub("hello") })
+	var buf bytes.Buffer
+	result := f.Render(&buf)
+	if result != nil {
+		t.Error("Render(writer) should return nil")
+	}
+	if buf.String() != "hello" {
+		t.Errorf("Render(writer) should write %q, got %q", "hello", buf.String())
+	}
+}
+
+// TestFuncNodesReturnsOutput verifies that Nodes evaluates the function
+// and returns its output. This ensures tree walkers see the same children
+// that Render produces.
+func TestFuncNodesReturnsOutput(t *testing.T) {
+	f := Func(func() Node { return stub("hello") })
+	nodes := f.Nodes()
+	if len(nodes) != 1 {
+		t.Fatalf("Nodes() should return 1 node, got %d", len(nodes))
+	}
+	if string(nodes[0].Render()) != "hello" {
+		t.Errorf("Nodes() should return function output, got %q", string(nodes[0].Render()))
+	}
+}
+
+// TestFuncNodesNilReturn verifies that Nodes returns empty when the
+// function returns nil.
+func TestFuncNodesNilReturn(t *testing.T) {
+	f := Func(func() Node { return nil })
+	nodes := f.Nodes()
+	if len(nodes) != 0 {
+		t.Errorf("Nodes() with nil return should be empty, got %d nodes", len(nodes))
+	}
+}
+
+// TestFuncIsDynamic verifies that function components report themselves as
+// dynamic since their output depends on a function call.
+func TestFuncIsDynamic(t *testing.T) {
+	f := Func(func() Node { return nil })
+	if !f.IsDynamic() {
+		t.Error("function component should be dynamic")
+	}
+}

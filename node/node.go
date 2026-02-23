@@ -17,6 +17,8 @@ type Node interface {
 	// when composing a tree of nodes. Parent nodes call this on their children.
 	RenderBuilder(*bytes.Buffer)
 
-	// Nodes returns the direct children of this node.
+	// Nodes returns the children that will be rendered. For conditionals
+	// this is the active branch only; for function components this is the
+	// evaluated output. Tree walkers rely on this matching Render output.
 	Nodes() []Node
 }

@@ -67,6 +67,8 @@ type Node interface {
 }
 ```
 
+`Nodes()` returns the children that will actually be rendered. For conditionals this is only the active branch; for function components this is the evaluated function output. Tree walkers (including the Differ's snapshot collector) depend on `Nodes()` matching the rendered output.
+
 HTML elements also implement `node.Element`, which extends `Node` with `SetAttribute()`, `RenderOpen()`, and `RenderClose()`. Text nodes, function components, and conditionals are **not** elements — they don't have attributes or tags.
 
 ```go
