@@ -5,19 +5,20 @@ package h3_test
 import (
 	"testing"
 
+	"github.com/jpl-au/fluent/html5/h3"
 	"github.com/jpl-au/fluent/html5/attr/autocapitalize"
 	"github.com/jpl-au/fluent/html5/attr/autocorrect"
 	"github.com/jpl-au/fluent/html5/attr/contenteditable"
 	"github.com/jpl-au/fluent/html5/attr/dir"
-	"github.com/jpl-au/fluent/html5/attr/enterkeyhint"
 	"github.com/jpl-au/fluent/html5/attr/inputmode"
-	"github.com/jpl-au/fluent/html5/attr/popover"
 	"github.com/jpl-au/fluent/html5/attr/spellcheck"
-	"github.com/jpl-au/fluent/html5/attr/translate"
 	"github.com/jpl-au/fluent/html5/attr/virtualkeyboardpolicy"
+	"github.com/jpl-au/fluent/html5/attr/enterkeyhint"
+	"github.com/jpl-au/fluent/html5/attr/popover"
+	"github.com/jpl-au/fluent/html5/attr/translate"
 	"github.com/jpl-au/fluent/html5/attr/writingsuggestions"
-	"github.com/jpl-au/fluent/html5/h3"
 )
+
 
 func TestNewCtor(t *testing.T) {
 	// Test empty element
@@ -1007,3 +1008,37 @@ func TestTextChaining(t *testing.T) {
 		t.Errorf("got %q, want %q", got, want)
 	}
 }
+
+func TestDynamicKey(t *testing.T) {
+	got := string(h3.New().Dynamic("mykey").Render())
+	want := `<h3 data-poly-key="mykey"></h3>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
+func TestDynamicNoKey(t *testing.T) {
+	el := h3.New().Dynamic()
+	if !el.IsDynamic() {
+		t.Error("element should be dynamic after calling Dynamic()")
+	}
+	if el.DynamicKey() != "_" {
+		t.Errorf("DynamicKey() should be \"_\", got %q", el.DynamicKey())
+	}
+	got := string(el.Render())
+	want := `<h3></h3>`
+	if got != want {
+		t.Errorf("Dynamic() without key should not render data-poly-key: got %q, want %q", got, want)
+	}
+}
+
+func TestNotDynamic(t *testing.T) {
+	el := h3.New()
+	if el.IsDynamic() {
+		t.Error("new element should not be dynamic")
+	}
+	if el.DynamicKey() != "" {
+		t.Errorf("DynamicKey() should be empty, got %q", el.DynamicKey())
+	}
+}
+

@@ -9,36 +9,37 @@ type InputMode []byte
 // Variables for InputMode values
 var (
 	// None No virtual keyboard. Used when custom input method is provided or when
-	// standard keyboard is not appropriate for the input method.
+// standard keyboard is not appropriate for the input method.
 	None = InputMode("none")
 
 	// Text Standard text keyboard with letters, numbers, and symbols. Default keyboard
-	// for general text input including sentences and mixed content.
+// for general text input including sentences and mixed content.
 	Text = InputMode("text")
 
 	// Tel Telephone number keyboard with digits 0-9, *, #, and other phone-related keys.
-	// Optimized for entering phone numbers and dial pad interactions.
+// Optimized for entering phone numbers and dial pad interactions.
 	Tel = InputMode("tel")
 
 	// Url URL keyboard with easy access to /, ., and common URL characters.
-	// Includes suggestions and shortcuts for web address input.
+// Includes suggestions and shortcuts for web address input.
 	Url = InputMode("url")
 
 	// Email Email keyboard with @ symbol and domain shortcuts (.com, .org, etc).
-	// Optimized for email address entry with relevant character accessibility.
+// Optimized for email address entry with relevant character accessibility.
 	Email = InputMode("email")
 
 	// Numeric Numeric keyboard with digits 0-9 and basic mathematical operators.
-	// For entering numbers, quantities, and simple numeric calculations.
+// For entering numbers, quantities, and simple numeric calculations.
 	Numeric = InputMode("numeric")
 
 	// Decimal Decimal number keyboard with digits and decimal point. Specifically designed
-	// for monetary values, measurements, and decimal number input.
+// for monetary values, measurements, and decimal number input.
 	Decimal = InputMode("decimal")
 
 	// Search Search-optimized keyboard with search action button. May include search
-	// suggestions and quick access to common search operators.
+// suggestions and quick access to common search operators.
 	Search = InputMode("search")
+
 )
 
 // Custom allows setting a custom InputMode value for edge cases or future specifications.

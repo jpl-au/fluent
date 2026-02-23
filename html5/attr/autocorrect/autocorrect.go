@@ -9,12 +9,13 @@ type AutoCorrect []byte
 // Variables for AutoCorrect values
 var (
 	// On Enable automatic text correction and spelling fixes. Browser or device will
-	// automatically correct misspelled words and apply predictive text suggestions.
+// automatically correct misspelled words and apply predictive text suggestions.
 	On = AutoCorrect("on")
 
 	// Off Disable automatic text correction. No spelling fixes or predictive corrections
-	// are applied, preserving exact user input including intentional misspellings.
+// are applied, preserving exact user input including intentional misspellings.
 	Off = AutoCorrect("off")
+
 )
 
 // Custom allows setting a custom AutoCorrect value for edge cases or future specifications.

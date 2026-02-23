@@ -9,16 +9,17 @@ type Preload []byte
 // Variables for Preload values
 var (
 	// None Do not preload any media content. Provides fastest page load time but slower media startup
-	// when user initiates playback. Best for bandwidth-constrained environments.
+// when user initiates playback. Best for bandwidth-constrained environments.
 	None = Preload("none")
 
 	// Metadata Preload only metadata (duration, dimensions, first frame). Balanced approach that enables
-	// UI setup while conserving bandwidth. Good compromise for most use cases.
+// UI setup while conserving bandwidth. Good compromise for most use cases.
 	Metadata = Preload("metadata")
 
 	// Auto Preload the entire media file. Provides fastest media startup time but slower initial page
-	// load and higher bandwidth usage. Default browser behavior.
+// load and higher bandwidth usage. Default browser behavior.
 	Auto = Preload("auto")
+
 )
 
 // Custom allows setting a custom Preload value for edge cases or future specifications.

@@ -9,12 +9,13 @@ type Popover []byte
 // Variables for Popover values
 var (
 	// Auto Automatic popover management with light dismiss behavior. Popover closes when
-	// user clicks outside, presses Escape, or opens another auto popover.
+// user clicks outside, presses Escape, or opens another auto popover.
 	Auto = Popover("auto")
 
 	// Manual Manual popover management requiring explicit close actions. Popover only closes
-	// when specifically commanded via JavaScript or popover target actions.
+// when specifically commanded via JavaScript or popover target actions.
 	Manual = Popover("manual")
+
 )
 
 // Custom allows setting a custom Popover value for edge cases or future specifications.

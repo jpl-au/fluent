@@ -9,32 +9,33 @@ type EnterKeyHint []byte
 // Variables for EnterKeyHint values
 var (
 	// Enter Standard enter key behavior. Typically shows "Enter" or return arrow icon.
-	// Default behavior for most text input without specific action context.
+// Default behavior for most text input without specific action context.
 	Enter = EnterKeyHint("enter")
 
 	// Done Indicates completion of input. Shows "Done" label and suggests finishing current
-	// task. Common for forms and input completion scenarios.
+// task. Common for forms and input completion scenarios.
 	Done = EnterKeyHint("done")
 
 	// Go Navigate to target or perform action. Shows "Go" label and suggests immediate
-	// navigation or execution. Often used for search and URL inputs.
+// navigation or execution. Often used for search and URL inputs.
 	Go = EnterKeyHint("go")
 
 	// Next Move to next input field. Shows "Next" label and suggests progression to
-	// the next form element. Useful for multi-field forms and step-by-step input.
+// the next form element. Useful for multi-field forms and step-by-step input.
 	Next = EnterKeyHint("next")
 
 	// Previous Move to previous input field. Shows "Previous" label and suggests returning
-	// to the prior form element. Less common but useful for form navigation.
+// to the prior form element. Less common but useful for form navigation.
 	Previous = EnterKeyHint("previous")
 
 	// Search Perform search operation. Shows "Search" label or magnifying glass icon.
-	// Specifically designed for search input fields and query submission.
+// Specifically designed for search input fields and query submission.
 	Search = EnterKeyHint("search")
 
 	// Send Send message or submit data. Shows "Send" label and suggests immediate
-	// transmission. Common for messaging interfaces and communication forms.
+// transmission. Common for messaging interfaces and communication forms.
 	Send = EnterKeyHint("send")
+
 )
 
 // Custom allows setting a custom EnterKeyHint value for edge cases or future specifications.

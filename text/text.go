@@ -112,9 +112,15 @@ func (tn *Node) Nodes() []node.Node {
 	return []node.Node{}
 }
 
-// IsDynamic returns true if this text content is dynamically generated (created with Text, RawText, Textf, or RawTextf).
+// IsDynamic returns true if this text content is dynamically generated (created with Text, Textf, RawText, or RawTextf).
+// Static content (created with Static) returns false, allowing JIT to pre-render it.
 func (tn *Node) IsDynamic() bool {
 	return tn.dynamic
+}
+
+// DynamicKey returns an empty string — text nodes do not carry tracking keys.
+func (tn *Node) DynamicKey() string {
+	return ""
 }
 
 // String returns the text content as a string.

@@ -9,16 +9,17 @@ type ControlsList []byte
 // Variables for ControlsList values
 var (
 	// NoDownload Hide the download button from the browser's native media controls.
-	// Prevents users from downloading the media directly from the player.
+// Prevents users from downloading the media directly from the player.
 	NoDownload = ControlsList("nodownload")
 
 	// NoFullscreen Hide the fullscreen button from the browser's native media controls.
-	// Useful when fullscreen viewing is not desired or appropriate.
+// Useful when fullscreen viewing is not desired or appropriate.
 	NoFullscreen = ControlsList("nofullscreen")
 
 	// NoRemotePlayback Hide remote playback options (casting) from the browser's native media controls.
-	// Prevents casting to devices like Chromecast or AirPlay from the player UI.
+// Prevents casting to devices like Chromecast or AirPlay from the player UI.
 	NoRemotePlayback = ControlsList("noremoteplayback")
+
 )
 
 // Custom allows setting a custom ControlsList value for edge cases or future specifications.

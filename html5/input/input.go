@@ -3,32 +3,32 @@
 package input
 
 import (
-	"bytes"
-	"github.com/jpl-au/fluent"
 	"github.com/jpl-au/fluent/html5"
+	"strconv"
+	"strings"
+	"bytes"
+	"io"
+	"github.com/jpl-au/fluent"
+	"github.com/jpl-au/fluent/node"
 	"github.com/jpl-au/fluent/html5/attr/accept"
-	"github.com/jpl-au/fluent/html5/attr/autocapitalize"
 	"github.com/jpl-au/fluent/html5/attr/autocomplete"
-	"github.com/jpl-au/fluent/html5/attr/autocorrect"
 	"github.com/jpl-au/fluent/html5/attr/capture"
+	"github.com/jpl-au/fluent/html5/attr/enctype"
+	"github.com/jpl-au/fluent/html5/attr/formmethod"
+	"github.com/jpl-au/fluent/html5/attr/inputtype"
+	"github.com/jpl-au/fluent/html5/attr/popovertargetaction"
+	"github.com/jpl-au/fluent/html5/attr/target"
+	"github.com/jpl-au/fluent/html5/attr/autocapitalize"
+	"github.com/jpl-au/fluent/html5/attr/autocorrect"
 	"github.com/jpl-au/fluent/html5/attr/contenteditable"
 	"github.com/jpl-au/fluent/html5/attr/dir"
-	"github.com/jpl-au/fluent/html5/attr/enctype"
 	"github.com/jpl-au/fluent/html5/attr/enterkeyhint"
-	"github.com/jpl-au/fluent/html5/attr/formmethod"
 	"github.com/jpl-au/fluent/html5/attr/inputmode"
-	"github.com/jpl-au/fluent/html5/attr/inputtype"
 	"github.com/jpl-au/fluent/html5/attr/popover"
-	"github.com/jpl-au/fluent/html5/attr/popovertargetaction"
 	"github.com/jpl-au/fluent/html5/attr/spellcheck"
-	"github.com/jpl-au/fluent/html5/attr/target"
 	"github.com/jpl-au/fluent/html5/attr/translate"
 	"github.com/jpl-au/fluent/html5/attr/virtualkeyboardpolicy"
 	"github.com/jpl-au/fluent/html5/attr/writingsuggestions"
-	"github.com/jpl-au/fluent/node"
-	"io"
-	"strconv"
-	"strings"
 )
 
 // Element is an exported alias for the private element type
@@ -36,38 +36,39 @@ type Element = element
 
 // element represents the <input> HTML element
 type element struct {
-	accept              accept.Accept
-	autocomplete        autocomplete.AutoComplete
-	capture             capture.Capture
-	enctype             enctype.EncType
-	formmethod          formmethod.FormMethod
-	inputType           inputtype.InputType
-	nodes               []node.Node
+	accept accept.Accept
+	autocomplete autocomplete.AutoComplete
+	capture capture.Capture
+	enctype enctype.EncType
+	formmethod formmethod.FormMethod
+	inputType inputtype.InputType
+	nodes []node.Node
 	popovertargetaction popovertargetaction.PopoverTargetAction
-	target              target.Target
-	class               string
-	id                  string
-	name                string
-	placeholder         string
-	src                 string
-	value               string
-	attr                *[]node.Attribute
-	ea                  *html5.EventAttributes
-	ga                  *html5.GlobalAttributes
-	bufferhint          int
-	maxlength           int
-	tabindex            int
-	autofocus           bool
-	checked             bool
-	disabled            bool
-	draggable           bool
-	formnovalidate      bool
-	hidden              bool
-	inert               bool
-	itemscope           bool
-	multiple            bool
-	readonly            bool
-	required            bool
+	target target.Target
+	class string
+	dynamic string
+	id string
+	name string
+	placeholder string
+	src string
+	value string
+	attr *[]node.Attribute
+	ea *html5.EventAttributes
+	ga *html5.GlobalAttributes
+	bufferhint int
+	maxlength int
+	tabindex int
+	autofocus bool
+	checked bool
+	disabled bool
+	draggable bool
+	formnovalidate bool
+	hidden bool
+	inert bool
+	itemscope bool
+	multiple bool
+	readonly bool
+	required bool
 }
 
 // global returns the GlobalAttributes, initializing if nil
@@ -99,8 +100,8 @@ func New() *element {
 func Text(name string, value string) *element {
 	return &element{
 		inputType: inputtype.Text,
-		name:      name,
-		value:     value,
+		name: name,
+		value: value,
 	}
 }
 
@@ -110,7 +111,7 @@ func Text(name string, value string) *element {
 func Password(name string) *element {
 	return &element{
 		inputType: inputtype.Password,
-		name:      name,
+		name: name,
 	}
 }
 
@@ -120,7 +121,7 @@ func Password(name string) *element {
 func Email(name string) *element {
 	return &element{
 		inputType: inputtype.Email,
-		name:      name,
+		name: name,
 	}
 }
 
@@ -130,7 +131,7 @@ func Email(name string) *element {
 func Search(name string) *element {
 	return &element{
 		inputType: inputtype.Search,
-		name:      name,
+		name: name,
 	}
 }
 
@@ -140,7 +141,7 @@ func Search(name string) *element {
 func Tel(name string) *element {
 	return &element{
 		inputType: inputtype.Tel,
-		name:      name,
+		name: name,
 	}
 }
 
@@ -150,7 +151,7 @@ func Tel(name string) *element {
 func URL(name string) *element {
 	return &element{
 		inputType: inputtype.Url,
-		name:      name,
+		name: name,
 	}
 }
 
@@ -160,7 +161,7 @@ func URL(name string) *element {
 func Number(name string) *element {
 	return &element{
 		inputType: inputtype.Number,
-		name:      name,
+		name: name,
 	}
 }
 
@@ -170,7 +171,7 @@ func Number(name string) *element {
 func Range(name string) *element {
 	return &element{
 		inputType: inputtype.Range,
-		name:      name,
+		name: name,
 	}
 }
 
@@ -180,7 +181,7 @@ func Range(name string) *element {
 func Date(name string) *element {
 	return &element{
 		inputType: inputtype.Date,
-		name:      name,
+		name: name,
 	}
 }
 
@@ -190,7 +191,7 @@ func Date(name string) *element {
 func Time(name string) *element {
 	return &element{
 		inputType: inputtype.Time,
-		name:      name,
+		name: name,
 	}
 }
 
@@ -200,7 +201,7 @@ func Time(name string) *element {
 func DateTimeLocal(name string) *element {
 	return &element{
 		inputType: inputtype.DatetimeLocal,
-		name:      name,
+		name: name,
 	}
 }
 
@@ -210,7 +211,7 @@ func DateTimeLocal(name string) *element {
 func Month(name string) *element {
 	return &element{
 		inputType: inputtype.Month,
-		name:      name,
+		name: name,
 	}
 }
 
@@ -220,7 +221,7 @@ func Month(name string) *element {
 func Week(name string) *element {
 	return &element{
 		inputType: inputtype.Week,
-		name:      name,
+		name: name,
 	}
 }
 
@@ -230,8 +231,8 @@ func Week(name string) *element {
 func Checkbox(name string, value string) *element {
 	return &element{
 		inputType: inputtype.Checkbox,
-		name:      name,
-		value:     value,
+		name: name,
+		value: value,
 	}
 }
 
@@ -241,8 +242,8 @@ func Checkbox(name string, value string) *element {
 func Radio(name string, value string) *element {
 	return &element{
 		inputType: inputtype.Radio,
-		name:      name,
-		value:     value,
+		name: name,
+		value: value,
 	}
 }
 
@@ -252,7 +253,7 @@ func Radio(name string, value string) *element {
 func File(name string) *element {
 	return &element{
 		inputType: inputtype.File,
-		name:      name,
+		name: name,
 	}
 }
 
@@ -262,7 +263,7 @@ func File(name string) *element {
 func Submit(value string) *element {
 	return &element{
 		inputType: inputtype.Submit,
-		value:     value,
+		value: value,
 	}
 }
 
@@ -272,7 +273,7 @@ func Submit(value string) *element {
 func Button(value string) *element {
 	return &element{
 		inputType: inputtype.Button,
-		value:     value,
+		value: value,
 	}
 }
 
@@ -282,7 +283,7 @@ func Button(value string) *element {
 func Reset(value string) *element {
 	return &element{
 		inputType: inputtype.Reset,
-		value:     value,
+		value: value,
 	}
 }
 
@@ -292,8 +293,8 @@ func Reset(value string) *element {
 func Hidden(name string, value string) *element {
 	return &element{
 		inputType: inputtype.Hidden,
-		name:      name,
-		value:     value,
+		name: name,
+		value: value,
 	}
 }
 
@@ -303,7 +304,7 @@ func Hidden(name string, value string) *element {
 func Color(name string) *element {
 	return &element{
 		inputType: inputtype.Color,
-		name:      name,
+		name: name,
 	}
 }
 
@@ -313,10 +314,11 @@ func Color(name string) *element {
 func Image(name string, src string) *element {
 	return &element{
 		inputType: inputtype.Image,
-		name:      name,
-		src:       src,
+		name: name,
+		src: src,
 	}
 }
+
 
 // Name Specifies the name of the input control, which is used to identify the field when form data is submitted to the server. The name attribute is essential for form processing and must be unique within the form context (except for radio buttons that should share the same name to form a group). This value becomes the key in form data when submitted.
 func (e *element) Name(name string) *element {
@@ -645,7 +647,7 @@ func (e *element) AriaLabel(label string) *element {
 // readers and other accessibility tools understand and interact with dynamic web content. Essential for creating
 // accessible web applications.
 func (e *element) SetAria(key string, value string) *element {
-	e.SetAttribute("aria-"+key, value)
+	e.SetAttribute("aria-" + key, value)
 	return e
 }
 
@@ -688,7 +690,7 @@ func (e *element) ContentEditable(value contenteditable.ContentEditable) *elemen
 // via the HTMLElement interface of the element the attribute is set on. The HTMLElement.dataset property gives
 // access to them.
 func (e *element) SetData(key string, value string) *element {
-	e.SetAttribute("data-"+key, value)
+	e.SetAttribute("data-" + key, value)
 	return e
 }
 
@@ -1385,6 +1387,30 @@ func (e *element) Replace(nodes ...node.Node) *element {
 	return e
 }
 
+// Dynamic marks this element for reactive tracking by the poly diff engine.
+// The key identifies this element across renders so the diff engine can detect
+// changes and send targeted patches. Keys must be unique within a render tree.
+// Calling without a key marks the element as dynamic without a tracking key.
+func (e *element) Dynamic(key ...string) *element {
+	if len(key) > 0 {
+		e.dynamic = key[0]
+	} else {
+		e.dynamic = "_"
+	}
+	return e
+}
+
+// IsDynamic reports whether this element has been marked for reactive tracking.
+func (e *element) IsDynamic() bool {
+	return e.dynamic != ""
+}
+
+// DynamicKey returns the developer-assigned key for diff engine tracking.
+// Returns an empty string if the element has not been marked as dynamic.
+func (e *element) DynamicKey() string {
+	return e.dynamic
+}
+
 // Node interface implementation
 
 // BufferHint sets or gets the buffer size hint for pool allocation.
@@ -1531,6 +1557,12 @@ func (e *element) AttributeBuilder(buf *bytes.Buffer) {
 		buf.Write(html5.AttrItemScope)
 	}
 
+	if e.dynamic != "" && e.dynamic != "_" {
+		buf.WriteString(` data-poly-key="`)
+		buf.WriteString(e.dynamic)
+		buf.Write(html5.MarkupQuote)
+	}
+
 	if e.attr != nil {
 		for _, attr := range *e.attr {
 			buf.Write(html5.MarkupSpace)
@@ -1583,3 +1615,4 @@ func (e *element) Attributes() *[]node.Attribute {
 	}
 	return e.attr
 }
+

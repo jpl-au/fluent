@@ -9,15 +9,15 @@ import (
 
 // EventAttributes represents event HTML attributes
 type EventAttributes struct {
-	OnClick   string
-	OnChange  string
-	OnInput   string
-	OnFocus   string
-	OnBlur    string
-	OnSubmit  string
+	OnClick string
+	OnChange string
+	OnInput string
+	OnFocus string
+	OnBlur string
+	OnSubmit string
 	OnKeyDown string
-	OnKeyUp   string
-	attr      *[]node.Attribute
+	OnKeyUp string
+	attr *[]node.Attribute
 }
 
 // SetAttribute sets an attribute in the event attributes slice

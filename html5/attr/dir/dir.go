@@ -9,16 +9,17 @@ type Dir []byte
 // Variables for Dir values
 var (
 	// LeftToRight Left-to-right text direction. Default for most languages including English, Spanish,
-	// French, and other Latin-based scripts. Text flows from left edge to right.
+// French, and other Latin-based scripts. Text flows from left edge to right.
 	LeftToRight = Dir("ltr")
 
 	// RightToLeft Right-to-left text direction. Required for languages like Arabic, Hebrew, Persian,
-	// and Urdu. Text flows from right edge to left with appropriate alignment.
+// and Urdu. Text flows from right edge to left with appropriate alignment.
 	RightToLeft = Dir("rtl")
 
 	// Auto Automatic direction detection based on text content. Browser analyzes text to
-	// determine appropriate direction, useful for mixed-language content.
+// determine appropriate direction, useful for mixed-language content.
 	Auto = Dir("auto")
+
 )
 
 // Custom allows setting a custom Dir value for edge cases or future specifications.

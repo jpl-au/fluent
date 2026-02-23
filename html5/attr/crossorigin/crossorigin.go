@@ -9,12 +9,13 @@ type CrossOrigin []byte
 // Variables for CrossOrigin values
 var (
 	// Anonymous Send cross-origin requests without credentials (cookies, auth headers excluded). Safe for
-	// public CDN resources and enables canvas pixel access for CORS-enabled images.
+// public CDN resources and enables canvas pixel access for CORS-enabled images.
 	Anonymous = CrossOrigin("anonymous")
 
 	// UseCredentials Send cross-origin requests with credentials included. Server must explicitly allow with
-	// Access-Control-Allow-Credentials: true header for this to work properly.
+// Access-Control-Allow-Credentials: true header for this to work properly.
 	UseCredentials = CrossOrigin("use-credentials")
+
 )
 
 // Custom allows setting a custom CrossOrigin value for edge cases or future specifications.

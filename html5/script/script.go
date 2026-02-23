@@ -3,30 +3,30 @@
 package script
 
 import (
-	"bytes"
-	"fmt"
-	"github.com/jpl-au/fluent"
 	"github.com/jpl-au/fluent/html5"
+	"strings"
+	"github.com/jpl-au/fluent/text"
+	"fmt"
+	"strconv"
+	"bytes"
+	"io"
+	"github.com/jpl-au/fluent"
+	"github.com/jpl-au/fluent/node"
+	"github.com/jpl-au/fluent/html5/attr/blocking"
+	"github.com/jpl-au/fluent/html5/attr/crossorigin"
+	"github.com/jpl-au/fluent/html5/attr/fetchpriority"
+	"github.com/jpl-au/fluent/html5/attr/referrerpolicy"
 	"github.com/jpl-au/fluent/html5/attr/autocapitalize"
 	"github.com/jpl-au/fluent/html5/attr/autocorrect"
-	"github.com/jpl-au/fluent/html5/attr/blocking"
 	"github.com/jpl-au/fluent/html5/attr/contenteditable"
-	"github.com/jpl-au/fluent/html5/attr/crossorigin"
 	"github.com/jpl-au/fluent/html5/attr/dir"
 	"github.com/jpl-au/fluent/html5/attr/enterkeyhint"
-	"github.com/jpl-au/fluent/html5/attr/fetchpriority"
 	"github.com/jpl-au/fluent/html5/attr/inputmode"
 	"github.com/jpl-au/fluent/html5/attr/popover"
-	"github.com/jpl-au/fluent/html5/attr/referrerpolicy"
 	"github.com/jpl-au/fluent/html5/attr/spellcheck"
 	"github.com/jpl-au/fluent/html5/attr/translate"
 	"github.com/jpl-au/fluent/html5/attr/virtualkeyboardpolicy"
 	"github.com/jpl-au/fluent/html5/attr/writingsuggestions"
-	"github.com/jpl-au/fluent/node"
-	"github.com/jpl-au/fluent/text"
-	"io"
-	"strconv"
-	"strings"
 )
 
 // Element is an exported alias for the private element type
@@ -34,30 +34,31 @@ type Element = element
 
 // element represents the <script> HTML element
 type element struct {
-	blocking       blocking.Blocking
-	crossorigin    crossorigin.CrossOrigin
-	fetchpriority  fetchpriority.FetchPriority
-	nodes          []node.Node
+	blocking blocking.Blocking
+	crossorigin crossorigin.CrossOrigin
+	fetchpriority fetchpriority.FetchPriority
+	nodes []node.Node
 	referrerpolicy referrerpolicy.ReferrerPolicy
-	class          string
-	id             string
-	integrity      string
-	nonce          string
-	scriptType     string
-	src            string
-	attr           *[]node.Attribute
-	ea             *html5.EventAttributes
-	ga             *html5.GlobalAttributes
-	bufferhint     int
-	tabindex       int
-	async          bool
-	autofocus      bool
-	deferred       bool
-	draggable      bool
-	hidden         bool
-	inert          bool
-	itemscope      bool
-	noModule       bool
+	class string
+	dynamic string
+	id string
+	integrity string
+	nonce string
+	scriptType string
+	src string
+	attr *[]node.Attribute
+	ea *html5.EventAttributes
+	ga *html5.GlobalAttributes
+	bufferhint int
+	tabindex int
+	async bool
+	autofocus bool
+	deferred bool
+	draggable bool
+	hidden bool
+	inert bool
+	itemscope bool
+	noModule bool
 }
 
 // global returns the GlobalAttributes, initializing if nil
@@ -135,7 +136,7 @@ func RawTextf(format string, args ...any) *element {
 // Renders: <script src="app.js" type="module"></script>
 func Module(src string) *element {
 	return &element{
-		src:        src,
+		src: src,
 		scriptType: "module",
 	}
 }
@@ -145,7 +146,7 @@ func Module(src string) *element {
 // Renders: <script src="script.js" type="text/javascript"></script>
 func JavaScript(src string) *element {
 	return &element{
-		src:        src,
+		src: src,
 		scriptType: "text/javascript",
 	}
 }
@@ -155,10 +156,11 @@ func JavaScript(src string) *element {
 // Renders: <script type="application/json">{"key": "value"}</script>
 func JSON(data string) *element {
 	return &element{
-		nodes:      []node.Node{text.RawText(data)},
+		nodes: []node.Node{text.RawText(data)},
 		scriptType: "application/json",
 	}
 }
+
 
 // Src Specifies the URL of an external script file to be loaded and executed
 func (e *element) Src(url string) *element {
@@ -340,7 +342,7 @@ func (e *element) AriaLabel(label string) *element {
 // readers and other accessibility tools understand and interact with dynamic web content. Essential for creating
 // accessible web applications.
 func (e *element) SetAria(key string, value string) *element {
-	e.SetAttribute("aria-"+key, value)
+	e.SetAttribute("aria-" + key, value)
 	return e
 }
 
@@ -383,7 +385,7 @@ func (e *element) ContentEditable(value contenteditable.ContentEditable) *elemen
 // via the HTMLElement interface of the element the attribute is set on. The HTMLElement.dataset property gives
 // access to them.
 func (e *element) SetData(key string, value string) *element {
-	e.SetAttribute("data-"+key, value)
+	e.SetAttribute("data-" + key, value)
 	return e
 }
 
@@ -1073,6 +1075,30 @@ func (e *element) Replace(nodes ...node.Node) *element {
 	return e
 }
 
+// Dynamic marks this element for reactive tracking by the poly diff engine.
+// The key identifies this element across renders so the diff engine can detect
+// changes and send targeted patches. Keys must be unique within a render tree.
+// Calling without a key marks the element as dynamic without a tracking key.
+func (e *element) Dynamic(key ...string) *element {
+	if len(key) > 0 {
+		e.dynamic = key[0]
+	} else {
+		e.dynamic = "_"
+	}
+	return e
+}
+
+// IsDynamic reports whether this element has been marked for reactive tracking.
+func (e *element) IsDynamic() bool {
+	return e.dynamic != ""
+}
+
+// DynamicKey returns the developer-assigned key for diff engine tracking.
+// Returns an empty string if the element has not been marked as dynamic.
+func (e *element) DynamicKey() string {
+	return e.dynamic
+}
+
 // Text adds escaped text content to the element
 func (e *element) Text(content string) *element {
 	e.nodes = append(e.nodes, text.Text(content))
@@ -1215,6 +1241,12 @@ func (e *element) AttributeBuilder(buf *bytes.Buffer) {
 		buf.Write(html5.AttrItemScope)
 	}
 
+	if e.dynamic != "" && e.dynamic != "_" {
+		buf.WriteString(` data-poly-key="`)
+		buf.WriteString(e.dynamic)
+		buf.Write(html5.MarkupQuote)
+	}
+
 	if e.attr != nil {
 		for _, attr := range *e.attr {
 			buf.Write(html5.MarkupSpace)
@@ -1273,3 +1305,4 @@ func (e *element) Attributes() *[]node.Attribute {
 	}
 	return e.attr
 }
+

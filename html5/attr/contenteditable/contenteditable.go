@@ -9,16 +9,17 @@ type ContentEditable []byte
 // Variables for ContentEditable values
 var (
 	// True Element content is editable. Users can modify text, add formatting, and interact
-	// with content as if it were a text editor. Supports rich text editing.
+// with content as if it were a text editor. Supports rich text editing.
 	True = ContentEditable("true")
 
 	// False Element content is not editable (default). Content is read-only and users cannot
-	// modify it directly through the interface.
+// modify it directly through the interface.
 	False = ContentEditable("false")
 
 	// PlaintextOnly Element content is editable but only as plain text. Rich formatting is stripped
-	// and only plain text editing is allowed, preventing HTML injection.
+// and only plain text editing is allowed, preventing HTML injection.
 	PlaintextOnly = ContentEditable("plaintext-only")
+
 )
 
 // Custom allows setting a custom ContentEditable value for edge cases or future specifications.

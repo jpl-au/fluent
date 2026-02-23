@@ -9,12 +9,13 @@ type WritingSuggestions []byte
 // Variables for WritingSuggestions values
 var (
 	// True Enable browser writing suggestions including spelling corrections, grammar checks,
-	// and predictive text. Improves text quality with automated assistance.
+// and predictive text. Improves text quality with automated assistance.
 	True = WritingSuggestions("true")
 
 	// False Disable browser writing suggestions and corrections. No automated assistance is
-	// provided, preserving user input exactly as typed without modifications.
+// provided, preserving user input exactly as typed without modifications.
 	False = WritingSuggestions("false")
+
 )
 
 // Custom allows setting a custom WritingSuggestions value for edge cases or future specifications.

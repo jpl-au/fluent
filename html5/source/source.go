@@ -3,9 +3,14 @@
 package source
 
 import (
-	"bytes"
-	"github.com/jpl-au/fluent"
 	"github.com/jpl-au/fluent/html5"
+	"strings"
+	"strconv"
+	"bytes"
+	"io"
+	"github.com/jpl-au/fluent"
+	"github.com/jpl-au/fluent/node"
+	"github.com/jpl-au/fluent/html5/attr/sizes"
 	"github.com/jpl-au/fluent/html5/attr/autocapitalize"
 	"github.com/jpl-au/fluent/html5/attr/autocorrect"
 	"github.com/jpl-au/fluent/html5/attr/contenteditable"
@@ -13,15 +18,10 @@ import (
 	"github.com/jpl-au/fluent/html5/attr/enterkeyhint"
 	"github.com/jpl-au/fluent/html5/attr/inputmode"
 	"github.com/jpl-au/fluent/html5/attr/popover"
-	"github.com/jpl-au/fluent/html5/attr/sizes"
 	"github.com/jpl-au/fluent/html5/attr/spellcheck"
 	"github.com/jpl-au/fluent/html5/attr/translate"
 	"github.com/jpl-au/fluent/html5/attr/virtualkeyboardpolicy"
 	"github.com/jpl-au/fluent/html5/attr/writingsuggestions"
-	"github.com/jpl-au/fluent/node"
-	"io"
-	"strconv"
-	"strings"
 )
 
 // Element is an exported alias for the private element type
@@ -29,26 +29,27 @@ type Element = element
 
 // element represents the <source> HTML element
 type element struct {
-	nodes      []node.Node
-	sizes      sizes.Size
-	class      string
-	id         string
-	media      string
-	mime       string
-	src        string
-	srcset     string
-	attr       *[]node.Attribute
-	ea         *html5.EventAttributes
-	ga         *html5.GlobalAttributes
+	nodes []node.Node
+	sizes sizes.Size
+	class string
+	dynamic string
+	id string
+	media string
+	mime string
+	src string
+	srcset string
+	attr *[]node.Attribute
+	ea *html5.EventAttributes
+	ga *html5.GlobalAttributes
 	bufferhint int
-	height     int
-	tabindex   int
-	width      int
-	autofocus  bool
-	draggable  bool
-	hidden     bool
-	inert      bool
-	itemscope  bool
+	height int
+	tabindex int
+	width int
+	autofocus bool
+	draggable bool
+	hidden bool
+	inert bool
+	itemscope bool
 }
 
 // global returns the GlobalAttributes, initializing if nil
@@ -79,7 +80,7 @@ func New() *element {
 // Renders: <source src="movie.mp4" type="video/mp4" />
 func VideoMP4(src string) *element {
 	return &element{
-		src:  src,
+		src: src,
 		mime: "video/mp4",
 	}
 }
@@ -89,7 +90,7 @@ func VideoMP4(src string) *element {
 // Renders: <source src="movie.webm" type="video/webm" />
 func VideoWebM(src string) *element {
 	return &element{
-		src:  src,
+		src: src,
 		mime: "video/webm",
 	}
 }
@@ -99,7 +100,7 @@ func VideoWebM(src string) *element {
 // Renders: <source src="movie.ogv" type="video/ogg" />
 func VideoOgg(src string) *element {
 	return &element{
-		src:  src,
+		src: src,
 		mime: "video/ogg",
 	}
 }
@@ -109,7 +110,7 @@ func VideoOgg(src string) *element {
 // Renders: <source src="song.mp3" type="audio/mpeg" />
 func AudioMP3(src string) *element {
 	return &element{
-		src:  src,
+		src: src,
 		mime: "audio/mpeg",
 	}
 }
@@ -119,7 +120,7 @@ func AudioMP3(src string) *element {
 // Renders: <source src="song.ogg" type="audio/ogg" />
 func AudioOgg(src string) *element {
 	return &element{
-		src:  src,
+		src: src,
 		mime: "audio/ogg",
 	}
 }
@@ -129,7 +130,7 @@ func AudioOgg(src string) *element {
 // Renders: <source src="sound.wav" type="audio/wav" />
 func AudioWav(src string) *element {
 	return &element{
-		src:  src,
+		src: src,
 		mime: "audio/wav",
 	}
 }
@@ -139,7 +140,7 @@ func AudioWav(src string) *element {
 // Renders: <source type="image/webp" srcset="image.webp" />
 func ImageWebP(srcset string) *element {
 	return &element{
-		mime:   "image/webp",
+		mime: "image/webp",
 		srcset: srcset,
 	}
 }
@@ -149,10 +150,11 @@ func ImageWebP(srcset string) *element {
 // Renders: <source type="image/avif" srcset="image.avif" />
 func ImageAVIF(srcset string) *element {
 	return &element{
-		mime:   "image/avif",
+		mime: "image/avif",
 		srcset: srcset,
 	}
 }
+
 
 // Src Specifies the URL of the media resource for <audio> and <video> elements. This can be an absolute URL or a
 // relative path to the media file. When the <source> element is used inside a <picture> element, this
@@ -346,7 +348,7 @@ func (e *element) AriaLabel(label string) *element {
 // readers and other accessibility tools understand and interact with dynamic web content. Essential for creating
 // accessible web applications.
 func (e *element) SetAria(key string, value string) *element {
-	e.SetAttribute("aria-"+key, value)
+	e.SetAttribute("aria-" + key, value)
 	return e
 }
 
@@ -389,7 +391,7 @@ func (e *element) ContentEditable(value contenteditable.ContentEditable) *elemen
 // via the HTMLElement interface of the element the attribute is set on. The HTMLElement.dataset property gives
 // access to them.
 func (e *element) SetData(key string, value string) *element {
-	e.SetAttribute("data-"+key, value)
+	e.SetAttribute("data-" + key, value)
 	return e
 }
 
@@ -1086,6 +1088,30 @@ func (e *element) Replace(nodes ...node.Node) *element {
 	return e
 }
 
+// Dynamic marks this element for reactive tracking by the poly diff engine.
+// The key identifies this element across renders so the diff engine can detect
+// changes and send targeted patches. Keys must be unique within a render tree.
+// Calling without a key marks the element as dynamic without a tracking key.
+func (e *element) Dynamic(key ...string) *element {
+	if len(key) > 0 {
+		e.dynamic = key[0]
+	} else {
+		e.dynamic = "_"
+	}
+	return e
+}
+
+// IsDynamic reports whether this element has been marked for reactive tracking.
+func (e *element) IsDynamic() bool {
+	return e.dynamic != ""
+}
+
+// DynamicKey returns the developer-assigned key for diff engine tracking.
+// Returns an empty string if the element has not been marked as dynamic.
+func (e *element) DynamicKey() string {
+	return e.dynamic
+}
+
 // Node interface implementation
 
 // BufferHint sets or gets the buffer size hint for pool allocation.
@@ -1184,6 +1210,12 @@ func (e *element) AttributeBuilder(buf *bytes.Buffer) {
 		buf.Write(html5.AttrItemScope)
 	}
 
+	if e.dynamic != "" && e.dynamic != "_" {
+		buf.WriteString(` data-poly-key="`)
+		buf.WriteString(e.dynamic)
+		buf.Write(html5.MarkupQuote)
+	}
+
 	if e.attr != nil {
 		for _, attr := range *e.attr {
 			buf.Write(html5.MarkupSpace)
@@ -1236,3 +1268,4 @@ func (e *element) Attributes() *[]node.Attribute {
 	}
 	return e.attr
 }
+

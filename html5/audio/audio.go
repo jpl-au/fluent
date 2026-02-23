@@ -3,28 +3,28 @@
 package audio
 
 import (
-	"bytes"
-	"fmt"
-	"github.com/jpl-au/fluent"
 	"github.com/jpl-au/fluent/html5"
+	"strings"
+	"github.com/jpl-au/fluent/text"
+	"fmt"
+	"strconv"
+	"bytes"
+	"io"
+	"github.com/jpl-au/fluent"
+	"github.com/jpl-au/fluent/node"
+	"github.com/jpl-au/fluent/html5/attr/crossorigin"
+	"github.com/jpl-au/fluent/html5/attr/preload"
 	"github.com/jpl-au/fluent/html5/attr/autocapitalize"
 	"github.com/jpl-au/fluent/html5/attr/autocorrect"
 	"github.com/jpl-au/fluent/html5/attr/contenteditable"
-	"github.com/jpl-au/fluent/html5/attr/crossorigin"
 	"github.com/jpl-au/fluent/html5/attr/dir"
 	"github.com/jpl-au/fluent/html5/attr/enterkeyhint"
 	"github.com/jpl-au/fluent/html5/attr/inputmode"
 	"github.com/jpl-au/fluent/html5/attr/popover"
-	"github.com/jpl-au/fluent/html5/attr/preload"
 	"github.com/jpl-au/fluent/html5/attr/spellcheck"
 	"github.com/jpl-au/fluent/html5/attr/translate"
 	"github.com/jpl-au/fluent/html5/attr/virtualkeyboardpolicy"
 	"github.com/jpl-au/fluent/html5/attr/writingsuggestions"
-	"github.com/jpl-au/fluent/node"
-	"github.com/jpl-au/fluent/text"
-	"io"
-	"strconv"
-	"strings"
 )
 
 // Element is an exported alias for the private element type
@@ -32,28 +32,29 @@ type Element = element
 
 // element represents the <audio> HTML element
 type element struct {
-	crossorigin           crossorigin.CrossOrigin
-	nodes                 []node.Node
-	preload               preload.Preload
-	class                 string
-	controlsList          string
-	id                    string
-	src                   string
-	attr                  *[]node.Attribute
-	ea                    *html5.EventAttributes
-	ga                    *html5.GlobalAttributes
-	bufferhint            int
-	tabindex              int
-	autofocus             bool
-	autoplay              bool
-	controls              bool
+	crossorigin crossorigin.CrossOrigin
+	nodes []node.Node
+	preload preload.Preload
+	class string
+	controlsList string
+	dynamic string
+	id string
+	src string
+	attr *[]node.Attribute
+	ea *html5.EventAttributes
+	ga *html5.GlobalAttributes
+	bufferhint int
+	tabindex int
+	autofocus bool
+	autoplay bool
+	controls bool
 	disableRemotePlayback bool
-	draggable             bool
-	hidden                bool
-	inert                 bool
-	itemscope             bool
-	loop                  bool
-	muted                 bool
+	draggable bool
+	hidden bool
+	inert bool
+	itemscope bool
+	loop bool
+	muted bool
 }
 
 // global returns the GlobalAttributes, initializing if nil
@@ -104,7 +105,7 @@ func Sources(sources ...node.Node) *element {
 // Renders: <audio preload="auto"></audio>
 func PreloadAuto(nodes ...node.Node) *element {
 	return &element{
-		nodes:   nodes,
+		nodes: nodes,
 		preload: preload.Auto,
 	}
 }
@@ -114,7 +115,7 @@ func PreloadAuto(nodes ...node.Node) *element {
 // Renders: <audio preload="metadata"></audio>
 func PreloadMetadata(nodes ...node.Node) *element {
 	return &element{
-		nodes:   nodes,
+		nodes: nodes,
 		preload: preload.Metadata,
 	}
 }
@@ -124,10 +125,11 @@ func PreloadMetadata(nodes ...node.Node) *element {
 // Renders: <audio preload="none"></audio>
 func PreloadNone(nodes ...node.Node) *element {
 	return &element{
-		nodes:   nodes,
+		nodes: nodes,
 		preload: preload.None,
 	}
 }
+
 
 // Autoplay A Boolean attribute that specifies the audio will automatically begin playback as soon as it can do so.
 func (e *element) Autoplay() *element {
@@ -294,7 +296,7 @@ func (e *element) AriaLabel(label string) *element {
 // readers and other accessibility tools understand and interact with dynamic web content. Essential for creating
 // accessible web applications.
 func (e *element) SetAria(key string, value string) *element {
-	e.SetAttribute("aria-"+key, value)
+	e.SetAttribute("aria-" + key, value)
 	return e
 }
 
@@ -337,7 +339,7 @@ func (e *element) ContentEditable(value contenteditable.ContentEditable) *elemen
 // via the HTMLElement interface of the element the attribute is set on. The HTMLElement.dataset property gives
 // access to them.
 func (e *element) SetData(key string, value string) *element {
-	e.SetAttribute("data-"+key, value)
+	e.SetAttribute("data-" + key, value)
 	return e
 }
 
@@ -1034,6 +1036,30 @@ func (e *element) Replace(nodes ...node.Node) *element {
 	return e
 }
 
+// Dynamic marks this element for reactive tracking by the poly diff engine.
+// The key identifies this element across renders so the diff engine can detect
+// changes and send targeted patches. Keys must be unique within a render tree.
+// Calling without a key marks the element as dynamic without a tracking key.
+func (e *element) Dynamic(key ...string) *element {
+	if len(key) > 0 {
+		e.dynamic = key[0]
+	} else {
+		e.dynamic = "_"
+	}
+	return e
+}
+
+// IsDynamic reports whether this element has been marked for reactive tracking.
+func (e *element) IsDynamic() bool {
+	return e.dynamic != ""
+}
+
+// DynamicKey returns the developer-assigned key for diff engine tracking.
+// Returns an empty string if the element has not been marked as dynamic.
+func (e *element) DynamicKey() string {
+	return e.dynamic
+}
+
 // Text adds escaped text content to the element
 func (e *element) Text(content string) *element {
 	e.nodes = append(e.nodes, text.Text(content))
@@ -1162,6 +1188,12 @@ func (e *element) AttributeBuilder(buf *bytes.Buffer) {
 		buf.Write(html5.AttrItemScope)
 	}
 
+	if e.dynamic != "" && e.dynamic != "_" {
+		buf.WriteString(` data-poly-key="`)
+		buf.WriteString(e.dynamic)
+		buf.Write(html5.MarkupQuote)
+	}
+
 	if e.attr != nil {
 		for _, attr := range *e.attr {
 			buf.Write(html5.MarkupSpace)
@@ -1220,3 +1252,4 @@ func (e *element) Attributes() *[]node.Attribute {
 	}
 	return e.attr
 }
+

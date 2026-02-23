@@ -9,20 +9,21 @@ type Target []byte
 // Variables for Target values
 var (
 	// Self Opens in the same frame/window (default behavior). Content loads in the current browsing context
-	// without creating new windows or tabs.
+// without creating new windows or tabs.
 	Self = Target("_self")
 
 	// Blank Opens in a new window or tab. Always use with rel='noopener noreferrer' for security when
-	// linking to external sites to prevent potential security vulnerabilities.
+// linking to external sites to prevent potential security vulnerabilities.
 	Blank = Target("_blank")
 
 	// Parent Opens in the parent frame. If no parent frame exists, behaves exactly like _self and loads
-	// in the current context.
+// in the current context.
 	Parent = Target("_parent")
 
 	// Top Opens in the top-level frame, breaking out of all nested frames. Loads content in the
-	// top-most browsing context.
+// top-most browsing context.
 	Top = Target("_top")
+
 )
 
 // Custom allows setting a custom Target value for edge cases or future specifications.

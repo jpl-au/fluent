@@ -9,9 +9,10 @@ type Blocking []byte
 // Variables for Blocking values
 var (
 	// Render Block rendering until resource is loaded. For stylesheets, this ensures the
-	// stylesheet is applied before any content is rendered, preventing flash of
-	// unstyled content (FOUC).
+// stylesheet is applied before any content is rendered, preventing flash of
+// unstyled content (FOUC).
 	Render = Blocking("render")
+
 )
 
 // Custom allows setting a custom Blocking value for edge cases or future specifications.

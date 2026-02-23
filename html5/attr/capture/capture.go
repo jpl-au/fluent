@@ -9,12 +9,13 @@ type Capture []byte
 // Variables for Capture values
 var (
 	// User Use front-facing camera (user-facing). Typically used for selfies, video calls,
-	// and user-focused content capture on mobile devices.
+// and user-focused content capture on mobile devices.
 	User = Capture("user")
 
 	// Environment Use rear-facing camera (environment-facing). Default camera for photographing
-	// surroundings, documents, and general content capture on mobile devices.
+// surroundings, documents, and general content capture on mobile devices.
 	Environment = Capture("environment")
+
 )
 
 // Custom allows setting a custom Capture value for edge cases or future specifications.

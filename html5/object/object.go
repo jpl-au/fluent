@@ -3,10 +3,15 @@
 package object
 
 import (
-	"bytes"
-	"fmt"
-	"github.com/jpl-au/fluent"
 	"github.com/jpl-au/fluent/html5"
+	"strings"
+	"github.com/jpl-au/fluent/text"
+	"fmt"
+	"strconv"
+	"bytes"
+	"io"
+	"github.com/jpl-au/fluent"
+	"github.com/jpl-au/fluent/node"
 	"github.com/jpl-au/fluent/html5/attr/autocapitalize"
 	"github.com/jpl-au/fluent/html5/attr/autocorrect"
 	"github.com/jpl-au/fluent/html5/attr/contenteditable"
@@ -18,11 +23,6 @@ import (
 	"github.com/jpl-au/fluent/html5/attr/translate"
 	"github.com/jpl-au/fluent/html5/attr/virtualkeyboardpolicy"
 	"github.com/jpl-au/fluent/html5/attr/writingsuggestions"
-	"github.com/jpl-au/fluent/node"
-	"github.com/jpl-au/fluent/text"
-	"io"
-	"strconv"
-	"strings"
 )
 
 // Element is an exported alias for the private element type
@@ -30,26 +30,27 @@ type Element = element
 
 // element represents the <object> HTML element
 type element struct {
-	nodes      []node.Node
-	class      string
-	data       string
-	form       string
-	id         string
-	name       string
+	nodes []node.Node
+	class string
+	data string
+	dynamic string
+	form string
+	id string
+	name string
 	objectType string
-	useMap     string
-	attr       *[]node.Attribute
-	ea         *html5.EventAttributes
-	ga         *html5.GlobalAttributes
+	useMap string
+	attr *[]node.Attribute
+	ea *html5.EventAttributes
+	ga *html5.GlobalAttributes
 	bufferhint int
-	height     int
-	tabindex   int
-	width      int
-	autofocus  bool
-	draggable  bool
-	hidden     bool
-	inert      bool
-	itemscope  bool
+	height int
+	tabindex int
+	width int
+	autofocus bool
+	draggable bool
+	hidden bool
+	inert bool
+	itemscope bool
 }
 
 // global returns the GlobalAttributes, initializing if nil
@@ -117,8 +118,8 @@ func RawTextf(format string, args ...any) *element {
 // Renders: <object data="/document.pdf" type="application/pdf"></object>
 func PDF(data string, nodes ...node.Node) *element {
 	return &element{
-		nodes:      nodes,
-		data:       data,
+		nodes: nodes,
+		data: data,
 		objectType: "application/pdf",
 	}
 }
@@ -128,8 +129,8 @@ func PDF(data string, nodes ...node.Node) *element {
 // Renders: <object data="/animation.swf" type="application/x-shockwave-flash"></object>
 func Flash(data string, nodes ...node.Node) *element {
 	return &element{
-		nodes:      nodes,
-		data:       data,
+		nodes: nodes,
+		data: data,
 		objectType: "application/x-shockwave-flash",
 	}
 }
@@ -139,8 +140,8 @@ func Flash(data string, nodes ...node.Node) *element {
 // Renders: <object data="/video.mp4" type="video/mp4"></object>
 func Video(data string, nodes ...node.Node) *element {
 	return &element{
-		nodes:      nodes,
-		data:       data,
+		nodes: nodes,
+		data: data,
 		objectType: "video/mp4",
 	}
 }
@@ -150,11 +151,12 @@ func Video(data string, nodes ...node.Node) *element {
 // Renders: <object data="/audio.mp3" type="audio/mpeg"></object>
 func Audio(data string, nodes ...node.Node) *element {
 	return &element{
-		nodes:      nodes,
-		data:       data,
+		nodes: nodes,
+		data: data,
 		objectType: "audio/mpeg",
 	}
 }
+
 
 // Data Specifies the URL of the resource to be embedded by the object element
 func (e *element) Data(url string) *element {
@@ -309,7 +311,7 @@ func (e *element) AriaLabel(label string) *element {
 // readers and other accessibility tools understand and interact with dynamic web content. Essential for creating
 // accessible web applications.
 func (e *element) SetAria(key string, value string) *element {
-	e.SetAttribute("aria-"+key, value)
+	e.SetAttribute("aria-" + key, value)
 	return e
 }
 
@@ -352,7 +354,7 @@ func (e *element) ContentEditable(value contenteditable.ContentEditable) *elemen
 // via the HTMLElement interface of the element the attribute is set on. The HTMLElement.dataset property gives
 // access to them.
 func (e *element) SetData(key string, value string) *element {
-	e.SetAttribute("data-"+key, value)
+	e.SetAttribute("data-" + key, value)
 	return e
 }
 
@@ -1049,6 +1051,30 @@ func (e *element) Replace(nodes ...node.Node) *element {
 	return e
 }
 
+// Dynamic marks this element for reactive tracking by the poly diff engine.
+// The key identifies this element across renders so the diff engine can detect
+// changes and send targeted patches. Keys must be unique within a render tree.
+// Calling without a key marks the element as dynamic without a tracking key.
+func (e *element) Dynamic(key ...string) *element {
+	if len(key) > 0 {
+		e.dynamic = key[0]
+	} else {
+		e.dynamic = "_"
+	}
+	return e
+}
+
+// IsDynamic reports whether this element has been marked for reactive tracking.
+func (e *element) IsDynamic() bool {
+	return e.dynamic != ""
+}
+
+// DynamicKey returns the developer-assigned key for diff engine tracking.
+// Returns an empty string if the element has not been marked as dynamic.
+func (e *element) DynamicKey() string {
+	return e.dynamic
+}
+
 // Text adds escaped text content to the element
 func (e *element) Text(content string) *element {
 	e.nodes = append(e.nodes, text.Text(content))
@@ -1177,6 +1203,12 @@ func (e *element) AttributeBuilder(buf *bytes.Buffer) {
 		buf.Write(html5.AttrItemScope)
 	}
 
+	if e.dynamic != "" && e.dynamic != "_" {
+		buf.WriteString(` data-poly-key="`)
+		buf.WriteString(e.dynamic)
+		buf.Write(html5.MarkupQuote)
+	}
+
 	if e.attr != nil {
 		for _, attr := range *e.attr {
 			buf.Write(html5.MarkupSpace)
@@ -1235,3 +1267,4 @@ func (e *element) Attributes() *[]node.Attribute {
 	}
 	return e.attr
 }
+

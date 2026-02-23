@@ -9,12 +9,13 @@ type Spellcheck []byte
 // Variables for Spellcheck values
 var (
 	// True Enable spell-checking for element content. Browser will highlight misspelled words
-	// and provide correction suggestions. Improves text quality for user-generated content.
+// and provide correction suggestions. Improves text quality for user-generated content.
 	True = Spellcheck("true")
 
 	// False Disable spell-checking for element content. No spelling corrections or highlights
-	// are provided. Useful for technical terms, code, names, or specialized vocabulary.
+// are provided. Useful for technical terms, code, names, or specialized vocabulary.
 	False = Spellcheck("false")
+
 )
 
 // Custom allows setting a custom Spellcheck value for edge cases or future specifications.

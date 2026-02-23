@@ -9,24 +9,25 @@ type ListType []byte
 // Variables for ListType values
 var (
 	// LowerAlpha Use lowercase letters for numbering (a, b, c, d...). Suitable for sublists
-	// and nested enumeration where alphabetical ordering is preferred.
+// and nested enumeration where alphabetical ordering is preferred.
 	LowerAlpha = ListType("a")
 
 	// UpperAlpha Use uppercase letters for numbering (A, B, C, D...). Often used for major
-	// section headings or primary list items in formal documents.
+// section headings or primary list items in formal documents.
 	UpperAlpha = ListType("A")
 
 	// LowerRoman Use lowercase Roman numerals (i, ii, iii, iv...). Traditional academic and
-	// legal document formatting for subsections and detailed enumerations.
+// legal document formatting for subsections and detailed enumerations.
 	LowerRoman = ListType("i")
 
 	// UpperRoman Use uppercase Roman numerals (I, II, III, IV...). Formal document structure
-	// for major sections, chapters, or primary divisions.
+// for major sections, chapters, or primary divisions.
 	UpperRoman = ListType("I")
 
 	// Decimal Use decimal numbers (1, 2, 3, 4...). Default and most common numbering system
-	// for ordered lists and sequential item enumeration.
+// for ordered lists and sequential item enumeration.
 	Decimal = ListType("1")
+
 )
 
 // Custom allows setting a custom ListType value for edge cases or future specifications.

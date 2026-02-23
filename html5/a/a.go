@@ -3,10 +3,18 @@
 package a
 
 import (
-	"bytes"
-	"fmt"
-	"github.com/jpl-au/fluent"
 	"github.com/jpl-au/fluent/html5"
+	"strings"
+	"github.com/jpl-au/fluent/text"
+	"fmt"
+	"strconv"
+	"bytes"
+	"io"
+	"github.com/jpl-au/fluent"
+	"github.com/jpl-au/fluent/node"
+	"github.com/jpl-au/fluent/html5/attr/referrerpolicy"
+	"github.com/jpl-au/fluent/html5/attr/rel"
+	"github.com/jpl-au/fluent/html5/attr/target"
 	"github.com/jpl-au/fluent/html5/attr/autocapitalize"
 	"github.com/jpl-au/fluent/html5/attr/autocorrect"
 	"github.com/jpl-au/fluent/html5/attr/contenteditable"
@@ -14,18 +22,10 @@ import (
 	"github.com/jpl-au/fluent/html5/attr/enterkeyhint"
 	"github.com/jpl-au/fluent/html5/attr/inputmode"
 	"github.com/jpl-au/fluent/html5/attr/popover"
-	"github.com/jpl-au/fluent/html5/attr/referrerpolicy"
-	"github.com/jpl-au/fluent/html5/attr/rel"
 	"github.com/jpl-au/fluent/html5/attr/spellcheck"
-	"github.com/jpl-au/fluent/html5/attr/target"
 	"github.com/jpl-au/fluent/html5/attr/translate"
 	"github.com/jpl-au/fluent/html5/attr/virtualkeyboardpolicy"
 	"github.com/jpl-au/fluent/html5/attr/writingsuggestions"
-	"github.com/jpl-au/fluent/node"
-	"github.com/jpl-au/fluent/text"
-	"io"
-	"strconv"
-	"strings"
 )
 
 // Element is an exported alias for the private element type
@@ -33,24 +33,25 @@ type Element = element
 
 // element represents the <a> HTML element
 type element struct {
-	nodes          []node.Node
+	nodes []node.Node
 	referrerpolicy referrerpolicy.ReferrerPolicy
-	rel            rel.Rel
-	target         target.Target
-	class          string
-	href           string
-	id             string
-	ping           string
-	attr           *[]node.Attribute
-	ea             *html5.EventAttributes
-	ga             *html5.GlobalAttributes
-	bufferhint     int
-	tabindex       int
-	autofocus      bool
-	draggable      bool
-	hidden         bool
-	inert          bool
-	itemscope      bool
+	rel rel.Rel
+	target target.Target
+	class string
+	dynamic string
+	href string
+	id string
+	ping string
+	attr *[]node.Attribute
+	ea *html5.EventAttributes
+	ga *html5.GlobalAttributes
+	bufferhint int
+	tabindex int
+	autofocus bool
+	draggable bool
+	hidden bool
+	inert bool
+	itemscope bool
 }
 
 // global returns the GlobalAttributes, initializing if nil
@@ -84,7 +85,7 @@ func New(nodes ...node.Node) *element {
 func Link(href string, str string) *element {
 	return &element{
 		nodes: []node.Node{text.Text(str)},
-		href:  href,
+		href: href,
 	}
 }
 
@@ -139,7 +140,7 @@ func RawTextf(format string, args ...any) *element {
 func MailTo(email string, str string) *element {
 	return &element{
 		nodes: []node.Node{text.Text(str)},
-		href:  email,
+		href: email,
 	}
 }
 
@@ -149,7 +150,7 @@ func MailTo(email string, str string) *element {
 func JumpTo(anchor string, str string) *element {
 	return &element{
 		nodes: []node.Node{text.Text(str)},
-		href:  anchor,
+		href: anchor,
 	}
 }
 
@@ -159,7 +160,7 @@ func JumpTo(anchor string, str string) *element {
 func Tel(number string, str string) *element {
 	return &element{
 		nodes: []node.Node{text.Text(str)},
-		href:  number,
+		href: number,
 	}
 }
 
@@ -169,7 +170,7 @@ func Tel(number string, str string) *element {
 func SMS(number string, str string) *element {
 	return &element{
 		nodes: []node.Node{text.Text(str)},
-		href:  number,
+		href: number,
 	}
 }
 
@@ -179,7 +180,7 @@ func SMS(number string, str string) *element {
 func FTP(url string, str string) *element {
 	return &element{
 		nodes: []node.Node{text.Text(str)},
-		href:  url,
+		href: url,
 	}
 }
 
@@ -189,7 +190,7 @@ func FTP(url string, str string) *element {
 func DataURL(str string, mime string, data string) *element {
 	return &element{
 		nodes: []node.Node{text.Text(str)},
-		href:  fmt.Sprintf("data:%v,%v", mime, data),
+		href: fmt.Sprintf("data:%v,%v", mime, data),
 	}
 }
 
@@ -199,9 +200,10 @@ func DataURL(str string, mime string, data string) *element {
 func Base64Data(str string, mime string, data string) *element {
 	return &element{
 		nodes: []node.Node{text.Text(str)},
-		href:  fmt.Sprintf("data:%v;base64,%v", mime, data),
+		href: fmt.Sprintf("data:%v;base64,%v", mime, data),
 	}
 }
+
 
 // Href The URL that the hyperlink points to when the anchor is activated. Links are not restricted to
 // HTTP-based URLs — they can use any URL scheme supported by browsers including mailto:, tel:, file:,
@@ -261,7 +263,7 @@ func (e *element) Ping(urls ...string) *element {
 
 // ReferrerPolicy Controls how much referrer information is sent when following the link. This is important for privacy
 // and security considerations when navigating between different origins or protocols.
-//
+// 
 // Possible values:
 // - no-referrer: Never send referrer information
 // - no-referrer-when-downgrade: Send full referrer for same/higher security, none for lower security
@@ -279,7 +281,7 @@ func (e *element) ReferrerPolicy(policy referrerpolicy.ReferrerPolicy) *element 
 // Rel Defines the relationship between the linked resource and the current document. The value must be an
 // unordered set of unique space-separated keywords that describe the semantic relationship. This attribute
 // is crucial for SEO, accessibility, security, and browser optimization hints.
-//
+// 
 // Common relationship values:
 // - alternate: Alternate representations of the current document
 // - author: Information about the document's author
@@ -293,7 +295,7 @@ func (e *element) ReferrerPolicy(policy referrerpolicy.ReferrerPolicy) *element 
 // - noopener: Opens in new context without window.opener reference (security)
 // - noreferrer: No referrer header sent, implies noopener (privacy/security)
 // - tag: Tag that applies to the current document
-//
+// 
 // Performance optimization values:
 // - dns-prefetch: Preemptively resolve DNS for the target origin
 // - preconnect: Open connection to linked website in advance
@@ -453,7 +455,7 @@ func (e *element) AriaLabel(label string) *element {
 // readers and other accessibility tools understand and interact with dynamic web content. Essential for creating
 // accessible web applications.
 func (e *element) SetAria(key string, value string) *element {
-	e.SetAttribute("aria-"+key, value)
+	e.SetAttribute("aria-" + key, value)
 	return e
 }
 
@@ -496,7 +498,7 @@ func (e *element) ContentEditable(value contenteditable.ContentEditable) *elemen
 // via the HTMLElement interface of the element the attribute is set on. The HTMLElement.dataset property gives
 // access to them.
 func (e *element) SetData(key string, value string) *element {
-	e.SetAttribute("data-"+key, value)
+	e.SetAttribute("data-" + key, value)
 	return e
 }
 
@@ -1193,6 +1195,30 @@ func (e *element) Replace(nodes ...node.Node) *element {
 	return e
 }
 
+// Dynamic marks this element for reactive tracking by the poly diff engine.
+// The key identifies this element across renders so the diff engine can detect
+// changes and send targeted patches. Keys must be unique within a render tree.
+// Calling without a key marks the element as dynamic without a tracking key.
+func (e *element) Dynamic(key ...string) *element {
+	if len(key) > 0 {
+		e.dynamic = key[0]
+	} else {
+		e.dynamic = "_"
+	}
+	return e
+}
+
+// IsDynamic reports whether this element has been marked for reactive tracking.
+func (e *element) IsDynamic() bool {
+	return e.dynamic != ""
+}
+
+// DynamicKey returns the developer-assigned key for diff engine tracking.
+// Returns an empty string if the element has not been marked as dynamic.
+func (e *element) DynamicKey() string {
+	return e.dynamic
+}
+
 // Text adds escaped text content to the element
 func (e *element) Text(content string) *element {
 	e.nodes = append(e.nodes, text.Text(content))
@@ -1311,6 +1337,12 @@ func (e *element) AttributeBuilder(buf *bytes.Buffer) {
 		buf.Write(html5.AttrItemScope)
 	}
 
+	if e.dynamic != "" && e.dynamic != "_" {
+		buf.WriteString(` data-poly-key="`)
+		buf.WriteString(e.dynamic)
+		buf.Write(html5.MarkupQuote)
+	}
+
 	if e.attr != nil {
 		for _, attr := range *e.attr {
 			buf.Write(html5.MarkupSpace)
@@ -1369,3 +1401,4 @@ func (e *element) Attributes() *[]node.Attribute {
 	}
 	return e.attr
 }
+

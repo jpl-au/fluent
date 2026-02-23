@@ -9,16 +9,17 @@ type Decoding []byte
 // Variables for Decoding values
 var (
 	// Sync Decode image synchronously for immediate presentation. Blocks other tasks until
-	// image is processed. Best for critical above-the-fold images that must appear instantly.
+// image is processed. Best for critical above-the-fold images that must appear instantly.
 	Sync = Decoding("sync")
 
 	// Async Decode image asynchronously to avoid blocking other tasks. Allows page interaction
-	// while image processes in background. Good for non-critical images.
+// while image processes in background. Good for non-critical images.
 	Async = Decoding("async")
 
 	// Auto Let browser decide optimal decoding strategy based on image importance and context.
-	// Default behavior that balances performance with user experience automatically.
+// Default behavior that balances performance with user experience automatically.
 	Auto = Decoding("auto")
+
 )
 
 // Custom allows setting a custom Decoding value for edge cases or future specifications.

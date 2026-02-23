@@ -9,16 +9,17 @@ type EncType []byte
 // Variables for EncType values
 var (
 	// UrlEncoded Default encoding for form data. Text fields are URL-encoded as key-value pairs.
-	// Suitable for simple forms without file uploads.
+// Suitable for simple forms without file uploads.
 	UrlEncoded = EncType("application/x-www-form-urlencoded")
 
 	// MultipartFormData Required for file uploads and binary data. Each form field becomes a separate part
-	// of the multipart message. Essential when form contains file input elements.
+// of the multipart message. Essential when form contains file input elements.
 	MultipartFormData = EncType("multipart/form-data")
 
 	// TextPlain Plain text encoding without URL encoding. Primarily for debugging purposes.
-	// Not recommended for production forms due to limited browser support.
+// Not recommended for production forms due to limited browser support.
 	TextPlain = EncType("text/plain")
+
 )
 
 // Custom allows setting a custom EncType value for edge cases or future specifications.

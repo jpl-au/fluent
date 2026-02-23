@@ -9,12 +9,13 @@ type Translate []byte
 // Variables for Translate values
 var (
 	// Yes Enable translation of element content. Automatic translation services should
-	// translate text content and translatable attributes when page is localized.
+// translate text content and translatable attributes when page is localized.
 	Yes = Translate("yes")
 
 	// No Disable translation of element content. Automatic translation services should
-	// leave text content unchanged, preserving original language and formatting.
+// leave text content unchanged, preserving original language and formatting.
 	No = Translate("no")
+
 )
 
 // Custom allows setting a custom Translate value for edge cases or future specifications.

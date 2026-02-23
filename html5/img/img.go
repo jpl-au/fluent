@@ -3,30 +3,30 @@
 package img
 
 import (
-	"bytes"
-	"github.com/jpl-au/fluent"
 	"github.com/jpl-au/fluent/html5"
+	"strings"
+	"strconv"
+	"bytes"
+	"io"
+	"github.com/jpl-au/fluent"
+	"github.com/jpl-au/fluent/node"
+	"github.com/jpl-au/fluent/html5/attr/crossorigin"
+	"github.com/jpl-au/fluent/html5/attr/decoding"
+	"github.com/jpl-au/fluent/html5/attr/fetchpriority"
+	"github.com/jpl-au/fluent/html5/attr/loading"
+	"github.com/jpl-au/fluent/html5/attr/referrerpolicy"
+	"github.com/jpl-au/fluent/html5/attr/sizes"
 	"github.com/jpl-au/fluent/html5/attr/autocapitalize"
 	"github.com/jpl-au/fluent/html5/attr/autocorrect"
 	"github.com/jpl-au/fluent/html5/attr/contenteditable"
-	"github.com/jpl-au/fluent/html5/attr/crossorigin"
-	"github.com/jpl-au/fluent/html5/attr/decoding"
 	"github.com/jpl-au/fluent/html5/attr/dir"
 	"github.com/jpl-au/fluent/html5/attr/enterkeyhint"
-	"github.com/jpl-au/fluent/html5/attr/fetchpriority"
 	"github.com/jpl-au/fluent/html5/attr/inputmode"
-	"github.com/jpl-au/fluent/html5/attr/loading"
 	"github.com/jpl-au/fluent/html5/attr/popover"
-	"github.com/jpl-au/fluent/html5/attr/referrerpolicy"
-	"github.com/jpl-au/fluent/html5/attr/sizes"
 	"github.com/jpl-au/fluent/html5/attr/spellcheck"
 	"github.com/jpl-au/fluent/html5/attr/translate"
 	"github.com/jpl-au/fluent/html5/attr/virtualkeyboardpolicy"
 	"github.com/jpl-au/fluent/html5/attr/writingsuggestions"
-	"github.com/jpl-au/fluent/node"
-	"io"
-	"strconv"
-	"strings"
 )
 
 // Element is an exported alias for the private element type
@@ -34,31 +34,32 @@ type Element = element
 
 // element represents the <img> HTML element
 type element struct {
-	crossorigin    crossorigin.CrossOrigin
-	decoding       decoding.Decoding
-	fetchpriority  fetchpriority.FetchPriority
-	loading        loading.Loading
-	nodes          []node.Node
+	crossorigin crossorigin.CrossOrigin
+	decoding decoding.Decoding
+	fetchpriority fetchpriority.FetchPriority
+	loading loading.Loading
+	nodes []node.Node
 	referrerpolicy referrerpolicy.ReferrerPolicy
-	sizes          sizes.Size
-	alt            string
-	class          string
-	id             string
-	src            string
-	usemap         string
-	attr           *[]node.Attribute
-	ea             *html5.EventAttributes
-	ga             *html5.GlobalAttributes
-	bufferhint     int
-	height         int
-	tabindex       int
-	width          int
-	autofocus      bool
-	draggable      bool
-	hidden         bool
-	inert          bool
-	ismap          bool
-	itemscope      bool
+	sizes sizes.Size
+	alt string
+	class string
+	dynamic string
+	id string
+	src string
+	usemap string
+	attr *[]node.Attribute
+	ea *html5.EventAttributes
+	ga *html5.GlobalAttributes
+	bufferhint int
+	height int
+	tabindex int
+	width int
+	autofocus bool
+	draggable bool
+	hidden bool
+	inert bool
+	ismap bool
+	itemscope bool
 }
 
 // global returns the GlobalAttributes, initializing if nil
@@ -111,8 +112,8 @@ func Image(src string, alt string) *element {
 func Lazy(src string, alt string) *element {
 	return &element{
 		loading: loading.Lazy,
-		src:     src,
-		alt:     alt,
+		src: src,
+		alt: alt,
 	}
 }
 
@@ -123,10 +124,11 @@ func Lazy(src string, alt string) *element {
 func Eager(src string, alt string) *element {
 	return &element{
 		loading: loading.Eager,
-		src:     src,
-		alt:     alt,
+		src: src,
+		alt: alt,
 	}
 }
+
 
 // Src Specifies the URL or path to the image resource. This is the most essential attribute for the img element, defining what image to display. The URL can be absolute (https://example.com/image.jpg), relative (/images/photo.png), or a data URL. The browser will fetch and display the image from this location. If the image cannot be loaded, the alt text will be displayed instead.
 func (e *element) Src(url string) *element {
@@ -346,7 +348,7 @@ func (e *element) AriaLabel(label string) *element {
 // readers and other accessibility tools understand and interact with dynamic web content. Essential for creating
 // accessible web applications.
 func (e *element) SetAria(key string, value string) *element {
-	e.SetAttribute("aria-"+key, value)
+	e.SetAttribute("aria-" + key, value)
 	return e
 }
 
@@ -389,7 +391,7 @@ func (e *element) ContentEditable(value contenteditable.ContentEditable) *elemen
 // via the HTMLElement interface of the element the attribute is set on. The HTMLElement.dataset property gives
 // access to them.
 func (e *element) SetData(key string, value string) *element {
-	e.SetAttribute("data-"+key, value)
+	e.SetAttribute("data-" + key, value)
 	return e
 }
 
@@ -1086,6 +1088,30 @@ func (e *element) Replace(nodes ...node.Node) *element {
 	return e
 }
 
+// Dynamic marks this element for reactive tracking by the poly diff engine.
+// The key identifies this element across renders so the diff engine can detect
+// changes and send targeted patches. Keys must be unique within a render tree.
+// Calling without a key marks the element as dynamic without a tracking key.
+func (e *element) Dynamic(key ...string) *element {
+	if len(key) > 0 {
+		e.dynamic = key[0]
+	} else {
+		e.dynamic = "_"
+	}
+	return e
+}
+
+// IsDynamic reports whether this element has been marked for reactive tracking.
+func (e *element) IsDynamic() bool {
+	return e.dynamic != ""
+}
+
+// DynamicKey returns the developer-assigned key for diff engine tracking.
+// Returns an empty string if the element has not been marked as dynamic.
+func (e *element) DynamicKey() string {
+	return e.dynamic
+}
+
 // Node interface implementation
 
 // BufferHint sets or gets the buffer size hint for pool allocation.
@@ -1207,6 +1233,12 @@ func (e *element) AttributeBuilder(buf *bytes.Buffer) {
 		buf.Write(html5.AttrItemScope)
 	}
 
+	if e.dynamic != "" && e.dynamic != "_" {
+		buf.WriteString(` data-poly-key="`)
+		buf.WriteString(e.dynamic)
+		buf.Write(html5.MarkupQuote)
+	}
+
 	if e.attr != nil {
 		for _, attr := range *e.attr {
 			buf.Write(html5.MarkupSpace)
@@ -1259,3 +1291,4 @@ func (e *element) Attributes() *[]node.Attribute {
 	}
 	return e.attr
 }
+
