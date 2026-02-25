@@ -3,17 +3,16 @@
 package dropdown
 
 import (
-	"github.com/jpl-au/fluent/html5"
-	"strings"
-	"github.com/jpl-au/fluent/text"
-	"fmt"
-	"strconv"
 	"bytes"
+	"fmt"
 	"io"
+	"strconv"
+	"strings"
+
 	"github.com/jpl-au/fluent"
-	"github.com/jpl-au/fluent/node"
-	"github.com/jpl-au/fluent/html5/attr/autocomplete"
+	"github.com/jpl-au/fluent/html5"
 	"github.com/jpl-au/fluent/html5/attr/autocapitalize"
+	"github.com/jpl-au/fluent/html5/attr/autocomplete"
 	"github.com/jpl-au/fluent/html5/attr/autocorrect"
 	"github.com/jpl-au/fluent/html5/attr/contenteditable"
 	"github.com/jpl-au/fluent/html5/attr/dir"
@@ -24,6 +23,8 @@ import (
 	"github.com/jpl-au/fluent/html5/attr/translate"
 	"github.com/jpl-au/fluent/html5/attr/virtualkeyboardpolicy"
 	"github.com/jpl-au/fluent/html5/attr/writingsuggestions"
+	"github.com/jpl-au/fluent/node"
+	"github.com/jpl-au/fluent/text"
 )
 
 // Element is an exported alias for the private element type
@@ -32,27 +33,27 @@ type Element = element
 // element represents the <select> HTML element
 type element struct {
 	autoComplete autocomplete.AutoComplete
-	nodes []node.Node
-	class string
-	dynamic string
-	form string
-	id string
-	name string
-	attr *[]node.Attribute
-	ea *html5.EventAttributes
-	ga *html5.GlobalAttributes
-	bufferhint int
-	size int
-	tabindex int
-	autoFocus bool
-	autofocus bool
-	disabled bool
-	draggable bool
-	hidden bool
-	inert bool
-	itemscope bool
-	multiple bool
-	required bool
+	nodes        []node.Node
+	class        string
+	dynamic      string
+	form         string
+	id           string
+	name         string
+	attr         *[]node.Attribute
+	ea           *html5.EventAttributes
+	ga           *html5.GlobalAttributes
+	bufferhint   int
+	size         int
+	tabindex     int
+	autoFocus    bool
+	autofocus    bool
+	disabled     bool
+	draggable    bool
+	hidden       bool
+	inert        bool
+	itemscope    bool
+	multiple     bool
+	required     bool
 }
 
 // global returns the GlobalAttributes, initializing if nil
@@ -124,7 +125,6 @@ func RawTextf(format string, args ...any) *element {
 		nodes: []node.Node{text.RawTextf(format, args...)},
 	}
 }
-
 
 // Name Specifies the name of the select element for form submission and programmatic access. This name is used
 // to identify the selected value(s) in form data when submitted to the server. The name appears as the key
@@ -309,7 +309,7 @@ func (e *element) AriaLabel(label string) *element {
 // readers and other accessibility tools understand and interact with dynamic web content. Essential for creating
 // accessible web applications.
 func (e *element) SetAria(key string, value string) *element {
-	e.SetAttribute("aria-" + key, value)
+	e.SetAttribute("aria-"+key, value)
 	return e
 }
 
@@ -343,7 +343,7 @@ func (e *element) ContentEditable(value contenteditable.ContentEditable) *elemen
 // via the HTMLElement interface of the element the attribute is set on. The HTMLElement.dataset property gives
 // access to them.
 func (e *element) SetData(key string, value string) *element {
-	e.SetAttribute("data-" + key, value)
+	e.SetAttribute("data-"+key, value)
 	return e
 }
 
@@ -1253,4 +1253,3 @@ func (e *element) Attributes() *[]node.Attribute {
 	}
 	return e.attr
 }
-

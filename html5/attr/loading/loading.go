@@ -9,13 +9,12 @@ type Loading []byte
 // Variables for Loading values
 var (
 	// Eager Loads the resource immediately when encountered in HTML parsing. Default behavior that
-// ensures resources are available as soon as possible.
+	// ensures resources are available as soon as possible.
 	Eager = Loading("eager")
 
 	// Lazy Defers loading until the resource reaches a calculated distance from the viewport. Improves
-// initial page load performance and reduces bandwidth usage for below-the-fold content.
+	// initial page load performance and reduces bandwidth usage for below-the-fold content.
 	Lazy = Loading("lazy")
-
 )
 
 // Custom allows setting a custom Loading value for edge cases or future specifications.

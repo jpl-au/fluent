@@ -4,7 +4,7 @@ package html5
 
 import (
 	"bytes"
-	"github.com/jpl-au/fluent/node"
+
 	"github.com/jpl-au/fluent/html5/attr/autocapitalize"
 	"github.com/jpl-au/fluent/html5/attr/autocorrect"
 	"github.com/jpl-au/fluent/html5/attr/contenteditable"
@@ -16,32 +16,33 @@ import (
 	"github.com/jpl-au/fluent/html5/attr/translate"
 	"github.com/jpl-au/fluent/html5/attr/virtualkeyboardpolicy"
 	"github.com/jpl-au/fluent/html5/attr/writingsuggestions"
+	"github.com/jpl-au/fluent/node"
 )
 
 // GlobalAttributes represents global HTML attributes
 type GlobalAttributes struct {
-	Style string
-	Title string
-	Role string
-	Lang string
-	AccessKey string
-	AriaLabel string
-	AutoCapitalize autocapitalize.AutoCapitalize
-	AutoCorrect autocorrect.AutoCorrect
-	ContentEditable contenteditable.ContentEditable
-	Dir dir.Dir
-	EnterKeyHint enterkeyhint.EnterKeyHint
-	ExportParts string
-	InputMode inputmode.InputMode
-	ItemProp string
-	ItemRef string
-	Part string
-	Popover popover.Popover
-	SpellCheck spellcheck.Spellcheck
-	Translate translate.Translate
+	Style                 string
+	Title                 string
+	Role                  string
+	Lang                  string
+	AccessKey             string
+	AriaLabel             string
+	AutoCapitalize        autocapitalize.AutoCapitalize
+	AutoCorrect           autocorrect.AutoCorrect
+	ContentEditable       contenteditable.ContentEditable
+	Dir                   dir.Dir
+	EnterKeyHint          enterkeyhint.EnterKeyHint
+	ExportParts           string
+	InputMode             inputmode.InputMode
+	ItemProp              string
+	ItemRef               string
+	Part                  string
+	Popover               popover.Popover
+	SpellCheck            spellcheck.Spellcheck
+	Translate             translate.Translate
 	VirtualKeyboardPolicy virtualkeyboardpolicy.VirtualKeyboardPolicy
-	WritingSuggestions writingsuggestions.WritingSuggestions
-	attr *[]node.Attribute
+	WritingSuggestions    writingsuggestions.WritingSuggestions
+	attr                  *[]node.Attribute
 }
 
 // SetAttribute sets an attribute in the global attributes slice

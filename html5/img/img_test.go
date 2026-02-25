@@ -5,26 +5,25 @@ package img_test
 import (
 	"testing"
 
-	"github.com/jpl-au/fluent/html5/img"
-	"github.com/jpl-au/fluent/html5/attr/referrerpolicy"
-	"github.com/jpl-au/fluent/html5/attr/contenteditable"
-	"github.com/jpl-au/fluent/html5/attr/enterkeyhint"
-	"github.com/jpl-au/fluent/html5/attr/writingsuggestions"
-	"github.com/jpl-au/fluent/html5/attr/fetchpriority"
 	"github.com/jpl-au/fluent/html5/attr/autocapitalize"
-	"github.com/jpl-au/fluent/html5/attr/dir"
-	"github.com/jpl-au/fluent/html5/attr/spellcheck"
-	"github.com/jpl-au/fluent/html5/attr/translate"
-	"github.com/jpl-au/fluent/html5/attr/popover"
-	"github.com/jpl-au/fluent/html5/attr/virtualkeyboardpolicy"
-	"github.com/jpl-au/fluent/html5/attr/loading"
+	"github.com/jpl-au/fluent/html5/attr/autocorrect"
+	"github.com/jpl-au/fluent/html5/attr/contenteditable"
 	"github.com/jpl-au/fluent/html5/attr/crossorigin"
 	"github.com/jpl-au/fluent/html5/attr/decoding"
-	"github.com/jpl-au/fluent/html5/attr/autocorrect"
+	"github.com/jpl-au/fluent/html5/attr/dir"
+	"github.com/jpl-au/fluent/html5/attr/enterkeyhint"
+	"github.com/jpl-au/fluent/html5/attr/fetchpriority"
 	"github.com/jpl-au/fluent/html5/attr/inputmode"
+	"github.com/jpl-au/fluent/html5/attr/loading"
+	"github.com/jpl-au/fluent/html5/attr/popover"
+	"github.com/jpl-au/fluent/html5/attr/referrerpolicy"
 	"github.com/jpl-au/fluent/html5/attr/sizes"
+	"github.com/jpl-au/fluent/html5/attr/spellcheck"
+	"github.com/jpl-au/fluent/html5/attr/translate"
+	"github.com/jpl-au/fluent/html5/attr/virtualkeyboardpolicy"
+	"github.com/jpl-au/fluent/html5/attr/writingsuggestions"
+	"github.com/jpl-au/fluent/html5/img"
 )
-
 
 func TestNewCtor(t *testing.T) {
 	got := string(img.New().Src("photo.jpg").Alt("A beautiful sunset").Render())
@@ -1053,4 +1052,3 @@ func TestNotDynamic(t *testing.T) {
 		t.Errorf("DynamicKey() should be empty, got %q", el.DynamicKey())
 	}
 }
-

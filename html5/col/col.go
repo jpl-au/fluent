@@ -3,13 +3,13 @@
 package col
 
 import (
-	"github.com/jpl-au/fluent/html5"
-	"strings"
-	"strconv"
 	"bytes"
 	"io"
+	"strconv"
+	"strings"
+
 	"github.com/jpl-au/fluent"
-	"github.com/jpl-au/fluent/node"
+	"github.com/jpl-au/fluent/html5"
 	"github.com/jpl-au/fluent/html5/attr/autocapitalize"
 	"github.com/jpl-au/fluent/html5/attr/autocorrect"
 	"github.com/jpl-au/fluent/html5/attr/contenteditable"
@@ -21,6 +21,7 @@ import (
 	"github.com/jpl-au/fluent/html5/attr/translate"
 	"github.com/jpl-au/fluent/html5/attr/virtualkeyboardpolicy"
 	"github.com/jpl-au/fluent/html5/attr/writingsuggestions"
+	"github.com/jpl-au/fluent/node"
 )
 
 // Element is an exported alias for the private element type
@@ -28,21 +29,21 @@ type Element = element
 
 // element represents the <col> HTML element
 type element struct {
-	nodes []node.Node
-	class string
-	dynamic string
-	id string
-	attr *[]node.Attribute
-	ea *html5.EventAttributes
-	ga *html5.GlobalAttributes
+	nodes      []node.Node
+	class      string
+	dynamic    string
+	id         string
+	attr       *[]node.Attribute
+	ea         *html5.EventAttributes
+	ga         *html5.GlobalAttributes
 	bufferhint int
-	span int
-	tabindex int
-	autofocus bool
-	draggable bool
-	hidden bool
-	inert bool
-	itemscope bool
+	span       int
+	tabindex   int
+	autofocus  bool
+	draggable  bool
+	hidden     bool
+	inert      bool
+	itemscope  bool
 }
 
 // global returns the GlobalAttributes, initializing if nil
@@ -67,7 +68,6 @@ func (e *element) event() *html5.EventAttributes {
 func New() *element {
 	return &element{}
 }
-
 
 // Span Specifies the number of consecutive columns the <col> element spans. The value must be a positive integer
 // greater than zero. If not present, its default value is 1. This attribute allows a single <col> element
@@ -188,7 +188,7 @@ func (e *element) AriaLabel(label string) *element {
 // readers and other accessibility tools understand and interact with dynamic web content. Essential for creating
 // accessible web applications.
 func (e *element) SetAria(key string, value string) *element {
-	e.SetAttribute("aria-" + key, value)
+	e.SetAttribute("aria-"+key, value)
 	return e
 }
 
@@ -231,7 +231,7 @@ func (e *element) ContentEditable(value contenteditable.ContentEditable) *elemen
 // via the HTMLElement interface of the element the attribute is set on. The HTMLElement.dataset property gives
 // access to them.
 func (e *element) SetData(key string, value string) *element {
-	e.SetAttribute("data-" + key, value)
+	e.SetAttribute("data-"+key, value)
 	return e
 }
 
@@ -1078,4 +1078,3 @@ func (e *element) Attributes() *[]node.Attribute {
 	}
 	return e.attr
 }
-

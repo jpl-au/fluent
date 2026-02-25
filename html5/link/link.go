@@ -3,31 +3,32 @@
 package link
 
 import (
-	"github.com/jpl-au/fluent/html5"
-	"strings"
-	"strconv"
 	"bytes"
 	"io"
+	"strconv"
+	"strings"
+
 	"github.com/jpl-au/fluent"
-	"github.com/jpl-au/fluent/node"
+	"github.com/jpl-au/fluent/html5"
 	"github.com/jpl-au/fluent/html5/attr/as"
+	"github.com/jpl-au/fluent/html5/attr/autocapitalize"
+	"github.com/jpl-au/fluent/html5/attr/autocorrect"
 	"github.com/jpl-au/fluent/html5/attr/blocking"
+	"github.com/jpl-au/fluent/html5/attr/contenteditable"
 	"github.com/jpl-au/fluent/html5/attr/crossorigin"
+	"github.com/jpl-au/fluent/html5/attr/dir"
+	"github.com/jpl-au/fluent/html5/attr/enterkeyhint"
 	"github.com/jpl-au/fluent/html5/attr/fetchpriority"
+	"github.com/jpl-au/fluent/html5/attr/inputmode"
+	"github.com/jpl-au/fluent/html5/attr/popover"
 	"github.com/jpl-au/fluent/html5/attr/referrerpolicy"
 	"github.com/jpl-au/fluent/html5/attr/rel"
 	"github.com/jpl-au/fluent/html5/attr/sizes"
-	"github.com/jpl-au/fluent/html5/attr/autocapitalize"
-	"github.com/jpl-au/fluent/html5/attr/autocorrect"
-	"github.com/jpl-au/fluent/html5/attr/contenteditable"
-	"github.com/jpl-au/fluent/html5/attr/dir"
-	"github.com/jpl-au/fluent/html5/attr/enterkeyhint"
-	"github.com/jpl-au/fluent/html5/attr/inputmode"
-	"github.com/jpl-au/fluent/html5/attr/popover"
 	"github.com/jpl-au/fluent/html5/attr/spellcheck"
 	"github.com/jpl-au/fluent/html5/attr/translate"
 	"github.com/jpl-au/fluent/html5/attr/virtualkeyboardpolicy"
 	"github.com/jpl-au/fluent/html5/attr/writingsuggestions"
+	"github.com/jpl-au/fluent/node"
 )
 
 // Element is an exported alias for the private element type
@@ -35,33 +36,33 @@ type Element = element
 
 // element represents the <link> HTML element
 type element struct {
-	as as.As
-	blocking blocking.Blocking
-	crossorigin crossorigin.CrossOrigin
-	fetchpriority fetchpriority.FetchPriority
-	nodes []node.Node
+	as             as.As
+	blocking       blocking.Blocking
+	crossorigin    crossorigin.CrossOrigin
+	fetchpriority  fetchpriority.FetchPriority
+	nodes          []node.Node
 	referrerpolicy referrerpolicy.ReferrerPolicy
-	rel rel.Rel
-	sizes sizes.Size
-	class string
-	color string
-	dynamic string
-	href string
-	id string
-	imagesizes string
-	imagesrcset string
-	mimeType string
-	attr *[]node.Attribute
-	ea *html5.EventAttributes
-	ga *html5.GlobalAttributes
-	bufferhint int
-	tabindex int
-	autofocus bool
-	disabled bool
-	draggable bool
-	hidden bool
-	inert bool
-	itemscope bool
+	rel            rel.Rel
+	sizes          sizes.Size
+	class          string
+	color          string
+	dynamic        string
+	href           string
+	id             string
+	imagesizes     string
+	imagesrcset    string
+	mimeType       string
+	attr           *[]node.Attribute
+	ea             *html5.EventAttributes
+	ga             *html5.GlobalAttributes
+	bufferhint     int
+	tabindex       int
+	autofocus      bool
+	disabled       bool
+	draggable      bool
+	hidden         bool
+	inert          bool
+	itemscope      bool
 }
 
 // global returns the GlobalAttributes, initializing if nil
@@ -92,7 +93,7 @@ func New() *element {
 // Renders: <link rel="stylesheet" href="/styles.css" />
 func Stylesheet(href string) *element {
 	return &element{
-		rel: rel.Stylesheet,
+		rel:  rel.Stylesheet,
 		href: href,
 	}
 }
@@ -102,7 +103,7 @@ func Stylesheet(href string) *element {
 // Renders: <link rel="icon" href="/favicon.ico" />
 func Icon(href string) *element {
 	return &element{
-		rel: rel.Icon,
+		rel:  rel.Icon,
 		href: href,
 	}
 }
@@ -112,12 +113,11 @@ func Icon(href string) *element {
 // Renders: <link rel="preload" href="/font.woff2" as="font" />
 func Preload(href string, as as.As) *element {
 	return &element{
-		rel: rel.Preload,
+		rel:  rel.Preload,
 		href: href,
-		as: as,
+		as:   as,
 	}
 }
-
 
 // Rel Defines the relationship between the current document and the linked resource. This attribute determines how the browser should handle and interpret the linked resource.
 // Possible values: stylesheet, icon, preload, prefetch, dns-prefetch, preconnect, canonical, alternate, prev, next, help, license, manifest, modulepreload, apple-touch-icon
@@ -372,7 +372,7 @@ func (e *element) AriaLabel(label string) *element {
 // readers and other accessibility tools understand and interact with dynamic web content. Essential for creating
 // accessible web applications.
 func (e *element) SetAria(key string, value string) *element {
-	e.SetAttribute("aria-" + key, value)
+	e.SetAttribute("aria-"+key, value)
 	return e
 }
 
@@ -415,7 +415,7 @@ func (e *element) ContentEditable(value contenteditable.ContentEditable) *elemen
 // via the HTMLElement interface of the element the attribute is set on. The HTMLElement.dataset property gives
 // access to them.
 func (e *element) SetData(key string, value string) *element {
-	e.SetAttribute("data-" + key, value)
+	e.SetAttribute("data-"+key, value)
 	return e
 }
 
@@ -1320,4 +1320,3 @@ func (e *element) Attributes() *[]node.Attribute {
 	}
 	return e.attr
 }
-

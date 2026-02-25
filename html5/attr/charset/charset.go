@@ -9,17 +9,16 @@ type Charset []byte
 // Variables for Charset values
 var (
 	// UTF8 Unicode Transformation Format 8-bit encoding. Universal character encoding
-// supporting all languages and symbols. Recommended standard for all web content.
+	// supporting all languages and symbols. Recommended standard for all web content.
 	UTF8 = Charset("UTF-8")
 
 	// ISO88591 Latin-1 character encoding supporting Western European languages.
-// Legacy encoding largely superseded by UTF-8 for new applications.
+	// Legacy encoding largely superseded by UTF-8 for new applications.
 	ISO88591 = Charset("ISO-8859-1")
 
 	// Windows1252 Windows character encoding extending Latin-1 with additional characters.
-// Common on Windows systems but UTF-8 is preferred for web applications.
+	// Common on Windows systems but UTF-8 is preferred for web applications.
 	Windows1252 = Charset("windows-1252")
-
 )
 
 // Custom allows setting a custom Charset value for edge cases or future specifications.

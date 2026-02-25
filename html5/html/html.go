@@ -3,15 +3,14 @@
 package html
 
 import (
-	"github.com/jpl-au/fluent/html5"
-	"strings"
-	"github.com/jpl-au/fluent/text"
-	"fmt"
-	"strconv"
 	"bytes"
+	"fmt"
 	"io"
+	"strconv"
+	"strings"
+
 	"github.com/jpl-au/fluent"
-	"github.com/jpl-au/fluent/node"
+	"github.com/jpl-au/fluent/html5"
 	"github.com/jpl-au/fluent/html5/attr/autocapitalize"
 	"github.com/jpl-au/fluent/html5/attr/autocorrect"
 	"github.com/jpl-au/fluent/html5/attr/contenteditable"
@@ -23,6 +22,8 @@ import (
 	"github.com/jpl-au/fluent/html5/attr/translate"
 	"github.com/jpl-au/fluent/html5/attr/virtualkeyboardpolicy"
 	"github.com/jpl-au/fluent/html5/attr/writingsuggestions"
+	"github.com/jpl-au/fluent/node"
+	"github.com/jpl-au/fluent/text"
 )
 
 // Element is an exported alias for the private element type
@@ -30,21 +31,21 @@ type Element = element
 
 // element represents the <html> HTML element
 type element struct {
-	nodes []node.Node
-	class string
-	dynamic string
-	id string
-	attr *[]node.Attribute
-	ea *html5.EventAttributes
-	ga *html5.GlobalAttributes
+	nodes      []node.Node
+	class      string
+	dynamic    string
+	id         string
+	attr       *[]node.Attribute
+	ea         *html5.EventAttributes
+	ga         *html5.GlobalAttributes
 	bufferhint int
-	tabindex int
-	autofocus bool
-	doctype bool
-	draggable bool
-	hidden bool
-	inert bool
-	itemscope bool
+	tabindex   int
+	autofocus  bool
+	doctype    bool
+	draggable  bool
+	hidden     bool
+	inert      bool
+	itemscope  bool
 }
 
 // global returns the GlobalAttributes, initializing if nil
@@ -68,7 +69,7 @@ func (e *element) event() *html5.EventAttributes {
 // Renders: <!DOCTYPE html><html></html>
 func New(nodes ...node.Node) *element {
 	return &element{
-		nodes: nodes,
+		nodes:   nodes,
 		doctype: true,
 	}
 }
@@ -78,7 +79,7 @@ func New(nodes ...node.Node) *element {
 // Renders: <!DOCTYPE html><html>Content</html>
 func Text(str string) *element {
 	return &element{
-		nodes: []node.Node{text.Text(str)},
+		nodes:   []node.Node{text.Text(str)},
 		doctype: true,
 	}
 }
@@ -88,7 +89,7 @@ func Text(str string) *element {
 // Renders: <!DOCTYPE html><html>Hello World</html>
 func Static(str string) *element {
 	return &element{
-		nodes: []node.Node{text.Static(str)},
+		nodes:   []node.Node{text.Static(str)},
 		doctype: true,
 	}
 }
@@ -98,7 +99,7 @@ func Static(str string) *element {
 // Renders: <!DOCTYPE html><html><body>Content</body></html>
 func RawText(str string) *element {
 	return &element{
-		nodes: []node.Node{text.RawText(str)},
+		nodes:   []node.Node{text.RawText(str)},
 		doctype: true,
 	}
 }
@@ -108,7 +109,7 @@ func RawText(str string) *element {
 // Renders: <!DOCTYPE html><html>Hello World</html>
 func Textf(format string, args ...any) *element {
 	return &element{
-		nodes: []node.Node{text.Textf(format, args...)},
+		nodes:   []node.Node{text.Textf(format, args...)},
 		doctype: true,
 	}
 }
@@ -118,7 +119,7 @@ func Textf(format string, args ...any) *element {
 // Renders: <!DOCTYPE html><html>Hello <em>World</em></html>
 func RawTextf(format string, args ...any) *element {
 	return &element{
-		nodes: []node.Node{text.RawTextf(format, args...)},
+		nodes:   []node.Node{text.RawTextf(format, args...)},
 		doctype: true,
 	}
 }
@@ -176,7 +177,6 @@ func FragmentRawTextf(format string, args ...any) *element {
 		nodes: []node.Node{text.RawTextf(format, args...)},
 	}
 }
-
 
 // Lang The primary language of the document. Should be a valid BCP 47 language tag
 func (e *element) Lang(language string) *element {
@@ -300,7 +300,7 @@ func (e *element) AriaLabel(label string) *element {
 // readers and other accessibility tools understand and interact with dynamic web content. Essential for creating
 // accessible web applications.
 func (e *element) SetAria(key string, value string) *element {
-	e.SetAttribute("aria-" + key, value)
+	e.SetAttribute("aria-"+key, value)
 	return e
 }
 
@@ -343,7 +343,7 @@ func (e *element) ContentEditable(value contenteditable.ContentEditable) *elemen
 // via the HTMLElement interface of the element the attribute is set on. The HTMLElement.dataset property gives
 // access to them.
 func (e *element) SetData(key string, value string) *element {
-	e.SetAttribute("data-" + key, value)
+	e.SetAttribute("data-"+key, value)
 	return e
 }
 
@@ -1227,4 +1227,3 @@ func (e *element) Attributes() *[]node.Attribute {
 	}
 	return e.attr
 }
-

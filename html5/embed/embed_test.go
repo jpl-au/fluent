@@ -5,20 +5,19 @@ package embed_test
 import (
 	"testing"
 
-	"github.com/jpl-au/fluent/html5/embed"
-	"github.com/jpl-au/fluent/html5/attr/popover"
-	"github.com/jpl-au/fluent/html5/attr/spellcheck"
-	"github.com/jpl-au/fluent/html5/attr/virtualkeyboardpolicy"
 	"github.com/jpl-au/fluent/html5/attr/autocapitalize"
+	"github.com/jpl-au/fluent/html5/attr/autocorrect"
 	"github.com/jpl-au/fluent/html5/attr/contenteditable"
+	"github.com/jpl-au/fluent/html5/attr/dir"
 	"github.com/jpl-au/fluent/html5/attr/enterkeyhint"
 	"github.com/jpl-au/fluent/html5/attr/inputmode"
+	"github.com/jpl-au/fluent/html5/attr/popover"
+	"github.com/jpl-au/fluent/html5/attr/spellcheck"
 	"github.com/jpl-au/fluent/html5/attr/translate"
+	"github.com/jpl-au/fluent/html5/attr/virtualkeyboardpolicy"
 	"github.com/jpl-au/fluent/html5/attr/writingsuggestions"
-	"github.com/jpl-au/fluent/html5/attr/autocorrect"
-	"github.com/jpl-au/fluent/html5/attr/dir"
+	"github.com/jpl-au/fluent/html5/embed"
 )
-
 
 func TestNewCtor(t *testing.T) {
 	got := string(embed.New().Render())
@@ -960,4 +959,3 @@ func TestNotDynamic(t *testing.T) {
 		t.Errorf("DynamicKey() should be empty, got %q", el.DynamicKey())
 	}
 }
-

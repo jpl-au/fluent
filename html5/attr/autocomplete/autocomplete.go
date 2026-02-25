@@ -9,57 +9,56 @@ type AutoComplete []byte
 // Variables for AutoComplete values
 var (
 	// On Enable autocomplete with generic suggestions. Browser may suggest previously entered
-// values or use autofill data based on input context and type.
+	// values or use autofill data based on input context and type.
 	On = AutoComplete("on")
 
 	// Off Disable autocomplete completely. No suggestions or autofill provided. Recommended
-// for sensitive fields, one-time passwords, or security-critical inputs.
+	// for sensitive fields, one-time passwords, or security-critical inputs.
 	Off = AutoComplete("off")
 
 	// Name Full name autocomplete suggestions. Browser provides name-based autofill from
-// user profiles, address books, and previous form entries.
+	// user profiles, address books, and previous form entries.
 	Name = AutoComplete("name")
 
 	// Email Email address autocomplete suggestions. Browser suggests email addresses from
-// user accounts, previous entries, and contact information.
+	// user accounts, previous entries, and contact information.
 	Email = AutoComplete("email")
 
 	// CurrentPassword Current password field for existing account login. Password managers will suggest
-// stored passwords for the current site and username combination.
+	// stored passwords for the current site and username combination.
 	CurrentPassword = AutoComplete("current-password")
 
 	// NewPassword New password field for account creation or password changes. Password managers
-// will generate strong passwords and avoid suggesting existing passwords.
+	// will generate strong passwords and avoid suggesting existing passwords.
 	NewPassword = AutoComplete("new-password")
 
 	// Username Username or account identifier field. Browser suggests usernames, email addresses,
-// or account names associated with the current site.
+	// or account names associated with the current site.
 	Username = AutoComplete("username")
 
 	// AddressLine1 First line of street address autocomplete. Browser suggests street numbers,
-// names, and primary address information from user profiles.
+	// names, and primary address information from user profiles.
 	AddressLine1 = AutoComplete("address-line1")
 
 	// AddressLine2 Second line of street address autocomplete. Browser suggests apartment numbers,
-// suite information, and secondary address details.
+	// suite information, and secondary address details.
 	AddressLine2 = AutoComplete("address-line2")
 
 	// Country Country name autocomplete suggestions. Browser provides country names based on
-// user location, previous entries, and address book information.
+	// user location, previous entries, and address book information.
 	Country = AutoComplete("country")
 
 	// PostalCode Postal or ZIP code autocomplete suggestions. Browser suggests postal codes based
-// on user location and previous address entries.
+	// on user location and previous address entries.
 	PostalCode = AutoComplete("postal-code")
 
 	// Tel Phone number autocomplete suggestions. Browser suggests phone numbers from
-// user profiles, contact lists, and previous form submissions.
+	// user profiles, contact lists, and previous form submissions.
 	Tel = AutoComplete("tel")
 
 	// Url URL autocomplete suggestions. Browser suggests URLs from browsing history,
-// bookmarks, and previously entered web addresses.
+	// bookmarks, and previously entered web addresses.
 	Url = AutoComplete("url")
-
 )
 
 // Custom allows setting a custom AutoComplete value for edge cases or future specifications.

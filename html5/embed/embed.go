@@ -3,13 +3,13 @@
 package embed
 
 import (
-	"github.com/jpl-au/fluent/html5"
-	"strings"
-	"strconv"
 	"bytes"
 	"io"
+	"strconv"
+	"strings"
+
 	"github.com/jpl-au/fluent"
-	"github.com/jpl-au/fluent/node"
+	"github.com/jpl-au/fluent/html5"
 	"github.com/jpl-au/fluent/html5/attr/autocapitalize"
 	"github.com/jpl-au/fluent/html5/attr/autocorrect"
 	"github.com/jpl-au/fluent/html5/attr/contenteditable"
@@ -21,6 +21,7 @@ import (
 	"github.com/jpl-au/fluent/html5/attr/translate"
 	"github.com/jpl-au/fluent/html5/attr/virtualkeyboardpolicy"
 	"github.com/jpl-au/fluent/html5/attr/writingsuggestions"
+	"github.com/jpl-au/fluent/node"
 )
 
 // Element is an exported alias for the private element type
@@ -28,24 +29,24 @@ type Element = element
 
 // element represents the <embed> HTML element
 type element struct {
-	nodes []node.Node
-	class string
-	dynamic string
-	embedType string
-	id string
-	src string
-	attr *[]node.Attribute
-	ea *html5.EventAttributes
-	ga *html5.GlobalAttributes
+	nodes      []node.Node
+	class      string
+	dynamic    string
+	embedType  string
+	id         string
+	src        string
+	attr       *[]node.Attribute
+	ea         *html5.EventAttributes
+	ga         *html5.GlobalAttributes
 	bufferhint int
-	height int
-	tabindex int
-	width int
-	autofocus bool
-	draggable bool
-	hidden bool
-	inert bool
-	itemscope bool
+	height     int
+	tabindex   int
+	width      int
+	autofocus  bool
+	draggable  bool
+	hidden     bool
+	inert      bool
+	itemscope  bool
 }
 
 // global returns the GlobalAttributes, initializing if nil
@@ -77,9 +78,9 @@ func New() *element {
 func PDF(src string, width int, height int) *element {
 	return &element{
 		embedType: "application/pdf",
-		src: src,
-		width: width,
-		height: height,
+		src:       src,
+		width:     width,
+		height:    height,
 	}
 }
 
@@ -89,9 +90,9 @@ func PDF(src string, width int, height int) *element {
 func Flash(src string, width int, height int) *element {
 	return &element{
 		embedType: "application/x-shockwave-flash",
-		src: src,
-		width: width,
-		height: height,
+		src:       src,
+		width:     width,
+		height:    height,
 	}
 }
 
@@ -101,9 +102,9 @@ func Flash(src string, width int, height int) *element {
 func Video(src string, width int, height int) *element {
 	return &element{
 		embedType: "video/mp4",
-		src: src,
-		width: width,
-		height: height,
+		src:       src,
+		width:     width,
+		height:    height,
 	}
 }
 
@@ -113,12 +114,11 @@ func Video(src string, width int, height int) *element {
 func Audio(src string, width int, height int) *element {
 	return &element{
 		embedType: "audio/mpeg",
-		src: src,
-		width: width,
-		height: height,
+		src:       src,
+		width:     width,
+		height:    height,
 	}
 }
-
 
 // Src The URL of the resource being embedded. This specifies the address of the external content to be embedded in the document.
 func (e *element) Src(url string) *element {
@@ -255,7 +255,7 @@ func (e *element) AriaLabel(label string) *element {
 // readers and other accessibility tools understand and interact with dynamic web content. Essential for creating
 // accessible web applications.
 func (e *element) SetAria(key string, value string) *element {
-	e.SetAttribute("aria-" + key, value)
+	e.SetAttribute("aria-"+key, value)
 	return e
 }
 
@@ -298,7 +298,7 @@ func (e *element) ContentEditable(value contenteditable.ContentEditable) *elemen
 // via the HTMLElement interface of the element the attribute is set on. The HTMLElement.dataset property gives
 // access to them.
 func (e *element) SetData(key string, value string) *element {
-	e.SetAttribute("data-" + key, value)
+	e.SetAttribute("data-"+key, value)
 	return e
 }
 
@@ -1160,4 +1160,3 @@ func (e *element) Attributes() *[]node.Attribute {
 	}
 	return e.attr
 }
-

@@ -3,17 +3,17 @@
 package meta
 
 import (
-	"github.com/jpl-au/fluent/html5"
-	"strings"
-	"strconv"
 	"bytes"
-	"io"
-	"github.com/jpl-au/fluent"
-	"github.com/jpl-au/fluent/node"
 	"fmt"
-	"github.com/jpl-au/fluent/html5/attr/charset"
+	"io"
+	"strconv"
+	"strings"
+
+	"github.com/jpl-au/fluent"
+	"github.com/jpl-au/fluent/html5"
 	"github.com/jpl-au/fluent/html5/attr/autocapitalize"
 	"github.com/jpl-au/fluent/html5/attr/autocorrect"
+	"github.com/jpl-au/fluent/html5/attr/charset"
 	"github.com/jpl-au/fluent/html5/attr/contenteditable"
 	"github.com/jpl-au/fluent/html5/attr/dir"
 	"github.com/jpl-au/fluent/html5/attr/enterkeyhint"
@@ -23,6 +23,7 @@ import (
 	"github.com/jpl-au/fluent/html5/attr/translate"
 	"github.com/jpl-au/fluent/html5/attr/virtualkeyboardpolicy"
 	"github.com/jpl-au/fluent/html5/attr/writingsuggestions"
+	"github.com/jpl-au/fluent/node"
 )
 
 // Element is an exported alias for the private element type
@@ -30,26 +31,26 @@ type Element = element
 
 // element represents the <meta> HTML element
 type element struct {
-	charset charset.Charset
-	nodes []node.Node
-	class string
-	content string
-	dynamic string
-	httpEquiv string
-	id string
-	media string
-	name string
-	property string
-	attr *[]node.Attribute
-	ea *html5.EventAttributes
-	ga *html5.GlobalAttributes
+	charset    charset.Charset
+	nodes      []node.Node
+	class      string
+	content    string
+	dynamic    string
+	httpEquiv  string
+	id         string
+	media      string
+	name       string
+	property   string
+	attr       *[]node.Attribute
+	ea         *html5.EventAttributes
+	ga         *html5.GlobalAttributes
 	bufferhint int
-	tabindex int
-	autofocus bool
-	draggable bool
-	hidden bool
-	inert bool
-	itemscope bool
+	tabindex   int
+	autofocus  bool
+	draggable  bool
+	hidden     bool
+	inert      bool
+	itemscope  bool
 }
 
 // global returns the GlobalAttributes, initializing if nil
@@ -98,7 +99,7 @@ func UTF8() *element {
 // Renders: <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 func Viewport(content string) *element {
 	return &element{
-		name: "viewport",
+		name:    "viewport",
 		content: content,
 	}
 }
@@ -109,7 +110,7 @@ func Viewport(content string) *element {
 func OG(property string, content string) *element {
 	return &element{
 		property: property,
-		content: content,
+		content:  content,
 	}
 }
 
@@ -118,7 +119,7 @@ func OG(property string, content string) *element {
 // Renders: <meta name="description" content="Page description" />
 func Description(content string) *element {
 	return &element{
-		name: "description",
+		name:    "description",
 		content: content,
 	}
 }
@@ -128,7 +129,7 @@ func Description(content string) *element {
 // Renders: <meta name="keywords" content="html, css, javascript" />
 func Keywords(content string) *element {
 	return &element{
-		name: "keywords",
+		name:    "keywords",
 		content: content,
 	}
 }
@@ -138,7 +139,7 @@ func Keywords(content string) *element {
 // Renders: <meta name="author" content="John Doe" />
 func Author(content string) *element {
 	return &element{
-		name: "author",
+		name:    "author",
 		content: content,
 	}
 }
@@ -148,7 +149,7 @@ func Author(content string) *element {
 // Renders: <meta name="robots" content="index, follow" />
 func Robots(content string) *element {
 	return &element{
-		name: "robots",
+		name:    "robots",
 		content: content,
 	}
 }
@@ -159,10 +160,9 @@ func Robots(content string) *element {
 func Refresh(seconds int, url string) *element {
 	return &element{
 		httpEquiv: "refresh",
-		content: fmt.Sprintf("%v; url=%v", seconds, url),
+		content:   fmt.Sprintf("%v; url=%v", seconds, url),
 	}
 }
-
 
 // Name Specifies the name of the metadata property being defined. This attribute identifies what type of metadata the content represents, enabling browsers, search engines, and other tools to interpret and use the information appropriately. Common names include 'description', 'keywords', 'author', 'viewport', 'robots', 'theme-color', and many others defined by various specifications and conventions.
 func (e *element) Name(name string) *element {
@@ -319,7 +319,7 @@ func (e *element) AriaLabel(label string) *element {
 // readers and other accessibility tools understand and interact with dynamic web content. Essential for creating
 // accessible web applications.
 func (e *element) SetAria(key string, value string) *element {
-	e.SetAttribute("aria-" + key, value)
+	e.SetAttribute("aria-"+key, value)
 	return e
 }
 
@@ -362,7 +362,7 @@ func (e *element) ContentEditable(value contenteditable.ContentEditable) *elemen
 // via the HTMLElement interface of the element the attribute is set on. The HTMLElement.dataset property gives
 // access to them.
 func (e *element) SetData(key string, value string) *element {
-	e.SetAttribute("data-" + key, value)
+	e.SetAttribute("data-"+key, value)
 	return e
 }
 
@@ -1234,4 +1234,3 @@ func (e *element) Attributes() *[]node.Attribute {
 	}
 	return e.attr
 }
-

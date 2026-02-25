@@ -12,7 +12,7 @@ type stubNode struct {
 	content string
 }
 
-func stub(content string) *stubNode          { return &stubNode{content: content} }
+func stub(content string) *stubNode { return &stubNode{content: content} }
 func (s *stubNode) Render(w ...io.Writer) []byte {
 	if len(w) > 0 && w[0] != nil {
 		w[0].Write([]byte(s.content))

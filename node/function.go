@@ -83,4 +83,3 @@ func (f *FunctionComponent) Nodes() []Node {
 	}
 	return nil
 }
-
