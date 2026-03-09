@@ -996,7 +996,7 @@ func (e *element) Replace(nodes ...node.Node) *element {
 	return e
 }
 
-// Dynamic marks this element for reactive tracking by the poly diff engine.
+// Dynamic marks this element for reactive tracking by the tether diff engine.
 // The key identifies this element across renders so the diff engine can detect
 // changes and send targeted patches. Keys must be unique within a render tree.
 // Calling without a key marks the element as dynamic without a tracking key.
@@ -1130,7 +1130,7 @@ func (e *element) AttributeBuilder(buf *bytes.Buffer) {
 	}
 
 	if e.dynamic != "" && e.dynamic != "_" {
-		buf.WriteString(` data-poly-key="`)
+		buf.WriteString(` data-tether-key="`)
 		buf.WriteString(e.dynamic)
 		buf.Write(html5.MarkupQuote)
 	}

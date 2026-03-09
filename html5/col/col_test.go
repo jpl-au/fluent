@@ -873,7 +873,7 @@ func TestOnWaitingAttr(t *testing.T) {
 
 func TestDynamicKey(t *testing.T) {
 	got := string(col.New().Dynamic("mykey").Render())
-	want := `<col data-poly-key="mykey" />`
+	want := `<col data-tether-key="mykey" />`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
 	}
@@ -890,7 +890,7 @@ func TestDynamicNoKey(t *testing.T) {
 	got := string(el.Render())
 	want := `<col />`
 	if got != want {
-		t.Errorf("Dynamic() without key should not render data-poly-key: got %q, want %q", got, want)
+		t.Errorf("Dynamic() without key should not render data-tether-key: got %q, want %q", got, want)
 	}
 }
 

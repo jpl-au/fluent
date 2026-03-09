@@ -1034,7 +1034,7 @@ func TestTextChaining(t *testing.T) {
 
 func TestDynamicKey(t *testing.T) {
 	got := string(progress.New().Dynamic("mykey").Render())
-	want := `<progress data-poly-key="mykey"></progress>`
+	want := `<progress data-tether-key="mykey"></progress>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
 	}
@@ -1051,7 +1051,7 @@ func TestDynamicNoKey(t *testing.T) {
 	got := string(el.Render())
 	want := `<progress></progress>`
 	if got != want {
-		t.Errorf("Dynamic() without key should not render data-poly-key: got %q, want %q", got, want)
+		t.Errorf("Dynamic() without key should not render data-tether-key: got %q, want %q", got, want)
 	}
 }
 

@@ -986,7 +986,7 @@ func TestTextChaining(t *testing.T) {
 
 func TestDynamicKey(t *testing.T) {
 	got := string(canvas.New().Dynamic("mykey").Render())
-	want := `<canvas data-poly-key="mykey"></canvas>`
+	want := `<canvas data-tether-key="mykey"></canvas>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
 	}
@@ -1003,7 +1003,7 @@ func TestDynamicNoKey(t *testing.T) {
 	got := string(el.Render())
 	want := `<canvas></canvas>`
 	if got != want {
-		t.Errorf("Dynamic() without key should not render data-poly-key: got %q, want %q", got, want)
+		t.Errorf("Dynamic() without key should not render data-tether-key: got %q, want %q", got, want)
 	}
 }
 
