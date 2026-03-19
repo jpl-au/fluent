@@ -987,7 +987,7 @@ func (e *element) Replace(nodes ...node.Node) *element {
 	return e
 }
 
-// Dynamic marks this element for reactive tracking by the tether diff engine.
+// Dynamic marks this element for reactive tracking by the Tether diff engine.
 // The key identifies this element across renders so the diff engine can detect
 // changes and send targeted patches. Keys must be unique within a render tree.
 // Calling without a key marks the element as dynamic without a tracking key.
