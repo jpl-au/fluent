@@ -53,6 +53,189 @@ div.New().SetAttribute("hx-get", "/items")        // YES — HTMX attribute
 
 **Important:** `SetAttribute()` does not return the element for chaining. `SetAria()` and `SetData()` do return the element for chaining.
 
+## Common Mistakes — Read This First
+
+**CRITICAL:** These are the most frequent errors. Every one of them causes a compile failure.
+
+### 1. Never use raw strings where typed constants exist
+
+Fluent uses `[]byte`-based types for enumerated HTML attribute values. The method signature **will not accept a plain string**. You must import the constant package and use its exported variable.
+
+```go
+// WRONG — does not compile
+img.New().Loading("eager")              // cannot use "eager" (untyped string constant) as loading.Loading
+img.New().Loading("lazy")               // same error
+input.New().InputType("email")          // cannot use "email" as inputtype.InputType
+
+// RIGHT — use the typed constant
+img.New().Loading(loading.Eager)        // import "github.com/jpl-au/fluent/html5/attr/loading"
+img.New().Loading(loading.Lazy)
+input.New().InputType(inputtype.Email)   // import "github.com/jpl-au/fluent/html5/attr/inputtype"
+```
+
+Every attribute package also has a `Custom()` escape hatch for values not yet covered:
+```go
+loading.Custom("future-value")
+```
+
+### 2. Use element-specific constructors — do not build common patterns by hand
+
+Most elements have domain-specific constructors that set multiple attributes at once. **Do not manually chain attributes when a constructor already exists.** For example:
+
+```go
+// WRONG — manual, verbose, error-prone
+meta.New().SetAttribute("charset", "UTF-8")                    // SetAttribute returns void, not chainable
+meta.New().SetAttribute("name", "viewport")                    // also wrong approach entirely
+img.New().Src("photo.jpg").Alt("Sunset").Loading(loading.Lazy) // works but unnecessary
+
+// RIGHT — use the constructor
+meta.UTF8()                          // <meta charset="UTF-8" />
+meta.Viewport("width=device-width") // <meta name="viewport" content="width=device-width" />
+img.Lazy("photo.jpg", "Sunset")     // <img src="photo.jpg" alt="Sunset" loading="lazy" />
+```
+
+See the **Element-Specific Constructors** table below for every available constructor.
+
+### 3. Do not hallucinate node-level helpers
+
+These do **not** exist: `node.StaticText`, `node.RawNode`, `node.TextNode`, `node.HTML`. The actual helpers are:
+
+| Exists | Usage |
+|--------|-------|
+| `node.Func(func() node.Node)` | Single dynamic node |
+| `node.Funcs(func() []node.Node)` | Multiple dynamic nodes |
+| `node.Condition(bool).True(n).False(n)` | Conditional rendering |
+| `node.When(bool, node)` | Render when true |
+| `node.Unless(bool, node)` | Render when false |
+
+Text content is always a method on the element: `div.Text(...)`, `div.Static(...)`, `div.RawText(...)`.
+
+---
+
+## Element-Specific Constructors
+
+Beyond the universal constructors (`New`, `Text`, `Static`, `RawText`, `Textf`, `RawTextf`) that every element has, many elements provide domain-specific constructors. **Always prefer these over manual attribute chaining.**
+
+| Package | Constructor | Description |
+|---------|-------------|-------------|
+| **a** | `Link(href, text)` | Anchor with href and link text |
+| | `MailTo(email, text)` | `mailto:` link |
+| | `JumpTo(anchor, text)` | Fragment/anchor link (`#anchor`) |
+| | `Tel(number, text)` | `tel:` link |
+| | `SMS(number, text)` | `sms:` link |
+| | `FTP(url, text)` | `ftp:` link |
+| | `DataURL(text, mime, data)` | Data URI link |
+| | `Base64Data(text, mime, data)` | Base64 data URI link |
+| **abbr** | `Titled(abbreviation, title)` | Abbreviation with title attribute |
+| **area** | `Rect(x1, y1, x2, y2, href)` | Rectangular image map area |
+| | `Circle(x, y, radius, href)` | Circular image map area |
+| | `Poly(coords, href)` | Polygonal image map area |
+| | `Default(href)` | Default image map area |
+| **audio** | `Fallback(text)` | Audio with fallback text |
+| | `Sources(nodes...)` | Audio with source elements |
+| | `PreloadAuto(nodes...)` | Audio with preload=auto |
+| | `PreloadMetadata(nodes...)` | Audio with preload=metadata |
+| | `PreloadNone(nodes...)` | Audio with preload=none |
+| **base** | `URL(href)` | Base URL for the document |
+| **blockquote** | `NewCite(cite, nodes...)` | Blockquote with citation URL |
+| | `TextCite(cite, text)` | Blockquote with citation and text |
+| | `RawTextCite(cite, text)` | Blockquote with citation and raw HTML |
+| **button** | `Submit(text)` | Submit button |
+| | `Reset(text)` | Reset button |
+| | `Button(text)` | Generic button (type=button) |
+| **data** | `Data(value, text)` | Data element with value |
+| **embed** | `PDF(src, w, h)` | Embedded PDF |
+| | `Flash(src, w, h)` | Embedded Flash |
+| | `Video(src, w, h)` | Embedded video |
+| | `Audio(src, w, h)` | Embedded audio |
+| **form** | `Get(action, nodes...)` | GET form |
+| | `Post(action, nodes...)` | POST form |
+| **html** | `Fragment(nodes...)` | HTML fragment without DOCTYPE |
+| | `FragmentText(text)` | Fragment with text |
+| | `FragmentStatic(text)` | Fragment with static text |
+| | `FragmentRawText(text)` | Fragment with raw HTML |
+| **iframe** | `Lazy(src)` | Iframe with loading=lazy |
+| | `Eager(src)` | Iframe with loading=eager |
+| **img** | `Src(src)` | Image with src only |
+| | `Image(src, alt)` | Image with src and alt |
+| | `Lazy(src, alt)` | Image with loading=lazy |
+| | `Eager(src, alt)` | Image with loading=eager |
+| **input** | `Password(name)` | Password input |
+| | `Email(name)` | Email input |
+| | `Search(name)` | Search input |
+| | `Tel(name)` | Telephone input |
+| | `URL(name)` | URL input |
+| | `Number(name)` | Number input |
+| | `Range(name)` | Range slider |
+| | `Date(name)` | Date picker |
+| | `Time(name)` | Time picker |
+| | `DateTimeLocal(name)` | Datetime-local input |
+| | `Month(name)` | Month picker |
+| | `Week(name)` | Week picker |
+| | `Checkbox(name, value)` | Checkbox |
+| | `Radio(name, value)` | Radio button |
+| | `File(name)` | File upload |
+| | `Submit(value)` | Submit input |
+| | `Button(value)` | Button input |
+| | `Reset(value)` | Reset input |
+| | `Hidden(name, value)` | Hidden input |
+| | `Color(name)` | Colour picker |
+| | `Image(name, src)` | Image input |
+| **label** | `NewLabel(forID, nodes...)` | Label with for attribute and children |
+| | `For(forID, text)` | Label with for attribute and text |
+| **link** | `Stylesheet(href)` | CSS stylesheet link |
+| | `Icon(href)` | Favicon link |
+| | `Preload(href, as)` | Preload resource hint |
+| **meta** | `UTF8()` | `<meta charset="UTF-8" />` |
+| | `Charset(charset)` | Meta with custom charset |
+| | `Viewport(content)` | Viewport meta |
+| | `Description(content)` | Meta description |
+| | `Keywords(content)` | Meta keywords |
+| | `Author(content)` | Meta author |
+| | `Robots(content)` | Meta robots |
+| | `OG(property, content)` | Open Graph meta |
+| | `Refresh(seconds, url)` | Auto-refresh/redirect |
+| **meter** | `ValueMax(value, max, nodes...)` | Meter with value and max |
+| **object** | `PDF(data, nodes...)` | PDF object |
+| | `Flash(data, nodes...)` | Flash object |
+| | `Video(data, nodes...)` | Video object |
+| | `Audio(data, nodes...)` | Audio object |
+| **ol** | `Decimal(nodes...)` | Ordered list (1, 2, 3) |
+| | `LowerAlpha(nodes...)` | Ordered list (a, b, c) |
+| | `UpperAlpha(nodes...)` | Ordered list (A, B, C) |
+| | `LowerRoman(nodes...)` | Ordered list (i, ii, iii) |
+| | `UpperRoman(nodes...)` | Ordered list (I, II, III) |
+| **option** | `Option(value, text)` | Select option with value |
+| **progress** | `ValueMax(value, max, nodes...)` | Progress bar with value and max |
+| **script** | `Module(src)` | ES module script |
+| | `JavaScript(src)` | JavaScript src |
+| | `JSON(data)` | Inline JSON (type=application/json) |
+| **source** | `VideoMP4(src)` | MP4 video source |
+| | `VideoWebM(src)` | WebM video source |
+| | `VideoOgg(src)` | Ogg video source |
+| | `AudioMP3(src)` | MP3 audio source |
+| | `AudioOgg(src)` | Ogg audio source |
+| | `AudioWav(src)` | WAV audio source |
+| | `ImageWebP(srcset)` | WebP image source |
+| | `ImageAVIF(srcset)` | AVIF image source |
+| **style** | `CSS(css)` | Style element with CSS content |
+| **th** | `Col(content)` | Column header (scope=col) |
+| | `Row(content)` | Row header (scope=row) |
+| | `ColGroup(content)` | Column group header |
+| | `RowGroup(content)` | Row group header |
+| **time** | `DateTime(datetime, content)` | Time with datetime attribute |
+| **track** | `Subtitles(src)` | Subtitle track |
+| | `Captions(src)` | Caption track |
+| | `Descriptions(src)` | Description track |
+| | `Chapters(src)` | Chapter track |
+| | `Metadata(src)` | Metadata track |
+| **video** | `Src(src, nodes...)` | Video with src |
+| | `PreloadAuto(nodes...)` | Video with preload=auto |
+| | `PreloadMetadata(nodes...)` | Video with preload=metadata |
+| | `PreloadNone(nodes...)` | Video with preload=none |
+
+---
+
 ## Core Concepts
 
 ### Node and Element Interfaces
@@ -161,7 +344,7 @@ security.SafeStyle(cssCode)                   // Sanitised <style> or error comm
 
 ### Constructors
 
-All elements follow consistent constructor patterns:
+All elements follow consistent constructor patterns. Many elements also have **domain-specific constructors** — see the [Element-Specific Constructors](#element-specific-constructors) table above.
 
 ```go
 div.New()                              // <div></div>
@@ -583,69 +766,61 @@ func (f *EmailField) Nodes() []node.Node {
 
 ## Typed Attributes Reference
 
-Elements with typed attribute constants:
+**CRITICAL:** Methods that accept typed constants will **NOT** accept raw strings — this is a compile error, not a runtime error. You must import the constant package and use its exported variable. Every package also provides `Custom(string)` for edge cases.
 
-### Input Elements
-- `input.Accept()` — File types (accept: ImageJPEG, ImagePNG, VideoMP4, AudioMP3, Pdf, Docx, etc.)
-- `input.AutoComplete()` — Autocomplete hints (autocomplete: On, Off, Name, Email, Username, etc.)
-- `input.InputType()` — Input types (inputtype: Text, Email, Password, Number, Tel, URL, etc.)
-- `input.Capture()` — Camera capture (capture: User, Environment)
+Import path pattern: `github.com/jpl-au/fluent/html5/attr/<package>`
 
-### Form Elements
-- `form.Method()` — HTTP methods (method: Get, Post, Dialog)
-- `form.Enctype()` — Encoding types (enctype: URLEncoded, Multipart, TextPlain)
-- `button.FormMethod()` — Form submission method (formmethod: Get, Post)
-
-### Link Elements
-- `link.As()` — Resource type hints (as: Script, Style, Image, Font, Fetch, etc.)
-- `link.CrossOrigin()` — CORS settings (crossorigin: Anonymous, UseCredentials)
-- `link.FetchPriority()` — Loading priority (fetchpriority: High, Low, Auto)
-- `link.ReferrerPolicy()` — Referrer policies (referrerpolicy: NoReferrer, Origin, StrictOrigin, etc.)
-- `link.Rel()` — Link relationships (rel: Stylesheet, Icon, Preload, Prefetch, etc.)
-
-### Image/Media Elements
-- `img.Decoding()` — Image decode (decoding: Sync, Async, Auto)
-- `img.Loading()` — Lazy loading (loading: Lazy, Eager)
-- `video.Preload()` — Media preload (preload: None, Metadata, Auto)
-
-### Global Attributes (on all elements)
-- `*.AutoCapitalize()` — (autocapitalize: Off, None, On, Sentences, Words, Characters)
-- `*.AutoCorrect()` — (autocorrect: On, Off)
-- `*.ContentEditable()` — (contenteditable: True, False, PlaintextOnly)
-- `*.Dir()` — (dir: Ltr, Rtl, Auto)
-- `*.EnterKeyHint()` — (enterkeyhint: Enter, Done, Go, Next, Previous, Search, Send)
-- `*.InputMode()` — (inputmode: None, Text, Tel, URL, Email, Numeric, Decimal, Search)
-- `*.Popover()` — (popover: Auto, Manual)
-- `*.SpellCheck()` — (spellcheck: True, False)
-- `*.Translate()` — (translate: Yes, No)
-- `*.VirtualKeyboardPolicy()` — (virtualkeyboardpolicy: Auto, Manual)
-- `*.WritingSuggestions()` — (writingsuggestions: True, False)
-
-### Specific Elements
-- `meta.Charset()` — (charset: UTF8, ISO88591, Windows1252)
-- `ol.ListType()` — (listtype: Decimal, LowerAlpha, UpperAlpha, LowerRoman, UpperRoman)
-- `area.Shape()` — (shape: Rect, Circle, Poly, Default)
-- `iframe.Sandbox()` — (sandbox: AllowForms, AllowScripts, AllowSameOrigin, etc.)
-- `img.Sizes()` — (sizes: predefined breakpoints)
-- `button.PopoverTargetAction()` — (popovertargetaction: Toggle, Show, Hide)
-
-**Usage:**
 ```go
-input.New().
-    InputType(inputtype.Email).
-    AutoComplete(autocomplete.Email).
-    Required()
+// WRONG — does not compile
+img.New().Loading("lazy")                   // cannot use "lazy" (string) as loading.Loading
+input.New().InputType("email")              // cannot use "email" (string) as inputtype.InputType
 
-link.New().
-    Rel(rel.Stylesheet).
-    Href("/style.css").
-    CrossOrigin(crossorigin.Anonymous)
-
-img.New().
-    Src("/photo.jpg").
-    Loading(loading.Lazy).
-    Decoding(decoding.Async)
+// RIGHT — use the typed constant
+img.New().Loading(loading.Lazy)             // import "github.com/jpl-au/fluent/html5/attr/loading"
+input.New().InputType(inputtype.Email)      // import "github.com/jpl-au/fluent/html5/attr/inputtype"
+link.New().Rel(rel.Stylesheet)              // import "github.com/jpl-au/fluent/html5/attr/rel"
 ```
+
+### Complete Constant Reference
+
+| Package | Type | Values |
+|---------|------|--------|
+| `accept` | `Accept` | `ImageWildcard`, `VideoWildcard`, `AudioWildcard`, `ImageJPEG`, `ImagePNG`, `ImageGIF`, `ImageWebP`, `ImageSVG`, `MimePDF`, `MimeMSWord`, `MimeWordDOCX`, `TextPlain`, `TextCSV`, `JPG`, `JPEG`, `PNG`, `GIF`, `WebP`, `SVG`, `PDF`, `DOC`, `DOCX`, `TXT`, `CSV`, `XML`, `VideoMP4`, `VideoWebM`, `AudioMP3`, `AudioWAV` |
+| `as` | `As` | `Audio`, `Document`, `Embed`, `Fetch`, `Font`, `Image`, `Object`, `Script`, `Style`, `Track`, `Video`, `Worker` |
+| `autocapitalize` | `AutoCapitalize` | `Off`, `None`, `On`, `Sentences`, `Words`, `Characters` |
+| `autocomplete` | `AutoComplete` | `On`, `Off`, `Name`, `Email`, `CurrentPassword`, `NewPassword`, `Username`, `AddressLine1`, `AddressLine2`, `Country`, `PostalCode`, `Tel`, `Url` |
+| `autocorrect` | `AutoCorrect` | `On`, `Off` |
+| `blocking` | `Blocking` | `Render` |
+| `capture` | `Capture` | `User`, `Environment` |
+| `charset` | `Charset` | `UTF8`, `ISO88591`, `Windows1252` |
+| `contenteditable` | `ContentEditable` | `True`, `False`, `PlaintextOnly` |
+| `controlslist` | `ControlsList` | `NoDownload`, `NoFullscreen`, `NoRemotePlayback` |
+| `crossorigin` | `CrossOrigin` | `Anonymous`, `UseCredentials` |
+| `decoding` | `Decoding` | `Sync`, `Async`, `Auto` |
+| `dir` | `Dir` | `LeftToRight`, `RightToLeft`, `Auto` |
+| `enctype` | `EncType` | `UrlEncoded`, `MultipartFormData`, `TextPlain` |
+| `enterkeyhint` | `EnterKeyHint` | `Enter`, `Done`, `Go`, `Next`, `Previous`, `Search`, `Send` |
+| `fetchpriority` | `FetchPriority` | `High`, `Low`, `Auto` |
+| `formmethod` | `FormMethod` | `Get`, `Post` |
+| `inputmode` | `InputMode` | `None`, `Text`, `Tel`, `Url`, `Email`, `Numeric`, `Decimal`, `Search` |
+| `inputtype` | `InputType` | `Text`, `Password`, `Email`, `Search`, `Tel`, `Url`, `Number`, `Range`, `Date`, `Time`, `DatetimeLocal`, `Month`, `Week`, `Checkbox`, `Radio`, `File`, `Submit`, `Button`, `Reset`, `Hidden`, `Color`, `Image` |
+| `listtype` | `ListType` | `LowerAlpha`, `UpperAlpha`, `LowerRoman`, `UpperRoman`, `Decimal` |
+| `loading` | `Loading` | `Eager`, `Lazy` |
+| `media` | `Media` | `Screen`, `Print`, `All`, `Speech`, `Mobile`, `Tablet`, `Desktop`, `SmallMobile`, `LargeMobile`, `SmallTablet`, `LargeTablet`, `LargeDesktop`, `Portrait`, `Landscape`, `Retina`, `HighDPI` |
+| `method` | `Method` | `Get`, `Post`, `Dialog` |
+| `popover` | `Popover` | `Auto`, `Manual` |
+| `popovertargetaction` | `PopoverTargetAction` | `Toggle`, `Show`, `Hide` |
+| `preload` | `Preload` | `None`, `Metadata`, `Auto` |
+| `referrerpolicy` | `ReferrerPolicy` | `NoReferrer`, `NoReferrerWhenDowngrade`, `Origin`, `OriginWhenCrossOrigin`, `SameOrigin`, `StrictOrigin`, `StrictOriginWhenCrossOrigin`, `UnsafeUrl` |
+| `rel` | `Rel` | `Stylesheet`, `Icon`, `Preload`, `Prefetch`, `DnsPrefetch`, `Preconnect`, `Canonical`, `Alternate`, `Prev`, `Next`, `Help`, `License`, `Manifest`, `ModulePreload`, `AppleTouchIcon` |
+| `sandbox` | `Sandbox` | `AllowDownloads`, `AllowForms`, `AllowModals`, `AllowOrientationLock`, `AllowPointerLock`, `AllowPopups`, `AllowPopupsToEscapeSandbox`, `AllowPresentation`, `AllowSameOrigin`, `AllowScripts`, `AllowStorageAccessByUserActivation`, `AllowTopNavigation`, `AllowTopNavigationByUserActivation` |
+| `shape` | `Shape` | `Rect`, `Circle`, `Poly`, `Default` |
+| `sizes` | `Size` | `FullWidth`, `HalfWidth`, `ThirdWidth`, `QuarterWidth`, `Small`, `Medium`, `Large`, `ExtraLarge`, `MobileFullTabletHalf`, `MobileFullDesktopThird`, `ResponsiveHero`, `ResponsiveContent` |
+| `spellcheck` | `Spellcheck` | `True`, `False` |
+| `target` | `Target` | `Self`, `Blank`, `Parent`, `Top` |
+| `translate` | `Translate` | `Yes`, `No` |
+| `virtualkeyboardpolicy` | `VirtualKeyboardPolicy` | `Auto`, `Manual` |
+| `writingsuggestions` | `WritingSuggestions` | `True`, `False` |
 
 ## Ecosystem
 
