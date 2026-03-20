@@ -24,7 +24,7 @@ func NewBuffer(hint ...int) *bytes.Buffer {
 }
 
 // PutBuffer returns a buffer to the pool for reuse. Passing nil is safe.
-// Do not use the buffer after calling PutBuffer — the pool may hand it
+// Do not use the buffer after calling PutBuffer - the pool may hand it
 // to another caller at any time.
 func PutBuffer(buf *bytes.Buffer) {
 	pool.Put(buf)

@@ -275,7 +275,7 @@ Fluent is organised into several packages:
 
 The `node.Node` interface is the foundation of Fluent. Every renderable piece of content implements it: HTML elements, text nodes, conditionals (`node.Condition`), and function wrappers (`node.Func`). This unified interface enables arbitrary composition - any `node.Node` can be a child of any element.
 
-HTML elements also implement `node.Element`, which extends `Node` with `SetAttribute()`, `RenderOpen()`, and `RenderClose()`. Text nodes, function components, and conditionals are not elements — they don't have attributes or tags.
+HTML elements also implement `node.Element`, which extends `Node` with `SetAttribute()`, `RenderOpen()`, and `RenderClose()`. Text nodes, function components, and conditionals are not elements - they don't have attributes or tags.
 
 When in doubt about return types for your components, `node.Node` is always safe:
 
@@ -456,9 +456,9 @@ To enable PGO in your application:
    curl -o default.pgo http://localhost:8080/debug/pprof/profile?seconds=30
    ```
 3. Place `default.pgo` in your main package directory
-4. `go build` — PGO is applied automatically
+4. `go build` - PGO is applied automatically
 
-The profile captures which functions are hot in *your* application, so the compiler optimises the specific call paths you actually use — including Fluent's rendering pipeline, buffer pooling, and any JIT strategies. Allocations are unaffected; PGO improves speed only.
+The profile captures which functions are hot in *your* application, so the compiler optimises the specific call paths you actually use - including Fluent's rendering pipeline, buffer pooling, and any JIT strategies. Allocations are unaffected; PGO improves speed only.
 
 Collect fresh profiles periodically as your application evolves. Profiles from one platform can optimise builds for another (e.g. a Linux profile can optimise a macOS build).
 

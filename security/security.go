@@ -145,7 +145,7 @@ func (sb *SanitiseBuilder) IsDynamic() bool {
 	return true
 }
 
-// DynamicKey returns an empty string — sanitise builders do not carry tracking keys.
+// DynamicKey returns an empty string - sanitise builders do not carry tracking keys.
 func (sb *SanitiseBuilder) DynamicKey() string {
 	return ""
 }

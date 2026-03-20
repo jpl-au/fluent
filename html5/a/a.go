@@ -206,7 +206,7 @@ func Base64Data(str string, mime string, data string) *element {
 }
 
 // Href The URL that the hyperlink points to when the anchor is activated. Links are not restricted to
-// HTTP-based URLs — they can use any URL scheme supported by browsers including mailto:, tel:, file:,
+// HTTP-based URLs - they can use any URL scheme supported by browsers including mailto:, tel:, file:,
 // data:, and custom protocol schemes. This is the core attribute that makes an anchor element functional
 // as a hyperlink. If omitted, the element represents a placeholder link.
 func (e *element) Href(url string) *element {

@@ -96,18 +96,18 @@ func (c *ConditionalBuilder) RenderBuilder(buf *bytes.Buffer) {
 	// If condition doesn't match or no node is set, render nothing
 }
 
-// IsDynamic returns true — conditionals always contain dynamic content
+// IsDynamic returns true - conditionals always contain dynamic content
 // because their output depends on a runtime condition.
 func (c *ConditionalBuilder) IsDynamic() bool {
 	return true
 }
 
-// DynamicKey returns an empty string — conditionals do not carry tracking keys.
+// DynamicKey returns an empty string - conditionals do not carry tracking keys.
 func (c *ConditionalBuilder) DynamicKey() string {
 	return ""
 }
 
-// Nodes returns only the active branch — the one that Render will actually
+// Nodes returns only the active branch - the one that Render will actually
 // produce output for. Returning both branches would mislead tree walkers
 // into believing that inactive content exists in the rendered tree, which
 // breaks the Differ's structural change detection for keyed elements.

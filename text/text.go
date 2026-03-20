@@ -118,7 +118,7 @@ func (tn *Node) IsDynamic() bool {
 	return tn.dynamic
 }
 
-// DynamicKey returns an empty string — text nodes do not carry tracking keys.
+// DynamicKey returns an empty string - text nodes do not carry tracking keys.
 func (tn *Node) DynamicKey() string {
 	return ""
 }

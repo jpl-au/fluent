@@ -27,7 +27,7 @@ type FuncsComponent struct {
 }
 
 // Funcs creates a new function component that will call the provided function
-// during rendering to generate a slice of nodes. It is the plural form of Func —
+// during rendering to generate a slice of nodes. It is the plural form of Func  - 
 // use Func when the function returns a single Node, and Funcs when it returns a slice.
 func Funcs(fn func() []Node) *FuncsComponent {
 	return &FuncsComponent{
@@ -64,13 +64,13 @@ func (f *FuncsComponent) RenderBuilder(buf *bytes.Buffer) {
 	}
 }
 
-// IsDynamic returns true — function components always contain dynamic content
+// IsDynamic returns true - function components always contain dynamic content
 // because their output depends on a function call at render time.
 func (f *FuncsComponent) IsDynamic() bool {
 	return true
 }
 
-// DynamicKey returns an empty string — function components do not carry tracking keys.
+// DynamicKey returns an empty string - function components do not carry tracking keys.
 func (f *FuncsComponent) DynamicKey() string {
 	return ""
 }

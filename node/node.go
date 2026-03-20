@@ -6,7 +6,7 @@ import (
 )
 
 // Node represents any renderable item in an HTML document tree.
-// This is the base contract that all renderable types satisfy — text, elements,
+// This is the base contract that all renderable types satisfy - text, elements,
 // function components, and conditionals alike.
 type Node interface {
 	// Render returns the HTML as a byte slice, or writes it to the provided writer.

@@ -60,13 +60,13 @@ func (f *FunctionComponent) RenderBuilder(buf *bytes.Buffer) {
 	}
 }
 
-// IsDynamic returns true — function components always contain dynamic content
+// IsDynamic returns true - function components always contain dynamic content
 // because their output depends on a function call at render time.
 func (f *FunctionComponent) IsDynamic() bool {
 	return true
 }
 
-// DynamicKey returns an empty string — function components do not carry tracking keys.
+// DynamicKey returns an empty string - function components do not carry tracking keys.
 func (f *FunctionComponent) DynamicKey() string {
 	return ""
 }

@@ -1,4 +1,4 @@
-# Fluent — HTML Generation for Go
+# Fluent - HTML Generation for Go
 
 Fluent is a type-safe, composable HTML generation library for Go. Every HTML element is a Go package (e.g. `div`, `a`, `input`). Elements are constructed with `New()`, configured with chainable methods, and rendered with `Render()`.
 
@@ -19,41 +19,41 @@ go vet ./...
 | `.Attr()` | Use the dedicated typed method (e.g. `.Class()`, `.Href()`, `.Src()`) |
 | `.SetAttr()` | Use `.SetAttribute()` for custom attributes only |
 | `.Attribute()` | Use the dedicated typed method or `.SetAttribute()` |
-| `.Attrs()` | No bulk attribute setter exists — set each attribute individually |
+| `.Attrs()` | No bulk attribute setter exists - set each attribute individually |
 | `.WithAttr()` | Use the dedicated typed method or `.SetAttribute()` |
 
 **The correct approach to setting attributes has three levels:**
 
-1. **Dedicated typed methods (use first)** — Every standard HTML attribute has a chainable method. For example: `.Class()`, `.ID()`, `.Href()`, `.Src()`, `.Alt()`, `.Title()`, `.Disabled()`, `.Required()`, `.Placeholder()`, `.Name()`, `.Value()`, `.Type()`, etc.
-2. **SetAria(key, value)** — For ARIA attributes. Automatically adds the `aria-` prefix.
-3. **SetData(key, value)** — For data attributes. Automatically adds the `data-` prefix.
-4. **SetAttribute(key, value)** — Only for truly custom or non-standard attributes (e.g. Alpine.js directives, HTMX attributes).
+1. **Dedicated typed methods (use first)** - Every standard HTML attribute has a chainable method. For example: `.Class()`, `.ID()`, `.Href()`, `.Src()`, `.Alt()`, `.Title()`, `.Disabled()`, `.Required()`, `.Placeholder()`, `.Name()`, `.Value()`, `.Type()`, etc.
+2. **SetAria(key, value)** - For ARIA attributes. Automatically adds the `aria-` prefix.
+3. **SetData(key, value)** - For data attributes. Automatically adds the `data-` prefix.
+4. **SetAttribute(key, value)** - Only for truly custom or non-standard attributes (e.g. Alpine.js directives, HTMX attributes).
 
 ```go
-// WRONG — these methods do not exist
+// WRONG - these methods do not exist
 div.New().Attr("class", "container")           // NO
 div.New().SetAttr("id", "main")                // NO
 button.New().Attribute("disabled", "")         // NO
 
-// RIGHT — use dedicated typed methods
+// RIGHT - use dedicated typed methods
 div.New().Class("container")                   // YES
 div.New().ID("main")                           // YES
 button.New().Disabled()                        // YES
 
-// RIGHT — use SetAria for ARIA attributes
-button.New().SetAria("label", "Close dialog")  // YES — renders aria-label="Close dialog"
+// RIGHT - use SetAria for ARIA attributes
+button.New().SetAria("label", "Close dialog")  // YES - renders aria-label="Close dialog"
 
-// RIGHT — use SetData for data attributes
-div.New().SetData("id", "123")                 // YES — renders data-id="123"
+// RIGHT - use SetData for data attributes
+div.New().SetData("id", "123")                 // YES - renders data-id="123"
 
-// RIGHT — use SetAttribute only for custom/non-standard attributes
-div.New().SetAttribute("x-on:click", "handler")  // YES — Alpine.js directive
-div.New().SetAttribute("hx-get", "/items")        // YES — HTMX attribute
+// RIGHT - use SetAttribute only for custom/non-standard attributes
+div.New().SetAttribute("x-on:click", "handler")  // YES - Alpine.js directive
+div.New().SetAttribute("hx-get", "/items")        // YES - HTMX attribute
 ```
 
 **Important:** `SetAttribute()` does not return the element for chaining. `SetAria()` and `SetData()` do return the element for chaining.
 
-## Common Mistakes — Read This First
+## Common Mistakes - Read This First
 
 **CRITICAL:** These are the most frequent errors. Every one of them causes a compile failure.
 
@@ -62,12 +62,12 @@ div.New().SetAttribute("hx-get", "/items")        // YES — HTMX attribute
 Fluent uses `[]byte`-based types for enumerated HTML attribute values. The method signature **will not accept a plain string**. You must import the constant package and use its exported variable.
 
 ```go
-// WRONG — does not compile
+// WRONG - does not compile
 img.New().Loading("eager")              // cannot use "eager" (untyped string constant) as loading.Loading
 img.New().Loading("lazy")               // same error
 input.New().InputType("email")          // cannot use "email" as inputtype.InputType
 
-// RIGHT — use the typed constant
+// RIGHT - use the typed constant
 img.New().Loading(loading.Eager)        // import "github.com/jpl-au/fluent/html5/attr/loading"
 img.New().Loading(loading.Lazy)
 input.New().InputType(inputtype.Email)   // import "github.com/jpl-au/fluent/html5/attr/inputtype"
@@ -78,17 +78,17 @@ Every attribute package also has a `Custom()` escape hatch for values not yet co
 loading.Custom("future-value")
 ```
 
-### 2. Use element-specific constructors — do not build common patterns by hand
+### 2. Use element-specific constructors - do not build common patterns by hand
 
 Most elements have domain-specific constructors that set multiple attributes at once. **Do not manually chain attributes when a constructor already exists.** For example:
 
 ```go
-// WRONG — manual, verbose, error-prone
+// WRONG - manual, verbose, error-prone
 meta.New().SetAttribute("charset", "UTF-8")                    // SetAttribute returns void, not chainable
 meta.New().SetAttribute("name", "viewport")                    // also wrong approach entirely
 img.New().Src("photo.jpg").Alt("Sunset").Loading(loading.Lazy) // works but unnecessary
 
-// RIGHT — use the constructor
+// RIGHT - use the constructor
 meta.UTF8()                          // <meta charset="UTF-8" />
 meta.Viewport("width=device-width") // <meta name="viewport" content="width=device-width" />
 img.Lazy("photo.jpg", "Sunset")     // <img src="photo.jpg" alt="Sunset" loading="lazy" />
@@ -252,7 +252,7 @@ type Node interface {
 
 `Nodes()` returns the children that will actually be rendered. For conditionals this is only the active branch; for function components this is the evaluated function output. Tree walkers (including the Differ's snapshot collector) depend on `Nodes()` matching the rendered output.
 
-HTML elements also implement `node.Element`, which extends `Node` with `SetAttribute()`, `RenderOpen()`, and `RenderClose()`. Text nodes, function components, and conditionals are **not** elements — they don't have attributes or tags.
+HTML elements also implement `node.Element`, which extends `Node` with `SetAttribute()`, `RenderOpen()`, and `RenderClose()`. Text nodes, function components, and conditionals are **not** elements - they don't have attributes or tags.
 
 ```go
 type Element interface {
@@ -265,7 +265,7 @@ type Element interface {
 
 Extensions like fluent-htmx accept `node.Element` rather than `node.Node` because they need to set attributes.
 
-**When in doubt, return `node.Node`** — it's always safe and provides maximum flexibility:
+**When in doubt, return `node.Node`** - it's always safe and provides maximum flexibility:
 
 ```go
 func MyComponent(showHeader bool) node.Node {
@@ -292,7 +292,7 @@ dropdown.New(...)  // Renders <select>...</select>
 primary.New(...)   // Renders <main>...</main>
 variable.New(...)  // Renders <var>...</var>
 
-// WRONG — these packages do not exist
+// WRONG - these packages do not exist
 import "github.com/jpl-au/fluent/html5/select"
 import "github.com/jpl-au/fluent/html5/main"
 import "github.com/jpl-au/fluent/html5/var"
@@ -300,27 +300,27 @@ import "github.com/jpl-au/fluent/html5/var"
 
 ### Static vs Text Rendering
 
-**Static()** — Immutable content known at template definition time. JIT-optimisable.
+**Static()** - Immutable content known at template definition time. JIT-optimisable.
 ```go
 div.Static("Copyright 2024")
 ```
 
-**Text()** — HTML-escaped dynamic content.
+**Text()** - HTML-escaped dynamic content.
 ```go
 div.Text(user.Name)  // Escaped at runtime
 ```
 
-**Textf()** — HTML-escaped dynamic content with formatting.
+**Textf()** - HTML-escaped dynamic content with formatting.
 ```go
 div.Textf("Hello %s, you have %d messages", user.Name, count)
 ```
 
-**RawText()** — Unescaped HTML content.
+**RawText()** - Unescaped HTML content.
 ```go
 div.RawText("<em>Bold</em>")  // Not escaped, use carefully
 ```
 
-**RawTextf()** — Unescaped HTML content with formatting.
+**RawTextf()** - Unescaped HTML content with formatting.
 ```go
 div.RawTextf("<span class=\"%s\">%s</span>", className, content)
 ```
@@ -344,7 +344,7 @@ security.SafeStyle(cssCode)                   // Sanitised <style> or error comm
 
 ### Constructors
 
-All elements follow consistent constructor patterns. Many elements also have **domain-specific constructors** — see the [Element-Specific Constructors](#element-specific-constructors) table above.
+All elements follow consistent constructor patterns. Many elements also have **domain-specific constructors** - see the [Element-Specific Constructors](#element-specific-constructors) table above.
 
 ```go
 div.New()                              // <div></div>
@@ -367,11 +367,11 @@ div.New().Class("container").ID("main").Text("Content")
 
 All non-self-closing elements have these chainable content methods:
 
-- `.Text(s)` — adds escaped text content
-- `.Textf(format, args...)` — adds formatted escaped text
-- `.Static(s)` — adds static text (JIT-optimisable)
-- `.RawText(s)` — adds unescaped HTML content
-- `.RawTextf(format, args...)` — adds formatted unescaped HTML
+- `.Text(s)` - adds escaped text content
+- `.Textf(format, args...)` - adds formatted escaped text
+- `.Static(s)` - adds static text (JIT-optimisable)
+- `.RawText(s)` - adds unescaped HTML content
+- `.RawTextf(format, args...)` - adds formatted unescaped HTML
 
 ```go
 div.New().Class("foo").Text("Hello").ID("bar")
@@ -381,8 +381,8 @@ style.New().RawText("body { color: red; }")
 
 ### Node Management
 
-- `.Add(nodes...)` — appends child nodes to the element
-- `.Replace(nodes...)` — replaces all child nodes with the provided nodes
+- `.Add(nodes...)` - appends child nodes to the element
+- `.Replace(nodes...)` - replaces all child nodes with the provided nodes
 
 ```go
 container := div.New().Class("container")
@@ -411,9 +411,9 @@ Every standard HTML attribute has a dedicated, chainable method on its element. 
 - `.OnClick(handler)`, `.OnChange(handler)`, `.OnInput(handler)`
 - `.OnFocus(handler)`, `.OnBlur(handler)`, `.OnSubmit(handler)`
 - `.OnLoad(handler)`, `.OnError(handler)`, `.OnKeyDown(handler)`, `.OnKeyUp(handler)`
-- `.SetEvent(key, value)` — for custom event attributes
+- `.SetEvent(key, value)` - for custom event attributes
 
-**Element-specific attributes** — each element has its own methods. Examples:
+**Element-specific attributes** - each element has its own methods. Examples:
 
 | Element | Methods |
 |---------|---------|
@@ -427,7 +427,7 @@ Every standard HTML attribute has a dedicated, chainable method on its element. 
 
 If a standard HTML attribute has a method on the element, use that method. Do not use `SetAttribute()` for standard attributes.
 
-### SetAria — ARIA Attributes
+### SetAria - ARIA Attributes
 
 `SetAria(key, value)` sets ARIA attributes. It automatically adds the `aria-` prefix. Returns the element for chaining.
 
@@ -444,7 +444,7 @@ nav.New().SetAria("expanded", "false").SetAria("controls", "menu")
 
 Note: `.AriaLabel()` is a convenience method equivalent to `.SetAria("label", value)`. For all other ARIA attributes, use `SetAria()`.
 
-### SetData — Data Attributes
+### SetData - Data Attributes
 
 `SetData(key, value)` sets data attributes. It automatically adds the `data-` prefix. Returns the element for chaining.
 
@@ -456,7 +456,7 @@ button.New().SetData("action", "submit").SetData("confirm", "true")
 // Renders: <button data-action="submit" data-confirm="true"></button>
 ```
 
-### SetAttribute — Custom/Non-Standard Only
+### SetAttribute - Custom/Non-Standard Only
 
 `SetAttribute(key, value)` sets arbitrary attributes. **Does NOT return the element** (it satisfies the `node.Element` interface). Use only for custom or non-standard attributes.
 
@@ -473,10 +473,10 @@ div.New().SetAttribute("custom-attr", "value")    // Custom
 
 ### Type-Safe Constants
 
-Fluent uses typed constants for attributes with enumerated values. Methods accept a typed constant, not a string — so typos cause compile errors.
+Fluent uses typed constants for attributes with enumerated values. Methods accept a typed constant, not a string - so typos cause compile errors.
 
 ```go
-// Typed constant — compile error on typo
+// Typed constant - compile error on typo
 input.New().InputType(inputtype.Email)
 
 // Escape hatch for edge cases
@@ -533,14 +533,14 @@ node.Func(func() node.Node {
 ```
 
 **Summary:**
-- `Condition(bool).True(node).False(node)` — both branches
-- `When(bool, node)` — shorthand for true-only branch
-- `Unless(bool, node)` — shorthand for false-only branch
+- `Condition(bool).True(node).False(node)` - both branches
+- `When(bool, node)` - shorthand for true-only branch
+- `Unless(bool, node)` - shorthand for false-only branch
 - Nil nodes are safely ignored
 
 ### Function Components
 
-**Single node** — `node.Func()`:
+**Single node** - `node.Func()`:
 
 ```go
 node.Func(func() node.Node {
@@ -551,7 +551,7 @@ node.Func(func() node.Node {
 })
 ```
 
-**Multiple nodes** — `node.Funcs()`:
+**Multiple nodes** - `node.Funcs()`:
 
 ```go
 node.Funcs(func() []node.Node {
@@ -575,10 +575,10 @@ type Dynamic interface {
 ```
 
 **`IsDynamic()`** returns `true` if the node's output may change between renders:
-- `Text()`, `RawText()`, `Textf()`, `RawTextf()` nodes — always dynamic
-- `Static()` nodes — never dynamic
-- `node.Condition`, `node.Func`, `node.Funcs` — always dynamic
-- HTML elements — dynamic if marked with `.Dynamic()` or if any child is dynamic
+- `Text()`, `RawText()`, `Textf()`, `RawTextf()` nodes - always dynamic
+- `Static()` nodes - never dynamic
+- `node.Condition`, `node.Func`, `node.Funcs` - always dynamic
+- HTML elements - dynamic if marked with `.Dynamic()` or if any child is dynamic
 
 **`DynamicKey()`** returns the developer-assigned key for reactive tracking, or an empty string if unset.
 
@@ -603,18 +603,18 @@ div.New(children...).Dynamic()
 
 `.Dynamic()` is chainable and follows the same pattern as `.Class()`, `.SetData()`, etc. It is used by [Fluent JIT](https://github.com/jpl-au/fluent-jit) to identify which segments need re-evaluation and by [Tether](https://github.com/jpl-au/tether) for targeted DOM patching over WebSocket.
 
-Elements without `.Dynamic()` are not tracked — the diff engine only examines keyed nodes.
+Elements without `.Dynamic()` are not tracked - the diff engine only examines keyed nodes.
 
 ## Component Pattern
 
 ### Return Types: Interface vs Concrete
 
-**`node.Node` (interface)** — use when the function may return different element types, or the component is a final building block.
+**`node.Node` (interface)** - use when the function may return different element types, or the component is a final building block.
 
-**`*element.Element` (concrete type, e.g. `*div.Element`)** — use when callers should be able to chain additional methods.
+**`*element.Element` (concrete type, e.g. `*div.Element`)** - use when callers should be able to chain additional methods.
 
 ```go
-// Return node.Node — flexible, no chaining after call
+// Return node.Node - flexible, no chaining after call
 func Card(title, content string) node.Node {
     return div.New(
         h2.Text(title),
@@ -622,7 +622,7 @@ func Card(title, content string) node.Node {
     ).Class("card")
 }
 
-// Return *div.Element — allows continued chaining
+// Return *div.Element - allows continued chaining
 func Card(title, content string) *div.Element {
     return div.New(
         h2.Text(title),
@@ -766,16 +766,16 @@ func (f *EmailField) Nodes() []node.Node {
 
 ## Typed Attributes Reference
 
-**CRITICAL:** Methods that accept typed constants will **NOT** accept raw strings — this is a compile error, not a runtime error. You must import the constant package and use its exported variable. Every package also provides `Custom(string)` for edge cases.
+**CRITICAL:** Methods that accept typed constants will **NOT** accept raw strings - this is a compile error, not a runtime error. You must import the constant package and use its exported variable. Every package also provides `Custom(string)` for edge cases.
 
 Import path pattern: `github.com/jpl-au/fluent/html5/attr/<package>`
 
 ```go
-// WRONG — does not compile
+// WRONG - does not compile
 img.New().Loading("lazy")                   // cannot use "lazy" (string) as loading.Loading
 input.New().InputType("email")              // cannot use "email" (string) as inputtype.InputType
 
-// RIGHT — use the typed constant
+// RIGHT - use the typed constant
 img.New().Loading(loading.Lazy)             // import "github.com/jpl-au/fluent/html5/attr/loading"
 input.New().InputType(inputtype.Email)      // import "github.com/jpl-au/fluent/html5/attr/inputtype"
 link.New().Rel(rel.Stylesheet)              // import "github.com/jpl-au/fluent/html5/attr/rel"
@@ -824,7 +824,7 @@ link.New().Rel(rel.Stylesheet)              // import "github.com/jpl-au/fluent/
 
 ## Ecosystem
 
-Fluent has companion packages that extend its capabilities. All are optional — Fluent works standalone for static HTML generation.
+Fluent has companion packages that extend its capabilities. All are optional - Fluent works standalone for static HTML generation.
 
 | Package | Description |
 |---------|-------------|
@@ -833,10 +833,10 @@ Fluent has companion packages that extend its capabilities. All are optional —
 | [Tether](https://github.com/jpl-au/tether) | Server-driven reactive UI. Manages sessions, WebSocket transport, and a client-side runtime that applies targeted DOM patches. Mark elements with `.Dynamic("key")` and Tether handles diffing, patching, and event handling. Uses the JIT diff engine internally. |
 
 **How the packages relate:**
-- **fluent** (this package) — core HTML generation, `node.Node`/`node.Element` interfaces, `.Dynamic()` method
-- **fluent-jit** — rendering optimisation, diff engine produces `[]Patch` from two tree states
-- **Tether** — connection lifecycle, calls `jit.Differ.Diff()` and sends patches over WebSocket
-- **fluent-htmx** — attribute wrapper for HTMX, independent of JIT and Tether
+- **fluent** (this package) - core HTML generation, `node.Node`/`node.Element` interfaces, `.Dynamic()` method
+- **fluent-jit** - rendering optimisation, diff engine produces `[]Patch` from two tree states
+- **Tether** - connection lifecycle, calls `jit.Differ.Diff()` and sends patches over WebSocket
+- **fluent-htmx** - attribute wrapper for HTMX, independent of JIT and Tether
 
 ## Dot Import (Convenience Alternative)
 
@@ -868,4 +868,4 @@ The package-based approach (`div.New()`, `p.Text()`) is the primary API. Special
 
 ## Profile-Guided Optimization (PGO)
 
-Applications using Fluent benefit from [PGO](https://go.dev/doc/pgo) (Go 1.21+). Collect a CPU profile from production, place it as `default.pgo` in the main package, and `go build` applies it automatically. Expect 10-20% speed improvements across the rendering pipeline with no code changes. Allocations are unaffected — PGO improves inlining decisions only. Collect fresh profiles periodically as code evolves.
+Applications using Fluent benefit from [PGO](https://go.dev/doc/pgo) (Go 1.21+). Collect a CPU profile from production, place it as `default.pgo` in the main package, and `go build` applies it automatically. Expect 10-20% speed improvements across the rendering pipeline with no code changes. Allocations are unaffected - PGO improves inlining decisions only. Collect fresh profiles periodically as code evolves.

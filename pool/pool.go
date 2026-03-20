@@ -8,7 +8,7 @@ import (
 	"sync/atomic"
 )
 
-// Pool behaviour — configure via the exported setter functions.
+// Pool behaviour - configure via the exported setter functions.
 var (
 	poolThreshold    = 4 * 1024   // Threshold defines the pool (small, large) the builder is returned to
 	maxPoolSize      = 256 * 1024 // Maximum size to keep in pools - discard larger buffers
@@ -30,7 +30,7 @@ func init() {
 	enabled.Store(true) // Enable pool by default
 }
 
-// Labels for diagnostic output — identify which pool handled the operation.
+// Labels for diagnostic output - identify which pool handled the operation.
 const (
 	small   = "small"
 	large   = "large"
@@ -160,7 +160,7 @@ func DiscardOversized() bool {
 
 // SetDiagnostics enables pool diagnostics. When w is non-nil, every Get
 // and Put writes a JSONL entry to w. Pass nil to disable. Safe to call
-// at any time — typically called once at application startup.
+// at any time - typically called once at application startup.
 func SetDiagnostics(w io.Writer) {
 	diagMu.Lock()
 	diagWriter = w

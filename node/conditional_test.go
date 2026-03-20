@@ -127,7 +127,7 @@ func TestConditionNilFalseNode(t *testing.T) {
 }
 
 // TestConditionNodesReturnsActiveBranch verifies that Nodes returns only
-// the branch that will be rendered — the active branch. This ensures tree
+// the branch that will be rendered - the active branch. This ensures tree
 // walkers see the same children that Render produces.
 func TestConditionNodesReturnsActiveBranch(t *testing.T) {
 	trueNode := stub("yes")
@@ -153,7 +153,7 @@ func TestConditionNodesReturnsActiveBranch(t *testing.T) {
 }
 
 // TestWhenFalseNodesReturnsEmpty verifies that When(false) exposes no
-// children — the conditional renders nothing so there are no active nodes.
+// children - the conditional renders nothing so there are no active nodes.
 func TestWhenFalseNodesReturnsEmpty(t *testing.T) {
 	c := When(false, stub("hidden"))
 	nodes := c.Nodes()
