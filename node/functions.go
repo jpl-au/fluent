@@ -27,7 +27,7 @@ type FuncsComponent struct {
 }
 
 // Funcs creates a new function component that will call the provided function
-// during rendering to generate a slice of nodes. It is the plural form of Func  - 
+// during rendering to generate a slice of nodes. It is the plural form of Func  -
 // use Func when the function returns a single Node, and Funcs when it returns a slice.
 func Funcs(fn func() []Node) *FuncsComponent {
 	return &FuncsComponent{

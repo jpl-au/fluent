@@ -1,3 +1,11 @@
+// Package node defines the interfaces and helpers that compose a
+// fluent render tree. Every renderable item satisfies [Node]: HTML
+// elements, text, conditionals, function wrappers, and memo nodes.
+//
+// Tree-level helpers create nodes without importing an HTML element
+// package: [Func], [Funcs], [Condition], [When], [Unless], and
+// [Memoise]. Elements gain reactive tracking via the [Dynamic]
+// interface and its .Dynamic(key) method.
 package node
 
 import (

@@ -107,6 +107,7 @@ These do **not** exist: `node.StaticText`, `node.RawNode`, `node.TextNode`, `nod
 | `node.Condition(bool).True(n).False(n)` | Conditional rendering |
 | `node.When(bool, node)` | Render when true |
 | `node.Unless(bool, node)` | Render when false |
+| `node.Memoise(key, func() node.Node)` | Memoised subtree - skipped by the Memoiser when the key matches the previous render |
 
 Text content is always a method on the element: `div.Text(...)`, `div.Static(...)`, `div.RawText(...)`.
 

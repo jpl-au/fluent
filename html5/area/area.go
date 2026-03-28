@@ -146,7 +146,7 @@ func (e *element) Coords(coordinates string) *element {
 	return e
 }
 
-// Href The URL that the hyperlink points to when the area is clicked. Links are not restricted to HTTP-based URLs  - 
+// Href The URL that the hyperlink points to when the area is clicked. Links are not restricted to HTTP-based URLs  -
 // they can use any URL scheme supported by browsers. If omitted, the area does not represent a hyperlink.
 func (e *element) Href(url string) *element {
 	e.href = url
