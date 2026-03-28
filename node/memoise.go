@@ -18,13 +18,13 @@ import (
 // (the closure executes unconditionally). This makes memoised nodes
 // transparent to code that does not use memoisation.
 type Memoiser interface {
-	MemoKey() any
-	MemoRender() Node
+	MemoiseKey() any
+	MemoiseRender() Node
 }
 
 // Memoise creates a lazy node with a cache key. The closure produces
 // the subtree on demand. When used with a plain Differ, the closure
-// is called unconditionally on every render (memo nodes are
+// is called unconditionally on every render (memoised nodes are
 // transparent). When used with fluent-jit's Memoiser wrapper, the
 // closure is skipped if the key matches the previous render at the
 // same tree position.
@@ -50,14 +50,14 @@ type MemoisedNode struct {
 	fn  func() Node
 }
 
-// MemoKey returns the cache key for this node. The memoisation layer
+// MemoiseKey returns the cache key for this node. The memoisation layer
 // compares this with the previous render's key at the same position.
-func (m *MemoisedNode) MemoKey() any { return m.key }
+func (m *MemoisedNode) MemoiseKey() any { return m.key }
 
-// MemoRender calls the closure and returns the resulting subtree.
+// MemoiseRender calls the closure and returns the resulting subtree.
 // The memoisation layer calls this only when the key does not match
 // the previous render (cache miss).
-func (m *MemoisedNode) MemoRender() Node {
+func (m *MemoisedNode) MemoiseRender() Node {
 	if m.fn == nil {
 		return nil
 	}

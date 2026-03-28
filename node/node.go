@@ -1,6 +1,6 @@
 // Package node defines the interfaces and helpers that compose a
 // fluent render tree. Every renderable item satisfies [Node]: HTML
-// elements, text, conditionals, function wrappers, and memo nodes.
+// elements, text, conditionals, function wrappers, and memoised nodes.
 //
 // Tree-level helpers create nodes without importing an HTML element
 // package: [Func], [Funcs], [Condition], [When], [Unless], and

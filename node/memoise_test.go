@@ -5,30 +5,30 @@ import (
 	"testing"
 )
 
-func TestMemoRendersOutput(t *testing.T) {
+func TestMemoisedRendersOutput(t *testing.T) {
 	got := string(Memoise("v1", func() Node {
 		return stub("hello")
 	}).Render())
 	if got != "hello" {
-		t.Errorf("Memo should render closure output, got %q", got)
+		t.Errorf("Memoise should render closure output, got %q", got)
 	}
 }
 
-func TestMemoNilClosure(t *testing.T) {
+func TestMemoisedNilClosure(t *testing.T) {
 	got := string(Memoise("v1", nil).Render())
 	if got != "" {
-		t.Errorf("Memo with nil closure should render nothing, got %q", got)
+		t.Errorf("Memoise with nil closure should render nothing, got %q", got)
 	}
 }
 
-func TestMemoNilReturn(t *testing.T) {
+func TestMemoisedNilReturn(t *testing.T) {
 	got := string(Memoise("v1", func() Node { return nil }).Render())
 	if got != "" {
-		t.Errorf("Memo returning nil should render nothing, got %q", got)
+		t.Errorf("Memoise returning nil should render nothing, got %q", got)
 	}
 }
 
-func TestMemoRenderBuilder(t *testing.T) {
+func TestMemoisedRenderBuilder(t *testing.T) {
 	m := Memoise("v1", func() Node { return stub("hello") })
 	var buf bytes.Buffer
 	m.RenderBuilder(&buf)
@@ -37,7 +37,7 @@ func TestMemoRenderBuilder(t *testing.T) {
 	}
 }
 
-func TestMemoRenderToWriter(t *testing.T) {
+func TestMemoisedRenderToWriter(t *testing.T) {
 	m := Memoise("v1", func() Node { return stub("hello") })
 	var buf bytes.Buffer
 	result := m.Render(&buf)
@@ -74,32 +74,32 @@ func TestMemoisedNodesNilReturn(t *testing.T) {
 	}
 }
 
-func TestMemoKey(t *testing.T) {
+func TestMemoisedKey(t *testing.T) {
 	m := Memoise(42, func() Node { return stub("hello") })
-	if m.MemoKey() != 42 {
-		t.Errorf("MemoKey() should return 42, got %v", m.MemoKey())
+	if m.MemoiseKey() != 42 {
+		t.Errorf("MemoiseKey() should return 42, got %v", m.MemoiseKey())
 	}
 }
 
-func TestMemoRenderCallsClosure(t *testing.T) {
+func TestMemoisedRenderCallsClosure(t *testing.T) {
 	m := Memoise("v1", func() Node { return stub("from closure") })
-	n := m.MemoRender()
+	n := m.MemoiseRender()
 	if n == nil {
-		t.Fatal("MemoRender() should return a node")
+		t.Fatal("MemoiseRender() should return a node")
 	}
 	if string(n.Render()) != "from closure" {
-		t.Errorf("MemoRender() should return closure output, got %q", string(n.Render()))
+		t.Errorf("MemoiseRender() should return closure output, got %q", string(n.Render()))
 	}
 }
 
-func TestMemoRenderNilClosure(t *testing.T) {
+func TestMemoisedRenderNilClosure(t *testing.T) {
 	m := Memoise("v1", nil)
-	if m.MemoRender() != nil {
-		t.Error("MemoRender() with nil closure should return nil")
+	if m.MemoiseRender() != nil {
+		t.Error("MemoiseRender() with nil closure should return nil")
 	}
 }
 
-// Verify Memo satisfies both Node and Memoiser at compile time.
+// Verify Memoise satisfies both Node and Memoiser at compile time.
 var (
 	_ Node     = (*MemoisedNode)(nil)
 	_ Memoiser = (*MemoisedNode)(nil)
