@@ -132,6 +132,15 @@ func RawTextf(format string, args ...any) *element {
 	}
 }
 
+// Src Creates a script element that loads an external script file
+// Example: script.Src("/assets/js/app.js")
+// Renders: <script src="/assets/js/app.js"></script>
+func Src(src string) *element {
+	return &element{
+		src: src,
+	}
+}
+
 // Module Creates a new script element with type="module" for ES6 modules
 // Example: script.Module("app.js")
 // Renders: <script src="app.js" type="module"></script>

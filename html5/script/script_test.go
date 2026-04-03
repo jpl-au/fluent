@@ -79,6 +79,14 @@ func TestRawTextfCtor(t *testing.T) {
 	}
 }
 
+func TestSrcCtor(t *testing.T) {
+	got := string(script.Src("/assets/js/app.js").Render())
+	want := `<script src="/assets/js/app.js"></script>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
 func TestModuleCtor(t *testing.T) {
 	got := string(script.Module("app.js").Render())
 	want := `<script src="app.js" type="module"></script>`
