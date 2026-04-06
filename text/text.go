@@ -18,9 +18,12 @@ type Node struct {
 	dynamic bool   // Whether the content is dynamically generated
 }
 
-// Static creates a text component that is explicitly marked as static content.
-// This should be used for content that never changes, allowing JIT optimisation.
-// Warning: Static content is not html encoded/escaped.
+// Static creates a text node for compile-time constant strings. The content
+// is NOT HTML-escaped and is marked as non-dynamic, allowing the JIT to
+// pre-render it. Only use with string literals you control - never with
+// user input or dynamic values, as this would create an XSS vulnerability.
+//
+// For dynamic or user-provided content, use [Text] or [Textf] instead.
 //
 // Example:
 //

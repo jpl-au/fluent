@@ -14,15 +14,20 @@ import (
 // Nil nodes are safely ignored - if a nil node is provided to True() or False(),
 // it will not be stored and nothing will be rendered for that path.
 //
+// Chain .Dynamic("key") to enable diff engine tracking. Without a key, the
+// differ cannot produce targeted patches for conditional content.
+//
 // Usage:
 //
-//	Condition(user.IsLoggedIn).
+//	node.Condition(user.IsLoggedIn).
 //	    True(p.Text("Welcome back!")).
-//	    False(p.Text("Please log in"))
+//	    False(p.Text("Please log in")).
+//	    Dynamic("auth-message")
 type ConditionalBuilder struct {
 	condition bool
 	trueNode  Node
 	falseNode Node
+	dynamic   string
 }
 
 // Condition creates a new conditional builder with the given boolean condition.
@@ -102,9 +107,18 @@ func (c *ConditionalBuilder) IsDynamic() bool {
 	return true
 }
 
-// DynamicKey returns an empty string - conditionals do not carry tracking keys.
+// Dynamic marks this conditional for reactive tracking by the diff engine.
+// The key identifies this node across renders so the diff engine can detect
+// changes and send targeted patches.
+func (c *ConditionalBuilder) Dynamic(key string) *ConditionalBuilder {
+	c.dynamic = key
+	return c
+}
+
+// DynamicKey returns the developer-assigned key for diff engine tracking.
+// Returns an empty string if the conditional has not been marked as dynamic.
 func (c *ConditionalBuilder) DynamicKey() string {
-	return ""
+	return c.dynamic
 }
 
 // Nodes returns only the active branch - the one that Render will actually

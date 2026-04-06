@@ -4,8 +4,13 @@
 //
 // Tree-level helpers create nodes without importing an HTML element
 // package: [Func], [Funcs], [Condition], [When], [Unless], and
-// [Memoise]. Elements gain reactive tracking via the [Dynamic]
-// interface and its .Dynamic(key) method.
+// [Memoise].
+//
+// All node types that produce dynamic content support reactive tracking
+// via the [Dynamic] interface. Call .Dynamic(key) on elements, function
+// components, and conditionals to assign a tracking key. The diff
+// engine in fluent-jit (and Tether's reactive UI) uses these keys to
+// produce targeted patches when content changes between renders.
 package node
 
 import (
