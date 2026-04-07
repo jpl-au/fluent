@@ -10,6 +10,7 @@ import (
 	"github.com/jpl-au/fluent/html5/attr/contenteditable"
 	"github.com/jpl-au/fluent/html5/attr/dir"
 	"github.com/jpl-au/fluent/html5/attr/enterkeyhint"
+	"github.com/jpl-au/fluent/html5/attr/hidden"
 	"github.com/jpl-au/fluent/html5/attr/inputmode"
 	"github.com/jpl-au/fluent/html5/attr/popover"
 	"github.com/jpl-au/fluent/html5/attr/spellcheck"
@@ -126,8 +127,8 @@ func TestTitleAttr(t *testing.T) {
 }
 
 func TestHiddenAttr(t *testing.T) {
-	got := string(bdi.New().Hidden().Render())
-	want := `<bdi hidden="hidden"></bdi>`
+	got := string(bdi.New().Hidden(hidden.True).Render())
+	want := `<bdi hidden="true"></bdi>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
 	}
@@ -184,7 +185,7 @@ func TestAnchorAttr(t *testing.T) {
 
 func TestAriaLabelAttr(t *testing.T) {
 	got := string(bdi.New().AriaLabel("test").Render())
-	want := `<bdi arialabel="test"></bdi>`
+	want := `<bdi aria-label="test"></bdi>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
 	}
@@ -216,7 +217,7 @@ func TestAutoCorrectAttr(t *testing.T) {
 
 func TestAutoFocusAttr(t *testing.T) {
 	got := string(bdi.New().AutoFocus().Render())
-	want := `<bdi autofocus="autofocus"></bdi>`
+	want := `<bdi autofocus></bdi>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
 	}
@@ -248,7 +249,7 @@ func TestDirAttr(t *testing.T) {
 
 func TestDraggableAttr(t *testing.T) {
 	got := string(bdi.New().Draggable().Render())
-	want := `<bdi draggable="draggable"></bdi>`
+	want := `<bdi draggable></bdi>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
 	}
@@ -272,7 +273,7 @@ func TestExportPartsAttr(t *testing.T) {
 
 func TestInertAttr(t *testing.T) {
 	got := string(bdi.New().Inert().Render())
-	want := `<bdi inert="inert"></bdi>`
+	want := `<bdi inert></bdi>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
 	}
@@ -320,7 +321,7 @@ func TestItemRefAttr(t *testing.T) {
 
 func TestItemScopeAttr(t *testing.T) {
 	got := string(bdi.New().ItemScope().Render())
-	want := `<bdi itemscope="itemscope"></bdi>`
+	want := `<bdi itemscope></bdi>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
 	}
@@ -906,6 +907,318 @@ func TestOnVolumeChangeAttr(t *testing.T) {
 func TestOnWaitingAttr(t *testing.T) {
 	got := string(bdi.New().OnWaiting("test").Render())
 	want := `<bdi onwaiting="test"></bdi>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
+func TestOnAuxClickAttr(t *testing.T) {
+	got := string(bdi.New().OnAuxClick("test").Render())
+	want := `<bdi onauxclick="test"></bdi>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
+func TestOnWheelAttr(t *testing.T) {
+	got := string(bdi.New().OnWheel("test").Render())
+	want := `<bdi onwheel="test"></bdi>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
+func TestOnCopyAttr(t *testing.T) {
+	got := string(bdi.New().OnCopy("test").Render())
+	want := `<bdi oncopy="test"></bdi>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
+func TestOnCutAttr(t *testing.T) {
+	got := string(bdi.New().OnCut("test").Render())
+	want := `<bdi oncut="test"></bdi>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
+func TestOnPasteAttr(t *testing.T) {
+	got := string(bdi.New().OnPaste("test").Render())
+	want := `<bdi onpaste="test"></bdi>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
+func TestOnScrollEndAttr(t *testing.T) {
+	got := string(bdi.New().OnScrollEnd("test").Render())
+	want := `<bdi onscrollend="test"></bdi>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
+func TestOnFormDataAttr(t *testing.T) {
+	got := string(bdi.New().OnFormData("test").Render())
+	want := `<bdi onformdata="test"></bdi>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
+func TestOnAnimationCancelAttr(t *testing.T) {
+	got := string(bdi.New().OnAnimationCancel("test").Render())
+	want := `<bdi onanimationcancel="test"></bdi>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
+func TestOnAnimationEndAttr(t *testing.T) {
+	got := string(bdi.New().OnAnimationEnd("test").Render())
+	want := `<bdi onanimationend="test"></bdi>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
+func TestOnAnimationIterationAttr(t *testing.T) {
+	got := string(bdi.New().OnAnimationIteration("test").Render())
+	want := `<bdi onanimationiteration="test"></bdi>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
+func TestOnAnimationStartAttr(t *testing.T) {
+	got := string(bdi.New().OnAnimationStart("test").Render())
+	want := `<bdi onanimationstart="test"></bdi>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
+func TestOnTransitionCancelAttr(t *testing.T) {
+	got := string(bdi.New().OnTransitionCancel("test").Render())
+	want := `<bdi ontransitioncancel="test"></bdi>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
+func TestOnTransitionEndAttr(t *testing.T) {
+	got := string(bdi.New().OnTransitionEnd("test").Render())
+	want := `<bdi ontransitionend="test"></bdi>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
+func TestOnTransitionRunAttr(t *testing.T) {
+	got := string(bdi.New().OnTransitionRun("test").Render())
+	want := `<bdi ontransitionrun="test"></bdi>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
+func TestOnTransitionStartAttr(t *testing.T) {
+	got := string(bdi.New().OnTransitionStart("test").Render())
+	want := `<bdi ontransitionstart="test"></bdi>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
+func TestOnBeforeToggleAttr(t *testing.T) {
+	got := string(bdi.New().OnBeforeToggle("test").Render())
+	want := `<bdi onbeforetoggle="test"></bdi>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
+func TestOnBeforeInputAttr(t *testing.T) {
+	got := string(bdi.New().OnBeforeInput("test").Render())
+	want := `<bdi onbeforeinput="test"></bdi>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
+func TestOnBeforeMatchAttr(t *testing.T) {
+	got := string(bdi.New().OnBeforeMatch("test").Render())
+	want := `<bdi onbeforematch="test"></bdi>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
+func TestOnCommandAttr(t *testing.T) {
+	got := string(bdi.New().OnCommand("test").Render())
+	want := `<bdi oncommand="test"></bdi>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
+func TestOnContextLostAttr(t *testing.T) {
+	got := string(bdi.New().OnContextLost("test").Render())
+	want := `<bdi oncontextlost="test"></bdi>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
+func TestOnContextRestoredAttr(t *testing.T) {
+	got := string(bdi.New().OnContextRestored("test").Render())
+	want := `<bdi oncontextrestored="test"></bdi>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
+func TestOnSecurityPolicyViolationAttr(t *testing.T) {
+	got := string(bdi.New().OnSecurityPolicyViolation("test").Render())
+	want := `<bdi onsecuritypolicyviolation="test"></bdi>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
+func TestOnSlotChangeAttr(t *testing.T) {
+	got := string(bdi.New().OnSlotChange("test").Render())
+	want := `<bdi onslotchange="test"></bdi>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
+func TestOnPointerDownAttr(t *testing.T) {
+	got := string(bdi.New().OnPointerDown("test").Render())
+	want := `<bdi onpointerdown="test"></bdi>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
+func TestOnPointerUpAttr(t *testing.T) {
+	got := string(bdi.New().OnPointerUp("test").Render())
+	want := `<bdi onpointerup="test"></bdi>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
+func TestOnPointerMoveAttr(t *testing.T) {
+	got := string(bdi.New().OnPointerMove("test").Render())
+	want := `<bdi onpointermove="test"></bdi>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
+func TestOnPointerEnterAttr(t *testing.T) {
+	got := string(bdi.New().OnPointerEnter("test").Render())
+	want := `<bdi onpointerenter="test"></bdi>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
+func TestOnPointerLeaveAttr(t *testing.T) {
+	got := string(bdi.New().OnPointerLeave("test").Render())
+	want := `<bdi onpointerleave="test"></bdi>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
+func TestOnPointerOverAttr(t *testing.T) {
+	got := string(bdi.New().OnPointerOver("test").Render())
+	want := `<bdi onpointerover="test"></bdi>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
+func TestOnPointerOutAttr(t *testing.T) {
+	got := string(bdi.New().OnPointerOut("test").Render())
+	want := `<bdi onpointerout="test"></bdi>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
+func TestOnPointerCancelAttr(t *testing.T) {
+	got := string(bdi.New().OnPointerCancel("test").Render())
+	want := `<bdi onpointercancel="test"></bdi>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
+func TestOnGotPointerCaptureAttr(t *testing.T) {
+	got := string(bdi.New().OnGotPointerCapture("test").Render())
+	want := `<bdi ongotpointercapture="test"></bdi>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
+func TestOnLostPointerCaptureAttr(t *testing.T) {
+	got := string(bdi.New().OnLostPointerCapture("test").Render())
+	want := `<bdi onlostpointercapture="test"></bdi>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
+func TestOnTouchStartAttr(t *testing.T) {
+	got := string(bdi.New().OnTouchStart("test").Render())
+	want := `<bdi ontouchstart="test"></bdi>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
+func TestOnTouchEndAttr(t *testing.T) {
+	got := string(bdi.New().OnTouchEnd("test").Render())
+	want := `<bdi ontouchend="test"></bdi>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
+func TestOnTouchMoveAttr(t *testing.T) {
+	got := string(bdi.New().OnTouchMove("test").Render())
+	want := `<bdi ontouchmove="test"></bdi>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
+func TestOnTouchCancelAttr(t *testing.T) {
+	got := string(bdi.New().OnTouchCancel("test").Render())
+	want := `<bdi ontouchcancel="test"></bdi>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
+func TestOnSelectStartAttr(t *testing.T) {
+	got := string(bdi.New().OnSelectStart("test").Render())
+	want := `<bdi onselectstart="test"></bdi>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
+func TestOnSelectionChangeAttr(t *testing.T) {
+	got := string(bdi.New().OnSelectionChange("test").Render())
+	want := `<bdi onselectionchange="test"></bdi>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
 	}

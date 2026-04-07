@@ -10,6 +10,7 @@ import (
 	"github.com/jpl-au/fluent/html5/attr/contenteditable"
 	"github.com/jpl-au/fluent/html5/attr/dir"
 	"github.com/jpl-au/fluent/html5/attr/enterkeyhint"
+	"github.com/jpl-au/fluent/html5/attr/hidden"
 	"github.com/jpl-au/fluent/html5/attr/inputmode"
 	"github.com/jpl-au/fluent/html5/attr/popover"
 	"github.com/jpl-au/fluent/html5/attr/spellcheck"
@@ -32,46 +33,6 @@ func TestNewCtor(t *testing.T) {
 	want = `<picture><picture></picture></picture>`
 	if got != want {
 		t.Errorf("nested: got %q, want %q", got, want)
-	}
-}
-
-func TestTextCtor(t *testing.T) {
-	got := string(picture.Text("Fallback text").Render())
-	want := `<picture>Fallback text</picture>`
-	if got != want {
-		t.Errorf("got %q, want %q", got, want)
-	}
-}
-
-func TestStaticCtor(t *testing.T) {
-	got := string(picture.Static("Image not available").Render())
-	want := `<picture>Image not available</picture>`
-	if got != want {
-		t.Errorf("got %q, want %q", got, want)
-	}
-}
-
-func TestRawTextCtor(t *testing.T) {
-	got := string(picture.RawText("<img src='fallback.jpg'>").Render())
-	want := `<picture><img src='fallback.jpg'></picture>`
-	if got != want {
-		t.Errorf("got %q, want %q", got, want)
-	}
-}
-
-func TestTextfCtor(t *testing.T) {
-	got := string(picture.Textf("Image %d", 1).Render())
-	want := `<picture>Image 1</picture>`
-	if got != want {
-		t.Errorf("got %q, want %q", got, want)
-	}
-}
-
-func TestRawTextfCtor(t *testing.T) {
-	got := string(picture.RawTextf("<span>%s</span>", "Content").Render())
-	want := `<picture><span>Content</span></picture>`
-	if got != want {
-		t.Errorf("got %q, want %q", got, want)
 	}
 }
 
@@ -126,8 +87,8 @@ func TestTitleAttr(t *testing.T) {
 }
 
 func TestHiddenAttr(t *testing.T) {
-	got := string(picture.New().Hidden().Render())
-	want := `<picture hidden="hidden"></picture>`
+	got := string(picture.New().Hidden(hidden.True).Render())
+	want := `<picture hidden="true"></picture>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
 	}
@@ -184,7 +145,7 @@ func TestAnchorAttr(t *testing.T) {
 
 func TestAriaLabelAttr(t *testing.T) {
 	got := string(picture.New().AriaLabel("test").Render())
-	want := `<picture arialabel="test"></picture>`
+	want := `<picture aria-label="test"></picture>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
 	}
@@ -216,7 +177,7 @@ func TestAutoCorrectAttr(t *testing.T) {
 
 func TestAutoFocusAttr(t *testing.T) {
 	got := string(picture.New().AutoFocus().Render())
-	want := `<picture autofocus="autofocus"></picture>`
+	want := `<picture autofocus></picture>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
 	}
@@ -248,7 +209,7 @@ func TestDirAttr(t *testing.T) {
 
 func TestDraggableAttr(t *testing.T) {
 	got := string(picture.New().Draggable().Render())
-	want := `<picture draggable="draggable"></picture>`
+	want := `<picture draggable></picture>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
 	}
@@ -272,7 +233,7 @@ func TestExportPartsAttr(t *testing.T) {
 
 func TestInertAttr(t *testing.T) {
 	got := string(picture.New().Inert().Render())
-	want := `<picture inert="inert"></picture>`
+	want := `<picture inert></picture>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
 	}
@@ -320,7 +281,7 @@ func TestItemRefAttr(t *testing.T) {
 
 func TestItemScopeAttr(t *testing.T) {
 	got := string(picture.New().ItemScope().Render())
-	want := `<picture itemscope="itemscope"></picture>`
+	want := `<picture itemscope></picture>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
 	}
@@ -906,6 +867,318 @@ func TestOnVolumeChangeAttr(t *testing.T) {
 func TestOnWaitingAttr(t *testing.T) {
 	got := string(picture.New().OnWaiting("test").Render())
 	want := `<picture onwaiting="test"></picture>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
+func TestOnAuxClickAttr(t *testing.T) {
+	got := string(picture.New().OnAuxClick("test").Render())
+	want := `<picture onauxclick="test"></picture>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
+func TestOnWheelAttr(t *testing.T) {
+	got := string(picture.New().OnWheel("test").Render())
+	want := `<picture onwheel="test"></picture>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
+func TestOnCopyAttr(t *testing.T) {
+	got := string(picture.New().OnCopy("test").Render())
+	want := `<picture oncopy="test"></picture>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
+func TestOnCutAttr(t *testing.T) {
+	got := string(picture.New().OnCut("test").Render())
+	want := `<picture oncut="test"></picture>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
+func TestOnPasteAttr(t *testing.T) {
+	got := string(picture.New().OnPaste("test").Render())
+	want := `<picture onpaste="test"></picture>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
+func TestOnScrollEndAttr(t *testing.T) {
+	got := string(picture.New().OnScrollEnd("test").Render())
+	want := `<picture onscrollend="test"></picture>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
+func TestOnFormDataAttr(t *testing.T) {
+	got := string(picture.New().OnFormData("test").Render())
+	want := `<picture onformdata="test"></picture>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
+func TestOnAnimationCancelAttr(t *testing.T) {
+	got := string(picture.New().OnAnimationCancel("test").Render())
+	want := `<picture onanimationcancel="test"></picture>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
+func TestOnAnimationEndAttr(t *testing.T) {
+	got := string(picture.New().OnAnimationEnd("test").Render())
+	want := `<picture onanimationend="test"></picture>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
+func TestOnAnimationIterationAttr(t *testing.T) {
+	got := string(picture.New().OnAnimationIteration("test").Render())
+	want := `<picture onanimationiteration="test"></picture>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
+func TestOnAnimationStartAttr(t *testing.T) {
+	got := string(picture.New().OnAnimationStart("test").Render())
+	want := `<picture onanimationstart="test"></picture>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
+func TestOnTransitionCancelAttr(t *testing.T) {
+	got := string(picture.New().OnTransitionCancel("test").Render())
+	want := `<picture ontransitioncancel="test"></picture>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
+func TestOnTransitionEndAttr(t *testing.T) {
+	got := string(picture.New().OnTransitionEnd("test").Render())
+	want := `<picture ontransitionend="test"></picture>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
+func TestOnTransitionRunAttr(t *testing.T) {
+	got := string(picture.New().OnTransitionRun("test").Render())
+	want := `<picture ontransitionrun="test"></picture>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
+func TestOnTransitionStartAttr(t *testing.T) {
+	got := string(picture.New().OnTransitionStart("test").Render())
+	want := `<picture ontransitionstart="test"></picture>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
+func TestOnBeforeToggleAttr(t *testing.T) {
+	got := string(picture.New().OnBeforeToggle("test").Render())
+	want := `<picture onbeforetoggle="test"></picture>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
+func TestOnBeforeInputAttr(t *testing.T) {
+	got := string(picture.New().OnBeforeInput("test").Render())
+	want := `<picture onbeforeinput="test"></picture>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
+func TestOnBeforeMatchAttr(t *testing.T) {
+	got := string(picture.New().OnBeforeMatch("test").Render())
+	want := `<picture onbeforematch="test"></picture>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
+func TestOnCommandAttr(t *testing.T) {
+	got := string(picture.New().OnCommand("test").Render())
+	want := `<picture oncommand="test"></picture>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
+func TestOnContextLostAttr(t *testing.T) {
+	got := string(picture.New().OnContextLost("test").Render())
+	want := `<picture oncontextlost="test"></picture>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
+func TestOnContextRestoredAttr(t *testing.T) {
+	got := string(picture.New().OnContextRestored("test").Render())
+	want := `<picture oncontextrestored="test"></picture>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
+func TestOnSecurityPolicyViolationAttr(t *testing.T) {
+	got := string(picture.New().OnSecurityPolicyViolation("test").Render())
+	want := `<picture onsecuritypolicyviolation="test"></picture>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
+func TestOnSlotChangeAttr(t *testing.T) {
+	got := string(picture.New().OnSlotChange("test").Render())
+	want := `<picture onslotchange="test"></picture>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
+func TestOnPointerDownAttr(t *testing.T) {
+	got := string(picture.New().OnPointerDown("test").Render())
+	want := `<picture onpointerdown="test"></picture>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
+func TestOnPointerUpAttr(t *testing.T) {
+	got := string(picture.New().OnPointerUp("test").Render())
+	want := `<picture onpointerup="test"></picture>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
+func TestOnPointerMoveAttr(t *testing.T) {
+	got := string(picture.New().OnPointerMove("test").Render())
+	want := `<picture onpointermove="test"></picture>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
+func TestOnPointerEnterAttr(t *testing.T) {
+	got := string(picture.New().OnPointerEnter("test").Render())
+	want := `<picture onpointerenter="test"></picture>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
+func TestOnPointerLeaveAttr(t *testing.T) {
+	got := string(picture.New().OnPointerLeave("test").Render())
+	want := `<picture onpointerleave="test"></picture>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
+func TestOnPointerOverAttr(t *testing.T) {
+	got := string(picture.New().OnPointerOver("test").Render())
+	want := `<picture onpointerover="test"></picture>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
+func TestOnPointerOutAttr(t *testing.T) {
+	got := string(picture.New().OnPointerOut("test").Render())
+	want := `<picture onpointerout="test"></picture>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
+func TestOnPointerCancelAttr(t *testing.T) {
+	got := string(picture.New().OnPointerCancel("test").Render())
+	want := `<picture onpointercancel="test"></picture>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
+func TestOnGotPointerCaptureAttr(t *testing.T) {
+	got := string(picture.New().OnGotPointerCapture("test").Render())
+	want := `<picture ongotpointercapture="test"></picture>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
+func TestOnLostPointerCaptureAttr(t *testing.T) {
+	got := string(picture.New().OnLostPointerCapture("test").Render())
+	want := `<picture onlostpointercapture="test"></picture>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
+func TestOnTouchStartAttr(t *testing.T) {
+	got := string(picture.New().OnTouchStart("test").Render())
+	want := `<picture ontouchstart="test"></picture>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
+func TestOnTouchEndAttr(t *testing.T) {
+	got := string(picture.New().OnTouchEnd("test").Render())
+	want := `<picture ontouchend="test"></picture>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
+func TestOnTouchMoveAttr(t *testing.T) {
+	got := string(picture.New().OnTouchMove("test").Render())
+	want := `<picture ontouchmove="test"></picture>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
+func TestOnTouchCancelAttr(t *testing.T) {
+	got := string(picture.New().OnTouchCancel("test").Render())
+	want := `<picture ontouchcancel="test"></picture>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
+func TestOnSelectStartAttr(t *testing.T) {
+	got := string(picture.New().OnSelectStart("test").Render())
+	want := `<picture onselectstart="test"></picture>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
+func TestOnSelectionChangeAttr(t *testing.T) {
+	got := string(picture.New().OnSelectionChange("test").Render())
+	want := `<picture onselectionchange="test"></picture>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
 	}

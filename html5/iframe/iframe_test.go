@@ -10,6 +10,7 @@ import (
 	"github.com/jpl-au/fluent/html5/attr/contenteditable"
 	"github.com/jpl-au/fluent/html5/attr/dir"
 	"github.com/jpl-au/fluent/html5/attr/enterkeyhint"
+	"github.com/jpl-au/fluent/html5/attr/hidden"
 	"github.com/jpl-au/fluent/html5/attr/inputmode"
 	"github.com/jpl-au/fluent/html5/attr/loading"
 	"github.com/jpl-au/fluent/html5/attr/popover"
@@ -47,8 +48,8 @@ func TestTextCtor(t *testing.T) {
 }
 
 func TestStaticCtor(t *testing.T) {
-	got := string(iframe.Static("Hello World").Render())
-	want := `<iframe>Hello World</iframe>`
+	got := string(iframe.Static("Loading embedded content...").Render())
+	want := `<iframe>Loading embedded content...</iframe>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
 	}
@@ -63,16 +64,18 @@ func TestRawTextCtor(t *testing.T) {
 }
 
 func TestTextfCtor(t *testing.T) {
-	got := string(iframe.Textf("Hello %s", "World").Render())
-	want := `<iframe>Hello World</iframe>`
+	page := "Home"
+	got := string(iframe.Textf("Loading %s...", page).Render())
+	want := `<iframe>Loading Home...</iframe>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
 	}
 }
 
 func TestRawTextfCtor(t *testing.T) {
-	got := string(iframe.RawTextf("Hello <em>%s</em>", "World").Render())
-	want := `<iframe>Hello <em>World</em></iframe>`
+	page := "Home"
+	got := string(iframe.RawTextf("<p>Loading <strong>%s</strong>...</p>", page).Render())
+	want := `<iframe><p>Loading <strong>Home</strong>...</p></iframe>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
 	}
@@ -136,7 +139,7 @@ func TestAllowAttr(t *testing.T) {
 
 func TestAllowFullscreenAttr(t *testing.T) {
 	got := string(iframe.New().AllowFullscreen().Render())
-	want := `<iframe allowfullscreen="allowfullscreen"></iframe>`
+	want := `<iframe allowfullscreen></iframe>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
 	}
@@ -184,6 +187,22 @@ func TestSandboxMulti(t *testing.T) {
 func TestSrcDocAttr(t *testing.T) {
 	got := string(iframe.New().SrcDoc("test").Render())
 	want := `<iframe srcdoc="test"></iframe>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
+func TestCspAttr(t *testing.T) {
+	got := string(iframe.New().Csp("test").Render())
+	want := `<iframe csp="test"></iframe>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
+func TestCredentiallessAttr(t *testing.T) {
+	got := string(iframe.New().Credentialless().Render())
+	want := `<iframe credentialless></iframe>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
 	}
@@ -240,8 +259,8 @@ func TestTitleAttr(t *testing.T) {
 }
 
 func TestHiddenAttr(t *testing.T) {
-	got := string(iframe.New().Hidden().Render())
-	want := `<iframe hidden="hidden"></iframe>`
+	got := string(iframe.New().Hidden(hidden.True).Render())
+	want := `<iframe hidden="true"></iframe>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
 	}
@@ -298,7 +317,7 @@ func TestAnchorAttr(t *testing.T) {
 
 func TestAriaLabelAttr(t *testing.T) {
 	got := string(iframe.New().AriaLabel("test").Render())
-	want := `<iframe arialabel="test"></iframe>`
+	want := `<iframe aria-label="test"></iframe>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
 	}
@@ -330,7 +349,7 @@ func TestAutoCorrectAttr(t *testing.T) {
 
 func TestAutoFocusAttr(t *testing.T) {
 	got := string(iframe.New().AutoFocus().Render())
-	want := `<iframe autofocus="autofocus"></iframe>`
+	want := `<iframe autofocus></iframe>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
 	}
@@ -362,7 +381,7 @@ func TestDirAttr(t *testing.T) {
 
 func TestDraggableAttr(t *testing.T) {
 	got := string(iframe.New().Draggable().Render())
-	want := `<iframe draggable="draggable"></iframe>`
+	want := `<iframe draggable></iframe>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
 	}
@@ -386,7 +405,7 @@ func TestExportPartsAttr(t *testing.T) {
 
 func TestInertAttr(t *testing.T) {
 	got := string(iframe.New().Inert().Render())
-	want := `<iframe inert="inert"></iframe>`
+	want := `<iframe inert></iframe>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
 	}
@@ -434,7 +453,7 @@ func TestItemRefAttr(t *testing.T) {
 
 func TestItemScopeAttr(t *testing.T) {
 	got := string(iframe.New().ItemScope().Render())
-	want := `<iframe itemscope="itemscope"></iframe>`
+	want := `<iframe itemscope></iframe>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
 	}
@@ -1020,6 +1039,318 @@ func TestOnVolumeChangeAttr(t *testing.T) {
 func TestOnWaitingAttr(t *testing.T) {
 	got := string(iframe.New().OnWaiting("test").Render())
 	want := `<iframe onwaiting="test"></iframe>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
+func TestOnAuxClickAttr(t *testing.T) {
+	got := string(iframe.New().OnAuxClick("test").Render())
+	want := `<iframe onauxclick="test"></iframe>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
+func TestOnWheelAttr(t *testing.T) {
+	got := string(iframe.New().OnWheel("test").Render())
+	want := `<iframe onwheel="test"></iframe>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
+func TestOnCopyAttr(t *testing.T) {
+	got := string(iframe.New().OnCopy("test").Render())
+	want := `<iframe oncopy="test"></iframe>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
+func TestOnCutAttr(t *testing.T) {
+	got := string(iframe.New().OnCut("test").Render())
+	want := `<iframe oncut="test"></iframe>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
+func TestOnPasteAttr(t *testing.T) {
+	got := string(iframe.New().OnPaste("test").Render())
+	want := `<iframe onpaste="test"></iframe>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
+func TestOnScrollEndAttr(t *testing.T) {
+	got := string(iframe.New().OnScrollEnd("test").Render())
+	want := `<iframe onscrollend="test"></iframe>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
+func TestOnFormDataAttr(t *testing.T) {
+	got := string(iframe.New().OnFormData("test").Render())
+	want := `<iframe onformdata="test"></iframe>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
+func TestOnAnimationCancelAttr(t *testing.T) {
+	got := string(iframe.New().OnAnimationCancel("test").Render())
+	want := `<iframe onanimationcancel="test"></iframe>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
+func TestOnAnimationEndAttr(t *testing.T) {
+	got := string(iframe.New().OnAnimationEnd("test").Render())
+	want := `<iframe onanimationend="test"></iframe>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
+func TestOnAnimationIterationAttr(t *testing.T) {
+	got := string(iframe.New().OnAnimationIteration("test").Render())
+	want := `<iframe onanimationiteration="test"></iframe>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
+func TestOnAnimationStartAttr(t *testing.T) {
+	got := string(iframe.New().OnAnimationStart("test").Render())
+	want := `<iframe onanimationstart="test"></iframe>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
+func TestOnTransitionCancelAttr(t *testing.T) {
+	got := string(iframe.New().OnTransitionCancel("test").Render())
+	want := `<iframe ontransitioncancel="test"></iframe>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
+func TestOnTransitionEndAttr(t *testing.T) {
+	got := string(iframe.New().OnTransitionEnd("test").Render())
+	want := `<iframe ontransitionend="test"></iframe>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
+func TestOnTransitionRunAttr(t *testing.T) {
+	got := string(iframe.New().OnTransitionRun("test").Render())
+	want := `<iframe ontransitionrun="test"></iframe>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
+func TestOnTransitionStartAttr(t *testing.T) {
+	got := string(iframe.New().OnTransitionStart("test").Render())
+	want := `<iframe ontransitionstart="test"></iframe>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
+func TestOnBeforeToggleAttr(t *testing.T) {
+	got := string(iframe.New().OnBeforeToggle("test").Render())
+	want := `<iframe onbeforetoggle="test"></iframe>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
+func TestOnBeforeInputAttr(t *testing.T) {
+	got := string(iframe.New().OnBeforeInput("test").Render())
+	want := `<iframe onbeforeinput="test"></iframe>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
+func TestOnBeforeMatchAttr(t *testing.T) {
+	got := string(iframe.New().OnBeforeMatch("test").Render())
+	want := `<iframe onbeforematch="test"></iframe>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
+func TestOnCommandAttr(t *testing.T) {
+	got := string(iframe.New().OnCommand("test").Render())
+	want := `<iframe oncommand="test"></iframe>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
+func TestOnContextLostAttr(t *testing.T) {
+	got := string(iframe.New().OnContextLost("test").Render())
+	want := `<iframe oncontextlost="test"></iframe>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
+func TestOnContextRestoredAttr(t *testing.T) {
+	got := string(iframe.New().OnContextRestored("test").Render())
+	want := `<iframe oncontextrestored="test"></iframe>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
+func TestOnSecurityPolicyViolationAttr(t *testing.T) {
+	got := string(iframe.New().OnSecurityPolicyViolation("test").Render())
+	want := `<iframe onsecuritypolicyviolation="test"></iframe>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
+func TestOnSlotChangeAttr(t *testing.T) {
+	got := string(iframe.New().OnSlotChange("test").Render())
+	want := `<iframe onslotchange="test"></iframe>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
+func TestOnPointerDownAttr(t *testing.T) {
+	got := string(iframe.New().OnPointerDown("test").Render())
+	want := `<iframe onpointerdown="test"></iframe>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
+func TestOnPointerUpAttr(t *testing.T) {
+	got := string(iframe.New().OnPointerUp("test").Render())
+	want := `<iframe onpointerup="test"></iframe>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
+func TestOnPointerMoveAttr(t *testing.T) {
+	got := string(iframe.New().OnPointerMove("test").Render())
+	want := `<iframe onpointermove="test"></iframe>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
+func TestOnPointerEnterAttr(t *testing.T) {
+	got := string(iframe.New().OnPointerEnter("test").Render())
+	want := `<iframe onpointerenter="test"></iframe>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
+func TestOnPointerLeaveAttr(t *testing.T) {
+	got := string(iframe.New().OnPointerLeave("test").Render())
+	want := `<iframe onpointerleave="test"></iframe>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
+func TestOnPointerOverAttr(t *testing.T) {
+	got := string(iframe.New().OnPointerOver("test").Render())
+	want := `<iframe onpointerover="test"></iframe>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
+func TestOnPointerOutAttr(t *testing.T) {
+	got := string(iframe.New().OnPointerOut("test").Render())
+	want := `<iframe onpointerout="test"></iframe>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
+func TestOnPointerCancelAttr(t *testing.T) {
+	got := string(iframe.New().OnPointerCancel("test").Render())
+	want := `<iframe onpointercancel="test"></iframe>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
+func TestOnGotPointerCaptureAttr(t *testing.T) {
+	got := string(iframe.New().OnGotPointerCapture("test").Render())
+	want := `<iframe ongotpointercapture="test"></iframe>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
+func TestOnLostPointerCaptureAttr(t *testing.T) {
+	got := string(iframe.New().OnLostPointerCapture("test").Render())
+	want := `<iframe onlostpointercapture="test"></iframe>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
+func TestOnTouchStartAttr(t *testing.T) {
+	got := string(iframe.New().OnTouchStart("test").Render())
+	want := `<iframe ontouchstart="test"></iframe>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
+func TestOnTouchEndAttr(t *testing.T) {
+	got := string(iframe.New().OnTouchEnd("test").Render())
+	want := `<iframe ontouchend="test"></iframe>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
+func TestOnTouchMoveAttr(t *testing.T) {
+	got := string(iframe.New().OnTouchMove("test").Render())
+	want := `<iframe ontouchmove="test"></iframe>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
+func TestOnTouchCancelAttr(t *testing.T) {
+	got := string(iframe.New().OnTouchCancel("test").Render())
+	want := `<iframe ontouchcancel="test"></iframe>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
+func TestOnSelectStartAttr(t *testing.T) {
+	got := string(iframe.New().OnSelectStart("test").Render())
+	want := `<iframe onselectstart="test"></iframe>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
+func TestOnSelectionChangeAttr(t *testing.T) {
+	got := string(iframe.New().OnSelectionChange("test").Render())
+	want := `<iframe onselectionchange="test"></iframe>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
 	}

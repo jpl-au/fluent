@@ -10,6 +10,7 @@ import (
 	"github.com/jpl-au/fluent/html5/attr/contenteditable"
 	"github.com/jpl-au/fluent/html5/attr/dir"
 	"github.com/jpl-au/fluent/html5/attr/enterkeyhint"
+	"github.com/jpl-au/fluent/html5/attr/hidden"
 	"github.com/jpl-au/fluent/html5/attr/inputmode"
 	"github.com/jpl-au/fluent/html5/attr/popover"
 	"github.com/jpl-au/fluent/html5/attr/spellcheck"
@@ -86,8 +87,8 @@ func TestTitleAttr(t *testing.T) {
 }
 
 func TestHiddenAttr(t *testing.T) {
-	got := string(datalist.New().Hidden().Render())
-	want := `<datalist hidden="hidden"></datalist>`
+	got := string(datalist.New().Hidden(hidden.True).Render())
+	want := `<datalist hidden="true"></datalist>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
 	}
@@ -144,7 +145,7 @@ func TestAnchorAttr(t *testing.T) {
 
 func TestAriaLabelAttr(t *testing.T) {
 	got := string(datalist.New().AriaLabel("test").Render())
-	want := `<datalist arialabel="test"></datalist>`
+	want := `<datalist aria-label="test"></datalist>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
 	}
@@ -176,7 +177,7 @@ func TestAutoCorrectAttr(t *testing.T) {
 
 func TestAutoFocusAttr(t *testing.T) {
 	got := string(datalist.New().AutoFocus().Render())
-	want := `<datalist autofocus="autofocus"></datalist>`
+	want := `<datalist autofocus></datalist>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
 	}
@@ -208,7 +209,7 @@ func TestDirAttr(t *testing.T) {
 
 func TestDraggableAttr(t *testing.T) {
 	got := string(datalist.New().Draggable().Render())
-	want := `<datalist draggable="draggable"></datalist>`
+	want := `<datalist draggable></datalist>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
 	}
@@ -232,7 +233,7 @@ func TestExportPartsAttr(t *testing.T) {
 
 func TestInertAttr(t *testing.T) {
 	got := string(datalist.New().Inert().Render())
-	want := `<datalist inert="inert"></datalist>`
+	want := `<datalist inert></datalist>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
 	}
@@ -280,7 +281,7 @@ func TestItemRefAttr(t *testing.T) {
 
 func TestItemScopeAttr(t *testing.T) {
 	got := string(datalist.New().ItemScope().Render())
-	want := `<datalist itemscope="itemscope"></datalist>`
+	want := `<datalist itemscope></datalist>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
 	}
@@ -866,6 +867,318 @@ func TestOnVolumeChangeAttr(t *testing.T) {
 func TestOnWaitingAttr(t *testing.T) {
 	got := string(datalist.New().OnWaiting("test").Render())
 	want := `<datalist onwaiting="test"></datalist>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
+func TestOnAuxClickAttr(t *testing.T) {
+	got := string(datalist.New().OnAuxClick("test").Render())
+	want := `<datalist onauxclick="test"></datalist>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
+func TestOnWheelAttr(t *testing.T) {
+	got := string(datalist.New().OnWheel("test").Render())
+	want := `<datalist onwheel="test"></datalist>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
+func TestOnCopyAttr(t *testing.T) {
+	got := string(datalist.New().OnCopy("test").Render())
+	want := `<datalist oncopy="test"></datalist>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
+func TestOnCutAttr(t *testing.T) {
+	got := string(datalist.New().OnCut("test").Render())
+	want := `<datalist oncut="test"></datalist>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
+func TestOnPasteAttr(t *testing.T) {
+	got := string(datalist.New().OnPaste("test").Render())
+	want := `<datalist onpaste="test"></datalist>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
+func TestOnScrollEndAttr(t *testing.T) {
+	got := string(datalist.New().OnScrollEnd("test").Render())
+	want := `<datalist onscrollend="test"></datalist>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
+func TestOnFormDataAttr(t *testing.T) {
+	got := string(datalist.New().OnFormData("test").Render())
+	want := `<datalist onformdata="test"></datalist>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
+func TestOnAnimationCancelAttr(t *testing.T) {
+	got := string(datalist.New().OnAnimationCancel("test").Render())
+	want := `<datalist onanimationcancel="test"></datalist>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
+func TestOnAnimationEndAttr(t *testing.T) {
+	got := string(datalist.New().OnAnimationEnd("test").Render())
+	want := `<datalist onanimationend="test"></datalist>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
+func TestOnAnimationIterationAttr(t *testing.T) {
+	got := string(datalist.New().OnAnimationIteration("test").Render())
+	want := `<datalist onanimationiteration="test"></datalist>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
+func TestOnAnimationStartAttr(t *testing.T) {
+	got := string(datalist.New().OnAnimationStart("test").Render())
+	want := `<datalist onanimationstart="test"></datalist>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
+func TestOnTransitionCancelAttr(t *testing.T) {
+	got := string(datalist.New().OnTransitionCancel("test").Render())
+	want := `<datalist ontransitioncancel="test"></datalist>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
+func TestOnTransitionEndAttr(t *testing.T) {
+	got := string(datalist.New().OnTransitionEnd("test").Render())
+	want := `<datalist ontransitionend="test"></datalist>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
+func TestOnTransitionRunAttr(t *testing.T) {
+	got := string(datalist.New().OnTransitionRun("test").Render())
+	want := `<datalist ontransitionrun="test"></datalist>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
+func TestOnTransitionStartAttr(t *testing.T) {
+	got := string(datalist.New().OnTransitionStart("test").Render())
+	want := `<datalist ontransitionstart="test"></datalist>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
+func TestOnBeforeToggleAttr(t *testing.T) {
+	got := string(datalist.New().OnBeforeToggle("test").Render())
+	want := `<datalist onbeforetoggle="test"></datalist>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
+func TestOnBeforeInputAttr(t *testing.T) {
+	got := string(datalist.New().OnBeforeInput("test").Render())
+	want := `<datalist onbeforeinput="test"></datalist>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
+func TestOnBeforeMatchAttr(t *testing.T) {
+	got := string(datalist.New().OnBeforeMatch("test").Render())
+	want := `<datalist onbeforematch="test"></datalist>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
+func TestOnCommandAttr(t *testing.T) {
+	got := string(datalist.New().OnCommand("test").Render())
+	want := `<datalist oncommand="test"></datalist>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
+func TestOnContextLostAttr(t *testing.T) {
+	got := string(datalist.New().OnContextLost("test").Render())
+	want := `<datalist oncontextlost="test"></datalist>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
+func TestOnContextRestoredAttr(t *testing.T) {
+	got := string(datalist.New().OnContextRestored("test").Render())
+	want := `<datalist oncontextrestored="test"></datalist>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
+func TestOnSecurityPolicyViolationAttr(t *testing.T) {
+	got := string(datalist.New().OnSecurityPolicyViolation("test").Render())
+	want := `<datalist onsecuritypolicyviolation="test"></datalist>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
+func TestOnSlotChangeAttr(t *testing.T) {
+	got := string(datalist.New().OnSlotChange("test").Render())
+	want := `<datalist onslotchange="test"></datalist>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
+func TestOnPointerDownAttr(t *testing.T) {
+	got := string(datalist.New().OnPointerDown("test").Render())
+	want := `<datalist onpointerdown="test"></datalist>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
+func TestOnPointerUpAttr(t *testing.T) {
+	got := string(datalist.New().OnPointerUp("test").Render())
+	want := `<datalist onpointerup="test"></datalist>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
+func TestOnPointerMoveAttr(t *testing.T) {
+	got := string(datalist.New().OnPointerMove("test").Render())
+	want := `<datalist onpointermove="test"></datalist>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
+func TestOnPointerEnterAttr(t *testing.T) {
+	got := string(datalist.New().OnPointerEnter("test").Render())
+	want := `<datalist onpointerenter="test"></datalist>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
+func TestOnPointerLeaveAttr(t *testing.T) {
+	got := string(datalist.New().OnPointerLeave("test").Render())
+	want := `<datalist onpointerleave="test"></datalist>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
+func TestOnPointerOverAttr(t *testing.T) {
+	got := string(datalist.New().OnPointerOver("test").Render())
+	want := `<datalist onpointerover="test"></datalist>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
+func TestOnPointerOutAttr(t *testing.T) {
+	got := string(datalist.New().OnPointerOut("test").Render())
+	want := `<datalist onpointerout="test"></datalist>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
+func TestOnPointerCancelAttr(t *testing.T) {
+	got := string(datalist.New().OnPointerCancel("test").Render())
+	want := `<datalist onpointercancel="test"></datalist>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
+func TestOnGotPointerCaptureAttr(t *testing.T) {
+	got := string(datalist.New().OnGotPointerCapture("test").Render())
+	want := `<datalist ongotpointercapture="test"></datalist>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
+func TestOnLostPointerCaptureAttr(t *testing.T) {
+	got := string(datalist.New().OnLostPointerCapture("test").Render())
+	want := `<datalist onlostpointercapture="test"></datalist>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
+func TestOnTouchStartAttr(t *testing.T) {
+	got := string(datalist.New().OnTouchStart("test").Render())
+	want := `<datalist ontouchstart="test"></datalist>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
+func TestOnTouchEndAttr(t *testing.T) {
+	got := string(datalist.New().OnTouchEnd("test").Render())
+	want := `<datalist ontouchend="test"></datalist>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
+func TestOnTouchMoveAttr(t *testing.T) {
+	got := string(datalist.New().OnTouchMove("test").Render())
+	want := `<datalist ontouchmove="test"></datalist>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
+func TestOnTouchCancelAttr(t *testing.T) {
+	got := string(datalist.New().OnTouchCancel("test").Render())
+	want := `<datalist ontouchcancel="test"></datalist>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
+func TestOnSelectStartAttr(t *testing.T) {
+	got := string(datalist.New().OnSelectStart("test").Render())
+	want := `<datalist onselectstart="test"></datalist>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
+func TestOnSelectionChangeAttr(t *testing.T) {
+	got := string(datalist.New().OnSelectionChange("test").Render())
+	want := `<datalist onselectionchange="test"></datalist>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
 	}

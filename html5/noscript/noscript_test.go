@@ -10,6 +10,7 @@ import (
 	"github.com/jpl-au/fluent/html5/attr/contenteditable"
 	"github.com/jpl-au/fluent/html5/attr/dir"
 	"github.com/jpl-au/fluent/html5/attr/enterkeyhint"
+	"github.com/jpl-au/fluent/html5/attr/hidden"
 	"github.com/jpl-au/fluent/html5/attr/inputmode"
 	"github.com/jpl-au/fluent/html5/attr/popover"
 	"github.com/jpl-au/fluent/html5/attr/spellcheck"
@@ -36,40 +37,42 @@ func TestNewCtor(t *testing.T) {
 }
 
 func TestTextCtor(t *testing.T) {
-	got := string(noscript.Text("<strong>test</strong>").Render())
-	want := `<noscript>&lt;strong&gt;test&lt;/strong&gt;</noscript>`
+	got := string(noscript.Text("Please enable JavaScript to use this application.").Render())
+	want := `<noscript>Please enable JavaScript to use this application.</noscript>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
 	}
 }
 
 func TestStaticCtor(t *testing.T) {
-	got := string(noscript.Static("<strong>test</strong>").Render())
-	want := `<noscript><strong>test</strong></noscript>`
+	got := string(noscript.Static("JavaScript is required.").Render())
+	want := `<noscript>JavaScript is required.</noscript>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
 	}
 }
 
 func TestRawTextCtor(t *testing.T) {
-	got := string(noscript.RawText("<strong>test</strong>").Render())
-	want := `<noscript><strong>test</strong></noscript>`
+	got := string(noscript.RawText("<p>Please <a href=\"/basic\">use the basic version</a>.</p>").Render())
+	want := `<noscript><p>Please <a href="/basic">use the basic version</a>.</p></noscript>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
 	}
 }
 
 func TestTextfCtor(t *testing.T) {
-	got := string(noscript.Textf("Hello %s, age %d", "<script>", 42).Render())
-	want := `<noscript>Hello &lt;script&gt;, age 42</noscript>`
+	app := "Fluent"
+	got := string(noscript.Textf("%s requires JavaScript.", app).Render())
+	want := `<noscript>Fluent requires JavaScript.</noscript>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
 	}
 }
 
 func TestRawTextfCtor(t *testing.T) {
-	got := string(noscript.RawTextf("Hello %s, age %d", "content", 42).Render())
-	want := `<noscript>Hello content, age 42</noscript>`
+	app := "Fluent"
+	got := string(noscript.RawTextf("<p>%s requires <strong>JavaScript</strong>.</p>", app).Render())
+	want := `<noscript><p>Fluent requires <strong>JavaScript</strong>.</p></noscript>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
 	}
@@ -126,8 +129,8 @@ func TestTitleAttr(t *testing.T) {
 }
 
 func TestHiddenAttr(t *testing.T) {
-	got := string(noscript.New().Hidden().Render())
-	want := `<noscript hidden="hidden"></noscript>`
+	got := string(noscript.New().Hidden(hidden.True).Render())
+	want := `<noscript hidden="true"></noscript>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
 	}
@@ -184,7 +187,7 @@ func TestAnchorAttr(t *testing.T) {
 
 func TestAriaLabelAttr(t *testing.T) {
 	got := string(noscript.New().AriaLabel("test").Render())
-	want := `<noscript arialabel="test"></noscript>`
+	want := `<noscript aria-label="test"></noscript>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
 	}
@@ -216,7 +219,7 @@ func TestAutoCorrectAttr(t *testing.T) {
 
 func TestAutoFocusAttr(t *testing.T) {
 	got := string(noscript.New().AutoFocus().Render())
-	want := `<noscript autofocus="autofocus"></noscript>`
+	want := `<noscript autofocus></noscript>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
 	}
@@ -248,7 +251,7 @@ func TestDirAttr(t *testing.T) {
 
 func TestDraggableAttr(t *testing.T) {
 	got := string(noscript.New().Draggable().Render())
-	want := `<noscript draggable="draggable"></noscript>`
+	want := `<noscript draggable></noscript>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
 	}
@@ -272,7 +275,7 @@ func TestExportPartsAttr(t *testing.T) {
 
 func TestInertAttr(t *testing.T) {
 	got := string(noscript.New().Inert().Render())
-	want := `<noscript inert="inert"></noscript>`
+	want := `<noscript inert></noscript>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
 	}
@@ -320,7 +323,7 @@ func TestItemRefAttr(t *testing.T) {
 
 func TestItemScopeAttr(t *testing.T) {
 	got := string(noscript.New().ItemScope().Render())
-	want := `<noscript itemscope="itemscope"></noscript>`
+	want := `<noscript itemscope></noscript>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
 	}
@@ -906,6 +909,318 @@ func TestOnVolumeChangeAttr(t *testing.T) {
 func TestOnWaitingAttr(t *testing.T) {
 	got := string(noscript.New().OnWaiting("test").Render())
 	want := `<noscript onwaiting="test"></noscript>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
+func TestOnAuxClickAttr(t *testing.T) {
+	got := string(noscript.New().OnAuxClick("test").Render())
+	want := `<noscript onauxclick="test"></noscript>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
+func TestOnWheelAttr(t *testing.T) {
+	got := string(noscript.New().OnWheel("test").Render())
+	want := `<noscript onwheel="test"></noscript>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
+func TestOnCopyAttr(t *testing.T) {
+	got := string(noscript.New().OnCopy("test").Render())
+	want := `<noscript oncopy="test"></noscript>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
+func TestOnCutAttr(t *testing.T) {
+	got := string(noscript.New().OnCut("test").Render())
+	want := `<noscript oncut="test"></noscript>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
+func TestOnPasteAttr(t *testing.T) {
+	got := string(noscript.New().OnPaste("test").Render())
+	want := `<noscript onpaste="test"></noscript>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
+func TestOnScrollEndAttr(t *testing.T) {
+	got := string(noscript.New().OnScrollEnd("test").Render())
+	want := `<noscript onscrollend="test"></noscript>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
+func TestOnFormDataAttr(t *testing.T) {
+	got := string(noscript.New().OnFormData("test").Render())
+	want := `<noscript onformdata="test"></noscript>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
+func TestOnAnimationCancelAttr(t *testing.T) {
+	got := string(noscript.New().OnAnimationCancel("test").Render())
+	want := `<noscript onanimationcancel="test"></noscript>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
+func TestOnAnimationEndAttr(t *testing.T) {
+	got := string(noscript.New().OnAnimationEnd("test").Render())
+	want := `<noscript onanimationend="test"></noscript>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
+func TestOnAnimationIterationAttr(t *testing.T) {
+	got := string(noscript.New().OnAnimationIteration("test").Render())
+	want := `<noscript onanimationiteration="test"></noscript>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
+func TestOnAnimationStartAttr(t *testing.T) {
+	got := string(noscript.New().OnAnimationStart("test").Render())
+	want := `<noscript onanimationstart="test"></noscript>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
+func TestOnTransitionCancelAttr(t *testing.T) {
+	got := string(noscript.New().OnTransitionCancel("test").Render())
+	want := `<noscript ontransitioncancel="test"></noscript>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
+func TestOnTransitionEndAttr(t *testing.T) {
+	got := string(noscript.New().OnTransitionEnd("test").Render())
+	want := `<noscript ontransitionend="test"></noscript>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
+func TestOnTransitionRunAttr(t *testing.T) {
+	got := string(noscript.New().OnTransitionRun("test").Render())
+	want := `<noscript ontransitionrun="test"></noscript>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
+func TestOnTransitionStartAttr(t *testing.T) {
+	got := string(noscript.New().OnTransitionStart("test").Render())
+	want := `<noscript ontransitionstart="test"></noscript>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
+func TestOnBeforeToggleAttr(t *testing.T) {
+	got := string(noscript.New().OnBeforeToggle("test").Render())
+	want := `<noscript onbeforetoggle="test"></noscript>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
+func TestOnBeforeInputAttr(t *testing.T) {
+	got := string(noscript.New().OnBeforeInput("test").Render())
+	want := `<noscript onbeforeinput="test"></noscript>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
+func TestOnBeforeMatchAttr(t *testing.T) {
+	got := string(noscript.New().OnBeforeMatch("test").Render())
+	want := `<noscript onbeforematch="test"></noscript>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
+func TestOnCommandAttr(t *testing.T) {
+	got := string(noscript.New().OnCommand("test").Render())
+	want := `<noscript oncommand="test"></noscript>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
+func TestOnContextLostAttr(t *testing.T) {
+	got := string(noscript.New().OnContextLost("test").Render())
+	want := `<noscript oncontextlost="test"></noscript>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
+func TestOnContextRestoredAttr(t *testing.T) {
+	got := string(noscript.New().OnContextRestored("test").Render())
+	want := `<noscript oncontextrestored="test"></noscript>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
+func TestOnSecurityPolicyViolationAttr(t *testing.T) {
+	got := string(noscript.New().OnSecurityPolicyViolation("test").Render())
+	want := `<noscript onsecuritypolicyviolation="test"></noscript>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
+func TestOnSlotChangeAttr(t *testing.T) {
+	got := string(noscript.New().OnSlotChange("test").Render())
+	want := `<noscript onslotchange="test"></noscript>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
+func TestOnPointerDownAttr(t *testing.T) {
+	got := string(noscript.New().OnPointerDown("test").Render())
+	want := `<noscript onpointerdown="test"></noscript>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
+func TestOnPointerUpAttr(t *testing.T) {
+	got := string(noscript.New().OnPointerUp("test").Render())
+	want := `<noscript onpointerup="test"></noscript>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
+func TestOnPointerMoveAttr(t *testing.T) {
+	got := string(noscript.New().OnPointerMove("test").Render())
+	want := `<noscript onpointermove="test"></noscript>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
+func TestOnPointerEnterAttr(t *testing.T) {
+	got := string(noscript.New().OnPointerEnter("test").Render())
+	want := `<noscript onpointerenter="test"></noscript>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
+func TestOnPointerLeaveAttr(t *testing.T) {
+	got := string(noscript.New().OnPointerLeave("test").Render())
+	want := `<noscript onpointerleave="test"></noscript>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
+func TestOnPointerOverAttr(t *testing.T) {
+	got := string(noscript.New().OnPointerOver("test").Render())
+	want := `<noscript onpointerover="test"></noscript>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
+func TestOnPointerOutAttr(t *testing.T) {
+	got := string(noscript.New().OnPointerOut("test").Render())
+	want := `<noscript onpointerout="test"></noscript>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
+func TestOnPointerCancelAttr(t *testing.T) {
+	got := string(noscript.New().OnPointerCancel("test").Render())
+	want := `<noscript onpointercancel="test"></noscript>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
+func TestOnGotPointerCaptureAttr(t *testing.T) {
+	got := string(noscript.New().OnGotPointerCapture("test").Render())
+	want := `<noscript ongotpointercapture="test"></noscript>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
+func TestOnLostPointerCaptureAttr(t *testing.T) {
+	got := string(noscript.New().OnLostPointerCapture("test").Render())
+	want := `<noscript onlostpointercapture="test"></noscript>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
+func TestOnTouchStartAttr(t *testing.T) {
+	got := string(noscript.New().OnTouchStart("test").Render())
+	want := `<noscript ontouchstart="test"></noscript>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
+func TestOnTouchEndAttr(t *testing.T) {
+	got := string(noscript.New().OnTouchEnd("test").Render())
+	want := `<noscript ontouchend="test"></noscript>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
+func TestOnTouchMoveAttr(t *testing.T) {
+	got := string(noscript.New().OnTouchMove("test").Render())
+	want := `<noscript ontouchmove="test"></noscript>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
+func TestOnTouchCancelAttr(t *testing.T) {
+	got := string(noscript.New().OnTouchCancel("test").Render())
+	want := `<noscript ontouchcancel="test"></noscript>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
+func TestOnSelectStartAttr(t *testing.T) {
+	got := string(noscript.New().OnSelectStart("test").Render())
+	want := `<noscript onselectstart="test"></noscript>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
+func TestOnSelectionChangeAttr(t *testing.T) {
+	got := string(noscript.New().OnSelectionChange("test").Render())
+	want := `<noscript onselectionchange="test"></noscript>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
 	}

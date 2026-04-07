@@ -257,8 +257,8 @@ func Bdo(nodes ...node.Node) *bdo.Element {
 }
 
 // Blockquote Creates a new blockquote element with the given child nodes.
-// Example: blockquote.New(blockquote.New())
-// Renders: <blockquote><blockquote></blockquote></blockquote>
+// Example: blockquote.New(p.Text("To be or not to be."))
+// Renders: <blockquote><p>To be or not to be.</p></blockquote>
 func Blockquote(nodes ...node.Node) *blockquote.Element {
 	return blockquote.New(nodes...)
 }
@@ -320,7 +320,7 @@ func Col() *col.Element {
 }
 
 // Colgroup Creates a new colgroup element with the given child nodes (typically <col> elements).
-// Example: colgroup.New(col.New(), col.New().Span(2))
+// Example: colgroup.New(col.New(), col.Span(2))
 // Renders: <colgroup><col /><col span="2" /></colgroup>
 func Colgroup(nodes ...node.Node) *colgroup.Element {
 	return colgroup.New(nodes...)
@@ -355,8 +355,8 @@ func Del(nodes ...node.Node) *del.Element {
 }
 
 // Details Creates a new details element with the given child nodes.
-// Example: details.New(summary.New(text.Text("Details")), text.Text("Something small enough to escape casual notice."))
-// Renders: <details><summary>Details</summary>Something small enough to escape casual notice.</details>
+// Example: details.New(summary.Text("Details"), p.Text("Hidden content"))
+// Renders: <details><summary>Details</summary><p>Hidden content</p></details>
 func Details(nodes ...node.Node) *details.Element {
 	return details.New(nodes...)
 }
@@ -369,7 +369,7 @@ func Dfn(nodes ...node.Node) *dfn.Element {
 }
 
 // Dialog Creates a new dialog element with the given child nodes.
-// Example: dialog.New(p.New(text.Text("Greetings, one and all!")))
+// Example: dialog.New(p.Text("Greetings, one and all!"))
 // Renders: <dialog><p>Greetings, one and all!</p></dialog>
 func Dialog(nodes ...node.Node) *dialog.Element {
 	return dialog.New(nodes...)
@@ -411,8 +411,8 @@ func Embed() *embed.Element {
 }
 
 // Fieldset Creates a new fieldset element with child nodes.
-// Example: fieldset.New(legend.New(text.Text("Choose your favorite monster")))
-// Renders: <fieldset><legend>Choose your favorite monster</legend></fieldset>
+// Example: fieldset.New(legend.Text("Personal details"), input.Text("name", ""))
+// Renders: <fieldset><legend>Personal details</legend><input name="name" type="text" /></fieldset>
 func Fieldset(nodes ...node.Node) *fieldset.Element {
 	return fieldset.New(nodes...)
 }
@@ -432,15 +432,15 @@ func Figure(nodes ...node.Node) *figure.Element {
 }
 
 // Footer Creates a new footer element with the given child nodes.
-// Example: footer.New(p.New(text.Text("© 2023 My Website")))
-// Renders: <footer><p>© 2023 My Website</p></footer>
+// Example: footer.New(p.New(text.Text("Copyright 2023 My Website")))
+// Renders: <footer><p>Copyright 2023 My Website</p></footer>
 func Footer(nodes ...node.Node) *footer.Element {
 	return footer.New(nodes...)
 }
 
 // Form Creates a new form element with child nodes.
-// Example: form.New(form.New())
-// Renders: <form><form></form></form>
+// Example: form.New(input.Text("name", ""), button.Submit("Send"))
+// Renders: <form><input name="name" type="text" /><button type="submit">Send</button></form>
 func Form(nodes ...node.Node) *form.Element {
 	return form.New(nodes...)
 }
@@ -501,9 +501,9 @@ func Header(nodes ...node.Node) *header.Element {
 	return header.New(nodes...)
 }
 
-// Hgroup Creates a new hgroup element with optional child nodes.
-// Example: hgroup.New()
-// Renders: <hgroup></hgroup>
+// Hgroup Creates a new hgroup element with child nodes (typically a heading and subtitle paragraphs).
+// Example: hgroup.New(h1.Text("Main Title"), p.Text("A subtitle"))
+// Renders: <hgroup><h1>Main Title</h1><p>A subtitle</p></hgroup>
 func Hgroup(nodes ...node.Node) *hgroup.Element {
 	return hgroup.New(nodes...)
 }
@@ -599,9 +599,9 @@ func Primary(nodes ...node.Node) *primary.Element {
 	return primary.New(nodes...)
 }
 
-// Imagemap Creates a new map element with optional child nodes.
-// Example: map.New()
-// Renders: <map></map>
+// Imagemap Creates a new map element with optional child nodes (typically area elements).
+// Example: imagemap.New(area.Rect(0, 0, 100, 50, "/page1"))
+// Renders: <map><area shape="rect" coords="0,0,100,50" href="/page1" /></map>
 func Imagemap(nodes ...node.Node) *imagemap.Element {
 	return imagemap.New(nodes...)
 }
@@ -620,9 +620,9 @@ func Math(nodes ...node.Node) *math.Element {
 	return math.New(nodes...)
 }
 
-// Menu Creates a new menu element with optional child nodes.
-// Example: menu.New()
-// Renders: <menu></menu>
+// Menu Creates a new menu element with child li elements.
+// Example: menu.New(li.Text("Cut"), li.Text("Copy"), li.Text("Paste"))
+// Renders: <menu><li>Cut</li><li>Copy</li><li>Paste</li></menu>
 func Menu(nodes ...node.Node) *menu.Element {
 	return menu.New(nodes...)
 }
@@ -669,9 +669,9 @@ func Ol(nodes ...node.Node) *ol.Element {
 	return ol.New(nodes...)
 }
 
-// Optgroup Creates a new optgroup element with optional child nodes
-// Example: optgroup.New()
-// Renders: <optgroup></optgroup>
+// Optgroup Creates a new optgroup element with child option elements.
+// Example: optgroup.New(option.Option("red", "Red"), option.Option("blue", "Blue")).Label("Colours")
+// Renders: <optgroup label="Colours"><option value="red">Red</option><option value="blue">Blue</option></optgroup>
 func Optgroup(nodes ...node.Node) *optgroup.Element {
 	return optgroup.New(nodes...)
 }
@@ -697,9 +697,9 @@ func P(nodes ...node.Node) *p.Element {
 	return p.New(nodes...)
 }
 
-// Picture Creates a new picture element with child nodes (typically <source> and <img> elements).
-// Example: picture.New(source.New().Srcset("large.jpg").Media("(min-width: 800px)"), img.New().Src("small.jpg"))
-// Renders: <picture><source srcset="large.jpg" media="(min-width: 800px)"><img src="small.jpg"></picture>
+// Picture Creates a new picture element with source and img child elements.
+// Example: picture.New(source.ImageWebP("photo.webp"), img.Src("photo.jpg"))
+// Renders: <picture><source srcset="photo.webp" type="image/webp"><img src="photo.jpg"></picture>
 func Picture(nodes ...node.Node) *picture.Element {
 	return picture.New(nodes...)
 }
@@ -782,9 +782,9 @@ func Section(nodes ...node.Node) *section.Element {
 	return section.New(nodes...)
 }
 
-// Dropdown Creates a new select element with optional child nodes
-// Example: dropdown.New()
-// Renders: <select></select>
+// Dropdown Creates a new select element with option and optgroup child elements.
+// Example: dropdown.New(option.Option("Red", "red"), option.Option("Blue", "blue"))
+// Renders: <select><option value="red">Red</option><option value="blue">Blue</option></select>
 func Dropdown(nodes ...node.Node) *dropdown.Element {
 	return dropdown.New(nodes...)
 }
@@ -852,9 +852,9 @@ func Sup(nodes ...node.Node) *sup.Element {
 	return sup.New(nodes...)
 }
 
-// Svg Creates a new svg element with optional child nodes.
-// Example: svg.New()
-// Renders: <svg></svg>
+// Svg Creates a new svg element with child SVG elements.
+// Example: svg.New().Width("100").Height("100").ViewBox("0 0 100 100")
+// Renders: <svg width="100" height="100" viewBox="0 0 100 100"></svg>
 func Svg(nodes ...node.Node) *svg.Element {
 	return svg.New(nodes...)
 }
@@ -866,9 +866,9 @@ func Table(nodes ...node.Node) *table.Element {
 	return table.New(nodes...)
 }
 
-// Tbody Creates a new tbody element with optional child nodes (typically tr elements).
-// Example: tbody.New()
-// Renders: <tbody></tbody>
+// Tbody Creates a new tbody element with child tr elements.
+// Example: tbody.New(tr.New(td.Text("cell")))
+// Renders: <tbody><tr><td>cell</td></tr></tbody>
 func Tbody(nodes ...node.Node) *tbody.Element {
 	return tbody.New(nodes...)
 }
@@ -880,7 +880,8 @@ func Td(nodes ...node.Node) *td.Element {
 	return td.New(nodes...)
 }
 
-// Template Creates a new template element with optional child nodes.
+// Template Creates a new template element with child nodes. Content is not rendered
+// directly but can be instantiated at runtime using JavaScript.
 // Example: template.New()
 // Renders: <template></template>
 func Template(nodes ...node.Node) *template.Element {
@@ -894,9 +895,9 @@ func Textarea(nodes ...node.Node) *textarea.Element {
 	return textarea.New(nodes...)
 }
 
-// Tfoot Creates a new tfoot element with optional child nodes.
-// Example: tfoot.New()
-// Renders: <tfoot></tfoot>
+// Tfoot Creates a new tfoot element with child tr elements.
+// Example: tfoot.New(tr.New(td.Text("Total"), td.Text("100")))
+// Renders: <tfoot><tr><td>Total</td><td>100</td></tr></tfoot>
 func Tfoot(nodes ...node.Node) *tfoot.Element {
 	return tfoot.New(nodes...)
 }
@@ -908,9 +909,9 @@ func Th(nodes ...node.Node) *th.Element {
 	return th.New(nodes...)
 }
 
-// Thead Creates a new thead element with optional child nodes.
-// Example: thead.New()
-// Renders: <thead></thead>
+// Thead Creates a new thead element with child tr elements.
+// Example: thead.New(tr.New(th.Text("Name"), th.Text("Age")))
+// Renders: <thead><tr><th>Name</th><th>Age</th></tr></thead>
 func Thead(nodes ...node.Node) *thead.Element {
 	return thead.New(nodes...)
 }

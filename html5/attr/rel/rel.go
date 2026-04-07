@@ -64,6 +64,58 @@ var (
 	// ES modules early in the page lifecycle for faster execution.
 	ModulePreload = Rel("modulepreload")
 
+	// Author Link to the author of the current document or article. Helps search engines
+	// and readers identify who created the content.
+	Author = Rel("author")
+
+	// Bookmark Permanent link (permalink) for the nearest ancestor section. Provides a stable
+	// URL for bookmarking or referencing a specific section of content.
+	Bookmark = Rel("bookmark")
+
+	// Expect Render-blocking hint indicating the linked element is expected in the document.
+	// Browser delays rendering until the expected element is parsed.
+	Expect = Rel("expect")
+
+	// External Indicates the link points to an external site not part of the current domain.
+	// Helps search engines understand site boundaries and link relationships.
+	External = Rel("external")
+
+	// Me Indicates the linked resource represents the person who owns the current document.
+	// Used for identity verification and IndieWeb authentication patterns.
+	Me = Rel("me")
+
+	// NoFollow Indicates the link is not endorsed by the author. Tells search engines not to
+	// pass ranking credit through the link. Common for user-generated content.
+	NoFollow = Rel("nofollow")
+
+	// NoOpener Prevents the opened page from accessing window.opener. Security measure for links
+	// opening new tabs to prevent reverse tabnapping attacks.
+	NoOpener = Rel("noopener")
+
+	// NoReferrer No Referer header sent when following the link. Provides privacy by hiding the
+	// source page URL from the destination. Implies noopener behaviour.
+	NoReferrer = Rel("noreferrer")
+
+	// Opener Allows the opened page to access window.opener. Reverses the default noopener
+	// behaviour for cross-origin links that need a browsing context reference.
+	Opener = Rel("opener")
+
+	// PrivacyPolicy Link to the privacy policy governing data collection on the current page.
+	// Helps users and automated tools locate privacy documentation.
+	PrivacyPolicy = Rel("privacy-policy")
+
+	// Search Link to a search interface for the current site or related resources.
+	// Enables browsers and tools to discover the site's search functionality.
+	Search = Rel("search")
+
+	// Tag Indicates the linked resource is a tag or keyword describing the current document.
+	// Used for content categorisation and topic tagging.
+	Tag = Rel("tag")
+
+	// TermsOfService Link to the terms of service governing use of the current page or site.
+	// Helps users and automated tools locate legal documentation.
+	TermsOfService = Rel("terms-of-service")
+
 	// AppleTouchIcon Apple-specific icon for iOS devices. Used when users add website to home screen
 	// or bookmark on Apple devices. Supports various sizes and resolutions.
 	AppleTouchIcon = Rel("apple-touch-icon")

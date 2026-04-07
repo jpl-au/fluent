@@ -16,6 +16,7 @@ import (
 	"github.com/jpl-au/fluent/html5/attr/contenteditable"
 	"github.com/jpl-au/fluent/html5/attr/dir"
 	"github.com/jpl-au/fluent/html5/attr/enterkeyhint"
+	"github.com/jpl-au/fluent/html5/attr/hidden"
 	"github.com/jpl-au/fluent/html5/attr/inputmode"
 	"github.com/jpl-au/fluent/html5/attr/popover"
 	"github.com/jpl-au/fluent/html5/attr/spellcheck"
@@ -31,6 +32,7 @@ type Element = element
 
 // element represents the <tbody> HTML element
 type element struct {
+	hidden     hidden.Hidden
 	nodes      []node.Node
 	class      string
 	dynamic    string
@@ -42,7 +44,6 @@ type element struct {
 	tabindex   int
 	autofocus  bool
 	draggable  bool
-	hidden     bool
 	inert      bool
 	itemscope  bool
 }
@@ -63,57 +64,12 @@ func (e *element) event() *html5.EventAttributes {
 	return e.ea
 }
 
-// New Creates a new tbody element with optional child nodes (typically tr elements).
-// Example: tbody.New()
-// Renders: <tbody></tbody>
+// New Creates a new tbody element with child tr elements.
+// Example: tbody.New(tr.New(td.Text("cell")))
+// Renders: <tbody><tr><td>cell</td></tr></tbody>
 func New(nodes ...node.Node) *element {
 	return &element{
 		nodes: nodes,
-	}
-}
-
-// Text Creates a new tbody element with text content.
-// Example: tbody.Text("Table body content")
-// Renders: <tbody>Table body content</tbody>
-func Text(content string) *element {
-	return &element{
-		nodes: []node.Node{text.Text(content)},
-	}
-}
-
-// Static Creates a new tbody element with static text content.
-// Example: tbody.Static("Hello World")
-// Renders: <tbody>Hello World</tbody>
-func Static(content string) *element {
-	return &element{
-		nodes: []node.Node{text.Static(content)},
-	}
-}
-
-// RawText Creates a new tbody element with raw text content as unescaped HTML.
-// Example: tbody.RawText("<strong>Table</strong> body content")
-// Renders: <tbody><strong>Table</strong> body content</tbody>
-func RawText(content string) *element {
-	return &element{
-		nodes: []node.Node{text.RawText(content)},
-	}
-}
-
-// Textf Creates a new tbody element with formatted text content using text.Textf.
-// Example: tbody.Textf("%s body content", "Table")
-// Renders: <tbody>Table body content</tbody>
-func Textf(format string, args ...any) *element {
-	return &element{
-		nodes: []node.Node{text.Textf(format, args...)},
-	}
-}
-
-// RawTextf Creates a new tbody element with formatted raw text content as unescaped HTML using text.RawTextf.
-// Example: tbody.RawTextf("<strong>%s</strong> body content", "Table")
-// Renders: <tbody><strong>Table</strong> body content</tbody>
-func RawTextf(format string, args ...any) *element {
-	return &element{
-		nodes: []node.Node{text.RawTextf(format, args...)},
 	}
 }
 
@@ -162,9 +118,14 @@ func (e *element) Title(text string) *element {
 // Hidden An enumerated attribute indicating that the element is not yet, or is no longer, relevant. For example, it can
 // be used to hide elements of the page that can't be used until the login process has been completed. The
 // browser won't render such elements. This attribute must not be used to hide content that could legitimately
-// be shown.
-func (e *element) Hidden() *element {
-	e.hidden = true
+// be shown. When called with no arguments, sets hidden to true. Pass hidden.UntilFound for content that should
+// be findable by find-in-page or fragment navigation.
+func (e *element) Hidden(value ...hidden.Hidden) *element {
+	if len(value) > 0 {
+		e.hidden = value[0]
+	} else {
+		e.hidden = hidden.True
+	}
 	return e
 }
 
@@ -510,6 +471,8 @@ func (e *element) OnAbort(handler string) *element {
 // This occurs on <input> elements with autocomplete="on" when the browser's autocomplete dropdown is used to fill
 // the field. Useful for tracking user interaction with browser autocomplete features, form analytics, and
 // implementing custom behavior when autocomplete values are selected.
+//
+// Deprecated: Removed from the WHATWG living standard. Was in an older HTML5 draft.
 func (e *element) OnAutoComplete(handler string) *element {
 	e.SetAttribute("onautocomplete", handler)
 	return e
@@ -519,6 +482,8 @@ func (e *element) OnAutoComplete(handler string) *element {
 // suggestions. This occurs on <input> elements with autocomplete="on" when the browser fails to retrieve or
 // process autocomplete data. Useful for error handling in forms, fallback autocomplete implementations, and
 // debugging autocomplete issues.
+//
+// Deprecated: Removed from the WHATWG living standard. Was in an older HTML5 draft.
 func (e *element) OnAutoCompleteError(handler string) *element {
 	e.SetAttribute("onautocompleteerror", handler)
 	return e
@@ -780,10 +745,11 @@ func (e *element) OnMouseUp(handler string) *element {
 	return e
 }
 
-// OnMouseWheel Fired when the mouse wheel is scrolled (deprecated in favor of 'wheel' event). Detects vertical and horizontal
-// scrolling from mouse wheels or trackpad gestures. Used for custom scrolling behavior, zooming, volume controls,
-// image galleries, or implementing scroll-based interactions. Provides delta values for scroll direction and
-// amount.
+// OnMouseWheel Fired when the mouse wheel is scrolled. Detects vertical and horizontal scrolling from mouse wheels or trackpad
+// gestures. Used for custom scrolling behavior, zooming, volume controls, image galleries, or implementing
+// scroll-based interactions. Provides delta values for scroll direction and amount.
+//
+// Deprecated: Not in the WHATWG living standard. Use OnWheel instead.
 func (e *element) OnMouseWheel(handler string) *element {
 	e.SetAttribute("onmousewheel", handler)
 	return e
@@ -877,17 +843,21 @@ func (e *element) OnSelect(handler string) *element {
 	return e
 }
 
-// OnShow Fired when a <dialog> element becomes visible, either through showModal() or show() methods. Used for
-// initializing dialog content, setting focus to appropriate elements, starting animations, loading dynamic data,
-// or triggering actions that should occur when the dialog opens.
+// OnShow Fired when a context menu element was displayed. Originally associated with the legacy HTML context menu
+// feature. Browser support was limited to older versions of Firefox. Modern alternatives include the
+// Intersection Observer API for visibility detection or OnBeforeToggle and OnToggle for popover elements.
+//
+// Deprecated: Removed from the WHATWG living standard. Was used with legacy context menus.
 func (e *element) OnShow(handler string) *element {
 	e.SetAttribute("onshow", handler)
 	return e
 }
 
-// OnSort Fired when a sortable list or table is reordered. While not a standard HTML event, it's commonly used in
-// sortable libraries and custom implementations. Used for saving sort preferences, updating data models,
-// triggering dependent updates, analytics tracking, or implementing custom sort behaviors.
+// OnSort Non-standard event intended for sortable list or table reordering. Not defined in the WHATWG living standard
+// or any W3C specification. Used in some libraries and custom implementations for saving sort preferences,
+// updating data models, and triggering dependent updates.
+//
+// Deprecated: Not part of any HTML specification. Use custom JavaScript events for sort handling.
 func (e *element) OnSort(handler string) *element {
 	e.SetAttribute("onsort", handler)
 	return e
@@ -938,6 +908,318 @@ func (e *element) OnVolumeChange(handler string) *element {
 // reducing quality temporarily, implementing adaptive streaming, or providing user feedback during loading delays.
 func (e *element) OnWaiting(handler string) *element {
 	e.SetAttribute("onwaiting", handler)
+	return e
+}
+
+// OnAuxClick Fired when a non-primary pointing device button is clicked (typically middle or right mouse button). Unlike
+// onclick which only fires for the primary button, onauxclick captures secondary button interactions. Useful for
+// implementing middle-click to open in new tab, custom right-click actions, or distinguishing between button types.
+func (e *element) OnAuxClick(handler string) *element {
+	e.SetAttribute("onauxclick", handler)
+	return e
+}
+
+// OnWheel Fired when a wheel button of a pointing device is rotated. Replaces the non-standard onmousewheel event.
+// Provides deltaX, deltaY, and deltaZ values for precise scroll direction and amount detection. Used for custom
+// scrolling, zooming, volume controls, image galleries, or scroll-based interactions.
+func (e *element) OnWheel(handler string) *element {
+	e.SetAttribute("onwheel", handler)
+	return e
+}
+
+// OnCopy Fired when the user initiates a copy action through keyboard shortcut or context menu. Occurs on the focused
+// element or selection. Can be used to modify clipboard content with setData(), track copy analytics, show copy
+// confirmation, or prevent copying of sensitive content with preventDefault().
+func (e *element) OnCopy(handler string) *element {
+	e.SetAttribute("oncopy", handler)
+	return e
+}
+
+// OnCut Fired when the user initiates a cut action through keyboard shortcut or context menu. Similar to oncopy but
+// also removes the selected content. Can be used to modify clipboard content, prevent cutting in read-only
+// contexts, track content removal, or implement custom cut behaviour.
+func (e *element) OnCut(handler string) *element {
+	e.SetAttribute("oncut", handler)
+	return e
+}
+
+// OnPaste Fired when the user pastes content from the clipboard through keyboard shortcut or context menu. Provides
+// access to clipboard data via getData(). Used for sanitising pasted content, handling rich text or file pastes,
+// implementing custom paste logic, or preventing unwanted paste formats.
+func (e *element) OnPaste(handler string) *element {
+	e.SetAttribute("onpaste", handler)
+	return e
+}
+
+// OnScrollEnd Fired when scrolling has completed and the scroll position has settled. Unlike onscroll which fires repeatedly
+// during scrolling, onscrollend fires once when the scroll operation finishes. Useful for lazy loading, saving
+// scroll position, triggering animations after scroll completes, or updating UI based on final scroll position.
+func (e *element) OnScrollEnd(handler string) *element {
+	e.SetAttribute("onscrollend", handler)
+	return e
+}
+
+// OnFormData Fired after the entry list representing the form's data is constructed during form submission. Occurs on
+// <form> elements and allows modification of form data before it is sent. Useful for appending custom data,
+// transforming field values, or implementing custom serialisation logic.
+func (e *element) OnFormData(handler string) *element {
+	e.SetAttribute("onformdata", handler)
+	return e
+}
+
+// OnAnimationCancel Fired when a CSS animation is cancelled unexpectedly, such as when the animation-name is removed or the
+// element is hidden. Unlike onanimationend, this fires for abnormal termination. Useful for cleanup operations,
+// resetting element state, or triggering fallback behaviour when animations are interrupted.
+func (e *element) OnAnimationCancel(handler string) *element {
+	e.SetAttribute("onanimationcancel", handler)
+	return e
+}
+
+// OnAnimationEnd Fired when a CSS animation completes all its iterations successfully. Occurs after the final iteration of the
+// animation finishes. Used for removing animation classes, triggering follow-up animations, updating element
+// state, or chaining sequential animation effects.
+func (e *element) OnAnimationEnd(handler string) *element {
+	e.SetAttribute("onanimationend", handler)
+	return e
+}
+
+// OnAnimationIteration Fired when a CSS animation completes one iteration and begins the next. Only fires for animations with more
+// than one iteration. Useful for updating counters, changing animation parameters between cycles, triggering
+// synchronised effects, or implementing progress tracking for looping animations.
+func (e *element) OnAnimationIteration(handler string) *element {
+	e.SetAttribute("onanimationiteration", handler)
+	return e
+}
+
+// OnAnimationStart Fired when a CSS animation begins playing. Occurs after any animation-delay has elapsed and the first
+// keyframe starts. Used for showing animation-dependent UI, starting synchronised effects, tracking animation
+// activity, or implementing animation-aware state management.
+func (e *element) OnAnimationStart(handler string) *element {
+	e.SetAttribute("onanimationstart", handler)
+	return e
+}
+
+// OnTransitionCancel Fired when a CSS transition is cancelled, such as when the transitioning property is removed or the element
+// is hidden. Unlike ontransitionend, this fires for abnormal termination. Useful for cleanup, resetting state,
+// or triggering fallback behaviour when transitions are interrupted.
+func (e *element) OnTransitionCancel(handler string) *element {
+	e.SetAttribute("ontransitioncancel", handler)
+	return e
+}
+
+// OnTransitionEnd Fired when a CSS transition completes successfully. Occurs after the transition duration has elapsed and the
+// property reaches its target value. Used for removing transition classes, triggering follow-up transitions,
+// updating element state, or chaining sequential transition effects.
+func (e *element) OnTransitionEnd(handler string) *element {
+	e.SetAttribute("ontransitionend", handler)
+	return e
+}
+
+// OnTransitionRun Fired when a CSS transition is first created, before any delay period. Occurs at the moment the transition is
+// added to the set of running transitions. Useful for tracking when transitions are triggered, showing pending
+// transition indicators, or preparing for upcoming visual changes.
+func (e *element) OnTransitionRun(handler string) *element {
+	e.SetAttribute("ontransitionrun", handler)
+	return e
+}
+
+// OnTransitionStart Fired when a CSS transition begins its active phase, after any transition-delay has elapsed. Used for showing
+// transition-dependent UI, starting synchronised effects, tracking active transitions, or implementing
+// transition-aware state management.
+func (e *element) OnTransitionStart(handler string) *element {
+	e.SetAttribute("ontransitionstart", handler)
+	return e
+}
+
+// OnBeforeToggle Fired before a popover or <details> element changes its open/closed state. Can be cancelled with
+// preventDefault() to prevent the state change. Useful for validation before showing popovers, confirming
+// closure of unsaved content, or implementing conditional toggle logic.
+func (e *element) OnBeforeToggle(handler string) *element {
+	e.SetAttribute("onbeforetoggle", handler)
+	return e
+}
+
+// OnBeforeInput Fired before the DOM is updated with new input. Unlike oninput which fires after the change, onbeforeinput
+// fires before and can be cancelled with preventDefault(). Provides inputType for distinguishing between typing,
+// pasting, deleting, and formatting. Useful for input filtering, custom undo/redo, or preventing specific edits.
+func (e *element) OnBeforeInput(handler string) *element {
+	e.SetAttribute("onbeforeinput", handler)
+	return e
+}
+
+// OnBeforeMatch Fired on an element with the hidden="until-found" attribute just before it is revealed by find-in-page or
+// fragment navigation. Allows preparation before the element becomes visible, such as loading content, expanding
+// collapsed sections, or initialising components that were deferred while hidden.
+func (e *element) OnBeforeMatch(handler string) *element {
+	e.SetAttribute("onbeforematch", handler)
+	return e
+}
+
+// OnCommand Fired when a button with a commandfor attribute is activated, dispatched on the target element referenced by
+// commandfor. Provides the invoking element via the source property. Used for implementing declarative command
+// patterns where buttons control other elements like dialogs, popovers, or custom components.
+func (e *element) OnCommand(handler string) *element {
+	e.SetAttribute("oncommand", handler)
+	return e
+}
+
+// OnContextLost Fired when the rendering context of a <canvas> element is lost, typically due to GPU resource pressure or
+// device changes. Used for showing fallback content, pausing rendering loops, releasing resources, or notifying
+// users that the canvas display may be temporarily unavailable.
+func (e *element) OnContextLost(handler string) *element {
+	e.SetAttribute("oncontextlost", handler)
+	return e
+}
+
+// OnContextRestored Fired when a previously lost rendering context of a <canvas> element is restored. Used for re-initialising
+// rendering state, reloading textures and shaders, resuming rendering loops, or rebuilding the canvas display
+// after a context loss event.
+func (e *element) OnContextRestored(handler string) *element {
+	e.SetAttribute("oncontextrestored", handler)
+	return e
+}
+
+// OnSecurityPolicyViolation Fired when a Content Security Policy (CSP) violation occurs. Provides details about the violated directive,
+// blocked resource, and policy. Used for CSP violation reporting, security monitoring, debugging blocked
+// resources, or implementing custom violation handling and logging.
+func (e *element) OnSecurityPolicyViolation(handler string) *element {
+	e.SetAttribute("onsecuritypolicyviolation", handler)
+	return e
+}
+
+// OnSlotChange Fired when the nodes assigned to a <slot> element change, either by adding, removing, or replacing slotted
+// content. Occurs on <slot> elements within shadow DOM trees. Used for updating shadow DOM rendering, tracking
+// content projection changes, or implementing reactive slot-based component patterns.
+func (e *element) OnSlotChange(handler string) *element {
+	e.SetAttribute("onslotchange", handler)
+	return e
+}
+
+// OnPointerDown Fired when a pointer (mouse, pen, or touch) becomes active over an element. Unifies mouse, touch, and pen
+// input into a single event model. Provides pointerId for tracking individual pointers in multi-touch scenarios.
+// Used for initiating drag operations, drawing, and pointer-aware interactions.
+func (e *element) OnPointerDown(handler string) *element {
+	e.SetAttribute("onpointerdown", handler)
+	return e
+}
+
+// OnPointerUp Fired when a pointer is released after being pressed. Completes a pointer interaction when combined with
+// onpointerdown. Provides pointerId for identifying which pointer was released. Used for completing drag
+// operations, click detection, and finishing pointer-based interactions.
+func (e *element) OnPointerUp(handler string) *element {
+	e.SetAttribute("onpointerup", handler)
+	return e
+}
+
+// OnPointerMove Fired when a pointer changes coordinates over an element. Can fire rapidly during movement, so consider
+// throttling for performance. Provides pressure, tilt, and twist data for pen input. Used for drawing, drag
+// tracking, hover effects, and custom cursor behaviour.
+func (e *element) OnPointerMove(handler string) *element {
+	e.SetAttribute("onpointermove", handler)
+	return e
+}
+
+// OnPointerEnter Fired when a pointer enters an element's boundaries. Does not bubble and does not fire when moving over
+// child elements. Unified equivalent of onmouseenter for all pointer types. Used for hover effects, tooltips,
+// and UI highlighting that works across mouse, touch, and pen input.
+func (e *element) OnPointerEnter(handler string) *element {
+	e.SetAttribute("onpointerenter", handler)
+	return e
+}
+
+// OnPointerLeave Fired when a pointer exits an element's boundaries. Does not bubble and does not fire when moving to child
+// elements. Unified equivalent of onmouseleave for all pointer types. Used for removing hover states, hiding
+// tooltips, and cleaning up pointer-related visual feedback.
+func (e *element) OnPointerLeave(handler string) *element {
+	e.SetAttribute("onpointerleave", handler)
+	return e
+}
+
+// OnPointerOver Fired when a pointer enters an element or moves to one of its child elements. Unlike onpointerenter, this
+// event bubbles. Useful for event delegation scenarios where pointer entry needs to be detected on a parent
+// element for any of its descendants.
+func (e *element) OnPointerOver(handler string) *element {
+	e.SetAttribute("onpointerover", handler)
+	return e
+}
+
+// OnPointerOut Fired when a pointer leaves an element or moves to one of its child elements. Unlike onpointerleave, this
+// event bubbles. Useful for event delegation scenarios where pointer exit needs to be detected on a parent
+// element for any of its descendants.
+func (e *element) OnPointerOut(handler string) *element {
+	e.SetAttribute("onpointerout", handler)
+	return e
+}
+
+// OnPointerCancel Fired when a pointer interaction is cancelled by the browser, such as when a touch is interrupted by a
+// system gesture, the device orientation changes, or too many simultaneous pointers are active. Used for
+// aborting drag operations, resetting interaction state, and handling interrupted pointer sequences.
+func (e *element) OnPointerCancel(handler string) *element {
+	e.SetAttribute("onpointercancel", handler)
+	return e
+}
+
+// OnGotPointerCapture Fired when an element receives pointer capture via setPointerCapture(). While captured, all subsequent
+// pointer events for that pointer are directed to the capturing element regardless of position. Used for
+// confirming capture acquisition in drag operations, slider controls, and custom scroll implementations.
+func (e *element) OnGotPointerCapture(handler string) *element {
+	e.SetAttribute("ongotpointercapture", handler)
+	return e
+}
+
+// OnLostPointerCapture Fired when an element loses pointer capture, either via releasePointerCapture(), pointer release, or
+// browser cancellation. Used for cleanup after drag operations, resetting element state, and finalising
+// interactions that relied on pointer capture for consistent event delivery.
+func (e *element) OnLostPointerCapture(handler string) *element {
+	e.SetAttribute("onlostpointercapture", handler)
+	return e
+}
+
+// OnTouchStart Fired when one or more touch points are placed on the touch surface. Provides a TouchList with all active
+// touches. Used for initiating touch interactions, detecting gestures, implementing swipe or pinch handling,
+// and starting touch-based drag operations on mobile devices.
+func (e *element) OnTouchStart(handler string) *element {
+	e.SetAttribute("ontouchstart", handler)
+	return e
+}
+
+// OnTouchEnd Fired when one or more touch points are removed from the touch surface. Provides changedTouches for the
+// ended touches. Used for completing touch interactions, detecting tap gestures, finishing swipe or drag
+// operations, and cleaning up touch-related state on mobile devices.
+func (e *element) OnTouchEnd(handler string) *element {
+	e.SetAttribute("ontouchend", handler)
+	return e
+}
+
+// OnTouchMove Fired when one or more touch points move along the touch surface. Can fire rapidly during movement. Provides
+// updated coordinates for all active touches. Used for tracking swipe gestures, implementing custom scrolling,
+// touch-based drawing, and multi-touch interactions on mobile devices.
+func (e *element) OnTouchMove(handler string) *element {
+	e.SetAttribute("ontouchmove", handler)
+	return e
+}
+
+// OnTouchCancel Fired when a touch interaction is disrupted, such as when a system dialog appears, the touch surface receives
+// more touches than it can track, or the browser cancels the touch sequence. Used for aborting touch gestures,
+// resetting interaction state, and handling interrupted touch sequences gracefully.
+func (e *element) OnTouchCancel(handler string) *element {
+	e.SetAttribute("ontouchcancel", handler)
+	return e
+}
+
+// OnSelectStart Fired when a new text selection is initiated by the user, typically by clicking and beginning to drag.
+// Can be cancelled with preventDefault() to prevent selection. Used for implementing custom selection
+// behaviour, preventing text selection during drag operations, or tracking when users begin selecting content.
+func (e *element) OnSelectStart(handler string) *element {
+	e.SetAttribute("onselectstart", handler)
+	return e
+}
+
+// OnSelectionChange Fired when the current text selection changes, including when the selection is extended, collapsed, or
+// cleared. Used for implementing selection-dependent toolbars, tracking selected text for formatting tools,
+// updating word counts, or providing contextual actions based on the current selection.
+func (e *element) OnSelectionChange(handler string) *element {
+	e.SetAttribute("onselectionchange", handler)
 	return e
 }
 
@@ -1064,8 +1346,10 @@ func (e *element) AttributeBuilder(buf *bytes.Buffer) {
 		buf.WriteString(e.id)
 		buf.Write(html5.MarkupQuote)
 	}
-	if e.hidden {
+	if len(e.hidden) > 0 {
 		buf.Write(html5.AttrHidden)
+		buf.Write(e.hidden)
+		buf.Write(html5.MarkupQuote)
 	}
 	if e.tabindex != 0 {
 		buf.Write(html5.AttrTabIndex)

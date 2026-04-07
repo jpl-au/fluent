@@ -12,7 +12,9 @@ import (
 	"github.com/jpl-au/fluent/html5/attr/crossorigin"
 	"github.com/jpl-au/fluent/html5/attr/dir"
 	"github.com/jpl-au/fluent/html5/attr/enterkeyhint"
+	"github.com/jpl-au/fluent/html5/attr/hidden"
 	"github.com/jpl-au/fluent/html5/attr/inputmode"
+	"github.com/jpl-au/fluent/html5/attr/loading"
 	"github.com/jpl-au/fluent/html5/attr/popover"
 	"github.com/jpl-au/fluent/html5/attr/spellcheck"
 	"github.com/jpl-au/fluent/html5/attr/translate"
@@ -38,48 +40,48 @@ func TestNewCtor(t *testing.T) {
 }
 
 func TestTextCtor(t *testing.T) {
-	got := string(video.Text("Your browser doesn't support video").Render())
-	want := `<video>Your browser doesn&#39;t support video</video>`
+	got := string(video.Text("Your browser does not support video.").Render())
+	want := `<video>Your browser does not support video.</video>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
 	}
 }
 
 func TestStaticCtor(t *testing.T) {
-	got := string(video.Static("Hello World").Render())
-	want := `<video>Hello World</video>`
+	got := string(video.Static("Video not supported.").Render())
+	want := `<video>Video not supported.</video>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
 	}
 }
 
 func TestRawTextCtor(t *testing.T) {
-	got := string(video.RawText("Your browser <em>doesn't</em> support video").Render())
-	want := `<video>Your browser <em>doesn't</em> support video</video>`
+	got := string(video.RawText("<p>Your browser does not support video.</p>").Render())
+	want := `<video><p>Your browser does not support video.</p></video>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
 	}
 }
 
 func TestTextfCtor(t *testing.T) {
-	got := string(video.Textf("Your browser %s support video", "doesn't").Render())
-	want := `<video>Your browser doesn&#39;t support video</video>`
+	got := string(video.Textf("Cannot play %s", "movie.mp4").Render())
+	want := `<video>Cannot play movie.mp4</video>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
 	}
 }
 
 func TestRawTextfCtor(t *testing.T) {
-	got := string(video.RawTextf("Your browser <em>%s</em> support video", "doesn't").Render())
-	want := `<video>Your browser <em>doesn't</em> support video</video>`
+	got := string(video.RawTextf("<p>Cannot play <strong>%s</strong></p>", "movie.mp4").Render())
+	want := `<video><p>Cannot play <strong>movie.mp4</strong></p></video>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
 	}
 }
 
 func TestSrcCtor(t *testing.T) {
-	got := string(video.Src("movie.mp4").Render())
-	want := `<video src="movie.mp4"></video>`
+	got := string(video.Src("report.pdf").Render())
+	want := `<video src="report.pdf"></video>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
 	}
@@ -119,7 +121,7 @@ func TestSrcAttr(t *testing.T) {
 
 func TestAutoplayAttr(t *testing.T) {
 	got := string(video.New().Autoplay().Render())
-	want := `<video autoplay="autoplay"></video>`
+	want := `<video autoplay></video>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
 	}
@@ -127,7 +129,7 @@ func TestAutoplayAttr(t *testing.T) {
 
 func TestControlsAttr(t *testing.T) {
 	got := string(video.New().Controls().Render())
-	want := `<video controls="controls"></video>`
+	want := `<video controls></video>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
 	}
@@ -151,7 +153,7 @@ func TestWidthAttr(t *testing.T) {
 
 func TestLoopAttr(t *testing.T) {
 	got := string(video.New().Loop().Render())
-	want := `<video loop="loop"></video>`
+	want := `<video loop></video>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
 	}
@@ -159,7 +161,7 @@ func TestLoopAttr(t *testing.T) {
 
 func TestMutedAttr(t *testing.T) {
 	got := string(video.New().Muted().Render())
-	want := `<video muted="muted"></video>`
+	want := `<video muted></video>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
 	}
@@ -176,6 +178,14 @@ func TestPosterAttr(t *testing.T) {
 func TestPreloadAttr(t *testing.T) {
 	got := string(video.New().Preload("test").Render())
 	want := `<video preload="test"></video>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
+func TestLoadingAttr(t *testing.T) {
+	got := string(video.New().Loading(loading.Eager).Render())
+	want := `<video loading="eager"></video>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
 	}
@@ -214,7 +224,7 @@ func TestControlsListMulti(t *testing.T) {
 
 func TestDisablePictureInPictureAttr(t *testing.T) {
 	got := string(video.New().DisablePictureInPicture().Render())
-	want := `<video disablepictureinpicture="disablepictureinpicture"></video>`
+	want := `<video disablepictureinpicture></video>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
 	}
@@ -222,7 +232,7 @@ func TestDisablePictureInPictureAttr(t *testing.T) {
 
 func TestDisableRemotePlaybackAttr(t *testing.T) {
 	got := string(video.New().DisableRemotePlayback().Render())
-	want := `<video disableremoteplayback="disableremoteplayback"></video>`
+	want := `<video disableremoteplayback></video>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
 	}
@@ -230,7 +240,7 @@ func TestDisableRemotePlaybackAttr(t *testing.T) {
 
 func TestPlaysInlineAttr(t *testing.T) {
 	got := string(video.New().PlaysInline().Render())
-	want := `<video playsinline="playsinline"></video>`
+	want := `<video playsinline></video>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
 	}
@@ -287,8 +297,8 @@ func TestTitleAttr(t *testing.T) {
 }
 
 func TestHiddenAttr(t *testing.T) {
-	got := string(video.New().Hidden().Render())
-	want := `<video hidden="hidden"></video>`
+	got := string(video.New().Hidden(hidden.True).Render())
+	want := `<video hidden="true"></video>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
 	}
@@ -345,7 +355,7 @@ func TestAnchorAttr(t *testing.T) {
 
 func TestAriaLabelAttr(t *testing.T) {
 	got := string(video.New().AriaLabel("test").Render())
-	want := `<video arialabel="test"></video>`
+	want := `<video aria-label="test"></video>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
 	}
@@ -377,7 +387,7 @@ func TestAutoCorrectAttr(t *testing.T) {
 
 func TestAutoFocusAttr(t *testing.T) {
 	got := string(video.New().AutoFocus().Render())
-	want := `<video autofocus="autofocus"></video>`
+	want := `<video autofocus></video>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
 	}
@@ -409,7 +419,7 @@ func TestDirAttr(t *testing.T) {
 
 func TestDraggableAttr(t *testing.T) {
 	got := string(video.New().Draggable().Render())
-	want := `<video draggable="draggable"></video>`
+	want := `<video draggable></video>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
 	}
@@ -433,7 +443,7 @@ func TestExportPartsAttr(t *testing.T) {
 
 func TestInertAttr(t *testing.T) {
 	got := string(video.New().Inert().Render())
-	want := `<video inert="inert"></video>`
+	want := `<video inert></video>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
 	}
@@ -481,7 +491,7 @@ func TestItemRefAttr(t *testing.T) {
 
 func TestItemScopeAttr(t *testing.T) {
 	got := string(video.New().ItemScope().Render())
-	want := `<video itemscope="itemscope"></video>`
+	want := `<video itemscope></video>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
 	}
@@ -1067,6 +1077,318 @@ func TestOnVolumeChangeAttr(t *testing.T) {
 func TestOnWaitingAttr(t *testing.T) {
 	got := string(video.New().OnWaiting("test").Render())
 	want := `<video onwaiting="test"></video>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
+func TestOnAuxClickAttr(t *testing.T) {
+	got := string(video.New().OnAuxClick("test").Render())
+	want := `<video onauxclick="test"></video>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
+func TestOnWheelAttr(t *testing.T) {
+	got := string(video.New().OnWheel("test").Render())
+	want := `<video onwheel="test"></video>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
+func TestOnCopyAttr(t *testing.T) {
+	got := string(video.New().OnCopy("test").Render())
+	want := `<video oncopy="test"></video>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
+func TestOnCutAttr(t *testing.T) {
+	got := string(video.New().OnCut("test").Render())
+	want := `<video oncut="test"></video>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
+func TestOnPasteAttr(t *testing.T) {
+	got := string(video.New().OnPaste("test").Render())
+	want := `<video onpaste="test"></video>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
+func TestOnScrollEndAttr(t *testing.T) {
+	got := string(video.New().OnScrollEnd("test").Render())
+	want := `<video onscrollend="test"></video>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
+func TestOnFormDataAttr(t *testing.T) {
+	got := string(video.New().OnFormData("test").Render())
+	want := `<video onformdata="test"></video>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
+func TestOnAnimationCancelAttr(t *testing.T) {
+	got := string(video.New().OnAnimationCancel("test").Render())
+	want := `<video onanimationcancel="test"></video>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
+func TestOnAnimationEndAttr(t *testing.T) {
+	got := string(video.New().OnAnimationEnd("test").Render())
+	want := `<video onanimationend="test"></video>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
+func TestOnAnimationIterationAttr(t *testing.T) {
+	got := string(video.New().OnAnimationIteration("test").Render())
+	want := `<video onanimationiteration="test"></video>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
+func TestOnAnimationStartAttr(t *testing.T) {
+	got := string(video.New().OnAnimationStart("test").Render())
+	want := `<video onanimationstart="test"></video>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
+func TestOnTransitionCancelAttr(t *testing.T) {
+	got := string(video.New().OnTransitionCancel("test").Render())
+	want := `<video ontransitioncancel="test"></video>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
+func TestOnTransitionEndAttr(t *testing.T) {
+	got := string(video.New().OnTransitionEnd("test").Render())
+	want := `<video ontransitionend="test"></video>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
+func TestOnTransitionRunAttr(t *testing.T) {
+	got := string(video.New().OnTransitionRun("test").Render())
+	want := `<video ontransitionrun="test"></video>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
+func TestOnTransitionStartAttr(t *testing.T) {
+	got := string(video.New().OnTransitionStart("test").Render())
+	want := `<video ontransitionstart="test"></video>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
+func TestOnBeforeToggleAttr(t *testing.T) {
+	got := string(video.New().OnBeforeToggle("test").Render())
+	want := `<video onbeforetoggle="test"></video>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
+func TestOnBeforeInputAttr(t *testing.T) {
+	got := string(video.New().OnBeforeInput("test").Render())
+	want := `<video onbeforeinput="test"></video>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
+func TestOnBeforeMatchAttr(t *testing.T) {
+	got := string(video.New().OnBeforeMatch("test").Render())
+	want := `<video onbeforematch="test"></video>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
+func TestOnCommandAttr(t *testing.T) {
+	got := string(video.New().OnCommand("test").Render())
+	want := `<video oncommand="test"></video>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
+func TestOnContextLostAttr(t *testing.T) {
+	got := string(video.New().OnContextLost("test").Render())
+	want := `<video oncontextlost="test"></video>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
+func TestOnContextRestoredAttr(t *testing.T) {
+	got := string(video.New().OnContextRestored("test").Render())
+	want := `<video oncontextrestored="test"></video>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
+func TestOnSecurityPolicyViolationAttr(t *testing.T) {
+	got := string(video.New().OnSecurityPolicyViolation("test").Render())
+	want := `<video onsecuritypolicyviolation="test"></video>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
+func TestOnSlotChangeAttr(t *testing.T) {
+	got := string(video.New().OnSlotChange("test").Render())
+	want := `<video onslotchange="test"></video>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
+func TestOnPointerDownAttr(t *testing.T) {
+	got := string(video.New().OnPointerDown("test").Render())
+	want := `<video onpointerdown="test"></video>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
+func TestOnPointerUpAttr(t *testing.T) {
+	got := string(video.New().OnPointerUp("test").Render())
+	want := `<video onpointerup="test"></video>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
+func TestOnPointerMoveAttr(t *testing.T) {
+	got := string(video.New().OnPointerMove("test").Render())
+	want := `<video onpointermove="test"></video>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
+func TestOnPointerEnterAttr(t *testing.T) {
+	got := string(video.New().OnPointerEnter("test").Render())
+	want := `<video onpointerenter="test"></video>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
+func TestOnPointerLeaveAttr(t *testing.T) {
+	got := string(video.New().OnPointerLeave("test").Render())
+	want := `<video onpointerleave="test"></video>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
+func TestOnPointerOverAttr(t *testing.T) {
+	got := string(video.New().OnPointerOver("test").Render())
+	want := `<video onpointerover="test"></video>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
+func TestOnPointerOutAttr(t *testing.T) {
+	got := string(video.New().OnPointerOut("test").Render())
+	want := `<video onpointerout="test"></video>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
+func TestOnPointerCancelAttr(t *testing.T) {
+	got := string(video.New().OnPointerCancel("test").Render())
+	want := `<video onpointercancel="test"></video>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
+func TestOnGotPointerCaptureAttr(t *testing.T) {
+	got := string(video.New().OnGotPointerCapture("test").Render())
+	want := `<video ongotpointercapture="test"></video>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
+func TestOnLostPointerCaptureAttr(t *testing.T) {
+	got := string(video.New().OnLostPointerCapture("test").Render())
+	want := `<video onlostpointercapture="test"></video>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
+func TestOnTouchStartAttr(t *testing.T) {
+	got := string(video.New().OnTouchStart("test").Render())
+	want := `<video ontouchstart="test"></video>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
+func TestOnTouchEndAttr(t *testing.T) {
+	got := string(video.New().OnTouchEnd("test").Render())
+	want := `<video ontouchend="test"></video>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
+func TestOnTouchMoveAttr(t *testing.T) {
+	got := string(video.New().OnTouchMove("test").Render())
+	want := `<video ontouchmove="test"></video>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
+func TestOnTouchCancelAttr(t *testing.T) {
+	got := string(video.New().OnTouchCancel("test").Render())
+	want := `<video ontouchcancel="test"></video>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
+func TestOnSelectStartAttr(t *testing.T) {
+	got := string(video.New().OnSelectStart("test").Render())
+	want := `<video onselectstart="test"></video>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
+func TestOnSelectionChangeAttr(t *testing.T) {
+	got := string(video.New().OnSelectionChange("test").Render())
+	want := `<video onselectionchange="test"></video>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
 	}

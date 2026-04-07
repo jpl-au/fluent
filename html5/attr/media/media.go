@@ -71,6 +71,18 @@ var (
 	// HighDPI High-resolution displays with 192 DPI or higher pixel density.
 	// Standard approach for targeting high-resolution screens and displays.
 	HighDPI = Media("(min-resolution: 192dpi)")
+
+	// PrefersColorSchemeDark User prefers a dark colour scheme. Detected from operating system or browser
+	// settings for adapting content to dark mode preferences.
+	PrefersColorSchemeDark = Media("(prefers-color-scheme: dark)")
+
+	// PrefersColorSchemeLight User prefers a light colour scheme. Detected from operating system or browser
+	// settings for adapting content to light mode preferences.
+	PrefersColorSchemeLight = Media("(prefers-color-scheme: light)")
+
+	// PrefersReducedMotion User prefers reduced motion and animations. Important accessibility feature for
+	// users with vestibular disorders or motion sensitivity.
+	PrefersReducedMotion = Media("(prefers-reduced-motion: reduce)")
 )
 
 // Custom allows setting a custom Media value for edge cases or future specifications.

@@ -11,6 +11,7 @@ import (
 	"github.com/jpl-au/fluent/html5/attr/contenteditable"
 	"github.com/jpl-au/fluent/html5/attr/dir"
 	"github.com/jpl-au/fluent/html5/attr/enterkeyhint"
+	"github.com/jpl-au/fluent/html5/attr/hidden"
 	"github.com/jpl-au/fluent/html5/attr/inputmode"
 	"github.com/jpl-au/fluent/html5/attr/popover"
 	"github.com/jpl-au/fluent/html5/attr/spellcheck"
@@ -36,40 +37,42 @@ func TestNewCtor(t *testing.T) {
 }
 
 func TestTextCtor(t *testing.T) {
-	got := string(aside.Text("<strong>test</strong>").Render())
-	want := `<aside>&lt;strong&gt;test&lt;/strong&gt;</aside>`
+	got := string(aside.Text("Related articles").Render())
+	want := `<aside>Related articles</aside>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
 	}
 }
 
 func TestStaticCtor(t *testing.T) {
-	got := string(aside.Static("<strong>test</strong>").Render())
-	want := `<aside><strong>test</strong></aside>`
+	got := string(aside.Static("Did you know?").Render())
+	want := `<aside>Did you know?</aside>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
 	}
 }
 
 func TestRawTextCtor(t *testing.T) {
-	got := string(aside.RawText("<strong>test</strong>").Render())
-	want := `<aside><strong>test</strong></aside>`
+	got := string(aside.RawText("<blockquote>A pull quote</blockquote>").Render())
+	want := `<aside><blockquote>A pull quote</blockquote></aside>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
 	}
 }
 
 func TestTextfCtor(t *testing.T) {
-	got := string(aside.Textf("Hello %s, age %d", "<script>", 42).Render())
-	want := `<aside>Hello &lt;script&gt;, age 42</aside>`
+	name := "Mary"
+	got := string(aside.Textf("About %s", name).Render())
+	want := `<aside>About Mary</aside>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
 	}
 }
 
 func TestRawTextfCtor(t *testing.T) {
-	got := string(aside.RawTextf("Hello %s, age %d", "content", 42).Render())
-	want := `<aside>Hello content, age 42</aside>`
+	name := "Mary"
+	got := string(aside.RawTextf("<p>By %s</p>", name).Render())
+	want := `<aside><p>By Mary</p></aside>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
 	}
@@ -126,8 +129,8 @@ func TestTitleAttr(t *testing.T) {
 }
 
 func TestHiddenAttr(t *testing.T) {
-	got := string(aside.New().Hidden().Render())
-	want := `<aside hidden="hidden"></aside>`
+	got := string(aside.New().Hidden(hidden.True).Render())
+	want := `<aside hidden="true"></aside>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
 	}
@@ -184,7 +187,7 @@ func TestAnchorAttr(t *testing.T) {
 
 func TestAriaLabelAttr(t *testing.T) {
 	got := string(aside.New().AriaLabel("test").Render())
-	want := `<aside arialabel="test"></aside>`
+	want := `<aside aria-label="test"></aside>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
 	}
@@ -216,7 +219,7 @@ func TestAutoCorrectAttr(t *testing.T) {
 
 func TestAutoFocusAttr(t *testing.T) {
 	got := string(aside.New().AutoFocus().Render())
-	want := `<aside autofocus="autofocus"></aside>`
+	want := `<aside autofocus></aside>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
 	}
@@ -248,7 +251,7 @@ func TestDirAttr(t *testing.T) {
 
 func TestDraggableAttr(t *testing.T) {
 	got := string(aside.New().Draggable().Render())
-	want := `<aside draggable="draggable"></aside>`
+	want := `<aside draggable></aside>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
 	}
@@ -272,7 +275,7 @@ func TestExportPartsAttr(t *testing.T) {
 
 func TestInertAttr(t *testing.T) {
 	got := string(aside.New().Inert().Render())
-	want := `<aside inert="inert"></aside>`
+	want := `<aside inert></aside>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
 	}
@@ -320,7 +323,7 @@ func TestItemRefAttr(t *testing.T) {
 
 func TestItemScopeAttr(t *testing.T) {
 	got := string(aside.New().ItemScope().Render())
-	want := `<aside itemscope="itemscope"></aside>`
+	want := `<aside itemscope></aside>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
 	}
@@ -906,6 +909,318 @@ func TestOnVolumeChangeAttr(t *testing.T) {
 func TestOnWaitingAttr(t *testing.T) {
 	got := string(aside.New().OnWaiting("test").Render())
 	want := `<aside onwaiting="test"></aside>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
+func TestOnAuxClickAttr(t *testing.T) {
+	got := string(aside.New().OnAuxClick("test").Render())
+	want := `<aside onauxclick="test"></aside>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
+func TestOnWheelAttr(t *testing.T) {
+	got := string(aside.New().OnWheel("test").Render())
+	want := `<aside onwheel="test"></aside>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
+func TestOnCopyAttr(t *testing.T) {
+	got := string(aside.New().OnCopy("test").Render())
+	want := `<aside oncopy="test"></aside>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
+func TestOnCutAttr(t *testing.T) {
+	got := string(aside.New().OnCut("test").Render())
+	want := `<aside oncut="test"></aside>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
+func TestOnPasteAttr(t *testing.T) {
+	got := string(aside.New().OnPaste("test").Render())
+	want := `<aside onpaste="test"></aside>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
+func TestOnScrollEndAttr(t *testing.T) {
+	got := string(aside.New().OnScrollEnd("test").Render())
+	want := `<aside onscrollend="test"></aside>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
+func TestOnFormDataAttr(t *testing.T) {
+	got := string(aside.New().OnFormData("test").Render())
+	want := `<aside onformdata="test"></aside>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
+func TestOnAnimationCancelAttr(t *testing.T) {
+	got := string(aside.New().OnAnimationCancel("test").Render())
+	want := `<aside onanimationcancel="test"></aside>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
+func TestOnAnimationEndAttr(t *testing.T) {
+	got := string(aside.New().OnAnimationEnd("test").Render())
+	want := `<aside onanimationend="test"></aside>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
+func TestOnAnimationIterationAttr(t *testing.T) {
+	got := string(aside.New().OnAnimationIteration("test").Render())
+	want := `<aside onanimationiteration="test"></aside>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
+func TestOnAnimationStartAttr(t *testing.T) {
+	got := string(aside.New().OnAnimationStart("test").Render())
+	want := `<aside onanimationstart="test"></aside>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
+func TestOnTransitionCancelAttr(t *testing.T) {
+	got := string(aside.New().OnTransitionCancel("test").Render())
+	want := `<aside ontransitioncancel="test"></aside>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
+func TestOnTransitionEndAttr(t *testing.T) {
+	got := string(aside.New().OnTransitionEnd("test").Render())
+	want := `<aside ontransitionend="test"></aside>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
+func TestOnTransitionRunAttr(t *testing.T) {
+	got := string(aside.New().OnTransitionRun("test").Render())
+	want := `<aside ontransitionrun="test"></aside>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
+func TestOnTransitionStartAttr(t *testing.T) {
+	got := string(aside.New().OnTransitionStart("test").Render())
+	want := `<aside ontransitionstart="test"></aside>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
+func TestOnBeforeToggleAttr(t *testing.T) {
+	got := string(aside.New().OnBeforeToggle("test").Render())
+	want := `<aside onbeforetoggle="test"></aside>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
+func TestOnBeforeInputAttr(t *testing.T) {
+	got := string(aside.New().OnBeforeInput("test").Render())
+	want := `<aside onbeforeinput="test"></aside>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
+func TestOnBeforeMatchAttr(t *testing.T) {
+	got := string(aside.New().OnBeforeMatch("test").Render())
+	want := `<aside onbeforematch="test"></aside>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
+func TestOnCommandAttr(t *testing.T) {
+	got := string(aside.New().OnCommand("test").Render())
+	want := `<aside oncommand="test"></aside>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
+func TestOnContextLostAttr(t *testing.T) {
+	got := string(aside.New().OnContextLost("test").Render())
+	want := `<aside oncontextlost="test"></aside>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
+func TestOnContextRestoredAttr(t *testing.T) {
+	got := string(aside.New().OnContextRestored("test").Render())
+	want := `<aside oncontextrestored="test"></aside>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
+func TestOnSecurityPolicyViolationAttr(t *testing.T) {
+	got := string(aside.New().OnSecurityPolicyViolation("test").Render())
+	want := `<aside onsecuritypolicyviolation="test"></aside>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
+func TestOnSlotChangeAttr(t *testing.T) {
+	got := string(aside.New().OnSlotChange("test").Render())
+	want := `<aside onslotchange="test"></aside>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
+func TestOnPointerDownAttr(t *testing.T) {
+	got := string(aside.New().OnPointerDown("test").Render())
+	want := `<aside onpointerdown="test"></aside>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
+func TestOnPointerUpAttr(t *testing.T) {
+	got := string(aside.New().OnPointerUp("test").Render())
+	want := `<aside onpointerup="test"></aside>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
+func TestOnPointerMoveAttr(t *testing.T) {
+	got := string(aside.New().OnPointerMove("test").Render())
+	want := `<aside onpointermove="test"></aside>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
+func TestOnPointerEnterAttr(t *testing.T) {
+	got := string(aside.New().OnPointerEnter("test").Render())
+	want := `<aside onpointerenter="test"></aside>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
+func TestOnPointerLeaveAttr(t *testing.T) {
+	got := string(aside.New().OnPointerLeave("test").Render())
+	want := `<aside onpointerleave="test"></aside>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
+func TestOnPointerOverAttr(t *testing.T) {
+	got := string(aside.New().OnPointerOver("test").Render())
+	want := `<aside onpointerover="test"></aside>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
+func TestOnPointerOutAttr(t *testing.T) {
+	got := string(aside.New().OnPointerOut("test").Render())
+	want := `<aside onpointerout="test"></aside>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
+func TestOnPointerCancelAttr(t *testing.T) {
+	got := string(aside.New().OnPointerCancel("test").Render())
+	want := `<aside onpointercancel="test"></aside>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
+func TestOnGotPointerCaptureAttr(t *testing.T) {
+	got := string(aside.New().OnGotPointerCapture("test").Render())
+	want := `<aside ongotpointercapture="test"></aside>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
+func TestOnLostPointerCaptureAttr(t *testing.T) {
+	got := string(aside.New().OnLostPointerCapture("test").Render())
+	want := `<aside onlostpointercapture="test"></aside>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
+func TestOnTouchStartAttr(t *testing.T) {
+	got := string(aside.New().OnTouchStart("test").Render())
+	want := `<aside ontouchstart="test"></aside>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
+func TestOnTouchEndAttr(t *testing.T) {
+	got := string(aside.New().OnTouchEnd("test").Render())
+	want := `<aside ontouchend="test"></aside>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
+func TestOnTouchMoveAttr(t *testing.T) {
+	got := string(aside.New().OnTouchMove("test").Render())
+	want := `<aside ontouchmove="test"></aside>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
+func TestOnTouchCancelAttr(t *testing.T) {
+	got := string(aside.New().OnTouchCancel("test").Render())
+	want := `<aside ontouchcancel="test"></aside>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
+func TestOnSelectStartAttr(t *testing.T) {
+	got := string(aside.New().OnSelectStart("test").Render())
+	want := `<aside onselectstart="test"></aside>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
+func TestOnSelectionChangeAttr(t *testing.T) {
+	got := string(aside.New().OnSelectionChange("test").Render())
+	want := `<aside onselectionchange="test"></aside>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
 	}

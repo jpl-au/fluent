@@ -32,6 +32,10 @@ var (
 	// decoding strategies, and security policies for graphics and photos.
 	Image = As("image")
 
+	// JSON JSON data resource for structured content. Browser applies JSON-specific parsing
+	// and content security policies for data loaded via fetch or module imports.
+	JSON = As("json")
+
 	// Object Resource for object elements including plugins, embedded media, or interactive content.
 	// Browser applies object-specific loading and security policies.
 	Object = As("object")

@@ -60,6 +60,22 @@ var (
 	// Standard format for data exchange between applications.
 	TextCSV = Accept("text/csv")
 
+	// MimeJSON JSON format for structured data interchange. Common for configuration files,
+	// API data imports, and structured content uploads.
+	MimeJSON = Accept("application/json")
+
+	// MimeExcel Microsoft Excel spreadsheet format for older .xls files (Office 97-2003).
+	// Legacy Excel format still commonly used for spreadsheet data exchange.
+	MimeExcel = Accept("application/vnd.ms-excel")
+
+	// MimeExcelXLSX Microsoft Excel spreadsheet format for modern .xlsx files (Office 2007+).
+	// Current standard Excel format with better compression and features.
+	MimeExcelXLSX = Accept("application/vnd.openxmlformats-officedocument.spreadsheetml.sheet")
+
+	// MimeZip ZIP archive format for compressed file collections. Universal archive format
+	// for bundling multiple files into a single compressed upload.
+	MimeZip = Accept("application/zip")
+
 	// JPG JPEG file extension for photo and image files with lossy compression.
 	// Common extension for camera photos and web images.
 	JPG = Accept(".jpg")
@@ -104,9 +120,25 @@ var (
 	// Standard format for spreadsheet and database data exchange.
 	CSV = Accept(".csv")
 
+	// JSON JSON file extension for structured data files.
+	// Standard format for configuration, data interchange, and API content.
+	JSON = Accept(".json")
+
+	// XLS Microsoft Excel file extension for legacy spreadsheet format.
+	// Older Excel format compatible with Office 97-2003 versions.
+	XLS = Accept(".xls")
+
+	// XLSX Microsoft Excel file extension for modern spreadsheet format.
+	// Current Excel standard with better compression and feature support.
+	XLSX = Accept(".xlsx")
+
 	// XML XML file extension for structured markup documents.
 	// Extensible markup language for data exchange and configuration.
 	XML = Accept(".xml")
+
+	// ZIP ZIP file extension for compressed archive files.
+	// Universal archive format for bundling and compressing multiple files.
+	ZIP = Accept(".zip")
 
 	// VideoMP4 MP4 video format with broad compatibility and good compression.
 	// Most widely supported video format for web and mobile applications.

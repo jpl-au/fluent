@@ -5,11 +5,13 @@ package imagemap_test
 import (
 	"testing"
 
+	"github.com/jpl-au/fluent/html5/area"
 	"github.com/jpl-au/fluent/html5/attr/autocapitalize"
 	"github.com/jpl-au/fluent/html5/attr/autocorrect"
 	"github.com/jpl-au/fluent/html5/attr/contenteditable"
 	"github.com/jpl-au/fluent/html5/attr/dir"
 	"github.com/jpl-au/fluent/html5/attr/enterkeyhint"
+	"github.com/jpl-au/fluent/html5/attr/hidden"
 	"github.com/jpl-au/fluent/html5/attr/inputmode"
 	"github.com/jpl-au/fluent/html5/attr/popover"
 	"github.com/jpl-au/fluent/html5/attr/spellcheck"
@@ -35,41 +37,51 @@ func TestNewCtor(t *testing.T) {
 	}
 }
 
+func TestNamedCtor(t *testing.T) {
+	got := string(imagemap.Named("nav", area.Rect(0, 0, 100, 50, "/page1")).Render())
+	want := `<map name="nav"><area shape="rect" coords="0,0,100,50" href="/page1" /></map>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
 func TestTextCtor(t *testing.T) {
-	got := string(imagemap.Text("Navigation map").Render())
-	want := `<map>Navigation map</map>`
+	got := string(imagemap.Text("Navigation").Render())
+	want := `<map>Navigation</map>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
 	}
 }
 
 func TestStaticCtor(t *testing.T) {
-	got := string(imagemap.Static("Hello World").Render())
-	want := `<map>Hello World</map>`
+	got := string(imagemap.Static("Navigation").Render())
+	want := `<map>Navigation</map>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
 	}
 }
 
 func TestRawTextCtor(t *testing.T) {
-	got := string(imagemap.RawText("Navigation map").Render())
-	want := `<map>Navigation map</map>`
+	got := string(imagemap.RawText("<p>Navigation links</p>").Render())
+	want := `<map><p>Navigation links</p></map>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
 	}
 }
 
 func TestTextfCtor(t *testing.T) {
-	got := string(imagemap.Textf("Hello %s", "World").Render())
-	want := `<map>Hello World</map>`
+	region := "Europe"
+	got := string(imagemap.Textf("%s map", region).Render())
+	want := `<map>Europe map</map>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
 	}
 }
 
 func TestRawTextfCtor(t *testing.T) {
-	got := string(imagemap.RawTextf("Hello <em>%s</em>", "World").Render())
-	want := `<map>Hello <em>World</em></map>`
+	section := "main"
+	got := string(imagemap.RawTextf("<p>%s navigation</p>", section).Render())
+	want := `<map><p>main navigation</p></map>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
 	}
@@ -134,8 +146,8 @@ func TestTitleAttr(t *testing.T) {
 }
 
 func TestHiddenAttr(t *testing.T) {
-	got := string(imagemap.New().Hidden().Render())
-	want := `<map hidden="hidden"></map>`
+	got := string(imagemap.New().Hidden(hidden.True).Render())
+	want := `<map hidden="true"></map>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
 	}
@@ -192,7 +204,7 @@ func TestAnchorAttr(t *testing.T) {
 
 func TestAriaLabelAttr(t *testing.T) {
 	got := string(imagemap.New().AriaLabel("test").Render())
-	want := `<map arialabel="test"></map>`
+	want := `<map aria-label="test"></map>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
 	}
@@ -224,7 +236,7 @@ func TestAutoCorrectAttr(t *testing.T) {
 
 func TestAutoFocusAttr(t *testing.T) {
 	got := string(imagemap.New().AutoFocus().Render())
-	want := `<map autofocus="autofocus"></map>`
+	want := `<map autofocus></map>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
 	}
@@ -256,7 +268,7 @@ func TestDirAttr(t *testing.T) {
 
 func TestDraggableAttr(t *testing.T) {
 	got := string(imagemap.New().Draggable().Render())
-	want := `<map draggable="draggable"></map>`
+	want := `<map draggable></map>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
 	}
@@ -280,7 +292,7 @@ func TestExportPartsAttr(t *testing.T) {
 
 func TestInertAttr(t *testing.T) {
 	got := string(imagemap.New().Inert().Render())
-	want := `<map inert="inert"></map>`
+	want := `<map inert></map>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
 	}
@@ -328,7 +340,7 @@ func TestItemRefAttr(t *testing.T) {
 
 func TestItemScopeAttr(t *testing.T) {
 	got := string(imagemap.New().ItemScope().Render())
-	want := `<map itemscope="itemscope"></map>`
+	want := `<map itemscope></map>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
 	}
@@ -914,6 +926,318 @@ func TestOnVolumeChangeAttr(t *testing.T) {
 func TestOnWaitingAttr(t *testing.T) {
 	got := string(imagemap.New().OnWaiting("test").Render())
 	want := `<map onwaiting="test"></map>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
+func TestOnAuxClickAttr(t *testing.T) {
+	got := string(imagemap.New().OnAuxClick("test").Render())
+	want := `<map onauxclick="test"></map>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
+func TestOnWheelAttr(t *testing.T) {
+	got := string(imagemap.New().OnWheel("test").Render())
+	want := `<map onwheel="test"></map>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
+func TestOnCopyAttr(t *testing.T) {
+	got := string(imagemap.New().OnCopy("test").Render())
+	want := `<map oncopy="test"></map>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
+func TestOnCutAttr(t *testing.T) {
+	got := string(imagemap.New().OnCut("test").Render())
+	want := `<map oncut="test"></map>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
+func TestOnPasteAttr(t *testing.T) {
+	got := string(imagemap.New().OnPaste("test").Render())
+	want := `<map onpaste="test"></map>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
+func TestOnScrollEndAttr(t *testing.T) {
+	got := string(imagemap.New().OnScrollEnd("test").Render())
+	want := `<map onscrollend="test"></map>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
+func TestOnFormDataAttr(t *testing.T) {
+	got := string(imagemap.New().OnFormData("test").Render())
+	want := `<map onformdata="test"></map>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
+func TestOnAnimationCancelAttr(t *testing.T) {
+	got := string(imagemap.New().OnAnimationCancel("test").Render())
+	want := `<map onanimationcancel="test"></map>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
+func TestOnAnimationEndAttr(t *testing.T) {
+	got := string(imagemap.New().OnAnimationEnd("test").Render())
+	want := `<map onanimationend="test"></map>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
+func TestOnAnimationIterationAttr(t *testing.T) {
+	got := string(imagemap.New().OnAnimationIteration("test").Render())
+	want := `<map onanimationiteration="test"></map>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
+func TestOnAnimationStartAttr(t *testing.T) {
+	got := string(imagemap.New().OnAnimationStart("test").Render())
+	want := `<map onanimationstart="test"></map>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
+func TestOnTransitionCancelAttr(t *testing.T) {
+	got := string(imagemap.New().OnTransitionCancel("test").Render())
+	want := `<map ontransitioncancel="test"></map>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
+func TestOnTransitionEndAttr(t *testing.T) {
+	got := string(imagemap.New().OnTransitionEnd("test").Render())
+	want := `<map ontransitionend="test"></map>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
+func TestOnTransitionRunAttr(t *testing.T) {
+	got := string(imagemap.New().OnTransitionRun("test").Render())
+	want := `<map ontransitionrun="test"></map>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
+func TestOnTransitionStartAttr(t *testing.T) {
+	got := string(imagemap.New().OnTransitionStart("test").Render())
+	want := `<map ontransitionstart="test"></map>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
+func TestOnBeforeToggleAttr(t *testing.T) {
+	got := string(imagemap.New().OnBeforeToggle("test").Render())
+	want := `<map onbeforetoggle="test"></map>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
+func TestOnBeforeInputAttr(t *testing.T) {
+	got := string(imagemap.New().OnBeforeInput("test").Render())
+	want := `<map onbeforeinput="test"></map>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
+func TestOnBeforeMatchAttr(t *testing.T) {
+	got := string(imagemap.New().OnBeforeMatch("test").Render())
+	want := `<map onbeforematch="test"></map>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
+func TestOnCommandAttr(t *testing.T) {
+	got := string(imagemap.New().OnCommand("test").Render())
+	want := `<map oncommand="test"></map>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
+func TestOnContextLostAttr(t *testing.T) {
+	got := string(imagemap.New().OnContextLost("test").Render())
+	want := `<map oncontextlost="test"></map>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
+func TestOnContextRestoredAttr(t *testing.T) {
+	got := string(imagemap.New().OnContextRestored("test").Render())
+	want := `<map oncontextrestored="test"></map>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
+func TestOnSecurityPolicyViolationAttr(t *testing.T) {
+	got := string(imagemap.New().OnSecurityPolicyViolation("test").Render())
+	want := `<map onsecuritypolicyviolation="test"></map>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
+func TestOnSlotChangeAttr(t *testing.T) {
+	got := string(imagemap.New().OnSlotChange("test").Render())
+	want := `<map onslotchange="test"></map>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
+func TestOnPointerDownAttr(t *testing.T) {
+	got := string(imagemap.New().OnPointerDown("test").Render())
+	want := `<map onpointerdown="test"></map>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
+func TestOnPointerUpAttr(t *testing.T) {
+	got := string(imagemap.New().OnPointerUp("test").Render())
+	want := `<map onpointerup="test"></map>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
+func TestOnPointerMoveAttr(t *testing.T) {
+	got := string(imagemap.New().OnPointerMove("test").Render())
+	want := `<map onpointermove="test"></map>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
+func TestOnPointerEnterAttr(t *testing.T) {
+	got := string(imagemap.New().OnPointerEnter("test").Render())
+	want := `<map onpointerenter="test"></map>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
+func TestOnPointerLeaveAttr(t *testing.T) {
+	got := string(imagemap.New().OnPointerLeave("test").Render())
+	want := `<map onpointerleave="test"></map>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
+func TestOnPointerOverAttr(t *testing.T) {
+	got := string(imagemap.New().OnPointerOver("test").Render())
+	want := `<map onpointerover="test"></map>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
+func TestOnPointerOutAttr(t *testing.T) {
+	got := string(imagemap.New().OnPointerOut("test").Render())
+	want := `<map onpointerout="test"></map>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
+func TestOnPointerCancelAttr(t *testing.T) {
+	got := string(imagemap.New().OnPointerCancel("test").Render())
+	want := `<map onpointercancel="test"></map>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
+func TestOnGotPointerCaptureAttr(t *testing.T) {
+	got := string(imagemap.New().OnGotPointerCapture("test").Render())
+	want := `<map ongotpointercapture="test"></map>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
+func TestOnLostPointerCaptureAttr(t *testing.T) {
+	got := string(imagemap.New().OnLostPointerCapture("test").Render())
+	want := `<map onlostpointercapture="test"></map>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
+func TestOnTouchStartAttr(t *testing.T) {
+	got := string(imagemap.New().OnTouchStart("test").Render())
+	want := `<map ontouchstart="test"></map>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
+func TestOnTouchEndAttr(t *testing.T) {
+	got := string(imagemap.New().OnTouchEnd("test").Render())
+	want := `<map ontouchend="test"></map>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
+func TestOnTouchMoveAttr(t *testing.T) {
+	got := string(imagemap.New().OnTouchMove("test").Render())
+	want := `<map ontouchmove="test"></map>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
+func TestOnTouchCancelAttr(t *testing.T) {
+	got := string(imagemap.New().OnTouchCancel("test").Render())
+	want := `<map ontouchcancel="test"></map>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
+func TestOnSelectStartAttr(t *testing.T) {
+	got := string(imagemap.New().OnSelectStart("test").Render())
+	want := `<map onselectstart="test"></map>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
+func TestOnSelectionChangeAttr(t *testing.T) {
+	got := string(imagemap.New().OnSelectionChange("test").Render())
+	want := `<map onselectionchange="test"></map>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
 	}

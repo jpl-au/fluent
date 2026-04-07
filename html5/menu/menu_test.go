@@ -10,6 +10,7 @@ import (
 	"github.com/jpl-au/fluent/html5/attr/contenteditable"
 	"github.com/jpl-au/fluent/html5/attr/dir"
 	"github.com/jpl-au/fluent/html5/attr/enterkeyhint"
+	"github.com/jpl-au/fluent/html5/attr/hidden"
 	"github.com/jpl-au/fluent/html5/attr/inputmode"
 	"github.com/jpl-au/fluent/html5/attr/popover"
 	"github.com/jpl-au/fluent/html5/attr/spellcheck"
@@ -32,46 +33,6 @@ func TestNewCtor(t *testing.T) {
 	want = `<menu><menu></menu></menu>`
 	if got != want {
 		t.Errorf("nested: got %q, want %q", got, want)
-	}
-}
-
-func TestTextCtor(t *testing.T) {
-	got := string(menu.Text("Menu items").Render())
-	want := `<menu>Menu items</menu>`
-	if got != want {
-		t.Errorf("got %q, want %q", got, want)
-	}
-}
-
-func TestStaticCtor(t *testing.T) {
-	got := string(menu.Static("Hello World").Render())
-	want := `<menu>Hello World</menu>`
-	if got != want {
-		t.Errorf("got %q, want %q", got, want)
-	}
-}
-
-func TestRawTextCtor(t *testing.T) {
-	got := string(menu.RawText("Menu items").Render())
-	want := `<menu>Menu items</menu>`
-	if got != want {
-		t.Errorf("got %q, want %q", got, want)
-	}
-}
-
-func TestTextfCtor(t *testing.T) {
-	got := string(menu.Textf("Menu %d", 1).Render())
-	want := `<menu>Menu 1</menu>`
-	if got != want {
-		t.Errorf("got %q, want %q", got, want)
-	}
-}
-
-func TestRawTextfCtor(t *testing.T) {
-	got := string(menu.RawTextf("Menu <em>%d</em>", 1).Render())
-	want := `<menu>Menu <em>1</em></menu>`
-	if got != want {
-		t.Errorf("got %q, want %q", got, want)
 	}
 }
 
@@ -126,8 +87,8 @@ func TestTitleAttr(t *testing.T) {
 }
 
 func TestHiddenAttr(t *testing.T) {
-	got := string(menu.New().Hidden().Render())
-	want := `<menu hidden="hidden"></menu>`
+	got := string(menu.New().Hidden(hidden.True).Render())
+	want := `<menu hidden="true"></menu>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
 	}
@@ -184,7 +145,7 @@ func TestAnchorAttr(t *testing.T) {
 
 func TestAriaLabelAttr(t *testing.T) {
 	got := string(menu.New().AriaLabel("test").Render())
-	want := `<menu arialabel="test"></menu>`
+	want := `<menu aria-label="test"></menu>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
 	}
@@ -216,7 +177,7 @@ func TestAutoCorrectAttr(t *testing.T) {
 
 func TestAutoFocusAttr(t *testing.T) {
 	got := string(menu.New().AutoFocus().Render())
-	want := `<menu autofocus="autofocus"></menu>`
+	want := `<menu autofocus></menu>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
 	}
@@ -248,7 +209,7 @@ func TestDirAttr(t *testing.T) {
 
 func TestDraggableAttr(t *testing.T) {
 	got := string(menu.New().Draggable().Render())
-	want := `<menu draggable="draggable"></menu>`
+	want := `<menu draggable></menu>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
 	}
@@ -272,7 +233,7 @@ func TestExportPartsAttr(t *testing.T) {
 
 func TestInertAttr(t *testing.T) {
 	got := string(menu.New().Inert().Render())
-	want := `<menu inert="inert"></menu>`
+	want := `<menu inert></menu>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
 	}
@@ -320,7 +281,7 @@ func TestItemRefAttr(t *testing.T) {
 
 func TestItemScopeAttr(t *testing.T) {
 	got := string(menu.New().ItemScope().Render())
-	want := `<menu itemscope="itemscope"></menu>`
+	want := `<menu itemscope></menu>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
 	}
@@ -906,6 +867,318 @@ func TestOnVolumeChangeAttr(t *testing.T) {
 func TestOnWaitingAttr(t *testing.T) {
 	got := string(menu.New().OnWaiting("test").Render())
 	want := `<menu onwaiting="test"></menu>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
+func TestOnAuxClickAttr(t *testing.T) {
+	got := string(menu.New().OnAuxClick("test").Render())
+	want := `<menu onauxclick="test"></menu>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
+func TestOnWheelAttr(t *testing.T) {
+	got := string(menu.New().OnWheel("test").Render())
+	want := `<menu onwheel="test"></menu>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
+func TestOnCopyAttr(t *testing.T) {
+	got := string(menu.New().OnCopy("test").Render())
+	want := `<menu oncopy="test"></menu>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
+func TestOnCutAttr(t *testing.T) {
+	got := string(menu.New().OnCut("test").Render())
+	want := `<menu oncut="test"></menu>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
+func TestOnPasteAttr(t *testing.T) {
+	got := string(menu.New().OnPaste("test").Render())
+	want := `<menu onpaste="test"></menu>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
+func TestOnScrollEndAttr(t *testing.T) {
+	got := string(menu.New().OnScrollEnd("test").Render())
+	want := `<menu onscrollend="test"></menu>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
+func TestOnFormDataAttr(t *testing.T) {
+	got := string(menu.New().OnFormData("test").Render())
+	want := `<menu onformdata="test"></menu>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
+func TestOnAnimationCancelAttr(t *testing.T) {
+	got := string(menu.New().OnAnimationCancel("test").Render())
+	want := `<menu onanimationcancel="test"></menu>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
+func TestOnAnimationEndAttr(t *testing.T) {
+	got := string(menu.New().OnAnimationEnd("test").Render())
+	want := `<menu onanimationend="test"></menu>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
+func TestOnAnimationIterationAttr(t *testing.T) {
+	got := string(menu.New().OnAnimationIteration("test").Render())
+	want := `<menu onanimationiteration="test"></menu>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
+func TestOnAnimationStartAttr(t *testing.T) {
+	got := string(menu.New().OnAnimationStart("test").Render())
+	want := `<menu onanimationstart="test"></menu>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
+func TestOnTransitionCancelAttr(t *testing.T) {
+	got := string(menu.New().OnTransitionCancel("test").Render())
+	want := `<menu ontransitioncancel="test"></menu>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
+func TestOnTransitionEndAttr(t *testing.T) {
+	got := string(menu.New().OnTransitionEnd("test").Render())
+	want := `<menu ontransitionend="test"></menu>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
+func TestOnTransitionRunAttr(t *testing.T) {
+	got := string(menu.New().OnTransitionRun("test").Render())
+	want := `<menu ontransitionrun="test"></menu>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
+func TestOnTransitionStartAttr(t *testing.T) {
+	got := string(menu.New().OnTransitionStart("test").Render())
+	want := `<menu ontransitionstart="test"></menu>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
+func TestOnBeforeToggleAttr(t *testing.T) {
+	got := string(menu.New().OnBeforeToggle("test").Render())
+	want := `<menu onbeforetoggle="test"></menu>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
+func TestOnBeforeInputAttr(t *testing.T) {
+	got := string(menu.New().OnBeforeInput("test").Render())
+	want := `<menu onbeforeinput="test"></menu>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
+func TestOnBeforeMatchAttr(t *testing.T) {
+	got := string(menu.New().OnBeforeMatch("test").Render())
+	want := `<menu onbeforematch="test"></menu>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
+func TestOnCommandAttr(t *testing.T) {
+	got := string(menu.New().OnCommand("test").Render())
+	want := `<menu oncommand="test"></menu>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
+func TestOnContextLostAttr(t *testing.T) {
+	got := string(menu.New().OnContextLost("test").Render())
+	want := `<menu oncontextlost="test"></menu>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
+func TestOnContextRestoredAttr(t *testing.T) {
+	got := string(menu.New().OnContextRestored("test").Render())
+	want := `<menu oncontextrestored="test"></menu>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
+func TestOnSecurityPolicyViolationAttr(t *testing.T) {
+	got := string(menu.New().OnSecurityPolicyViolation("test").Render())
+	want := `<menu onsecuritypolicyviolation="test"></menu>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
+func TestOnSlotChangeAttr(t *testing.T) {
+	got := string(menu.New().OnSlotChange("test").Render())
+	want := `<menu onslotchange="test"></menu>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
+func TestOnPointerDownAttr(t *testing.T) {
+	got := string(menu.New().OnPointerDown("test").Render())
+	want := `<menu onpointerdown="test"></menu>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
+func TestOnPointerUpAttr(t *testing.T) {
+	got := string(menu.New().OnPointerUp("test").Render())
+	want := `<menu onpointerup="test"></menu>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
+func TestOnPointerMoveAttr(t *testing.T) {
+	got := string(menu.New().OnPointerMove("test").Render())
+	want := `<menu onpointermove="test"></menu>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
+func TestOnPointerEnterAttr(t *testing.T) {
+	got := string(menu.New().OnPointerEnter("test").Render())
+	want := `<menu onpointerenter="test"></menu>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
+func TestOnPointerLeaveAttr(t *testing.T) {
+	got := string(menu.New().OnPointerLeave("test").Render())
+	want := `<menu onpointerleave="test"></menu>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
+func TestOnPointerOverAttr(t *testing.T) {
+	got := string(menu.New().OnPointerOver("test").Render())
+	want := `<menu onpointerover="test"></menu>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
+func TestOnPointerOutAttr(t *testing.T) {
+	got := string(menu.New().OnPointerOut("test").Render())
+	want := `<menu onpointerout="test"></menu>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
+func TestOnPointerCancelAttr(t *testing.T) {
+	got := string(menu.New().OnPointerCancel("test").Render())
+	want := `<menu onpointercancel="test"></menu>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
+func TestOnGotPointerCaptureAttr(t *testing.T) {
+	got := string(menu.New().OnGotPointerCapture("test").Render())
+	want := `<menu ongotpointercapture="test"></menu>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
+func TestOnLostPointerCaptureAttr(t *testing.T) {
+	got := string(menu.New().OnLostPointerCapture("test").Render())
+	want := `<menu onlostpointercapture="test"></menu>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
+func TestOnTouchStartAttr(t *testing.T) {
+	got := string(menu.New().OnTouchStart("test").Render())
+	want := `<menu ontouchstart="test"></menu>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
+func TestOnTouchEndAttr(t *testing.T) {
+	got := string(menu.New().OnTouchEnd("test").Render())
+	want := `<menu ontouchend="test"></menu>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
+func TestOnTouchMoveAttr(t *testing.T) {
+	got := string(menu.New().OnTouchMove("test").Render())
+	want := `<menu ontouchmove="test"></menu>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
+func TestOnTouchCancelAttr(t *testing.T) {
+	got := string(menu.New().OnTouchCancel("test").Render())
+	want := `<menu ontouchcancel="test"></menu>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
+func TestOnSelectStartAttr(t *testing.T) {
+	got := string(menu.New().OnSelectStart("test").Render())
+	want := `<menu onselectstart="test"></menu>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
+func TestOnSelectionChangeAttr(t *testing.T) {
+	got := string(menu.New().OnSelectionChange("test").Render())
+	want := `<menu onselectionchange="test"></menu>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
 	}

@@ -11,6 +11,7 @@ import (
 	"github.com/jpl-au/fluent/html5/attr/contenteditable"
 	"github.com/jpl-au/fluent/html5/attr/dir"
 	"github.com/jpl-au/fluent/html5/attr/enterkeyhint"
+	"github.com/jpl-au/fluent/html5/attr/hidden"
 	"github.com/jpl-au/fluent/html5/attr/inputmode"
 	"github.com/jpl-au/fluent/html5/attr/popover"
 	"github.com/jpl-au/fluent/html5/attr/spellcheck"
@@ -45,32 +46,34 @@ func TestTextCtor(t *testing.T) {
 }
 
 func TestStaticCtor(t *testing.T) {
-	got := string(textarea.Static("Hello World").Render())
-	want := `<textarea>Hello World</textarea>`
+	got := string(textarea.Static("Default value").Render())
+	want := `<textarea>Default value</textarea>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
 	}
 }
 
 func TestRawTextCtor(t *testing.T) {
-	got := string(textarea.RawText("<em>Default</em> text").Render())
-	want := `<textarea><em>Default</em> text</textarea>`
+	got := string(textarea.RawText("Line 1, Line 2").Render())
+	want := `<textarea>Line 1, Line 2</textarea>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
 	}
 }
 
 func TestTextfCtor(t *testing.T) {
-	got := string(textarea.Textf("Enter your %s...", "comment").Render())
-	want := `<textarea>Enter your comment...</textarea>`
+	name := "Mary"
+	got := string(textarea.Textf("Dear %s,", name).Render())
+	want := `<textarea>Dear Mary,</textarea>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
 	}
 }
 
 func TestRawTextfCtor(t *testing.T) {
-	got := string(textarea.RawTextf("<em>%s</em> text", "Default").Render())
-	want := `<textarea><em>Default</em> text</textarea>`
+	ipsum := "ipsum dolor sit amet"
+	got := string(textarea.RawTextf("<b>%s</b>", ipsum).Render())
+	want := `<textarea><b>ipsum dolor sit amet</b></textarea>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
 	}
@@ -108,17 +111,9 @@ func TestAutoCompleteAttr(t *testing.T) {
 	}
 }
 
-func TestAutoFocusAttr(t *testing.T) {
-	got := string(textarea.New().AutoFocus().Render())
-	want := `<textarea autofocus="autofocus"></textarea>`
-	if got != want {
-		t.Errorf("got %q, want %q", got, want)
-	}
-}
-
 func TestDisabledAttr(t *testing.T) {
 	got := string(textarea.New().Disabled().Render())
-	want := `<textarea disabled="disabled"></textarea>`
+	want := `<textarea disabled></textarea>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
 	}
@@ -158,7 +153,7 @@ func TestPlaceholderAttr(t *testing.T) {
 
 func TestReadOnlyAttr(t *testing.T) {
 	got := string(textarea.New().ReadOnly().Render())
-	want := `<textarea readonly="readonly"></textarea>`
+	want := `<textarea readonly></textarea>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
 	}
@@ -166,7 +161,7 @@ func TestReadOnlyAttr(t *testing.T) {
 
 func TestRequiredAttr(t *testing.T) {
 	got := string(textarea.New().Required().Render())
-	want := `<textarea required="required"></textarea>`
+	want := `<textarea required></textarea>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
 	}
@@ -247,8 +242,8 @@ func TestTitleAttr(t *testing.T) {
 }
 
 func TestHiddenAttr(t *testing.T) {
-	got := string(textarea.New().Hidden().Render())
-	want := `<textarea hidden="hidden"></textarea>`
+	got := string(textarea.New().Hidden(hidden.True).Render())
+	want := `<textarea hidden="true"></textarea>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
 	}
@@ -305,7 +300,7 @@ func TestAnchorAttr(t *testing.T) {
 
 func TestAriaLabelAttr(t *testing.T) {
 	got := string(textarea.New().AriaLabel("test").Render())
-	want := `<textarea arialabel="test"></textarea>`
+	want := `<textarea aria-label="test"></textarea>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
 	}
@@ -330,6 +325,14 @@ func TestAutoCapitalizeAttr(t *testing.T) {
 func TestAutoCorrectAttr(t *testing.T) {
 	got := string(textarea.New().AutoCorrect(autocorrect.On).Render())
 	want := `<textarea autocorrect="on"></textarea>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
+func TestAutoFocusAttr(t *testing.T) {
+	got := string(textarea.New().AutoFocus().Render())
+	want := `<textarea autofocus></textarea>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
 	}
@@ -361,7 +364,7 @@ func TestDirAttr(t *testing.T) {
 
 func TestDraggableAttr(t *testing.T) {
 	got := string(textarea.New().Draggable().Render())
-	want := `<textarea draggable="draggable"></textarea>`
+	want := `<textarea draggable></textarea>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
 	}
@@ -385,7 +388,7 @@ func TestExportPartsAttr(t *testing.T) {
 
 func TestInertAttr(t *testing.T) {
 	got := string(textarea.New().Inert().Render())
-	want := `<textarea inert="inert"></textarea>`
+	want := `<textarea inert></textarea>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
 	}
@@ -433,7 +436,7 @@ func TestItemRefAttr(t *testing.T) {
 
 func TestItemScopeAttr(t *testing.T) {
 	got := string(textarea.New().ItemScope().Render())
-	want := `<textarea itemscope="itemscope"></textarea>`
+	want := `<textarea itemscope></textarea>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
 	}
@@ -1011,6 +1014,318 @@ func TestOnVolumeChangeAttr(t *testing.T) {
 func TestOnWaitingAttr(t *testing.T) {
 	got := string(textarea.New().OnWaiting("test").Render())
 	want := `<textarea onwaiting="test"></textarea>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
+func TestOnAuxClickAttr(t *testing.T) {
+	got := string(textarea.New().OnAuxClick("test").Render())
+	want := `<textarea onauxclick="test"></textarea>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
+func TestOnWheelAttr(t *testing.T) {
+	got := string(textarea.New().OnWheel("test").Render())
+	want := `<textarea onwheel="test"></textarea>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
+func TestOnCopyAttr(t *testing.T) {
+	got := string(textarea.New().OnCopy("test").Render())
+	want := `<textarea oncopy="test"></textarea>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
+func TestOnCutAttr(t *testing.T) {
+	got := string(textarea.New().OnCut("test").Render())
+	want := `<textarea oncut="test"></textarea>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
+func TestOnPasteAttr(t *testing.T) {
+	got := string(textarea.New().OnPaste("test").Render())
+	want := `<textarea onpaste="test"></textarea>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
+func TestOnScrollEndAttr(t *testing.T) {
+	got := string(textarea.New().OnScrollEnd("test").Render())
+	want := `<textarea onscrollend="test"></textarea>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
+func TestOnFormDataAttr(t *testing.T) {
+	got := string(textarea.New().OnFormData("test").Render())
+	want := `<textarea onformdata="test"></textarea>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
+func TestOnAnimationCancelAttr(t *testing.T) {
+	got := string(textarea.New().OnAnimationCancel("test").Render())
+	want := `<textarea onanimationcancel="test"></textarea>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
+func TestOnAnimationEndAttr(t *testing.T) {
+	got := string(textarea.New().OnAnimationEnd("test").Render())
+	want := `<textarea onanimationend="test"></textarea>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
+func TestOnAnimationIterationAttr(t *testing.T) {
+	got := string(textarea.New().OnAnimationIteration("test").Render())
+	want := `<textarea onanimationiteration="test"></textarea>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
+func TestOnAnimationStartAttr(t *testing.T) {
+	got := string(textarea.New().OnAnimationStart("test").Render())
+	want := `<textarea onanimationstart="test"></textarea>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
+func TestOnTransitionCancelAttr(t *testing.T) {
+	got := string(textarea.New().OnTransitionCancel("test").Render())
+	want := `<textarea ontransitioncancel="test"></textarea>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
+func TestOnTransitionEndAttr(t *testing.T) {
+	got := string(textarea.New().OnTransitionEnd("test").Render())
+	want := `<textarea ontransitionend="test"></textarea>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
+func TestOnTransitionRunAttr(t *testing.T) {
+	got := string(textarea.New().OnTransitionRun("test").Render())
+	want := `<textarea ontransitionrun="test"></textarea>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
+func TestOnTransitionStartAttr(t *testing.T) {
+	got := string(textarea.New().OnTransitionStart("test").Render())
+	want := `<textarea ontransitionstart="test"></textarea>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
+func TestOnBeforeToggleAttr(t *testing.T) {
+	got := string(textarea.New().OnBeforeToggle("test").Render())
+	want := `<textarea onbeforetoggle="test"></textarea>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
+func TestOnBeforeInputAttr(t *testing.T) {
+	got := string(textarea.New().OnBeforeInput("test").Render())
+	want := `<textarea onbeforeinput="test"></textarea>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
+func TestOnBeforeMatchAttr(t *testing.T) {
+	got := string(textarea.New().OnBeforeMatch("test").Render())
+	want := `<textarea onbeforematch="test"></textarea>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
+func TestOnCommandAttr(t *testing.T) {
+	got := string(textarea.New().OnCommand("test").Render())
+	want := `<textarea oncommand="test"></textarea>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
+func TestOnContextLostAttr(t *testing.T) {
+	got := string(textarea.New().OnContextLost("test").Render())
+	want := `<textarea oncontextlost="test"></textarea>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
+func TestOnContextRestoredAttr(t *testing.T) {
+	got := string(textarea.New().OnContextRestored("test").Render())
+	want := `<textarea oncontextrestored="test"></textarea>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
+func TestOnSecurityPolicyViolationAttr(t *testing.T) {
+	got := string(textarea.New().OnSecurityPolicyViolation("test").Render())
+	want := `<textarea onsecuritypolicyviolation="test"></textarea>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
+func TestOnSlotChangeAttr(t *testing.T) {
+	got := string(textarea.New().OnSlotChange("test").Render())
+	want := `<textarea onslotchange="test"></textarea>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
+func TestOnPointerDownAttr(t *testing.T) {
+	got := string(textarea.New().OnPointerDown("test").Render())
+	want := `<textarea onpointerdown="test"></textarea>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
+func TestOnPointerUpAttr(t *testing.T) {
+	got := string(textarea.New().OnPointerUp("test").Render())
+	want := `<textarea onpointerup="test"></textarea>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
+func TestOnPointerMoveAttr(t *testing.T) {
+	got := string(textarea.New().OnPointerMove("test").Render())
+	want := `<textarea onpointermove="test"></textarea>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
+func TestOnPointerEnterAttr(t *testing.T) {
+	got := string(textarea.New().OnPointerEnter("test").Render())
+	want := `<textarea onpointerenter="test"></textarea>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
+func TestOnPointerLeaveAttr(t *testing.T) {
+	got := string(textarea.New().OnPointerLeave("test").Render())
+	want := `<textarea onpointerleave="test"></textarea>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
+func TestOnPointerOverAttr(t *testing.T) {
+	got := string(textarea.New().OnPointerOver("test").Render())
+	want := `<textarea onpointerover="test"></textarea>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
+func TestOnPointerOutAttr(t *testing.T) {
+	got := string(textarea.New().OnPointerOut("test").Render())
+	want := `<textarea onpointerout="test"></textarea>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
+func TestOnPointerCancelAttr(t *testing.T) {
+	got := string(textarea.New().OnPointerCancel("test").Render())
+	want := `<textarea onpointercancel="test"></textarea>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
+func TestOnGotPointerCaptureAttr(t *testing.T) {
+	got := string(textarea.New().OnGotPointerCapture("test").Render())
+	want := `<textarea ongotpointercapture="test"></textarea>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
+func TestOnLostPointerCaptureAttr(t *testing.T) {
+	got := string(textarea.New().OnLostPointerCapture("test").Render())
+	want := `<textarea onlostpointercapture="test"></textarea>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
+func TestOnTouchStartAttr(t *testing.T) {
+	got := string(textarea.New().OnTouchStart("test").Render())
+	want := `<textarea ontouchstart="test"></textarea>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
+func TestOnTouchEndAttr(t *testing.T) {
+	got := string(textarea.New().OnTouchEnd("test").Render())
+	want := `<textarea ontouchend="test"></textarea>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
+func TestOnTouchMoveAttr(t *testing.T) {
+	got := string(textarea.New().OnTouchMove("test").Render())
+	want := `<textarea ontouchmove="test"></textarea>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
+func TestOnTouchCancelAttr(t *testing.T) {
+	got := string(textarea.New().OnTouchCancel("test").Render())
+	want := `<textarea ontouchcancel="test"></textarea>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
+func TestOnSelectStartAttr(t *testing.T) {
+	got := string(textarea.New().OnSelectStart("test").Render())
+	want := `<textarea onselectstart="test"></textarea>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
+func TestOnSelectionChangeAttr(t *testing.T) {
+	got := string(textarea.New().OnSelectionChange("test").Render())
+	want := `<textarea onselectionchange="test"></textarea>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
 	}

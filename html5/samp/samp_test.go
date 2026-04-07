@@ -10,6 +10,7 @@ import (
 	"github.com/jpl-au/fluent/html5/attr/contenteditable"
 	"github.com/jpl-au/fluent/html5/attr/dir"
 	"github.com/jpl-au/fluent/html5/attr/enterkeyhint"
+	"github.com/jpl-au/fluent/html5/attr/hidden"
 	"github.com/jpl-au/fluent/html5/attr/inputmode"
 	"github.com/jpl-au/fluent/html5/attr/popover"
 	"github.com/jpl-au/fluent/html5/attr/spellcheck"
@@ -60,7 +61,8 @@ func TestRawTextCtor(t *testing.T) {
 }
 
 func TestTextfCtor(t *testing.T) {
-	got := string(samp.Textf("Exit code: %d", 0).Render())
+	code := 0
+	got := string(samp.Textf("Exit code: %d", code).Render())
 	want := `<samp>Exit code: 0</samp>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -68,8 +70,9 @@ func TestTextfCtor(t *testing.T) {
 }
 
 func TestRawTextfCtor(t *testing.T) {
-	got := string(samp.RawTextf("<code>%s</code>", "output").Render())
-	want := `<samp><code>output</code></samp>`
+	output := "OK"
+	got := string(samp.RawTextf("<code>%s</code>", output).Render())
+	want := `<samp><code>OK</code></samp>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
 	}
@@ -126,8 +129,8 @@ func TestTitleAttr(t *testing.T) {
 }
 
 func TestHiddenAttr(t *testing.T) {
-	got := string(samp.New().Hidden().Render())
-	want := `<samp hidden="hidden"></samp>`
+	got := string(samp.New().Hidden(hidden.True).Render())
+	want := `<samp hidden="true"></samp>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
 	}
@@ -184,7 +187,7 @@ func TestAnchorAttr(t *testing.T) {
 
 func TestAriaLabelAttr(t *testing.T) {
 	got := string(samp.New().AriaLabel("test").Render())
-	want := `<samp arialabel="test"></samp>`
+	want := `<samp aria-label="test"></samp>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
 	}
@@ -216,7 +219,7 @@ func TestAutoCorrectAttr(t *testing.T) {
 
 func TestAutoFocusAttr(t *testing.T) {
 	got := string(samp.New().AutoFocus().Render())
-	want := `<samp autofocus="autofocus"></samp>`
+	want := `<samp autofocus></samp>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
 	}
@@ -248,7 +251,7 @@ func TestDirAttr(t *testing.T) {
 
 func TestDraggableAttr(t *testing.T) {
 	got := string(samp.New().Draggable().Render())
-	want := `<samp draggable="draggable"></samp>`
+	want := `<samp draggable></samp>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
 	}
@@ -272,7 +275,7 @@ func TestExportPartsAttr(t *testing.T) {
 
 func TestInertAttr(t *testing.T) {
 	got := string(samp.New().Inert().Render())
-	want := `<samp inert="inert"></samp>`
+	want := `<samp inert></samp>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
 	}
@@ -320,7 +323,7 @@ func TestItemRefAttr(t *testing.T) {
 
 func TestItemScopeAttr(t *testing.T) {
 	got := string(samp.New().ItemScope().Render())
-	want := `<samp itemscope="itemscope"></samp>`
+	want := `<samp itemscope></samp>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
 	}
@@ -906,6 +909,318 @@ func TestOnVolumeChangeAttr(t *testing.T) {
 func TestOnWaitingAttr(t *testing.T) {
 	got := string(samp.New().OnWaiting("test").Render())
 	want := `<samp onwaiting="test"></samp>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
+func TestOnAuxClickAttr(t *testing.T) {
+	got := string(samp.New().OnAuxClick("test").Render())
+	want := `<samp onauxclick="test"></samp>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
+func TestOnWheelAttr(t *testing.T) {
+	got := string(samp.New().OnWheel("test").Render())
+	want := `<samp onwheel="test"></samp>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
+func TestOnCopyAttr(t *testing.T) {
+	got := string(samp.New().OnCopy("test").Render())
+	want := `<samp oncopy="test"></samp>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
+func TestOnCutAttr(t *testing.T) {
+	got := string(samp.New().OnCut("test").Render())
+	want := `<samp oncut="test"></samp>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
+func TestOnPasteAttr(t *testing.T) {
+	got := string(samp.New().OnPaste("test").Render())
+	want := `<samp onpaste="test"></samp>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
+func TestOnScrollEndAttr(t *testing.T) {
+	got := string(samp.New().OnScrollEnd("test").Render())
+	want := `<samp onscrollend="test"></samp>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
+func TestOnFormDataAttr(t *testing.T) {
+	got := string(samp.New().OnFormData("test").Render())
+	want := `<samp onformdata="test"></samp>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
+func TestOnAnimationCancelAttr(t *testing.T) {
+	got := string(samp.New().OnAnimationCancel("test").Render())
+	want := `<samp onanimationcancel="test"></samp>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
+func TestOnAnimationEndAttr(t *testing.T) {
+	got := string(samp.New().OnAnimationEnd("test").Render())
+	want := `<samp onanimationend="test"></samp>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
+func TestOnAnimationIterationAttr(t *testing.T) {
+	got := string(samp.New().OnAnimationIteration("test").Render())
+	want := `<samp onanimationiteration="test"></samp>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
+func TestOnAnimationStartAttr(t *testing.T) {
+	got := string(samp.New().OnAnimationStart("test").Render())
+	want := `<samp onanimationstart="test"></samp>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
+func TestOnTransitionCancelAttr(t *testing.T) {
+	got := string(samp.New().OnTransitionCancel("test").Render())
+	want := `<samp ontransitioncancel="test"></samp>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
+func TestOnTransitionEndAttr(t *testing.T) {
+	got := string(samp.New().OnTransitionEnd("test").Render())
+	want := `<samp ontransitionend="test"></samp>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
+func TestOnTransitionRunAttr(t *testing.T) {
+	got := string(samp.New().OnTransitionRun("test").Render())
+	want := `<samp ontransitionrun="test"></samp>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
+func TestOnTransitionStartAttr(t *testing.T) {
+	got := string(samp.New().OnTransitionStart("test").Render())
+	want := `<samp ontransitionstart="test"></samp>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
+func TestOnBeforeToggleAttr(t *testing.T) {
+	got := string(samp.New().OnBeforeToggle("test").Render())
+	want := `<samp onbeforetoggle="test"></samp>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
+func TestOnBeforeInputAttr(t *testing.T) {
+	got := string(samp.New().OnBeforeInput("test").Render())
+	want := `<samp onbeforeinput="test"></samp>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
+func TestOnBeforeMatchAttr(t *testing.T) {
+	got := string(samp.New().OnBeforeMatch("test").Render())
+	want := `<samp onbeforematch="test"></samp>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
+func TestOnCommandAttr(t *testing.T) {
+	got := string(samp.New().OnCommand("test").Render())
+	want := `<samp oncommand="test"></samp>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
+func TestOnContextLostAttr(t *testing.T) {
+	got := string(samp.New().OnContextLost("test").Render())
+	want := `<samp oncontextlost="test"></samp>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
+func TestOnContextRestoredAttr(t *testing.T) {
+	got := string(samp.New().OnContextRestored("test").Render())
+	want := `<samp oncontextrestored="test"></samp>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
+func TestOnSecurityPolicyViolationAttr(t *testing.T) {
+	got := string(samp.New().OnSecurityPolicyViolation("test").Render())
+	want := `<samp onsecuritypolicyviolation="test"></samp>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
+func TestOnSlotChangeAttr(t *testing.T) {
+	got := string(samp.New().OnSlotChange("test").Render())
+	want := `<samp onslotchange="test"></samp>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
+func TestOnPointerDownAttr(t *testing.T) {
+	got := string(samp.New().OnPointerDown("test").Render())
+	want := `<samp onpointerdown="test"></samp>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
+func TestOnPointerUpAttr(t *testing.T) {
+	got := string(samp.New().OnPointerUp("test").Render())
+	want := `<samp onpointerup="test"></samp>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
+func TestOnPointerMoveAttr(t *testing.T) {
+	got := string(samp.New().OnPointerMove("test").Render())
+	want := `<samp onpointermove="test"></samp>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
+func TestOnPointerEnterAttr(t *testing.T) {
+	got := string(samp.New().OnPointerEnter("test").Render())
+	want := `<samp onpointerenter="test"></samp>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
+func TestOnPointerLeaveAttr(t *testing.T) {
+	got := string(samp.New().OnPointerLeave("test").Render())
+	want := `<samp onpointerleave="test"></samp>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
+func TestOnPointerOverAttr(t *testing.T) {
+	got := string(samp.New().OnPointerOver("test").Render())
+	want := `<samp onpointerover="test"></samp>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
+func TestOnPointerOutAttr(t *testing.T) {
+	got := string(samp.New().OnPointerOut("test").Render())
+	want := `<samp onpointerout="test"></samp>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
+func TestOnPointerCancelAttr(t *testing.T) {
+	got := string(samp.New().OnPointerCancel("test").Render())
+	want := `<samp onpointercancel="test"></samp>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
+func TestOnGotPointerCaptureAttr(t *testing.T) {
+	got := string(samp.New().OnGotPointerCapture("test").Render())
+	want := `<samp ongotpointercapture="test"></samp>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
+func TestOnLostPointerCaptureAttr(t *testing.T) {
+	got := string(samp.New().OnLostPointerCapture("test").Render())
+	want := `<samp onlostpointercapture="test"></samp>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
+func TestOnTouchStartAttr(t *testing.T) {
+	got := string(samp.New().OnTouchStart("test").Render())
+	want := `<samp ontouchstart="test"></samp>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
+func TestOnTouchEndAttr(t *testing.T) {
+	got := string(samp.New().OnTouchEnd("test").Render())
+	want := `<samp ontouchend="test"></samp>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
+func TestOnTouchMoveAttr(t *testing.T) {
+	got := string(samp.New().OnTouchMove("test").Render())
+	want := `<samp ontouchmove="test"></samp>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
+func TestOnTouchCancelAttr(t *testing.T) {
+	got := string(samp.New().OnTouchCancel("test").Render())
+	want := `<samp ontouchcancel="test"></samp>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
+func TestOnSelectStartAttr(t *testing.T) {
+	got := string(samp.New().OnSelectStart("test").Render())
+	want := `<samp onselectstart="test"></samp>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
+func TestOnSelectionChangeAttr(t *testing.T) {
+	got := string(samp.New().OnSelectionChange("test").Render())
+	want := `<samp onselectionchange="test"></samp>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
 	}

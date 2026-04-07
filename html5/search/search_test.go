@@ -10,6 +10,7 @@ import (
 	"github.com/jpl-au/fluent/html5/attr/contenteditable"
 	"github.com/jpl-au/fluent/html5/attr/dir"
 	"github.com/jpl-au/fluent/html5/attr/enterkeyhint"
+	"github.com/jpl-au/fluent/html5/attr/hidden"
 	"github.com/jpl-au/fluent/html5/attr/inputmode"
 	"github.com/jpl-au/fluent/html5/attr/popover"
 	"github.com/jpl-au/fluent/html5/attr/spellcheck"
@@ -36,40 +37,40 @@ func TestNewCtor(t *testing.T) {
 }
 
 func TestTextCtor(t *testing.T) {
-	got := string(search.Text("Search content").Render())
-	want := `<search>Search content</search>`
+	got := string(search.Text("Find results").Render())
+	want := `<search>Find results</search>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
 	}
 }
 
 func TestStaticCtor(t *testing.T) {
-	got := string(search.Static("Find items").Render())
-	want := `<search>Find items</search>`
+	got := string(search.Static("Find results").Render())
+	want := `<search>Find results</search>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
 	}
 }
 
 func TestRawTextCtor(t *testing.T) {
-	got := string(search.RawText("<input type='search'>").Render())
-	want := `<search><input type='search'></search>`
+	got := string(search.RawText("<b>Find results</b>").Render())
+	want := `<search><b>Find results</b></search>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
 	}
 }
 
 func TestTextfCtor(t *testing.T) {
-	got := string(search.Textf("Search %s", "items").Render())
-	want := `<search>Search items</search>`
+	got := string(search.Textf("Find %s", "results").Render())
+	want := `<search>Find results</search>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
 	}
 }
 
 func TestRawTextfCtor(t *testing.T) {
-	got := string(search.RawTextf("<form>%s</form>", "content").Render())
-	want := `<search><form>content</form></search>`
+	got := string(search.RawTextf("<b>Find %s</b>", "results").Render())
+	want := `<search><b>Find results</b></search>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
 	}
@@ -126,8 +127,8 @@ func TestTitleAttr(t *testing.T) {
 }
 
 func TestHiddenAttr(t *testing.T) {
-	got := string(search.New().Hidden().Render())
-	want := `<search hidden="hidden"></search>`
+	got := string(search.New().Hidden(hidden.True).Render())
+	want := `<search hidden="true"></search>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
 	}
@@ -184,7 +185,7 @@ func TestAnchorAttr(t *testing.T) {
 
 func TestAriaLabelAttr(t *testing.T) {
 	got := string(search.New().AriaLabel("test").Render())
-	want := `<search arialabel="test"></search>`
+	want := `<search aria-label="test"></search>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
 	}
@@ -216,7 +217,7 @@ func TestAutoCorrectAttr(t *testing.T) {
 
 func TestAutoFocusAttr(t *testing.T) {
 	got := string(search.New().AutoFocus().Render())
-	want := `<search autofocus="autofocus"></search>`
+	want := `<search autofocus></search>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
 	}
@@ -248,7 +249,7 @@ func TestDirAttr(t *testing.T) {
 
 func TestDraggableAttr(t *testing.T) {
 	got := string(search.New().Draggable().Render())
-	want := `<search draggable="draggable"></search>`
+	want := `<search draggable></search>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
 	}
@@ -272,7 +273,7 @@ func TestExportPartsAttr(t *testing.T) {
 
 func TestInertAttr(t *testing.T) {
 	got := string(search.New().Inert().Render())
-	want := `<search inert="inert"></search>`
+	want := `<search inert></search>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
 	}
@@ -320,7 +321,7 @@ func TestItemRefAttr(t *testing.T) {
 
 func TestItemScopeAttr(t *testing.T) {
 	got := string(search.New().ItemScope().Render())
-	want := `<search itemscope="itemscope"></search>`
+	want := `<search itemscope></search>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
 	}
@@ -906,6 +907,318 @@ func TestOnVolumeChangeAttr(t *testing.T) {
 func TestOnWaitingAttr(t *testing.T) {
 	got := string(search.New().OnWaiting("test").Render())
 	want := `<search onwaiting="test"></search>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
+func TestOnAuxClickAttr(t *testing.T) {
+	got := string(search.New().OnAuxClick("test").Render())
+	want := `<search onauxclick="test"></search>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
+func TestOnWheelAttr(t *testing.T) {
+	got := string(search.New().OnWheel("test").Render())
+	want := `<search onwheel="test"></search>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
+func TestOnCopyAttr(t *testing.T) {
+	got := string(search.New().OnCopy("test").Render())
+	want := `<search oncopy="test"></search>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
+func TestOnCutAttr(t *testing.T) {
+	got := string(search.New().OnCut("test").Render())
+	want := `<search oncut="test"></search>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
+func TestOnPasteAttr(t *testing.T) {
+	got := string(search.New().OnPaste("test").Render())
+	want := `<search onpaste="test"></search>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
+func TestOnScrollEndAttr(t *testing.T) {
+	got := string(search.New().OnScrollEnd("test").Render())
+	want := `<search onscrollend="test"></search>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
+func TestOnFormDataAttr(t *testing.T) {
+	got := string(search.New().OnFormData("test").Render())
+	want := `<search onformdata="test"></search>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
+func TestOnAnimationCancelAttr(t *testing.T) {
+	got := string(search.New().OnAnimationCancel("test").Render())
+	want := `<search onanimationcancel="test"></search>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
+func TestOnAnimationEndAttr(t *testing.T) {
+	got := string(search.New().OnAnimationEnd("test").Render())
+	want := `<search onanimationend="test"></search>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
+func TestOnAnimationIterationAttr(t *testing.T) {
+	got := string(search.New().OnAnimationIteration("test").Render())
+	want := `<search onanimationiteration="test"></search>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
+func TestOnAnimationStartAttr(t *testing.T) {
+	got := string(search.New().OnAnimationStart("test").Render())
+	want := `<search onanimationstart="test"></search>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
+func TestOnTransitionCancelAttr(t *testing.T) {
+	got := string(search.New().OnTransitionCancel("test").Render())
+	want := `<search ontransitioncancel="test"></search>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
+func TestOnTransitionEndAttr(t *testing.T) {
+	got := string(search.New().OnTransitionEnd("test").Render())
+	want := `<search ontransitionend="test"></search>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
+func TestOnTransitionRunAttr(t *testing.T) {
+	got := string(search.New().OnTransitionRun("test").Render())
+	want := `<search ontransitionrun="test"></search>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
+func TestOnTransitionStartAttr(t *testing.T) {
+	got := string(search.New().OnTransitionStart("test").Render())
+	want := `<search ontransitionstart="test"></search>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
+func TestOnBeforeToggleAttr(t *testing.T) {
+	got := string(search.New().OnBeforeToggle("test").Render())
+	want := `<search onbeforetoggle="test"></search>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
+func TestOnBeforeInputAttr(t *testing.T) {
+	got := string(search.New().OnBeforeInput("test").Render())
+	want := `<search onbeforeinput="test"></search>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
+func TestOnBeforeMatchAttr(t *testing.T) {
+	got := string(search.New().OnBeforeMatch("test").Render())
+	want := `<search onbeforematch="test"></search>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
+func TestOnCommandAttr(t *testing.T) {
+	got := string(search.New().OnCommand("test").Render())
+	want := `<search oncommand="test"></search>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
+func TestOnContextLostAttr(t *testing.T) {
+	got := string(search.New().OnContextLost("test").Render())
+	want := `<search oncontextlost="test"></search>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
+func TestOnContextRestoredAttr(t *testing.T) {
+	got := string(search.New().OnContextRestored("test").Render())
+	want := `<search oncontextrestored="test"></search>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
+func TestOnSecurityPolicyViolationAttr(t *testing.T) {
+	got := string(search.New().OnSecurityPolicyViolation("test").Render())
+	want := `<search onsecuritypolicyviolation="test"></search>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
+func TestOnSlotChangeAttr(t *testing.T) {
+	got := string(search.New().OnSlotChange("test").Render())
+	want := `<search onslotchange="test"></search>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
+func TestOnPointerDownAttr(t *testing.T) {
+	got := string(search.New().OnPointerDown("test").Render())
+	want := `<search onpointerdown="test"></search>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
+func TestOnPointerUpAttr(t *testing.T) {
+	got := string(search.New().OnPointerUp("test").Render())
+	want := `<search onpointerup="test"></search>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
+func TestOnPointerMoveAttr(t *testing.T) {
+	got := string(search.New().OnPointerMove("test").Render())
+	want := `<search onpointermove="test"></search>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
+func TestOnPointerEnterAttr(t *testing.T) {
+	got := string(search.New().OnPointerEnter("test").Render())
+	want := `<search onpointerenter="test"></search>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
+func TestOnPointerLeaveAttr(t *testing.T) {
+	got := string(search.New().OnPointerLeave("test").Render())
+	want := `<search onpointerleave="test"></search>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
+func TestOnPointerOverAttr(t *testing.T) {
+	got := string(search.New().OnPointerOver("test").Render())
+	want := `<search onpointerover="test"></search>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
+func TestOnPointerOutAttr(t *testing.T) {
+	got := string(search.New().OnPointerOut("test").Render())
+	want := `<search onpointerout="test"></search>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
+func TestOnPointerCancelAttr(t *testing.T) {
+	got := string(search.New().OnPointerCancel("test").Render())
+	want := `<search onpointercancel="test"></search>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
+func TestOnGotPointerCaptureAttr(t *testing.T) {
+	got := string(search.New().OnGotPointerCapture("test").Render())
+	want := `<search ongotpointercapture="test"></search>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
+func TestOnLostPointerCaptureAttr(t *testing.T) {
+	got := string(search.New().OnLostPointerCapture("test").Render())
+	want := `<search onlostpointercapture="test"></search>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
+func TestOnTouchStartAttr(t *testing.T) {
+	got := string(search.New().OnTouchStart("test").Render())
+	want := `<search ontouchstart="test"></search>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
+func TestOnTouchEndAttr(t *testing.T) {
+	got := string(search.New().OnTouchEnd("test").Render())
+	want := `<search ontouchend="test"></search>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
+func TestOnTouchMoveAttr(t *testing.T) {
+	got := string(search.New().OnTouchMove("test").Render())
+	want := `<search ontouchmove="test"></search>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
+func TestOnTouchCancelAttr(t *testing.T) {
+	got := string(search.New().OnTouchCancel("test").Render())
+	want := `<search ontouchcancel="test"></search>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
+func TestOnSelectStartAttr(t *testing.T) {
+	got := string(search.New().OnSelectStart("test").Render())
+	want := `<search onselectstart="test"></search>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
+func TestOnSelectionChangeAttr(t *testing.T) {
+	got := string(search.New().OnSelectionChange("test").Render())
+	want := `<search onselectionchange="test"></search>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
 	}

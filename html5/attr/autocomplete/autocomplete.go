@@ -2,8 +2,9 @@
 
 package autocomplete
 
-// AutoComplete Browser autocomplete behavior for input fields. Controls automatic value suggestions
-// and form filling to improve user experience while maintaining security.
+// AutoComplete Browser autocomplete behaviour for form fields. Controls automatic value suggestions
+// and form filling to improve user experience while maintaining security. Accepts
+// field tokens (standalone values) and optional modifier prefixes for context.
 type AutoComplete []byte
 
 // Variables for AutoComplete values
@@ -20,9 +21,33 @@ var (
 	// user profiles, address books, and previous form entries.
 	Name = AutoComplete("name")
 
-	// Email Email address autocomplete suggestions. Browser suggests email addresses from
-	// user accounts, previous entries, and contact information.
-	Email = AutoComplete("email")
+	// HonorificPrefix Name prefix or title such as Mrs., Mr., Dr., or Ms. Browser suggests
+	// honorific prefixes from user profiles and previous entries.
+	HonorificPrefix = AutoComplete("honorific-prefix")
+
+	// GivenName First name or given name. Browser suggests given names from user profiles,
+	// address books, and previous form entries.
+	GivenName = AutoComplete("given-name")
+
+	// AdditionalName Middle name or additional name. Browser suggests middle names from user
+	// profiles and previous entries.
+	AdditionalName = AutoComplete("additional-name")
+
+	// FamilyName Last name or family name. Browser suggests family names from user profiles,
+	// address books, and previous form entries.
+	FamilyName = AutoComplete("family-name")
+
+	// HonorificSuffix Name suffix such as Jr., PhD., III, or Esq. Browser suggests honorific
+	// suffixes from user profiles and previous entries.
+	HonorificSuffix = AutoComplete("honorific-suffix")
+
+	// Nickname Nickname or handle. Browser suggests nicknames from user profiles
+	// and previous entries.
+	Nickname = AutoComplete("nickname")
+
+	// Username Username or account identifier field. Browser suggests usernames, email addresses,
+	// or account names associated with the current site.
+	Username = AutoComplete("username")
 
 	// CurrentPassword Current password field for existing account login. Password managers will suggest
 	// stored passwords for the current site and username combination.
@@ -32,37 +57,233 @@ var (
 	// will generate strong passwords and avoid suggesting existing passwords.
 	NewPassword = AutoComplete("new-password")
 
-	// Username Username or account identifier field. Browser suggests usernames, email addresses,
-	// or account names associated with the current site.
-	Username = AutoComplete("username")
+	// OneTimeCode One-time password or verification code for multi-factor authentication. Browser
+	// may auto-fill from SMS or authenticator apps when available.
+	OneTimeCode = AutoComplete("one-time-code")
 
-	// AddressLine1 First line of street address autocomplete. Browser suggests street numbers,
+	// WebAuthn Web Authentication passkey credential. Triggers the browser's passkey or
+	// security key authentication flow for passwordless sign-in.
+	WebAuthn = AutoComplete("webauthn")
+
+	// Organization Company or organisation name. Browser suggests organisation names from user
+	// profiles and previous form entries.
+	Organization = AutoComplete("organization")
+
+	// OrganizationTitle Job title or role within an organisation. Browser suggests titles from user
+	// profiles and previous form entries.
+	OrganizationTitle = AutoComplete("organization-title")
+
+	// StreetAddress Full street address as multi-line text. Browser suggests complete street
+	// addresses from user profiles and previous entries.
+	StreetAddress = AutoComplete("street-address")
+
+	// AddressLine1 First line of street address. Browser suggests street numbers,
 	// names, and primary address information from user profiles.
 	AddressLine1 = AutoComplete("address-line1")
 
-	// AddressLine2 Second line of street address autocomplete. Browser suggests apartment numbers,
+	// AddressLine2 Second line of street address. Browser suggests apartment numbers,
 	// suite information, and secondary address details.
 	AddressLine2 = AutoComplete("address-line2")
 
-	// Country Country name autocomplete suggestions. Browser provides country names based on
-	// user location, previous entries, and address book information.
+	// AddressLine3 Third line of street address for additional address details.
+	// Used in regions where addresses require more than two lines.
+	AddressLine3 = AutoComplete("address-line3")
+
+	// AddressLevel1 Broadest administrative level in the address, typically the province,
+	// state, or region. Browser suggests from user profiles.
+	AddressLevel1 = AutoComplete("address-level1")
+
+	// AddressLevel2 Second administrative level, typically the city or town.
+	// Browser suggests from user profiles and previous entries.
+	AddressLevel2 = AutoComplete("address-level2")
+
+	// AddressLevel3 Third administrative level such as a suburb or district.
+	// Used in regions with finer-grained address structures.
+	AddressLevel3 = AutoComplete("address-level3")
+
+	// AddressLevel4 Fourth administrative level for the most specific locality.
+	// Used in regions with very detailed address hierarchies.
+	AddressLevel4 = AutoComplete("address-level4")
+
+	// Country Country code in ISO 3166-1 alpha-2 format (e.g. AU, GB, US). Browser
+	// provides country code suggestions based on user location and profiles.
 	Country = AutoComplete("country")
 
-	// PostalCode Postal or ZIP code autocomplete suggestions. Browser suggests postal codes based
+	// CountryName Full country name in human-readable form. Browser provides country name
+	// suggestions based on user location and previous entries.
+	CountryName = AutoComplete("country-name")
+
+	// PostalCode Postal or ZIP code. Browser suggests postal codes based
 	// on user location and previous address entries.
 	PostalCode = AutoComplete("postal-code")
 
-	// Tel Phone number autocomplete suggestions. Browser suggests phone numbers from
-	// user profiles, contact lists, and previous form submissions.
+	// Email Email address. Browser suggests email addresses from
+	// user accounts, previous entries, and contact information.
+	Email = AutoComplete("email")
+
+	// IMPP Instant messaging protocol endpoint URL. Browser suggests messaging
+	// handles from user profiles and previous entries.
+	IMPP = AutoComplete("impp")
+
+	// Tel Full telephone number including country code. Browser suggests phone
+	// numbers from user profiles, contact lists, and previous submissions.
 	Tel = AutoComplete("tel")
 
-	// Url URL autocomplete suggestions. Browser suggests URLs from browsing history,
+	// TelCountryCode Telephone country code (e.g. +61, +44, +1). Browser suggests
+	// country codes based on user location and previous entries.
+	TelCountryCode = AutoComplete("tel-country-code")
+
+	// TelNational Telephone number without the country code. Browser suggests national
+	// phone numbers from user profiles and previous entries.
+	TelNational = AutoComplete("tel-national")
+
+	// TelAreaCode Telephone area code or regional prefix. Browser suggests area codes
+	// from user profiles and previous entries.
+	TelAreaCode = AutoComplete("tel-area-code")
+
+	// TelLocal Local telephone number without country or area code. Browser suggests
+	// local phone numbers from user profiles and previous entries.
+	TelLocal = AutoComplete("tel-local")
+
+	// TelLocalPrefix First part of a local telephone number split into two components.
+	// Used in regions where local numbers have a standard split point.
+	TelLocalPrefix = AutoComplete("tel-local-prefix")
+
+	// TelLocalSuffix Second part of a local telephone number split into two components.
+	// Used in regions where local numbers have a standard split point.
+	TelLocalSuffix = AutoComplete("tel-local-suffix")
+
+	// TelExtension Telephone extension number for reaching a specific line within an
+	// organisation's phone system.
+	TelExtension = AutoComplete("tel-extension")
+
+	// Url URL or web address. Browser suggests URLs from browsing history,
 	// bookmarks, and previously entered web addresses.
 	Url = AutoComplete("url")
+
+	// Photo URL of an image representing the person. Browser suggests photo URLs
+	// from user profiles and previous entries.
+	Photo = AutoComplete("photo")
+
+	// CCName Full name as printed on a payment card. Browser suggests cardholder
+	// names from stored payment methods.
+	CCName = AutoComplete("cc-name")
+
+	// CCGivenName First name as printed on a payment card. Browser suggests given names
+	// from stored payment methods.
+	CCGivenName = AutoComplete("cc-given-name")
+
+	// CCAdditionalName Middle name or initial as printed on a payment card. Browser suggests
+	// from stored payment methods.
+	CCAdditionalName = AutoComplete("cc-additional-name")
+
+	// CCFamilyName Last name as printed on a payment card. Browser suggests family names
+	// from stored payment methods.
+	CCFamilyName = AutoComplete("cc-family-name")
+
+	// CCNumber Payment card number. Browser suggests card numbers from stored payment
+	// methods with appropriate security handling.
+	CCNumber = AutoComplete("cc-number")
+
+	// CCExp Payment card expiration date in MM/YY or MM/YYYY format. Browser
+	// suggests expiration dates from stored payment methods.
+	CCExp = AutoComplete("cc-exp")
+
+	// CCExpMonth Payment card expiration month as a two-digit number. Browser suggests
+	// months from stored payment methods.
+	CCExpMonth = AutoComplete("cc-exp-month")
+
+	// CCExpYear Payment card expiration year as a four-digit number. Browser suggests
+	// years from stored payment methods.
+	CCExpYear = AutoComplete("cc-exp-year")
+
+	// CCCSC Payment card security code (CVV, CVC, or CSC). Browser may suggest
+	// from stored methods but typically requires manual entry for security.
+	CCCSC = AutoComplete("cc-csc")
+
+	// CCType Payment card type or network (e.g. Visa, Mastercard, Amex). Browser
+	// suggests card types from stored payment methods.
+	CCType = AutoComplete("cc-type")
+
+	// TransactionCurrency Currency for a transaction in ISO 4217 format (e.g. AUD, GBP, USD).
+	// Browser suggests currencies based on user locale and previous entries.
+	TransactionCurrency = AutoComplete("transaction-currency")
+
+	// TransactionAmount Numeric amount for a transaction. Browser suggests amounts based on
+	// previous transactions and form context.
+	TransactionAmount = AutoComplete("transaction-amount")
+
+	// Language Preferred language as a BCP 47 language tag (e.g. en-AU, fr, zh-Hans).
+	// Browser suggests languages from user locale settings.
+	Language = AutoComplete("language")
+
+	// BDay Full birth date. Browser suggests dates from user profiles
+	// and previous entries. Typically shown as a date picker.
+	BDay = AutoComplete("bday")
+
+	// BDayDay Day component of birth date as a numeric value (1-31).
+	// Browser suggests from user profiles.
+	BDayDay = AutoComplete("bday-day")
+
+	// BDayMonth Month component of birth date as a numeric value (1-12).
+	// Browser suggests from user profiles.
+	BDayMonth = AutoComplete("bday-month")
+
+	// BDayYear Year component of birth date as a four-digit number.
+	// Browser suggests from user profiles.
+	BDayYear = AutoComplete("bday-year")
+
+	// Sex Gender identity as freeform text without validation constraints.
+	// Browser suggests from user profiles and previous entries.
+	Sex = AutoComplete("sex")
 )
 
 // Custom allows setting a custom AutoComplete value for edge cases or future specifications.
 // Use this when the predefined constants don't cover your specific use case.
 func Custom(value string) AutoComplete {
 	return AutoComplete(value)
+}
+
+// Shipping Shipping context prefix for address and contact fields. Distinguishes
+// delivery address from billing address in checkout flows. Combines with
+// address, contact, and name field tokens.
+func Shipping(field AutoComplete) AutoComplete {
+	return AutoComplete("shipping" + " " + string(field))
+}
+
+// Billing Billing context prefix for address and payment fields. Distinguishes
+// payment address from shipping address in checkout flows. Combines with
+// address, contact, and name field tokens.
+func Billing(field AutoComplete) AutoComplete {
+	return AutoComplete("billing" + " " + string(field))
+}
+
+// Home Home context prefix for contact fields. Specifies a personal or
+// residential contact detail. Combines with tel, email, and impp tokens.
+func Home(field AutoComplete) AutoComplete {
+	return AutoComplete("home" + " " + string(field))
+}
+
+// Work Work context prefix for contact fields. Specifies a professional or
+// business contact detail. Combines with tel, email, and impp tokens.
+func Work(field AutoComplete) AutoComplete {
+	return AutoComplete("work" + " " + string(field))
+}
+
+// Mobile Mobile context prefix for telephone fields. Specifies a mobile phone
+// number. Combines with tel and tel-* tokens.
+func Mobile(field AutoComplete) AutoComplete {
+	return AutoComplete("mobile" + " " + string(field))
+}
+
+// Fax Fax context prefix for telephone fields. Specifies a facsimile
+// number. Combines with tel and tel-* tokens.
+func Fax(field AutoComplete) AutoComplete {
+	return AutoComplete("fax" + " " + string(field))
+}
+
+// Pager Pager context prefix for telephone fields. Specifies a pager
+// number. Combines with tel and tel-* tokens.
+func Pager(field AutoComplete) AutoComplete {
+	return AutoComplete("pager" + " " + string(field))
 }

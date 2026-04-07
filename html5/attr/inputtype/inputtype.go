@@ -48,6 +48,12 @@ var (
 	// hour, minute, and optionally second selection interface.
 	Time = InputType("time")
 
+	// Datetime Date and time input based on UTC timezone. Browsers no longer implement this type
+	// and it falls back to a plain text input.
+	//
+	// Deprecated: Use DatetimeLocal instead which provides a native date and time picker.
+	Datetime = InputType("datetime")
+
 	// DatetimeLocal Combined date and time picker for local datetime values. Provides interface for
 	// selecting both date and time without timezone information.
 	DatetimeLocal = InputType("datetime-local")

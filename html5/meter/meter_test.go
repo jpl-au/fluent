@@ -10,6 +10,7 @@ import (
 	"github.com/jpl-au/fluent/html5/attr/contenteditable"
 	"github.com/jpl-au/fluent/html5/attr/dir"
 	"github.com/jpl-au/fluent/html5/attr/enterkeyhint"
+	"github.com/jpl-au/fluent/html5/attr/hidden"
 	"github.com/jpl-au/fluent/html5/attr/inputmode"
 	"github.com/jpl-au/fluent/html5/attr/popover"
 	"github.com/jpl-au/fluent/html5/attr/spellcheck"
@@ -44,32 +45,36 @@ func TestTextCtor(t *testing.T) {
 }
 
 func TestStaticCtor(t *testing.T) {
-	got := string(meter.Static("Hello World").Render())
-	want := `<meter>Hello World</meter>`
+	got := string(meter.Static("75%").Render())
+	want := `<meter>75%</meter>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
 	}
 }
 
 func TestRawTextCtor(t *testing.T) {
-	got := string(meter.RawText("6 out of 10").Render())
-	want := `<meter>6 out of 10</meter>`
+	got := string(meter.RawText("<strong>6</strong> out of 10").Render())
+	want := `<meter><strong>6</strong> out of 10</meter>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
 	}
 }
 
 func TestTextfCtor(t *testing.T) {
-	got := string(meter.Textf("%d out of %d", 6, 10).Render())
-	want := `<meter>6 out of 10</meter>`
+	current := 7
+	total := 10
+	got := string(meter.Textf("%d out of %d", current, total).Render())
+	want := `<meter>7 out of 10</meter>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
 	}
 }
 
 func TestRawTextfCtor(t *testing.T) {
-	got := string(meter.RawTextf("<strong>%d</strong> out of %d", 6, 10).Render())
-	want := `<meter><strong>6</strong> out of 10</meter>`
+	current := 7
+	total := 10
+	got := string(meter.RawTextf("<strong>%d</strong> out of %d", current, total).Render())
+	want := `<meter><strong>7</strong> out of 10</meter>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
 	}
@@ -182,8 +187,8 @@ func TestTitleAttr(t *testing.T) {
 }
 
 func TestHiddenAttr(t *testing.T) {
-	got := string(meter.New().Hidden().Render())
-	want := `<meter hidden="hidden"></meter>`
+	got := string(meter.New().Hidden(hidden.True).Render())
+	want := `<meter hidden="true"></meter>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
 	}
@@ -240,7 +245,7 @@ func TestAnchorAttr(t *testing.T) {
 
 func TestAriaLabelAttr(t *testing.T) {
 	got := string(meter.New().AriaLabel("test").Render())
-	want := `<meter arialabel="test"></meter>`
+	want := `<meter aria-label="test"></meter>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
 	}
@@ -272,7 +277,7 @@ func TestAutoCorrectAttr(t *testing.T) {
 
 func TestAutoFocusAttr(t *testing.T) {
 	got := string(meter.New().AutoFocus().Render())
-	want := `<meter autofocus="autofocus"></meter>`
+	want := `<meter autofocus></meter>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
 	}
@@ -304,7 +309,7 @@ func TestDirAttr(t *testing.T) {
 
 func TestDraggableAttr(t *testing.T) {
 	got := string(meter.New().Draggable().Render())
-	want := `<meter draggable="draggable"></meter>`
+	want := `<meter draggable></meter>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
 	}
@@ -328,7 +333,7 @@ func TestExportPartsAttr(t *testing.T) {
 
 func TestInertAttr(t *testing.T) {
 	got := string(meter.New().Inert().Render())
-	want := `<meter inert="inert"></meter>`
+	want := `<meter inert></meter>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
 	}
@@ -376,7 +381,7 @@ func TestItemRefAttr(t *testing.T) {
 
 func TestItemScopeAttr(t *testing.T) {
 	got := string(meter.New().ItemScope().Render())
-	want := `<meter itemscope="itemscope"></meter>`
+	want := `<meter itemscope></meter>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
 	}
@@ -962,6 +967,318 @@ func TestOnVolumeChangeAttr(t *testing.T) {
 func TestOnWaitingAttr(t *testing.T) {
 	got := string(meter.New().OnWaiting("test").Render())
 	want := `<meter onwaiting="test"></meter>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
+func TestOnAuxClickAttr(t *testing.T) {
+	got := string(meter.New().OnAuxClick("test").Render())
+	want := `<meter onauxclick="test"></meter>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
+func TestOnWheelAttr(t *testing.T) {
+	got := string(meter.New().OnWheel("test").Render())
+	want := `<meter onwheel="test"></meter>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
+func TestOnCopyAttr(t *testing.T) {
+	got := string(meter.New().OnCopy("test").Render())
+	want := `<meter oncopy="test"></meter>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
+func TestOnCutAttr(t *testing.T) {
+	got := string(meter.New().OnCut("test").Render())
+	want := `<meter oncut="test"></meter>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
+func TestOnPasteAttr(t *testing.T) {
+	got := string(meter.New().OnPaste("test").Render())
+	want := `<meter onpaste="test"></meter>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
+func TestOnScrollEndAttr(t *testing.T) {
+	got := string(meter.New().OnScrollEnd("test").Render())
+	want := `<meter onscrollend="test"></meter>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
+func TestOnFormDataAttr(t *testing.T) {
+	got := string(meter.New().OnFormData("test").Render())
+	want := `<meter onformdata="test"></meter>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
+func TestOnAnimationCancelAttr(t *testing.T) {
+	got := string(meter.New().OnAnimationCancel("test").Render())
+	want := `<meter onanimationcancel="test"></meter>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
+func TestOnAnimationEndAttr(t *testing.T) {
+	got := string(meter.New().OnAnimationEnd("test").Render())
+	want := `<meter onanimationend="test"></meter>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
+func TestOnAnimationIterationAttr(t *testing.T) {
+	got := string(meter.New().OnAnimationIteration("test").Render())
+	want := `<meter onanimationiteration="test"></meter>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
+func TestOnAnimationStartAttr(t *testing.T) {
+	got := string(meter.New().OnAnimationStart("test").Render())
+	want := `<meter onanimationstart="test"></meter>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
+func TestOnTransitionCancelAttr(t *testing.T) {
+	got := string(meter.New().OnTransitionCancel("test").Render())
+	want := `<meter ontransitioncancel="test"></meter>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
+func TestOnTransitionEndAttr(t *testing.T) {
+	got := string(meter.New().OnTransitionEnd("test").Render())
+	want := `<meter ontransitionend="test"></meter>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
+func TestOnTransitionRunAttr(t *testing.T) {
+	got := string(meter.New().OnTransitionRun("test").Render())
+	want := `<meter ontransitionrun="test"></meter>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
+func TestOnTransitionStartAttr(t *testing.T) {
+	got := string(meter.New().OnTransitionStart("test").Render())
+	want := `<meter ontransitionstart="test"></meter>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
+func TestOnBeforeToggleAttr(t *testing.T) {
+	got := string(meter.New().OnBeforeToggle("test").Render())
+	want := `<meter onbeforetoggle="test"></meter>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
+func TestOnBeforeInputAttr(t *testing.T) {
+	got := string(meter.New().OnBeforeInput("test").Render())
+	want := `<meter onbeforeinput="test"></meter>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
+func TestOnBeforeMatchAttr(t *testing.T) {
+	got := string(meter.New().OnBeforeMatch("test").Render())
+	want := `<meter onbeforematch="test"></meter>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
+func TestOnCommandAttr(t *testing.T) {
+	got := string(meter.New().OnCommand("test").Render())
+	want := `<meter oncommand="test"></meter>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
+func TestOnContextLostAttr(t *testing.T) {
+	got := string(meter.New().OnContextLost("test").Render())
+	want := `<meter oncontextlost="test"></meter>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
+func TestOnContextRestoredAttr(t *testing.T) {
+	got := string(meter.New().OnContextRestored("test").Render())
+	want := `<meter oncontextrestored="test"></meter>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
+func TestOnSecurityPolicyViolationAttr(t *testing.T) {
+	got := string(meter.New().OnSecurityPolicyViolation("test").Render())
+	want := `<meter onsecuritypolicyviolation="test"></meter>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
+func TestOnSlotChangeAttr(t *testing.T) {
+	got := string(meter.New().OnSlotChange("test").Render())
+	want := `<meter onslotchange="test"></meter>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
+func TestOnPointerDownAttr(t *testing.T) {
+	got := string(meter.New().OnPointerDown("test").Render())
+	want := `<meter onpointerdown="test"></meter>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
+func TestOnPointerUpAttr(t *testing.T) {
+	got := string(meter.New().OnPointerUp("test").Render())
+	want := `<meter onpointerup="test"></meter>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
+func TestOnPointerMoveAttr(t *testing.T) {
+	got := string(meter.New().OnPointerMove("test").Render())
+	want := `<meter onpointermove="test"></meter>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
+func TestOnPointerEnterAttr(t *testing.T) {
+	got := string(meter.New().OnPointerEnter("test").Render())
+	want := `<meter onpointerenter="test"></meter>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
+func TestOnPointerLeaveAttr(t *testing.T) {
+	got := string(meter.New().OnPointerLeave("test").Render())
+	want := `<meter onpointerleave="test"></meter>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
+func TestOnPointerOverAttr(t *testing.T) {
+	got := string(meter.New().OnPointerOver("test").Render())
+	want := `<meter onpointerover="test"></meter>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
+func TestOnPointerOutAttr(t *testing.T) {
+	got := string(meter.New().OnPointerOut("test").Render())
+	want := `<meter onpointerout="test"></meter>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
+func TestOnPointerCancelAttr(t *testing.T) {
+	got := string(meter.New().OnPointerCancel("test").Render())
+	want := `<meter onpointercancel="test"></meter>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
+func TestOnGotPointerCaptureAttr(t *testing.T) {
+	got := string(meter.New().OnGotPointerCapture("test").Render())
+	want := `<meter ongotpointercapture="test"></meter>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
+func TestOnLostPointerCaptureAttr(t *testing.T) {
+	got := string(meter.New().OnLostPointerCapture("test").Render())
+	want := `<meter onlostpointercapture="test"></meter>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
+func TestOnTouchStartAttr(t *testing.T) {
+	got := string(meter.New().OnTouchStart("test").Render())
+	want := `<meter ontouchstart="test"></meter>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
+func TestOnTouchEndAttr(t *testing.T) {
+	got := string(meter.New().OnTouchEnd("test").Render())
+	want := `<meter ontouchend="test"></meter>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
+func TestOnTouchMoveAttr(t *testing.T) {
+	got := string(meter.New().OnTouchMove("test").Render())
+	want := `<meter ontouchmove="test"></meter>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
+func TestOnTouchCancelAttr(t *testing.T) {
+	got := string(meter.New().OnTouchCancel("test").Render())
+	want := `<meter ontouchcancel="test"></meter>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
+func TestOnSelectStartAttr(t *testing.T) {
+	got := string(meter.New().OnSelectStart("test").Render())
+	want := `<meter onselectstart="test"></meter>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
+func TestOnSelectionChangeAttr(t *testing.T) {
+	got := string(meter.New().OnSelectionChange("test").Render())
+	want := `<meter onselectionchange="test"></meter>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
 	}

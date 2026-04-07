@@ -59,6 +59,10 @@ var (
 	// AllowTopNavigationByUserActivation Allow top-level navigation only with user activation. Permits parent page navigation
 	// but only when triggered by user interaction within iframe.
 	AllowTopNavigationByUserActivation = Sandbox("allow-top-navigation-by-user-activation")
+
+	// AllowTopNavigationToCustomProtocols Allow navigation to non-fetch scheme URLs like mailto: or tel: links. Permits
+	// sandboxed content to trigger external protocol handlers through user interaction.
+	AllowTopNavigationToCustomProtocols = Sandbox("allow-top-navigation-to-custom-protocols")
 )
 
 // Custom allows setting a custom Sandbox value for edge cases or future specifications.

@@ -10,6 +10,7 @@ import (
 	"github.com/jpl-au/fluent/html5/attr/contenteditable"
 	"github.com/jpl-au/fluent/html5/attr/dir"
 	"github.com/jpl-au/fluent/html5/attr/enterkeyhint"
+	"github.com/jpl-au/fluent/html5/attr/hidden"
 	"github.com/jpl-au/fluent/html5/attr/inputmode"
 	"github.com/jpl-au/fluent/html5/attr/popover"
 	"github.com/jpl-au/fluent/html5/attr/spellcheck"
@@ -36,40 +37,40 @@ func TestNewCtor(t *testing.T) {
 }
 
 func TestTextCtor(t *testing.T) {
-	got := string(cite.Text("<i>Nineteen Eighty-Four</i>").Render())
-	want := `<cite>&lt;i&gt;Nineteen Eighty-Four&lt;/i&gt;</cite>`
+	got := string(cite.Text("Nineteen Eighty-Four").Render())
+	want := `<cite>Nineteen Eighty-Four</cite>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
 	}
 }
 
 func TestStaticCtor(t *testing.T) {
-	got := string(cite.Static("Hello World").Render())
-	want := `<cite>Hello World</cite>`
+	got := string(cite.Static("Nineteen Eighty-Four").Render())
+	want := `<cite>Nineteen Eighty-Four</cite>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
 	}
 }
 
 func TestRawTextCtor(t *testing.T) {
-	got := string(cite.RawText("<i>Nineteen Eighty-Four</i>").Render())
-	want := `<cite><i>Nineteen Eighty-Four</i></cite>`
+	got := string(cite.RawText("Nineteen Eighty-Four").Render())
+	want := `<cite>Nineteen Eighty-Four</cite>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
 	}
 }
 
 func TestTextfCtor(t *testing.T) {
-	got := string(cite.Textf("Hello %s", "World").Render())
-	want := `<cite>Hello World</cite>`
+	got := string(cite.Textf("Nineteen %s", "Eighty-Four").Render())
+	want := `<cite>Nineteen Eighty-Four</cite>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
 	}
 }
 
 func TestRawTextfCtor(t *testing.T) {
-	got := string(cite.RawTextf("Hello <em>%s</em>", "World").Render())
-	want := `<cite>Hello <em>World</em></cite>`
+	got := string(cite.RawTextf("Nineteen %s", "Eighty-Four").Render())
+	want := `<cite>Nineteen Eighty-Four</cite>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
 	}
@@ -126,8 +127,8 @@ func TestTitleAttr(t *testing.T) {
 }
 
 func TestHiddenAttr(t *testing.T) {
-	got := string(cite.New().Hidden().Render())
-	want := `<cite hidden="hidden"></cite>`
+	got := string(cite.New().Hidden(hidden.True).Render())
+	want := `<cite hidden="true"></cite>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
 	}
@@ -184,7 +185,7 @@ func TestAnchorAttr(t *testing.T) {
 
 func TestAriaLabelAttr(t *testing.T) {
 	got := string(cite.New().AriaLabel("test").Render())
-	want := `<cite arialabel="test"></cite>`
+	want := `<cite aria-label="test"></cite>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
 	}
@@ -216,7 +217,7 @@ func TestAutoCorrectAttr(t *testing.T) {
 
 func TestAutoFocusAttr(t *testing.T) {
 	got := string(cite.New().AutoFocus().Render())
-	want := `<cite autofocus="autofocus"></cite>`
+	want := `<cite autofocus></cite>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
 	}
@@ -248,7 +249,7 @@ func TestDirAttr(t *testing.T) {
 
 func TestDraggableAttr(t *testing.T) {
 	got := string(cite.New().Draggable().Render())
-	want := `<cite draggable="draggable"></cite>`
+	want := `<cite draggable></cite>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
 	}
@@ -272,7 +273,7 @@ func TestExportPartsAttr(t *testing.T) {
 
 func TestInertAttr(t *testing.T) {
 	got := string(cite.New().Inert().Render())
-	want := `<cite inert="inert"></cite>`
+	want := `<cite inert></cite>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
 	}
@@ -320,7 +321,7 @@ func TestItemRefAttr(t *testing.T) {
 
 func TestItemScopeAttr(t *testing.T) {
 	got := string(cite.New().ItemScope().Render())
-	want := `<cite itemscope="itemscope"></cite>`
+	want := `<cite itemscope></cite>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
 	}
@@ -906,6 +907,318 @@ func TestOnVolumeChangeAttr(t *testing.T) {
 func TestOnWaitingAttr(t *testing.T) {
 	got := string(cite.New().OnWaiting("test").Render())
 	want := `<cite onwaiting="test"></cite>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
+func TestOnAuxClickAttr(t *testing.T) {
+	got := string(cite.New().OnAuxClick("test").Render())
+	want := `<cite onauxclick="test"></cite>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
+func TestOnWheelAttr(t *testing.T) {
+	got := string(cite.New().OnWheel("test").Render())
+	want := `<cite onwheel="test"></cite>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
+func TestOnCopyAttr(t *testing.T) {
+	got := string(cite.New().OnCopy("test").Render())
+	want := `<cite oncopy="test"></cite>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
+func TestOnCutAttr(t *testing.T) {
+	got := string(cite.New().OnCut("test").Render())
+	want := `<cite oncut="test"></cite>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
+func TestOnPasteAttr(t *testing.T) {
+	got := string(cite.New().OnPaste("test").Render())
+	want := `<cite onpaste="test"></cite>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
+func TestOnScrollEndAttr(t *testing.T) {
+	got := string(cite.New().OnScrollEnd("test").Render())
+	want := `<cite onscrollend="test"></cite>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
+func TestOnFormDataAttr(t *testing.T) {
+	got := string(cite.New().OnFormData("test").Render())
+	want := `<cite onformdata="test"></cite>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
+func TestOnAnimationCancelAttr(t *testing.T) {
+	got := string(cite.New().OnAnimationCancel("test").Render())
+	want := `<cite onanimationcancel="test"></cite>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
+func TestOnAnimationEndAttr(t *testing.T) {
+	got := string(cite.New().OnAnimationEnd("test").Render())
+	want := `<cite onanimationend="test"></cite>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
+func TestOnAnimationIterationAttr(t *testing.T) {
+	got := string(cite.New().OnAnimationIteration("test").Render())
+	want := `<cite onanimationiteration="test"></cite>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
+func TestOnAnimationStartAttr(t *testing.T) {
+	got := string(cite.New().OnAnimationStart("test").Render())
+	want := `<cite onanimationstart="test"></cite>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
+func TestOnTransitionCancelAttr(t *testing.T) {
+	got := string(cite.New().OnTransitionCancel("test").Render())
+	want := `<cite ontransitioncancel="test"></cite>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
+func TestOnTransitionEndAttr(t *testing.T) {
+	got := string(cite.New().OnTransitionEnd("test").Render())
+	want := `<cite ontransitionend="test"></cite>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
+func TestOnTransitionRunAttr(t *testing.T) {
+	got := string(cite.New().OnTransitionRun("test").Render())
+	want := `<cite ontransitionrun="test"></cite>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
+func TestOnTransitionStartAttr(t *testing.T) {
+	got := string(cite.New().OnTransitionStart("test").Render())
+	want := `<cite ontransitionstart="test"></cite>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
+func TestOnBeforeToggleAttr(t *testing.T) {
+	got := string(cite.New().OnBeforeToggle("test").Render())
+	want := `<cite onbeforetoggle="test"></cite>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
+func TestOnBeforeInputAttr(t *testing.T) {
+	got := string(cite.New().OnBeforeInput("test").Render())
+	want := `<cite onbeforeinput="test"></cite>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
+func TestOnBeforeMatchAttr(t *testing.T) {
+	got := string(cite.New().OnBeforeMatch("test").Render())
+	want := `<cite onbeforematch="test"></cite>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
+func TestOnCommandAttr(t *testing.T) {
+	got := string(cite.New().OnCommand("test").Render())
+	want := `<cite oncommand="test"></cite>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
+func TestOnContextLostAttr(t *testing.T) {
+	got := string(cite.New().OnContextLost("test").Render())
+	want := `<cite oncontextlost="test"></cite>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
+func TestOnContextRestoredAttr(t *testing.T) {
+	got := string(cite.New().OnContextRestored("test").Render())
+	want := `<cite oncontextrestored="test"></cite>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
+func TestOnSecurityPolicyViolationAttr(t *testing.T) {
+	got := string(cite.New().OnSecurityPolicyViolation("test").Render())
+	want := `<cite onsecuritypolicyviolation="test"></cite>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
+func TestOnSlotChangeAttr(t *testing.T) {
+	got := string(cite.New().OnSlotChange("test").Render())
+	want := `<cite onslotchange="test"></cite>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
+func TestOnPointerDownAttr(t *testing.T) {
+	got := string(cite.New().OnPointerDown("test").Render())
+	want := `<cite onpointerdown="test"></cite>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
+func TestOnPointerUpAttr(t *testing.T) {
+	got := string(cite.New().OnPointerUp("test").Render())
+	want := `<cite onpointerup="test"></cite>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
+func TestOnPointerMoveAttr(t *testing.T) {
+	got := string(cite.New().OnPointerMove("test").Render())
+	want := `<cite onpointermove="test"></cite>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
+func TestOnPointerEnterAttr(t *testing.T) {
+	got := string(cite.New().OnPointerEnter("test").Render())
+	want := `<cite onpointerenter="test"></cite>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
+func TestOnPointerLeaveAttr(t *testing.T) {
+	got := string(cite.New().OnPointerLeave("test").Render())
+	want := `<cite onpointerleave="test"></cite>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
+func TestOnPointerOverAttr(t *testing.T) {
+	got := string(cite.New().OnPointerOver("test").Render())
+	want := `<cite onpointerover="test"></cite>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
+func TestOnPointerOutAttr(t *testing.T) {
+	got := string(cite.New().OnPointerOut("test").Render())
+	want := `<cite onpointerout="test"></cite>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
+func TestOnPointerCancelAttr(t *testing.T) {
+	got := string(cite.New().OnPointerCancel("test").Render())
+	want := `<cite onpointercancel="test"></cite>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
+func TestOnGotPointerCaptureAttr(t *testing.T) {
+	got := string(cite.New().OnGotPointerCapture("test").Render())
+	want := `<cite ongotpointercapture="test"></cite>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
+func TestOnLostPointerCaptureAttr(t *testing.T) {
+	got := string(cite.New().OnLostPointerCapture("test").Render())
+	want := `<cite onlostpointercapture="test"></cite>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
+func TestOnTouchStartAttr(t *testing.T) {
+	got := string(cite.New().OnTouchStart("test").Render())
+	want := `<cite ontouchstart="test"></cite>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
+func TestOnTouchEndAttr(t *testing.T) {
+	got := string(cite.New().OnTouchEnd("test").Render())
+	want := `<cite ontouchend="test"></cite>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
+func TestOnTouchMoveAttr(t *testing.T) {
+	got := string(cite.New().OnTouchMove("test").Render())
+	want := `<cite ontouchmove="test"></cite>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
+func TestOnTouchCancelAttr(t *testing.T) {
+	got := string(cite.New().OnTouchCancel("test").Render())
+	want := `<cite ontouchcancel="test"></cite>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
+func TestOnSelectStartAttr(t *testing.T) {
+	got := string(cite.New().OnSelectStart("test").Render())
+	want := `<cite onselectstart="test"></cite>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
+func TestOnSelectionChangeAttr(t *testing.T) {
+	got := string(cite.New().OnSelectionChange("test").Render())
+	want := `<cite onselectionchange="test"></cite>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
 	}
