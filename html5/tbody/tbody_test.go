@@ -18,6 +18,8 @@ import (
 	"github.com/jpl-au/fluent/html5/attr/virtualkeyboardpolicy"
 	"github.com/jpl-au/fluent/html5/attr/writingsuggestions"
 	"github.com/jpl-au/fluent/html5/tbody"
+	"github.com/jpl-au/fluent/html5/td"
+	"github.com/jpl-au/fluent/html5/tr"
 )
 
 func TestNewCtor(t *testing.T) {
@@ -33,6 +35,14 @@ func TestNewCtor(t *testing.T) {
 	want = `<tbody><tbody></tbody></tbody>`
 	if got != want {
 		t.Errorf("nested: got %q, want %q", got, want)
+	}
+}
+
+func TestRowsCtor(t *testing.T) {
+	got := string(tbody.Rows(tr.New(td.Text("cell"))).Render())
+	want := `<tbody><tr><td>cell</td></tr></tbody>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
 	}
 }
 

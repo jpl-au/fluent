@@ -23,6 +23,7 @@ import (
 	"github.com/jpl-au/fluent/html5/attr/translate"
 	"github.com/jpl-au/fluent/html5/attr/virtualkeyboardpolicy"
 	"github.com/jpl-au/fluent/html5/attr/writingsuggestions"
+	"github.com/jpl-au/fluent/html5/tr"
 	"github.com/jpl-au/fluent/node"
 	"github.com/jpl-au/fluent/text"
 )
@@ -68,6 +69,20 @@ func (e *element) event() *html5.EventAttributes {
 // Example: table.New()
 // Renders: <table></table>
 func New(nodes ...node.Node) *element {
+	return &element{
+		nodes: nodes,
+	}
+}
+
+// Rows Creates a simple table from tr rows, enforcing correct nesting at compile time.
+// For tables needing thead, tbody, or tfoot, use New() instead.
+// Example: table.Rows(tr.Cells(td.Text("a"), td.Text("b")))
+// Renders: <table><tr><td>a</td><td>b</td></tr></table>
+func Rows(rows ...*tr.Element) *element {
+	nodes := make([]node.Node, len(rows))
+	for i, v := range rows {
+		nodes[i] = v
+	}
 	return &element{
 		nodes: nodes,
 	}

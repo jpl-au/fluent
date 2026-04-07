@@ -37,6 +37,14 @@ func TestNewCtor(t *testing.T) {
 	}
 }
 
+func TestOptionsCtor(t *testing.T) {
+	got := string(optgroup.Options(option.Option("red", "Red"), option.Option("blue", "Blue")).Label("Colours").Render())
+	want := `<optgroup label="Colours"><option value="red">Red</option><option value="blue">Blue</option></optgroup>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
 func TestLabelledCtor(t *testing.T) {
 	got := string(optgroup.Labelled("Colours", option.Option("red", "Red"), option.Option("blue", "Blue")).Render())
 	want := `<optgroup label="Colours"><option value="red">Red</option><option value="blue">Blue</option></optgroup>`

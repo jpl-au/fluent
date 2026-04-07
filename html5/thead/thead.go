@@ -23,6 +23,7 @@ import (
 	"github.com/jpl-au/fluent/html5/attr/translate"
 	"github.com/jpl-au/fluent/html5/attr/virtualkeyboardpolicy"
 	"github.com/jpl-au/fluent/html5/attr/writingsuggestions"
+	"github.com/jpl-au/fluent/html5/tr"
 	"github.com/jpl-au/fluent/node"
 	"github.com/jpl-au/fluent/text"
 )
@@ -68,6 +69,19 @@ func (e *element) event() *html5.EventAttributes {
 // Example: thead.New(tr.New(th.Text("Name"), th.Text("Age")))
 // Renders: <thead><tr><th>Name</th><th>Age</th></tr></thead>
 func New(nodes ...node.Node) *element {
+	return &element{
+		nodes: nodes,
+	}
+}
+
+// Rows Creates a thead from tr elements, enforcing correct nesting at compile time.
+// Example: thead.Rows(tr.New(th.Text("Name"), th.Text("Age")))
+// Renders: <thead><tr><th>Name</th><th>Age</th></tr></thead>
+func Rows(rows ...*tr.Element) *element {
+	nodes := make([]node.Node, len(rows))
+	for i, v := range rows {
+		nodes[i] = v
+	}
 	return &element{
 		nodes: nodes,
 	}

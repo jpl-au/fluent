@@ -17,7 +17,9 @@ import (
 	"github.com/jpl-au/fluent/html5/attr/translate"
 	"github.com/jpl-au/fluent/html5/attr/virtualkeyboardpolicy"
 	"github.com/jpl-au/fluent/html5/attr/writingsuggestions"
+	"github.com/jpl-au/fluent/html5/td"
 	"github.com/jpl-au/fluent/html5/tfoot"
+	"github.com/jpl-au/fluent/html5/tr"
 )
 
 func TestNewCtor(t *testing.T) {
@@ -33,6 +35,14 @@ func TestNewCtor(t *testing.T) {
 	want = `<tfoot><tfoot></tfoot></tfoot>`
 	if got != want {
 		t.Errorf("nested: got %q, want %q", got, want)
+	}
+}
+
+func TestRowsCtor(t *testing.T) {
+	got := string(tfoot.Rows(tr.New(td.Text("Total"), td.Text("100"))).Render())
+	want := `<tfoot><tr><td>Total</td><td>100</td></tr></tfoot>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
 	}
 }
 

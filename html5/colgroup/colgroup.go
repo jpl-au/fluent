@@ -23,6 +23,7 @@ import (
 	"github.com/jpl-au/fluent/html5/attr/translate"
 	"github.com/jpl-au/fluent/html5/attr/virtualkeyboardpolicy"
 	"github.com/jpl-au/fluent/html5/attr/writingsuggestions"
+	"github.com/jpl-au/fluent/html5/col"
 	"github.com/jpl-au/fluent/node"
 	"github.com/jpl-au/fluent/text"
 )
@@ -82,6 +83,19 @@ func New(nodes ...node.Node) *element {
 func Span(span int) *element {
 	return &element{
 		span: span,
+	}
+}
+
+// Cols Creates a colgroup from col elements, enforcing correct nesting at compile time.
+// Example: colgroup.Cols(col.New(), col.Span(2))
+// Renders: <colgroup><col /><col span="2" /></colgroup>
+func Cols(cols ...*col.Element) *element {
+	nodes := make([]node.Node, len(cols))
+	for i, v := range cols {
+		nodes[i] = v
+	}
+	return &element{
+		nodes: nodes,
 	}
 }
 

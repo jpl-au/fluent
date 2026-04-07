@@ -17,6 +17,7 @@ import (
 	"github.com/jpl-au/fluent/html5/attr/translate"
 	"github.com/jpl-au/fluent/html5/attr/virtualkeyboardpolicy"
 	"github.com/jpl-au/fluent/html5/attr/writingsuggestions"
+	"github.com/jpl-au/fluent/html5/li"
 	"github.com/jpl-au/fluent/html5/menu"
 )
 
@@ -33,6 +34,14 @@ func TestNewCtor(t *testing.T) {
 	want = `<menu><menu></menu></menu>`
 	if got != want {
 		t.Errorf("nested: got %q, want %q", got, want)
+	}
+}
+
+func TestItemsCtor(t *testing.T) {
+	got := string(menu.Items(li.Text("Cut"), li.Text("Copy"), li.Text("Paste")).Render())
+	want := `<menu><li>Cut</li><li>Copy</li><li>Paste</li></menu>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
 	}
 }
 

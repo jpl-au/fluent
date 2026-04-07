@@ -17,6 +17,7 @@ import (
 	"github.com/jpl-au/fluent/html5/attr/translate"
 	"github.com/jpl-au/fluent/html5/attr/virtualkeyboardpolicy"
 	"github.com/jpl-au/fluent/html5/attr/writingsuggestions"
+	"github.com/jpl-au/fluent/html5/col"
 	"github.com/jpl-au/fluent/html5/colgroup"
 )
 
@@ -39,6 +40,14 @@ func TestNewCtor(t *testing.T) {
 func TestSpanCtor(t *testing.T) {
 	got := string(colgroup.Span(3).Render())
 	want := `<colgroup span="3"></colgroup>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
+func TestColsCtor(t *testing.T) {
+	got := string(colgroup.Cols(col.New(), col.Span(2)).Render())
+	want := `<colgroup><col /><col span="2" /></colgroup>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
 	}

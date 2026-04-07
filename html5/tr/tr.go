@@ -23,6 +23,8 @@ import (
 	"github.com/jpl-au/fluent/html5/attr/translate"
 	"github.com/jpl-au/fluent/html5/attr/virtualkeyboardpolicy"
 	"github.com/jpl-au/fluent/html5/attr/writingsuggestions"
+	"github.com/jpl-au/fluent/html5/td"
+	"github.com/jpl-au/fluent/html5/th"
 	"github.com/jpl-au/fluent/node"
 	"github.com/jpl-au/fluent/text"
 )
@@ -68,6 +70,32 @@ func (e *element) event() *html5.EventAttributes {
 // Example: tr.New()
 // Renders: <tr></tr>
 func New(nodes ...node.Node) *element {
+	return &element{
+		nodes: nodes,
+	}
+}
+
+// Cells Creates a table row from td data cells, enforcing correct nesting at compile time.
+// Example: tr.Cells(td.Text("a"), td.Text("b"))
+// Renders: <tr><td>a</td><td>b</td></tr>
+func Cells(cells ...*td.Element) *element {
+	nodes := make([]node.Node, len(cells))
+	for i, v := range cells {
+		nodes[i] = v
+	}
+	return &element{
+		nodes: nodes,
+	}
+}
+
+// Headers Creates a table row from th header cells, enforcing correct nesting at compile time.
+// Example: tr.Headers(th.Col("Name"), th.Col("Age"))
+// Renders: <tr><th scope="col">Name</th><th scope="col">Age</th></tr>
+func Headers(cells ...*th.Element) *element {
+	nodes := make([]node.Node, len(cells))
+	for i, v := range cells {
+		nodes[i] = v
+	}
 	return &element{
 		nodes: nodes,
 	}

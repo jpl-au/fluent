@@ -19,6 +19,7 @@ import (
 	"github.com/jpl-au/fluent/html5/attr/virtualkeyboardpolicy"
 	"github.com/jpl-au/fluent/html5/attr/writingsuggestions"
 	"github.com/jpl-au/fluent/html5/dropdown"
+	"github.com/jpl-au/fluent/html5/option"
 )
 
 func TestNewCtor(t *testing.T) {
@@ -34,6 +35,14 @@ func TestNewCtor(t *testing.T) {
 	want = `<select><select></select></select>`
 	if got != want {
 		t.Errorf("nested: got %q, want %q", got, want)
+	}
+}
+
+func TestOptionsCtor(t *testing.T) {
+	got := string(dropdown.Options(option.Option("red", "Red"), option.Option("blue", "Blue")).Render())
+	want := `<select><option value="red">Red</option><option value="blue">Blue</option></select>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
 	}
 }
 

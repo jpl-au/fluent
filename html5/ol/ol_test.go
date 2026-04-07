@@ -18,6 +18,7 @@ import (
 	"github.com/jpl-au/fluent/html5/attr/translate"
 	"github.com/jpl-au/fluent/html5/attr/virtualkeyboardpolicy"
 	"github.com/jpl-au/fluent/html5/attr/writingsuggestions"
+	"github.com/jpl-au/fluent/html5/li"
 	"github.com/jpl-au/fluent/html5/ol"
 )
 
@@ -38,40 +39,48 @@ func TestNewCtor(t *testing.T) {
 }
 
 func TestDecimalCtor(t *testing.T) {
-	got := string(ol.Decimal().Render())
-	want := `<ol type="1"></ol>`
+	got := string(ol.Decimal(li.Text("one"), li.Text("two")).Render())
+	want := `<ol type="1"><li>one</li><li>two</li></ol>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
 	}
 }
 
 func TestLowerAlphaCtor(t *testing.T) {
-	got := string(ol.LowerAlpha().Render())
-	want := `<ol type="a"></ol>`
+	got := string(ol.LowerAlpha(li.Text("one"), li.Text("two")).Render())
+	want := `<ol type="a"><li>one</li><li>two</li></ol>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
 	}
 }
 
 func TestUpperAlphaCtor(t *testing.T) {
-	got := string(ol.UpperAlpha().Render())
-	want := `<ol type="A"></ol>`
+	got := string(ol.UpperAlpha(li.Text("one"), li.Text("two")).Render())
+	want := `<ol type="A"><li>one</li><li>two</li></ol>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
 	}
 }
 
 func TestLowerRomanCtor(t *testing.T) {
-	got := string(ol.LowerRoman().Render())
-	want := `<ol type="i"></ol>`
+	got := string(ol.LowerRoman(li.Text("one"), li.Text("two")).Render())
+	want := `<ol type="i"><li>one</li><li>two</li></ol>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
 	}
 }
 
 func TestUpperRomanCtor(t *testing.T) {
-	got := string(ol.UpperRoman().Render())
-	want := `<ol type="I"></ol>`
+	got := string(ol.UpperRoman(li.Text("one"), li.Text("two")).Render())
+	want := `<ol type="I"><li>one</li><li>two</li></ol>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
+func TestItemsCtor(t *testing.T) {
+	got := string(ol.Items(li.Text("one"), li.Text("two")).Render())
+	want := `<ol><li>one</li><li>two</li></ol>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
 	}

@@ -24,6 +24,7 @@ import (
 	"github.com/jpl-au/fluent/html5/attr/translate"
 	"github.com/jpl-au/fluent/html5/attr/virtualkeyboardpolicy"
 	"github.com/jpl-au/fluent/html5/attr/writingsuggestions"
+	"github.com/jpl-au/fluent/html5/li"
 	"github.com/jpl-au/fluent/node"
 	"github.com/jpl-au/fluent/text"
 )
@@ -78,9 +79,13 @@ func New(nodes ...node.Node) *element {
 }
 
 // Decimal Creates an ordered list with decimal numbering (1, 2, 3...)
-// Example: ol.Decimal()
-// Renders: <ol type="1"></ol>
-func Decimal(nodes ...node.Node) *element {
+// Example: ol.Decimal(li.Text("one"), li.Text("two"))
+// Renders: <ol type="1"><li>one</li><li>two</li></ol>
+func Decimal(items ...*li.Element) *element {
+	nodes := make([]node.Node, len(items))
+	for i, v := range items {
+		nodes[i] = v
+	}
 	return &element{
 		nodes:    nodes,
 		listtype: listtype.Decimal,
@@ -88,9 +93,13 @@ func Decimal(nodes ...node.Node) *element {
 }
 
 // LowerAlpha Creates an ordered list with lowercase letters (a, b, c...)
-// Example: ol.LowerAlpha()
-// Renders: <ol type="a"></ol>
-func LowerAlpha(nodes ...node.Node) *element {
+// Example: ol.LowerAlpha(li.Text("one"), li.Text("two"))
+// Renders: <ol type="a"><li>one</li><li>two</li></ol>
+func LowerAlpha(items ...*li.Element) *element {
+	nodes := make([]node.Node, len(items))
+	for i, v := range items {
+		nodes[i] = v
+	}
 	return &element{
 		nodes:    nodes,
 		listtype: listtype.LowerAlpha,
@@ -98,9 +107,13 @@ func LowerAlpha(nodes ...node.Node) *element {
 }
 
 // UpperAlpha Creates an ordered list with uppercase letters (A, B, C...)
-// Example: ol.UpperAlpha()
-// Renders: <ol type="A"></ol>
-func UpperAlpha(nodes ...node.Node) *element {
+// Example: ol.UpperAlpha(li.Text("one"), li.Text("two"))
+// Renders: <ol type="A"><li>one</li><li>two</li></ol>
+func UpperAlpha(items ...*li.Element) *element {
+	nodes := make([]node.Node, len(items))
+	for i, v := range items {
+		nodes[i] = v
+	}
 	return &element{
 		nodes:    nodes,
 		listtype: listtype.UpperAlpha,
@@ -108,9 +121,13 @@ func UpperAlpha(nodes ...node.Node) *element {
 }
 
 // LowerRoman Creates an ordered list with lowercase Roman numerals (i, ii, iii...)
-// Example: ol.LowerRoman()
-// Renders: <ol type="i"></ol>
-func LowerRoman(nodes ...node.Node) *element {
+// Example: ol.LowerRoman(li.Text("one"), li.Text("two"))
+// Renders: <ol type="i"><li>one</li><li>two</li></ol>
+func LowerRoman(items ...*li.Element) *element {
+	nodes := make([]node.Node, len(items))
+	for i, v := range items {
+		nodes[i] = v
+	}
 	return &element{
 		nodes:    nodes,
 		listtype: listtype.LowerRoman,
@@ -118,12 +135,29 @@ func LowerRoman(nodes ...node.Node) *element {
 }
 
 // UpperRoman Creates an ordered list with uppercase Roman numerals (I, II, III...)
-// Example: ol.UpperRoman()
-// Renders: <ol type="I"></ol>
-func UpperRoman(nodes ...node.Node) *element {
+// Example: ol.UpperRoman(li.Text("one"), li.Text("two"))
+// Renders: <ol type="I"><li>one</li><li>two</li></ol>
+func UpperRoman(items ...*li.Element) *element {
+	nodes := make([]node.Node, len(items))
+	for i, v := range items {
+		nodes[i] = v
+	}
 	return &element{
 		nodes:    nodes,
 		listtype: listtype.UpperRoman,
+	}
+}
+
+// Items Creates an ordered list from li elements, enforcing correct nesting at compile time.
+// Example: ol.Items(li.Text("one"), li.Text("two"))
+// Renders: <ol><li>one</li><li>two</li></ol>
+func Items(items ...*li.Element) *element {
+	nodes := make([]node.Node, len(items))
+	for i, v := range items {
+		nodes[i] = v
+	}
+	return &element{
+		nodes: nodes,
 	}
 }
 

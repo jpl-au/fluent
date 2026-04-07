@@ -23,6 +23,7 @@ import (
 	"github.com/jpl-au/fluent/html5/attr/translate"
 	"github.com/jpl-au/fluent/html5/attr/virtualkeyboardpolicy"
 	"github.com/jpl-au/fluent/html5/attr/writingsuggestions"
+	"github.com/jpl-au/fluent/html5/tr"
 	"github.com/jpl-au/fluent/node"
 	"github.com/jpl-au/fluent/text"
 )
@@ -68,6 +69,19 @@ func (e *element) event() *html5.EventAttributes {
 // Example: tfoot.New(tr.New(td.Text("Total"), td.Text("100")))
 // Renders: <tfoot><tr><td>Total</td><td>100</td></tr></tfoot>
 func New(nodes ...node.Node) *element {
+	return &element{
+		nodes: nodes,
+	}
+}
+
+// Rows Creates a tfoot from tr elements, enforcing correct nesting at compile time.
+// Example: tfoot.Rows(tr.New(td.Text("Total"), td.Text("100")))
+// Renders: <tfoot><tr><td>Total</td><td>100</td></tr></tfoot>
+func Rows(rows ...*tr.Element) *element {
+	nodes := make([]node.Node, len(rows))
+	for i, v := range rows {
+		nodes[i] = v
+	}
 	return &element{
 		nodes: nodes,
 	}

@@ -18,6 +18,7 @@ import (
 	"github.com/jpl-au/fluent/html5/attr/virtualkeyboardpolicy"
 	"github.com/jpl-au/fluent/html5/attr/writingsuggestions"
 	"github.com/jpl-au/fluent/html5/datalist"
+	"github.com/jpl-au/fluent/html5/option"
 )
 
 func TestNewCtor(t *testing.T) {
@@ -33,6 +34,14 @@ func TestNewCtor(t *testing.T) {
 	want = `<datalist><datalist></datalist></datalist>`
 	if got != want {
 		t.Errorf("nested: got %q, want %q", got, want)
+	}
+}
+
+func TestOptionsCtor(t *testing.T) {
+	got := string(datalist.Options(option.Option("chocolate", "Chocolate"), option.Option("vanilla", "Vanilla")).Render())
+	want := `<datalist><option value="chocolate">Chocolate</option><option value="vanilla">Vanilla</option></datalist>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
 	}
 }
 

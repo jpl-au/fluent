@@ -24,6 +24,7 @@ import (
 	"github.com/jpl-au/fluent/html5/attr/translate"
 	"github.com/jpl-au/fluent/html5/attr/virtualkeyboardpolicy"
 	"github.com/jpl-au/fluent/html5/attr/writingsuggestions"
+	"github.com/jpl-au/fluent/html5/option"
 	"github.com/jpl-au/fluent/node"
 	"github.com/jpl-au/fluent/text"
 )
@@ -76,6 +77,19 @@ func (e *element) event() *html5.EventAttributes {
 // Example: dropdown.New(option.Option("Red", "red"), option.Option("Blue", "blue"))
 // Renders: <select><option value="red">Red</option><option value="blue">Blue</option></select>
 func New(nodes ...node.Node) *element {
+	return &element{
+		nodes: nodes,
+	}
+}
+
+// Options Creates a select element from option elements, enforcing correct nesting at compile time.
+// Example: dropdown.Options(option.Option("red", "Red"), option.Option("blue", "Blue"))
+// Renders: <select><option value="red">Red</option><option value="blue">Blue</option></select>
+func Options(options ...*option.Element) *element {
+	nodes := make([]node.Node, len(options))
+	for i, v := range options {
+		nodes[i] = v
+	}
 	return &element{
 		nodes: nodes,
 	}

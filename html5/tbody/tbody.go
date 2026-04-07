@@ -23,6 +23,7 @@ import (
 	"github.com/jpl-au/fluent/html5/attr/translate"
 	"github.com/jpl-au/fluent/html5/attr/virtualkeyboardpolicy"
 	"github.com/jpl-au/fluent/html5/attr/writingsuggestions"
+	"github.com/jpl-au/fluent/html5/tr"
 	"github.com/jpl-au/fluent/node"
 	"github.com/jpl-au/fluent/text"
 )
@@ -68,6 +69,19 @@ func (e *element) event() *html5.EventAttributes {
 // Example: tbody.New(tr.New(td.Text("cell")))
 // Renders: <tbody><tr><td>cell</td></tr></tbody>
 func New(nodes ...node.Node) *element {
+	return &element{
+		nodes: nodes,
+	}
+}
+
+// Rows Creates a tbody from tr elements, enforcing correct nesting at compile time.
+// Example: tbody.Rows(tr.New(td.Text("cell")))
+// Renders: <tbody><tr><td>cell</td></tr></tbody>
+func Rows(rows ...*tr.Element) *element {
+	nodes := make([]node.Node, len(rows))
+	for i, v := range rows {
+		nodes[i] = v
+	}
 	return &element{
 		nodes: nodes,
 	}

@@ -23,6 +23,7 @@ import (
 	"github.com/jpl-au/fluent/html5/attr/translate"
 	"github.com/jpl-au/fluent/html5/attr/virtualkeyboardpolicy"
 	"github.com/jpl-au/fluent/html5/attr/writingsuggestions"
+	"github.com/jpl-au/fluent/html5/option"
 	"github.com/jpl-au/fluent/node"
 	"github.com/jpl-au/fluent/text"
 )
@@ -75,13 +76,27 @@ func New(nodes ...node.Node) *element {
 	}
 }
 
-// Labelled Creates an optgroup with a label and child option elements. The
-// label is displayed as a heading above the grouped options in the
-// browser's dropdown. This is the most common pattern since the
-// label attribute is essential for usability.
+// Options Creates an optgroup from option elements, enforcing correct nesting at compile time.
+// Example: optgroup.Options(option.Option("red", "Red"), option.Option("blue", "Blue")).Label("Colours")
+// Renders: <optgroup label="Colours"><option value="red">Red</option><option value="blue">Blue</option></optgroup>
+func Options(options ...*option.Element) *element {
+	nodes := make([]node.Node, len(options))
+	for i, v := range options {
+		nodes[i] = v
+	}
+	return &element{
+		nodes: nodes,
+	}
+}
+
+// Labelled Creates a labelled optgroup from option elements, enforcing correct nesting at compile time.
 // Example: optgroup.Labelled("Colours", option.Option("red", "Red"), option.Option("blue", "Blue"))
 // Renders: <optgroup label="Colours"><option value="red">Red</option><option value="blue">Blue</option></optgroup>
-func Labelled(label string, nodes ...node.Node) *element {
+func Labelled(label string, options ...*option.Element) *element {
+	nodes := make([]node.Node, len(options))
+	for i, v := range options {
+		nodes[i] = v
+	}
 	return &element{
 		nodes: nodes,
 		label: label,

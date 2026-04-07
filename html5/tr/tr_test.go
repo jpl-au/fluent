@@ -17,6 +17,8 @@ import (
 	"github.com/jpl-au/fluent/html5/attr/translate"
 	"github.com/jpl-au/fluent/html5/attr/virtualkeyboardpolicy"
 	"github.com/jpl-au/fluent/html5/attr/writingsuggestions"
+	"github.com/jpl-au/fluent/html5/td"
+	"github.com/jpl-au/fluent/html5/th"
 	"github.com/jpl-au/fluent/html5/tr"
 )
 
@@ -33,6 +35,22 @@ func TestNewCtor(t *testing.T) {
 	want = `<tr><tr></tr></tr>`
 	if got != want {
 		t.Errorf("nested: got %q, want %q", got, want)
+	}
+}
+
+func TestCellsCtor(t *testing.T) {
+	got := string(tr.Cells(td.Text("a"), td.Text("b")).Render())
+	want := `<tr><td>a</td><td>b</td></tr>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
+func TestHeadersCtor(t *testing.T) {
+	got := string(tr.Headers(th.Col("Name"), th.Col("Age")).Render())
+	want := `<tr><th scope="col">Name</th><th scope="col">Age</th></tr>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
 	}
 }
 

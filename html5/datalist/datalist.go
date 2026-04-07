@@ -23,6 +23,7 @@ import (
 	"github.com/jpl-au/fluent/html5/attr/translate"
 	"github.com/jpl-au/fluent/html5/attr/virtualkeyboardpolicy"
 	"github.com/jpl-au/fluent/html5/attr/writingsuggestions"
+	"github.com/jpl-au/fluent/html5/option"
 	"github.com/jpl-au/fluent/node"
 	"github.com/jpl-au/fluent/text"
 )
@@ -68,6 +69,19 @@ func (e *element) event() *html5.EventAttributes {
 // Example: datalist.New(option.New().Value("Chocolate"), option.New().Value("Vanilla"))
 // Renders: <datalist><option value="Chocolate"><option value="Vanilla"></datalist>
 func New(nodes ...node.Node) *element {
+	return &element{
+		nodes: nodes,
+	}
+}
+
+// Options Creates a datalist from option elements, enforcing correct nesting at compile time.
+// Example: datalist.Options(option.Option("chocolate", "Chocolate"), option.Option("vanilla", "Vanilla"))
+// Renders: <datalist><option value="chocolate">Chocolate</option><option value="vanilla">Vanilla</option></datalist>
+func Options(options ...*option.Element) *element {
+	nodes := make([]node.Node, len(options))
+	for i, v := range options {
+		nodes[i] = v
+	}
 	return &element{
 		nodes: nodes,
 	}

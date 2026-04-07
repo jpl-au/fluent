@@ -23,6 +23,7 @@ import (
 	"github.com/jpl-au/fluent/html5/attr/translate"
 	"github.com/jpl-au/fluent/html5/attr/virtualkeyboardpolicy"
 	"github.com/jpl-au/fluent/html5/attr/writingsuggestions"
+	"github.com/jpl-au/fluent/html5/li"
 	"github.com/jpl-au/fluent/node"
 	"github.com/jpl-au/fluent/text"
 )
@@ -68,6 +69,19 @@ func (e *element) event() *html5.EventAttributes {
 // Example: ul.New()
 // Renders: <ul></ul>
 func New(nodes ...node.Node) *element {
+	return &element{
+		nodes: nodes,
+	}
+}
+
+// Items Creates an unordered list from li elements, enforcing correct nesting at compile time.
+// Example: ul.Items(li.Text("one"), li.Text("two"))
+// Renders: <ul><li>one</li><li>two</li></ul>
+func Items(items ...*li.Element) *element {
+	nodes := make([]node.Node, len(items))
+	for i, v := range items {
+		nodes[i] = v
+	}
 	return &element{
 		nodes: nodes,
 	}
