@@ -23,6 +23,8 @@ import (
 	"github.com/jpl-au/fluent/html5/attr/translate"
 	"github.com/jpl-au/fluent/html5/attr/virtualkeyboardpolicy"
 	"github.com/jpl-au/fluent/html5/attr/writingsuggestions"
+	"github.com/jpl-au/fluent/html5/dd"
+	"github.com/jpl-au/fluent/html5/dt"
 	"github.com/jpl-au/fluent/node"
 	"github.com/jpl-au/fluent/text"
 )
@@ -70,6 +72,15 @@ func (e *element) event() *html5.EventAttributes {
 func New(nodes ...node.Node) *element {
 	return &element{
 		nodes: nodes,
+	}
+}
+
+// Pair Creates a description list with a single term-description pair.
+// Example: dl.Pair("Name", "Alice")
+// Renders: <dl><dt>Name</dt><dd>Alice</dd></dl>
+func Pair(term string, desc string) *element {
+	return &element{
+		nodes: []node.Node{dt.Text(term), dd.Text(desc)},
 	}
 }
 

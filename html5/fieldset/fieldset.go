@@ -23,6 +23,7 @@ import (
 	"github.com/jpl-au/fluent/html5/attr/translate"
 	"github.com/jpl-au/fluent/html5/attr/virtualkeyboardpolicy"
 	"github.com/jpl-au/fluent/html5/attr/writingsuggestions"
+	"github.com/jpl-au/fluent/html5/legend"
 	"github.com/jpl-au/fluent/node"
 	"github.com/jpl-au/fluent/text"
 )
@@ -72,6 +73,16 @@ func (e *element) event() *html5.EventAttributes {
 func New(nodes ...node.Node) *element {
 	return &element{
 		nodes: nodes,
+	}
+}
+
+// Legend Creates a fieldset with a legend and form controls. The legend
+// is rendered as the first child, labelling the group.
+// Example: fieldset.Legend("Address", input.Text("street", ""))
+// Renders: <fieldset><legend>Address</legend><input name="street" type="text" /></fieldset>
+func Legend(caption string, nodes ...node.Node) *element {
+	return &element{
+		nodes: append([]node.Node{legend.Text(caption)}, nodes...),
 	}
 }
 

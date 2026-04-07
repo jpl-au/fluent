@@ -36,6 +36,14 @@ func TestNewCtor(t *testing.T) {
 	}
 }
 
+func TestPairCtor(t *testing.T) {
+	got := string(dl.Pair("Name", "Alice").Render())
+	want := `<dl><dt>Name</dt><dd>Alice</dd></dl>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
 func TestClassAttr(t *testing.T) {
 	got := string(dl.New().Class("test").Render())
 	want := `<dl class="test"></dl>`

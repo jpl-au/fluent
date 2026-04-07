@@ -18,6 +18,7 @@ import (
 	"github.com/jpl-au/fluent/html5/attr/virtualkeyboardpolicy"
 	"github.com/jpl-au/fluent/html5/attr/writingsuggestions"
 	"github.com/jpl-au/fluent/html5/figure"
+	"github.com/jpl-au/fluent/html5/img"
 )
 
 func TestNewCtor(t *testing.T) {
@@ -33,6 +34,14 @@ func TestNewCtor(t *testing.T) {
 	want = `<figure><figure></figure></figure>`
 	if got != want {
 		t.Errorf("nested: got %q, want %q", got, want)
+	}
+}
+
+func TestCaptionCtor(t *testing.T) {
+	got := string(figure.Caption("An elephant", img.New().Src("elephant.jpg")).Render())
+	want := `<figure><figcaption>An elephant</figcaption><img src="elephant.jpg" /></figure>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
 	}
 }
 

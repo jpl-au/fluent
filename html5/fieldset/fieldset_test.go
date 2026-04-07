@@ -38,6 +38,14 @@ func TestNewCtor(t *testing.T) {
 	}
 }
 
+func TestLegendCtor(t *testing.T) {
+	got := string(fieldset.Legend("Address", input.Text("street", "")).Render())
+	want := `<fieldset><legend>Address</legend><input name="street" type="text" /></fieldset>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
 func TestDisabledCtor(t *testing.T) {
 	got := string(fieldset.Disabled(legend.Text("Premium features"), input.Text("code", "")).Render())
 	want := `<fieldset disabled><legend>Premium features</legend><input name="code" type="text" /></fieldset>`

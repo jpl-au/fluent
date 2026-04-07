@@ -2,11 +2,21 @@
 
 HTML5 components in Go using a Fluent API.
 
+|                                                    |                                                    |                                                    |
+|----------------------------------------------------|----------------------------------------------------|----------------------------------------------------|
+| [Why Fluent?](#why-fluent)                         | [Install](#install)                                | [Quick Start](#quick-start)                        |
+| [Reserved Keywords](#reserved-keywords)            | [Static vs Dynamic Content](#static-vs-dynamic-content) | [Typed Constructors](#typed-constructors)     |
+| [Conditional Rendering](#conditional-rendering)    | [Functional Processing](#functional-processing)    | [Building Components](#building-components)        |
+| [Type-Safe Attributes](#type-safe-attributes)      | [Architecture](#architecture)                      | [Performance](#performance)                        |
+| [Generator](#generator)                            | [Ecosystem](#ecosystem)                            | [PGO](#profile-guided-optimization-pgo)            |
+
 ## Why Fluent?
 
 **No template language to learn.** Write HTML using Go code. Get IDE auto-completion, type checking, and refactoring support for free. LLM-GUIDE.md makes it trivial for LLM's to do the hard work for you.
 
 **Built for developers.** Thoughtful around the developer experience: attributes use native Go types - set a `width` with an `int`, a `volume` with a `float64`. Fluent handles the conversion. Type-safe constants for enumerated values catch typos like `type="emial"`.
+
+**Type-safe nesting.** Typed constructors enforce correct HTML parent-child relationships at compile time. `ul.Items()` only accepts `*li.Element`, `tr.Cells()` only accepts `*td.Element` - the compiler catches nesting mistakes that would otherwise become silent bugs. `New()` remains available as the flexible escape hatch. [See Typed Constructors](#typed-constructors).
 
 **HTML escaping by default.** `Text()` and `Textf()` automatically escape `<`, `>`, `&`, and quotes. For content in `<script>` or `<style>` blocks, use the `security` package for additional sanitisation.
 
@@ -62,6 +72,16 @@ func main() {
 }
 ```
 
+## Reserved Keywords
+
+Some HTML elements conflict with Go reserved keywords. I chose names that still feel intuitive - `dropdown` for `<select>` felt natural since that's what it renders.
+
+| HTML Element | Fluent Package |
+|--------------|----------------|
+| `<select>`   | `dropdown`     |
+| `<main>`     | `primary`      |
+| `<var>`      | `variable`     |
+
 ## Documentation for LLM's
 
 - `AGENTS.md` - Comprehensive guide to help LLM's to work with Fluent (but it is also useful for humans who want a deeper dive into Fluent too)
@@ -85,6 +105,17 @@ div.RawText("<em>Bold</em>")
 div.RawTextf("<span class=\"%s\">%s</span>", className, content)
 ```
 
+### Reactive tracking
+
+Elements can be marked for reactive tracking with `.Dynamic("key")`, and subtrees can be memoised with `node.Memoise(key, func)`. These are used by [Fluent JIT](https://github.com/jpl-au/fluent-jit) for targeted diffing and by [Tether](https://github.com/jpl-au/tether) for live DOM patching. See the [Fluent JIT documentation](https://github.com/jpl-au/fluent-jit) for details.
+
+```go
+span.Textf("Count: %d", count).Dynamic("count")  // tracked by key
+node.Memoise(version, func() node.Node {           // skipped when key unchanged
+    return expensiveRender()
+})
+```
+
 Many elements have convenience constructors for common use cases:
 
 ```go
@@ -102,61 +133,38 @@ input.Submit("Submit")           // <input type="submit"value="Submit"  />
 input.Email("email").
     Placeholder("you@example.com").
     Required().
-    AutoComplete(autocomplete.Email)
+    AutoComplete(autocomplete.Email) // typed constant, not a string
 ```
 
-## Reserved Keywords
+## Typed Constructors
 
-Some HTML elements conflict with Go reserved keywords. I chose names that still feel intuitive - `dropdown` for `<select>` felt natural since that's what it renders.
-
-| HTML Element | Fluent Package |
-|--------------|----------------|
-| `<select>`   | `dropdown`     |
-| `<main>`     | `primary`      |
-| `<var>`      | `variable`     |
-
-## Building Components
-
-There's no special component system to learn - building your own components is handled through Go functions. You get all the benefits of Go's type system, testing, and refactoring tools. Components are just functions that return `node.Node` or a concrete element type:
+Constructors that enforce correct HTML nesting at compile time. These accept only the valid child element type - `New()` remains the untyped escape hatch for dynamic or mixed content.
 
 ```go
-// Return node.Node for flexibility - can return different element types
-func Card(heading string, content string) node.Node {
-    return div.New(
-        h2.Text(heading),
-        p.Text(content),
-    ).Class("card")
-}
+// Lists - only accept *li.Element
+ul.Items(li.Text("one"), li.Text("two"))
+ol.Decimal(li.Text("first"), li.Text("second"))
 
-// Return concrete type to allow continued chaining after the call
-func Card(heading string, content string) *div.Element {
-    return div.New(
-        h2.Text(heading),
-        p.Text(content),
-    ).Class("card")
-}
-
-// With concrete return type, callers can chain additional methods:
-Card("Welcome", "Hello!").ID("welcome-card").Class("highlighted")
-```
-
-```go
-func UserGreeting(user User) node.Node {
-    return div.New(
-        img.New().Src(user.Avatar).Alt(user.Name),
-        h3.Text(user.Name),
-        node.Condition(user.IsAdmin).
-            True(span.Static("Admin")).
-            False(nil),
-    ).Class("user-greeting")
-}
-
-// Use them like any other element
-page := div.New(
-    Card("Welcome", "Thanks for signing up!"),
-    UserGreeting(currentUser),
+// Tables - only accept the correct child type
+table.Rows(
+    tr.Headers(th.Col("Name"), th.Col("Age")),
+    tr.Cells(td.Text("Alice"), td.Text("30")),
 )
-page.Render(w)
+thead.Rows(tr.Headers(th.Col("Name")))
+tbody.Rows(tr.Cells(td.Text("Alice")))
+
+// Select/datalist - only accept *option.Element
+dropdown.Options(option.Option("au", "Australia"), option.Option("nz", "New Zealand"))
+optgroup.Labelled("Oceania", option.Option("au", "Australia"))
+
+// Cross-package constructors - create child elements for you
+details.Summary("Click to expand", p.Text("Hidden content"))
+fieldset.Legend("Address", input.Text("street", ""))
+figure.Caption("An elephant", img.New().Src("elephant.jpg"))
+dl.Pair("Name", "Alice")
+
+// New() is always available as the untyped escape hatch
+table.New(caption.Text("Title"), thead.New(...), tbody.New(...))
 ```
 
 ## Conditional Rendering
@@ -233,6 +241,50 @@ node.Funcs(func() []node.Node {
     }
     return items
 })
+```
+
+## Building Components
+
+There's no special component system to learn - building your own components is handled through Go functions. You get all the benefits of Go's type system, testing, and refactoring tools. Components are just functions that return `node.Node` or a concrete element type:
+
+```go
+// Return node.Node for flexibility - can return different element types
+func Card(heading string, content string) node.Node {
+    return div.New(
+        h2.Text(heading),
+        p.Text(content),
+    ).Class("card")
+}
+
+// Return concrete type to allow continued chaining after the call
+func Card(heading string, content string) *div.Element {
+    return div.New(
+        h2.Text(heading),
+        p.Text(content),
+    ).Class("card")
+}
+
+// With concrete return type, callers can chain additional methods:
+Card("Welcome", "Hello!").ID("welcome-card").Class("highlighted")
+```
+
+```go
+func UserGreeting(user User) node.Node {
+    return div.New(
+        img.New().Src(user.Avatar).Alt(user.Name),
+        h3.Text(user.Name),
+        node.Condition(user.IsAdmin).
+            True(span.Static("Admin")).
+            False(nil),
+    ).Class("user-greeting")
+}
+
+// Use them like any other element
+page := div.New(
+    Card("Welcome", "Thanks for signing up!"),
+    UserGreeting(currentUser),
+)
+page.Render(w)
 ```
 
 ## Type-Safe Attributes

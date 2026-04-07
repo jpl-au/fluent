@@ -23,6 +23,7 @@ import (
 	"github.com/jpl-au/fluent/html5/attr/translate"
 	"github.com/jpl-au/fluent/html5/attr/virtualkeyboardpolicy"
 	"github.com/jpl-au/fluent/html5/attr/writingsuggestions"
+	"github.com/jpl-au/fluent/html5/figcaption"
 	"github.com/jpl-au/fluent/node"
 	"github.com/jpl-au/fluent/text"
 )
@@ -70,6 +71,16 @@ func (e *element) event() *html5.EventAttributes {
 func New(nodes ...node.Node) *element {
 	return &element{
 		nodes: nodes,
+	}
+}
+
+// Caption Creates a figure with a caption and content. The caption is
+// rendered as a figcaption element before the content nodes.
+// Example: figure.Caption("An elephant", img.New().Src("elephant.jpg"))
+// Renders: <figure><figcaption>An elephant</figcaption><img src="elephant.jpg" /></figure>
+func Caption(caption string, nodes ...node.Node) *element {
+	return &element{
+		nodes: append([]node.Node{figcaption.Text(caption)}, nodes...),
 	}
 }
 

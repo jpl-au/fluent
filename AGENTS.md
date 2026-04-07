@@ -117,6 +117,10 @@ Text content is always a method on the element: `div.Text(...)`, `div.Static(...
 
 Beyond the universal constructors (`New`, `Text`, `Static`, `RawText`, `Textf`, `RawTextf`) that every element has, many elements provide domain-specific constructors. **Always prefer these over manual attribute chaining.**
 
+**Typed constructors** enforce correct HTML nesting at compile time by accepting only the valid child element type (e.g. `ul.Items(items ...*li.Element)`). Use these instead of `New()` when the children are all the same element type. `New(...node.Node)` remains the untyped escape hatch for dynamic or mixed content.
+
+**Cross-package constructors** create common child elements for you (e.g. `details.Summary("label", nodes...)` creates a `<summary>` child automatically).
+
 | Package | Constructor | Description |
 |---------|-------------|-------------|
 | **a** | `Link(href, text)` | Anchor with href and link text |
@@ -144,11 +148,18 @@ Beyond the universal constructors (`New`, `Text`, `Static`, `RawText`, `Textf`, 
 | **button** | `Submit(text)` | Submit button |
 | | `Reset(text)` | Reset button |
 | | `Button(text)` | Generic button (type=button) |
+| **colgroup** | `Cols(cols...*col.Element)` | Type-safe column group from col elements |
 | **data** | `Data(value, text)` | Data element with value |
+| **datalist** | `Options(options...*option.Element)` | Type-safe datalist from option elements |
+| **details** | `Summary(label, nodes...)` | Details with summary label and content |
+| **dl** | `Pair(term, desc)` | Description list with dt/dd pair |
+| **dropdown** | `Options(options...*option.Element)` | Type-safe select from option elements |
 | **embed** | `PDF(src, w, h)` | Embedded PDF |
 | | `Flash(src, w, h)` | Embedded Flash |
 | | `Video(src, w, h)` | Embedded video |
 | | `Audio(src, w, h)` | Embedded audio |
+| **fieldset** | `Legend(caption, nodes...)` | Fieldset with legend and form controls |
+| **figure** | `Caption(caption, nodes...)` | Figure with figcaption and content |
 | **form** | `Get(action, nodes...)` | GET form |
 | | `Post(action, nodes...)` | POST form |
 | **html** | `Fragment(nodes...)` | HTML fragment without DOCTYPE |
@@ -187,6 +198,7 @@ Beyond the universal constructors (`New`, `Text`, `Static`, `RawText`, `Textf`, 
 | **link** | `Stylesheet(href)` | CSS stylesheet link |
 | | `Icon(href)` | Favicon link |
 | | `Preload(href, as)` | Preload resource hint |
+| **menu** | `Items(items...*li.Element)` | Type-safe menu from li elements |
 | **meta** | `UTF8()` | `<meta charset="UTF-8" />` |
 | | `Charset(charset)` | Meta with custom charset |
 | | `Viewport(content)` | Viewport meta |
@@ -201,11 +213,14 @@ Beyond the universal constructors (`New`, `Text`, `Static`, `RawText`, `Textf`, 
 | | `Flash(data, nodes...)` | Flash object |
 | | `Video(data, nodes...)` | Video object |
 | | `Audio(data, nodes...)` | Audio object |
-| **ol** | `Decimal(nodes...)` | Ordered list (1, 2, 3) |
-| | `LowerAlpha(nodes...)` | Ordered list (a, b, c) |
-| | `UpperAlpha(nodes...)` | Ordered list (A, B, C) |
-| | `LowerRoman(nodes...)` | Ordered list (i, ii, iii) |
-| | `UpperRoman(nodes...)` | Ordered list (I, II, III) |
+| **ol** | `Items(items...*li.Element)` | Type-safe ordered list from li elements |
+| | `Decimal(items...*li.Element)` | Decimal numbered list (1, 2, 3) |
+| | `LowerAlpha(items...*li.Element)` | Lowercase letter list (a, b, c) |
+| | `UpperAlpha(items...*li.Element)` | Uppercase letter list (A, B, C) |
+| | `LowerRoman(items...*li.Element)` | Lowercase Roman numeral list (i, ii, iii) |
+| | `UpperRoman(items...*li.Element)` | Uppercase Roman numeral list (I, II, III) |
+| **optgroup** | `Options(options...*option.Element)` | Type-safe option group |
+| | `Labelled(label, options...*option.Element)` | Labelled option group |
 | **option** | `Option(value, text)` | Select option with value |
 | **progress** | `ValueMax(value, max, nodes...)` | Progress bar with value and max |
 | **script** | `Module(src)` | ES module script |
@@ -220,16 +235,23 @@ Beyond the universal constructors (`New`, `Text`, `Static`, `RawText`, `Textf`, 
 | | `ImageWebP(srcset)` | WebP image source |
 | | `ImageAVIF(srcset)` | AVIF image source |
 | **style** | `CSS(css)` | Style element with CSS content |
+| **table** | `Rows(rows...*tr.Element)` | Type-safe simple table from tr elements |
+| **tbody** | `Rows(rows...*tr.Element)` | Type-safe tbody from tr elements |
+| **tfoot** | `Rows(rows...*tr.Element)` | Type-safe tfoot from tr elements |
 | **th** | `Col(content)` | Column header (scope=col) |
 | | `Row(content)` | Row header (scope=row) |
 | | `ColGroup(content)` | Column group header |
 | | `RowGroup(content)` | Row group header |
+| **thead** | `Rows(rows...*tr.Element)` | Type-safe thead from tr elements |
 | **time** | `DateTime(datetime, content)` | Time with datetime attribute |
+| **tr** | `Cells(cells...*td.Element)` | Type-safe data row from td elements |
+| | `Headers(cells...*th.Element)` | Type-safe header row from th elements |
 | **track** | `Subtitles(src)` | Subtitle track |
 | | `Captions(src)` | Caption track |
 | | `Descriptions(src)` | Description track |
 | | `Chapters(src)` | Chapter track |
 | | `Metadata(src)` | Metadata track |
+| **ul** | `Items(items...*li.Element)` | Type-safe unordered list from li elements |
 | **video** | `Src(src, nodes...)` | Video with src |
 | | `PreloadAuto(nodes...)` | Video with preload=auto |
 | | `PreloadMetadata(nodes...)` | Video with preload=metadata |
@@ -676,14 +698,14 @@ func Button(text string, isPrimary bool) node.Node {
 
 ```go
 func ProductList(products []Product) node.Node {
-    items := make([]node.Node, len(products))
+    items := make([]*li.Element, len(products))
     for i, p := range products {
         items[i] = li.New(
             h3.Text(p.Name),
             span.Textf("$%.2f", p.Price),
         )
     }
-    return ul.New(items...)
+    return ul.Items(items...)
 }
 ```
 

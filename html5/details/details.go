@@ -23,6 +23,7 @@ import (
 	"github.com/jpl-au/fluent/html5/attr/translate"
 	"github.com/jpl-au/fluent/html5/attr/virtualkeyboardpolicy"
 	"github.com/jpl-au/fluent/html5/attr/writingsuggestions"
+	"github.com/jpl-au/fluent/html5/summary"
 	"github.com/jpl-au/fluent/node"
 	"github.com/jpl-au/fluent/text"
 )
@@ -117,6 +118,17 @@ func Textf(format string, args ...any) *element {
 func RawTextf(format string, args ...any) *element {
 	return &element{
 		nodes: []node.Node{text.RawTextf(format, args...)},
+	}
+}
+
+// Summary Creates a details element with a summary label and content. The
+// summary is displayed as the clickable heading; the remaining
+// nodes are revealed when the widget is opened.
+// Example: details.Summary("More info", p.Text("Details here"))
+// Renders: <details><summary>More info</summary><p>Details here</p></details>
+func Summary(label string, nodes ...node.Node) *element {
+	return &element{
+		nodes: append([]node.Node{summary.Text(label)}, nodes...),
 	}
 }
 

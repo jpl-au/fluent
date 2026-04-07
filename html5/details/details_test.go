@@ -78,6 +78,14 @@ func TestRawTextfCtor(t *testing.T) {
 	}
 }
 
+func TestSummaryCtor(t *testing.T) {
+	got := string(details.Summary("More info", p.Text("Details here")).Render())
+	want := `<details><summary>More info</summary><p>Details here</p></details>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
 func TestGroupCtor(t *testing.T) {
 	got := string(details.Group("faq", summary.Text("Question 1"), p.Text("Answer 1")).Render())
 	want := `<details name="faq"><summary>Question 1</summary><p>Answer 1</p></details>`
