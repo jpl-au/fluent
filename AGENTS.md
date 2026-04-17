@@ -10,6 +10,35 @@ go test ./...
 go vet ./...
 ```
 
+## Lint With Flint
+
+After writing or editing Fluent code, run Flint. It catches Fluent-specific misuse that `go vet` cannot, and every diagnostic includes a `fix:` field with the corrected code - read the fix, apply it, and re-run until clean.
+
+```bash
+go install github.com/jpl-au/flint/cmd/flint@latest
+flint ./...
+```
+
+What Flint flags:
+
+- **Hallucinated APIs.** Every function, method, and type reference is validated against a generated registry. Catches calls like `node.Fragment()`, `div.New().Href(...)` (wrong element), `inputtype.Telephone` (does not exist).
+- **Raw strings where typed constants are required.** `input.New().Type("email")` is flagged with a fix pointing at `inputtype.Email`. See the "Never use raw strings where typed constants exist" section below for the full rule.
+- **Unsafe `Static()` and `RawText()`.** `Static()` requires a string literal so the JIT can pre-render it. `RawText()` does not HTML-escape. Both are flagged when called with a variable.
+- **`New().Method()` redundancy.** Flags `div.New().Text("x")` and suggests `div.Text("x")` directly. See "Choosing the Right Constructor" below.
+- **Typed constructor opportunities.** Suggests `ul.Items(...)` over `ul.New(li...)`, `tr.Cells(...)` over `tr.New(td...)`, and similar type-safe alternatives when children are uniform.
+- **`SetAttribute()` misuse.** Flags chaining after `SetAttribute()` (it returns void), and flags usage where a typed method exists (`.Class()` instead of `.SetAttribute("class", ...)`).
+- **Reserved keyword imports.** `select` → `dropdown`, `main` → `primary`, `var` → `variable`.
+
+Use `-info` to look up an element's full API before writing against it - constructors, methods, typed parameters, and the constants each method accepts:
+
+```bash
+flint -info div          # everything about <div>
+flint -info input        # every typed constant for every method
+flint -info ol           # list constructors and typed variants
+```
+
+Exit codes: `0` clean, `1` diagnostics found, `2` usage or I/O error. Treat `1` as "fix and re-run", not "done".
+
 ## Methods That Do NOT Exist
 
 **CRITICAL:** These methods do not exist anywhere in Fluent. Do not use them. Do not hallucinate them. They have never existed.

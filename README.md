@@ -2,13 +2,7 @@
 
 HTML5 components in Go using a Fluent API.
 
-|                                                    |                                                    |                                                    |
-|----------------------------------------------------|----------------------------------------------------|----------------------------------------------------|
-| [Why Fluent?](#why-fluent)                         | [Install](#install)                                | [Quick Start](#quick-start)                        |
-| [Reserved Keywords](#reserved-keywords)            | [Static vs Dynamic Content](#static-vs-dynamic-content) | [Typed Constructors](#typed-constructors)     |
-| [Conditional Rendering](#conditional-rendering)    | [Functional Processing](#functional-processing)    | [Building Components](#building-components)        |
-| [Type-Safe Attributes](#type-safe-attributes)      | [Architecture](#architecture)                      | [Performance](#performance)                        |
-| [Generator](#generator)                            | [Ecosystem](#ecosystem)                            | [PGO](#profile-guided-optimization-pgo)            |
+**Quick links:** [Why Fluent?](#why-fluent) · [Install](#install) · [Quick Start](#quick-start) · [Flint (linter & element info)](#flint) · [Reserved Keywords](#reserved-keywords) · [Static vs Dynamic Content](#static-vs-dynamic-content) · [Typed Constructors](#typed-constructors) · [Conditional Rendering](#conditional-rendering) · [Functional Processing](#functional-processing) · [Building Components](#building-components) · [Type-Safe Attributes](#type-safe-attributes) · [Architecture](#architecture) · [Performance](#performance) · [Generator](#generator) · [Ecosystem](#ecosystem) · [PGO](#profile-guided-optimization-pgo)
 
 ## Why Fluent?
 
@@ -71,6 +65,42 @@ func main() {
     http.ListenAndServe(":8080", mux)
 }
 ```
+
+## Flint
+
+[Flint](https://github.com/jpl-au/flint) is the companion linter and introspection CLI for Fluent. It catches mistakes before they compile, and doubles as a command-line reference for every Fluent element.
+
+```bash
+go install github.com/jpl-au/flint/cmd/flint@latest
+```
+
+Lint your code:
+
+```bash
+flint ./...              # check all Go files recursively
+flint ./views            # check a specific directory
+flint views/home.go      # check a single file
+```
+
+Look up an element's full API - constructors, typed methods, valid children, attribute mappings, and the typed constants each method accepts:
+
+```bash
+flint -info div          # everything about <div>
+flint -info input        # everything about <input> (including every typed constant)
+flint -info ol           # list constructors and typed variants
+```
+
+### What Flint catches
+
+- **Hallucinated APIs.** Every function, method, and type reference is validated against a generated Fluent registry. Catches `node.Fragment()`, `.Href()` on the wrong element, `inputtype.Telephone` (does not exist), and similar.
+- **Typed constant enforcement.** Flags raw strings passed to methods that require typed constants. `input.New().Type("email")` is flagged with a fix pointing at `inputtype.Email`.
+- **Unsafe `Static()` and `RawText()`.** `Static()` requires a string literal so the JIT can pre-render it. `RawText()` does not HTML-escape, so dynamic values risk XSS. Both are flagged when called with a variable.
+- **`New().Method()` redundancy.** Suggests the direct constructor: `div.New().Text("x")` should be `div.Text("x")`.
+- **Typed constructor opportunities.** Suggests `ul.Items(...)` over `ul.New(li...)`, `tr.Cells(...)` over `tr.New(td...)`, and similar type-safe alternatives when children are uniform.
+- **`SetAttribute()` misuse.** Flags chaining after `SetAttribute()` (it returns void) and flags usage where a typed method exists (`.Class()` instead of `.SetAttribute("class", ...)`).
+- **Reserved keyword imports.** Points to the correct Fluent package for HTML elements that collide with Go keywords (`select` → `dropdown`, `main` → `primary`, `var` → `variable`).
+
+Every diagnostic includes a `fix:` field with the corrected code. That makes Flint especially valuable alongside LLM-generated code - the agent can read the fix and self-correct without human intervention.
 
 ## Reserved Keywords
 
@@ -520,6 +550,7 @@ Fluent has companion packages that extend its capabilities:
 
 | Package | Description |
 |---------|-------------|
+| [Flint](https://github.com/jpl-au/flint) | Linter and introspection CLI for Fluent. Catches hallucinated APIs, unsafe `Static()`/`RawText()`, missed typed constructors, and raw strings where typed constants are required. `flint -info <element>` prints the full registry entry for any element. |
 | [Fluent JIT](https://github.com/jpl-au/fluent-jit) | Performance optimisation with three strategies: **Compile** (pre-render static portions), **Tune** (adaptive buffer sizing), **Flatten** (pre-render fully static content to raw bytes). Also provides the **Diff** engine for reactive updates. |
 | [Fluent HTMX](https://github.com/jpl-au/fluent-htmx) | HTMX integration. Accepts `node.Element` to set HTMX attributes (`hx-get`, `hx-post`, `hx-swap`, etc.) on any Fluent element. |
 | [Tether](https://github.com/jpl-au/tether) | Server-driven reactive UI. Manages sessions, WebSocket transport, and a client-side runtime that applies targeted DOM patches using the JIT diff engine. Mark elements with `.Dynamic("key")` and Tether handles the rest. |
