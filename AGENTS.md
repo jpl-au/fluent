@@ -365,30 +365,54 @@ security.SafeStyle(cssCode)                   // Sanitised <style> or error comm
 
 ## Element Construction
 
-### Constructors
+### Choosing the Right Constructor
 
-All elements follow consistent constructor patterns. Many elements also have **domain-specific constructors** - see the [Element-Specific Constructors](#element-specific-constructors) table above.
+Every element has six constructors: `New`, `Text`, `Static`, `RawText`, `Textf`, `RawTextf`. **Pick the constructor that matches the element's primary content.** Only use `New()` when the element contains child nodes or has no content.
+
+**Rule: if the element's content is text, use the text constructor - not `New()` with a chained method.**
 
 ```go
-div.New()                              // <div></div>
-div.Text("Hello")                      // <div>Hello</div>
-div.Static("Footer")                   // <div>Footer</div>
-div.RawText("<em>Bold</em>")           // <div><em>Bold</em></div>
-div.Textf("Hello %s", name)            // <div>Hello John</div>
+// CORRECT - text constructor used because the element holds text
+h1.Text("Welcome")                        // <h1>Welcome</h1>
+p.Textf("Hello %s", name)                 // <p>Hello John</p>
+span.Static("Copyright 2024")             // <span>Copyright 2024</span>
+style.RawText("body { color: red; }")     // <style>body { color: red; }</style>
+svg.RawText(`<circle cx="5" r="3"/>`)     // <svg><circle cx="5" r="3"/></svg>
 
-// With child nodes
+// CORRECT - New() used because the element contains child nodes
 div.New(
     p.Text("Paragraph"),
     span.Text("Inline"),
 )
 
-// Chained attributes and content
-div.New().Class("container").ID("main").Text("Content")
+// CORRECT - New() used because the element has no content
+div.New().Class("container")               // <div class="container"></div>
+
+// WRONG - do not use New() then chain .Text() when a text constructor exists
+div.New().Text("Hello")                    // use div.Text("Hello")
+div.New().Class("foo").Text("Hello")       // use div.Text("Hello").Class("foo")
+style.New().RawText("body { color: red; }")// use style.RawText("body { color: red; }")
+svg.New().RawText(`<circle .../>`)         // use svg.RawText(`<circle .../>`)
 ```
 
-### Content Methods
+**When to use `New()`:**
+- The element is a **container for child nodes**: `div.New(h1.Text("Title"), p.Text("Body"))`
+- The element is **empty** with only attributes: `div.New().Class("spacer")`
+- You need to **add child nodes and text**: `div.New(p.Text("child")).Class("wrapper")`
 
-All non-self-closing elements have these chainable content methods:
+**When NOT to use `New()`:**
+- The element's content is **just text** - use `Text()`, `Textf()`, `Static()`
+- The element's content is **raw HTML** - use `RawText()`, `RawTextf()`
+
+Attributes can be chained on any constructor. The constructor choice is about content, not attributes:
+```go
+h1.Text("Welcome").Class("title").ID("hero")  // text constructor + chained attributes
+div.New(child1, child2).Class("grid")          // node constructor + chained attributes
+```
+
+### Content Methods (for adding to an existing element)
+
+All non-self-closing elements also have these as **chainable methods** for adding content after construction. Use these only when you need to add content to an element that was constructed with `New()` for its child nodes:
 
 - `.Text(s)` - adds escaped text content
 - `.Textf(format, args...)` - adds formatted escaped text
@@ -397,9 +421,11 @@ All non-self-closing elements have these chainable content methods:
 - `.RawTextf(format, args...)` - adds formatted unescaped HTML
 
 ```go
-div.New().Class("foo").Text("Hello").ID("bar")
-p.New().Text("Line 1").Text(" Line 2")  // Multiple text nodes
-style.New().RawText("body { color: red; }")
+// Method form - adding text alongside child nodes
+div.New(img.New().Src("photo.jpg")).Text("Caption")
+
+// Multiple text nodes via method chaining
+p.Text("Line 1").Text(" Line 2")
 ```
 
 ### Node Management
