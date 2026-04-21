@@ -6,13 +6,13 @@ HTML5 components in Go using a Fluent API.
 
 ## Why Fluent?
 
-**No template language to learn.** Write HTML using Go code. Get IDE auto-completion, type checking, and refactoring support for free. LLM-GUIDE.md makes it trivial for LLM's to do the hard work for you.
+**No template language to learn.** Write HTML using Go code. Get IDE auto-completion, type checking, and refactoring support for free. [AGENTS.md](AGENTS.md) makes it trivial for AI agents to do the hard work for you.
 
 **Built for developers.** Thoughtful around the developer experience: attributes use native Go types - set a `width` with an `int`, a `volume` with a `float64`. Fluent handles the conversion. Type-safe constants for enumerated values catch typos like `type="emial"`.
 
 **Type-safe nesting.** Typed constructors enforce correct HTML parent-child relationships at compile time. `ul.Items()` only accepts `*li.Element`, `tr.Cells()` only accepts `*td.Element` - the compiler catches nesting mistakes that would otherwise become silent bugs. `New()` remains available as the flexible escape hatch. [See Typed Constructors](#typed-constructors).
 
-**HTML escaping by default.** `Text()` and `Textf()` automatically escape `<`, `>`, `&`, and quotes. For content in `<script>` or `<style>` blocks, use the `security` package for additional sanitisation.
+**HTML escaping by default.** `Text()` and `Textf()` automatically escape `<`, `>`, `&`, and quotes. For untrusted HTML that needs to render *as* HTML (rendered markdown, rich-text input), reach for the opt-in [fluent-security](https://github.com/jpl-au/fluent-security) package, which wraps [bluemonday](https://github.com/microcosm-cc/bluemonday) and returns Fluent nodes directly.
 
 **Performance considered.** Buffer pooling and efficient rendering for high-throughput applications. Don't want to use `sync.Pool`? Just turn it off.
 
@@ -100,7 +100,7 @@ flint -info ol           # list constructors and typed variants
 - **`SetAttribute()` misuse.** Flags chaining after `SetAttribute()` (it returns void) and flags usage where a typed method exists (`.Class()` instead of `.SetAttribute("class", ...)`).
 - **Reserved keyword imports.** Points to the correct Fluent package for HTML elements that collide with Go keywords (`select` → `dropdown`, `main` → `primary`, `var` → `variable`).
 
-Every diagnostic includes a `fix:` field with the corrected code. That makes Flint especially valuable alongside LLM-generated code - the agent can read the fix and self-correct without human intervention.
+Every diagnostic includes a `fix:` field with the corrected code. That makes Flint especially valuable alongside AI-generated code - the agent can read the fix and self-correct without human intervention.
 
 ## Reserved Keywords
 
@@ -112,9 +112,9 @@ Some HTML elements conflict with Go reserved keywords. I chose names that still 
 | `<main>`     | `primary`      |
 | `<var>`      | `variable`     |
 
-## Documentation for LLM's
+## Documentation for AI agents
 
-- `AGENTS.md` - Comprehensive guide to help LLM's to work with Fluent (but it is also useful for humans who want a deeper dive into Fluent too)
+- `AGENTS.md` - Comprehensive guide to help AI agents work with Fluent (but it is also useful for humans who want a deeper dive into Fluent too)
 
 ## Static vs Dynamic Content
 
@@ -350,7 +350,6 @@ Fluent is organised into several packages:
 | `html5/attr/*` | Type-safe attribute constants (e.g., `inputtype.Email`, `autocomplete.Off`, `rel.Stylesheet`) |
 | `text` | Text node implementations for `Static()`, `Text()`, `RawText()` and their formatted variants |
 | `pool` | Buffer pooling configuration |
-| `security` | Sanitisation for `<script>` and `<style>` block content |
 | `dot` | Optional dot import for cleaner syntax without package prefixes |
 
 ### Everything is a Node
@@ -551,6 +550,7 @@ Fluent has companion packages that extend its capabilities:
 | Package | Description |
 |---------|-------------|
 | [Flint](https://github.com/jpl-au/flint) | Linter and introspection CLI for Fluent. Catches hallucinated APIs, unsafe `Static()`/`RawText()`, missed typed constructors, and raw strings where typed constants are required. `flint -info <element>` prints the full registry entry for any element. |
+| [Fluent Security](https://github.com/jpl-au/fluent-security) | Opt-in security toolkit. Wraps [bluemonday](https://github.com/microcosm-cc/bluemonday) with Fluent-native helpers (`HTML`, `PlainText`) and a chainable `Cleaner` (`New`, `RichText`, `FromPolicy` + `Allow`/`AllowClasses`/`AllowAttr`) for sanitising untrusted HTML, plus `Nonce()` for Content-Security-Policy workflows with inline `<script>`/`<style>`. |
 | [Fluent JIT](https://github.com/jpl-au/fluent-jit) | Performance optimisation with three strategies: **Compile** (pre-render static portions), **Tune** (adaptive buffer sizing), **Flatten** (pre-render fully static content to raw bytes). Also provides the **Diff** engine for reactive updates. |
 | [Fluent HTMX](https://github.com/jpl-au/fluent-htmx) | HTMX integration. Accepts `node.Element` to set HTMX attributes (`hx-get`, `hx-post`, `hx-swap`, etc.) on any Fluent element. |
 | [Tether](https://github.com/jpl-au/tether) | Server-driven reactive UI. Manages sessions, WebSocket transport, and a client-side runtime that applies targeted DOM patches using the JIT diff engine. Mark elements with `.Dynamic("key")` and Tether handles the rest. |

@@ -83,6 +83,7 @@ func (c *ConditionalBuilder) Render(w ...io.Writer) []byte {
 	c.RenderBuilder(buf)
 
 	if len(w) > 0 && w[0] != nil {
+		// Write errors are intentionally discarded; see [node.Node] for rationale.
 		_, _ = buf.WriteTo(w[0])
 		fluent.PutBuffer(buf)
 		return nil

@@ -379,18 +379,22 @@ div.RawTextf("<span class=\"%s\">%s</span>", className, content)
 
 **Rule:** Use `Static()` for unchanging content (labels, headings, boilerplate). Use `Text()` or `Textf()` for user input or values that change between renders. Use `RawText()` or `RawTextf()` only when you need to inject HTML and trust the source.
 
-### Security Package
+### Sanitising untrusted HTML
 
-`Text()` and `Textf()` use Go's `html.EscapeString()` for basic HTML escaping. For content injected into `<script>` or `<style>` blocks, use the `security` package which detects dangerous patterns:
+Fluent's `Text()` and `Textf()` HTML-escape via `html.EscapeString()` and are sufficient for plain text. For untrusted content that needs to render *as* HTML (rendered markdown, rich-text input, comment bodies), use the companion package [fluent-security](https://github.com/jpl-au/fluent-security):
 
 ```go
-import "github.com/jpl-au/fluent/security"
+import "github.com/jpl-au/fluent-security"
 
-security.Sanitise(scriptComponent).Render()   // Returns empty if dangerous
-security.Sanitise(scriptComponent).Error()    // Renders error message if invalid
-security.SafeScript(jsCode)                   // Sanitised <script> or error comment
-security.SafeStyle(cssCode)                   // Sanitised <style> or error comment
+// HTML - permissive UGC baseline. Keeps common formatting tags, strips
+// scripts, event handlers, and dangerous URIs.
+div.New(security.HTML(userMarkdown)).Class("body")
+
+// PlainText - strips all tags, keeps only escaped text content.
+h1.New(security.PlainText(article.RawTitle))
 ```
+
+For reusable policies, hoist a `*security.Cleaner` at package scope (`security.RichText()` for the UGC baseline, `security.New()` for an empty allowlist) and extend with `Allow`, `AllowClasses`, `AllowAttr`. fluent-security also provides `Nonce()` for Content-Security-Policy workflows (inline `<script>`/`<style>` blocks via `script.Nonce(...)` / `style.Nonce(...)` matched against a CSP header). Fluent core never sanitises; that is deliberately a separate, opt-in package.
 
 ## Element Construction
 

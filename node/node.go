@@ -24,6 +24,14 @@ import (
 type Node interface {
 	// Render returns the HTML as a byte slice, or writes it to the provided writer.
 	// Use this for top-level rendering where you need the final output.
+	//
+	// Write errors are deliberately discarded rather than returned. A write
+	// failure during rendering is almost always a disconnected client or a
+	// closed stream - a condition the render tree cannot act on. The real
+	// error path lives with the writer's owner (the HTTP handler, the buffer
+	// consumer), not inside rendering. Returning an error here would force
+	// every node in the tree to handle a failure that isn't its to handle.
+	// Implementations silently drop write errors on purpose.
 	Render(w ...io.Writer) []byte
 
 	// RenderBuilder writes HTML into a shared buffer to avoid allocations
