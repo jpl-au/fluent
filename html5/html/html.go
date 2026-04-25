@@ -70,7 +70,7 @@ func (e *element) event() *html5.EventAttributes {
 	return e.ea
 }
 
-// New Creates a complete HTML5 document with DOCTYPE declaration
+// New creates a complete HTML5 document with DOCTYPE declaration
 // Example: html.New()
 // Renders: <!DOCTYPE html><html></html>
 func New(nodes ...node.Node) *element {
@@ -80,7 +80,7 @@ func New(nodes ...node.Node) *element {
 	}
 }
 
-// Text Creates a complete HTML5 document with DOCTYPE declaration and text content. Uses text.Text which HTML-escapes the output.
+// Text creates a complete HTML5 document with DOCTYPE declaration and text content. Uses text.Text which HTML-escapes the output.
 // Example: html.Text("Content")
 // Renders: <!DOCTYPE html><html>Content</html>
 func Text(str string) *element {
@@ -90,7 +90,7 @@ func Text(str string) *element {
 	}
 }
 
-// Static Creates a complete HTML5 document with DOCTYPE declaration and static text content. Uses text.Static which is not HTML-escaped and is JIT-optimisable.
+// Static creates a complete HTML5 document with DOCTYPE declaration and static text content. Uses text.Static which is not HTML-escaped and is JIT-optimisable.
 // Example: html.Static("Minimal page")
 // Renders: <!DOCTYPE html><html>Minimal page</html>
 func Static(str string) *element {
@@ -100,7 +100,7 @@ func Static(str string) *element {
 	}
 }
 
-// RawText Creates a complete HTML5 document with DOCTYPE declaration and raw text content. Uses text.RawText which is not HTML-escaped.
+// RawText creates a complete HTML5 document with DOCTYPE declaration and raw text content. Uses text.RawText which is not HTML-escaped.
 // Example: html.RawText("<body>Content</body>")
 // Renders: <!DOCTYPE html><html><body>Content</body></html>
 func RawText(str string) *element {
@@ -110,7 +110,7 @@ func RawText(str string) *element {
 	}
 }
 
-// Textf Creates a complete HTML5 document with DOCTYPE declaration and formatted text content. Uses text.Textf which HTML-escapes the output.
+// Textf creates a complete HTML5 document with DOCTYPE declaration and formatted text content. Uses text.Textf which HTML-escapes the output.
 // Example: html.Textf("Page for %s", name)
 // Renders: <!DOCTYPE html><html>Page for Mary</html>
 func Textf(format string, args ...any) *element {
@@ -120,7 +120,7 @@ func Textf(format string, args ...any) *element {
 	}
 }
 
-// RawTextf Creates a complete HTML5 document with DOCTYPE declaration and formatted raw text content. Uses text.RawTextf which is not HTML-escaped.
+// RawTextf creates a complete HTML5 document with DOCTYPE declaration and formatted raw text content. Uses text.RawTextf which is not HTML-escaped.
 // Example: html.RawTextf("<body><h1>%s</h1></body>", title)
 // Renders: <!DOCTYPE html><html><body><h1>Dashboard</h1></body></html>
 func RawTextf(format string, args ...any) *element {
@@ -130,7 +130,7 @@ func RawTextf(format string, args ...any) *element {
 	}
 }
 
-// Fragment Creates an html fragment without DOCTYPE declaration (for fragments or embedded use)
+// Fragment creates an html fragment without DOCTYPE declaration (for fragments or embedded use)
 // Example: html.Fragment()
 // Renders: <html></html>
 func Fragment(nodes ...node.Node) *element {
@@ -139,7 +139,7 @@ func Fragment(nodes ...node.Node) *element {
 	}
 }
 
-// FragmentText Creates an html fragment without DOCTYPE declaration with text content. Uses text.Text which HTML-escapes the output.
+// FragmentText creates an html fragment without DOCTYPE declaration with text content. Uses text.Text which HTML-escapes the output.
 // Example: html.FragmentText("Content")
 // Renders: <html>Content</html>
 func FragmentText(str string) *element {
@@ -148,7 +148,7 @@ func FragmentText(str string) *element {
 	}
 }
 
-// FragmentStatic Creates an html fragment without DOCTYPE declaration with static text content. Uses text.Static which is not HTML-escaped and is JIT-optimisable.
+// FragmentStatic creates an html fragment without DOCTYPE declaration with static text content. Uses text.Static which is not HTML-escaped and is JIT-optimisable.
 // Example: html.FragmentStatic("Fragment content")
 // Renders: <html>Fragment content</html>
 func FragmentStatic(str string) *element {
@@ -157,7 +157,7 @@ func FragmentStatic(str string) *element {
 	}
 }
 
-// FragmentRawText Creates an html fragment without DOCTYPE declaration with raw text content. Uses text.RawText which is not HTML-escaped.
+// FragmentRawText creates an html fragment without DOCTYPE declaration with raw text content. Uses text.RawText which is not HTML-escaped.
 // Example: html.FragmentRawText("<body>Content</body>")
 // Renders: <html><body>Content</body></html>
 func FragmentRawText(str string) *element {
@@ -166,7 +166,7 @@ func FragmentRawText(str string) *element {
 	}
 }
 
-// FragmentTextf Creates an html fragment without DOCTYPE declaration with formatted text content. Uses text.Textf which HTML-escapes the output.
+// FragmentTextf creates an html fragment without DOCTYPE declaration with formatted text content. Uses text.Textf which HTML-escapes the output.
 // Example: html.FragmentTextf("Page for %s", name)
 // Renders: <html>Page for Mary</html>
 func FragmentTextf(format string, args ...any) *element {
@@ -175,7 +175,7 @@ func FragmentTextf(format string, args ...any) *element {
 	}
 }
 
-// FragmentRawTextf Creates an html fragment without DOCTYPE declaration with formatted raw text content. Uses text.RawTextf which is not HTML-escaped.
+// FragmentRawTextf creates an html fragment without DOCTYPE declaration with formatted raw text content. Uses text.RawTextf which is not HTML-escaped.
 // Example: html.FragmentRawTextf("<body><h1>%s</h1></body>", title)
 // Renders: <html><body><h1>Dashboard</h1></body></html>
 func FragmentRawTextf(format string, args ...any) *element {

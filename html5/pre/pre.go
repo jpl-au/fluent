@@ -69,7 +69,7 @@ func (e *element) event() *html5.EventAttributes {
 	return e.ea
 }
 
-// New Creates a new pre element with the given child nodes
+// New creates a new pre element with the given child nodes
 // Example: pre.New(text.Text("Code"))
 // Renders: <pre>Code</pre>
 func New(nodes ...node.Node) *element {
@@ -78,7 +78,7 @@ func New(nodes ...node.Node) *element {
 	}
 }
 
-// Text Creates a new pre element with text content. Uses text.Text which HTML-escapes the output.
+// Text creates a new pre element with text content. Uses text.Text which HTML-escapes the output.
 // Example: pre.Text("  Indented code  ")
 // Renders: <pre>  Indented code  </pre>
 func Text(content string) *element {
@@ -87,7 +87,7 @@ func Text(content string) *element {
 	}
 }
 
-// Static Creates a new pre element with static text content. Uses text.Static which is not HTML-escaped and is JIT-optimisable.
+// Static creates a new pre element with static text content. Uses text.Static which is not HTML-escaped and is JIT-optimisable.
 // Example: pre.Static("func main() {}")
 // Renders: <pre>func main() {}</pre>
 func Static(content string) *element {
@@ -96,7 +96,7 @@ func Static(content string) *element {
 	}
 }
 
-// RawText Creates a new pre element with raw text content. Uses text.RawText which is not HTML-escaped.
+// RawText creates a new pre element with raw text content. Uses text.RawText which is not HTML-escaped.
 // Example: pre.RawText("<code>var x = 1;</code>")
 // Renders: <pre><code>var x = 1;</code></pre>
 func RawText(content string) *element {
@@ -105,7 +105,7 @@ func RawText(content string) *element {
 	}
 }
 
-// Textf Creates a new pre element with formatted text content. Uses text.Textf which HTML-escapes the output.
+// Textf creates a new pre element with formatted text content. Uses text.Textf which HTML-escapes the output.
 // Example: pre.Textf("Line %d: %s", lineNum, line)
 // Renders: <pre>Line 1: hello world</pre>
 func Textf(format string, args ...any) *element {
@@ -114,7 +114,7 @@ func Textf(format string, args ...any) *element {
 	}
 }
 
-// RawTextf Creates a new pre element with formatted raw text content. Uses text.RawTextf which is not HTML-escaped.
+// RawTextf creates a new pre element with formatted raw text content. Uses text.RawTextf which is not HTML-escaped.
 // Example: pre.RawTextf("<code>%s</code>", source)
 // Renders: <pre><code>fmt.Println()</code></pre>
 func RawTextf(format string, args ...any) *element {

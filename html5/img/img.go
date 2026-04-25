@@ -85,14 +85,14 @@ func (e *element) event() *html5.EventAttributes {
 	return e.ea
 }
 
-// New Creates a new img element without any initial attributes.
+// New creates a new img element without any initial attributes.
 // Example: img.New().Src("photo.jpg").Alt("A beautiful sunset")
 // Renders: <img src="photo.jpg" alt="A beautiful sunset" />
 func New() *element {
 	return &element{}
 }
 
-// Src Creates an img element with the specified source.
+// Src creates an img element with the specified source.
 // Example: img.Src("photo.jpg")
 // Renders: <img src="photo.jpg" />
 // Note: Consider using Image() for accessibility
@@ -102,7 +102,7 @@ func Src(src string) *element {
 	}
 }
 
-// Image Creates an img element with source and alt text for accessibility.
+// Image creates an img element with source and alt text for accessibility.
 // Example: img.Image("photo.jpg", "A beautiful sunset")
 // Renders: <img src="photo.jpg" alt="A beautiful sunset" />
 func Image(src string, alt string) *element {
@@ -112,7 +112,7 @@ func Image(src string, alt string) *element {
 	}
 }
 
-// Lazy Creates an img element with lazy loading enabled for improved performance.
+// Lazy creates an img element with lazy loading enabled for improved performance.
 // Example: img.Lazy("photo.jpg", "A sunset")
 // Renders: <img src="photo.jpg" alt="A sunset" loading="lazy" />
 // Note: Image will only load when it enters or is near the viewport
@@ -124,7 +124,7 @@ func Lazy(src string, alt string) *element {
 	}
 }
 
-// Eager Creates an img element with eager loading for immediate display.
+// Eager creates an img element with eager loading for immediate display.
 // Example: img.Eager("logo.png", "Company Logo")
 // Renders: <img src="logo.png" alt="Company Logo" loading="eager" />
 // Note: Image loads immediately, regardless of viewport position

@@ -70,7 +70,7 @@ func (e *element) event() *html5.EventAttributes {
 	return e.ea
 }
 
-// New Creates a new math element with optional child nodes.
+// New creates a new math element with optional child nodes.
 // Example: math.New()
 // Renders: <math></math>
 func New(nodes ...node.Node) *element {
@@ -79,7 +79,7 @@ func New(nodes ...node.Node) *element {
 	}
 }
 
-// Text Creates a new math element with text content. Uses text.Text which HTML-escapes the output.
+// Text creates a new math element with text content. Uses text.Text which HTML-escapes the output.
 // Example: math.Text("x + y = z")
 // Renders: <math>x + y = z</math>
 func Text(str string) *element {
@@ -88,7 +88,7 @@ func Text(str string) *element {
 	}
 }
 
-// Static Creates a new math element with static text content. Uses text.Static which is not HTML-escaped and is JIT-optimisable.
+// Static creates a new math element with static text content. Uses text.Static which is not HTML-escaped and is JIT-optimisable.
 // Example: math.Static("E = mc2")
 // Renders: <math>E = mc2</math>
 func Static(str string) *element {
@@ -97,7 +97,7 @@ func Static(str string) *element {
 	}
 }
 
-// RawText Creates a new math element with raw text content. Uses text.RawText which is not HTML-escaped.
+// RawText creates a new math element with raw text content. Uses text.RawText which is not HTML-escaped.
 // Example: math.RawText("<mi>x</mi><mo>+</mo><mi>y</mi>")
 // Renders: <math><mi>x</mi><mo>+</mo><mi>y</mi></math>
 func RawText(str string) *element {
@@ -106,7 +106,7 @@ func RawText(str string) *element {
 	}
 }
 
-// Textf Creates a new math element with formatted text content. Uses text.Textf which HTML-escapes the output.
+// Textf creates a new math element with formatted text content. Uses text.Textf which HTML-escapes the output.
 // Example: math.Textf("%s + %s", a, b)
 // Renders: <math>x + y</math>
 func Textf(format string, args ...any) *element {
@@ -115,7 +115,7 @@ func Textf(format string, args ...any) *element {
 	}
 }
 
-// RawTextf Creates a new math element with formatted raw text content. Uses text.RawTextf which is not HTML-escaped.
+// RawTextf creates a new math element with formatted raw text content. Uses text.RawTextf which is not HTML-escaped.
 // Example: math.RawTextf("<mi>%s</mi><mo>+</mo><mi>%s</mi>", a, b)
 // Renders: <math><mi>x</mi><mo>+</mo><mi>y</mi></math>
 func RawTextf(format string, args ...any) *element {

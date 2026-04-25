@@ -69,7 +69,7 @@ func (e *element) event() *html5.EventAttributes {
 	return e.ea
 }
 
-// New Creates a new main element with optional child nodes
+// New creates a new main element with optional child nodes
 // Example: primary.New()
 // Renders: <main></main>
 func New(nodes ...node.Node) *element {
@@ -78,7 +78,7 @@ func New(nodes ...node.Node) *element {
 	}
 }
 
-// Text Creates a new main element with text content. Uses text.Text which HTML-escapes the output.
+// Text creates a new main element with text content. Uses text.Text which HTML-escapes the output.
 // Example: primary.Text("Main content area")
 // Renders: <main>Main content area</main>
 func Text(str string) *element {
@@ -87,7 +87,7 @@ func Text(str string) *element {
 	}
 }
 
-// Static Creates a new main element with static text content. Uses text.Static which is not HTML-escaped and is JIT-optimisable.
+// Static creates a new main element with static text content. Uses text.Static which is not HTML-escaped and is JIT-optimisable.
 // Example: primary.Static("Welcome")
 // Renders: <main>Welcome</main>
 func Static(str string) *element {
@@ -96,7 +96,7 @@ func Static(str string) *element {
 	}
 }
 
-// RawText Creates a new main element with raw text content. Uses text.RawText which is not HTML-escaped.
+// RawText creates a new main element with raw text content. Uses text.RawText which is not HTML-escaped.
 // Example: primary.RawText("<h1>Title</h1><p>Content</p>")
 // Renders: <main><h1>Title</h1><p>Content</p></main>
 func RawText(str string) *element {
@@ -105,7 +105,7 @@ func RawText(str string) *element {
 	}
 }
 
-// Textf Creates a new main element with formatted text content. Uses text.Textf which HTML-escapes the output.
+// Textf creates a new main element with formatted text content. Uses text.Textf which HTML-escapes the output.
 // Example: primary.Textf("Welcome, %s", name)
 // Renders: <main>Welcome, Mary</main>
 func Textf(format string, args ...any) *element {
@@ -114,7 +114,7 @@ func Textf(format string, args ...any) *element {
 	}
 }
 
-// RawTextf Creates a new main element with formatted raw text content. Uses text.RawTextf which is not HTML-escaped.
+// RawTextf creates a new main element with formatted raw text content. Uses text.RawTextf which is not HTML-escaped.
 // Example: primary.RawTextf("<h1>%s</h1>", title)
 // Renders: <main><h1>Dashboard</h1></main>
 func RawTextf(format string, args ...any) *element {

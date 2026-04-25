@@ -69,7 +69,7 @@ func (e *element) event() *html5.EventAttributes {
 	return e.ea
 }
 
-// New Creates a new table element with optional child nodes (typically thead, tbody, tfoot, tr elements).
+// New creates a new table element with optional child nodes (typically thead, tbody, tfoot, tr elements).
 // Example: table.New()
 // Renders: <table></table>
 func New(nodes ...node.Node) *element {
@@ -78,7 +78,7 @@ func New(nodes ...node.Node) *element {
 	}
 }
 
-// Rows Creates a simple table from tr rows, enforcing correct nesting at compile time.
+// Rows creates a simple table from tr rows, enforcing correct nesting at compile time.
 // For tables needing thead, tbody, or tfoot, use New() instead.
 // Example: table.Rows(tr.Cells(td.Text("a"), td.Text("b")))
 // Renders: <table><tr><td>a</td><td>b</td></tr></table>

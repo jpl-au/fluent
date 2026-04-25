@@ -81,14 +81,14 @@ func (e *element) event() *html5.EventAttributes {
 	return e.ea
 }
 
-// New Creates a new area element without any initial attributes.
+// New creates a new area element without any initial attributes.
 // Example: area.New()
 // Renders: <area />
 func New() *element {
 	return &element{}
 }
 
-// Rect Creates a rectangular area element with coordinates and href. Convenient constructor for rectangular clickable
+// Rect creates a rectangular area element with coordinates and href. Convenient constructor for rectangular clickable
 // regions. The coordinates represent the top-left (x1,y1) and bottom-right (x2,y2) corners of the rectangle.
 // Example: area.Rect(34, 44, 270, 350, "https://example.com")
 // Renders: <area shape="rect" coords="34,44,270,350" href="https://example.com" />
@@ -100,7 +100,7 @@ func Rect(x1 int, y1 int, x2 int, y2 int, href string) *element {
 	}
 }
 
-// Circle Creates a circular area element with centre coordinates, radius, and href. Convenient constructor for circular
+// Circle creates a circular area element with centre coordinates, radius, and href. Convenient constructor for circular
 // clickable regions. The coordinates represent the centre (x,y) and radius of the circle.
 // Example: area.Circle(130, 136, 60, "/products")
 // Renders: <area shape="circle" coords="130,136,60" href="/products" />
@@ -112,7 +112,7 @@ func Circle(x int, y int, radius int, href string) *element {
 	}
 }
 
-// Poly Creates a polygonal area element with coordinates and href. Used for irregular shapes defined by multiple
+// Poly creates a polygonal area element with coordinates and href. Used for irregular shapes defined by multiple
 // coordinate pairs. Coordinates are comma-separated x,y pairs that define the polygon vertices.
 // Example: area.Poly("74,0,113,29,98,72,52,72,38,29", "/contact")
 // Renders: <area shape="poly" coords="74,0,113,29,98,72,52,72,38,29" href="/contact" />
@@ -124,7 +124,7 @@ func Poly(coords string, href string) *element {
 	}
 }
 
-// Default Creates a default area element that covers the entire image. Used as a fallback when no other areas match. The
+// Default creates a default area element that covers the entire image. Used as a fallback when no other areas match. The
 // default shape covers the entire image and is typically used last in the area list.
 // Example: area.Default("https://example.com")
 // Renders: <area shape="default" href="https://example.com" />

@@ -73,7 +73,7 @@ func (e *element) event() *html5.EventAttributes {
 	return e.ea
 }
 
-// New Creates a new ordered list element with optional child nodes (typically li elements)
+// New creates a new ordered list element with optional child nodes (typically li elements)
 // Example: ol.New()
 // Renders: <ol></ol>
 func New(nodes ...node.Node) *element {
@@ -82,7 +82,7 @@ func New(nodes ...node.Node) *element {
 	}
 }
 
-// Decimal Creates an ordered list with decimal numbering (1, 2, 3...)
+// Decimal creates an ordered list with decimal numbering (1, 2, 3...)
 // Example: ol.Decimal(li.Text("one"), li.Text("two"))
 // Renders: <ol type="1"><li>one</li><li>two</li></ol>
 func Decimal(items ...*li.Element) *element {
@@ -96,7 +96,7 @@ func Decimal(items ...*li.Element) *element {
 	}
 }
 
-// LowerAlpha Creates an ordered list with lowercase letters (a, b, c...)
+// LowerAlpha creates an ordered list with lowercase letters (a, b, c...)
 // Example: ol.LowerAlpha(li.Text("one"), li.Text("two"))
 // Renders: <ol type="a"><li>one</li><li>two</li></ol>
 func LowerAlpha(items ...*li.Element) *element {
@@ -110,7 +110,7 @@ func LowerAlpha(items ...*li.Element) *element {
 	}
 }
 
-// UpperAlpha Creates an ordered list with uppercase letters (A, B, C...)
+// UpperAlpha creates an ordered list with uppercase letters (A, B, C...)
 // Example: ol.UpperAlpha(li.Text("one"), li.Text("two"))
 // Renders: <ol type="A"><li>one</li><li>two</li></ol>
 func UpperAlpha(items ...*li.Element) *element {
@@ -124,7 +124,7 @@ func UpperAlpha(items ...*li.Element) *element {
 	}
 }
 
-// LowerRoman Creates an ordered list with lowercase Roman numerals (i, ii, iii...)
+// LowerRoman creates an ordered list with lowercase Roman numerals (i, ii, iii...)
 // Example: ol.LowerRoman(li.Text("one"), li.Text("two"))
 // Renders: <ol type="i"><li>one</li><li>two</li></ol>
 func LowerRoman(items ...*li.Element) *element {
@@ -138,7 +138,7 @@ func LowerRoman(items ...*li.Element) *element {
 	}
 }
 
-// UpperRoman Creates an ordered list with uppercase Roman numerals (I, II, III...)
+// UpperRoman creates an ordered list with uppercase Roman numerals (I, II, III...)
 // Example: ol.UpperRoman(li.Text("one"), li.Text("two"))
 // Renders: <ol type="I"><li>one</li><li>two</li></ol>
 func UpperRoman(items ...*li.Element) *element {
@@ -152,7 +152,7 @@ func UpperRoman(items ...*li.Element) *element {
 	}
 }
 
-// Items Creates an ordered list from li elements, enforcing correct nesting at compile time.
+// Items creates an ordered list from li elements, enforcing correct nesting at compile time.
 // Example: ol.Items(li.Text("one"), li.Text("two"))
 // Renders: <ol><li>one</li><li>two</li></ol>
 func Items(items ...*li.Element) *element {

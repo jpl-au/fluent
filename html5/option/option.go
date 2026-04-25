@@ -72,7 +72,7 @@ func (e *element) event() *html5.EventAttributes {
 	return e.ea
 }
 
-// New Creates a new option element with optional child nodes
+// New creates a new option element with optional child nodes
 // Example: option.New()
 // Renders: <option></option>
 func New(nodes ...node.Node) *element {
@@ -81,7 +81,7 @@ func New(nodes ...node.Node) *element {
 	}
 }
 
-// Option Creates an option element with a value and display text. Uses text.Text which HTML-escapes the output.
+// Option creates an option element with a value and display text. Uses text.Text which HTML-escapes the output.
 // Example: option.Option("us", "United States")
 // Renders: <option value="us">United States</option>
 func Option(value string, str string) *element {
@@ -91,7 +91,7 @@ func Option(value string, str string) *element {
 	}
 }
 
-// Selected Creates a pre-selected option element with a value and display text.
+// Selected creates a pre-selected option element with a value and display text.
 // Uses text.Text which HTML-escapes the output.
 // Example: option.Selected("gb", "United Kingdom")
 // Renders: <option value="gb" selected>United Kingdom</option>
@@ -103,7 +103,7 @@ func Selected(value string, str string) *element {
 	}
 }
 
-// Text Creates a new option element with text content. Uses text.Text which HTML-escapes the output.
+// Text creates a new option element with text content. Uses text.Text which HTML-escapes the output.
 // Example: option.Text("Choose an option...")
 // Renders: <option>Choose an option...</option>
 func Text(content string) *element {
@@ -112,7 +112,7 @@ func Text(content string) *element {
 	}
 }
 
-// Static Creates a new option element with static text content. Uses text.Static which is not HTML-escaped and is JIT-optimisable.
+// Static creates a new option element with static text content. Uses text.Static which is not HTML-escaped and is JIT-optimisable.
 // Example: option.Static("None")
 // Renders: <option>None</option>
 func Static(content string) *element {
@@ -121,7 +121,7 @@ func Static(content string) *element {
 	}
 }
 
-// RawText Creates a new option element with raw text content. Uses text.RawText which is not HTML-escaped.
+// RawText creates a new option element with raw text content. Uses text.RawText which is not HTML-escaped.
 // Example: option.RawText("Option <em>one</em>")
 // Renders: <option>Option <em>one</em></option>
 func RawText(content string) *element {
@@ -130,7 +130,7 @@ func RawText(content string) *element {
 	}
 }
 
-// Textf Creates a new option element with formatted text content. Uses text.Textf which HTML-escapes the output.
+// Textf creates a new option element with formatted text content. Uses text.Textf which HTML-escapes the output.
 // Example: option.Textf("Option %d", n)
 // Renders: <option>Option 3</option>
 func Textf(format string, args ...any) *element {
@@ -139,7 +139,7 @@ func Textf(format string, args ...any) *element {
 	}
 }
 
-// RawTextf Creates a new option element with formatted raw text content. Uses text.RawTextf which is not HTML-escaped.
+// RawTextf creates a new option element with formatted raw text content. Uses text.RawTextf which is not HTML-escaped.
 // Example: option.RawTextf("<em>%s</em>", label)
 // Renders: <option><em>Name</em></option>
 func RawTextf(format string, args ...any) *element {

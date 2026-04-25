@@ -73,14 +73,14 @@ func (e *element) event() *html5.EventAttributes {
 	return e.ea
 }
 
-// New Creates a new source element without any initial attributes.
+// New creates a new source element without any initial attributes.
 // Example: source.New().Src("image.webp").Type("image/webp")
 // Renders: <source src="image.webp" type="image/webp" />
 func New() *element {
 	return &element{}
 }
 
-// VideoMP4 Creates a video source element with MP4 type
+// VideoMP4 creates a video source element with MP4 type
 // Example: source.VideoMP4("movie.mp4")
 // Renders: <source src="movie.mp4" type="video/mp4" />
 func VideoMP4(src string) *element {
@@ -90,7 +90,7 @@ func VideoMP4(src string) *element {
 	}
 }
 
-// VideoWebM Creates a video source element with WebM type
+// VideoWebM creates a video source element with WebM type
 // Example: source.VideoWebM("movie.webm")
 // Renders: <source src="movie.webm" type="video/webm" />
 func VideoWebM(src string) *element {
@@ -100,7 +100,7 @@ func VideoWebM(src string) *element {
 	}
 }
 
-// VideoOgg Creates a video source element with Ogg type
+// VideoOgg creates a video source element with Ogg type
 // Example: source.VideoOgg("movie.ogv")
 // Renders: <source src="movie.ogv" type="video/ogg" />
 func VideoOgg(src string) *element {
@@ -110,7 +110,7 @@ func VideoOgg(src string) *element {
 	}
 }
 
-// AudioMP3 Creates an audio source element with MP3 type
+// AudioMP3 creates an audio source element with MP3 type
 // Example: source.AudioMP3("song.mp3")
 // Renders: <source src="song.mp3" type="audio/mpeg" />
 func AudioMP3(src string) *element {
@@ -120,7 +120,7 @@ func AudioMP3(src string) *element {
 	}
 }
 
-// AudioOgg Creates an audio source element with Ogg type
+// AudioOgg creates an audio source element with Ogg type
 // Example: source.AudioOgg("song.ogg")
 // Renders: <source src="song.ogg" type="audio/ogg" />
 func AudioOgg(src string) *element {
@@ -130,7 +130,7 @@ func AudioOgg(src string) *element {
 	}
 }
 
-// AudioWav Creates an audio source element with WAV type
+// AudioWav creates an audio source element with WAV type
 // Example: source.AudioWav("sound.wav")
 // Renders: <source src="sound.wav" type="audio/wav" />
 func AudioWav(src string) *element {
@@ -140,7 +140,7 @@ func AudioWav(src string) *element {
 	}
 }
 
-// ImageWebP Creates an image source element with WebP type (for use in picture elements)
+// ImageWebP creates an image source element with WebP type (for use in picture elements)
 // Example: source.ImageWebP("image.webp")
 // Renders: <source type="image/webp" srcset="image.webp" />
 func ImageWebP(srcset string) *element {
@@ -150,7 +150,7 @@ func ImageWebP(srcset string) *element {
 	}
 }
 
-// ImageAVIF Creates an image source element with AVIF type (for use in picture elements)
+// ImageAVIF creates an image source element with AVIF type (for use in picture elements)
 // Example: source.ImageAVIF("image.avif")
 // Renders: <source type="image/avif" srcset="image.avif" />
 func ImageAVIF(srcset string) *element {

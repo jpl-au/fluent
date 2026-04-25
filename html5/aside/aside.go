@@ -70,7 +70,7 @@ func (e *element) event() *html5.EventAttributes {
 	return e.ea
 }
 
-// New Creates a new aside element with the given child nodes.
+// New creates a new aside element with the given child nodes.
 // Example: aside.New()
 // Renders: <aside></aside>
 func New(nodes ...node.Node) *element {
@@ -79,7 +79,7 @@ func New(nodes ...node.Node) *element {
 	}
 }
 
-// Text Creates a new aside element with text content. Uses text.Text which HTML-escapes the output.
+// Text creates a new aside element with text content. Uses text.Text which HTML-escapes the output.
 // Example: aside.Text("Related articles")
 // Renders: <aside>Related articles</aside>
 func Text(str string) *element {
@@ -88,7 +88,7 @@ func Text(str string) *element {
 	}
 }
 
-// Static Creates a new aside element with static text content. Uses text.Static which is not HTML-escaped and is JIT-optimisable.
+// Static creates a new aside element with static text content. Uses text.Static which is not HTML-escaped and is JIT-optimisable.
 // Example: aside.Static("Did you know?")
 // Renders: <aside>Did you know?</aside>
 func Static(str string) *element {
@@ -97,7 +97,7 @@ func Static(str string) *element {
 	}
 }
 
-// RawText Creates a new aside element with raw text content. Uses text.RawText which is not HTML-escaped.
+// RawText creates a new aside element with raw text content. Uses text.RawText which is not HTML-escaped.
 // Example: aside.RawText("<blockquote>A pull quote</blockquote>")
 // Renders: <aside><blockquote>A pull quote</blockquote></aside>
 func RawText(str string) *element {
@@ -106,7 +106,7 @@ func RawText(str string) *element {
 	}
 }
 
-// Textf Creates a new aside element with formatted text content. Uses text.Textf which HTML-escapes the output.
+// Textf creates a new aside element with formatted text content. Uses text.Textf which HTML-escapes the output.
 // Example: aside.Textf("About %s", name)
 // Renders: <aside>About Mary</aside>
 func Textf(format string, args ...any) *element {
@@ -115,7 +115,7 @@ func Textf(format string, args ...any) *element {
 	}
 }
 
-// RawTextf Creates a new aside element with formatted raw text content. Uses text.RawTextf which is not HTML-escaped.
+// RawTextf creates a new aside element with formatted raw text content. Uses text.RawTextf which is not HTML-escaped.
 // Example: aside.RawTextf("<p>By %s</p>", name)
 // Renders: <aside><p>By Mary</p></aside>
 func RawTextf(format string, args ...any) *element {

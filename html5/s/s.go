@@ -68,7 +68,7 @@ func (e *element) event() *html5.EventAttributes {
 	return e.ea
 }
 
-// New Creates a new s element with optional child nodes.
+// New creates a new s element with optional child nodes.
 // Examples:
 // s.New() renders <s></s>
 // s.New(text.Text("Old price: $100")) renders <s>Old price: $100</s>
@@ -78,7 +78,7 @@ func New(nodes ...node.Node) *element {
 	}
 }
 
-// Text Creates a new s element with text content. Uses text.Text which HTML-escapes the output.
+// Text creates a new s element with text content. Uses text.Text which HTML-escapes the output.
 // Example: s.Text("Old price: $100")
 // Renders: <s>Old price: $100</s>
 func Text(content string) *element {
@@ -87,7 +87,7 @@ func Text(content string) *element {
 	}
 }
 
-// Static Creates a new s element with static text content. Uses text.Static which is not HTML-escaped and is JIT-optimisable.
+// Static creates a new s element with static text content. Uses text.Static which is not HTML-escaped and is JIT-optimisable.
 // Example: s.Static("No longer available")
 // Renders: <s>No longer available</s>
 func Static(content string) *element {
@@ -96,7 +96,7 @@ func Static(content string) *element {
 	}
 }
 
-// RawText Creates a new s element with raw text content. Uses text.RawText which is not HTML-escaped.
+// RawText creates a new s element with raw text content. Uses text.RawText which is not HTML-escaped.
 // Example: s.RawText("<strong>$100</strong>")
 // Renders: <s><strong>$100</strong></s>
 func RawText(content string) *element {
@@ -105,7 +105,7 @@ func RawText(content string) *element {
 	}
 }
 
-// Textf Creates a new s element with formatted text content. Uses text.Textf which HTML-escapes the output.
+// Textf creates a new s element with formatted text content. Uses text.Textf which HTML-escapes the output.
 // Example: s.Textf("Was $%d", oldPrice)
 // Renders: <s>Was $50</s>
 func Textf(format string, args ...any) *element {
@@ -114,7 +114,7 @@ func Textf(format string, args ...any) *element {
 	}
 }
 
-// RawTextf Creates a new s element with formatted raw text content. Uses text.RawTextf which is not HTML-escaped.
+// RawTextf creates a new s element with formatted raw text content. Uses text.RawTextf which is not HTML-escaped.
 // Example: s.RawTextf("<em>Was $%d</em>", oldPrice)
 // Renders: <s><em>Was $50</em></s>
 func RawTextf(format string, args ...any) *element {

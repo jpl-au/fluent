@@ -71,7 +71,7 @@ func (e *element) event() *html5.EventAttributes {
 	return e.ea
 }
 
-// New Creates a new svg element with child SVG elements.
+// New creates a new svg element with child SVG elements.
 // Example: svg.New().Width("100").Height("100").ViewBox("0 0 100 100")
 // Renders: <svg width="100" height="100" viewBox="0 0 100 100"></svg>
 func New(nodes ...node.Node) *element {

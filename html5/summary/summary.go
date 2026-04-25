@@ -67,7 +67,7 @@ func (e *element) event() *html5.EventAttributes {
 	return e.ea
 }
 
-// New Creates a new summary element with optional child nodes.
+// New creates a new summary element with optional child nodes.
 // Example: summary.New()
 // Renders: <summary></summary>
 func New(nodes ...node.Node) *element {
@@ -76,7 +76,7 @@ func New(nodes ...node.Node) *element {
 	}
 }
 
-// Text Creates a new summary element with text content. Uses text.Text which HTML-escapes the output.
+// Text creates a new summary element with text content. Uses text.Text which HTML-escapes the output.
 // Example: summary.Text("Click to expand")
 // Renders: <summary>Click to expand</summary>
 func Text(content string) *element {
@@ -85,7 +85,7 @@ func Text(content string) *element {
 	}
 }
 
-// Static Creates a new summary element with static text content. Uses text.Static which is not HTML-escaped and is JIT-optimisable.
+// Static creates a new summary element with static text content. Uses text.Static which is not HTML-escaped and is JIT-optimisable.
 // Example: summary.Static("Details")
 // Renders: <summary>Details</summary>
 func Static(content string) *element {
@@ -94,7 +94,7 @@ func Static(content string) *element {
 	}
 }
 
-// RawText Creates a new summary element with raw text content. Uses text.RawText which is not HTML-escaped.
+// RawText creates a new summary element with raw text content. Uses text.RawText which is not HTML-escaped.
 // Example: summary.RawText("<strong>Click</strong> to expand")
 // Renders: <summary><strong>Click</strong> to expand</summary>
 func RawText(content string) *element {
@@ -103,7 +103,7 @@ func RawText(content string) *element {
 	}
 }
 
-// Textf Creates a new summary element with formatted text content. Uses text.Textf which HTML-escapes the output.
+// Textf creates a new summary element with formatted text content. Uses text.Textf which HTML-escapes the output.
 // Example: summary.Textf("Section %d", n)
 // Renders: <summary>Section 3</summary>
 func Textf(format string, args ...any) *element {
@@ -112,7 +112,7 @@ func Textf(format string, args ...any) *element {
 	}
 }
 
-// RawTextf Creates a new summary element with formatted raw text content. Uses text.RawTextf which is not HTML-escaped.
+// RawTextf creates a new summary element with formatted raw text content. Uses text.RawTextf which is not HTML-escaped.
 // Example: summary.RawTextf("<strong>%s</strong>", title)
 // Renders: <summary><strong>Dashboard</strong></summary>
 func RawTextf(format string, args ...any) *element {

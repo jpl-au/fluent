@@ -87,14 +87,14 @@ func (e *element) event() *html5.EventAttributes {
 	return e.ea
 }
 
-// New Creates a new link element without any initial attributes.
+// New creates a new link element without any initial attributes.
 // Example: link.New()
 // Renders: <link />
 func New() *element {
 	return &element{}
 }
 
-// Stylesheet Creates a new link element for a CSS stylesheet.
+// Stylesheet creates a new link element for a CSS stylesheet.
 // Example: link.Stylesheet("/styles.css")
 // Renders: <link rel="stylesheet" href="/styles.css" />
 func Stylesheet(href string) *element {
@@ -104,7 +104,7 @@ func Stylesheet(href string) *element {
 	}
 }
 
-// Icon Creates a new link element for a site icon (favicon).
+// Icon creates a new link element for a site icon (favicon).
 // Example: link.Icon("/favicon.ico")
 // Renders: <link rel="icon" href="/favicon.ico" />
 func Icon(href string) *element {
@@ -114,7 +114,7 @@ func Icon(href string) *element {
 	}
 }
 
-// Preload Creates a new link element for preloading resources to improve performance.
+// Preload creates a new link element for preloading resources to improve performance.
 // Example: link.Preload("/font.woff2", as.Font)
 // Renders: <link rel="preload" href="/font.woff2" as="font" />
 func Preload(href string, as as.As) *element {
@@ -125,7 +125,7 @@ func Preload(href string, as as.As) *element {
 	}
 }
 
-// Canonical Creates a link element declaring the canonical URL for the page.
+// Canonical creates a link element declaring the canonical URL for the page.
 // Important for SEO when the same content is accessible at multiple
 // URLs. Search engines use this to consolidate ranking signals.
 // Example: link.Canonical("https://example.com/page")
@@ -137,7 +137,7 @@ func Canonical(href string) *element {
 	}
 }
 
-// Prefetch Creates a link element that hints the browser to prefetch a resource
+// Prefetch creates a link element that hints the browser to prefetch a resource
 // the user is likely to navigate to next. The resource is fetched at
 // low priority during idle time and cached for future use.
 // Example: link.Prefetch("/next-page")

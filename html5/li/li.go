@@ -73,7 +73,7 @@ func (e *element) event() *html5.EventAttributes {
 	return e.ea
 }
 
-// New Creates a new list item element with optional child nodes.
+// New creates a new list item element with optional child nodes.
 // Example: li.New()
 // Renders: <li></li>
 func New(nodes ...node.Node) *element {
@@ -82,7 +82,7 @@ func New(nodes ...node.Node) *element {
 	}
 }
 
-// Text Creates a new li element with text content. Uses text.Text which HTML-escapes the output.
+// Text creates a new li element with text content. Uses text.Text which HTML-escapes the output.
 // Example: li.Text("First item")
 // Renders: <li>First item</li>
 func Text(str string) *element {
@@ -91,7 +91,7 @@ func Text(str string) *element {
 	}
 }
 
-// Static Creates a new li element with static text content. Uses text.Static which is not HTML-escaped and is JIT-optimisable.
+// Static creates a new li element with static text content. Uses text.Static which is not HTML-escaped and is JIT-optimisable.
 // Example: li.Static("Home")
 // Renders: <li>Home</li>
 func Static(str string) *element {
@@ -100,7 +100,7 @@ func Static(str string) *element {
 	}
 }
 
-// RawText Creates a new li element with raw text content. Uses text.RawText which is not HTML-escaped.
+// RawText creates a new li element with raw text content. Uses text.RawText which is not HTML-escaped.
 // Example: li.RawText("<a href=\"/\">Home</a>")
 // Renders: <li><a href="/">Home</a></li>
 func RawText(str string) *element {
@@ -109,7 +109,7 @@ func RawText(str string) *element {
 	}
 }
 
-// Textf Creates a new li element with formatted text content. Uses text.Textf which HTML-escapes the output.
+// Textf creates a new li element with formatted text content. Uses text.Textf which HTML-escapes the output.
 // Example: li.Textf("Item %d", n)
 // Renders: <li>Item 3</li>
 func Textf(format string, args ...any) *element {
@@ -118,7 +118,7 @@ func Textf(format string, args ...any) *element {
 	}
 }
 
-// RawTextf Creates a new li element with formatted raw text content. Uses text.RawTextf which is not HTML-escaped.
+// RawTextf creates a new li element with formatted raw text content. Uses text.RawTextf which is not HTML-escaped.
 // Example: li.RawTextf("<a href=\"%s\">%s</a>", url, "About")
 // Renders: <li><a href="/about">About</a></li>
 func RawTextf(format string, args ...any) *element {

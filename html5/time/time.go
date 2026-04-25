@@ -68,7 +68,7 @@ func (e *element) event() *html5.EventAttributes {
 	return e.ea
 }
 
-// New Creates a new time element with optional child nodes
+// New creates a new time element with optional child nodes
 // Example: time.New()
 // Renders: <time></time>
 func New(nodes ...node.Node) *element {
@@ -77,7 +77,7 @@ func New(nodes ...node.Node) *element {
 	}
 }
 
-// Text Creates a new time element with text content. Uses text.Text which HTML-escapes the output.
+// Text creates a new time element with text content. Uses text.Text which HTML-escapes the output.
 // Example: time.Text("25 December 2023")
 // Renders: <time>25 December 2023</time>
 func Text(content string) *element {
@@ -86,7 +86,7 @@ func Text(content string) *element {
 	}
 }
 
-// Static Creates a new time element with static text content. Uses text.Static which is not HTML-escaped and is JIT-optimisable.
+// Static creates a new time element with static text content. Uses text.Static which is not HTML-escaped and is JIT-optimisable.
 // Example: time.Static("Today")
 // Renders: <time>Today</time>
 func Static(content string) *element {
@@ -95,7 +95,7 @@ func Static(content string) *element {
 	}
 }
 
-// RawText Creates a new time element with raw text content. Uses text.RawText which is not HTML-escaped.
+// RawText creates a new time element with raw text content. Uses text.RawText which is not HTML-escaped.
 // Example: time.RawText("<abbr>Dec</abbr> 25")
 // Renders: <time><abbr>Dec</abbr> 25</time>
 func RawText(content string) *element {
@@ -104,7 +104,7 @@ func RawText(content string) *element {
 	}
 }
 
-// Textf Creates a new time element with formatted text content. Uses text.Textf which HTML-escapes the output.
+// Textf creates a new time element with formatted text content. Uses text.Textf which HTML-escapes the output.
 // Example: time.Textf("%d %s %d", day, month, year)
 // Renders: <time>15 January 2024</time>
 func Textf(format string, args ...any) *element {
@@ -113,7 +113,7 @@ func Textf(format string, args ...any) *element {
 	}
 }
 
-// RawTextf Creates a new time element with formatted raw text content. Uses text.RawTextf which is not HTML-escaped.
+// RawTextf creates a new time element with formatted raw text content. Uses text.RawTextf which is not HTML-escaped.
 // Example: time.RawTextf("<abbr>%s</abbr> %d", monthAbbr, day)
 // Renders: <time><abbr>Jan</abbr> 15</time>
 func RawTextf(format string, args ...any) *element {
@@ -122,7 +122,7 @@ func RawTextf(format string, args ...any) *element {
 	}
 }
 
-// DateTime Creates a time element with a machine-readable datetime and human-readable
+// DateTime creates a time element with a machine-readable datetime and human-readable
 // display text. Uses text.Text which HTML-escapes the output.
 // Example: time.DateTime("2023-12-25", "Christmas Day")
 // Renders: <time datetime="2023-12-25">Christmas Day</time>

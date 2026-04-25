@@ -68,7 +68,7 @@ func (e *element) event() *html5.EventAttributes {
 	return e.ea
 }
 
-// New Creates a new caption element with the given child nodes.
+// New creates a new caption element with the given child nodes.
 // Example: caption.New(text.Text("My Table Caption"))
 // Renders: <caption>My Table Caption</caption>
 func New(nodes ...node.Node) *element {
@@ -77,7 +77,7 @@ func New(nodes ...node.Node) *element {
 	}
 }
 
-// Text Creates a new caption element with text content. Uses text.Text which HTML-escapes the output.
+// Text creates a new caption element with text content. Uses text.Text which HTML-escapes the output.
 // Example: caption.Text("User Accounts")
 // Renders: <caption>User Accounts</caption>
 func Text(str string) *element {
@@ -86,7 +86,7 @@ func Text(str string) *element {
 	}
 }
 
-// Static Creates a new caption element with static text content. Uses text.Static which is not HTML-escaped and is JIT-optimisable.
+// Static creates a new caption element with static text content. Uses text.Static which is not HTML-escaped and is JIT-optimisable.
 // Example: caption.Static("Monthly Revenue")
 // Renders: <caption>Monthly Revenue</caption>
 func Static(str string) *element {
@@ -95,7 +95,7 @@ func Static(str string) *element {
 	}
 }
 
-// RawText Creates a new caption element with raw text content. Uses text.RawText which is not HTML-escaped.
+// RawText creates a new caption element with raw text content. Uses text.RawText which is not HTML-escaped.
 // Example: caption.RawText("User Accounts")
 // Renders: <caption>User Accounts</caption>
 func RawText(str string) *element {
@@ -104,7 +104,7 @@ func RawText(str string) *element {
 	}
 }
 
-// Textf Creates a new caption element with formatted text content. Uses text.Textf which HTML-escapes the output.
+// Textf creates a new caption element with formatted text content. Uses text.Textf which HTML-escapes the output.
 // Example: caption.Textf("%s Accounts", "User")
 // Renders: <caption>User Accounts</caption>
 func Textf(format string, args ...any) *element {
@@ -113,7 +113,7 @@ func Textf(format string, args ...any) *element {
 	}
 }
 
-// RawTextf Creates a new caption element with formatted raw text content. Uses text.RawTextf which is not HTML-escaped.
+// RawTextf creates a new caption element with formatted raw text content. Uses text.RawTextf which is not HTML-escaped.
 // Example: caption.RawTextf("%s Revenue", "Monthly")
 // Renders: <caption>Monthly Revenue</caption>
 func RawTextf(format string, args ...any) *element {

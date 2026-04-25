@@ -68,7 +68,7 @@ func (e *element) event() *html5.EventAttributes {
 	return e.ea
 }
 
-// New Creates a new map element with optional child nodes (typically area elements).
+// New creates a new map element with optional child nodes (typically area elements).
 // Example: imagemap.New(area.Rect(0, 0, 100, 50, "/page1"))
 // Renders: <map><area shape="rect" coords="0,0,100,50" href="/page1" /></map>
 func New(nodes ...node.Node) *element {
@@ -77,7 +77,7 @@ func New(nodes ...node.Node) *element {
 	}
 }
 
-// Named Creates a named map element with child area elements. The name is
+// Named creates a named map element with child area elements. The name is
 // required and must match the usemap attribute on the associated img
 // element (prefixed with #).
 // Example: imagemap.Named("nav", area.Rect(0, 0, 100, 50, "/page1"))
@@ -89,7 +89,7 @@ func Named(name string, nodes ...node.Node) *element {
 	}
 }
 
-// Text Creates a new map element with text content. Uses text.Text which HTML-escapes the output.
+// Text creates a new map element with text content. Uses text.Text which HTML-escapes the output.
 // Example: imagemap.Text("Navigation")
 // Renders: <map>Navigation</map>
 func Text(str string) *element {
@@ -98,7 +98,7 @@ func Text(str string) *element {
 	}
 }
 
-// Static Creates a new map element with static text content. Uses text.Static which is not HTML-escaped and is JIT-optimisable.
+// Static creates a new map element with static text content. Uses text.Static which is not HTML-escaped and is JIT-optimisable.
 // Example: imagemap.Static("Navigation")
 // Renders: <map>Navigation</map>
 func Static(str string) *element {
@@ -107,7 +107,7 @@ func Static(str string) *element {
 	}
 }
 
-// RawText Creates a new map element with raw text content. Uses text.RawText which is not HTML-escaped.
+// RawText creates a new map element with raw text content. Uses text.RawText which is not HTML-escaped.
 // Example: imagemap.RawText("<p>Navigation links</p>")
 // Renders: <map><p>Navigation links</p></map>
 func RawText(str string) *element {
@@ -116,7 +116,7 @@ func RawText(str string) *element {
 	}
 }
 
-// Textf Creates a new map element with formatted text content. Uses text.Textf which HTML-escapes the output.
+// Textf creates a new map element with formatted text content. Uses text.Textf which HTML-escapes the output.
 // Example: imagemap.Textf("%s map", region)
 // Renders: <map>Europe map</map>
 func Textf(format string, args ...any) *element {
@@ -125,7 +125,7 @@ func Textf(format string, args ...any) *element {
 	}
 }
 
-// RawTextf Creates a new map element with formatted raw text content. Uses text.RawTextf which is not HTML-escaped.
+// RawTextf creates a new map element with formatted raw text content. Uses text.RawTextf which is not HTML-escaped.
 // Example: imagemap.RawTextf("<p>%s navigation</p>", section)
 // Renders: <map><p>main navigation</p></map>
 func RawTextf(format string, args ...any) *element {

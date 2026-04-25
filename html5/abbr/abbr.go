@@ -70,7 +70,7 @@ func (e *element) event() *html5.EventAttributes {
 	return e.ea
 }
 
-// New Creates a new abbreviation element without any initial attributes. Use for basic abbreviations
+// New creates a new abbreviation element without any initial attributes. Use for basic abbreviations
 // where semantic markup is needed.
 // Example: abbr.New()
 // Renders: <abbr></abbr>
@@ -80,7 +80,7 @@ func New(nodes ...node.Node) *element {
 	}
 }
 
-// Text Creates a new abbreviation element with text content. Uses text.Text which HTML-escapes the output.
+// Text creates a new abbreviation element with text content. Uses text.Text which HTML-escapes the output.
 // Example: abbr.Text("HTML")
 // Renders: <abbr>HTML</abbr>
 func Text(abbreviation string) *element {
@@ -89,7 +89,7 @@ func Text(abbreviation string) *element {
 	}
 }
 
-// Static Creates a new abbreviation element with static text content. Uses text.Static which is not HTML-escaped and is JIT-optimisable.
+// Static creates a new abbreviation element with static text content. Uses text.Static which is not HTML-escaped and is JIT-optimisable.
 // Example: abbr.Static("HTML")
 // Renders: <abbr>HTML</abbr>
 func Static(abbreviation string) *element {
@@ -98,7 +98,7 @@ func Static(abbreviation string) *element {
 	}
 }
 
-// RawText Creates a new abbreviation element with raw text content. Uses text.RawText which is not HTML-escaped.
+// RawText creates a new abbreviation element with raw text content. Uses text.RawText which is not HTML-escaped.
 // Example: abbr.RawText("<strong>HTML</strong>")
 // Renders: <abbr><strong>HTML</strong></abbr>
 func RawText(abbreviation string) *element {
@@ -107,7 +107,7 @@ func RawText(abbreviation string) *element {
 	}
 }
 
-// Textf Creates a new abbreviation element with formatted text content. Uses text.Textf which HTML-escapes the output.
+// Textf creates a new abbreviation element with formatted text content. Uses text.Textf which HTML-escapes the output.
 // Example: abbr.Textf("v%d", 2)
 // Renders: <abbr>v2</abbr>
 func Textf(format string, args ...any) *element {
@@ -116,7 +116,7 @@ func Textf(format string, args ...any) *element {
 	}
 }
 
-// RawTextf Creates a new abbreviation element with formatted raw text content. Uses text.RawTextf which is not HTML-escaped.
+// RawTextf creates a new abbreviation element with formatted raw text content. Uses text.RawTextf which is not HTML-escaped.
 // Example: abbr.RawTextf("<b>%s</b>", "HTML")
 // Renders: <abbr><b>HTML</b></abbr>
 func RawTextf(format string, args ...any) *element {
@@ -125,7 +125,7 @@ func RawTextf(format string, args ...any) *element {
 	}
 }
 
-// Titled Creates a new abbreviation element with both the abbreviation text and its full expansion in the title
+// Titled creates a new abbreviation element with both the abbreviation text and its full expansion in the title
 // attribute. This is the recommended approach for accessibility as it provides the expansion on hover.
 // Example: abbr.Titled("HTML", "HyperText Markup Language")
 // Renders: <abbr title="HyperText Markup Language">HTML</abbr>

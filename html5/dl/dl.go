@@ -71,7 +71,7 @@ func (e *element) event() *html5.EventAttributes {
 	return e.ea
 }
 
-// New Creates a new dl element with the given child nodes (typically <dt> and <dd> elements).
+// New creates a new dl element with the given child nodes (typically <dt> and <dd> elements).
 // Example: dl.New(dt.New(text.Text("Term")), dd.New(text.Text("Description")))
 // Renders: <dl><dt>Term</dt><dd>Description</dd></dl>
 func New(nodes ...node.Node) *element {
@@ -80,7 +80,7 @@ func New(nodes ...node.Node) *element {
 	}
 }
 
-// Pair Creates a description list with a single term-description pair.
+// Pair creates a description list with a single term-description pair.
 // Example: dl.Pair("Name", "Alice")
 // Renders: <dl><dt>Name</dt><dd>Alice</dd></dl>
 func Pair(term string, desc string) *element {

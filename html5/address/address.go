@@ -70,7 +70,7 @@ func (e *element) event() *html5.EventAttributes {
 	return e.ea
 }
 
-// New Creates a new address element without any initial attributes. Use for basic contact information where semantic markup is needed.
+// New creates a new address element without any initial attributes. Use for basic contact information where semantic markup is needed.
 // Example: address.New()
 // Renders: <address></address>
 func New(nodes ...node.Node) *element {
@@ -79,7 +79,7 @@ func New(nodes ...node.Node) *element {
 	}
 }
 
-// Text Creates a new address element with text content. Uses text.Text which HTML-escapes the output.
+// Text creates a new address element with text content. Uses text.Text which HTML-escapes the output.
 // Example: address.Text("Contact us at info@example.com")
 // Renders: <address>Contact us at info@example.com</address>
 func Text(str string) *element {
@@ -88,7 +88,7 @@ func Text(str string) *element {
 	}
 }
 
-// Static Creates a new address element with static text content. Uses text.Static which is not HTML-escaped and is JIT-optimisable.
+// Static creates a new address element with static text content. Uses text.Static which is not HTML-escaped and is JIT-optimisable.
 // Example: address.Static("123 Main Street")
 // Renders: <address>123 Main Street</address>
 func Static(str string) *element {
@@ -97,7 +97,7 @@ func Static(str string) *element {
 	}
 }
 
-// RawText Creates a new address element with raw text content. Uses text.RawText which is not HTML-escaped.
+// RawText creates a new address element with raw text content. Uses text.RawText which is not HTML-escaped.
 // Example: address.RawText("Contact us at <em>info@example.com</em>")
 // Renders: <address>Contact us at <em>info@example.com</em></address>
 func RawText(str string) *element {
@@ -106,7 +106,7 @@ func RawText(str string) *element {
 	}
 }
 
-// Textf Creates a new address element with formatted text content. Uses text.Textf which HTML-escapes the output.
+// Textf creates a new address element with formatted text content. Uses text.Textf which HTML-escapes the output.
 // Example: address.Textf("Contact %s at %s", name, email)
 // Renders: <address>Contact Mary at mary@example.com</address>
 func Textf(format string, args ...any) *element {
@@ -115,7 +115,7 @@ func Textf(format string, args ...any) *element {
 	}
 }
 
-// RawTextf Creates a new address element with formatted raw text content. Uses text.RawTextf which is not HTML-escaped.
+// RawTextf creates a new address element with formatted raw text content. Uses text.RawTextf which is not HTML-escaped.
 // Example: address.RawTextf("<a href=\"mailto:%s\">%s</a>", email, email)
 // Renders: <address><a href="mailto:mary@example.com">mary@example.com</a></address>
 func RawTextf(format string, args ...any) *element {

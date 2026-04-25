@@ -68,7 +68,7 @@ func (e *element) event() *html5.EventAttributes {
 	return e.ea
 }
 
-// New Creates a new h5 element with the given child nodes.
+// New creates a new h5 element with the given child nodes.
 // Example: h5.New(text.Text("Sub-point"))
 // Renders: <h5>Sub-point</h5>
 func New(nodes ...node.Node) *element {
@@ -77,7 +77,7 @@ func New(nodes ...node.Node) *element {
 	}
 }
 
-// Text Creates a new h5 element with text content. Uses text.Text which HTML-escapes the output.
+// Text creates a new h5 element with text content. Uses text.Text which HTML-escapes the output.
 // Example: h5.Text("Section Title")
 // Renders: <h5>Section Title</h5>
 func Text(str string) *element {
@@ -86,7 +86,7 @@ func Text(str string) *element {
 	}
 }
 
-// Static Creates a new h5 element with static text content. Uses text.Static which is not HTML-escaped and is JIT-optimisable.
+// Static creates a new h5 element with static text content. Uses text.Static which is not HTML-escaped and is JIT-optimisable.
 // Example: h5.Static("Features")
 // Renders: <h5>Features</h5>
 func Static(str string) *element {
@@ -95,7 +95,7 @@ func Static(str string) *element {
 	}
 }
 
-// RawText Creates a new h5 element with raw text content. Uses text.RawText which is not HTML-escaped.
+// RawText creates a new h5 element with raw text content. Uses text.RawText which is not HTML-escaped.
 // Example: h5.RawText("<em>Minor</em> Sub-point")
 // Renders: <h5><em>Minor</em> Sub-point</h5>
 func RawText(str string) *element {
@@ -104,7 +104,7 @@ func RawText(str string) *element {
 	}
 }
 
-// Textf Creates a new h5 element with formatted text content. Uses text.Textf which HTML-escapes the output.
+// Textf creates a new h5 element with formatted text content. Uses text.Textf which HTML-escapes the output.
 // Example: h5.Textf("Chapter %d", num)
 // Renders: <h5>Chapter 1</h5>
 func Textf(format string, args ...any) *element {
@@ -113,7 +113,7 @@ func Textf(format string, args ...any) *element {
 	}
 }
 
-// RawTextf Creates a new h5 element with formatted raw text content. Uses text.RawTextf which is not HTML-escaped.
+// RawTextf creates a new h5 element with formatted raw text content. Uses text.RawTextf which is not HTML-escaped.
 // Example: h5.RawTextf("<small>%s</small>", subtitle)
 // Renders: <h5><small>A deeper look</small></h5>
 func RawTextf(format string, args ...any) *element {

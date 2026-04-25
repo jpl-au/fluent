@@ -67,14 +67,14 @@ func (e *element) event() *html5.EventAttributes {
 	return e.ea
 }
 
-// New Creates a new col element without any initial attributes.
+// New creates a new col element without any initial attributes.
 // Example: col.New()
 // Renders: <col />
 func New() *element {
 	return &element{}
 }
 
-// Span Creates a col element that spans the given number of columns.
+// Span creates a col element that spans the given number of columns.
 // Example: col.Span(3)
 // Renders: <col span="3" />
 func Span(span int) *element {

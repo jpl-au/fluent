@@ -69,7 +69,7 @@ func (e *element) event() *html5.EventAttributes {
 	return e.ea
 }
 
-// New Creates a new small element with the given child nodes.
+// New creates a new small element with the given child nodes.
 // Example: small.New(text.Text("© 2024 Company Name"))
 // Renders: <small>© 2024 Company Name</small>
 func New(nodes ...node.Node) *element {
@@ -78,7 +78,7 @@ func New(nodes ...node.Node) *element {
 	}
 }
 
-// Text Creates a new small element with text content. Uses text.Text which HTML-escapes the output.
+// Text creates a new small element with text content. Uses text.Text which HTML-escapes the output.
 // Example: small.Text("Copyright 2024 Company Name")
 // Renders: <small>Copyright 2024 Company Name</small>
 func Text(str string) *element {
@@ -87,7 +87,7 @@ func Text(str string) *element {
 	}
 }
 
-// Static Creates a new small element with static text content. Uses text.Static which is not HTML-escaped and is JIT-optimisable.
+// Static creates a new small element with static text content. Uses text.Static which is not HTML-escaped and is JIT-optimisable.
 // Example: small.Static("All rights reserved.")
 // Renders: <small>All rights reserved.</small>
 func Static(str string) *element {
@@ -96,7 +96,7 @@ func Static(str string) *element {
 	}
 }
 
-// RawText Creates a new small element with raw text content. Uses text.RawText which is not HTML-escaped.
+// RawText creates a new small element with raw text content. Uses text.RawText which is not HTML-escaped.
 // Example: small.RawText("Copyright 2024 <em>Company</em>")
 // Renders: <small>Copyright 2024 <em>Company</em></small>
 func RawText(str string) *element {
@@ -105,7 +105,7 @@ func RawText(str string) *element {
 	}
 }
 
-// Textf Creates a new small element with formatted text content. Uses text.Textf which HTML-escapes the output.
+// Textf creates a new small element with formatted text content. Uses text.Textf which HTML-escapes the output.
 // Example: small.Textf("Copyright %d %s", year, company)
 // Renders: <small>Copyright 2024 Acme</small>
 func Textf(format string, args ...any) *element {
@@ -114,7 +114,7 @@ func Textf(format string, args ...any) *element {
 	}
 }
 
-// RawTextf Creates a new small element with formatted raw text content. Uses text.RawTextf which is not HTML-escaped.
+// RawTextf creates a new small element with formatted raw text content. Uses text.RawTextf which is not HTML-escaped.
 // Example: small.RawTextf("Copyright %d <em>%s</em>", year, company)
 // Renders: <small>Copyright 2024 <em>Acme</em></small>
 func RawTextf(format string, args ...any) *element {

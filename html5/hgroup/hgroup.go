@@ -68,7 +68,7 @@ func (e *element) event() *html5.EventAttributes {
 	return e.ea
 }
 
-// New Creates a new hgroup element with child nodes (typically a heading and subtitle paragraphs).
+// New creates a new hgroup element with child nodes (typically a heading and subtitle paragraphs).
 // Example: hgroup.New(h1.Text("Main Title"), p.Text("A subtitle"))
 // Renders: <hgroup><h1>Main Title</h1><p>A subtitle</p></hgroup>
 func New(nodes ...node.Node) *element {
@@ -77,7 +77,7 @@ func New(nodes ...node.Node) *element {
 	}
 }
 
-// Text Creates a new hgroup element with text content. Uses text.Text which HTML-escapes the output.
+// Text creates a new hgroup element with text content. Uses text.Text which HTML-escapes the output.
 // Example: hgroup.Text("Heading group")
 // Renders: <hgroup>Heading group</hgroup>
 func Text(str string) *element {
@@ -86,7 +86,7 @@ func Text(str string) *element {
 	}
 }
 
-// Static Creates a new hgroup element with static text content. Uses text.Static which is not HTML-escaped and is JIT-optimisable.
+// Static creates a new hgroup element with static text content. Uses text.Static which is not HTML-escaped and is JIT-optimisable.
 // Example: hgroup.Static("Heading group")
 // Renders: <hgroup>Heading group</hgroup>
 func Static(str string) *element {
@@ -95,7 +95,7 @@ func Static(str string) *element {
 	}
 }
 
-// RawText Creates a new hgroup element with raw text content. Uses text.RawText which is not HTML-escaped.
+// RawText creates a new hgroup element with raw text content. Uses text.RawText which is not HTML-escaped.
 // Example: hgroup.RawText("<h2>Title</h2><p>Subtitle</p>")
 // Renders: <hgroup><h2>Title</h2><p>Subtitle</p></hgroup>
 func RawText(str string) *element {
@@ -104,7 +104,7 @@ func RawText(str string) *element {
 	}
 }
 
-// Textf Creates a new hgroup element with formatted text content. Uses text.Textf which HTML-escapes the output.
+// Textf creates a new hgroup element with formatted text content. Uses text.Textf which HTML-escapes the output.
 // Example: hgroup.Textf("Section %d", num)
 // Renders: <hgroup>Section 1</hgroup>
 func Textf(format string, args ...any) *element {
@@ -113,7 +113,7 @@ func Textf(format string, args ...any) *element {
 	}
 }
 
-// RawTextf Creates a new hgroup element with formatted raw text content. Uses text.RawTextf which is not HTML-escaped.
+// RawTextf creates a new hgroup element with formatted raw text content. Uses text.RawTextf which is not HTML-escaped.
 // Example: hgroup.RawTextf("<h2>%s</h2><p>%s</p>", title, subtitle)
 // Renders: <hgroup><h2>Dashboard</h2><p>A deeper look</p></hgroup>
 func RawTextf(format string, args ...any) *element {

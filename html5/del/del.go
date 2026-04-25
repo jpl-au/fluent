@@ -69,7 +69,7 @@ func (e *element) event() *html5.EventAttributes {
 	return e.ea
 }
 
-// New Creates a new del element with optional child nodes.
+// New creates a new del element with optional child nodes.
 // Example: del.New()
 // Renders: <del></del>
 func New(nodes ...node.Node) *element {
@@ -78,7 +78,7 @@ func New(nodes ...node.Node) *element {
 	}
 }
 
-// Text Creates a new del element with text content. Uses text.Text which HTML-escapes the output.
+// Text creates a new del element with text content. Uses text.Text which HTML-escapes the output.
 // Example: del.Text("This text was deleted")
 // Renders: <del>This text was deleted</del>
 func Text(str string) *element {
@@ -87,7 +87,7 @@ func Text(str string) *element {
 	}
 }
 
-// Static Creates a new del element with static text content. Uses text.Static which is not HTML-escaped and is JIT-optimisable.
+// Static creates a new del element with static text content. Uses text.Static which is not HTML-escaped and is JIT-optimisable.
 // Example: del.Static("This feature has been removed.")
 // Renders: <del>This feature has been removed.</del>
 func Static(str string) *element {
@@ -96,7 +96,7 @@ func Static(str string) *element {
 	}
 }
 
-// RawText Creates a new del element with raw text content. Uses text.RawText which is not HTML-escaped.
+// RawText creates a new del element with raw text content. Uses text.RawText which is not HTML-escaped.
 // Example: del.RawText("<s>old price: $50</s>")
 // Renders: <del><s>old price: $50</s></del>
 func RawText(str string) *element {
@@ -105,7 +105,7 @@ func RawText(str string) *element {
 	}
 }
 
-// Textf Creates a new del element with formatted text content. Uses text.Textf which HTML-escapes the output.
+// Textf creates a new del element with formatted text content. Uses text.Textf which HTML-escapes the output.
 // Example: del.Textf("price: $%d", oldPrice)
 // Renders: <del>price: $50</del>
 func Textf(format string, args ...any) *element {
@@ -114,7 +114,7 @@ func Textf(format string, args ...any) *element {
 	}
 }
 
-// RawTextf Creates a new del element with formatted raw text content. Uses text.RawTextf which is not HTML-escaped.
+// RawTextf creates a new del element with formatted raw text content. Uses text.RawTextf which is not HTML-escaped.
 // Example: del.RawTextf("<s>%s</s>", oldText)
 // Renders: <del><s>removed</s></del>
 func RawTextf(format string, args ...any) *element {
@@ -123,7 +123,7 @@ func RawTextf(format string, args ...any) *element {
 	}
 }
 
-// Dated Creates a del element with text content and a timestamp indicating
+// Dated creates a del element with text content and a timestamp indicating
 // when the deletion occurred. Uses text.Text which HTML-escapes the output.
 // Example: del.Dated("old price: $50", "2024-01-15")
 // Renders: <del datetime="2024-01-15">old price: $50</del>
@@ -135,7 +135,7 @@ func Dated(str string, datetime string) *element {
 	return e
 }
 
-// Cited Creates a del element with text content and a URL documenting the
+// Cited creates a del element with text content and a URL documenting the
 // reason for the deletion. Uses text.Text which HTML-escapes the output.
 // Example: del.Cited("removed paragraph", "/changelog#v2.1")
 // Renders: <del cite="/changelog#v2.1">removed paragraph</del>
@@ -147,7 +147,7 @@ func Cited(str string, cite string) *element {
 	return e
 }
 
-// Full Creates a del element with text content, a citation URL, and a
+// Full creates a del element with text content, a citation URL, and a
 // timestamp. Use when recording both why and when content was deleted.
 // Uses text.Text which HTML-escapes the output.
 // Example: del.Full("old price: $50", "/changelog", "2024-01-15")

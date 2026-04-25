@@ -71,7 +71,7 @@ func (e *element) event() *html5.EventAttributes {
 	return e.ea
 }
 
-// New Creates a new label element with child nodes.
+// New creates a new label element with child nodes.
 // Example: label.New()
 // Renders: <label></label>
 func New(nodes ...node.Node) *element {
@@ -80,7 +80,7 @@ func New(nodes ...node.Node) *element {
 	}
 }
 
-// NewLabel Creates a new label element with for attribute and child nodes.
+// NewLabel creates a new label element with for attribute and child nodes.
 // Example: label.NewLabel("email")
 // Renders: <label for="email"></label>
 func NewLabel(forID string, nodes ...node.Node) *element {
@@ -90,7 +90,7 @@ func NewLabel(forID string, nodes ...node.Node) *element {
 	}
 }
 
-// For Creates a label element associated with a form control by ID, with
+// For creates a label element associated with a form control by ID, with
 // text content. The most common label pattern. Uses text.Text which
 // HTML-escapes the output.
 // Example: label.For("email", "Email Address")
@@ -102,7 +102,7 @@ func For(forID string, str string) *element {
 	}
 }
 
-// Text Creates a new label element with text content. Uses text.Text which HTML-escapes the output.
+// Text creates a new label element with text content. Uses text.Text which HTML-escapes the output.
 // Example: label.Text("Email Address")
 // Renders: <label>Email Address</label>
 func Text(str string) *element {
@@ -111,7 +111,7 @@ func Text(str string) *element {
 	}
 }
 
-// Static Creates a new label element with static text content. Uses text.Static which is not HTML-escaped and is JIT-optimisable.
+// Static creates a new label element with static text content. Uses text.Static which is not HTML-escaped and is JIT-optimisable.
 // Example: label.Static("Password")
 // Renders: <label>Password</label>
 func Static(str string) *element {
@@ -120,7 +120,7 @@ func Static(str string) *element {
 	}
 }
 
-// RawText Creates a new label element with raw text content. Uses text.RawText which is not HTML-escaped.
+// RawText creates a new label element with raw text content. Uses text.RawText which is not HTML-escaped.
 // Example: label.RawText("Email <abbr>Addr.</abbr>")
 // Renders: <label>Email <abbr>Addr.</abbr></label>
 func RawText(str string) *element {
@@ -129,7 +129,7 @@ func RawText(str string) *element {
 	}
 }
 
-// Textf Creates a new label element with formatted text content. Uses text.Textf which HTML-escapes the output.
+// Textf creates a new label element with formatted text content. Uses text.Textf which HTML-escapes the output.
 // Example: label.Textf("Enter %s", field)
 // Renders: <label>Enter Email</label>
 func Textf(format string, args ...any) *element {
@@ -138,7 +138,7 @@ func Textf(format string, args ...any) *element {
 	}
 }
 
-// RawTextf Creates a new label element with formatted raw text content. Uses text.RawTextf which is not HTML-escaped.
+// RawTextf creates a new label element with formatted raw text content. Uses text.RawTextf which is not HTML-escaped.
 // Example: label.RawTextf("<strong>%s</strong>", field)
 // Renders: <label><strong>Email</strong></label>
 func RawTextf(format string, args ...any) *element {

@@ -73,7 +73,7 @@ func (e *element) event() *html5.EventAttributes {
 	return e.ea
 }
 
-// New Creates a new fieldset element with child nodes.
+// New creates a new fieldset element with child nodes.
 // Example: fieldset.New(legend.Text("Personal details"), input.Text("name", ""))
 // Renders: <fieldset><legend>Personal details</legend><input name="name" type="text" /></fieldset>
 func New(nodes ...node.Node) *element {
@@ -82,7 +82,7 @@ func New(nodes ...node.Node) *element {
 	}
 }
 
-// Legend Creates a fieldset with a legend and form controls. The legend
+// Legend creates a fieldset with a legend and form controls. The legend
 // is rendered as the first child, labelling the group.
 // Example: fieldset.Legend("Address", input.Text("street", ""))
 // Renders: <fieldset><legend>Address</legend><input name="street" type="text" /></fieldset>
@@ -92,7 +92,7 @@ func Legend(caption string, nodes ...node.Node) *element {
 	}
 }
 
-// Disabled Creates a disabled fieldset where all descendant form controls are
+// Disabled creates a disabled fieldset where all descendant form controls are
 // inactive. The legend element and its contents are exempt from
 // disabling. Useful for sections of a form that are conditionally
 // unavailable.

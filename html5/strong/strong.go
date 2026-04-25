@@ -68,7 +68,7 @@ func (e *element) event() *html5.EventAttributes {
 	return e.ea
 }
 
-// New Creates a new strong element with optional child nodes.
+// New creates a new strong element with optional child nodes.
 // Example: strong.New()
 // Renders: <strong></strong>
 func New(nodes ...node.Node) *element {
@@ -77,7 +77,7 @@ func New(nodes ...node.Node) *element {
 	}
 }
 
-// Text Creates a new strong element with text content. Uses text.Text which HTML-escapes the output.
+// Text creates a new strong element with text content. Uses text.Text which HTML-escapes the output.
 // Example: strong.Text("Warning")
 // Renders: <strong>Warning</strong>
 func Text(content string) *element {
@@ -86,7 +86,7 @@ func Text(content string) *element {
 	}
 }
 
-// Static Creates a new strong element with static text content. Uses text.Static which is not HTML-escaped and is JIT-optimisable.
+// Static creates a new strong element with static text content. Uses text.Static which is not HTML-escaped and is JIT-optimisable.
 // Example: strong.Static("Important")
 // Renders: <strong>Important</strong>
 func Static(content string) *element {
@@ -95,7 +95,7 @@ func Static(content string) *element {
 	}
 }
 
-// RawText Creates a new strong element with raw text content. Uses text.RawText which is not HTML-escaped.
+// RawText creates a new strong element with raw text content. Uses text.RawText which is not HTML-escaped.
 // Example: strong.RawText("Do <em>not</em> proceed")
 // Renders: <strong>Do <em>not</em> proceed</strong>
 func RawText(content string) *element {
@@ -104,7 +104,7 @@ func RawText(content string) *element {
 	}
 }
 
-// Textf Creates a new strong element with formatted text content. Uses text.Textf which HTML-escapes the output.
+// Textf creates a new strong element with formatted text content. Uses text.Textf which HTML-escapes the output.
 // Example: strong.Textf("%s: action required", level)
 // Renders: <strong>Warning: action required</strong>
 func Textf(format string, args ...any) *element {
@@ -113,7 +113,7 @@ func Textf(format string, args ...any) *element {
 	}
 }
 
-// RawTextf Creates a new strong element with formatted raw text content. Uses text.RawTextf which is not HTML-escaped.
+// RawTextf creates a new strong element with formatted raw text content. Uses text.RawTextf which is not HTML-escaped.
 // Example: strong.RawTextf("<em>%s</em>: action required", level)
 // Renders: <strong><em>Warning</em>: action required</strong>
 func RawTextf(format string, args ...any) *element {

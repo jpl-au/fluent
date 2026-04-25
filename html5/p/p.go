@@ -69,7 +69,7 @@ func (e *element) event() *html5.EventAttributes {
 	return e.ea
 }
 
-// New Creates a new paragraph element with optional child nodes
+// New creates a new paragraph element with optional child nodes
 // Example: p.New(text.Text("Hello"))
 // Renders: <p>Hello</p>
 func New(nodes ...node.Node) *element {
@@ -78,7 +78,7 @@ func New(nodes ...node.Node) *element {
 	}
 }
 
-// Text Creates a new p element with text content. Uses text.Text which HTML-escapes the output.
+// Text creates a new p element with text content. Uses text.Text which HTML-escapes the output.
 // Example: p.Text("This is a paragraph.")
 // Renders: <p>This is a paragraph.</p>
 func Text(content string) *element {
@@ -87,7 +87,7 @@ func Text(content string) *element {
 	}
 }
 
-// Static Creates a new p element with static text content. Uses text.Static which is not HTML-escaped and is JIT-optimisable.
+// Static creates a new p element with static text content. Uses text.Static which is not HTML-escaped and is JIT-optimisable.
 // Example: p.Static("Welcome to the site.")
 // Renders: <p>Welcome to the site.</p>
 func Static(content string) *element {
@@ -96,7 +96,7 @@ func Static(content string) *element {
 	}
 }
 
-// RawText Creates a new p element with raw text content. Uses text.RawText which is not HTML-escaped.
+// RawText creates a new p element with raw text content. Uses text.RawText which is not HTML-escaped.
 // Example: p.RawText("Text with <em>emphasis</em>")
 // Renders: <p>Text with <em>emphasis</em></p>
 func RawText(content string) *element {
@@ -105,7 +105,7 @@ func RawText(content string) *element {
 	}
 }
 
-// Textf Creates a new p element with formatted text content. Uses text.Textf which HTML-escapes the output.
+// Textf creates a new p element with formatted text content. Uses text.Textf which HTML-escapes the output.
 // Example: p.Textf("Hello, %s!", name)
 // Renders: <p>Hello, Mary!</p>
 func Textf(format string, args ...any) *element {
@@ -114,7 +114,7 @@ func Textf(format string, args ...any) *element {
 	}
 }
 
-// RawTextf Creates a new p element with formatted raw text content. Uses text.RawTextf which is not HTML-escaped.
+// RawTextf creates a new p element with formatted raw text content. Uses text.RawTextf which is not HTML-escaped.
 // Example: p.RawTextf("Hello, <strong>%s</strong>!", name)
 // Renders: <p>Hello, <strong>Mary</strong>!</p>
 func RawTextf(format string, args ...any) *element {

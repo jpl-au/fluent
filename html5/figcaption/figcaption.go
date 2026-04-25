@@ -70,7 +70,7 @@ func (e *element) event() *html5.EventAttributes {
 	return e.ea
 }
 
-// New Creates a new figcaption element with child nodes.
+// New creates a new figcaption element with child nodes.
 // Example: figcaption.New(text.Text("An elephant at sunset"))
 // Renders: <figcaption>An elephant at sunset</figcaption>
 func New(nodes ...node.Node) *element {
@@ -79,7 +79,7 @@ func New(nodes ...node.Node) *element {
 	}
 }
 
-// Text Creates a new figcaption element with text content. Uses text.Text which HTML-escapes the output.
+// Text creates a new figcaption element with text content. Uses text.Text which HTML-escapes the output.
 // Example: figcaption.Text("An elephant at sunset")
 // Renders: <figcaption>An elephant at sunset</figcaption>
 func Text(str string) *element {
@@ -88,7 +88,7 @@ func Text(str string) *element {
 	}
 }
 
-// Static Creates a new figcaption element with static text content. Uses text.Static which is not HTML-escaped and is JIT-optimisable.
+// Static creates a new figcaption element with static text content. Uses text.Static which is not HTML-escaped and is JIT-optimisable.
 // Example: figcaption.Static("Figure 1: Architecture diagram")
 // Renders: <figcaption>Figure 1: Architecture diagram</figcaption>
 func Static(str string) *element {
@@ -97,7 +97,7 @@ func Static(str string) *element {
 	}
 }
 
-// RawText Creates a new figcaption element with raw text content. Uses text.RawText which is not HTML-escaped.
+// RawText creates a new figcaption element with raw text content. Uses text.RawText which is not HTML-escaped.
 // Example: figcaption.RawText("Photo by <cite>Jane Doe</cite>")
 // Renders: <figcaption>Photo by <cite>Jane Doe</cite></figcaption>
 func RawText(str string) *element {
@@ -106,7 +106,7 @@ func RawText(str string) *element {
 	}
 }
 
-// Textf Creates a new figcaption element with formatted text content. Uses text.Textf which HTML-escapes the output.
+// Textf creates a new figcaption element with formatted text content. Uses text.Textf which HTML-escapes the output.
 // Example: figcaption.Textf("Figure %d: %s", num, "Architecture")
 // Renders: <figcaption>Figure 1: Architecture</figcaption>
 func Textf(format string, args ...any) *element {
@@ -115,7 +115,7 @@ func Textf(format string, args ...any) *element {
 	}
 }
 
-// RawTextf Creates a new figcaption element with formatted raw text content. Uses text.RawTextf which is not HTML-escaped.
+// RawTextf creates a new figcaption element with formatted raw text content. Uses text.RawTextf which is not HTML-escaped.
 // Example: figcaption.RawTextf("Photo by <cite>%s</cite>", photographer)
 // Renders: <figcaption>Photo by <cite>Ansel Adams</cite></figcaption>
 func RawTextf(format string, args ...any) *element {

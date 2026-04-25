@@ -70,7 +70,7 @@ func (e *element) event() *html5.EventAttributes {
 	return e.ea
 }
 
-// New Creates a new dd element with child nodes.
+// New creates a new dd element with child nodes.
 // Example: dd.New(text.Text("A large feline inhabiting Bodmin Moor."))
 // Renders: <dd>A large feline inhabiting Bodmin Moor.</dd>
 func New(nodes ...node.Node) *element {
@@ -79,7 +79,7 @@ func New(nodes ...node.Node) *element {
 	}
 }
 
-// Text Creates a new dd element with text content. Uses text.Text which HTML-escapes the output.
+// Text creates a new dd element with text content. Uses text.Text which HTML-escapes the output.
 // Example: dd.Text("A large feline inhabiting Bodmin Moor.")
 // Renders: <dd>A large feline inhabiting Bodmin Moor.</dd>
 func Text(str string) *element {
@@ -88,7 +88,7 @@ func Text(str string) *element {
 	}
 }
 
-// Static Creates a new dd element with static text content. Uses text.Static which is not HTML-escaped and is JIT-optimisable.
+// Static creates a new dd element with static text content. Uses text.Static which is not HTML-escaped and is JIT-optimisable.
 // Example: dd.Static("A large feline inhabiting Bodmin Moor.")
 // Renders: <dd>A large feline inhabiting Bodmin Moor.</dd>
 func Static(str string) *element {
@@ -97,7 +97,7 @@ func Static(str string) *element {
 	}
 }
 
-// RawText Creates a new dd element with raw text content. Uses text.RawText which is not HTML-escaped.
+// RawText creates a new dd element with raw text content. Uses text.RawText which is not HTML-escaped.
 // Example: dd.RawText("A large feline inhabiting Bodmin Moor.")
 // Renders: <dd>A large feline inhabiting Bodmin Moor.</dd>
 func RawText(str string) *element {
@@ -106,7 +106,7 @@ func RawText(str string) *element {
 	}
 }
 
-// Textf Creates a new dd element with formatted text content. Uses text.Textf which HTML-escapes the output.
+// Textf creates a new dd element with formatted text content. Uses text.Textf which HTML-escapes the output.
 // Example: dd.Textf("A large feline inhabiting %s.", "Bodmin Moor")
 // Renders: <dd>A large feline inhabiting Bodmin Moor.</dd>
 func Textf(format string, args ...any) *element {
@@ -115,7 +115,7 @@ func Textf(format string, args ...any) *element {
 	}
 }
 
-// RawTextf Creates a new dd element with formatted raw text content. Uses text.RawTextf which is not HTML-escaped.
+// RawTextf creates a new dd element with formatted raw text content. Uses text.RawTextf which is not HTML-escaped.
 // Example: dd.RawTextf("A large feline inhabiting %s.", "Bodmin Moor")
 // Renders: <dd>A large feline inhabiting Bodmin Moor.</dd>
 func RawTextf(format string, args ...any) *element {

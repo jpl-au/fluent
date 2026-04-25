@@ -69,7 +69,7 @@ func (e *element) event() *html5.EventAttributes {
 	return e.ea
 }
 
-// New Creates a new footer element with the given child nodes.
+// New creates a new footer element with the given child nodes.
 // Example: footer.New(p.New(text.Text("Copyright 2023 My Website")))
 // Renders: <footer><p>Copyright 2023 My Website</p></footer>
 func New(nodes ...node.Node) *element {
@@ -78,7 +78,7 @@ func New(nodes ...node.Node) *element {
 	}
 }
 
-// Text Creates a new footer element with text content. Uses text.Text which HTML-escapes the output.
+// Text creates a new footer element with text content. Uses text.Text which HTML-escapes the output.
 // Example: footer.Text("Copyright 2024")
 // Renders: <footer>Copyright 2024</footer>
 func Text(content string) *element {
@@ -87,7 +87,7 @@ func Text(content string) *element {
 	}
 }
 
-// Static Creates a new footer element with static text content. Uses text.Static which is not HTML-escaped and is JIT-optimisable.
+// Static creates a new footer element with static text content. Uses text.Static which is not HTML-escaped and is JIT-optimisable.
 // Example: footer.Static("Copyright 2024")
 // Renders: <footer>Copyright 2024</footer>
 func Static(content string) *element {
@@ -96,7 +96,7 @@ func Static(content string) *element {
 	}
 }
 
-// RawText Creates a new footer element with raw text content. Uses text.RawText which is not HTML-escaped.
+// RawText creates a new footer element with raw text content. Uses text.RawText which is not HTML-escaped.
 // Example: footer.RawText("<small>Copyright 2024</small>")
 // Renders: <footer><small>Copyright 2024</small></footer>
 func RawText(content string) *element {
@@ -105,7 +105,7 @@ func RawText(content string) *element {
 	}
 }
 
-// Textf Creates a new footer element with formatted text content. Uses text.Textf which HTML-escapes the output.
+// Textf creates a new footer element with formatted text content. Uses text.Textf which HTML-escapes the output.
 // Example: footer.Textf("Copyright %d", year)
 // Renders: <footer>Copyright 2024</footer>
 func Textf(format string, args ...any) *element {
@@ -114,7 +114,7 @@ func Textf(format string, args ...any) *element {
 	}
 }
 
-// RawTextf Creates a new footer element with formatted raw text content. Uses text.RawTextf which is not HTML-escaped.
+// RawTextf creates a new footer element with formatted raw text content. Uses text.RawTextf which is not HTML-escaped.
 // Example: footer.RawTextf("<small>Copyright %d</small>", year)
 // Renders: <footer><small>Copyright 2024</small></footer>
 func RawTextf(format string, args ...any) *element {

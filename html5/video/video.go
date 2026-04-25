@@ -86,7 +86,7 @@ func (e *element) event() *html5.EventAttributes {
 	return e.ea
 }
 
-// New Creates a new video element with optional child nodes
+// New creates a new video element with optional child nodes
 // Example: video.New()
 // Renders: <video></video>
 func New(nodes ...node.Node) *element {
@@ -95,7 +95,7 @@ func New(nodes ...node.Node) *element {
 	}
 }
 
-// Text Creates a new video element with fallback text content. Uses text.Text which HTML-escapes the output.
+// Text creates a new video element with fallback text content. Uses text.Text which HTML-escapes the output.
 // Example: video.Text("Your browser does not support video.")
 // Renders: <video>Your browser does not support video.</video>
 func Text(content string) *element {
@@ -104,7 +104,7 @@ func Text(content string) *element {
 	}
 }
 
-// Static Creates a new video element with static fallback text content. Uses text.Static which is not HTML-escaped and is JIT-optimisable.
+// Static creates a new video element with static fallback text content. Uses text.Static which is not HTML-escaped and is JIT-optimisable.
 // Example: video.Static("Video not supported.")
 // Renders: <video>Video not supported.</video>
 func Static(content string) *element {
@@ -113,7 +113,7 @@ func Static(content string) *element {
 	}
 }
 
-// RawText Creates a new video element with raw fallback text content. Uses text.RawText which is not HTML-escaped.
+// RawText creates a new video element with raw fallback text content. Uses text.RawText which is not HTML-escaped.
 // Example: video.RawText("<p>Your browser does not support video.</p>")
 // Renders: <video><p>Your browser does not support video.</p></video>
 func RawText(content string) *element {
@@ -122,7 +122,7 @@ func RawText(content string) *element {
 	}
 }
 
-// Textf Creates a new video element with formatted fallback text content. Uses text.Textf which HTML-escapes the output.
+// Textf creates a new video element with formatted fallback text content. Uses text.Textf which HTML-escapes the output.
 // Example: video.Textf("Cannot play %s", "movie.mp4")
 // Renders: <video>Cannot play movie.mp4</video>
 func Textf(format string, args ...any) *element {
@@ -131,7 +131,7 @@ func Textf(format string, args ...any) *element {
 	}
 }
 
-// RawTextf Creates a new video element with formatted raw fallback text content. Uses text.RawTextf which is not HTML-escaped.
+// RawTextf creates a new video element with formatted raw fallback text content. Uses text.RawTextf which is not HTML-escaped.
 // Example: video.RawTextf("<p>Cannot play <strong>%s</strong></p>", "movie.mp4")
 // Renders: <video><p>Cannot play <strong>movie.mp4</strong></p></video>
 func RawTextf(format string, args ...any) *element {
@@ -140,7 +140,7 @@ func RawTextf(format string, args ...any) *element {
 	}
 }
 
-// Src Creates a new video element with src attribute and optional child nodes
+// Src creates a new video element with src attribute and optional child nodes
 // Example: video.Src("report.pdf")
 // Renders: <video src="report.pdf"></video>
 func Src(src string, nodes ...node.Node) *element {
@@ -150,7 +150,7 @@ func Src(src string, nodes ...node.Node) *element {
 	}
 }
 
-// PreloadAuto Creates a video element with preload="auto" (loads entire video)
+// PreloadAuto creates a video element with preload="auto" (loads entire video)
 // Example: video.PreloadAuto()
 // Renders: <video preload="auto"></video>
 func PreloadAuto(nodes ...node.Node) *element {
@@ -160,7 +160,7 @@ func PreloadAuto(nodes ...node.Node) *element {
 	}
 }
 
-// PreloadMetadata Creates a video element with preload="metadata" (loads only metadata)
+// PreloadMetadata creates a video element with preload="metadata" (loads only metadata)
 // Example: video.PreloadMetadata()
 // Renders: <video preload="metadata"></video>
 func PreloadMetadata(nodes ...node.Node) *element {
@@ -170,7 +170,7 @@ func PreloadMetadata(nodes ...node.Node) *element {
 	}
 }
 
-// PreloadNone Creates a video element with preload="none" (no preloading)
+// PreloadNone creates a video element with preload="none" (no preloading)
 // Example: video.PreloadNone()
 // Renders: <video preload="none"></video>
 func PreloadNone(nodes ...node.Node) *element {

@@ -69,7 +69,7 @@ func (e *element) event() *html5.EventAttributes {
 	return e.ea
 }
 
-// New Creates a new header element with the given child nodes.
+// New creates a new header element with the given child nodes.
 // Example: header.New(h1.Text("Welcome"), p.Text("A brief introduction"))
 // Renders: <header><h1>Welcome</h1><p>A brief introduction</p></header>
 func New(nodes ...node.Node) *element {
@@ -78,7 +78,7 @@ func New(nodes ...node.Node) *element {
 	}
 }
 
-// Text Creates a new header element with text content. Uses text.Text which HTML-escapes the output.
+// Text creates a new header element with text content. Uses text.Text which HTML-escapes the output.
 // Example: header.Text("Welcome")
 // Renders: <header>Welcome</header>
 func Text(content string) *element {
@@ -87,7 +87,7 @@ func Text(content string) *element {
 	}
 }
 
-// Static Creates a new header element with static text content. Uses text.Static which is not HTML-escaped and is JIT-optimisable.
+// Static creates a new header element with static text content. Uses text.Static which is not HTML-escaped and is JIT-optimisable.
 // Example: header.Static("Welcome")
 // Renders: <header>Welcome</header>
 func Static(content string) *element {
@@ -96,7 +96,7 @@ func Static(content string) *element {
 	}
 }
 
-// RawText Creates a new header element with raw text content. Uses text.RawText which is not HTML-escaped.
+// RawText creates a new header element with raw text content. Uses text.RawText which is not HTML-escaped.
 // Example: header.RawText("<h1>Welcome</h1>")
 // Renders: <header><h1>Welcome</h1></header>
 func RawText(content string) *element {
@@ -105,7 +105,7 @@ func RawText(content string) *element {
 	}
 }
 
-// Textf Creates a new header element with formatted text content. Uses text.Textf which HTML-escapes the output.
+// Textf creates a new header element with formatted text content. Uses text.Textf which HTML-escapes the output.
 // Example: header.Textf("Welcome, %s", name)
 // Renders: <header>Welcome, Mary</header>
 func Textf(format string, args ...any) *element {
@@ -114,7 +114,7 @@ func Textf(format string, args ...any) *element {
 	}
 }
 
-// RawTextf Creates a new header element with formatted raw text content. Uses text.RawTextf which is not HTML-escaped.
+// RawTextf creates a new header element with formatted raw text content. Uses text.RawTextf which is not HTML-escaped.
 // Example: header.RawTextf("<h1>%s</h1>", title)
 // Renders: <header><h1>Dashboard</h1></header>
 func RawTextf(format string, args ...any) *element {

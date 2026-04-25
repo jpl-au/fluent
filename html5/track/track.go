@@ -69,14 +69,14 @@ func (e *element) event() *html5.EventAttributes {
 	return e.ea
 }
 
-// New Creates a new track element without any initial attributes.
+// New creates a new track element without any initial attributes.
 // Example: track.New()
 // Renders: <track />
 func New() *element {
 	return &element{}
 }
 
-// Subtitles Creates a track element for subtitles (translations for foreign language content)
+// Subtitles creates a track element for subtitles (translations for foreign language content)
 // Example: track.Subtitles("english.vtt")
 // Renders: <track src="english.vtt" kind="subtitles" />
 func Subtitles(src string) *element {
@@ -86,7 +86,7 @@ func Subtitles(src string) *element {
 	}
 }
 
-// Captions Creates a track element for captions (transcriptions including sound effects for deaf/hard-of-hearing users)
+// Captions creates a track element for captions (transcriptions including sound effects for deaf/hard-of-hearing users)
 // Example: track.Captions("closed-captions.vtt")
 // Renders: <track src="closed-captions.vtt" kind="captions" />
 func Captions(src string) *element {
@@ -96,7 +96,7 @@ func Captions(src string) *element {
 	}
 }
 
-// Descriptions Creates a track element for audio descriptions (for visually impaired users)
+// Descriptions creates a track element for audio descriptions (for visually impaired users)
 // Example: track.Descriptions("audio-descriptions.vtt")
 // Renders: <track src="audio-descriptions.vtt" kind="descriptions" />
 func Descriptions(src string) *element {
@@ -106,7 +106,7 @@ func Descriptions(src string) *element {
 	}
 }
 
-// Chapters Creates a track element for chapters (navigation cues)
+// Chapters creates a track element for chapters (navigation cues)
 // Example: track.Chapters("chapter-markers.vtt")
 // Renders: <track src="chapter-markers.vtt" kind="chapters" />
 func Chapters(src string) *element {
@@ -116,7 +116,7 @@ func Chapters(src string) *element {
 	}
 }
 
-// Metadata Creates a track element for metadata (not displayed to users, used by scripts)
+// Metadata creates a track element for metadata (not displayed to users, used by scripts)
 // Example: track.Metadata("analytics-data.vtt")
 // Renders: <track src="analytics-data.vtt" kind="metadata" />
 func Metadata(src string) *element {

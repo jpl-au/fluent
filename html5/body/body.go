@@ -67,7 +67,7 @@ func (e *element) event() *html5.EventAttributes {
 	return e.ea
 }
 
-// New Creates a new body element with the given child nodes.
+// New creates a new body element with the given child nodes.
 // Example: body.New(p.New(text.Text("Hello, World!")))
 // Renders: <body><p>Hello, World!</p></body>
 func New(nodes ...node.Node) *element {

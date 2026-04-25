@@ -68,7 +68,7 @@ func (e *element) event() *html5.EventAttributes {
 	return e.ea
 }
 
-// New Creates a new thead element with child tr elements.
+// New creates a new thead element with child tr elements.
 // Example: thead.New(tr.New(th.Text("Name"), th.Text("Age")))
 // Renders: <thead><tr><th>Name</th><th>Age</th></tr></thead>
 func New(nodes ...node.Node) *element {
@@ -77,7 +77,7 @@ func New(nodes ...node.Node) *element {
 	}
 }
 
-// Rows Creates a thead from tr elements, enforcing correct nesting at compile time.
+// Rows creates a thead from tr elements, enforcing correct nesting at compile time.
 // Example: thead.Rows(tr.New(th.Text("Name"), th.Text("Age")))
 // Renders: <thead><tr><th>Name</th><th>Age</th></tr></thead>
 func Rows(rows ...*tr.Element) *element {

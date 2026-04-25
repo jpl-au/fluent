@@ -70,7 +70,7 @@ func (e *element) event() *html5.EventAttributes {
 	return e.ea
 }
 
-// New Creates a new figure element with the given child nodes.
+// New creates a new figure element with the given child nodes.
 // Example: figure.New(img.New().Src("elephant.jpg"), figcaption.New(text.Text("An elephant at sunset")))
 // Renders: <figure><img src="elephant.jpg" /><figcaption>An elephant at sunset</figcaption></figure>
 func New(nodes ...node.Node) *element {
@@ -79,7 +79,7 @@ func New(nodes ...node.Node) *element {
 	}
 }
 
-// Caption Creates a figure with a caption and content. The caption is
+// Caption creates a figure with a caption and content. The caption is
 // rendered as a figcaption element before the content nodes.
 // Example: figure.Caption("An elephant", img.New().Src("elephant.jpg"))
 // Renders: <figure><figcaption>An elephant</figcaption><img src="elephant.jpg" /></figure>

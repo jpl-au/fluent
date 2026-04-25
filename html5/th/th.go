@@ -72,7 +72,7 @@ func (e *element) event() *html5.EventAttributes {
 	return e.ea
 }
 
-// New Creates a new th element with optional child nodes.
+// New creates a new th element with optional child nodes.
 // Example: th.New()
 // Renders: <th></th>
 func New(nodes ...node.Node) *element {
@@ -81,7 +81,7 @@ func New(nodes ...node.Node) *element {
 	}
 }
 
-// Text Creates a new th element with text content. Uses text.Text which HTML-escapes the output.
+// Text creates a new th element with text content. Uses text.Text which HTML-escapes the output.
 // Example: th.Text("Name")
 // Renders: <th>Name</th>
 func Text(content string) *element {
@@ -90,7 +90,7 @@ func Text(content string) *element {
 	}
 }
 
-// Static Creates a new th element with static text content. Uses text.Static which is not HTML-escaped and is JIT-optimisable.
+// Static creates a new th element with static text content. Uses text.Static which is not HTML-escaped and is JIT-optimisable.
 // Example: th.Static("Actions")
 // Renders: <th>Actions</th>
 func Static(content string) *element {
@@ -99,7 +99,7 @@ func Static(content string) *element {
 	}
 }
 
-// RawText Creates a new th element with raw text content. Uses text.RawText which is not HTML-escaped.
+// RawText creates a new th element with raw text content. Uses text.RawText which is not HTML-escaped.
 // Example: th.RawText("<abbr title=\"Number\">#</abbr>")
 // Renders: <th><abbr title="Number">#</abbr></th>
 func RawText(content string) *element {
@@ -108,7 +108,7 @@ func RawText(content string) *element {
 	}
 }
 
-// Textf Creates a new th element with formatted text content. Uses text.Textf which HTML-escapes the output.
+// Textf creates a new th element with formatted text content. Uses text.Textf which HTML-escapes the output.
 // Example: th.Textf("Column %d", n)
 // Renders: <th>Column 3</th>
 func Textf(format string, args ...any) *element {
@@ -117,7 +117,7 @@ func Textf(format string, args ...any) *element {
 	}
 }
 
-// RawTextf Creates a new th element with formatted raw text content. Uses text.RawTextf which is not HTML-escaped.
+// RawTextf creates a new th element with formatted raw text content. Uses text.RawTextf which is not HTML-escaped.
 // Example: th.RawTextf("<abbr title=\"%s\">%s</abbr>", full, abbrev)
 // Renders: <th><abbr title="Hypertext Markup Language">HTML</abbr></th>
 func RawTextf(format string, args ...any) *element {
@@ -126,7 +126,7 @@ func RawTextf(format string, args ...any) *element {
 	}
 }
 
-// Col Creates a column header with scope="col"
+// Col creates a column header with scope="col"
 // Example: th.Col("Name")
 // Renders: <th scope="col">Name</th>
 func Col(content string) *element {
@@ -136,7 +136,7 @@ func Col(content string) *element {
 	}
 }
 
-// Row Creates a row header with scope="row"
+// Row creates a row header with scope="row"
 // Example: th.Row("Total")
 // Renders: <th scope="row">Total</th>
 func Row(content string) *element {
@@ -146,7 +146,7 @@ func Row(content string) *element {
 	}
 }
 
-// ColGroup Creates a column group header with scope="colgroup"
+// ColGroup creates a column group header with scope="colgroup"
 // Example: th.ColGroup("Sales Data")
 // Renders: <th scope="colgroup">Sales Data</th>
 func ColGroup(content string) *element {
@@ -156,7 +156,7 @@ func ColGroup(content string) *element {
 	}
 }
 
-// RowGroup Creates a row group header with scope="rowgroup"
+// RowGroup creates a row group header with scope="rowgroup"
 // Example: th.RowGroup("Q1 Results")
 // Renders: <th scope="rowgroup">Q1 Results</th>
 func RowGroup(content string) *element {

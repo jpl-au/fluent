@@ -68,7 +68,7 @@ func (e *element) event() *html5.EventAttributes {
 	return e.ea
 }
 
-// New Creates a new rt element with optional child nodes
+// New creates a new rt element with optional child nodes
 // Example: rt.New(text.Text("kan"))
 // Renders: <rt>kan</rt>
 func New(nodes ...node.Node) *element {
@@ -77,7 +77,7 @@ func New(nodes ...node.Node) *element {
 	}
 }
 
-// Text Creates a new rt element with text content. Uses text.Text which HTML-escapes the output.
+// Text creates a new rt element with text content. Uses text.Text which HTML-escapes the output.
 // Example: rt.Text("ふりがな")
 // Renders: <rt>ふりがな</rt>
 func Text(content string) *element {
@@ -86,7 +86,7 @@ func Text(content string) *element {
 	}
 }
 
-// Static Creates a new rt element with static text content. Uses text.Static which is not HTML-escaped and is JIT-optimisable.
+// Static creates a new rt element with static text content. Uses text.Static which is not HTML-escaped and is JIT-optimisable.
 // Example: rt.Static("かん")
 // Renders: <rt>かん</rt>
 func Static(content string) *element {
@@ -95,7 +95,7 @@ func Static(content string) *element {
 	}
 }
 
-// RawText Creates a new rt element with raw text content. Uses text.RawText which is not HTML-escaped.
+// RawText creates a new rt element with raw text content. Uses text.RawText which is not HTML-escaped.
 // Example: rt.RawText("<em>reading</em>")
 // Renders: <rt><em>reading</em></rt>
 func RawText(content string) *element {
@@ -104,7 +104,7 @@ func RawText(content string) *element {
 	}
 }
 
-// Textf Creates a new rt element with formatted text content. Uses text.Textf which HTML-escapes the output.
+// Textf creates a new rt element with formatted text content. Uses text.Textf which HTML-escapes the output.
 // Example: rt.Textf("%s", reading)
 // Renders: <rt>かん</rt>
 func Textf(format string, args ...any) *element {
@@ -113,7 +113,7 @@ func Textf(format string, args ...any) *element {
 	}
 }
 
-// RawTextf Creates a new rt element with formatted raw text content. Uses text.RawTextf which is not HTML-escaped.
+// RawTextf creates a new rt element with formatted raw text content. Uses text.RawTextf which is not HTML-escaped.
 // Example: rt.RawTextf("<span>%s</span>", reading)
 // Renders: <rt><span>かん</span></rt>
 func RawTextf(format string, args ...any) *element {

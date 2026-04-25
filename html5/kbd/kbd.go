@@ -69,7 +69,7 @@ func (e *element) event() *html5.EventAttributes {
 	return e.ea
 }
 
-// New Creates a new kbd element with optional child nodes.
+// New creates a new kbd element with optional child nodes.
 // Example: kbd.New()
 // Renders: <kbd></kbd>
 func New(nodes ...node.Node) *element {
@@ -78,7 +78,7 @@ func New(nodes ...node.Node) *element {
 	}
 }
 
-// Text Creates a new kbd element with text content. Uses text.Text which HTML-escapes the output.
+// Text creates a new kbd element with text content. Uses text.Text which HTML-escapes the output.
 // Example: kbd.Text("Ctrl+C")
 // Renders: <kbd>Ctrl+C</kbd>
 func Text(str string) *element {
@@ -87,7 +87,7 @@ func Text(str string) *element {
 	}
 }
 
-// Static Creates a new kbd element with static text content. Uses text.Static which is not HTML-escaped and is JIT-optimisable.
+// Static creates a new kbd element with static text content. Uses text.Static which is not HTML-escaped and is JIT-optimisable.
 // Example: kbd.Static("Enter")
 // Renders: <kbd>Enter</kbd>
 func Static(str string) *element {
@@ -96,7 +96,7 @@ func Static(str string) *element {
 	}
 }
 
-// RawText Creates a new kbd element with raw text content. Uses text.RawText which is not HTML-escaped.
+// RawText creates a new kbd element with raw text content. Uses text.RawText which is not HTML-escaped.
 // Example: kbd.RawText("<kbd>Ctrl</kbd>+<kbd>C</kbd>")
 // Renders: <kbd><kbd>Ctrl</kbd>+<kbd>C</kbd></kbd>
 func RawText(str string) *element {
@@ -105,7 +105,7 @@ func RawText(str string) *element {
 	}
 }
 
-// Textf Creates a new kbd element with formatted text content. Uses text.Textf which HTML-escapes the output.
+// Textf creates a new kbd element with formatted text content. Uses text.Textf which HTML-escapes the output.
 // Example: kbd.Textf("%s+%s", modifier, key)
 // Renders: <kbd>Ctrl+C</kbd>
 func Textf(format string, args ...any) *element {
@@ -114,7 +114,7 @@ func Textf(format string, args ...any) *element {
 	}
 }
 
-// RawTextf Creates a new kbd element with formatted raw text content. Uses text.RawTextf which is not HTML-escaped.
+// RawTextf creates a new kbd element with formatted raw text content. Uses text.RawTextf which is not HTML-escaped.
 // Example: kbd.RawTextf("<kbd>%s</kbd>+<kbd>%s</kbd>", modifier, key)
 // Renders: <kbd><kbd>Ctrl</kbd>+<kbd>C</kbd></kbd>
 func RawTextf(format string, args ...any) *element {

@@ -69,7 +69,7 @@ func (e *element) event() *html5.EventAttributes {
 	return e.ea
 }
 
-// New Creates a new colgroup element with the given child nodes (typically <col> elements).
+// New creates a new colgroup element with the given child nodes (typically <col> elements).
 // Example: colgroup.New(col.New(), col.Span(2))
 // Renders: <colgroup><col /><col span="2" /></colgroup>
 func New(nodes ...node.Node) *element {
@@ -78,7 +78,7 @@ func New(nodes ...node.Node) *element {
 	}
 }
 
-// Span Creates a colgroup that spans the given number of columns without
+// Span creates a colgroup that spans the given number of columns without
 // requiring individual col children. Use this shorthand when all
 // columns in the group share the same styling.
 // Example: colgroup.Span(3)
@@ -89,7 +89,7 @@ func Span(span int) *element {
 	}
 }
 
-// Cols Creates a colgroup from col elements, enforcing correct nesting at compile time.
+// Cols creates a colgroup from col elements, enforcing correct nesting at compile time.
 // Example: colgroup.Cols(col.New(), col.Span(2))
 // Renders: <colgroup><col /><col span="2" /></colgroup>
 func Cols(cols ...*col.Element) *element {

@@ -70,7 +70,7 @@ func (e *element) event() *html5.EventAttributes {
 	return e.ea
 }
 
-// New Creates a new optgroup element with child option elements.
+// New creates a new optgroup element with child option elements.
 // Example: optgroup.New(option.Option("red", "Red"), option.Option("blue", "Blue")).Label("Colours")
 // Renders: <optgroup label="Colours"><option value="red">Red</option><option value="blue">Blue</option></optgroup>
 func New(nodes ...node.Node) *element {
@@ -79,7 +79,7 @@ func New(nodes ...node.Node) *element {
 	}
 }
 
-// Options Creates an optgroup from option elements, enforcing correct nesting at compile time.
+// Options creates an optgroup from option elements, enforcing correct nesting at compile time.
 // Example: optgroup.Options(option.Option("red", "Red"), option.Option("blue", "Blue")).Label("Colours")
 // Renders: <optgroup label="Colours"><option value="red">Red</option><option value="blue">Blue</option></optgroup>
 func Options(options ...*option.Element) *element {
@@ -92,7 +92,7 @@ func Options(options ...*option.Element) *element {
 	}
 }
 
-// Labelled Creates a labelled optgroup from option elements, enforcing correct nesting at compile time.
+// Labelled creates a labelled optgroup from option elements, enforcing correct nesting at compile time.
 // Example: optgroup.Labelled("Colours", option.Option("red", "Red"), option.Option("blue", "Blue"))
 // Renders: <optgroup label="Colours"><option value="red">Red</option><option value="blue">Blue</option></optgroup>
 func Labelled(label string, options ...*option.Element) *element {

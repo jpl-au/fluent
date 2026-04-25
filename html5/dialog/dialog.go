@@ -71,7 +71,7 @@ func (e *element) event() *html5.EventAttributes {
 	return e.ea
 }
 
-// New Creates a new dialog element with the given child nodes.
+// New creates a new dialog element with the given child nodes.
 // Example: dialog.New(p.Text("Greetings, one and all!"))
 // Renders: <dialog><p>Greetings, one and all!</p></dialog>
 func New(nodes ...node.Node) *element {
@@ -80,7 +80,7 @@ func New(nodes ...node.Node) *element {
 	}
 }
 
-// Open Creates a non-modal dialog that is immediately visible. For modal
+// Open creates a non-modal dialog that is immediately visible. For modal
 // dialogs, use New() and call showModal() via JavaScript instead.
 // Example: dialog.Open(p.Text("This dialog is visible."))
 // Renders: <dialog open><p>This dialog is visible.</p></dialog>
@@ -91,7 +91,7 @@ func Open(nodes ...node.Node) *element {
 	}
 }
 
-// Text Creates a new dialog element with text content. Uses text.Text which HTML-escapes the output.
+// Text creates a new dialog element with text content. Uses text.Text which HTML-escapes the output.
 // Example: dialog.Text("Are you sure?")
 // Renders: <dialog>Are you sure?</dialog>
 func Text(str string) *element {
@@ -100,7 +100,7 @@ func Text(str string) *element {
 	}
 }
 
-// Static Creates a new dialog element with static text content. Uses text.Static which is not HTML-escaped and is JIT-optimisable.
+// Static creates a new dialog element with static text content. Uses text.Static which is not HTML-escaped and is JIT-optimisable.
 // Example: dialog.Static("Confirm deletion")
 // Renders: <dialog>Confirm deletion</dialog>
 func Static(str string) *element {
@@ -109,7 +109,7 @@ func Static(str string) *element {
 	}
 }
 
-// RawText Creates a new dialog element with raw text content. Uses text.RawText which is not HTML-escaped.
+// RawText creates a new dialog element with raw text content. Uses text.RawText which is not HTML-escaped.
 // Example: dialog.RawText("<p>Are you <strong>sure</strong>?</p>")
 // Renders: <dialog><p>Are you <strong>sure</strong>?</p></dialog>
 func RawText(str string) *element {
@@ -118,7 +118,7 @@ func RawText(str string) *element {
 	}
 }
 
-// Textf Creates a new dialog element with formatted text content. Uses text.Textf which HTML-escapes the output.
+// Textf creates a new dialog element with formatted text content. Uses text.Textf which HTML-escapes the output.
 // Example: dialog.Textf("Delete %s?", item)
 // Renders: <dialog>Delete report.pdf?</dialog>
 func Textf(format string, args ...any) *element {
@@ -127,7 +127,7 @@ func Textf(format string, args ...any) *element {
 	}
 }
 
-// RawTextf Creates a new dialog element with formatted raw text content. Uses text.RawTextf which is not HTML-escaped.
+// RawTextf creates a new dialog element with formatted raw text content. Uses text.RawTextf which is not HTML-escaped.
 // Example: dialog.RawTextf("<p>Delete <strong>%s</strong>?</p>", item)
 // Renders: <dialog><p>Delete <strong>report.pdf</strong>?</p></dialog>
 func RawTextf(format string, args ...any) *element {

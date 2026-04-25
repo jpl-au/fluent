@@ -70,7 +70,7 @@ func (e *element) event() *html5.EventAttributes {
 	return e.ea
 }
 
-// New Creates a new blockquote element with the given child nodes.
+// New creates a new blockquote element with the given child nodes.
 // Example: blockquote.New(p.Text("To be or not to be."))
 // Renders: <blockquote><p>To be or not to be.</p></blockquote>
 func New(nodes ...node.Node) *element {
@@ -79,7 +79,7 @@ func New(nodes ...node.Node) *element {
 	}
 }
 
-// NewCite Creates a new blockquote element with a citation URL and child nodes.
+// NewCite creates a new blockquote element with a citation URL and child nodes.
 // Example: blockquote.NewCite("https://example.com/source")
 // Renders: <blockquote cite="https://example.com/source"></blockquote>
 func NewCite(cite string, nodes ...node.Node) *element {
@@ -89,7 +89,7 @@ func NewCite(cite string, nodes ...node.Node) *element {
 	}
 }
 
-// Text Creates a new blockquote element with text content. Uses text.Text which HTML-escapes the output.
+// Text creates a new blockquote element with text content. Uses text.Text which HTML-escapes the output.
 // Example: blockquote.Text("To be or not to be.")
 // Renders: <blockquote>To be or not to be.</blockquote>
 func Text(str string) *element {
@@ -98,7 +98,7 @@ func Text(str string) *element {
 	}
 }
 
-// Textf Creates a new blockquote element with formatted text content. Uses text.Textf which HTML-escapes the output.
+// Textf creates a new blockquote element with formatted text content. Uses text.Textf which HTML-escapes the output.
 // Example: blockquote.Textf("%s once said...", name)
 // Renders: <blockquote>Mary once said...</blockquote>
 func Textf(format string, args ...any) *element {
@@ -107,7 +107,7 @@ func Textf(format string, args ...any) *element {
 	}
 }
 
-// TextCite Creates a new blockquote element with a citation URL and text content.
+// TextCite creates a new blockquote element with a citation URL and text content.
 // Example: blockquote.TextCite("https://example.com/source", "Quoted text.")
 // Renders: <blockquote cite="https://example.com/source">Quoted text.</blockquote>
 func TextCite(cite string, str string) *element {
@@ -117,7 +117,7 @@ func TextCite(cite string, str string) *element {
 	}
 }
 
-// Static Creates a new blockquote element with static text content. Uses text.Static which is not HTML-escaped and is JIT-optimisable.
+// Static creates a new blockquote element with static text content. Uses text.Static which is not HTML-escaped and is JIT-optimisable.
 // Example: blockquote.Static("Quoted text.")
 // Renders: <blockquote>Quoted text.</blockquote>
 func Static(str string) *element {
@@ -126,7 +126,7 @@ func Static(str string) *element {
 	}
 }
 
-// RawText Creates a new blockquote element with raw text content. Uses text.RawText which is not HTML-escaped.
+// RawText creates a new blockquote element with raw text content. Uses text.RawText which is not HTML-escaped.
 // Example: blockquote.RawText("<p>Quoted text.</p>")
 // Renders: <blockquote><p>Quoted text.</p></blockquote>
 func RawText(str string) *element {
@@ -135,7 +135,7 @@ func RawText(str string) *element {
 	}
 }
 
-// RawTextf Creates a new blockquote element with formatted raw text content. Uses text.RawTextf which is not HTML-escaped.
+// RawTextf creates a new blockquote element with formatted raw text content. Uses text.RawTextf which is not HTML-escaped.
 // Example: blockquote.RawTextf("<p>%s</p>", quote)
 // Renders: <blockquote><p>To be or not to be.</p></blockquote>
 func RawTextf(format string, args ...any) *element {
@@ -144,7 +144,7 @@ func RawTextf(format string, args ...any) *element {
 	}
 }
 
-// RawTextCite Creates a new blockquote element with a citation URL and raw text content as unescaped HTML.
+// RawTextCite creates a new blockquote element with a citation URL and raw text content as unescaped HTML.
 // Example: blockquote.RawTextCite("https://example.com/source", "<p>Quoted text.</p>")
 // Renders: <blockquote cite="https://example.com/source"><p>Quoted text.</p></blockquote>
 func RawTextCite(cite string, str string) *element {

@@ -75,7 +75,7 @@ func (e *element) event() *html5.EventAttributes {
 	return e.ea
 }
 
-// New Creates a new object element with optional child nodes
+// New creates a new object element with optional child nodes
 // Example: object.New()
 // Renders: <object></object>
 func New(nodes ...node.Node) *element {
@@ -84,7 +84,7 @@ func New(nodes ...node.Node) *element {
 	}
 }
 
-// Text Creates a new object element with fallback text content. Uses text.Text which HTML-escapes the output.
+// Text creates a new object element with fallback text content. Uses text.Text which HTML-escapes the output.
 // Example: object.Text("Your browser does not support embedded objects.")
 // Renders: <object>Your browser does not support embedded objects.</object>
 func Text(content string) *element {
@@ -93,7 +93,7 @@ func Text(content string) *element {
 	}
 }
 
-// Static Creates a new object element with static fallback text content. Uses text.Static which is not HTML-escaped and is JIT-optimisable.
+// Static creates a new object element with static fallback text content. Uses text.Static which is not HTML-escaped and is JIT-optimisable.
 // Example: object.Static("Loading content...")
 // Renders: <object>Loading content...</object>
 func Static(content string) *element {
@@ -102,7 +102,7 @@ func Static(content string) *element {
 	}
 }
 
-// RawText Creates a new object element with raw fallback text content. Uses text.RawText which is not HTML-escaped.
+// RawText creates a new object element with raw fallback text content. Uses text.RawText which is not HTML-escaped.
 // Example: object.RawText("<p>Fallback content</p>")
 // Renders: <object><p>Fallback content</p></object>
 func RawText(content string) *element {
@@ -111,7 +111,7 @@ func RawText(content string) *element {
 	}
 }
 
-// Textf Creates a new object element with formatted fallback text content. Uses text.Textf which HTML-escapes the output.
+// Textf creates a new object element with formatted fallback text content. Uses text.Textf which HTML-escapes the output.
 // Example: object.Textf("Cannot display %s", file)
 // Renders: <object>Cannot display report.pdf</object>
 func Textf(format string, args ...any) *element {
@@ -120,7 +120,7 @@ func Textf(format string, args ...any) *element {
 	}
 }
 
-// RawTextf Creates a new object element with formatted raw fallback text content. Uses text.RawTextf which is not HTML-escaped.
+// RawTextf creates a new object element with formatted raw fallback text content. Uses text.RawTextf which is not HTML-escaped.
 // Example: object.RawTextf("<p>Cannot display <strong>%s</strong></p>", file)
 // Renders: <object><p>Cannot display <strong>report.pdf</strong></p></object>
 func RawTextf(format string, args ...any) *element {
@@ -129,7 +129,7 @@ func RawTextf(format string, args ...any) *element {
 	}
 }
 
-// PDF Creates an object element for PDF documents
+// PDF creates an object element for PDF documents
 // Example: object.PDF("/document.pdf")
 // Renders: <object data="/document.pdf" type="application/pdf"></object>
 func PDF(data string, nodes ...node.Node) *element {
@@ -140,7 +140,7 @@ func PDF(data string, nodes ...node.Node) *element {
 	}
 }
 
-// Flash Creates an object element for Flash content (legacy)
+// Flash creates an object element for Flash content (legacy)
 // Example: object.Flash("/animation.swf")
 // Renders: <object data="/animation.swf" type="application/x-shockwave-flash"></object>
 //
@@ -153,7 +153,7 @@ func Flash(data string, nodes ...node.Node) *element {
 	}
 }
 
-// Video Creates an object element for video content
+// Video creates an object element for video content
 // Example: object.Video("/video.mp4")
 // Renders: <object data="/video.mp4" type="video/mp4"></object>
 //
@@ -166,7 +166,7 @@ func Video(data string, nodes ...node.Node) *element {
 	}
 }
 
-// Audio Creates an object element for audio content
+// Audio creates an object element for audio content
 // Example: object.Audio("/audio.mp3")
 // Renders: <object data="/audio.mp3" type="audio/mpeg"></object>
 //

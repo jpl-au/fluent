@@ -80,7 +80,7 @@ func (e *element) event() *html5.EventAttributes {
 	return e.ea
 }
 
-// New Creates a new textarea element with optional child nodes
+// New creates a new textarea element with optional child nodes
 // Example: textarea.New()
 // Renders: <textarea></textarea>
 func New(nodes ...node.Node) *element {
@@ -89,7 +89,7 @@ func New(nodes ...node.Node) *element {
 	}
 }
 
-// Text Creates a new textarea element with default text content. Uses text.Text which HTML-escapes the output.
+// Text creates a new textarea element with default text content. Uses text.Text which HTML-escapes the output.
 // Example: textarea.Text("Enter your comment...")
 // Renders: <textarea>Enter your comment...</textarea>
 func Text(content string) *element {
@@ -98,7 +98,7 @@ func Text(content string) *element {
 	}
 }
 
-// Static Creates a new textarea element with static default text content. Uses text.Static which is not HTML-escaped and is JIT-optimisable.
+// Static creates a new textarea element with static default text content. Uses text.Static which is not HTML-escaped and is JIT-optimisable.
 // Example: textarea.Static("Default value")
 // Renders: <textarea>Default value</textarea>
 func Static(content string) *element {
@@ -107,7 +107,7 @@ func Static(content string) *element {
 	}
 }
 
-// RawText Creates a new textarea element with raw default text content. Uses text.RawText which is not HTML-escaped.
+// RawText creates a new textarea element with raw default text content. Uses text.RawText which is not HTML-escaped.
 // Example: textarea.RawText("Line 1, Line 2")
 // Renders: <textarea>Line 1, Line 2</textarea>
 func RawText(content string) *element {
@@ -116,7 +116,7 @@ func RawText(content string) *element {
 	}
 }
 
-// Textf Creates a new textarea element with formatted default text content. Uses text.Textf which HTML-escapes the output.
+// Textf creates a new textarea element with formatted default text content. Uses text.Textf which HTML-escapes the output.
 // Example: textarea.Textf("Dear %s,", name)
 // Renders: <textarea>Dear Mary,</textarea>
 func Textf(format string, args ...any) *element {
@@ -125,7 +125,7 @@ func Textf(format string, args ...any) *element {
 	}
 }
 
-// RawTextf Creates a new textarea element with formatted raw default text content. Uses text.RawTextf which is not HTML-escaped.
+// RawTextf creates a new textarea element with formatted raw default text content. Uses text.RawTextf which is not HTML-escaped.
 // Example: textarea.RawTextf("<b>%s</b>", ipsum)
 // Renders: <textarea><b>ipsum dolor sit amet</b></textarea>
 func RawTextf(format string, args ...any) *element {

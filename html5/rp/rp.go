@@ -70,7 +70,7 @@ func (e *element) event() *html5.EventAttributes {
 	return e.ea
 }
 
-// New Creates a new rp element with optional child nodes.
+// New creates a new rp element with optional child nodes.
 // Example: rp.New(text.Text("("))
 // Renders: <rp>(</rp>
 func New(nodes ...node.Node) *element {
@@ -79,7 +79,7 @@ func New(nodes ...node.Node) *element {
 	}
 }
 
-// Text Creates a new rp element with text content. Uses text.Text which HTML-escapes the output.
+// Text creates a new rp element with text content. Uses text.Text which HTML-escapes the output.
 // Example: rp.Text("(")
 // Renders: <rp>(</rp>
 func Text(content string) *element {
@@ -88,7 +88,7 @@ func Text(content string) *element {
 	}
 }
 
-// Static Creates a new rp element with static text content. Uses text.Static which is not HTML-escaped and is JIT-optimisable.
+// Static creates a new rp element with static text content. Uses text.Static which is not HTML-escaped and is JIT-optimisable.
 // Example: rp.Static(")")
 // Renders: <rp>)</rp>
 func Static(content string) *element {
@@ -97,7 +97,7 @@ func Static(content string) *element {
 	}
 }
 
-// RawText Creates a new rp element with raw text content. Uses text.RawText which is not HTML-escaped.
+// RawText creates a new rp element with raw text content. Uses text.RawText which is not HTML-escaped.
 // Example: rp.RawText("<span>(</span>")
 // Renders: <rp><span>(</span></rp>
 func RawText(content string) *element {
@@ -106,7 +106,7 @@ func RawText(content string) *element {
 	}
 }
 
-// Textf Creates a new rp element with formatted text content. Uses text.Textf which HTML-escapes the output.
+// Textf creates a new rp element with formatted text content. Uses text.Textf which HTML-escapes the output.
 // Example: rp.Textf("%s", bracket)
 // Renders: <rp>(</rp>
 func Textf(format string, args ...any) *element {
@@ -115,7 +115,7 @@ func Textf(format string, args ...any) *element {
 	}
 }
 
-// RawTextf Creates a new rp element with formatted raw text content. Uses text.RawTextf which is not HTML-escaped.
+// RawTextf creates a new rp element with formatted raw text content. Uses text.RawTextf which is not HTML-escaped.
 // Example: rp.RawTextf("<span>%s</span>", bracket)
 // Renders: <rp><span>(</span></rp>
 func RawTextf(format string, args ...any) *element {

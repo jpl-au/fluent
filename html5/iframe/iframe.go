@@ -80,7 +80,7 @@ func (e *element) event() *html5.EventAttributes {
 	return e.ea
 }
 
-// New Creates a new iframe element with optional fallback content.
+// New creates a new iframe element with optional fallback content.
 // Example: iframe.New().Src("/page.html")
 // Renders: <iframe src="/page.html"></iframe>
 func New(nodes ...node.Node) *element {
@@ -89,7 +89,7 @@ func New(nodes ...node.Node) *element {
 	}
 }
 
-// Text Creates a new iframe element with fallback text content. Uses text.Text which HTML-escapes the output.
+// Text creates a new iframe element with fallback text content. Uses text.Text which HTML-escapes the output.
 // Example: iframe.Text("Your browser does not support iframes.")
 // Renders: <iframe>Your browser does not support iframes.</iframe>
 func Text(str string) *element {
@@ -98,7 +98,7 @@ func Text(str string) *element {
 	}
 }
 
-// Static Creates a new iframe element with static fallback text content. Uses text.Static which is not HTML-escaped and is JIT-optimisable.
+// Static creates a new iframe element with static fallback text content. Uses text.Static which is not HTML-escaped and is JIT-optimisable.
 // Example: iframe.Static("Loading embedded content...")
 // Renders: <iframe>Loading embedded content...</iframe>
 func Static(str string) *element {
@@ -107,7 +107,7 @@ func Static(str string) *element {
 	}
 }
 
-// RawText Creates a new iframe element with raw fallback content. Uses text.RawText which is not HTML-escaped.
+// RawText creates a new iframe element with raw fallback content. Uses text.RawText which is not HTML-escaped.
 // Example: iframe.RawText("<p>Fallback content</p>")
 // Renders: <iframe><p>Fallback content</p></iframe>
 func RawText(str string) *element {
@@ -116,7 +116,7 @@ func RawText(str string) *element {
 	}
 }
 
-// Textf Creates a new iframe element with formatted fallback text content. Uses text.Textf which HTML-escapes the output.
+// Textf creates a new iframe element with formatted fallback text content. Uses text.Textf which HTML-escapes the output.
 // Example: iframe.Textf("Loading %s...", page)
 // Renders: <iframe>Loading Home...</iframe>
 func Textf(format string, args ...any) *element {
@@ -125,7 +125,7 @@ func Textf(format string, args ...any) *element {
 	}
 }
 
-// RawTextf Creates a new iframe element with formatted raw fallback content. Uses text.RawTextf which is not HTML-escaped.
+// RawTextf creates a new iframe element with formatted raw fallback content. Uses text.RawTextf which is not HTML-escaped.
 // Example: iframe.RawTextf("<p>Loading <strong>%s</strong>...</p>", page)
 // Renders: <iframe><p>Loading <strong>Home</strong>...</p></iframe>
 func RawTextf(format string, args ...any) *element {
@@ -134,7 +134,7 @@ func RawTextf(format string, args ...any) *element {
 	}
 }
 
-// Lazy Creates an iframe element with lazy loading enabled for improved performance.
+// Lazy creates an iframe element with lazy loading enabled for improved performance.
 // Example: iframe.Lazy("/page.html")
 // Renders: <iframe src="/page.html" loading="lazy"></iframe>
 // Note: Iframe will only load when it enters or is near the viewport
@@ -145,7 +145,7 @@ func Lazy(src string) *element {
 	}
 }
 
-// Eager Creates an iframe element with eager loading for immediate content display.
+// Eager creates an iframe element with eager loading for immediate content display.
 // Example: iframe.Eager("/critical-content.html")
 // Renders: <iframe src="/critical-content.html" loading="eager"></iframe>
 // Note: Iframe loads immediately, regardless of viewport position

@@ -68,7 +68,7 @@ func (e *element) event() *html5.EventAttributes {
 	return e.ea
 }
 
-// New Creates a new tfoot element with child tr elements.
+// New creates a new tfoot element with child tr elements.
 // Example: tfoot.New(tr.New(td.Text("Total"), td.Text("100")))
 // Renders: <tfoot><tr><td>Total</td><td>100</td></tr></tfoot>
 func New(nodes ...node.Node) *element {
@@ -77,7 +77,7 @@ func New(nodes ...node.Node) *element {
 	}
 }
 
-// Rows Creates a tfoot from tr elements, enforcing correct nesting at compile time.
+// Rows creates a tfoot from tr elements, enforcing correct nesting at compile time.
 // Example: tfoot.Rows(tr.New(td.Text("Total"), td.Text("100")))
 // Renders: <tfoot><tr><td>Total</td><td>100</td></tr></tfoot>
 func Rows(rows ...*tr.Element) *element {

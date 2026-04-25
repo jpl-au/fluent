@@ -69,7 +69,7 @@ func (e *element) event() *html5.EventAttributes {
 	return e.ea
 }
 
-// New Creates a new u element with the given child nodes.
+// New creates a new u element with the given child nodes.
 // Example: u.New(text.Text("misspelled"))
 func New(nodes ...node.Node) *element {
 	return &element{
@@ -77,7 +77,7 @@ func New(nodes ...node.Node) *element {
 	}
 }
 
-// Text Creates a new u element with text content. Uses text.Text which HTML-escapes the output.
+// Text creates a new u element with text content. Uses text.Text which HTML-escapes the output.
 // Example: u.Text("misspelled word")
 // Renders: <u>misspelled word</u>
 func Text(content string) *element {
@@ -86,7 +86,7 @@ func Text(content string) *element {
 	}
 }
 
-// Static Creates a new u element with static text content. Uses text.Static which is not HTML-escaped and is JIT-optimisable.
+// Static creates a new u element with static text content. Uses text.Static which is not HTML-escaped and is JIT-optimisable.
 // Example: u.Static("proper noun")
 // Renders: <u>proper noun</u>
 func Static(content string) *element {
@@ -95,7 +95,7 @@ func Static(content string) *element {
 	}
 }
 
-// RawText Creates a new u element with raw text content. Uses text.RawText which is not HTML-escaped.
+// RawText creates a new u element with raw text content. Uses text.RawText which is not HTML-escaped.
 // Example: u.RawText("<em>annotated</em> text")
 // Renders: <u><em>annotated</em> text</u>
 func RawText(content string) *element {
@@ -104,7 +104,7 @@ func RawText(content string) *element {
 	}
 }
 
-// Textf Creates a new u element with formatted text content. Uses text.Textf which HTML-escapes the output.
+// Textf creates a new u element with formatted text content. Uses text.Textf which HTML-escapes the output.
 // Example: u.Textf("%s", word)
 // Renders: <u>emphasis</u>
 func Textf(format string, args ...any) *element {
@@ -113,7 +113,7 @@ func Textf(format string, args ...any) *element {
 	}
 }
 
-// RawTextf Creates a new u element with formatted raw text content. Uses text.RawTextf which is not HTML-escaped.
+// RawTextf creates a new u element with formatted raw text content. Uses text.RawTextf which is not HTML-escaped.
 // Example: u.RawTextf("<em>%s</em>", word)
 // Renders: <u><em>emphasis</em></u>
 func RawTextf(format string, args ...any) *element {

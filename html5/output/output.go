@@ -71,7 +71,7 @@ func (e *element) event() *html5.EventAttributes {
 	return e.ea
 }
 
-// New Creates a new output element with optional child nodes
+// New creates a new output element with optional child nodes
 // Example: output.New()
 // Renders: <output></output>
 func New(nodes ...node.Node) *element {
@@ -80,7 +80,7 @@ func New(nodes ...node.Node) *element {
 	}
 }
 
-// Text Creates a new output element with text content. Uses text.Text which HTML-escapes the output.
+// Text creates a new output element with text content. Uses text.Text which HTML-escapes the output.
 // Example: output.Text("Result: 42")
 // Renders: <output>Result: 42</output>
 func Text(content string) *element {
@@ -89,7 +89,7 @@ func Text(content string) *element {
 	}
 }
 
-// Static Creates a new output element with static text content. Uses text.Static which is not HTML-escaped and is JIT-optimisable.
+// Static creates a new output element with static text content. Uses text.Static which is not HTML-escaped and is JIT-optimisable.
 // Example: output.Static("0")
 // Renders: <output>0</output>
 func Static(content string) *element {
@@ -98,7 +98,7 @@ func Static(content string) *element {
 	}
 }
 
-// RawText Creates a new output element with raw text content. Uses text.RawText which is not HTML-escaped.
+// RawText creates a new output element with raw text content. Uses text.RawText which is not HTML-escaped.
 // Example: output.RawText("<strong>100</strong>")
 // Renders: <output><strong>100</strong></output>
 func RawText(content string) *element {
@@ -107,7 +107,7 @@ func RawText(content string) *element {
 	}
 }
 
-// Textf Creates a new output element with formatted text content. Uses text.Textf which HTML-escapes the output.
+// Textf creates a new output element with formatted text content. Uses text.Textf which HTML-escapes the output.
 // Example: output.Textf("Result: %d", total)
 // Renders: <output>Result: 10</output>
 func Textf(format string, args ...any) *element {
@@ -116,7 +116,7 @@ func Textf(format string, args ...any) *element {
 	}
 }
 
-// RawTextf Creates a new output element with formatted raw text content. Uses text.RawTextf which is not HTML-escaped.
+// RawTextf creates a new output element with formatted raw text content. Uses text.RawTextf which is not HTML-escaped.
 // Example: output.RawTextf("<strong>%d</strong>", total)
 // Renders: <output><strong>10</strong></output>
 func RawTextf(format string, args ...any) *element {

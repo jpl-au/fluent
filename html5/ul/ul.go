@@ -68,7 +68,7 @@ func (e *element) event() *html5.EventAttributes {
 	return e.ea
 }
 
-// New Creates a new unordered list element with optional child nodes (typically li elements).
+// New creates a new unordered list element with optional child nodes (typically li elements).
 // Example: ul.New()
 // Renders: <ul></ul>
 func New(nodes ...node.Node) *element {
@@ -77,7 +77,7 @@ func New(nodes ...node.Node) *element {
 	}
 }
 
-// Items Creates an unordered list from li elements, enforcing correct nesting at compile time.
+// Items creates an unordered list from li elements, enforcing correct nesting at compile time.
 // Example: ul.Items(li.Text("one"), li.Text("two"))
 // Renders: <ul><li>one</li><li>two</li></ul>
 func Items(items ...*li.Element) *element {

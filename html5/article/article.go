@@ -70,7 +70,7 @@ func (e *element) event() *html5.EventAttributes {
 	return e.ea
 }
 
-// New Creates a new article element with optional child nodes
+// New creates a new article element with optional child nodes
 // Example: article.New()
 // Renders: <article></article>
 func New(nodes ...node.Node) *element {
@@ -79,7 +79,7 @@ func New(nodes ...node.Node) *element {
 	}
 }
 
-// Text Creates a new article element with text content. Uses text.Text which HTML-escapes the output.
+// Text creates a new article element with text content. Uses text.Text which HTML-escapes the output.
 // Example: article.Text("This is an article")
 // Renders: <article>This is an article</article>
 func Text(str string) *element {
@@ -88,7 +88,7 @@ func Text(str string) *element {
 	}
 }
 
-// Static Creates a new article element with static text content. Uses text.Static which is not HTML-escaped and is JIT-optimisable.
+// Static creates a new article element with static text content. Uses text.Static which is not HTML-escaped and is JIT-optimisable.
 // Example: article.Static("Breaking News")
 // Renders: <article>Breaking News</article>
 func Static(str string) *element {
@@ -97,7 +97,7 @@ func Static(str string) *element {
 	}
 }
 
-// RawText Creates a new article element with raw text content. Uses text.RawText which is not HTML-escaped.
+// RawText creates a new article element with raw text content. Uses text.RawText which is not HTML-escaped.
 // Example: article.RawText("<h2>Title</h2><p>Content</p>")
 // Renders: <article><h2>Title</h2><p>Content</p></article>
 func RawText(str string) *element {
@@ -106,7 +106,7 @@ func RawText(str string) *element {
 	}
 }
 
-// Textf Creates a new article element with formatted text content. Uses text.Textf which HTML-escapes the output.
+// Textf creates a new article element with formatted text content. Uses text.Textf which HTML-escapes the output.
 // Example: article.Textf("Article by %s", name)
 // Renders: <article>Article by Mary</article>
 func Textf(format string, args ...any) *element {
@@ -115,7 +115,7 @@ func Textf(format string, args ...any) *element {
 	}
 }
 
-// RawTextf Creates a new article element with formatted raw text content. Uses text.RawTextf which is not HTML-escaped.
+// RawTextf creates a new article element with formatted raw text content. Uses text.RawTextf which is not HTML-escaped.
 // Example: article.RawTextf("<h2>%s</h2>", headline)
 // Renders: <article><h2>Breaking News</h2></article>
 func RawTextf(format string, args ...any) *element {

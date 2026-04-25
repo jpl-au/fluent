@@ -70,7 +70,7 @@ func (e *element) event() *html5.EventAttributes {
 	return e.ea
 }
 
-// New Creates a new span element with optional child nodes.
+// New creates a new span element with optional child nodes.
 // Example: span.New()
 // Renders: <span></span>
 func New(nodes ...node.Node) *element {
@@ -79,7 +79,7 @@ func New(nodes ...node.Node) *element {
 	}
 }
 
-// Text Creates a new span element with text content. Uses text.Text which HTML-escapes the output.
+// Text creates a new span element with text content. Uses text.Text which HTML-escapes the output.
 // Example: span.Text("Status: Active")
 // Renders: <span>Status: Active</span>
 func Text(content string) *element {
@@ -88,7 +88,7 @@ func Text(content string) *element {
 	}
 }
 
-// Static Creates a new span element with static text content. Uses text.Static which is not HTML-escaped and is JIT-optimisable.
+// Static creates a new span element with static text content. Uses text.Static which is not HTML-escaped and is JIT-optimisable.
 // Example: span.Static("Label")
 // Renders: <span>Label</span>
 func Static(content string) *element {
@@ -97,7 +97,7 @@ func Static(content string) *element {
 	}
 }
 
-// RawText Creates a new span element with raw text content. Uses text.RawText which is not HTML-escaped.
+// RawText creates a new span element with raw text content. Uses text.RawText which is not HTML-escaped.
 // Example: span.RawText("Hello <b>World</b>")
 // Renders: <span>Hello <b>World</b></span>
 func RawText(content string) *element {
@@ -106,7 +106,7 @@ func RawText(content string) *element {
 	}
 }
 
-// Textf Creates a new span element with formatted text content. Uses text.Textf which HTML-escapes the output.
+// Textf creates a new span element with formatted text content. Uses text.Textf which HTML-escapes the output.
 // Example: span.Textf("Count: %d", n)
 // Renders: <span>Count: 3</span>
 func Textf(format string, args ...any) *element {
@@ -115,7 +115,7 @@ func Textf(format string, args ...any) *element {
 	}
 }
 
-// RawTextf Creates a new span element with formatted raw text content. Uses text.RawTextf which is not HTML-escaped.
+// RawTextf creates a new span element with formatted raw text content. Uses text.RawTextf which is not HTML-escaped.
 // Example: span.RawTextf("<b>%s</b>", label)
 // Renders: <span><b>Name</b></span>
 func RawTextf(format string, args ...any) *element {

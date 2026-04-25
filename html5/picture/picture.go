@@ -70,7 +70,7 @@ func (e *element) event() *html5.EventAttributes {
 	return e.ea
 }
 
-// New Creates a new picture element with source and img child elements.
+// New creates a new picture element with source and img child elements.
 // Example: picture.New(source.ImageWebP("photo.webp"), img.Src("photo.jpg"))
 // Renders: <picture><source srcset="photo.webp" type="image/webp"><img src="photo.jpg"></picture>
 func New(nodes ...node.Node) *element {

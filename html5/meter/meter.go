@@ -73,7 +73,7 @@ func (e *element) event() *html5.EventAttributes {
 	return e.ea
 }
 
-// New Creates a new meter element with optional child nodes
+// New creates a new meter element with optional child nodes
 // Example: meter.New()
 // Renders: <meter></meter>
 func New(nodes ...node.Node) *element {
@@ -82,7 +82,7 @@ func New(nodes ...node.Node) *element {
 	}
 }
 
-// Text Creates a new meter element with fallback text content. Uses text.Text which HTML-escapes the output.
+// Text creates a new meter element with fallback text content. Uses text.Text which HTML-escapes the output.
 // Example: meter.Text("6 out of 10")
 // Renders: <meter>6 out of 10</meter>
 func Text(str string) *element {
@@ -91,7 +91,7 @@ func Text(str string) *element {
 	}
 }
 
-// Static Creates a new meter element with static fallback text content. Uses text.Static which is not HTML-escaped and is JIT-optimisable.
+// Static creates a new meter element with static fallback text content. Uses text.Static which is not HTML-escaped and is JIT-optimisable.
 // Example: meter.Static("75%")
 // Renders: <meter>75%</meter>
 func Static(str string) *element {
@@ -100,7 +100,7 @@ func Static(str string) *element {
 	}
 }
 
-// RawText Creates a new meter element with raw fallback text content. Uses text.RawText which is not HTML-escaped.
+// RawText creates a new meter element with raw fallback text content. Uses text.RawText which is not HTML-escaped.
 // Example: meter.RawText("<strong>6</strong> out of 10")
 // Renders: <meter><strong>6</strong> out of 10</meter>
 func RawText(str string) *element {
@@ -109,7 +109,7 @@ func RawText(str string) *element {
 	}
 }
 
-// Textf Creates a new meter element with formatted fallback text content. Uses text.Textf which HTML-escapes the output.
+// Textf creates a new meter element with formatted fallback text content. Uses text.Textf which HTML-escapes the output.
 // Example: meter.Textf("%d out of %d", current, total)
 // Renders: <meter>7 out of 10</meter>
 func Textf(format string, args ...any) *element {
@@ -118,7 +118,7 @@ func Textf(format string, args ...any) *element {
 	}
 }
 
-// RawTextf Creates a new meter element with formatted raw fallback text content. Uses text.RawTextf which is not HTML-escaped.
+// RawTextf creates a new meter element with formatted raw fallback text content. Uses text.RawTextf which is not HTML-escaped.
 // Example: meter.RawTextf("<strong>%d</strong> out of %d", current, total)
 // Renders: <meter><strong>7</strong> out of 10</meter>
 func RawTextf(format string, args ...any) *element {
@@ -127,7 +127,7 @@ func RawTextf(format string, args ...any) *element {
 	}
 }
 
-// ValueMax Creates a new meter element with value and max attributes
+// ValueMax creates a new meter element with value and max attributes
 // Example: meter.ValueMax(6, 10)
 // Renders: <meter value="6" max="10"></meter>
 func ValueMax(value float64, max float64, nodes ...node.Node) *element {

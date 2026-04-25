@@ -71,7 +71,7 @@ func (e *element) event() *html5.EventAttributes {
 	return e.ea
 }
 
-// New Creates a new b element with the given child nodes.
+// New creates a new b element with the given child nodes.
 // Example: b.New(text.Text("This text is important."))
 // Renders: <b>This text is important.</b>
 func New(nodes ...node.Node) *element {
@@ -80,7 +80,7 @@ func New(nodes ...node.Node) *element {
 	}
 }
 
-// Text Creates a new b element with text content. Uses text.Text which HTML-escapes the output.
+// Text creates a new b element with text content. Uses text.Text which HTML-escapes the output.
 // Example: b.Text("Important")
 // Renders: <b>Important</b>
 func Text(str string) *element {
@@ -89,7 +89,7 @@ func Text(str string) *element {
 	}
 }
 
-// Static Creates a new b element with static text content. Uses text.Static which is not HTML-escaped and is JIT-optimisable.
+// Static creates a new b element with static text content. Uses text.Static which is not HTML-escaped and is JIT-optimisable.
 // Example: b.Static("Note")
 // Renders: <b>Note</b>
 func Static(str string) *element {
@@ -98,7 +98,7 @@ func Static(str string) *element {
 	}
 }
 
-// RawText Creates a new b element with raw text content. Uses text.RawText which is not HTML-escaped.
+// RawText creates a new b element with raw text content. Uses text.RawText which is not HTML-escaped.
 // Example: b.RawText("<em>This text</em> is important.")
 // Renders: <b><em>This text</em> is important.</b>
 func RawText(str string) *element {
@@ -107,7 +107,7 @@ func RawText(str string) *element {
 	}
 }
 
-// Textf Creates a new b element with formatted text content. Uses text.Textf which HTML-escapes the output.
+// Textf creates a new b element with formatted text content. Uses text.Textf which HTML-escapes the output.
 // Example: b.Textf("Hello %s", "World")
 // Renders: <b>Hello World</b>
 func Textf(format string, args ...any) *element {
@@ -116,7 +116,7 @@ func Textf(format string, args ...any) *element {
 	}
 }
 
-// RawTextf Creates a new b element with formatted raw text content. Uses text.RawTextf which is not HTML-escaped.
+// RawTextf creates a new b element with formatted raw text content. Uses text.RawTextf which is not HTML-escaped.
 // Example: b.RawTextf("Hello <em>%s</em>", "World")
 // Renders: <b>Hello <em>World</em></b>
 func RawTextf(format string, args ...any) *element {

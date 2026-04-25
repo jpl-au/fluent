@@ -86,7 +86,7 @@ func (e *element) event() *html5.EventAttributes {
 	return e.ea
 }
 
-// New Creates a new form element with child nodes.
+// New creates a new form element with child nodes.
 // Example: form.New(input.Text("name", ""), button.Submit("Send"))
 // Renders: <form><input name="name" type="text" /><button type="submit">Send</button></form>
 func New(nodes ...node.Node) *element {
@@ -95,7 +95,7 @@ func New(nodes ...node.Node) *element {
 	}
 }
 
-// Get Creates a form with GET method and specified action URL. Use for
+// Get creates a form with GET method and specified action URL. Use for
 // search forms and other idempotent queries where the data appears
 // in the URL.
 // Example: form.Get("/search", input.Text("q", ""))
@@ -108,7 +108,7 @@ func Get(action string, nodes ...node.Node) *element {
 	}
 }
 
-// Post Creates a form with POST method and specified action URL. Use for
+// Post creates a form with POST method and specified action URL. Use for
 // forms that modify data on the server (login, registration,
 // creating records).
 // Example: form.Post("/login", input.Email("email"), input.Password("password"))
@@ -121,7 +121,7 @@ func Post(action string, nodes ...node.Node) *element {
 	}
 }
 
-// Dialog Creates a form with method="dialog" that closes the nearest
+// Dialog creates a form with method="dialog" that closes the nearest
 // ancestor dialog element when submitted. The form's return value
 // is set to the value of the submit button used.
 // Example: form.Dialog(button.Submit("Confirm"), button.Button("Cancel"))

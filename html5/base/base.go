@@ -70,14 +70,14 @@ func (e *element) event() *html5.EventAttributes {
 	return e.ea
 }
 
-// New Creates a new base element without any initial attributes.
+// New creates a new base element without any initial attributes.
 // Example: base.New().Href("/docs/")
 // Renders: <base href="/docs/" />
 func New() *element {
 	return &element{}
 }
 
-// URL Creates a base element with the specified base URL.
+// URL creates a base element with the specified base URL.
 // Example: base.URL("/docs/")
 // Renders: <base href="/docs/" />
 func URL(href string) *element {

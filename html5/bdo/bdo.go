@@ -71,7 +71,7 @@ func (e *element) event() *html5.EventAttributes {
 	return e.ea
 }
 
-// New Creates a new bdo element with child nodes.
+// New creates a new bdo element with child nodes.
 // Example: bdo.New(text.Text("Hello"))
 // Renders: <bdo>Hello</bdo>
 func New(nodes ...node.Node) *element {
@@ -80,7 +80,7 @@ func New(nodes ...node.Node) *element {
 	}
 }
 
-// Text Creates a new bdo element with text content (HTML-encoded).
+// Text creates a new bdo element with text content (HTML-encoded).
 // Example: bdo.Text("Hello World").Dir(dir.RightToLeft)
 // Renders: <bdo dir="rtl">Hello World</bdo>
 func Text(str string) *element {
@@ -89,7 +89,7 @@ func Text(str string) *element {
 	}
 }
 
-// Static Creates a new bdo element with static text content.
+// Static creates a new bdo element with static text content.
 // Example: bdo.Static("ABC").Dir(dir.LeftToRight)
 // Renders: <bdo dir="ltr">ABC</bdo>
 func Static(str string) *element {
@@ -98,7 +98,7 @@ func Static(str string) *element {
 	}
 }
 
-// RawText Creates a new bdo element with raw text content as unescaped HTML.
+// RawText creates a new bdo element with raw text content as unescaped HTML.
 // Example: bdo.RawText("<em>Text</em>").Dir(dir.RightToLeft)
 // Renders: <bdo dir="rtl"><em>Text</em></bdo>
 func RawText(str string) *element {
@@ -107,7 +107,7 @@ func RawText(str string) *element {
 	}
 }
 
-// Textf Creates a new bdo element with formatted text content using text.Textf.
+// Textf creates a new bdo element with formatted text content using text.Textf.
 // Example: bdo.Textf("Hello %s", "World").Dir(dir.RightToLeft)
 // Renders: <bdo dir="rtl">Hello World</bdo>
 func Textf(format string, args ...any) *element {
@@ -116,7 +116,7 @@ func Textf(format string, args ...any) *element {
 	}
 }
 
-// RawTextf Creates a new bdo element with formatted raw text content as unescaped HTML using text.RawTextf.
+// RawTextf creates a new bdo element with formatted raw text content as unescaped HTML using text.RawTextf.
 // Example: bdo.RawTextf("<strong>%s</strong>", "Text").Dir(dir.RightToLeft)
 // Renders: <bdo dir="rtl"><strong>Text</strong></bdo>
 func RawTextf(format string, args ...any) *element {

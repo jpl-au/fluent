@@ -69,7 +69,7 @@ func (e *element) event() *html5.EventAttributes {
 	return e.ea
 }
 
-// New Creates a new data element with the given child nodes.
+// New creates a new data element with the given child nodes.
 // Example: data.New(text.Text("Mini Ketchup"))
 // Renders: <data>Mini Ketchup</data>
 func New(nodes ...node.Node) *element {
@@ -78,7 +78,7 @@ func New(nodes ...node.Node) *element {
 	}
 }
 
-// Data Creates a new data element with a machine-readable value and human-readable text content
+// Data creates a new data element with a machine-readable value and human-readable text content
 // Example: data.Data("398", "Mini Ketchup")
 // Renders: <data value="398">Mini Ketchup</data>
 func Data(value string, str string) *element {
@@ -88,7 +88,7 @@ func Data(value string, str string) *element {
 	}
 }
 
-// Text Creates a new data element with text content (HTML-encoded).
+// Text creates a new data element with text content (HTML-encoded).
 // Example: data.Text("<b>Mini Ketchup</b>")
 // Renders: <data>&lt;b&gt;Mini Ketchup&lt;/b&gt;</data>
 func Text(str string) *element {
@@ -97,7 +97,7 @@ func Text(str string) *element {
 	}
 }
 
-// Static Creates a new data element with static text content.
+// Static creates a new data element with static text content.
 // Example: data.Static("Hello World")
 // Renders: <data>Hello World</data>
 func Static(str string) *element {
@@ -106,7 +106,7 @@ func Static(str string) *element {
 	}
 }
 
-// RawText Creates a new data element with raw text content as unescaped HTML.
+// RawText creates a new data element with raw text content as unescaped HTML.
 // Example: data.RawText("<b>Mini Ketchup</b>")
 // Renders: <data><b>Mini Ketchup</b></data>
 func RawText(str string) *element {
@@ -115,7 +115,7 @@ func RawText(str string) *element {
 	}
 }
 
-// Textf Creates a new data element with formatted text content using text.Textf.
+// Textf creates a new data element with formatted text content using text.Textf.
 // Example: data.Textf("Hello %s", "World")
 // Renders: <data>Hello World</data>
 func Textf(format string, args ...any) *element {
@@ -124,7 +124,7 @@ func Textf(format string, args ...any) *element {
 	}
 }
 
-// RawTextf Creates a new data element with formatted raw text content as unescaped HTML using text.RawTextf.
+// RawTextf creates a new data element with formatted raw text content as unescaped HTML using text.RawTextf.
 // Example: data.RawTextf("Hello <em>%s</em>", "World")
 // Renders: <data>Hello <em>World</em></data>
 func RawTextf(format string, args ...any) *element {

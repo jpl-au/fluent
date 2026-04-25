@@ -83,7 +83,7 @@ func (e *element) event() *html5.EventAttributes {
 	return e.ea
 }
 
-// New Creates a new audio element without any initial attributes.
+// New creates a new audio element without any initial attributes.
 // Example: audio.New()
 // Renders: <audio></audio>
 func New(nodes ...node.Node) *element {
@@ -92,7 +92,7 @@ func New(nodes ...node.Node) *element {
 	}
 }
 
-// Fallback Creates a new audio element with fallback text content for unsupported browsers.
+// Fallback creates a new audio element with fallback text content for unsupported browsers.
 // Example: audio.Fallback("Your browser does not support audio.")
 // Renders: <audio>Your browser does not support audio.</audio>
 func Fallback(fallback string) *element {
@@ -101,7 +101,7 @@ func Fallback(fallback string) *element {
 	}
 }
 
-// Sources Creates a new audio element with multiple <source> child elements.
+// Sources creates a new audio element with multiple <source> child elements.
 // Example: audio.Sources(source.AudioMP3("/music/song.mp3"), source.AudioOgg("/music/song.ogg"))
 // Renders: <audio><source src="/music/song.mp3" type="audio/mpeg" /><source src="/music/song.ogg" type="audio/ogg" /></audio>
 func Sources(sources ...node.Node) *element {
@@ -110,7 +110,7 @@ func Sources(sources ...node.Node) *element {
 	}
 }
 
-// Src Creates an audio element that loads a single audio source.
+// Src creates an audio element that loads a single audio source.
 // Example: audio.Src("/music/song.mp3")
 // Renders: <audio src="/music/song.mp3"></audio>
 func Src(src string) *element {
@@ -119,7 +119,7 @@ func Src(src string) *element {
 	}
 }
 
-// PreloadAuto Creates an audio element with preload="auto" (loads entire audio).
+// PreloadAuto creates an audio element with preload="auto" (loads entire audio).
 // Example: audio.PreloadAuto()
 // Renders: <audio preload="auto"></audio>
 func PreloadAuto(nodes ...node.Node) *element {
@@ -129,7 +129,7 @@ func PreloadAuto(nodes ...node.Node) *element {
 	}
 }
 
-// PreloadMetadata Creates an audio element with preload="metadata" (loads only metadata).
+// PreloadMetadata creates an audio element with preload="metadata" (loads only metadata).
 // Example: audio.PreloadMetadata()
 // Renders: <audio preload="metadata"></audio>
 func PreloadMetadata(nodes ...node.Node) *element {
@@ -139,7 +139,7 @@ func PreloadMetadata(nodes ...node.Node) *element {
 	}
 }
 
-// PreloadNone Creates an audio element with preload="none" (no preloading).
+// PreloadNone creates an audio element with preload="none" (no preloading).
 // Example: audio.PreloadNone()
 // Renders: <audio preload="none"></audio>
 func PreloadNone(nodes ...node.Node) *element {

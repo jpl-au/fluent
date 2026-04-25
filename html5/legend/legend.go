@@ -67,7 +67,7 @@ func (e *element) event() *html5.EventAttributes {
 	return e.ea
 }
 
-// New Creates a new legend element with optional child nodes.
+// New creates a new legend element with optional child nodes.
 // Example: legend.New()
 // Renders: <legend></legend>
 func New(nodes ...node.Node) *element {
@@ -76,7 +76,7 @@ func New(nodes ...node.Node) *element {
 	}
 }
 
-// Text Creates a new legend element with text content. Uses text.Text which HTML-escapes the output.
+// Text creates a new legend element with text content. Uses text.Text which HTML-escapes the output.
 // Example: legend.Text("Personal Information")
 // Renders: <legend>Personal Information</legend>
 func Text(str string) *element {
@@ -85,7 +85,7 @@ func Text(str string) *element {
 	}
 }
 
-// Static Creates a new legend element with static text content. Uses text.Static which is not HTML-escaped and is JIT-optimisable.
+// Static creates a new legend element with static text content. Uses text.Static which is not HTML-escaped and is JIT-optimisable.
 // Example: legend.Static("Account Settings")
 // Renders: <legend>Account Settings</legend>
 func Static(str string) *element {
@@ -94,7 +94,7 @@ func Static(str string) *element {
 	}
 }
 
-// RawText Creates a new legend element with raw text content. Uses text.RawText which is not HTML-escaped.
+// RawText creates a new legend element with raw text content. Uses text.RawText which is not HTML-escaped.
 // Example: legend.RawText("<span class=\"required\">*</span> Personal Information")
 // Renders: <legend><span class="required">*</span> Personal Information</legend>
 func RawText(str string) *element {
@@ -103,7 +103,7 @@ func RawText(str string) *element {
 	}
 }
 
-// Textf Creates a new legend element with formatted text content. Uses text.Textf which HTML-escapes the output.
+// Textf creates a new legend element with formatted text content. Uses text.Textf which HTML-escapes the output.
 // Example: legend.Textf("Step %d: %s", step, "Details")
 // Renders: <legend>Step 1: Details</legend>
 func Textf(format string, args ...any) *element {
@@ -112,7 +112,7 @@ func Textf(format string, args ...any) *element {
 	}
 }
 
-// RawTextf Creates a new legend element with formatted raw text content. Uses text.RawTextf which is not HTML-escaped.
+// RawTextf creates a new legend element with formatted raw text content. Uses text.RawTextf which is not HTML-escaped.
 // Example: legend.RawTextf("<span class=\"step\">%d</span> %s", step, "Details")
 // Renders: <legend><span class="step">1</span> Details</legend>
 func RawTextf(format string, args ...any) *element {

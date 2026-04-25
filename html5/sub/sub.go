@@ -68,7 +68,7 @@ func (e *element) event() *html5.EventAttributes {
 	return e.ea
 }
 
-// New Creates a new sub element with the given child nodes.
+// New creates a new sub element with the given child nodes.
 // Example: sub.New(text.Text("2"))
 // Renders: <sub>2</sub>
 func New(nodes ...node.Node) *element {
@@ -77,7 +77,7 @@ func New(nodes ...node.Node) *element {
 	}
 }
 
-// Text Creates a new sub element with text content. Uses text.Text which HTML-escapes the output.
+// Text creates a new sub element with text content. Uses text.Text which HTML-escapes the output.
 // Example: sub.Text("2")
 // Renders: <sub>2</sub>
 func Text(content string) *element {
@@ -86,7 +86,7 @@ func Text(content string) *element {
 	}
 }
 
-// Static Creates a new sub element with static text content. Uses text.Static which is not HTML-escaped and is JIT-optimisable.
+// Static creates a new sub element with static text content. Uses text.Static which is not HTML-escaped and is JIT-optimisable.
 // Example: sub.Static("n")
 // Renders: <sub>n</sub>
 func Static(content string) *element {
@@ -95,7 +95,7 @@ func Static(content string) *element {
 	}
 }
 
-// RawText Creates a new sub element with raw text content. Uses text.RawText which is not HTML-escaped.
+// RawText creates a new sub element with raw text content. Uses text.RawText which is not HTML-escaped.
 // Example: sub.RawText("<var>i</var>")
 // Renders: <sub><var>i</var></sub>
 func RawText(content string) *element {
@@ -104,7 +104,7 @@ func RawText(content string) *element {
 	}
 }
 
-// Textf Creates a new sub element with formatted text content. Uses text.Textf which HTML-escapes the output.
+// Textf creates a new sub element with formatted text content. Uses text.Textf which HTML-escapes the output.
 // Example: sub.Textf("%d", index)
 // Renders: <sub>1</sub>
 func Textf(format string, args ...any) *element {
@@ -113,7 +113,7 @@ func Textf(format string, args ...any) *element {
 	}
 }
 
-// RawTextf Creates a new sub element with formatted raw text content. Uses text.RawTextf which is not HTML-escaped.
+// RawTextf creates a new sub element with formatted raw text content. Uses text.RawTextf which is not HTML-escaped.
 // Example: sub.RawTextf("<var>%s</var>", varName)
 // Renders: <sub><var>x</var></sub>
 func RawTextf(format string, args ...any) *element {

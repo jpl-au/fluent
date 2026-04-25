@@ -68,7 +68,7 @@ func (e *element) event() *html5.EventAttributes {
 	return e.ea
 }
 
-// New Creates a new ruby element with optional child nodes
+// New creates a new ruby element with optional child nodes
 // Example: ruby.New(text.Text("漢字"))
 // Renders: <ruby>漢字</ruby>
 func New(nodes ...node.Node) *element {
@@ -77,7 +77,7 @@ func New(nodes ...node.Node) *element {
 	}
 }
 
-// Text Creates a new ruby element with text content. Uses text.Text which HTML-escapes the output.
+// Text creates a new ruby element with text content. Uses text.Text which HTML-escapes the output.
 // Example: ruby.Text("東京")
 // Renders: <ruby>東京</ruby>
 func Text(content string) *element {
@@ -86,7 +86,7 @@ func Text(content string) *element {
 	}
 }
 
-// Static Creates a new ruby element with static text content. Uses text.Static which is not HTML-escaped and is JIT-optimisable.
+// Static creates a new ruby element with static text content. Uses text.Static which is not HTML-escaped and is JIT-optimisable.
 // Example: ruby.Static("日本")
 // Renders: <ruby>日本</ruby>
 func Static(content string) *element {
@@ -95,7 +95,7 @@ func Static(content string) *element {
 	}
 }
 
-// RawText Creates a new ruby element with raw text content. Uses text.RawText which is not HTML-escaped.
+// RawText creates a new ruby element with raw text content. Uses text.RawText which is not HTML-escaped.
 // Example: ruby.RawText("漢<rt>かん</rt>")
 // Renders: <ruby>漢<rt>かん</rt></ruby>
 func RawText(content string) *element {
@@ -104,7 +104,7 @@ func RawText(content string) *element {
 	}
 }
 
-// Textf Creates a new ruby element with formatted text content. Uses text.Textf which HTML-escapes the output.
+// Textf creates a new ruby element with formatted text content. Uses text.Textf which HTML-escapes the output.
 // Example: ruby.Textf("%s", kanji)
 // Renders: <ruby>漢</ruby>
 func Textf(format string, args ...any) *element {
@@ -113,7 +113,7 @@ func Textf(format string, args ...any) *element {
 	}
 }
 
-// RawTextf Creates a new ruby element with formatted raw text content. Uses text.RawTextf which is not HTML-escaped.
+// RawTextf creates a new ruby element with formatted raw text content. Uses text.RawTextf which is not HTML-escaped.
 // Example: ruby.RawTextf("%s<rt>%s</rt>", kanji, reading)
 // Renders: <ruby>漢<rt>かん</rt></ruby>
 func RawTextf(format string, args ...any) *element {

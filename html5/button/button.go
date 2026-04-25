@@ -82,7 +82,7 @@ func (e *element) event() *html5.EventAttributes {
 	return e.ea
 }
 
-// New Creates a new button element with the given child nodes.
+// New creates a new button element with the given child nodes.
 // Example: button.New(text.Text("Click Me"))
 // Renders: <button>Click Me</button>
 func New(nodes ...node.Node) *element {
@@ -91,7 +91,7 @@ func New(nodes ...node.Node) *element {
 	}
 }
 
-// Text Creates a new button element with text content. Uses text.Text which HTML-escapes the output.
+// Text creates a new button element with text content. Uses text.Text which HTML-escapes the output.
 // Example: button.Text("Click Me")
 // Renders: <button>Click Me</button>
 func Text(str string) *element {
@@ -100,7 +100,7 @@ func Text(str string) *element {
 	}
 }
 
-// Static Creates a new button element with static text content. Uses text.Static which is not HTML-escaped and is JIT-optimisable.
+// Static creates a new button element with static text content. Uses text.Static which is not HTML-escaped and is JIT-optimisable.
 // Example: button.Static("Submit")
 // Renders: <button>Submit</button>
 func Static(str string) *element {
@@ -109,7 +109,7 @@ func Static(str string) *element {
 	}
 }
 
-// RawText Creates a new button element with raw text content. Uses text.RawText which is not HTML-escaped.
+// RawText creates a new button element with raw text content. Uses text.RawText which is not HTML-escaped.
 // Example: button.RawText("<b>Submit</b>")
 // Renders: <button><b>Submit</b></button>
 func RawText(str string) *element {
@@ -118,7 +118,7 @@ func RawText(str string) *element {
 	}
 }
 
-// Textf Creates a new button element with formatted text content. Uses text.Textf which HTML-escapes the output.
+// Textf creates a new button element with formatted text content. Uses text.Textf which HTML-escapes the output.
 // Example: button.Textf("Save %s", title)
 // Renders: <button>Save Dashboard</button>
 func Textf(format string, args ...any) *element {
@@ -127,7 +127,7 @@ func Textf(format string, args ...any) *element {
 	}
 }
 
-// RawTextf Creates a new button element with formatted raw text content. Uses text.RawTextf which is not HTML-escaped.
+// RawTextf creates a new button element with formatted raw text content. Uses text.RawTextf which is not HTML-escaped.
 // Example: button.RawTextf("<span class=\"icon\">%s</span> Save", icon)
 // Renders: <button><span class="icon">★</span> Save</button>
 func RawTextf(format string, args ...any) *element {
@@ -136,7 +136,7 @@ func RawTextf(format string, args ...any) *element {
 	}
 }
 
-// Submit Creates a submit button with text content
+// Submit creates a submit button with text content
 // Example: button.Submit("Send Form")
 // Renders: <button type="submit">Send Form</button>
 func Submit(str string) *element {
@@ -146,7 +146,7 @@ func Submit(str string) *element {
 	}
 }
 
-// Reset Creates a reset button with text content
+// Reset creates a reset button with text content
 // Example: button.Reset("Clear Form")
 // Renders: <button type="reset">Clear Form</button>
 func Reset(str string) *element {
@@ -156,7 +156,7 @@ func Reset(str string) *element {
 	}
 }
 
-// Button Creates a generic button with text content
+// Button creates a generic button with text content
 // Example: button.Button("Click Me")
 // Renders: <button type="button">Click Me</button>
 func Button(str string) *element {

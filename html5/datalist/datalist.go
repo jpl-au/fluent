@@ -71,7 +71,7 @@ func (e *element) event() *html5.EventAttributes {
 	return e.ea
 }
 
-// New Creates a new datalist element with child nodes (typically <option> elements).
+// New creates a new datalist element with child nodes (typically <option> elements).
 // Example: datalist.New(option.New().Value("Chocolate"), option.New().Value("Vanilla"))
 // Renders: <datalist><option value="Chocolate"><option value="Vanilla"></datalist>
 func New(nodes ...node.Node) *element {
@@ -80,7 +80,7 @@ func New(nodes ...node.Node) *element {
 	}
 }
 
-// Options Creates a datalist from option elements, enforcing correct nesting at compile time.
+// Options creates a datalist from option elements, enforcing correct nesting at compile time.
 // Example: datalist.Options(option.Option("chocolate", "Chocolate"), option.Option("vanilla", "Vanilla"))
 // Renders: <datalist><option value="chocolate">Chocolate</option><option value="vanilla">Vanilla</option></datalist>
 func Options(options ...*option.Element) *element {

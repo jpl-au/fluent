@@ -68,7 +68,7 @@ func (e *element) event() *html5.EventAttributes {
 	return e.ea
 }
 
-// New Creates a new sup element with the given child nodes.
+// New creates a new sup element with the given child nodes.
 // Example: sup.New(text.Text("2"))
 // Renders: <sup>2</sup>
 func New(nodes ...node.Node) *element {
@@ -77,7 +77,7 @@ func New(nodes ...node.Node) *element {
 	}
 }
 
-// Text Creates a new sup element with text content. Uses text.Text which HTML-escapes the output.
+// Text creates a new sup element with text content. Uses text.Text which HTML-escapes the output.
 // Example: sup.Text("2")
 // Renders: <sup>2</sup>
 func Text(content string) *element {
@@ -86,7 +86,7 @@ func Text(content string) *element {
 	}
 }
 
-// Static Creates a new sup element with static text content. Uses text.Static which is not HTML-escaped and is JIT-optimisable.
+// Static creates a new sup element with static text content. Uses text.Static which is not HTML-escaped and is JIT-optimisable.
 // Example: sup.Static("TM")
 // Renders: <sup>TM</sup>
 func Static(content string) *element {
@@ -95,7 +95,7 @@ func Static(content string) *element {
 	}
 }
 
-// RawText Creates a new sup element with raw text content. Uses text.RawText which is not HTML-escaped.
+// RawText creates a new sup element with raw text content. Uses text.RawText which is not HTML-escaped.
 // Example: sup.RawText("<a href=\"#fn1\">[1]</a>")
 // Renders: <sup><a href="#fn1">[1]</a></sup>
 func RawText(content string) *element {
@@ -104,7 +104,7 @@ func RawText(content string) *element {
 	}
 }
 
-// Textf Creates a new sup element with formatted text content. Uses text.Textf which HTML-escapes the output.
+// Textf creates a new sup element with formatted text content. Uses text.Textf which HTML-escapes the output.
 // Example: sup.Textf("%d", exponent)
 // Renders: <sup>2</sup>
 func Textf(format string, args ...any) *element {
@@ -113,7 +113,7 @@ func Textf(format string, args ...any) *element {
 	}
 }
 
-// RawTextf Creates a new sup element with formatted raw text content. Uses text.RawTextf which is not HTML-escaped.
+// RawTextf creates a new sup element with formatted raw text content. Uses text.RawTextf which is not HTML-escaped.
 // Example: sup.RawTextf("<a href=\"#fn%d\">[%d]</a>", n, n)
 // Renders: <sup><a href="#fn3">[3]</a></sup>
 func RawTextf(format string, args ...any) *element {

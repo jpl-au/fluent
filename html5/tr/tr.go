@@ -69,7 +69,7 @@ func (e *element) event() *html5.EventAttributes {
 	return e.ea
 }
 
-// New Creates a new table row element with optional child nodes (typically td or th elements).
+// New creates a new table row element with optional child nodes (typically td or th elements).
 // Example: tr.New()
 // Renders: <tr></tr>
 func New(nodes ...node.Node) *element {
@@ -78,7 +78,7 @@ func New(nodes ...node.Node) *element {
 	}
 }
 
-// Cells Creates a table row from td data cells, enforcing correct nesting at compile time.
+// Cells creates a table row from td data cells, enforcing correct nesting at compile time.
 // Example: tr.Cells(td.Text("a"), td.Text("b"))
 // Renders: <tr><td>a</td><td>b</td></tr>
 func Cells(cells ...*td.Element) *element {
@@ -91,7 +91,7 @@ func Cells(cells ...*td.Element) *element {
 	}
 }
 
-// Headers Creates a table row from th header cells, enforcing correct nesting at compile time.
+// Headers creates a table row from th header cells, enforcing correct nesting at compile time.
 // Example: tr.Headers(th.Col("Name"), th.Col("Age"))
 // Renders: <tr><th scope="col">Name</th><th scope="col">Age</th></tr>
 func Headers(cells ...*th.Element) *element {

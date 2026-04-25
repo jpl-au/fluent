@@ -69,7 +69,7 @@ func (e *element) event() *html5.EventAttributes {
 	return e.ea
 }
 
-// New Creates a new dfn element with the given child nodes.
+// New creates a new dfn element with the given child nodes.
 // Example: dfn.New(text.Text("validator"))
 // Renders: <dfn>validator</dfn>
 func New(nodes ...node.Node) *element {
@@ -78,7 +78,7 @@ func New(nodes ...node.Node) *element {
 	}
 }
 
-// Titled Creates a new dfn element with the term text and an expanded title.
+// Titled creates a new dfn element with the term text and an expanded title.
 // The title provides an alternative form or full expansion of the
 // term being defined. Uses text.Text which HTML-escapes the output.
 // Example: dfn.Titled("spec", "Specification")
@@ -90,7 +90,7 @@ func Titled(str string, title string) *element {
 	}
 }
 
-// Text Creates a new dfn element with text content. Uses text.Text which HTML-escapes the output.
+// Text creates a new dfn element with text content. Uses text.Text which HTML-escapes the output.
 // Example: dfn.Text("validator")
 // Renders: <dfn>validator</dfn>
 func Text(str string) *element {
@@ -99,7 +99,7 @@ func Text(str string) *element {
 	}
 }
 
-// Static Creates a new dfn element with static text content. Uses text.Static which is not HTML-escaped and is JIT-optimisable.
+// Static creates a new dfn element with static text content. Uses text.Static which is not HTML-escaped and is JIT-optimisable.
 // Example: dfn.Static("Validator")
 // Renders: <dfn>Validator</dfn>
 func Static(str string) *element {
@@ -108,7 +108,7 @@ func Static(str string) *element {
 	}
 }
 
-// RawText Creates a new dfn element with raw text content. Uses text.RawText which is not HTML-escaped.
+// RawText creates a new dfn element with raw text content. Uses text.RawText which is not HTML-escaped.
 // Example: dfn.RawText("<b>validator</b>")
 // Renders: <dfn><b>validator</b></dfn>
 func RawText(str string) *element {
@@ -117,7 +117,7 @@ func RawText(str string) *element {
 	}
 }
 
-// Textf Creates a new dfn element with formatted text content. Uses text.Textf which HTML-escapes the output.
+// Textf creates a new dfn element with formatted text content. Uses text.Textf which HTML-escapes the output.
 // Example: dfn.Textf("%s v%d", term, ver)
 // Renders: <dfn>HTML v2</dfn>
 func Textf(format string, args ...any) *element {
@@ -126,7 +126,7 @@ func Textf(format string, args ...any) *element {
 	}
 }
 
-// RawTextf Creates a new dfn element with formatted raw text content. Uses text.RawTextf which is not HTML-escaped.
+// RawTextf creates a new dfn element with formatted raw text content. Uses text.RawTextf which is not HTML-escaped.
 // Example: dfn.RawTextf("<abbr>%s</abbr>", term)
 // Renders: <dfn><abbr>HTML</abbr></dfn>
 func RawTextf(format string, args ...any) *element {

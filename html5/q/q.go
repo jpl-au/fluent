@@ -71,7 +71,7 @@ func (e *element) event() *html5.EventAttributes {
 	return e.ea
 }
 
-// New Creates a new q element with optional child nodes.
+// New creates a new q element with optional child nodes.
 // Example: q.New(text.Text("To be or not to be"))
 // Renders: <q>To be or not to be</q>
 func New(nodes ...node.Node) *element {
@@ -80,7 +80,7 @@ func New(nodes ...node.Node) *element {
 	}
 }
 
-// Text Creates a new q element with text content. Uses text.Text which HTML-escapes the output.
+// Text creates a new q element with text content. Uses text.Text which HTML-escapes the output.
 // Example: q.Text("To be or not to be")
 // Renders: <q>To be or not to be</q>
 func Text(content string) *element {
@@ -89,7 +89,7 @@ func Text(content string) *element {
 	}
 }
 
-// Static Creates a new q element with static text content. Uses text.Static which is not HTML-escaped and is JIT-optimisable.
+// Static creates a new q element with static text content. Uses text.Static which is not HTML-escaped and is JIT-optimisable.
 // Example: q.Static("Knowledge is power")
 // Renders: <q>Knowledge is power</q>
 func Static(content string) *element {
@@ -98,7 +98,7 @@ func Static(content string) *element {
 	}
 }
 
-// RawText Creates a new q element with raw text content. Uses text.RawText which is not HTML-escaped.
+// RawText creates a new q element with raw text content. Uses text.RawText which is not HTML-escaped.
 // Example: q.RawText("<em>Important</em> quote")
 // Renders: <q><em>Important</em> quote</q>
 func RawText(content string) *element {
@@ -107,7 +107,7 @@ func RawText(content string) *element {
 	}
 }
 
-// Textf Creates a new q element with formatted text content. Uses text.Textf which HTML-escapes the output.
+// Textf creates a new q element with formatted text content. Uses text.Textf which HTML-escapes the output.
 // Example: q.Textf("%s said it best", author)
 // Renders: <q>Orwell said it best</q>
 func Textf(format string, args ...any) *element {
@@ -116,7 +116,7 @@ func Textf(format string, args ...any) *element {
 	}
 }
 
-// RawTextf Creates a new q element with formatted raw text content. Uses text.RawTextf which is not HTML-escaped.
+// RawTextf creates a new q element with formatted raw text content. Uses text.RawTextf which is not HTML-escaped.
 // Example: q.RawTextf("<em>%s</em> said it best", author)
 // Renders: <q><em>Orwell</em> said it best</q>
 func RawTextf(format string, args ...any) *element {
@@ -125,7 +125,7 @@ func RawTextf(format string, args ...any) *element {
 	}
 }
 
-// Cited Creates a q element with text content and a citation URL. Uses
+// Cited creates a q element with text content and a citation URL. Uses
 // text.Text which HTML-escapes the output.
 // Example: q.Cited("To be or not to be", "https://example.com/hamlet")
 // Renders: <q cite="https://example.com/hamlet">To be or not to be</q>

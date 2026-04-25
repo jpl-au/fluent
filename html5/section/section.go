@@ -68,7 +68,7 @@ func (e *element) event() *html5.EventAttributes {
 	return e.ea
 }
 
-// New Creates a new section element with optional child nodes
+// New creates a new section element with optional child nodes
 // Example: section.New()
 // Renders: <section></section>
 func New(nodes ...node.Node) *element {
@@ -77,7 +77,7 @@ func New(nodes ...node.Node) *element {
 	}
 }
 
-// Text Creates a new section element with text content. Uses text.Text which HTML-escapes the output.
+// Text creates a new section element with text content. Uses text.Text which HTML-escapes the output.
 // Example: section.Text("Introduction")
 // Renders: <section>Introduction</section>
 func Text(content string) *element {
@@ -86,7 +86,7 @@ func Text(content string) *element {
 	}
 }
 
-// Static Creates a new section element with static text content. Uses text.Static which is not HTML-escaped and is JIT-optimisable.
+// Static creates a new section element with static text content. Uses text.Static which is not HTML-escaped and is JIT-optimisable.
 // Example: section.Static("Introduction")
 // Renders: <section>Introduction</section>
 func Static(content string) *element {
@@ -95,7 +95,7 @@ func Static(content string) *element {
 	}
 }
 
-// RawText Creates a new section element with raw text content. Uses text.RawText which is not HTML-escaped.
+// RawText creates a new section element with raw text content. Uses text.RawText which is not HTML-escaped.
 // Example: section.RawText("<h2>Introduction</h2>")
 // Renders: <section><h2>Introduction</h2></section>
 func RawText(content string) *element {
@@ -104,7 +104,7 @@ func RawText(content string) *element {
 	}
 }
 
-// Textf Creates a new section element with formatted text content. Uses text.Textf which HTML-escapes the output.
+// Textf creates a new section element with formatted text content. Uses text.Textf which HTML-escapes the output.
 // Example: section.Textf("Section %d", 1)
 // Renders: <section>Section 1</section>
 func Textf(format string, args ...any) *element {
@@ -113,7 +113,7 @@ func Textf(format string, args ...any) *element {
 	}
 }
 
-// RawTextf Creates a new section element with formatted raw text content. Uses text.RawTextf which is not HTML-escaped.
+// RawTextf creates a new section element with formatted raw text content. Uses text.RawTextf which is not HTML-escaped.
 // Example: section.RawTextf("<h2>%s</h2>", "Introduction")
 // Renders: <section><h2>Introduction</h2></section>
 func RawTextf(format string, args ...any) *element {

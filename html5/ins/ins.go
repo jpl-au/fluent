@@ -70,7 +70,7 @@ func (e *element) event() *html5.EventAttributes {
 	return e.ea
 }
 
-// New Creates a new ins element with optional child nodes.
+// New creates a new ins element with optional child nodes.
 // Example: ins.New()
 // Renders: <ins></ins>
 func New(nodes ...node.Node) *element {
@@ -79,7 +79,7 @@ func New(nodes ...node.Node) *element {
 	}
 }
 
-// Text Creates a new ins element with text content. Uses text.Text which HTML-escapes the output.
+// Text creates a new ins element with text content. Uses text.Text which HTML-escapes the output.
 // Example: ins.Text("new price: $40")
 // Renders: <ins>new price: $40</ins>
 func Text(str string) *element {
@@ -88,7 +88,7 @@ func Text(str string) *element {
 	}
 }
 
-// Static Creates a new ins element with static text content. Uses text.Static which is not HTML-escaped and is JIT-optimisable.
+// Static creates a new ins element with static text content. Uses text.Static which is not HTML-escaped and is JIT-optimisable.
 // Example: ins.Static("This section was added.")
 // Renders: <ins>This section was added.</ins>
 func Static(str string) *element {
@@ -97,7 +97,7 @@ func Static(str string) *element {
 	}
 }
 
-// RawText Creates a new ins element with raw text content. Uses text.RawText which is not HTML-escaped.
+// RawText creates a new ins element with raw text content. Uses text.RawText which is not HTML-escaped.
 // Example: ins.RawText("<p>New paragraph added.</p>")
 // Renders: <ins><p>New paragraph added.</p></ins>
 func RawText(str string) *element {
@@ -106,7 +106,7 @@ func RawText(str string) *element {
 	}
 }
 
-// Textf Creates a new ins element with formatted text content. Uses text.Textf which HTML-escapes the output.
+// Textf creates a new ins element with formatted text content. Uses text.Textf which HTML-escapes the output.
 // Example: ins.Textf("price: $%d", newPrice)
 // Renders: <ins>price: $30</ins>
 func Textf(format string, args ...any) *element {
@@ -115,7 +115,7 @@ func Textf(format string, args ...any) *element {
 	}
 }
 
-// RawTextf Creates a new ins element with formatted raw text content. Uses text.RawTextf which is not HTML-escaped.
+// RawTextf creates a new ins element with formatted raw text content. Uses text.RawTextf which is not HTML-escaped.
 // Example: ins.RawTextf("<strong>%s</strong>", newText)
 // Renders: <ins><strong>updated</strong></ins>
 func RawTextf(format string, args ...any) *element {
@@ -124,7 +124,7 @@ func RawTextf(format string, args ...any) *element {
 	}
 }
 
-// Dated Creates an ins element with text content and a timestamp indicating
+// Dated creates an ins element with text content and a timestamp indicating
 // when the insertion occurred. Uses text.Text which HTML-escapes the output.
 // Example: ins.Dated("new price: $40", "2024-01-15")
 // Renders: <ins datetime="2024-01-15">new price: $40</ins>
@@ -135,7 +135,7 @@ func Dated(str string, datetime string) *element {
 	}
 }
 
-// Cited Creates an ins element with text content and a URL documenting the
+// Cited creates an ins element with text content and a URL documenting the
 // reason for the insertion. Uses text.Text which HTML-escapes the output.
 // Example: ins.Cited("new paragraph", "/changelog#v2.2")
 // Renders: <ins cite="/changelog#v2.2">new paragraph</ins>
@@ -146,7 +146,7 @@ func Cited(str string, cite string) *element {
 	}
 }
 
-// Full Creates an ins element with text content, a citation URL, and a
+// Full creates an ins element with text content, a citation URL, and a
 // timestamp. Use when recording both why and when content was added.
 // Uses text.Text which HTML-escapes the output.
 // Example: ins.Full("new price: $40", "/changelog", "2024-01-15")

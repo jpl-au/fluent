@@ -69,7 +69,7 @@ func (e *element) event() *html5.EventAttributes {
 	return e.ea
 }
 
-// New Creates a new nav element with optional child nodes
+// New creates a new nav element with optional child nodes
 // Example: nav.New()
 // Renders: <nav></nav>
 func New(nodes ...node.Node) *element {
@@ -78,7 +78,7 @@ func New(nodes ...node.Node) *element {
 	}
 }
 
-// Text Creates a new nav element with text content. Uses text.Text which HTML-escapes the output.
+// Text creates a new nav element with text content. Uses text.Text which HTML-escapes the output.
 // Example: nav.Text("Home | About | Contact")
 // Renders: <nav>Home | About | Contact</nav>
 func Text(content string) *element {
@@ -87,7 +87,7 @@ func Text(content string) *element {
 	}
 }
 
-// Static Creates a new nav element with static text content. Uses text.Static which is not HTML-escaped and is JIT-optimisable.
+// Static creates a new nav element with static text content. Uses text.Static which is not HTML-escaped and is JIT-optimisable.
 // Example: nav.Static("Navigation")
 // Renders: <nav>Navigation</nav>
 func Static(content string) *element {
@@ -96,7 +96,7 @@ func Static(content string) *element {
 	}
 }
 
-// RawText Creates a new nav element with raw text content. Uses text.RawText which is not HTML-escaped.
+// RawText creates a new nav element with raw text content. Uses text.RawText which is not HTML-escaped.
 // Example: nav.RawText("<a href=\"/\">Home</a> | <a href=\"/about\">About</a>")
 // Renders: <nav><a href="/">Home</a> | <a href="/about">About</a></nav>
 func RawText(content string) *element {
@@ -105,7 +105,7 @@ func RawText(content string) *element {
 	}
 }
 
-// Textf Creates a new nav element with formatted text content. Uses text.Textf which HTML-escapes the output.
+// Textf creates a new nav element with formatted text content. Uses text.Textf which HTML-escapes the output.
 // Example: nav.Textf("Section: %s", section)
 // Renders: <nav>Section: main</nav>
 func Textf(format string, args ...any) *element {
@@ -114,7 +114,7 @@ func Textf(format string, args ...any) *element {
 	}
 }
 
-// RawTextf Creates a new nav element with formatted raw text content. Uses text.RawTextf which is not HTML-escaped.
+// RawTextf creates a new nav element with formatted raw text content. Uses text.RawTextf which is not HTML-escaped.
 // Example: nav.RawTextf("<a href=\"%s\">Back</a>", url)
 // Renders: <nav><a href="/about">Back</a></nav>
 func RawTextf(format string, args ...any) *element {

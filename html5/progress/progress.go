@@ -72,7 +72,7 @@ func (e *element) event() *html5.EventAttributes {
 	return e.ea
 }
 
-// New Creates a new progress element with optional child nodes for fallback content.
+// New creates a new progress element with optional child nodes for fallback content.
 // Example: progress.New()
 // Renders: <progress></progress>
 func New(nodes ...node.Node) *element {
@@ -81,7 +81,7 @@ func New(nodes ...node.Node) *element {
 	}
 }
 
-// Text Creates a new progress element with fallback text content. Uses text.Text which HTML-escapes the output.
+// Text creates a new progress element with fallback text content. Uses text.Text which HTML-escapes the output.
 // Example: progress.Text("50% complete")
 // Renders: <progress>50% complete</progress>
 func Text(content string) *element {
@@ -90,7 +90,7 @@ func Text(content string) *element {
 	}
 }
 
-// Static Creates a new progress element with static fallback text content. Uses text.Static which is not HTML-escaped and is JIT-optimisable.
+// Static creates a new progress element with static fallback text content. Uses text.Static which is not HTML-escaped and is JIT-optimisable.
 // Example: progress.Static("Loading...")
 // Renders: <progress>Loading...</progress>
 func Static(content string) *element {
@@ -99,7 +99,7 @@ func Static(content string) *element {
 	}
 }
 
-// RawText Creates a new progress element with raw fallback text content. Uses text.RawText which is not HTML-escaped.
+// RawText creates a new progress element with raw fallback text content. Uses text.RawText which is not HTML-escaped.
 // Example: progress.RawText("<span>50%</span>")
 // Renders: <progress><span>50%</span></progress>
 func RawText(content string) *element {
@@ -108,7 +108,7 @@ func RawText(content string) *element {
 	}
 }
 
-// Textf Creates a new progress element with formatted fallback text content. Uses text.Textf which HTML-escapes the output.
+// Textf creates a new progress element with formatted fallback text content. Uses text.Textf which HTML-escapes the output.
 // Example: progress.Textf("%d%% complete", pct)
 // Renders: <progress>75% complete</progress>
 func Textf(format string, args ...any) *element {
@@ -117,7 +117,7 @@ func Textf(format string, args ...any) *element {
 	}
 }
 
-// RawTextf Creates a new progress element with formatted raw fallback text content. Uses text.RawTextf which is not HTML-escaped.
+// RawTextf creates a new progress element with formatted raw fallback text content. Uses text.RawTextf which is not HTML-escaped.
 // Example: progress.RawTextf("<strong>%d%%</strong>", pct)
 // Renders: <progress><strong>75%</strong></progress>
 func RawTextf(format string, args ...any) *element {
@@ -126,7 +126,7 @@ func RawTextf(format string, args ...any) *element {
 	}
 }
 
-// ValueMax Creates a new progress element with value and max attributes set.
+// ValueMax creates a new progress element with value and max attributes set.
 // Example: progress.ValueMax(75, 100)
 // Renders: <progress value="75" max="100"></progress>
 func ValueMax(value float64, max float64, nodes ...node.Node) *element {

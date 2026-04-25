@@ -69,14 +69,14 @@ func (e *element) event() *html5.EventAttributes {
 	return e.ea
 }
 
-// New Creates a new embed element without any initial attributes.
+// New creates a new embed element without any initial attributes.
 // Example: embed.New()
 // Renders: <embed />
 func New() *element {
 	return &element{}
 }
 
-// PDF Creates an embed element for PDF documents
+// PDF creates an embed element for PDF documents
 // Example: embed.PDF("document.pdf", 800, 600)
 // Renders: <embed src="document.pdf" type="application/pdf" width="800" height="600" />
 func PDF(src string, width int, height int) *element {
@@ -88,7 +88,7 @@ func PDF(src string, width int, height int) *element {
 	}
 }
 
-// Flash Creates an embed element for Flash content (legacy)
+// Flash creates an embed element for Flash content (legacy)
 // Example: embed.Flash("animation.swf", 640, 480)
 // Renders: <embed src="animation.swf" type="application/x-shockwave-flash" width="640" height="480" />
 //
@@ -102,7 +102,7 @@ func Flash(src string, width int, height int) *element {
 	}
 }
 
-// Video Creates an embed element for video content
+// Video creates an embed element for video content
 // Example: embed.Video("movie.mp4", 640, 480)
 // Renders: <embed src="movie.mp4" type="video/mp4" width="640" height="480" />
 //
@@ -116,7 +116,7 @@ func Video(src string, width int, height int) *element {
 	}
 }
 
-// Audio Creates an embed element for audio content
+// Audio creates an embed element for audio content
 // Example: embed.Audio("song.mp3", 320, 50)
 // Renders: <embed src="song.mp3" type="audio/mpeg" width="320" height="50" />
 //

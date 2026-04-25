@@ -68,7 +68,7 @@ func (e *element) event() *html5.EventAttributes {
 	return e.ea
 }
 
-// New Creates a new samp element with optional child nodes
+// New creates a new samp element with optional child nodes
 // Example: samp.New(text.Text("Output"))
 // Renders: <samp>Output</samp>
 func New(nodes ...node.Node) *element {
@@ -77,7 +77,7 @@ func New(nodes ...node.Node) *element {
 	}
 }
 
-// Text Creates a new samp element with text content. Uses text.Text which HTML-escapes the output.
+// Text creates a new samp element with text content. Uses text.Text which HTML-escapes the output.
 // Example: samp.Text("Error: File not found")
 // Renders: <samp>Error: File not found</samp>
 func Text(content string) *element {
@@ -86,7 +86,7 @@ func Text(content string) *element {
 	}
 }
 
-// Static Creates a new samp element with static text content. Uses text.Static which is not HTML-escaped and is JIT-optimisable.
+// Static creates a new samp element with static text content. Uses text.Static which is not HTML-escaped and is JIT-optimisable.
 // Example: samp.Static("Process completed")
 // Renders: <samp>Process completed</samp>
 func Static(content string) *element {
@@ -95,7 +95,7 @@ func Static(content string) *element {
 	}
 }
 
-// RawText Creates a new samp element with raw text content. Uses text.RawText which is not HTML-escaped.
+// RawText creates a new samp element with raw text content. Uses text.RawText which is not HTML-escaped.
 // Example: samp.RawText("<strong>Warning:</strong> Low memory")
 // Renders: <samp><strong>Warning:</strong> Low memory</samp>
 func RawText(content string) *element {
@@ -104,7 +104,7 @@ func RawText(content string) *element {
 	}
 }
 
-// Textf Creates a new samp element with formatted text content. Uses text.Textf which HTML-escapes the output.
+// Textf creates a new samp element with formatted text content. Uses text.Textf which HTML-escapes the output.
 // Example: samp.Textf("Exit code: %d", code)
 // Renders: <samp>Exit code: 0</samp>
 func Textf(format string, args ...any) *element {
@@ -113,7 +113,7 @@ func Textf(format string, args ...any) *element {
 	}
 }
 
-// RawTextf Creates a new samp element with formatted raw text content. Uses text.RawTextf which is not HTML-escaped.
+// RawTextf creates a new samp element with formatted raw text content. Uses text.RawTextf which is not HTML-escaped.
 // Example: samp.RawTextf("<code>%s</code>", output)
 // Renders: <samp><code>OK</code></samp>
 func RawTextf(format string, args ...any) *element {

@@ -70,7 +70,7 @@ func (e *element) event() *html5.EventAttributes {
 	return e.ea
 }
 
-// New Creates a new menu element with child li elements.
+// New creates a new menu element with child li elements.
 // Example: menu.New(li.Text("Cut"), li.Text("Copy"), li.Text("Paste"))
 // Renders: <menu><li>Cut</li><li>Copy</li><li>Paste</li></menu>
 func New(nodes ...node.Node) *element {
@@ -79,7 +79,7 @@ func New(nodes ...node.Node) *element {
 	}
 }
 
-// Items Creates a menu from li elements, enforcing correct nesting at compile time.
+// Items creates a menu from li elements, enforcing correct nesting at compile time.
 // Example: menu.Items(li.Text("Cut"), li.Text("Copy"), li.Text("Paste"))
 // Renders: <menu><li>Cut</li><li>Copy</li><li>Paste</li></menu>
 func Items(items ...*li.Element) *element {

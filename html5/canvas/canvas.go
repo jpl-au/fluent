@@ -72,7 +72,7 @@ func (e *element) event() *html5.EventAttributes {
 	return e.ea
 }
 
-// New Creates a new canvas element with child nodes for fallback content.
+// New creates a new canvas element with child nodes for fallback content.
 // Example: canvas.New(text.Text("Your browser does not support canvas."))
 // Renders: <canvas>Your browser does not support canvas.</canvas>
 func New(nodes ...node.Node) *element {

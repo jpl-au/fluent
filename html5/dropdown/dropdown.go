@@ -76,7 +76,7 @@ func (e *element) event() *html5.EventAttributes {
 	return e.ea
 }
 
-// New Creates a new select element with option and optgroup child elements.
+// New creates a new select element with option and optgroup child elements.
 // Example: dropdown.New(option.Option("Red", "red"), option.Option("Blue", "blue"))
 // Renders: <select><option value="red">Red</option><option value="blue">Blue</option></select>
 func New(nodes ...node.Node) *element {
@@ -85,7 +85,7 @@ func New(nodes ...node.Node) *element {
 	}
 }
 
-// Options Creates a select element from option elements, enforcing correct nesting at compile time.
+// Options creates a select element from option elements, enforcing correct nesting at compile time.
 // Example: dropdown.Options(option.Option("red", "Red"), option.Option("blue", "Blue"))
 // Renders: <select><option value="red">Red</option><option value="blue">Blue</option></select>
 func Options(options ...*option.Element) *element {

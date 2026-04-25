@@ -71,7 +71,7 @@ func (e *element) event() *html5.EventAttributes {
 	return e.ea
 }
 
-// New Creates a new template element with child nodes. Content is not rendered
+// New creates a new template element with child nodes. Content is not rendered
 // directly but can be instantiated at runtime using JavaScript.
 // Example: template.New()
 // Renders: <template></template>

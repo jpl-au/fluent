@@ -70,7 +70,7 @@ func (e *element) event() *html5.EventAttributes {
 	return e.ea
 }
 
-// New Creates a new table data cell element with optional child nodes.
+// New creates a new table data cell element with optional child nodes.
 // Example: td.New()
 // Renders: <td></td>
 func New(nodes ...node.Node) *element {
@@ -79,7 +79,7 @@ func New(nodes ...node.Node) *element {
 	}
 }
 
-// Text Creates a new td element with text content. Uses text.Text which HTML-escapes the output.
+// Text creates a new td element with text content. Uses text.Text which HTML-escapes the output.
 // Example: td.Text("Alice")
 // Renders: <td>Alice</td>
 func Text(content string) *element {
@@ -88,7 +88,7 @@ func Text(content string) *element {
 	}
 }
 
-// Static Creates a new td element with static text content. Uses text.Static which is not HTML-escaped and is JIT-optimisable.
+// Static creates a new td element with static text content. Uses text.Static which is not HTML-escaped and is JIT-optimisable.
 // Example: td.Static("Total")
 // Renders: <td>Total</td>
 func Static(content string) *element {
@@ -97,7 +97,7 @@ func Static(content string) *element {
 	}
 }
 
-// RawText Creates a new td element with raw text content. Uses text.RawText which is not HTML-escaped.
+// RawText creates a new td element with raw text content. Uses text.RawText which is not HTML-escaped.
 // Example: td.RawText("<a href=\"/user/1\">Alice</a>")
 // Renders: <td><a href="/user/1">Alice</a></td>
 func RawText(content string) *element {
@@ -106,7 +106,7 @@ func RawText(content string) *element {
 	}
 }
 
-// Textf Creates a new td element with formatted text content. Uses text.Textf which HTML-escapes the output.
+// Textf creates a new td element with formatted text content. Uses text.Textf which HTML-escapes the output.
 // Example: td.Textf("$%d", amount)
 // Renders: <td>$100</td>
 func Textf(format string, args ...any) *element {
@@ -115,7 +115,7 @@ func Textf(format string, args ...any) *element {
 	}
 }
 
-// RawTextf Creates a new td element with formatted raw text content. Uses text.RawTextf which is not HTML-escaped.
+// RawTextf creates a new td element with formatted raw text content. Uses text.RawTextf which is not HTML-escaped.
 // Example: td.RawTextf("<a href=\"/user/%d\">%s</a>", id, name)
 // Renders: <td><a href="/user/42">Mary</a></td>
 func RawTextf(format string, args ...any) *element {

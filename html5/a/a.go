@@ -76,7 +76,7 @@ func (e *element) event() *html5.EventAttributes {
 	return e.ea
 }
 
-// New Creates a new anchor element without any initial attributes.
+// New creates a new anchor element without any initial attributes.
 // Example: a.New(text.Text("Click here")).Href("https://example.com")
 // Renders: <a href="https://example.com">Click here</a>
 func New(nodes ...node.Node) *element {
@@ -85,7 +85,7 @@ func New(nodes ...node.Node) *element {
 	}
 }
 
-// Link Creates a new anchor element with href and text content
+// Link creates a new anchor element with href and text content
 // Example: a.Link("https://example.com", "Click here")
 // Renders: <a href="https://example.com">Click here</a>
 func Link(href string, str string) *element {
@@ -95,7 +95,7 @@ func Link(href string, str string) *element {
 	}
 }
 
-// Text Creates a new anchor element with text content. Uses text.Text which HTML-escapes the output.
+// Text creates a new anchor element with text content. Uses text.Text which HTML-escapes the output.
 // Example: a.Text("Click here")
 // Renders: <a>Click here</a>
 func Text(str string) *element {
@@ -104,7 +104,7 @@ func Text(str string) *element {
 	}
 }
 
-// Static Creates a new anchor element with static text content. Uses text.Static which is not HTML-escaped and is JIT-optimisable.
+// Static creates a new anchor element with static text content. Uses text.Static which is not HTML-escaped and is JIT-optimisable.
 // Example: a.Static("Click here")
 // Renders: <a>Click here</a>
 func Static(str string) *element {
@@ -113,7 +113,7 @@ func Static(str string) *element {
 	}
 }
 
-// RawText Creates a new anchor element with raw text content. Uses text.RawText which is not HTML-escaped.
+// RawText creates a new anchor element with raw text content. Uses text.RawText which is not HTML-escaped.
 // Example: a.RawText("Click <em>here</em>")
 // Renders: <a>Click <em>here</em></a>
 func RawText(str string) *element {
@@ -122,7 +122,7 @@ func RawText(str string) *element {
 	}
 }
 
-// Textf Creates a new anchor element with formatted text content. Uses text.Textf which HTML-escapes the output.
+// Textf creates a new anchor element with formatted text content. Uses text.Textf which HTML-escapes the output.
 // Example: a.Textf("Hello %s", name)
 // Renders: <a>Hello Mary</a>
 func Textf(format string, args ...any) *element {
@@ -131,7 +131,7 @@ func Textf(format string, args ...any) *element {
 	}
 }
 
-// RawTextf Creates a new anchor element with formatted raw text content. Uses text.RawTextf which is not HTML-escaped.
+// RawTextf creates a new anchor element with formatted raw text content. Uses text.RawTextf which is not HTML-escaped.
 // Example: a.RawTextf("Hello <em>%s</em>", name)
 // Renders: <a>Hello <em>Mary</em></a>
 func RawTextf(format string, args ...any) *element {
@@ -140,7 +140,7 @@ func RawTextf(format string, args ...any) *element {
 	}
 }
 
-// MailTo Creates a new anchor element with mailto scheme that opens the user's email client
+// MailTo creates a new anchor element with mailto scheme that opens the user's email client
 // Example: a.MailTo("john@example.com", "Email John")
 // Renders: <a href="mailto:john@example.com">Email John</a>
 func MailTo(email string, str string) *element {
@@ -150,7 +150,7 @@ func MailTo(email string, str string) *element {
 	}
 }
 
-// JumpTo Creates a new anchor element for internal page navigation (fragment identifier)
+// JumpTo creates a new anchor element for internal page navigation (fragment identifier)
 // Example: a.JumpTo("section1", "Go to Section 1")
 // Renders: <a href="#section1">Go to Section 1</a>
 func JumpTo(anchor string, str string) *element {
@@ -160,7 +160,7 @@ func JumpTo(anchor string, str string) *element {
 	}
 }
 
-// Tel Creates a new anchor element with tel scheme that initiates a phone call on mobile devices
+// Tel creates a new anchor element with tel scheme that initiates a phone call on mobile devices
 // Example: a.Tel("+1234567890", "Call Me")
 // Renders: <a href="tel:+1234567890">Call Me</a>
 func Tel(number string, str string) *element {
@@ -170,7 +170,7 @@ func Tel(number string, str string) *element {
 	}
 }
 
-// SMS Creates a new anchor element with SMS scheme that opens the messaging app on mobile devices
+// SMS creates a new anchor element with SMS scheme that opens the messaging app on mobile devices
 // Example: a.SMS("+1234567890", "Send SMS")
 // Renders: <a href="sms:+1234567890">Send SMS</a>
 func SMS(number string, str string) *element {
@@ -180,7 +180,7 @@ func SMS(number string, str string) *element {
 	}
 }
 
-// FTP Creates a new anchor element with FTP protocol
+// FTP creates a new anchor element with FTP protocol
 // Example: a.FTP("files.example.com/folder", "Download Files")
 // Renders: <a href="ftp://files.example.com/folder">Download Files</a>
 func FTP(url string, str string) *element {
@@ -190,7 +190,7 @@ func FTP(url string, str string) *element {
 	}
 }
 
-// DataURL Creates a new anchor element with data URL for embedded content or downloads
+// DataURL creates a new anchor element with data URL for embedded content or downloads
 // Example: a.DataURL("Download Text", "text/plain", "Hello%20World")
 // Renders: <a href="data:text/plain,Hello%20World">Download Text</a>
 func DataURL(str string, mime string, data string) *element {
@@ -200,7 +200,7 @@ func DataURL(str string, mime string, data string) *element {
 	}
 }
 
-// Base64Data Creates a new anchor element with base64 data URL for binary content downloads
+// Base64Data creates a new anchor element with base64 data URL for binary content downloads
 // Example: a.Base64Data("Download Image", "image/png", "iVBORw0KGgoAAAANS...")
 // Renders: <a href="data:image/png;base64,iVBORw0KGgoAAAANS...">Download Image</a>
 func Base64Data(str string, mime string, data string) *element {
@@ -210,7 +210,7 @@ func Base64Data(str string, mime string, data string) *element {
 	}
 }
 
-// Download Creates a download link that prompts the user to save the linked
+// Download creates a download link that prompts the user to save the linked
 // resource rather than navigating to it. The filename parameter
 // suggests a name for the saved file, though the user can override
 // it. Uses text.Text which HTML-escapes the link text.

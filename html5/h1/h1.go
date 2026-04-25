@@ -68,7 +68,7 @@ func (e *element) event() *html5.EventAttributes {
 	return e.ea
 }
 
-// New Creates a new h1 element with the given child nodes.
+// New creates a new h1 element with the given child nodes.
 // Example: h1.New(text.Text("Page Title"))
 // Renders: <h1>Page Title</h1>
 func New(nodes ...node.Node) *element {
@@ -77,7 +77,7 @@ func New(nodes ...node.Node) *element {
 	}
 }
 
-// Text Creates a new h1 element with text content. Uses text.Text which HTML-escapes the output.
+// Text creates a new h1 element with text content. Uses text.Text which HTML-escapes the output.
 // Example: h1.Text("Page Title")
 // Renders: <h1>Page Title</h1>
 func Text(str string) *element {
@@ -86,7 +86,7 @@ func Text(str string) *element {
 	}
 }
 
-// Static Creates a new h1 element with static text content. Uses text.Static which is not HTML-escaped and is JIT-optimisable.
+// Static creates a new h1 element with static text content. Uses text.Static which is not HTML-escaped and is JIT-optimisable.
 // Example: h1.Static("Dashboard")
 // Renders: <h1>Dashboard</h1>
 func Static(str string) *element {
@@ -95,7 +95,7 @@ func Static(str string) *element {
 	}
 }
 
-// RawText Creates a new h1 element with raw text content. Uses text.RawText which is not HTML-escaped.
+// RawText creates a new h1 element with raw text content. Uses text.RawText which is not HTML-escaped.
 // Example: h1.RawText("<span class=\"logo\">Fluent</span>")
 // Renders: <h1><span class="logo">Fluent</span></h1>
 func RawText(str string) *element {
@@ -104,7 +104,7 @@ func RawText(str string) *element {
 	}
 }
 
-// Textf Creates a new h1 element with formatted text content. Uses text.Textf which HTML-escapes the output.
+// Textf creates a new h1 element with formatted text content. Uses text.Textf which HTML-escapes the output.
 // Example: h1.Textf("Welcome, %s", name)
 // Renders: <h1>Welcome, Mary</h1>
 func Textf(format string, args ...any) *element {
@@ -113,7 +113,7 @@ func Textf(format string, args ...any) *element {
 	}
 }
 
-// RawTextf Creates a new h1 element with formatted raw text content. Uses text.RawTextf which is not HTML-escaped.
+// RawTextf creates a new h1 element with formatted raw text content. Uses text.RawTextf which is not HTML-escaped.
 // Example: h1.RawTextf("<span class=\"logo\">%s</span>", app)
 // Renders: <h1><span class="logo">Fluent</span></h1>
 func RawTextf(format string, args ...any) *element {

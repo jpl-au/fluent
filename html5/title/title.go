@@ -67,7 +67,7 @@ func (e *element) event() *html5.EventAttributes {
 	return e.ea
 }
 
-// New Creates a new title element with text content
+// New creates a new title element with text content
 // Example: title.New()
 // Renders: <title></title>
 func New(nodes ...node.Node) *element {
@@ -76,7 +76,7 @@ func New(nodes ...node.Node) *element {
 	}
 }
 
-// Text Creates a new title element with text content. Uses text.Text which HTML-escapes the output.
+// Text creates a new title element with text content. Uses text.Text which HTML-escapes the output.
 // Example: title.Text("My Application")
 // Renders: <title>My Application</title>
 func Text(content string) *element {
@@ -85,7 +85,7 @@ func Text(content string) *element {
 	}
 }
 
-// Static Creates a new title element with static text content. Uses text.Static which is not HTML-escaped and is JIT-optimisable.
+// Static creates a new title element with static text content. Uses text.Static which is not HTML-escaped and is JIT-optimisable.
 // Example: title.Static("Dashboard")
 // Renders: <title>Dashboard</title>
 func Static(content string) *element {
@@ -94,7 +94,7 @@ func Static(content string) *element {
 	}
 }
 
-// Textf Creates a new title element with formatted text content. Uses text.Textf which HTML-escapes the output.
+// Textf creates a new title element with formatted text content. Uses text.Textf which HTML-escapes the output.
 // Example: title.Textf("%s - My App", page)
 // Renders: <title>Home - My App</title>
 func Textf(format string, args ...any) *element {
@@ -103,7 +103,7 @@ func Textf(format string, args ...any) *element {
 	}
 }
 
-// RawText Creates a new title element with raw text content. Uses text.RawText which is not HTML-escaped.
+// RawText creates a new title element with raw text content. Uses text.RawText which is not HTML-escaped.
 // Example: title.RawText("Page &amp; Title")
 // Renders: <title>Page &amp; Title</title>
 func RawText(content string) *element {
@@ -112,7 +112,7 @@ func RawText(content string) *element {
 	}
 }
 
-// RawTextf Creates a new title element with formatted raw text content. Uses text.RawTextf which is not HTML-escaped.
+// RawTextf creates a new title element with formatted raw text content. Uses text.RawTextf which is not HTML-escaped.
 // Example: title.RawTextf("%s &mdash; My App", page)
 // Renders: <title>Home &mdash; My App</title>
 func RawTextf(format string, args ...any) *element {

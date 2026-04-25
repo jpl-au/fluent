@@ -68,7 +68,7 @@ func (e *element) event() *html5.EventAttributes {
 	return e.ea
 }
 
-// New Creates a new em element with the given child nodes.
+// New creates a new em element with the given child nodes.
 // Example: em.New(text.Text("now"))
 // Renders: <em>now</em>
 func New(nodes ...node.Node) *element {
@@ -77,7 +77,7 @@ func New(nodes ...node.Node) *element {
 	}
 }
 
-// Text Creates a new em element with text content. Uses text.Text which HTML-escapes the output.
+// Text creates a new em element with text content. Uses text.Text which HTML-escapes the output.
 // Example: em.Text("important")
 // Renders: <em>important</em>
 func Text(str string) *element {
@@ -86,7 +86,7 @@ func Text(str string) *element {
 	}
 }
 
-// Static Creates a new em element with static text content. Uses text.Static which is not HTML-escaped and is JIT-optimisable.
+// Static creates a new em element with static text content. Uses text.Static which is not HTML-escaped and is JIT-optimisable.
 // Example: em.Static("must")
 // Renders: <em>must</em>
 func Static(str string) *element {
@@ -95,7 +95,7 @@ func Static(str string) *element {
 	}
 }
 
-// RawText Creates a new em element with raw text content. Uses text.RawText which is not HTML-escaped.
+// RawText creates a new em element with raw text content. Uses text.RawText which is not HTML-escaped.
 // Example: em.RawText("<b>now</b>")
 // Renders: <em><b>now</b></em>
 func RawText(str string) *element {
@@ -104,7 +104,7 @@ func RawText(str string) *element {
 	}
 }
 
-// Textf Creates a new em element with formatted text content. Uses text.Textf which HTML-escapes the output.
+// Textf creates a new em element with formatted text content. Uses text.Textf which HTML-escapes the output.
 // Example: em.Textf("really, %s", name)
 // Renders: <em>really, Mary</em>
 func Textf(format string, args ...any) *element {
@@ -113,7 +113,7 @@ func Textf(format string, args ...any) *element {
 	}
 }
 
-// RawTextf Creates a new em element with formatted raw text content. Uses text.RawTextf which is not HTML-escaped.
+// RawTextf creates a new em element with formatted raw text content. Uses text.RawTextf which is not HTML-escaped.
 // Example: em.RawTextf("<strong>%s</strong>", word)
 // Renders: <em><strong>emphasis</strong></em>
 func RawTextf(format string, args ...any) *element {

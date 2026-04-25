@@ -70,7 +70,7 @@ func (e *element) event() *html5.EventAttributes {
 	return e.ea
 }
 
-// New Creates a new bdi element with the given child nodes.
+// New creates a new bdi element with the given child nodes.
 // Example: bdi.New(text.Text("username"))
 // Renders: <bdi>username</bdi>
 func New(nodes ...node.Node) *element {
@@ -79,7 +79,7 @@ func New(nodes ...node.Node) *element {
 	}
 }
 
-// Text Creates a new bdi element with text content (HTML-encoded).
+// Text creates a new bdi element with text content (HTML-encoded).
 // Example: bdi.Text("אילנה")
 // Renders: <bdi>אילנה</bdi>
 func Text(str string) *element {
@@ -88,7 +88,7 @@ func Text(str string) *element {
 	}
 }
 
-// Static Creates a new bdi element with static text content.
+// Static creates a new bdi element with static text content.
 // Example: bdi.Static("User123")
 // Renders: <bdi>User123</bdi>
 func Static(str string) *element {
@@ -97,7 +97,7 @@ func Static(str string) *element {
 	}
 }
 
-// RawText Creates a new bdi element with raw text content as unescaped HTML.
+// RawText creates a new bdi element with raw text content as unescaped HTML.
 // Example: bdi.RawText("<span>User</span>")
 // Renders: <bdi><span>User</span></bdi>
 func RawText(str string) *element {
@@ -106,7 +106,7 @@ func RawText(str string) *element {
 	}
 }
 
-// Textf Creates a new bdi element with formatted text content using text.Textf.
+// Textf creates a new bdi element with formatted text content using text.Textf.
 // Example: bdi.Textf("User: %s", "username")
 // Renders: <bdi>User: username</bdi>
 func Textf(format string, args ...any) *element {
@@ -115,7 +115,7 @@ func Textf(format string, args ...any) *element {
 	}
 }
 
-// RawTextf Creates a new bdi element with formatted raw text content as unescaped HTML using text.RawTextf.
+// RawTextf creates a new bdi element with formatted raw text content as unescaped HTML using text.RawTextf.
 // Example: bdi.RawTextf("<strong>%s</strong>", "User")
 // Renders: <bdi><strong>User</strong></bdi>
 func RawTextf(format string, args ...any) *element {

@@ -69,7 +69,7 @@ func (e *element) event() *html5.EventAttributes {
 	return e.ea
 }
 
-// New Creates a new tbody element with child tr elements.
+// New creates a new tbody element with child tr elements.
 // Example: tbody.New(tr.New(td.Text("cell")))
 // Renders: <tbody><tr><td>cell</td></tr></tbody>
 func New(nodes ...node.Node) *element {
@@ -78,7 +78,7 @@ func New(nodes ...node.Node) *element {
 	}
 }
 
-// Rows Creates a tbody from tr elements, enforcing correct nesting at compile time.
+// Rows creates a tbody from tr elements, enforcing correct nesting at compile time.
 // Example: tbody.Rows(tr.New(td.Text("cell")))
 // Renders: <tbody><tr><td>cell</td></tr></tbody>
 func Rows(rows ...*tr.Element) *element {

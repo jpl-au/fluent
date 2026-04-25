@@ -65,7 +65,7 @@ func (e *element) event() *html5.EventAttributes {
 	return e.ea
 }
 
-// New Creates a new hr element without any initial attributes.
+// New creates a new hr element without any initial attributes.
 // Example: hr.New()
 // Renders: <hr />
 func New() *element {

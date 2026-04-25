@@ -72,7 +72,7 @@ func (e *element) event() *html5.EventAttributes {
 	return e.ea
 }
 
-// New Creates a new style element without any initial attributes.
+// New creates a new style element without any initial attributes.
 // Example: style.New()
 // Renders: <style></style>
 func New(nodes ...node.Node) *element {
@@ -81,7 +81,7 @@ func New(nodes ...node.Node) *element {
 	}
 }
 
-// Text Creates a new style element with text content. Uses text.Text which HTML-escapes the output.
+// Text creates a new style element with text content. Uses text.Text which HTML-escapes the output.
 // Warning: HTML escaping will break CSS syntax (e.g., > in selectors). Use RawText, Static, or CSS instead.
 // Example: style.Text("body { margin: 0; }")
 // Renders: <style>body { margin: 0; }</style>
@@ -91,7 +91,7 @@ func Text(content string) *element {
 	}
 }
 
-// Static Creates a new style element with static CSS content. Uses text.Static which is not HTML-escaped and is
+// Static creates a new style element with static CSS content. Uses text.Static which is not HTML-escaped and is
 // JIT-optimisable. Preferred for compile-time constant stylesheets.
 // Example: style.Static("body { margin: 0; }")
 // Renders: <style>body { margin: 0; }</style>
@@ -101,7 +101,7 @@ func Static(content string) *element {
 	}
 }
 
-// RawText Creates a new style element with raw CSS content. Uses text.RawText which is not HTML-escaped.
+// RawText creates a new style element with raw CSS content. Uses text.RawText which is not HTML-escaped.
 // Preferred for dynamic inline stylesheets.
 // Example: style.RawText("body { margin: 0; }")
 // Renders: <style>body { margin: 0; }</style>
@@ -111,7 +111,7 @@ func RawText(content string) *element {
 	}
 }
 
-// Textf Creates a new style element with formatted text content. Uses text.Textf which HTML-escapes the output.
+// Textf creates a new style element with formatted text content. Uses text.Textf which HTML-escapes the output.
 // Warning: HTML escaping will break CSS syntax. Use RawTextf instead.
 // Example: style.Textf("%s { margin: %dpx; }", selector, margin)
 // Renders: <style>body { margin: 8px; }</style>
@@ -121,7 +121,7 @@ func Textf(format string, args ...any) *element {
 	}
 }
 
-// RawTextf Creates a new style element with formatted raw CSS content. Uses text.RawTextf which is not HTML-escaped.
+// RawTextf creates a new style element with formatted raw CSS content. Uses text.RawTextf which is not HTML-escaped.
 // Preferred for dynamic inline stylesheets with interpolation.
 // Example: style.RawTextf(".%s { color: %s; }", className, colour)
 // Renders: <style>.highlight { color: red; }</style>
@@ -131,7 +131,7 @@ func RawTextf(format string, args ...any) *element {
 	}
 }
 
-// CSS Creates a style element with CSS type explicitly set.
+// CSS creates a style element with CSS type explicitly set.
 // Example: style.CSS("body { margin: 0; padding: 0; }")
 // Renders: <style type="text/css">body { margin: 0; padding: 0; }</style>
 func CSS(css string) *element {

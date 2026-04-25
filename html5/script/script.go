@@ -82,7 +82,7 @@ func (e *element) event() *html5.EventAttributes {
 	return e.ea
 }
 
-// New Creates a new script element without any initial attributes
+// New creates a new script element without any initial attributes
 // Example: script.New()
 // Renders: <script></script>
 func New(nodes ...node.Node) *element {
@@ -91,7 +91,7 @@ func New(nodes ...node.Node) *element {
 	}
 }
 
-// Text Creates a new script element with text content. Uses text.Text which HTML-escapes the output.
+// Text creates a new script element with text content. Uses text.Text which HTML-escapes the output.
 // Warning: HTML escaping will break JavaScript syntax. Use RawText or Static for inline scripts.
 // Example: script.Text("console.log('Hello');")
 // Renders: <script>console.log(&#39;Hello&#39;);</script>
@@ -101,7 +101,7 @@ func Text(content string) *element {
 	}
 }
 
-// Static Creates a new script element with static inline JavaScript. Uses text.Static which is not HTML-escaped
+// Static creates a new script element with static inline JavaScript. Uses text.Static which is not HTML-escaped
 // and is JIT-optimisable. Preferred for compile-time constant scripts.
 // Example: script.Static("alert('Hi');")
 // Renders: <script>alert('Hi');</script>
@@ -111,7 +111,7 @@ func Static(content string) *element {
 	}
 }
 
-// RawText Creates a new script element with raw inline JavaScript. Uses text.RawText which is not HTML-escaped.
+// RawText creates a new script element with raw inline JavaScript. Uses text.RawText which is not HTML-escaped.
 // Preferred for dynamic inline scripts.
 // Example: script.RawText("var x = 1;")
 // Renders: <script>var x = 1;</script>
@@ -121,7 +121,7 @@ func RawText(content string) *element {
 	}
 }
 
-// Textf Creates a new script element with formatted text content. Uses text.Textf which HTML-escapes the output.
+// Textf creates a new script element with formatted text content. Uses text.Textf which HTML-escapes the output.
 // Warning: HTML escaping will break JavaScript syntax. Use RawTextf for inline scripts.
 // Example: script.Textf("console.log('%s');", msg)
 // Renders: <script>console.log(&#39;hello&#39;);</script>
@@ -131,7 +131,7 @@ func Textf(format string, args ...any) *element {
 	}
 }
 
-// RawTextf Creates a new script element with formatted raw inline JavaScript. Uses text.RawTextf which is not
+// RawTextf creates a new script element with formatted raw inline JavaScript. Uses text.RawTextf which is not
 // HTML-escaped. Preferred for dynamic inline scripts with interpolation.
 // Example: script.RawTextf("var %s = %d;", varName, val)
 // Renders: <script>var x = 42;</script>
@@ -141,7 +141,7 @@ func RawTextf(format string, args ...any) *element {
 	}
 }
 
-// Src Creates a script element that loads an external script file
+// Src creates a script element that loads an external script file
 // Example: script.Src("/assets/js/app.js")
 // Renders: <script src="/assets/js/app.js"></script>
 func Src(src string) *element {
@@ -150,7 +150,7 @@ func Src(src string) *element {
 	}
 }
 
-// Module Creates a new script element with type="module" for ES6 modules
+// Module creates a new script element with type="module" for ES6 modules
 // Example: script.Module("app.js")
 // Renders: <script src="app.js" type="module"></script>
 func Module(src string) *element {
@@ -160,7 +160,7 @@ func Module(src string) *element {
 	}
 }
 
-// JavaScript Creates a script element explicitly with JavaScript type
+// JavaScript creates a script element explicitly with JavaScript type
 // Example: script.JavaScript("script.js")
 // Renders: <script src="script.js" type="text/javascript"></script>
 func JavaScript(src string) *element {
@@ -170,7 +170,7 @@ func JavaScript(src string) *element {
 	}
 }
 
-// JSON Creates a script element with JSON data
+// JSON creates a script element with JSON data
 // Example: script.JSON("{\"key\": \"value\"}")
 // Renders: <script type="application/json">{"key": "value"}</script>
 func JSON(data string) *element {
