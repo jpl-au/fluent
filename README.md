@@ -218,6 +218,19 @@ node.When(user.IsAdmin, span.Static("Admin"))
 node.Unless(user.IsLoggedIn, a.New().Href("/login").Text("Sign in"))
 ```
 
+`When()` and `Unless()` return nodes, so they slot directly into the children of a parent element. This is how you add conditional content inside a larger tree without duplicating the surrounding subtree. Remember that `.Text(...)` on an element is sugar for appending a `text.Text(...)` child - when you need a text node to appear conditionally, build it as a child via the `text` package:
+
+```go
+import "github.com/jpl-au/fluent/text"
+
+span.New(
+    node.When(len(foo) > 0, text.Textf("foo: %d", foo)),
+    span.New(text.Text("g")).Class("weight"),
+).Class("amount")
+```
+
+The outer `span.amount` always renders. The `foo: %d` text appears only when the condition holds. No `Condition(...).True(...).False(...)` mirror, no duplicated children.
+
 Conditions can be nested since `node.Condition()` returns a `node.Node`:
 
 ```go
@@ -258,16 +271,44 @@ node.Func(func() node.Node {
 })
 ```
 
-The second form returns a slice `[]node.Node`:
+For the common case of one node per slice element, `node.Map` removes the allocation and loop boilerplate:
+
+```go
+node.Map(products, func(p Product) node.Node {
+    return li.New(
+        span.Text(p.Name),
+        span.Textf("$%.2f", p.Price),
+    )
+})
+```
+
+Boolean attribute methods (`.Checked`, `.Disabled`, `.Required`, `.ReadOnly`, `.Multiple`, `.Selected`, `.Async`, `.Defer`, `.Open`, and friends) accept an optional `bool`: call them with no arguments to set the attribute, or pass a condition to set it only when the condition is true. This keeps conditionals inline inside the mapped element, with no subtree duplication:
+
+```go
+node.Map(categories, func(c Category) node.Node {
+    return label.New(
+        input.New().Type(inputtype.Checkbox).
+            Name("category").
+            Value(strconv.Itoa(c.ID)).
+            Checked(slices.Contains(selected, c.ID)),
+        text.Text(c.Name),
+    )
+})
+```
+
+When the per-item logic is more involved than a one-liner - database lookups, error handling, building different node shapes per item - drop down to `node.Funcs` and write the loop by hand:
 
 ```go
 node.Funcs(func() []node.Node {
-    items := make([]node.Node, len(products))
-    for i, product := range products {
-        items[i] = li.New(
-            span.Text(product.Name),
-            span.Textf("$%.2f", product.Price),
-        )
+    items := make([]node.Node, 0, len(products))
+    for _, p := range products {
+        if !p.Visible {
+            continue
+        }
+        items = append(items, li.New(
+            span.Text(p.Name),
+            span.Textf("$%.2f", p.Price),
+        ))
     }
     return items
 })

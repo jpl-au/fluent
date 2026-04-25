@@ -1,3 +1,22 @@
+// Package text provides the leaf text nodes of the Fluent render tree.
+// It backs the Static/Text/Textf/RawText/RawTextf constructors on every
+// HTML element and the like-named methods used to add content after
+// construction.
+//
+// Three escaping models cover trusted, untrusted, and pre-escaped
+// content:
+//
+//   - [Static] never escapes and is marked non-dynamic so the JIT can
+//     pre-render it. Use only with string literals you control.
+//   - [Text] and [Textf] escape via html.EscapeString and are marked
+//     dynamic. Use these for variables and user input.
+//   - [RawText] and [RawTextf] never escape and are marked dynamic.
+//     Use only with HTML you have already sanitised - pair with
+//     fluent-security for untrusted markup.
+//
+// All non-[Static] nodes report IsDynamic() == true via the
+// node.Dynamic interface so the diff engine can track them across
+// renders.
 package text
 
 import (
@@ -35,14 +54,13 @@ func Static(str string) *Node {
 	}
 }
 
-// Text creates a safe text component with automatic HTML escaping for security.
-// This is now marked as dynamic by default to handle variables and user content.
-//
-// Special HTML characters like <, >, &, and quotes are automatically escaped.
+// Text creates a dynamic text node with automatic HTML escaping. The
+// characters <, >, &, and quotes are escaped via html.EscapeString so
+// user-supplied content cannot inject markup.
 //
 // Example:
 //
-//	text.Text(userName) // Renders with HTML escaping, marked as dynamic
+//	text.Text(userName)
 func Text(str string) *Node {
 	return &Node{
 		content: html.EscapeString(str),
@@ -50,13 +68,14 @@ func Text(str string) *Node {
 	}
 }
 
-// RawText creates an unescaped text component for trusted HTML content.
-// This is now marked as dynamic by default to handle variables and dynamic content.
-// Use this ONLY for content you control, such as pre-built HTML strings.
+// RawText creates a dynamic, unescaped text node for trusted HTML
+// content. Use only with content you control, such as pre-built HTML
+// strings; pair with fluent-security to sanitise untrusted markup
+// before passing it here.
 //
 // Example:
 //
-//	text.RawText(htmlContent) // Renders unescaped, marked as dynamic
+//	text.RawText(htmlContent)
 func RawText(str string) *Node {
 	return &Node{
 		content: str,

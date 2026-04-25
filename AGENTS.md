@@ -509,6 +509,39 @@ Every standard HTML attribute has a dedicated, chainable method on its element. 
 
 If a standard HTML attribute has a method on the element, use that method. Do not use `SetAttribute()` for standard attributes.
 
+### Boolean Attributes
+
+Boolean HTML attribute methods accept an optional `bool`. Called with no arguments they set the attribute. Called with a single `bool` they set it only when the condition is true - no subtree duplication, no intermediate variable, no break in the chain.
+
+```go
+// No argument - attribute always present
+input.Email("email").Required()
+
+// Inline condition - attribute present only when true
+input.New().Checked(slices.Contains(selected, c.ID))
+button.Text("Save").Disabled(!form.Valid)
+script.New().Src("/app.js").Async(isProduction)
+textarea.New().ReadOnly(user.IsGuest)
+```
+
+This pattern is consistent across every boolean attribute in Fluent:
+
+| Element | Methods |
+|---------|---------|
+| `input` | `.Checked()`, `.Disabled()`, `.Required()`, `.ReadOnly()`, `.Multiple()`, `.AutoFocus()` |
+| `button` | `.Disabled()`, `.AutoFocus()` |
+| `form` | `.NoValidate()`, `.AutoFocus()` |
+| `textarea` | `.Disabled()`, `.ReadOnly()`, `.Required()`, `.AutoFocus()` |
+| `dropdown` (`<select>`) | `.Disabled()`, `.Multiple()`, `.Required()`, `.AutoFocus()` |
+| `option` | `.Disabled()`, `.Selected()`, `.AutoFocus()` |
+| `script` | `.Async()`, `.Defer()`, `.AutoFocus()` |
+| `details`, `dialog` | `.Open()`, `.AutoFocus()` |
+| `audio`, `video` | `.Controls()`, `.Loop()`, `.Muted()`, (`video` adds `.PlaysInline()`), `.AutoFocus()` |
+
+`.Hidden()` is the exception: it accepts a typed `hidden.Hidden` value (to support the `until-found` state), not a `bool`.
+
+The inline form composes naturally inside `node.Map` where a per-item flag toggles the attribute - see [Conditional Rendering](#conditional-rendering) and [Function Components](#function-components).
+
 ### SetAria - ARIA Attributes
 
 `SetAria(key, value)` sets ARIA attributes. It automatically adds the `aria-` prefix. Returns the element for chaining.

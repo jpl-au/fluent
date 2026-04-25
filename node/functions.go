@@ -39,6 +39,31 @@ func Funcs(fn func() []Node) *FuncsComponent {
 	}
 }
 
+// Map is a convenience over Funcs for the common case of producing one node
+// per element of a slice. It removes the boilerplate of allocating the result
+// slice and looping, so templates can inline the transformation.
+//
+// Usage:
+//
+//	node.Map(categories, func(c domain.Category) node.Node {
+//	    return label.New(
+//	        input.New().Type(inputtype.Checkbox).Value(strconv.Itoa(c.ID)).
+//	            Checked(slices.Contains(selected, c.ID)),
+//	        text.Text(c.Name),
+//	    )
+//	})
+//
+// Chain .Dynamic("key") on the returned component to enable diff engine tracking.
+func Map[T any](items []T, fn func(T) Node) *FuncsComponent {
+	return Funcs(func() []Node {
+		out := make([]Node, 0, len(items))
+		for _, item := range items {
+			out = append(out, fn(item))
+		}
+		return out
+	})
+}
+
 // Render generates the HTML representation by calling the function.
 // If a writer is provided, the output is written to it and nil is returned.
 // If no writer is provided, the output is returned as a byte slice.
