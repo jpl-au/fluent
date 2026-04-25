@@ -225,7 +225,9 @@ func Download(str string, href string, filename string) *element {
 	return e
 }
 
-// Href The URL that the hyperlink points to when the anchor is activated. Links are not restricted to
+// Href sets the href attribute.
+//
+// The URL that the hyperlink points to when the anchor is activated. Links are not restricted to
 // HTTP-based URLs - they can use any URL scheme supported by browsers including mailto:, tel:, file:,
 // data:, and custom protocol schemes. This is the core attribute that makes an anchor element functional
 // as a hyperlink. If omitted, the element represents a placeholder link.
@@ -234,7 +236,9 @@ func (e *element) Href(url string) *element {
 	return e
 }
 
-// AttributionSrc Experimental feature for the Attribution Reporting API. Specifies that you want the browser to send
+// AttributionSrc sets the attributionsrc attribute.
+//
+// Experimental feature for the Attribution Reporting API. Specifies that you want the browser to send
 // an Attribution-Reporting-Eligible header along with requests for resources referenced by this anchor.
 // This enables privacy-preserving conversion measurement for advertising. The value can be a boolean to
 // enable/disable the feature, or contain one or more space-separated URLs for specific attribution endpoints.
@@ -243,7 +247,9 @@ func (e *element) AttributionSrc(urls string) *element {
 	return e
 }
 
-// Download Prompts the user to save the linked resource as a download rather than navigating to it. When specified
+// Download sets the download attribute.
+//
+// Prompts the user to save the linked resource as a download rather than navigating to it. When specified
 // without a value, the browser will suggest a filename based on various heuristics (Content-Disposition
 // header, URL segment, etc.). When given a value, that value is used as the suggested filename, though
 // users can typically override this. Essential for creating download links for files like PDFs, images,
@@ -253,7 +259,9 @@ func (e *element) Download(filename string) *element {
 	return e
 }
 
-// HrefLang Provides a hint about the human language of the destination resource. While this attribute has no
+// HrefLang sets the hreflang attribute.
+//
+// Provides a hint about the human language of the destination resource. While this attribute has no
 // built-in browser functionality for link behavior, it can be valuable for accessibility tools, search
 // engines, and content management systems. Values must be valid BCP 47 language tags (e.g., 'en', 'en-US',
 // 'fr-CA', 'zh-Hans'). This helps screen readers prepare appropriate pronunciation and assists users in
@@ -263,7 +271,9 @@ func (e *element) HrefLang(language string) *element {
 	return e
 }
 
-// Ping Defines a space-separated list of URLs that should receive ping notifications when the user follows the
+// Ping sets the ping attribute.
+//
+// Defines a space-separated list of URLs that should receive ping notifications when the user follows the
 // link. When activated, the browser sends POST requests with the body 'PING' to each URL in the list.
 // This is useful for analytics, tracking user engagement, or notifying external services of link
 // activations. The ping requests are made asynchronously and do not affect the primary navigation.
@@ -281,7 +291,9 @@ func (e *element) Ping(urls ...string) *element {
 	return e
 }
 
-// ReferrerPolicy Controls how much referrer information is sent when following the link. This is important for privacy
+// ReferrerPolicy sets the referrerpolicy attribute.
+//
+// Controls how much referrer information is sent when following the link. This is important for privacy
 // and security considerations when navigating between different origins or protocols.
 //
 // Possible values:
@@ -298,7 +310,9 @@ func (e *element) ReferrerPolicy(policy referrerpolicy.ReferrerPolicy) *element 
 	return e
 }
 
-// Rel Defines the relationship between the linked resource and the current document. The value must be an
+// Rel sets the rel attribute.
+//
+// Defines the relationship between the linked resource and the current document. The value must be an
 // unordered set of unique space-separated keywords that describe the semantic relationship. This attribute
 // is crucial for SEO, accessibility, security, and browser optimization hints.
 //
@@ -344,7 +358,9 @@ func (e *element) Rel(rel ...rel.Rel) *element {
 	return e
 }
 
-// Target Specifies where to display the linked resource when the anchor is activated. This controls the browsing
+// Target sets the target attribute.
+//
+// Specifies where to display the linked resource when the anchor is activated. This controls the browsing
 // context (window, tab, or frame) that will load the destination URL. Understanding target behavior is
 // crucial for user experience and security considerations.
 // Possible values: _self (same window/tab, default), _blank (new window/tab), _parent (parent frame),
@@ -354,7 +370,9 @@ func (e *element) Target(target target.Target) *element {
 	return e
 }
 
-// Type Provides a hint about the MIME type of the destination resource. While this attribute doesn't affect
+// Type sets the type attribute.
+//
+// Provides a hint about the MIME type of the destination resource. While this attribute doesn't affect
 // browser behavior for navigation, it can be useful for applications, accessibility tools, or custom
 // JavaScript handling. The value should be a valid MIME type like 'application/pdf', 'text/html',
 // 'image/jpeg', or 'application/zip'. This helps users and tools understand what type of content to
@@ -364,7 +382,9 @@ func (e *element) Type(mime string) *element {
 	return e
 }
 
-// Class A space-separated list of CSS class names assigned to the element. Classes are the primary mechanism for
+// Class sets the class attribute.
+//
+// A space-separated list of CSS class names assigned to the element. Classes are the primary mechanism for
 // styling elements with CSS and selecting elements with JavaScript. Multiple classes can be applied to create
 // flexible, reusable styling systems and enable complex element selection patterns. Essential for
 // component-based architectures and maintainable CSS.
@@ -377,7 +397,9 @@ func (e *element) Class(class string) *element {
 	return e
 }
 
-// ID Defines a unique identifier that must be unique across the entire document. Used for fragment navigation
+// ID sets the id attribute.
+//
+// Defines a unique identifier that must be unique across the entire document. Used for fragment navigation
 // (URL anchors), JavaScript element selection, CSS styling with ID selectors, form label associations, and
 // ARIA relationships. IDs have higher CSS specificity than classes and should be used sparingly for truly
 // unique elements.
@@ -386,7 +408,9 @@ func (e *element) ID(id string) *element {
 	return e
 }
 
-// Style Contains inline CSS declarations applied directly to the element with the highest specificity. While convenient
+// Style sets the style attribute.
+//
+// Contains inline CSS declarations applied directly to the element with the highest specificity. While convenient
 // for dynamic styling and testing, inline styles should be used sparingly as they override external stylesheets
 // and make maintenance difficult. Best used for programmatically generated styles, dynamic values, or critical
 // above-the-fold styling.
@@ -399,14 +423,18 @@ func (e *element) Style(css string) *element {
 	return e
 }
 
-// Title Contains a text representing advisory information related to the element it belongs to. Such information can
+// Title sets the title attribute.
+//
+// Contains a text representing advisory information related to the element it belongs to. Such information can
 // typically, but not necessarily, be presented to the user as a tooltip.
 func (e *element) Title(text string) *element {
 	e.global().Title = text
 	return e
 }
 
-// Hidden An enumerated attribute indicating that the element is not yet, or is no longer, relevant. For example, it can
+// Hidden sets the hidden attribute.
+//
+// An enumerated attribute indicating that the element is not yet, or is no longer, relevant. For example, it can
 // be used to hide elements of the page that can't be used until the login process has been completed. The
 // browser won't render such elements. This attribute must not be used to hide content that could legitimately
 // be shown. When called with no arguments, sets hidden to true. Pass hidden.UntilFound for content that should
@@ -420,7 +448,9 @@ func (e *element) Hidden(value ...hidden.Hidden) *element {
 	return e
 }
 
-// TabIndex An integer attribute indicating if the element can take input focus (is focusable), if it should participate to
+// TabIndex sets the tabindex attribute.
+//
+// An integer attribute indicating if the element can take input focus (is focusable), if it should participate to
 // sequential keyboard navigation, and if so, at what position. It can take several values: a negative value, 0, or
 // a positive value.
 func (e *element) TabIndex(index int) *element {
@@ -428,7 +458,9 @@ func (e *element) TabIndex(index int) *element {
 	return e
 }
 
-// Role Roles define the semantic meaning of content, allowing screen readers and other tools to present and support
+// Role sets the role attribute.
+//
+// Roles define the semantic meaning of content, allowing screen readers and other tools to present and support
 // interaction with an object in a way that is consistent with user expectations of that type of object. roles
 // are added to HTML elements using role="role_type", where role_type is the name of a role in the ARIA
 // specification.
@@ -437,14 +469,18 @@ func (e *element) Role(role string) *element {
 	return e
 }
 
-// Lang Helps define the language of an element the language that non-editable elements are in, or the language that
+// Lang sets the lang attribute.
+//
+// Helps define the language of an element the language that non-editable elements are in, or the language that
 // editable elements should be written in by the user.
 func (e *element) Lang(language string) *element {
 	e.global().Lang = language
 	return e
 }
 
-// AccessKey Defines keyboard shortcuts for quick element access, typically activated with Alt+key (varies by browser/OS).
+// AccessKey sets the accesskey attribute.
+//
+// Defines keyboard shortcuts for quick element access, typically activated with Alt+key (varies by browser/OS).
 // Accepts space-separated characters, with browsers using the first available key on the current keyboard layout.
 // Essential for accessibility and power-user workflows, but should be used thoughtfully to avoid conflicts with
 // browser/OS shortcuts.
@@ -457,7 +493,9 @@ func (e *element) AccessKey(key string) *element {
 	return e
 }
 
-// Anchor Associates a positioned element with an anchor element for CSS anchor positioning. The value references the ID
+// Anchor sets the anchor attribute.
+//
+// Associates a positioned element with an anchor element for CSS anchor positioning. The value references the ID
 // of the element to anchor to, enabling dynamic positioning that follows the anchor element. Part of the CSS
 // Anchor Positioning specification, useful for tooltips, popovers, and contextual UI elements that need to stay
 // connected to their reference points.
@@ -466,7 +504,9 @@ func (e *element) Anchor(id string) *element {
 	return e
 }
 
-// AriaLabel Provides an accessible label for the element that overrides any other labeling (such as text content or
+// AriaLabel sets the aria-label attribute.
+//
+// Provides an accessible label for the element that overrides any other labeling (such as text content or
 // associated label elements). This is essential for accessibility when the visible text doesn't adequately
 // describe the element's purpose. Screen readers and other assistive technologies use this as the primary label
 // for the element.
@@ -475,7 +515,9 @@ func (e *element) AriaLabel(label string) *element {
 	return e
 }
 
-// SetAria Sets ARIA (Accessible Rich Internet Applications) attributes that provide semantic meaning to elements for
+// SetAria sets an ARIA attribute on the element. The key is automatically prefixed with "aria-".
+//
+// Sets ARIA (Accessible Rich Internet Applications) attributes that provide semantic meaning to elements for
 // assistive technologies. ARIA attributes describe element roles, properties, and states that help screen
 // readers and other accessibility tools understand and interact with dynamic web content. Essential for creating
 // accessible web applications.
@@ -484,7 +526,9 @@ func (e *element) SetAria(key string, value string) *element {
 	return e
 }
 
-// AutoCapitalize Controls automatic text capitalization on virtual keyboards (mobile devices). Improves mobile user experience
+// AutoCapitalize sets the autocapitalize attribute.
+//
+// Controls automatic text capitalization on virtual keyboards (mobile devices). Improves mobile user experience
 // by reducing manual capitalization, especially useful for forms collecting names, addresses, and titles.
 // Possible values: off, none, on, sentences, words, characters.
 func (e *element) AutoCapitalize(value autocapitalize.AutoCapitalize) *element {
@@ -492,7 +536,9 @@ func (e *element) AutoCapitalize(value autocapitalize.AutoCapitalize) *element {
 	return e
 }
 
-// AutoCorrect Controls automatic spell-checking and text correction on mobile devices and some browsers. Useful for disabling
+// AutoCorrect sets the autocorrect attribute.
+//
+// Controls automatic spell-checking and text correction on mobile devices and some browsers. Useful for disabling
 // corrections in fields where technical terms, codes, or names are entered, or where user input should remain
 // exactly as typed.
 // Possible values: on, off.
@@ -501,7 +547,9 @@ func (e *element) AutoCorrect(value autocorrect.AutoCorrect) *element {
 	return e
 }
 
-// AutoFocus Automatically focuses the element when the page loads or when a dialog containing it is displayed. Should be
+// AutoFocus sets the autofocus attribute.
+//
+// Automatically focuses the element when the page loads or when a dialog containing it is displayed. Should be
 // used sparingly as it can interfere with accessibility tools and user navigation expectations. Most effective
 // on primary input fields in forms or search boxes where immediate input is expected. Only one element per
 // document should have autofocus.
@@ -516,7 +564,9 @@ func (e *element) AutoFocus(conds ...bool) *element {
 	return e
 }
 
-// ContentEditable An enumerated attribute indicating if the element should be editable by the user. If so, the browser modifies
+// ContentEditable sets the contenteditable attribute.
+//
+// An enumerated attribute indicating if the element should be editable by the user. If so, the browser modifies
 // its widget to allow editing.
 // Possible values: true, false, plaintext-only.
 func (e *element) ContentEditable(value contenteditable.ContentEditable) *element {
@@ -524,7 +574,9 @@ func (e *element) ContentEditable(value contenteditable.ContentEditable) *elemen
 	return e
 }
 
-// SetData Forms a class of attributes, called custom data attributes, that allow proprietary information to be exchanged
+// SetData sets a data-* attribute on the element. The key is automatically prefixed with "data-".
+//
+// Forms a class of attributes, called custom data attributes, that allow proprietary information to be exchanged
 // between the HTML and its DOM representation that may be used by scripts. All such custom data are available
 // via the HTMLElement interface of the element the attribute is set on. The HTMLElement.dataset property gives
 // access to them.
@@ -533,14 +585,18 @@ func (e *element) SetData(key string, value string) *element {
 	return e
 }
 
-// Dir An enumerated attribute indicating the directionality of the element's text.
+// Dir sets the dir attribute.
+//
+// An enumerated attribute indicating the directionality of the element's text.
 // Possible values: ltr, rtl, auto.
 func (e *element) Dir(direction dir.Dir) *element {
 	e.global().Dir = direction
 	return e
 }
 
-// Draggable An enumerated attribute indicating whether the element can be dragged, using the Drag and Drop API.
+// Draggable sets the draggable attribute.
+//
+// An enumerated attribute indicating whether the element can be dragged, using the Drag and Drop API.
 // Possible values: true, false.
 //
 // Calling without an argument sets the attribute. Pass a bool to control presence conditionally.
@@ -553,20 +609,26 @@ func (e *element) Draggable(conds ...bool) *element {
 	return e
 }
 
-// EnterKeyHint Hints what action label (or icon) to present for the enter key on virtual keyboards.
+// EnterKeyHint sets the enterkeyhint attribute.
+//
+// Hints what action label (or icon) to present for the enter key on virtual keyboards.
 // Possible values: enter, done, go, next, previous, search, send.
 func (e *element) EnterKeyHint(hint enterkeyhint.EnterKeyHint) *element {
 	e.global().EnterKeyHint = hint
 	return e
 }
 
-// ExportParts Used to transitively export shadow parts from a nested shadow tree into a containing light tree.
+// ExportParts sets the exportparts attribute.
+//
+// Used to transitively export shadow parts from a nested shadow tree into a containing light tree.
 func (e *element) ExportParts(parts string) *element {
 	e.global().ExportParts = parts
 	return e
 }
 
-// Inert A boolean value that makes the browser disregard user input events for the element. Useful when click events are
+// Inert sets the inert attribute.
+//
+// A boolean value that makes the browser disregard user input events for the element. Useful when click events are
 // present.
 //
 // Calling without an argument sets the attribute. Pass a bool to control presence conditionally.
@@ -579,7 +641,9 @@ func (e *element) Inert(conds ...bool) *element {
 	return e
 }
 
-// InputMode Provides a hint to browsers about the type of virtual keyboard configuration to use when editing this element
+// InputMode sets the inputmode attribute.
+//
+// Provides a hint to browsers about the type of virtual keyboard configuration to use when editing this element
 // or its contents. Used primarily on <input> elements, but is usable on any element while in contenteditable
 // mode.
 // Possible values: none, text, tel, url, email, numeric, decimal, search.
@@ -588,33 +652,43 @@ func (e *element) InputMode(mode inputmode.InputMode) *element {
 	return e
 }
 
-// Is Allows you to specify that a standard HTML element should behave like a registered custom built-in element.
+// Is sets the is attribute.
+//
+// Allows you to specify that a standard HTML element should behave like a registered custom built-in element.
 func (e *element) Is(element string) *element {
 	e.SetAttribute("is", element)
 	return e
 }
 
-// ItemId The unique, global identifier of an item. This attribute is part of the WHATWG HTML Microdata feature.
+// ItemId sets the itemid attribute.
+//
+// The unique, global identifier of an item. This attribute is part of the WHATWG HTML Microdata feature.
 func (e *element) ItemId(id string) *element {
 	e.SetAttribute("itemid", id)
 	return e
 }
 
-// ItemProp Used to add properties to an item. Every HTML element may have an itemprop attribute specified, where an
+// ItemProp sets the itemprop attribute.
+//
+// Used to add properties to an item. Every HTML element may have an itemprop attribute specified, where an
 // itemprop consists of a name and value pair.
 func (e *element) ItemProp(properties string) *element {
 	e.global().ItemProp = properties
 	return e
 }
 
-// ItemRef Properties that are not descendants of an element with the itemscope attribute can be associated with the item
+// ItemRef sets the itemref attribute.
+//
+// Properties that are not descendants of an element with the itemscope attribute can be associated with the item
 // using an itemref.
 func (e *element) ItemRef(refs string) *element {
 	e.global().ItemRef = refs
 	return e
 }
 
-// ItemScope itemscope (usually) works along with itemtype to specify that the HTML contained in a block is about a
+// ItemScope sets the itemscope attribute.
+//
+// itemscope (usually) works along with itemtype to specify that the HTML contained in a block is about a
 // particular item.
 //
 // Calling without an argument sets the attribute. Pass a bool to control presence conditionally.
@@ -627,21 +701,27 @@ func (e *element) ItemScope(conds ...bool) *element {
 	return e
 }
 
-// ItemType Specifies the URL of the vocabulary that will be used to define itemprops (item properties) in the data
+// ItemType sets the itemtype attribute.
+//
+// Specifies the URL of the vocabulary that will be used to define itemprops (item properties) in the data
 // structure.
 func (e *element) ItemType(itemType string) *element {
 	e.SetAttribute("itemtype", itemType)
 	return e
 }
 
-// Nonce A cryptographic nonce ("number used once") which can be used by Content Security Policy to determine whether
+// Nonce sets the nonce attribute.
+//
+// A cryptographic nonce ("number used once") which can be used by Content Security Policy to determine whether
 // or not a given fetch will be allowed to proceed.
 func (e *element) Nonce(value string) *element {
 	e.SetAttribute("nonce", value)
 	return e
 }
 
-// Part A space-separated list of the part names of the element. Part names allows CSS to select and style specific
+// Part sets the part attribute.
+//
+// A space-separated list of the part names of the element. Part names allows CSS to select and style specific
 // elements in a shadow tree via the ::part pseudo-element.
 func (e *element) Part(names string) *element {
 	if e.global().Part == "" {
@@ -652,7 +732,9 @@ func (e *element) Part(names string) *element {
 	return e
 }
 
-// Popover Used to designate an element as a popover element. Popover elements are hidden via display: none until opened
+// Popover sets the popover attribute.
+//
+// Used to designate an element as a popover element. Popover elements are hidden via display: none until opened
 // via an invoking/control element (i.e., a <button> or <input type="button"> with a popovertarget attribute)
 // or a HTMLElement.showPopover() call.
 // Possible values: auto, manual.
@@ -661,21 +743,27 @@ func (e *element) Popover(value popover.Popover) *element {
 	return e
 }
 
-// Slot Assigns a slot in a shadow DOM shadow tree to an element: An element with a slot attribute is assigned to the
+// Slot sets the slot attribute.
+//
+// Assigns a slot in a shadow DOM shadow tree to an element: An element with a slot attribute is assigned to the
 // slot created by the <slot> element whose name attribute's value matches that slot attribute's value.
 func (e *element) Slot(name string) *element {
 	e.SetAttribute("slot", name)
 	return e
 }
 
-// SpellCheck An enumerated attribute that defines whether the element may be checked for spelling errors.
+// SpellCheck sets the spellcheck attribute.
+//
+// An enumerated attribute that defines whether the element may be checked for spelling errors.
 // Possible values: true, false.
 func (e *element) SpellCheck(value spellcheck.Spellcheck) *element {
 	e.global().SpellCheck = value
 	return e
 }
 
-// Translate An enumerated attribute that is used to specify whether an element's attribute values and the values of its
+// Translate sets the translate attribute.
+//
+// An enumerated attribute that is used to specify whether an element's attribute values and the values of its
 // Text node children are to be translated when the page is localized, or whether to leave them unchanged.
 // Possible values: yes, no.
 func (e *element) Translate(value translate.Translate) *element {
@@ -683,7 +771,9 @@ func (e *element) Translate(value translate.Translate) *element {
 	return e
 }
 
-// VirtualKeyboardPolicy An enumerated attribute used to control the on-screen virtual keyboard behavior on devices such as tablets,
+// VirtualKeyboardPolicy sets the virtualkeyboardpolicy attribute.
+//
+// An enumerated attribute used to control the on-screen virtual keyboard behavior on devices such as tablets,
 // mobile phones, or other devices where a hardware keyboard may not be available for elements that its content
 // is editable (for example, it is an <input> or <textarea> element, or an element with the contenteditable
 // attribute set).
@@ -693,7 +783,9 @@ func (e *element) VirtualKeyboardPolicy(policy virtualkeyboardpolicy.VirtualKeyb
 	return e
 }
 
-// WritingSuggestions An enumerated attribute indicating if browser-provided writing suggestions should be enabled under the scope of
+// WritingSuggestions sets the writingsuggestions attribute.
+//
+// An enumerated attribute indicating if browser-provided writing suggestions should be enabled under the scope of
 // the element or not.
 // Possible values: true, false.
 func (e *element) WritingSuggestions(value writingsuggestions.WritingSuggestions) *element {
@@ -701,7 +793,9 @@ func (e *element) WritingSuggestions(value writingsuggestions.WritingSuggestions
 	return e
 }
 
-// OnClick Fired when an element is clicked with a pointing device (mouse, trackpad, or touch). The most commonly used event for
+// OnClick sets the onclick attribute.
+//
+// Fired when an element is clicked with a pointing device (mouse, trackpad, or touch). The most commonly used event for
 // user interactions, triggering actions like navigation, form submission, modal opening, or any interactive behavior.
 // Available on virtually all elements, making it the primary event for user interface interactions.
 func (e *element) OnClick(handler string) *element {
@@ -709,7 +803,9 @@ func (e *element) OnClick(handler string) *element {
 	return e
 }
 
-// OnChange Fired when the value of a form control has been committed by the user and the element loses focus. Differs from
+// OnChange sets the onchange attribute.
+//
+// Fired when the value of a form control has been committed by the user and the element loses focus. Differs from
 // oninput which fires on every keystroke. Used on <input>, <select>, and <textarea> elements for form validation,
 // data processing, dependent field updates, and saving draft changes. Essential for form workflows and user input
 // handling.
@@ -718,7 +814,9 @@ func (e *element) OnChange(handler string) *element {
 	return e
 }
 
-// OnInput Fired immediately when the value of an input element changes (every keystroke, paste, etc.). Unlike onchange, it
+// OnInput sets the oninput attribute.
+//
+// Fired immediately when the value of an input element changes (every keystroke, paste, etc.). Unlike onchange, it
 // fires before the element loses focus. Used on <input>, <select>, and <textarea> for real-time validation,
 // auto-save, search suggestions, character counters, or live form updates. Perfect for responsive user interfaces.
 func (e *element) OnInput(handler string) *element {
@@ -726,7 +824,9 @@ func (e *element) OnInput(handler string) *element {
 	return e
 }
 
-// OnFocus Fired when an element receives focus, typically through clicking, tabbing, or programmatic focus(). Commonly used
+// OnFocus sets the onfocus attribute.
+//
+// Fired when an element receives focus, typically through clicking, tabbing, or programmatic focus(). Commonly used
 // on form elements to show input helpers, highlight fields, display validation messages, auto-select content, or
 // trigger contextual UI changes. Essential for accessibility and guided user experiences.
 func (e *element) OnFocus(handler string) *element {
@@ -734,7 +834,9 @@ func (e *element) OnFocus(handler string) *element {
 	return e
 }
 
-// OnBlur Fired when an element loses focus, typically when the user clicks elsewhere or tabs to another element. Commonly
+// OnBlur sets the onblur attribute.
+//
+// Fired when an element loses focus, typically when the user clicks elsewhere or tabs to another element. Commonly
 // used on form inputs (<input>, <textarea>, <select>) to validate input, save drafts, hide dropdowns, or trigger
 // field-specific actions. Essential for form validation workflows and user experience enhancements.
 func (e *element) OnBlur(handler string) *element {
@@ -742,7 +844,9 @@ func (e *element) OnBlur(handler string) *element {
 	return e
 }
 
-// OnSubmit Fired when a form is submitted, either by clicking a submit button or pressing Enter in a form field. Occurs on
+// OnSubmit sets the onsubmit attribute.
+//
+// Fired when a form is submitted, either by clicking a submit button or pressing Enter in a form field. Occurs on
 // <form> elements and provides the last opportunity to validate data, prevent submission with preventDefault(), show
 // loading states, or perform custom submission handling like AJAX requests.
 func (e *element) OnSubmit(handler string) *element {
@@ -750,7 +854,9 @@ func (e *element) OnSubmit(handler string) *element {
 	return e
 }
 
-// OnLoad Fired when a resource and all its dependencies have finished loading successfully. Commonly used on images,
+// OnLoad sets the onload attribute.
+//
+// Fired when a resource and all its dependencies have finished loading successfully. Commonly used on images,
 // scripts, stylesheets, iframes, and the window object. Essential for initializing functionality, showing content,
 // removing loading indicators, starting animations, or executing code that depends on loaded resources.
 func (e *element) OnLoad(handler string) *element {
@@ -758,7 +864,9 @@ func (e *element) OnLoad(handler string) *element {
 	return e
 }
 
-// OnError Fired when an error occurs during resource loading or processing. Common on images, scripts, stylesheets, media
+// OnError sets the onerror attribute.
+//
+// Fired when an error occurs during resource loading or processing. Common on images, scripts, stylesheets, media
 // elements, and other resources that can fail to load. Essential for error handling, showing fallback content,
 // implementing retry logic, logging failures, or providing user-friendly error messages when resources are
 // unavailable.
@@ -767,13 +875,17 @@ func (e *element) OnError(handler string) *element {
 	return e
 }
 
-// SetEvent Generic method to add an event using SetEvent(key, value)
+// SetEvent sets a custom event handler attribute on the element. Prefer the typed On*() methods where they exist.
+//
+// Generic method to add an event using SetEvent(key, value)
 func (e *element) SetEvent(key string, value string) *element {
 	e.SetAttribute(key, value)
 	return e
 }
 
-// OnAbort Fired when loading of a resource (image, audio, video, or other media) has been aborted before it completed
+// OnAbort sets the onabort attribute.
+//
+// Fired when loading of a resource (image, audio, video, or other media) has been aborted before it completed
 // successfully. This occurs when the user navigates away from the page, cancels the download, or when the loading
 // is interrupted programmatically. Commonly used on media elements (<audio>, <video>), images (<img>), and objects
 // (<object>) to handle interrupted loading states and clean up resources.
@@ -782,7 +894,9 @@ func (e *element) OnAbort(handler string) *element {
 	return e
 }
 
-// OnAutoComplete Fired when an input field's autocomplete functionality successfully provides a suggestion that the user accepts.
+// OnAutoComplete sets the onautocomplete attribute.
+//
+// Fired when an input field's autocomplete functionality successfully provides a suggestion that the user accepts.
 // This occurs on <input> elements with autocomplete="on" when the browser's autocomplete dropdown is used to fill
 // the field. Useful for tracking user interaction with browser autocomplete features, form analytics, and
 // implementing custom behavior when autocomplete values are selected.
@@ -793,7 +907,9 @@ func (e *element) OnAutoComplete(handler string) *element {
 	return e
 }
 
-// OnAutoCompleteError Fired when an input field's autocomplete functionality encounters an error while attempting to provide
+// OnAutoCompleteError sets the onautocompleteerror attribute.
+//
+// Fired when an input field's autocomplete functionality encounters an error while attempting to provide
 // suggestions. This occurs on <input> elements with autocomplete="on" when the browser fails to retrieve or
 // process autocomplete data. Useful for error handling in forms, fallback autocomplete implementations, and
 // debugging autocomplete issues.
@@ -804,7 +920,9 @@ func (e *element) OnAutoCompleteError(handler string) *element {
 	return e
 }
 
-// OnCancel Fired when a <dialog> element is cancelled, typically by pressing the Escape key. This event allows you to handle
+// OnCancel sets the oncancel attribute.
+//
+// Fired when a <dialog> element is cancelled, typically by pressing the Escape key. This event allows you to handle
 // dialog cancellation gracefully, perform cleanup operations, reset form state, or prevent the dialog from closing
 // by calling preventDefault(). Useful for confirming unsaved changes before closing modal dialogs.
 func (e *element) OnCancel(handler string) *element {
@@ -812,7 +930,9 @@ func (e *element) OnCancel(handler string) *element {
 	return e
 }
 
-// OnCanPlay Fired when enough media data has been loaded to begin playback, but not necessarily to play through to the end
+// OnCanPlay sets the oncanplay attribute.
+//
+// Fired when enough media data has been loaded to begin playback, but not necessarily to play through to the end
 // without buffering. Occurs on <audio> and <video> elements when the media is ready to start playing. Useful for
 // showing play buttons, enabling media controls, preloading indicators, or triggering autoplay functionality.
 func (e *element) OnCanPlay(handler string) *element {
@@ -820,7 +940,9 @@ func (e *element) OnCanPlay(handler string) *element {
 	return e
 }
 
-// OnCanPlayThrough Fired when enough media data has been loaded to play through to the end without interruption for buffering.
+// OnCanPlayThrough sets the oncanplaythrough attribute.
+//
+// Fired when enough media data has been loaded to play through to the end without interruption for buffering.
 // Occurs on <audio> and <video> elements when the entire media file can be played smoothly. Ideal for hiding
 // loading spinners, enabling higher quality playback options, or triggering seamless media experiences.
 func (e *element) OnCanPlayThrough(handler string) *element {
@@ -828,7 +950,9 @@ func (e *element) OnCanPlayThrough(handler string) *element {
 	return e
 }
 
-// OnClose Fired when a <dialog> element is closed, either programmatically or by user action. Unlike oncancel, this event
+// OnClose sets the onclose attribute.
+//
+// Fired when a <dialog> element is closed, either programmatically or by user action. Unlike oncancel, this event
 // fires for all dialog closing methods (close button, form submission, JavaScript close()). Useful for cleanup
 // operations, saving dialog state, triggering follow-up actions, or updating the parent page based on dialog
 // results.
@@ -837,7 +961,9 @@ func (e *element) OnClose(handler string) *element {
 	return e
 }
 
-// OnContextMenu Fired when the user attempts to open a context menu, typically via right-click, Shift+F10, or long-press on
+// OnContextMenu sets the oncontextmenu attribute.
+//
+// Fired when the user attempts to open a context menu, typically via right-click, Shift+F10, or long-press on
 // touch devices. Can be prevented with preventDefault() to implement custom context menus. Commonly used for
 // creating application-specific menus, disabling right-click functionality, or providing contextual actions based
 // on the target element.
@@ -846,7 +972,9 @@ func (e *element) OnContextMenu(handler string) *element {
 	return e
 }
 
-// OnCueChange Fired when the active cues of a TextTrack change, typically in video subtitles, captions, or chapter markers.
+// OnCueChange sets the oncuechange attribute.
+//
+// Fired when the active cues of a TextTrack change, typically in video subtitles, captions, or chapter markers.
 // Occurs on <track> elements when different text cues become active during media playback. Useful for implementing
 // custom subtitle styling, accessibility features, chapter navigation, or synchronized content based on video
 // timestamps.
@@ -855,7 +983,9 @@ func (e *element) OnCueChange(handler string) *element {
 	return e
 }
 
-// OnDblClick Fired when an element is double-clicked rapidly (two clicks in quick succession). Commonly used for actions like
+// OnDblClick sets the ondblclick attribute.
+//
+// Fired when an element is double-clicked rapidly (two clicks in quick succession). Commonly used for actions like
 // opening files, editing text in place, zooming, or toggling between states. Note that ondblclick typically
 // prevents the second onclick event from firing, making it suitable for distinct double-click actions.
 func (e *element) OnDblClick(handler string) *element {
@@ -863,7 +993,9 @@ func (e *element) OnDblClick(handler string) *element {
 	return e
 }
 
-// OnDrag Fired repeatedly (every few hundred milliseconds) during a drag operation while the user is dragging an element.
+// OnDrag sets the ondrag attribute.
+//
+// Fired repeatedly (every few hundred milliseconds) during a drag operation while the user is dragging an element.
 // Used on draggable elements to provide visual feedback, update drag ghost images, track drag progress, or
 // implement custom drag behaviors. Essential for smooth drag-and-drop interfaces and interactive element
 // manipulation.
@@ -872,7 +1004,9 @@ func (e *element) OnDrag(handler string) *element {
 	return e
 }
 
-// OnDragEnd Fired when a drag operation concludes, whether successful (dropped on valid target) or cancelled (Escape key,
+// OnDragEnd sets the ondragend attribute.
+//
+// Fired when a drag operation concludes, whether successful (dropped on valid target) or cancelled (Escape key,
 // invalid drop zone). Occurs on the dragged element and is useful for cleanup operations, resetting drag states,
 // removing visual indicators, or logging drag completion. Always fires after ondrop or dragover events complete.
 func (e *element) OnDragEnd(handler string) *element {
@@ -880,7 +1014,9 @@ func (e *element) OnDragEnd(handler string) *element {
 	return e
 }
 
-// OnDragEnter Fired when a dragged element first enters a potential drop target. Occurs on the drop target element and is
+// OnDragEnter sets the ondragenter attribute.
+//
+// Fired when a dragged element first enters a potential drop target. Occurs on the drop target element and is
 // commonly used to highlight drop zones, show insertion indicators, or prepare the target for receiving dropped
 // content. Often paired with preventing default behavior to indicate the target accepts drops.
 func (e *element) OnDragEnter(handler string) *element {
@@ -888,7 +1024,9 @@ func (e *element) OnDragEnter(handler string) *element {
 	return e
 }
 
-// OnDragLeave Fired when a dragged element exits a drop target area. Occurs on the drop target element and is typically used
+// OnDragLeave sets the ondragleave attribute.
+//
+// Fired when a dragged element exits a drop target area. Occurs on the drop target element and is typically used
 // to remove drop zone highlights, hide insertion indicators, or reset the target's visual state. Important for
 // maintaining clean visual feedback during drag operations and avoiding stuck highlight states.
 func (e *element) OnDragLeave(handler string) *element {
@@ -896,7 +1034,9 @@ func (e *element) OnDragLeave(handler string) *element {
 	return e
 }
 
-// OnDragOver Fired repeatedly while a dragged element hovers over a drop target. Essential for enabling drops - must call
+// OnDragOver sets the ondragover attribute.
+//
+// Fired repeatedly while a dragged element hovers over a drop target. Essential for enabling drops - must call
 // preventDefault() to allow dropping. Used to update drop indicators, determine exact drop position, provide
 // visual feedback, or validate whether the current drag data is acceptable for this drop target.
 func (e *element) OnDragOver(handler string) *element {
@@ -904,7 +1044,9 @@ func (e *element) OnDragOver(handler string) *element {
 	return e
 }
 
-// OnDragStart Fired when a drag operation begins, triggered by the user starting to drag a draggable element. Occurs on the
+// OnDragStart sets the ondragstart attribute.
+//
+// Fired when a drag operation begins, triggered by the user starting to drag a draggable element. Occurs on the
 // source element being dragged and is used to set drag data with setData(), customize the drag image, define
 // allowed drag effects, or prepare the element for dragging. The foundation event for all drag-and-drop
 // operations.
@@ -913,7 +1055,9 @@ func (e *element) OnDragStart(handler string) *element {
 	return e
 }
 
-// OnDrop Fired when a dragged element is successfully dropped on a drop target. Occurs after dragover events and
+// OnDrop sets the ondrop attribute.
+//
+// Fired when a dragged element is successfully dropped on a drop target. Occurs after dragover events and
 // represents the completion of a drag-and-drop operation. Used to process the dropped data with getData(), move
 // elements, update application state, or trigger follow-up actions. Must call preventDefault() in dragover to
 // enable dropping.
@@ -922,7 +1066,9 @@ func (e *element) OnDrop(handler string) *element {
 	return e
 }
 
-// OnDurationChange Fired when the duration of media content becomes available or changes. Occurs on <audio> and <video> elements
+// OnDurationChange sets the ondurationchange attribute.
+//
+// Fired when the duration of media content becomes available or changes. Occurs on <audio> and <video> elements
 // when metadata is loaded or when switching to different media sources. Useful for updating progress bars,
 // calculating playback positions, enabling seeking controls, or displaying total media duration to users.
 func (e *element) OnDurationChange(handler string) *element {
@@ -930,7 +1076,9 @@ func (e *element) OnDurationChange(handler string) *element {
 	return e
 }
 
-// OnEmptied Fired when media element is reset to empty state, typically when load() is called to reload media or when the
+// OnEmptied sets the onemptied attribute.
+//
+// Fired when media element is reset to empty state, typically when load() is called to reload media or when the
 // source changes. Occurs on <audio> and <video> elements and indicates that previous media data is no longer
 // available. Useful for resetting player UI, clearing cached data, showing loading states, or preparing for new
 // media content.
@@ -939,7 +1087,9 @@ func (e *element) OnEmptied(handler string) *element {
 	return e
 }
 
-// OnEnded Fired when media playback reaches the end of the content. Occurs on <audio> and <video> elements when the media
+// OnEnded sets the onended attribute.
+//
+// Fired when media playback reaches the end of the content. Occurs on <audio> and <video> elements when the media
 // finishes playing naturally (not when paused or stopped by user). Commonly used for playing next track, showing
 // replay options, triggering analytics, hiding playback controls, or starting related content.
 func (e *element) OnEnded(handler string) *element {
@@ -947,7 +1097,9 @@ func (e *element) OnEnded(handler string) *element {
 	return e
 }
 
-// OnInvalid Fired when form validation fails on a submittable element during form submission. Occurs before the form submits
+// OnInvalid sets the oninvalid attribute.
+//
+// Fired when form validation fails on a submittable element during form submission. Occurs before the form submits
 // when built-in HTML5 validation constraints are not met (required, pattern, min/max, etc.). Used for custom
 // validation messages, focusing invalid fields, preventing submission, or implementing custom validation UI.
 func (e *element) OnInvalid(handler string) *element {
@@ -955,7 +1107,9 @@ func (e *element) OnInvalid(handler string) *element {
 	return e
 }
 
-// OnKeyDown Fired when a key is pressed down, before any character is generated. Captures all keys including modifiers
+// OnKeyDown sets the onkeydown attribute.
+//
+// Fired when a key is pressed down, before any character is generated. Captures all keys including modifiers
 // (Ctrl, Alt, Shift), function keys, and arrows. Used for keyboard shortcuts, game controls, navigation,
 // preventing default key behavior, or implementing custom key handling. Fires repeatedly when key is held down.
 func (e *element) OnKeyDown(handler string) *element {
@@ -963,7 +1117,9 @@ func (e *element) OnKeyDown(handler string) *element {
 	return e
 }
 
-// OnKeyPress Fired when a key press results in a character being generated. Only triggers for printable characters, not for
+// OnKeyPress sets the onkeypress attribute.
+//
+// Fired when a key press results in a character being generated. Only triggers for printable characters, not for
 // modifier or function keys. Deprecated in favor of onkeydown and oninput events. Historically used for character
 // input validation, but modern applications should use onkeydown for key detection and oninput for content
 // changes.
@@ -972,7 +1128,9 @@ func (e *element) OnKeyPress(handler string) *element {
 	return e
 }
 
-// OnKeyUp Fired when a pressed key is released. Often paired with onkeydown for complete key interaction handling. Used
+// OnKeyUp sets the onkeyup attribute.
+//
+// Fired when a pressed key is released. Often paired with onkeydown for complete key interaction handling. Used
 // for ending keyboard shortcuts, stopping repeated actions, implementing key combinations, detecting when modifier
 // keys are released, or triggering actions that should occur after key input is complete.
 func (e *element) OnKeyUp(handler string) *element {
@@ -980,7 +1138,9 @@ func (e *element) OnKeyUp(handler string) *element {
 	return e
 }
 
-// OnLoadedData Fired when enough media data has loaded to render the first frame. Occurs on <audio> and <video> elements when
+// OnLoadedData sets the onloadeddata attribute.
+//
+// Fired when enough media data has loaded to render the first frame. Occurs on <audio> and <video> elements when
 // initial media content is available for display. Useful for showing video thumbnails, enabling scrubbing
 // controls, displaying media dimensions, or indicating that media is ready for interaction.
 func (e *element) OnLoadedData(handler string) *element {
@@ -988,7 +1148,9 @@ func (e *element) OnLoadedData(handler string) *element {
 	return e
 }
 
-// OnLoadedMetadata Fired when media metadata (duration, dimensions, text tracks) has been loaded. Occurs on <audio> and <video>
+// OnLoadedMetadata sets the onloadedmetadata attribute.
+//
+// Fired when media metadata (duration, dimensions, text tracks) has been loaded. Occurs on <audio> and <video>
 // elements before actual media data loads. Useful for setting up player UI, configuring progress bars, enabling
 // seeking, displaying video dimensions, or initializing media-dependent features.
 func (e *element) OnLoadedMetadata(handler string) *element {
@@ -996,7 +1158,9 @@ func (e *element) OnLoadedMetadata(handler string) *element {
 	return e
 }
 
-// OnLoadStart Fired when the browser begins loading a resource, typically on media elements, images, or during fetch
+// OnLoadStart sets the onloadstart attribute.
+//
+// Fired when the browser begins loading a resource, typically on media elements, images, or during fetch
 // operations. Indicates the start of the loading process before any data is actually received. Useful for showing
 // loading indicators, starting progress tracking, initializing loading states, or logging load attempts.
 func (e *element) OnLoadStart(handler string) *element {
@@ -1004,7 +1168,9 @@ func (e *element) OnLoadStart(handler string) *element {
 	return e
 }
 
-// OnMouseDown Fired when a mouse button is pressed down on an element. The first part of a click interaction, followed by
+// OnMouseDown sets the onmousedown attribute.
+//
+// Fired when a mouse button is pressed down on an element. The first part of a click interaction, followed by
 // mouseup. Used for drag operations, custom button effects, games, drawing applications, or implementing custom
 // click behaviors. Can distinguish between left, middle, and right mouse buttons.
 func (e *element) OnMouseDown(handler string) *element {
@@ -1012,7 +1178,9 @@ func (e *element) OnMouseDown(handler string) *element {
 	return e
 }
 
-// OnMouseEnter Fired when the mouse pointer enters an element's boundaries. Does not bubble and only fires once when entering,
+// OnMouseEnter sets the onmouseenter attribute.
+//
+// Fired when the mouse pointer enters an element's boundaries. Does not bubble and only fires once when entering,
 // not when moving over child elements. Perfect for hover effects, tooltips, dropdown menus, highlighting
 // elements, or triggering UI changes when users mouse over interactive components.
 func (e *element) OnMouseEnter(handler string) *element {
@@ -1020,7 +1188,9 @@ func (e *element) OnMouseEnter(handler string) *element {
 	return e
 }
 
-// OnMouseLeave Fired when the mouse pointer exits an element's boundaries. Does not bubble and only fires when leaving the
+// OnMouseLeave sets the onmouseleave attribute.
+//
+// Fired when the mouse pointer exits an element's boundaries. Does not bubble and only fires when leaving the
 // element, not when moving to child elements. Paired with onmouseenter for clean hover states, hiding tooltips,
 // closing dropdowns, or removing highlights when users stop hovering.
 func (e *element) OnMouseLeave(handler string) *element {
@@ -1028,7 +1198,9 @@ func (e *element) OnMouseLeave(handler string) *element {
 	return e
 }
 
-// OnMouseMove Fired continuously while the mouse moves over an element. Can fire many times per second, so consider throttling
+// OnMouseMove sets the onmousemove attribute.
+//
+// Fired continuously while the mouse moves over an element. Can fire many times per second, so consider throttling
 // for performance. Used for mouse tracking, custom cursors, drag operations, drawing applications, interactive
 // games, or creating mouse-following effects. Provides precise cursor position data.
 func (e *element) OnMouseMove(handler string) *element {
@@ -1036,7 +1208,9 @@ func (e *element) OnMouseMove(handler string) *element {
 	return e
 }
 
-// OnMouseOut Fired when the mouse pointer leaves an element or moves to one of its child elements. Unlike onmouseleave, this
+// OnMouseOut sets the onmouseout attribute.
+//
+// Fired when the mouse pointer leaves an element or moves to one of its child elements. Unlike onmouseleave, this
 // event bubbles and can fire when moving over child elements. Less commonly used than onmouseleave due to its
 // bubbling behavior, but useful for specific event delegation scenarios.
 func (e *element) OnMouseOut(handler string) *element {
@@ -1044,7 +1218,9 @@ func (e *element) OnMouseOut(handler string) *element {
 	return e
 }
 
-// OnMouseOver Fired when the mouse pointer enters an element or moves to one of its child elements. Unlike onmouseenter, this
+// OnMouseOver sets the onmouseover attribute.
+//
+// Fired when the mouse pointer enters an element or moves to one of its child elements. Unlike onmouseenter, this
 // event bubbles and can fire multiple times when moving over child elements. Less commonly used than onmouseenter
 // due to its bubbling behavior, but useful for event delegation or complex hover tracking.
 func (e *element) OnMouseOver(handler string) *element {
@@ -1052,7 +1228,9 @@ func (e *element) OnMouseOver(handler string) *element {
 	return e
 }
 
-// OnMouseUp Fired when a mouse button is released after being pressed down. Completes a click interaction when combined
+// OnMouseUp sets the onmouseup attribute.
+//
+// Fired when a mouse button is released after being pressed down. Completes a click interaction when combined
 // with mousedown. Used for finishing drag operations, custom button behaviors, click completion handling, or
 // implementing mouse-based interactions that require both press and release detection.
 func (e *element) OnMouseUp(handler string) *element {
@@ -1060,7 +1238,9 @@ func (e *element) OnMouseUp(handler string) *element {
 	return e
 }
 
-// OnMouseWheel Fired when the mouse wheel is scrolled. Detects vertical and horizontal scrolling from mouse wheels or trackpad
+// OnMouseWheel sets the onmousewheel attribute.
+//
+// Fired when the mouse wheel is scrolled. Detects vertical and horizontal scrolling from mouse wheels or trackpad
 // gestures. Used for custom scrolling behavior, zooming, volume controls, image galleries, or implementing
 // scroll-based interactions. Provides delta values for scroll direction and amount.
 //
@@ -1070,7 +1250,9 @@ func (e *element) OnMouseWheel(handler string) *element {
 	return e
 }
 
-// OnPause Fired when media playback is paused, either by user action or programmatically. Occurs on <audio> and <video>
+// OnPause sets the onpause attribute.
+//
+// Fired when media playback is paused, either by user action or programmatically. Occurs on <audio> and <video>
 // elements when playback stops but remains ready to resume. Used for updating play/pause buttons, saving playback
 // position, pausing related animations, analytics tracking, or triggering pause-related functionality.
 func (e *element) OnPause(handler string) *element {
@@ -1078,7 +1260,9 @@ func (e *element) OnPause(handler string) *element {
 	return e
 }
 
-// OnPlay Fired when media playback is requested to start, either by user action or programmatically. Occurs on <audio>
+// OnPlay sets the onplay attribute.
+//
+// Fired when media playback is requested to start, either by user action or programmatically. Occurs on <audio>
 // and <video> elements when transitioning from paused to playing state. Note this fires when play is requested,
 // not when actually playing (use onplaying for that). Used for updating UI controls and preparing for playback.
 func (e *element) OnPlay(handler string) *element {
@@ -1086,7 +1270,9 @@ func (e *element) OnPlay(handler string) *element {
 	return e
 }
 
-// OnPlaying Fired when media playback actually begins after being paused or delayed due to buffering. Occurs on <audio> and
+// OnPlaying sets the onplaying attribute.
+//
+// Fired when media playback actually begins after being paused or delayed due to buffering. Occurs on <audio> and
 // <video> elements when media is actively playing content. Used for updating player UI, starting progress
 // tracking, enabling playback-dependent features, or triggering actions that should occur during active playback.
 func (e *element) OnPlaying(handler string) *element {
@@ -1094,7 +1280,9 @@ func (e *element) OnPlaying(handler string) *element {
 	return e
 }
 
-// OnProgress Fired periodically during media loading to indicate download progress. Occurs on <audio> and <video> elements
+// OnProgress sets the onprogress attribute.
+//
+// Fired periodically during media loading to indicate download progress. Occurs on <audio> and <video> elements
 // and provides information about how much content has been buffered. Used for updating progress bars, showing
 // buffering indicators, enabling progressive playback, or estimating load completion times.
 func (e *element) OnProgress(handler string) *element {
@@ -1102,7 +1290,9 @@ func (e *element) OnProgress(handler string) *element {
 	return e
 }
 
-// OnRateChange Fired when media playback speed changes. Occurs on <audio> and <video> elements when the playbackRate property
+// OnRateChange sets the onratechange attribute.
+//
+// Fired when media playback speed changes. Occurs on <audio> and <video> elements when the playbackRate property
 // is modified (e.g., 0.5x, 1x, 1.5x, 2x speed). Used for updating speed indicators, adjusting UI controls,
 // synchronizing playback-dependent animations, or implementing custom playback speed controls.
 func (e *element) OnRateChange(handler string) *element {
@@ -1110,7 +1300,9 @@ func (e *element) OnRateChange(handler string) *element {
 	return e
 }
 
-// OnReset Fired when a form is reset to its initial state, either by clicking a reset button or calling the form's
+// OnReset sets the onreset attribute.
+//
+// Fired when a form is reset to its initial state, either by clicking a reset button or calling the form's
 // reset() method. Occurs on <form> elements and provides an opportunity to handle the reset action, clear custom
 // validation states, reset dynamic content, or prevent the reset if needed.
 func (e *element) OnReset(handler string) *element {
@@ -1118,7 +1310,9 @@ func (e *element) OnReset(handler string) *element {
 	return e
 }
 
-// OnResize Fired when the browser window or element is resized. Commonly used on the window object to handle viewport
+// OnResize sets the onresize attribute.
+//
+// Fired when the browser window or element is resized. Commonly used on the window object to handle viewport
 // changes, but also available on resizable elements. Essential for responsive design, updating layouts,
 // recalculating positions, adjusting canvas sizes, or triggering responsive behavior based on size changes.
 func (e *element) OnResize(handler string) *element {
@@ -1126,7 +1320,9 @@ func (e *element) OnResize(handler string) *element {
 	return e
 }
 
-// OnScroll Fired when an element's scroll position changes. Can fire rapidly during scrolling, so consider throttling for
+// OnScroll sets the onscroll attribute.
+//
+// Fired when an element's scroll position changes. Can fire rapidly during scrolling, so consider throttling for
 // performance. Used for implementing scroll-based animations, infinite scroll, sticky headers, scroll progress
 // indicators, lazy loading, or triggering content updates based on scroll position.
 func (e *element) OnScroll(handler string) *element {
@@ -1134,7 +1330,9 @@ func (e *element) OnScroll(handler string) *element {
 	return e
 }
 
-// OnSeeked Fired when a media seek operation completes successfully. Occurs on <audio> and <video> elements after the user
+// OnSeeked sets the onseeked attribute.
+//
+// Fired when a media seek operation completes successfully. Occurs on <audio> and <video> elements after the user
 // or code changes the currentTime position and the media has moved to the new location. Used for updating progress
 // indicators, resuming playback, hiding seeking UI, or triggering actions after successful time navigation.
 func (e *element) OnSeeked(handler string) *element {
@@ -1142,7 +1340,9 @@ func (e *element) OnSeeked(handler string) *element {
 	return e
 }
 
-// OnSeeking Fired when a media seek operation begins. Occurs on <audio> and <video> elements when the user or code starts
+// OnSeeking sets the onseeking attribute.
+//
+// Fired when a media seek operation begins. Occurs on <audio> and <video> elements when the user or code starts
 // changing the currentTime position. Used for showing seeking indicators, pausing dependent animations, updating
 // UI to reflect seeking state, or preparing for playback position changes.
 func (e *element) OnSeeking(handler string) *element {
@@ -1150,7 +1350,9 @@ func (e *element) OnSeeking(handler string) *element {
 	return e
 }
 
-// OnSelect Fired when text is selected within an input field or textarea. Occurs on <input> and <textarea> elements when
+// OnSelect sets the onselect attribute.
+//
+// Fired when text is selected within an input field or textarea. Occurs on <input> and <textarea> elements when
 // users highlight text. Used for implementing text formatting tools, copy shortcuts, selection-based actions, text
 // analysis features, or providing contextual options for selected content.
 func (e *element) OnSelect(handler string) *element {
@@ -1158,7 +1360,9 @@ func (e *element) OnSelect(handler string) *element {
 	return e
 }
 
-// OnShow Fired when a context menu element was displayed. Originally associated with the legacy HTML context menu
+// OnShow sets the onshow attribute.
+//
+// Fired when a context menu element was displayed. Originally associated with the legacy HTML context menu
 // feature. Browser support was limited to older versions of Firefox. Modern alternatives include the
 // Intersection Observer API for visibility detection or OnBeforeToggle and OnToggle for popover elements.
 //
@@ -1168,7 +1372,9 @@ func (e *element) OnShow(handler string) *element {
 	return e
 }
 
-// OnSort Non-standard event intended for sortable list or table reordering. Not defined in the WHATWG living standard
+// OnSort sets the onsort attribute.
+//
+// Non-standard event intended for sortable list or table reordering. Not defined in the WHATWG living standard
 // or any W3C specification. Used in some libraries and custom implementations for saving sort preferences,
 // updating data models, and triggering dependent updates.
 //
@@ -1178,7 +1384,9 @@ func (e *element) OnSort(handler string) *element {
 	return e
 }
 
-// OnStalled Fired when media loading stalls due to network issues or server problems. Occurs on <audio> and <video>
+// OnStalled sets the onstalled attribute.
+//
+// Fired when media loading stalls due to network issues or server problems. Occurs on <audio> and <video>
 // elements when expected data doesn't arrive. Used for showing network error messages, implementing retry logic,
 // switching to alternative sources, or providing fallback content when media loading fails.
 func (e *element) OnStalled(handler string) *element {
@@ -1186,7 +1394,9 @@ func (e *element) OnStalled(handler string) *element {
 	return e
 }
 
-// OnSuspend Fired when media loading is intentionally suspended, typically when the browser decides it has loaded enough
+// OnSuspend sets the onsuspend attribute.
+//
+// Fired when media loading is intentionally suspended, typically when the browser decides it has loaded enough
 // data for current needs. Occurs on <audio> and <video> elements as an optimization. Used for managing loading
 // states, updating progress indicators, or implementing custom buffering strategies.
 func (e *element) OnSuspend(handler string) *element {
@@ -1194,7 +1404,9 @@ func (e *element) OnSuspend(handler string) *element {
 	return e
 }
 
-// OnTimeUpdate Fired regularly during media playback as the currentTime advances. Occurs on <audio> and <video> elements,
+// OnTimeUpdate sets the ontimeupdate attribute.
+//
+// Fired regularly during media playback as the currentTime advances. Occurs on <audio> and <video> elements,
 // typically 4 times per second during playback. Essential for updating progress bars, synchronized content, time
 // displays, subtitle timing, or any functionality that needs to track playback position in real-time.
 func (e *element) OnTimeUpdate(handler string) *element {
@@ -1202,7 +1414,9 @@ func (e *element) OnTimeUpdate(handler string) *element {
 	return e
 }
 
-// OnToggle Fired when a <details> element is opened or closed by clicking its <summary> or programmatically changing the
+// OnToggle sets the ontoggle attribute.
+//
+// Fired when a <details> element is opened or closed by clicking its <summary> or programmatically changing the
 // open attribute. Used for lazy loading collapsed content, animating expand/collapse transitions, saving user
 // preferences, analytics tracking, or implementing custom accordion behaviors.
 func (e *element) OnToggle(handler string) *element {
@@ -1210,7 +1424,9 @@ func (e *element) OnToggle(handler string) *element {
 	return e
 }
 
-// OnVolumeChange Fired when media volume or muted state changes. Occurs on <audio> and <video> elements when the volume
+// OnVolumeChange sets the onvolumechange attribute.
+//
+// Fired when media volume or muted state changes. Occurs on <audio> and <video> elements when the volume
 // property is modified or when toggling between muted and unmuted states. Used for updating volume sliders, mute
 // button states, saving user preferences, or synchronizing audio controls across multiple media elements.
 func (e *element) OnVolumeChange(handler string) *element {
@@ -1218,7 +1434,9 @@ func (e *element) OnVolumeChange(handler string) *element {
 	return e
 }
 
-// OnWaiting Fired when media playback stops due to insufficient buffered data and is waiting for more content to load.
+// OnWaiting sets the onwaiting attribute.
+//
+// Fired when media playback stops due to insufficient buffered data and is waiting for more content to load.
 // Occurs on <audio> and <video> elements during playback interruptions. Used for showing buffering spinners,
 // reducing quality temporarily, implementing adaptive streaming, or providing user feedback during loading delays.
 func (e *element) OnWaiting(handler string) *element {
@@ -1226,7 +1444,9 @@ func (e *element) OnWaiting(handler string) *element {
 	return e
 }
 
-// OnAuxClick Fired when a non-primary pointing device button is clicked (typically middle or right mouse button). Unlike
+// OnAuxClick sets the onauxclick attribute.
+//
+// Fired when a non-primary pointing device button is clicked (typically middle or right mouse button). Unlike
 // onclick which only fires for the primary button, onauxclick captures secondary button interactions. Useful for
 // implementing middle-click to open in new tab, custom right-click actions, or distinguishing between button types.
 func (e *element) OnAuxClick(handler string) *element {
@@ -1234,7 +1454,9 @@ func (e *element) OnAuxClick(handler string) *element {
 	return e
 }
 
-// OnWheel Fired when a wheel button of a pointing device is rotated. Replaces the non-standard onmousewheel event.
+// OnWheel sets the onwheel attribute.
+//
+// Fired when a wheel button of a pointing device is rotated. Replaces the non-standard onmousewheel event.
 // Provides deltaX, deltaY, and deltaZ values for precise scroll direction and amount detection. Used for custom
 // scrolling, zooming, volume controls, image galleries, or scroll-based interactions.
 func (e *element) OnWheel(handler string) *element {
@@ -1242,7 +1464,9 @@ func (e *element) OnWheel(handler string) *element {
 	return e
 }
 
-// OnCopy Fired when the user initiates a copy action through keyboard shortcut or context menu. Occurs on the focused
+// OnCopy sets the oncopy attribute.
+//
+// Fired when the user initiates a copy action through keyboard shortcut or context menu. Occurs on the focused
 // element or selection. Can be used to modify clipboard content with setData(), track copy analytics, show copy
 // confirmation, or prevent copying of sensitive content with preventDefault().
 func (e *element) OnCopy(handler string) *element {
@@ -1250,7 +1474,9 @@ func (e *element) OnCopy(handler string) *element {
 	return e
 }
 
-// OnCut Fired when the user initiates a cut action through keyboard shortcut or context menu. Similar to oncopy but
+// OnCut sets the oncut attribute.
+//
+// Fired when the user initiates a cut action through keyboard shortcut or context menu. Similar to oncopy but
 // also removes the selected content. Can be used to modify clipboard content, prevent cutting in read-only
 // contexts, track content removal, or implement custom cut behaviour.
 func (e *element) OnCut(handler string) *element {
@@ -1258,7 +1484,9 @@ func (e *element) OnCut(handler string) *element {
 	return e
 }
 
-// OnPaste Fired when the user pastes content from the clipboard through keyboard shortcut or context menu. Provides
+// OnPaste sets the onpaste attribute.
+//
+// Fired when the user pastes content from the clipboard through keyboard shortcut or context menu. Provides
 // access to clipboard data via getData(). Used for sanitising pasted content, handling rich text or file pastes,
 // implementing custom paste logic, or preventing unwanted paste formats.
 func (e *element) OnPaste(handler string) *element {
@@ -1266,7 +1494,9 @@ func (e *element) OnPaste(handler string) *element {
 	return e
 }
 
-// OnScrollEnd Fired when scrolling has completed and the scroll position has settled. Unlike onscroll which fires repeatedly
+// OnScrollEnd sets the onscrollend attribute.
+//
+// Fired when scrolling has completed and the scroll position has settled. Unlike onscroll which fires repeatedly
 // during scrolling, onscrollend fires once when the scroll operation finishes. Useful for lazy loading, saving
 // scroll position, triggering animations after scroll completes, or updating UI based on final scroll position.
 func (e *element) OnScrollEnd(handler string) *element {
@@ -1274,7 +1504,9 @@ func (e *element) OnScrollEnd(handler string) *element {
 	return e
 }
 
-// OnFormData Fired after the entry list representing the form's data is constructed during form submission. Occurs on
+// OnFormData sets the onformdata attribute.
+//
+// Fired after the entry list representing the form's data is constructed during form submission. Occurs on
 // <form> elements and allows modification of form data before it is sent. Useful for appending custom data,
 // transforming field values, or implementing custom serialisation logic.
 func (e *element) OnFormData(handler string) *element {
@@ -1282,7 +1514,9 @@ func (e *element) OnFormData(handler string) *element {
 	return e
 }
 
-// OnAnimationCancel Fired when a CSS animation is cancelled unexpectedly, such as when the animation-name is removed or the
+// OnAnimationCancel sets the onanimationcancel attribute.
+//
+// Fired when a CSS animation is cancelled unexpectedly, such as when the animation-name is removed or the
 // element is hidden. Unlike onanimationend, this fires for abnormal termination. Useful for cleanup operations,
 // resetting element state, or triggering fallback behaviour when animations are interrupted.
 func (e *element) OnAnimationCancel(handler string) *element {
@@ -1290,7 +1524,9 @@ func (e *element) OnAnimationCancel(handler string) *element {
 	return e
 }
 
-// OnAnimationEnd Fired when a CSS animation completes all its iterations successfully. Occurs after the final iteration of the
+// OnAnimationEnd sets the onanimationend attribute.
+//
+// Fired when a CSS animation completes all its iterations successfully. Occurs after the final iteration of the
 // animation finishes. Used for removing animation classes, triggering follow-up animations, updating element
 // state, or chaining sequential animation effects.
 func (e *element) OnAnimationEnd(handler string) *element {
@@ -1298,7 +1534,9 @@ func (e *element) OnAnimationEnd(handler string) *element {
 	return e
 }
 
-// OnAnimationIteration Fired when a CSS animation completes one iteration and begins the next. Only fires for animations with more
+// OnAnimationIteration sets the onanimationiteration attribute.
+//
+// Fired when a CSS animation completes one iteration and begins the next. Only fires for animations with more
 // than one iteration. Useful for updating counters, changing animation parameters between cycles, triggering
 // synchronised effects, or implementing progress tracking for looping animations.
 func (e *element) OnAnimationIteration(handler string) *element {
@@ -1306,7 +1544,9 @@ func (e *element) OnAnimationIteration(handler string) *element {
 	return e
 }
 
-// OnAnimationStart Fired when a CSS animation begins playing. Occurs after any animation-delay has elapsed and the first
+// OnAnimationStart sets the onanimationstart attribute.
+//
+// Fired when a CSS animation begins playing. Occurs after any animation-delay has elapsed and the first
 // keyframe starts. Used for showing animation-dependent UI, starting synchronised effects, tracking animation
 // activity, or implementing animation-aware state management.
 func (e *element) OnAnimationStart(handler string) *element {
@@ -1314,7 +1554,9 @@ func (e *element) OnAnimationStart(handler string) *element {
 	return e
 }
 
-// OnTransitionCancel Fired when a CSS transition is cancelled, such as when the transitioning property is removed or the element
+// OnTransitionCancel sets the ontransitioncancel attribute.
+//
+// Fired when a CSS transition is cancelled, such as when the transitioning property is removed or the element
 // is hidden. Unlike ontransitionend, this fires for abnormal termination. Useful for cleanup, resetting state,
 // or triggering fallback behaviour when transitions are interrupted.
 func (e *element) OnTransitionCancel(handler string) *element {
@@ -1322,7 +1564,9 @@ func (e *element) OnTransitionCancel(handler string) *element {
 	return e
 }
 
-// OnTransitionEnd Fired when a CSS transition completes successfully. Occurs after the transition duration has elapsed and the
+// OnTransitionEnd sets the ontransitionend attribute.
+//
+// Fired when a CSS transition completes successfully. Occurs after the transition duration has elapsed and the
 // property reaches its target value. Used for removing transition classes, triggering follow-up transitions,
 // updating element state, or chaining sequential transition effects.
 func (e *element) OnTransitionEnd(handler string) *element {
@@ -1330,7 +1574,9 @@ func (e *element) OnTransitionEnd(handler string) *element {
 	return e
 }
 
-// OnTransitionRun Fired when a CSS transition is first created, before any delay period. Occurs at the moment the transition is
+// OnTransitionRun sets the ontransitionrun attribute.
+//
+// Fired when a CSS transition is first created, before any delay period. Occurs at the moment the transition is
 // added to the set of running transitions. Useful for tracking when transitions are triggered, showing pending
 // transition indicators, or preparing for upcoming visual changes.
 func (e *element) OnTransitionRun(handler string) *element {
@@ -1338,7 +1584,9 @@ func (e *element) OnTransitionRun(handler string) *element {
 	return e
 }
 
-// OnTransitionStart Fired when a CSS transition begins its active phase, after any transition-delay has elapsed. Used for showing
+// OnTransitionStart sets the ontransitionstart attribute.
+//
+// Fired when a CSS transition begins its active phase, after any transition-delay has elapsed. Used for showing
 // transition-dependent UI, starting synchronised effects, tracking active transitions, or implementing
 // transition-aware state management.
 func (e *element) OnTransitionStart(handler string) *element {
@@ -1346,7 +1594,9 @@ func (e *element) OnTransitionStart(handler string) *element {
 	return e
 }
 
-// OnBeforeToggle Fired before a popover or <details> element changes its open/closed state. Can be cancelled with
+// OnBeforeToggle sets the onbeforetoggle attribute.
+//
+// Fired before a popover or <details> element changes its open/closed state. Can be cancelled with
 // preventDefault() to prevent the state change. Useful for validation before showing popovers, confirming
 // closure of unsaved content, or implementing conditional toggle logic.
 func (e *element) OnBeforeToggle(handler string) *element {
@@ -1354,7 +1604,9 @@ func (e *element) OnBeforeToggle(handler string) *element {
 	return e
 }
 
-// OnBeforeInput Fired before the DOM is updated with new input. Unlike oninput which fires after the change, onbeforeinput
+// OnBeforeInput sets the onbeforeinput attribute.
+//
+// Fired before the DOM is updated with new input. Unlike oninput which fires after the change, onbeforeinput
 // fires before and can be cancelled with preventDefault(). Provides inputType for distinguishing between typing,
 // pasting, deleting, and formatting. Useful for input filtering, custom undo/redo, or preventing specific edits.
 func (e *element) OnBeforeInput(handler string) *element {
@@ -1362,7 +1614,9 @@ func (e *element) OnBeforeInput(handler string) *element {
 	return e
 }
 
-// OnBeforeMatch Fired on an element with the hidden="until-found" attribute just before it is revealed by find-in-page or
+// OnBeforeMatch sets the onbeforematch attribute.
+//
+// Fired on an element with the hidden="until-found" attribute just before it is revealed by find-in-page or
 // fragment navigation. Allows preparation before the element becomes visible, such as loading content, expanding
 // collapsed sections, or initialising components that were deferred while hidden.
 func (e *element) OnBeforeMatch(handler string) *element {
@@ -1370,7 +1624,9 @@ func (e *element) OnBeforeMatch(handler string) *element {
 	return e
 }
 
-// OnCommand Fired when a button with a commandfor attribute is activated, dispatched on the target element referenced by
+// OnCommand sets the oncommand attribute.
+//
+// Fired when a button with a commandfor attribute is activated, dispatched on the target element referenced by
 // commandfor. Provides the invoking element via the source property. Used for implementing declarative command
 // patterns where buttons control other elements like dialogs, popovers, or custom components.
 func (e *element) OnCommand(handler string) *element {
@@ -1378,7 +1634,9 @@ func (e *element) OnCommand(handler string) *element {
 	return e
 }
 
-// OnContextLost Fired when the rendering context of a <canvas> element is lost, typically due to GPU resource pressure or
+// OnContextLost sets the oncontextlost attribute.
+//
+// Fired when the rendering context of a <canvas> element is lost, typically due to GPU resource pressure or
 // device changes. Used for showing fallback content, pausing rendering loops, releasing resources, or notifying
 // users that the canvas display may be temporarily unavailable.
 func (e *element) OnContextLost(handler string) *element {
@@ -1386,7 +1644,9 @@ func (e *element) OnContextLost(handler string) *element {
 	return e
 }
 
-// OnContextRestored Fired when a previously lost rendering context of a <canvas> element is restored. Used for re-initialising
+// OnContextRestored sets the oncontextrestored attribute.
+//
+// Fired when a previously lost rendering context of a <canvas> element is restored. Used for re-initialising
 // rendering state, reloading textures and shaders, resuming rendering loops, or rebuilding the canvas display
 // after a context loss event.
 func (e *element) OnContextRestored(handler string) *element {
@@ -1394,7 +1654,9 @@ func (e *element) OnContextRestored(handler string) *element {
 	return e
 }
 
-// OnSecurityPolicyViolation Fired when a Content Security Policy (CSP) violation occurs. Provides details about the violated directive,
+// OnSecurityPolicyViolation sets the onsecuritypolicyviolation attribute.
+//
+// Fired when a Content Security Policy (CSP) violation occurs. Provides details about the violated directive,
 // blocked resource, and policy. Used for CSP violation reporting, security monitoring, debugging blocked
 // resources, or implementing custom violation handling and logging.
 func (e *element) OnSecurityPolicyViolation(handler string) *element {
@@ -1402,7 +1664,9 @@ func (e *element) OnSecurityPolicyViolation(handler string) *element {
 	return e
 }
 
-// OnSlotChange Fired when the nodes assigned to a <slot> element change, either by adding, removing, or replacing slotted
+// OnSlotChange sets the onslotchange attribute.
+//
+// Fired when the nodes assigned to a <slot> element change, either by adding, removing, or replacing slotted
 // content. Occurs on <slot> elements within shadow DOM trees. Used for updating shadow DOM rendering, tracking
 // content projection changes, or implementing reactive slot-based component patterns.
 func (e *element) OnSlotChange(handler string) *element {
@@ -1410,7 +1674,9 @@ func (e *element) OnSlotChange(handler string) *element {
 	return e
 }
 
-// OnPointerDown Fired when a pointer (mouse, pen, or touch) becomes active over an element. Unifies mouse, touch, and pen
+// OnPointerDown sets the onpointerdown attribute.
+//
+// Fired when a pointer (mouse, pen, or touch) becomes active over an element. Unifies mouse, touch, and pen
 // input into a single event model. Provides pointerId for tracking individual pointers in multi-touch scenarios.
 // Used for initiating drag operations, drawing, and pointer-aware interactions.
 func (e *element) OnPointerDown(handler string) *element {
@@ -1418,7 +1684,9 @@ func (e *element) OnPointerDown(handler string) *element {
 	return e
 }
 
-// OnPointerUp Fired when a pointer is released after being pressed. Completes a pointer interaction when combined with
+// OnPointerUp sets the onpointerup attribute.
+//
+// Fired when a pointer is released after being pressed. Completes a pointer interaction when combined with
 // onpointerdown. Provides pointerId for identifying which pointer was released. Used for completing drag
 // operations, click detection, and finishing pointer-based interactions.
 func (e *element) OnPointerUp(handler string) *element {
@@ -1426,7 +1694,9 @@ func (e *element) OnPointerUp(handler string) *element {
 	return e
 }
 
-// OnPointerMove Fired when a pointer changes coordinates over an element. Can fire rapidly during movement, so consider
+// OnPointerMove sets the onpointermove attribute.
+//
+// Fired when a pointer changes coordinates over an element. Can fire rapidly during movement, so consider
 // throttling for performance. Provides pressure, tilt, and twist data for pen input. Used for drawing, drag
 // tracking, hover effects, and custom cursor behaviour.
 func (e *element) OnPointerMove(handler string) *element {
@@ -1434,7 +1704,9 @@ func (e *element) OnPointerMove(handler string) *element {
 	return e
 }
 
-// OnPointerEnter Fired when a pointer enters an element's boundaries. Does not bubble and does not fire when moving over
+// OnPointerEnter sets the onpointerenter attribute.
+//
+// Fired when a pointer enters an element's boundaries. Does not bubble and does not fire when moving over
 // child elements. Unified equivalent of onmouseenter for all pointer types. Used for hover effects, tooltips,
 // and UI highlighting that works across mouse, touch, and pen input.
 func (e *element) OnPointerEnter(handler string) *element {
@@ -1442,7 +1714,9 @@ func (e *element) OnPointerEnter(handler string) *element {
 	return e
 }
 
-// OnPointerLeave Fired when a pointer exits an element's boundaries. Does not bubble and does not fire when moving to child
+// OnPointerLeave sets the onpointerleave attribute.
+//
+// Fired when a pointer exits an element's boundaries. Does not bubble and does not fire when moving to child
 // elements. Unified equivalent of onmouseleave for all pointer types. Used for removing hover states, hiding
 // tooltips, and cleaning up pointer-related visual feedback.
 func (e *element) OnPointerLeave(handler string) *element {
@@ -1450,7 +1724,9 @@ func (e *element) OnPointerLeave(handler string) *element {
 	return e
 }
 
-// OnPointerOver Fired when a pointer enters an element or moves to one of its child elements. Unlike onpointerenter, this
+// OnPointerOver sets the onpointerover attribute.
+//
+// Fired when a pointer enters an element or moves to one of its child elements. Unlike onpointerenter, this
 // event bubbles. Useful for event delegation scenarios where pointer entry needs to be detected on a parent
 // element for any of its descendants.
 func (e *element) OnPointerOver(handler string) *element {
@@ -1458,7 +1734,9 @@ func (e *element) OnPointerOver(handler string) *element {
 	return e
 }
 
-// OnPointerOut Fired when a pointer leaves an element or moves to one of its child elements. Unlike onpointerleave, this
+// OnPointerOut sets the onpointerout attribute.
+//
+// Fired when a pointer leaves an element or moves to one of its child elements. Unlike onpointerleave, this
 // event bubbles. Useful for event delegation scenarios where pointer exit needs to be detected on a parent
 // element for any of its descendants.
 func (e *element) OnPointerOut(handler string) *element {
@@ -1466,7 +1744,9 @@ func (e *element) OnPointerOut(handler string) *element {
 	return e
 }
 
-// OnPointerCancel Fired when a pointer interaction is cancelled by the browser, such as when a touch is interrupted by a
+// OnPointerCancel sets the onpointercancel attribute.
+//
+// Fired when a pointer interaction is cancelled by the browser, such as when a touch is interrupted by a
 // system gesture, the device orientation changes, or too many simultaneous pointers are active. Used for
 // aborting drag operations, resetting interaction state, and handling interrupted pointer sequences.
 func (e *element) OnPointerCancel(handler string) *element {
@@ -1474,7 +1754,9 @@ func (e *element) OnPointerCancel(handler string) *element {
 	return e
 }
 
-// OnGotPointerCapture Fired when an element receives pointer capture via setPointerCapture(). While captured, all subsequent
+// OnGotPointerCapture sets the ongotpointercapture attribute.
+//
+// Fired when an element receives pointer capture via setPointerCapture(). While captured, all subsequent
 // pointer events for that pointer are directed to the capturing element regardless of position. Used for
 // confirming capture acquisition in drag operations, slider controls, and custom scroll implementations.
 func (e *element) OnGotPointerCapture(handler string) *element {
@@ -1482,7 +1764,9 @@ func (e *element) OnGotPointerCapture(handler string) *element {
 	return e
 }
 
-// OnLostPointerCapture Fired when an element loses pointer capture, either via releasePointerCapture(), pointer release, or
+// OnLostPointerCapture sets the onlostpointercapture attribute.
+//
+// Fired when an element loses pointer capture, either via releasePointerCapture(), pointer release, or
 // browser cancellation. Used for cleanup after drag operations, resetting element state, and finalising
 // interactions that relied on pointer capture for consistent event delivery.
 func (e *element) OnLostPointerCapture(handler string) *element {
@@ -1490,7 +1774,9 @@ func (e *element) OnLostPointerCapture(handler string) *element {
 	return e
 }
 
-// OnTouchStart Fired when one or more touch points are placed on the touch surface. Provides a TouchList with all active
+// OnTouchStart sets the ontouchstart attribute.
+//
+// Fired when one or more touch points are placed on the touch surface. Provides a TouchList with all active
 // touches. Used for initiating touch interactions, detecting gestures, implementing swipe or pinch handling,
 // and starting touch-based drag operations on mobile devices.
 func (e *element) OnTouchStart(handler string) *element {
@@ -1498,7 +1784,9 @@ func (e *element) OnTouchStart(handler string) *element {
 	return e
 }
 
-// OnTouchEnd Fired when one or more touch points are removed from the touch surface. Provides changedTouches for the
+// OnTouchEnd sets the ontouchend attribute.
+//
+// Fired when one or more touch points are removed from the touch surface. Provides changedTouches for the
 // ended touches. Used for completing touch interactions, detecting tap gestures, finishing swipe or drag
 // operations, and cleaning up touch-related state on mobile devices.
 func (e *element) OnTouchEnd(handler string) *element {
@@ -1506,7 +1794,9 @@ func (e *element) OnTouchEnd(handler string) *element {
 	return e
 }
 
-// OnTouchMove Fired when one or more touch points move along the touch surface. Can fire rapidly during movement. Provides
+// OnTouchMove sets the ontouchmove attribute.
+//
+// Fired when one or more touch points move along the touch surface. Can fire rapidly during movement. Provides
 // updated coordinates for all active touches. Used for tracking swipe gestures, implementing custom scrolling,
 // touch-based drawing, and multi-touch interactions on mobile devices.
 func (e *element) OnTouchMove(handler string) *element {
@@ -1514,7 +1804,9 @@ func (e *element) OnTouchMove(handler string) *element {
 	return e
 }
 
-// OnTouchCancel Fired when a touch interaction is disrupted, such as when a system dialog appears, the touch surface receives
+// OnTouchCancel sets the ontouchcancel attribute.
+//
+// Fired when a touch interaction is disrupted, such as when a system dialog appears, the touch surface receives
 // more touches than it can track, or the browser cancels the touch sequence. Used for aborting touch gestures,
 // resetting interaction state, and handling interrupted touch sequences gracefully.
 func (e *element) OnTouchCancel(handler string) *element {
@@ -1522,7 +1814,9 @@ func (e *element) OnTouchCancel(handler string) *element {
 	return e
 }
 
-// OnSelectStart Fired when a new text selection is initiated by the user, typically by clicking and beginning to drag.
+// OnSelectStart sets the onselectstart attribute.
+//
+// Fired when a new text selection is initiated by the user, typically by clicking and beginning to drag.
 // Can be cancelled with preventDefault() to prevent selection. Used for implementing custom selection
 // behaviour, preventing text selection during drag operations, or tracking when users begin selecting content.
 func (e *element) OnSelectStart(handler string) *element {
@@ -1530,7 +1824,9 @@ func (e *element) OnSelectStart(handler string) *element {
 	return e
 }
 
-// OnSelectionChange Fired when the current text selection changes, including when the selection is extended, collapsed, or
+// OnSelectionChange sets the onselectionchange attribute.
+//
+// Fired when the current text selection changes, including when the selection is extended, collapsed, or
 // cleared. Used for implementing selection-dependent toolbars, tracking selected text for formatting tools,
 // updating word counts, or providing contextual actions based on the current selection.
 func (e *element) OnSelectionChange(handler string) *element {
