@@ -178,801 +178,801 @@ import (
 	"github.com/jpl-au/fluent/node"
 )
 
-// New creates a new anchor element without any initial attributes.
-// Example: a.New(text.Text("Click here")).Href("https://example.com")
+// A creates a new anchor element without any initial attributes.
+// Example: A(text.Text("Click here")).Href("https://example.com")
 // Renders: <a href="https://example.com">Click here</a>
 func A(nodes ...node.Node) *a.Element {
 	return a.New(nodes...)
 }
 
-// New creates a new abbreviation element without any initial attributes. Use for basic abbreviations
+// Abbr creates a new abbreviation element without any initial attributes. Use for basic abbreviations
 // where semantic markup is needed.
-// Example: abbr.New()
+// Example: Abbr()
 // Renders: <abbr></abbr>
 func Abbr(nodes ...node.Node) *abbr.Element {
 	return abbr.New(nodes...)
 }
 
-// New creates a new address element without any initial attributes. Use for basic contact information where semantic markup is needed.
-// Example: address.New()
+// Address creates a new address element without any initial attributes. Use for basic contact information where semantic markup is needed.
+// Example: Address()
 // Renders: <address></address>
 func Address(nodes ...node.Node) *address.Element {
 	return address.New(nodes...)
 }
 
-// New creates a new area element without any initial attributes.
-// Example: area.New()
+// Area creates a new area element without any initial attributes.
+// Example: Area()
 // Renders: <area />
 func Area() *area.Element {
 	return area.New()
 }
 
-// New creates a new article element with optional child nodes
-// Example: article.New()
+// Article creates a new article element with optional child nodes
+// Example: Article()
 // Renders: <article></article>
 func Article(nodes ...node.Node) *article.Element {
 	return article.New(nodes...)
 }
 
-// New creates a new aside element with the given child nodes.
-// Example: aside.New()
+// Aside creates a new aside element with the given child nodes.
+// Example: Aside()
 // Renders: <aside></aside>
 func Aside(nodes ...node.Node) *aside.Element {
 	return aside.New(nodes...)
 }
 
-// New creates a new audio element without any initial attributes.
-// Example: audio.New()
+// Audio creates a new audio element without any initial attributes.
+// Example: Audio()
 // Renders: <audio></audio>
 func Audio(nodes ...node.Node) *audio.Element {
 	return audio.New(nodes...)
 }
 
-// New creates a new b element with the given child nodes.
-// Example: b.New(text.Text("This text is important."))
+// B creates a new b element with the given child nodes.
+// Example: B(text.Text("This text is important."))
 // Renders: <b>This text is important.</b>
 func B(nodes ...node.Node) *b.Element {
 	return b.New(nodes...)
 }
 
-// New creates a new base element without any initial attributes.
-// Example: base.New().Href("/docs/")
+// Base creates a new base element without any initial attributes.
+// Example: Base().Href("/docs/")
 // Renders: <base href="/docs/" />
 func Base() *base.Element {
 	return base.New()
 }
 
-// New creates a new bdi element with the given child nodes.
-// Example: bdi.New(text.Text("username"))
+// Bdi creates a new bdi element with the given child nodes.
+// Example: Bdi(text.Text("username"))
 // Renders: <bdi>username</bdi>
 func Bdi(nodes ...node.Node) *bdi.Element {
 	return bdi.New(nodes...)
 }
 
-// New creates a new bdo element with child nodes.
-// Example: bdo.New(text.Text("Hello"))
+// Bdo creates a new bdo element with child nodes.
+// Example: Bdo(text.Text("Hello"))
 // Renders: <bdo>Hello</bdo>
 func Bdo(nodes ...node.Node) *bdo.Element {
 	return bdo.New(nodes...)
 }
 
-// New creates a new blockquote element with the given child nodes.
-// Example: blockquote.New(p.Text("To be or not to be."))
+// Blockquote creates a new blockquote element with the given child nodes.
+// Example: Blockquote(p.Text("To be or not to be."))
 // Renders: <blockquote><p>To be or not to be.</p></blockquote>
 func Blockquote(nodes ...node.Node) *blockquote.Element {
 	return blockquote.New(nodes...)
 }
 
-// New creates a new body element with the given child nodes.
-// Example: body.New(p.New(text.Text("Hello, World!")))
+// Body creates a new body element with the given child nodes.
+// Example: Body(p.New(text.Text("Hello, World!")))
 // Renders: <body><p>Hello, World!</p></body>
 func Body(nodes ...node.Node) *body.Element {
 	return body.New(nodes...)
 }
 
-// New creates a new br element without any initial attributes.
-// Example: br.New()
+// Br creates a new br element without any initial attributes.
+// Example: Br()
 // Renders: <br />
 func Br() *br.Element {
 	return br.New()
 }
 
-// New creates a new button element with the given child nodes.
-// Example: button.New(text.Text("Click Me"))
+// Button creates a new button element with the given child nodes.
+// Example: Button(text.Text("Click Me"))
 // Renders: <button>Click Me</button>
 func Button(nodes ...node.Node) *button.Element {
 	return button.New(nodes...)
 }
 
-// New creates a new canvas element with child nodes for fallback content.
-// Example: canvas.New(text.Text("Your browser does not support canvas."))
+// Canvas creates a new canvas element with child nodes for fallback content.
+// Example: Canvas(text.Text("Your browser does not support canvas."))
 // Renders: <canvas>Your browser does not support canvas.</canvas>
 func Canvas(nodes ...node.Node) *canvas.Element {
 	return canvas.New(nodes...)
 }
 
-// New creates a new caption element with the given child nodes.
-// Example: caption.New(text.Text("My Table Caption"))
+// Caption creates a new caption element with the given child nodes.
+// Example: Caption(text.Text("My Table Caption"))
 // Renders: <caption>My Table Caption</caption>
 func Caption(nodes ...node.Node) *caption.Element {
 	return caption.New(nodes...)
 }
 
-// New creates a new cite element with the given child nodes.
-// Example: cite.New(text.Text("Nineteen Eighty-Four"))
+// Cite creates a new cite element with the given child nodes.
+// Example: Cite(text.Text("Nineteen Eighty-Four"))
 // Renders: <cite>Nineteen Eighty-Four</cite>
 func Cite(nodes ...node.Node) *cite.Element {
 	return cite.New(nodes...)
 }
 
-// New creates a new code element with the given child nodes.
-// Example: code.New(text.Text("console.log('Hello, World!');"))
+// Code creates a new code element with the given child nodes.
+// Example: Code(text.Text("console.log('Hello, World!');"))
 // Renders: <code>console.log('Hello, World!');</code>
 func Code(nodes ...node.Node) *code.Element {
 	return code.New(nodes...)
 }
 
-// New creates a new col element without any initial attributes.
-// Example: col.New()
+// Col creates a new col element without any initial attributes.
+// Example: Col()
 // Renders: <col />
 func Col() *col.Element {
 	return col.New()
 }
 
-// New creates a new colgroup element with the given child nodes (typically <col> elements).
-// Example: colgroup.New(col.New(), col.Span(2))
+// Colgroup creates a new colgroup element with the given child nodes (typically <col> elements).
+// Example: Colgroup(col.New(), col.Span(2))
 // Renders: <colgroup><col /><col span="2" /></colgroup>
 func Colgroup(nodes ...node.Node) *colgroup.Element {
 	return colgroup.New(nodes...)
 }
 
-// New creates a new data element with the given child nodes.
-// Example: data.New(text.Text("Mini Ketchup"))
+// Data creates a new data element with the given child nodes.
+// Example: Data(text.Text("Mini Ketchup"))
 // Renders: <data>Mini Ketchup</data>
 func Data(nodes ...node.Node) *data.Element {
 	return data.New(nodes...)
 }
 
-// New creates a new datalist element with child nodes (typically <option> elements).
-// Example: datalist.New(option.New().Value("Chocolate"), option.New().Value("Vanilla"))
+// Datalist creates a new datalist element with child nodes (typically <option> elements).
+// Example: Datalist(option.New().Value("Chocolate"), option.New().Value("Vanilla"))
 // Renders: <datalist><option value="Chocolate"><option value="Vanilla"></datalist>
 func Datalist(nodes ...node.Node) *datalist.Element {
 	return datalist.New(nodes...)
 }
 
-// New creates a new dd element with child nodes.
-// Example: dd.New(text.Text("A large feline inhabiting Bodmin Moor."))
+// Dd creates a new dd element with child nodes.
+// Example: Dd(text.Text("A large feline inhabiting Bodmin Moor."))
 // Renders: <dd>A large feline inhabiting Bodmin Moor.</dd>
 func Dd(nodes ...node.Node) *dd.Element {
 	return dd.New(nodes...)
 }
 
-// New creates a new del element with optional child nodes.
-// Example: del.New()
+// Del creates a new del element with optional child nodes.
+// Example: Del()
 // Renders: <del></del>
 func Del(nodes ...node.Node) *del.Element {
 	return del.New(nodes...)
 }
 
-// New creates a new details element with the given child nodes.
-// Example: details.New(summary.Text("Details"), p.Text("Hidden content"))
+// Details creates a new details element with the given child nodes.
+// Example: Details(summary.Text("Details"), p.Text("Hidden content"))
 // Renders: <details><summary>Details</summary><p>Hidden content</p></details>
 func Details(nodes ...node.Node) *details.Element {
 	return details.New(nodes...)
 }
 
-// New creates a new dfn element with the given child nodes.
-// Example: dfn.New(text.Text("validator"))
+// Dfn creates a new dfn element with the given child nodes.
+// Example: Dfn(text.Text("validator"))
 // Renders: <dfn>validator</dfn>
 func Dfn(nodes ...node.Node) *dfn.Element {
 	return dfn.New(nodes...)
 }
 
-// New creates a new dialog element with the given child nodes.
-// Example: dialog.New(p.Text("Greetings, one and all!"))
+// Dialog creates a new dialog element with the given child nodes.
+// Example: Dialog(p.Text("Greetings, one and all!"))
 // Renders: <dialog><p>Greetings, one and all!</p></dialog>
 func Dialog(nodes ...node.Node) *dialog.Element {
 	return dialog.New(nodes...)
 }
 
-// New creates a new div element with child nodes.
-// Example: div.New(p.New(text.Text("Any kind of content here.")))
+// Div creates a new div element with child nodes.
+// Example: Div(p.New(text.Text("Any kind of content here.")))
 // Renders: <div><p>Any kind of content here.</p></div>
 func Div(nodes ...node.Node) *div.Element {
 	return div.New(nodes...)
 }
 
-// New creates a new dl element with the given child nodes (typically <dt> and <dd> elements).
-// Example: dl.New(dt.New(text.Text("Term")), dd.New(text.Text("Description")))
+// Dl creates a new dl element with the given child nodes (typically <dt> and <dd> elements).
+// Example: Dl(dt.New(text.Text("Term")), dd.New(text.Text("Description")))
 // Renders: <dl><dt>Term</dt><dd>Description</dd></dl>
 func Dl(nodes ...node.Node) *dl.Element {
 	return dl.New(nodes...)
 }
 
-// New creates a new dt element with the given child nodes.
-// Example: dt.New(text.Text("Term"))
+// Dt creates a new dt element with the given child nodes.
+// Example: Dt(text.Text("Term"))
 // Renders: <dt>Term</dt>
 func Dt(nodes ...node.Node) *dt.Element {
 	return dt.New(nodes...)
 }
 
-// New creates a new em element with the given child nodes.
-// Example: em.New(text.Text("now"))
+// Em creates a new em element with the given child nodes.
+// Example: Em(text.Text("now"))
 // Renders: <em>now</em>
 func Em(nodes ...node.Node) *em.Element {
 	return em.New(nodes...)
 }
 
-// New creates a new embed element without any initial attributes.
-// Example: embed.New()
+// Embed creates a new embed element without any initial attributes.
+// Example: Embed()
 // Renders: <embed />
 func Embed() *embed.Element {
 	return embed.New()
 }
 
-// New creates a new fieldset element with child nodes.
-// Example: fieldset.New(legend.Text("Personal details"), input.Text("name", ""))
+// Fieldset creates a new fieldset element with child nodes.
+// Example: Fieldset(legend.Text("Personal details"), input.Text("name", ""))
 // Renders: <fieldset><legend>Personal details</legend><input name="name" type="text" /></fieldset>
 func Fieldset(nodes ...node.Node) *fieldset.Element {
 	return fieldset.New(nodes...)
 }
 
-// New creates a new figcaption element with child nodes.
-// Example: figcaption.New(text.Text("An elephant at sunset"))
+// Figcaption creates a new figcaption element with child nodes.
+// Example: Figcaption(text.Text("An elephant at sunset"))
 // Renders: <figcaption>An elephant at sunset</figcaption>
 func Figcaption(nodes ...node.Node) *figcaption.Element {
 	return figcaption.New(nodes...)
 }
 
-// New creates a new figure element with the given child nodes.
-// Example: figure.New(img.New().Src("elephant.jpg"), figcaption.New(text.Text("An elephant at sunset")))
+// Figure creates a new figure element with the given child nodes.
+// Example: Figure(img.New().Src("elephant.jpg"), figcaption.New(text.Text("An elephant at sunset")))
 // Renders: <figure><img src="elephant.jpg" /><figcaption>An elephant at sunset</figcaption></figure>
 func Figure(nodes ...node.Node) *figure.Element {
 	return figure.New(nodes...)
 }
 
-// New creates a new footer element with the given child nodes.
-// Example: footer.New(p.New(text.Text("Copyright 2023 My Website")))
+// Footer creates a new footer element with the given child nodes.
+// Example: Footer(p.New(text.Text("Copyright 2023 My Website")))
 // Renders: <footer><p>Copyright 2023 My Website</p></footer>
 func Footer(nodes ...node.Node) *footer.Element {
 	return footer.New(nodes...)
 }
 
-// New creates a new form element with child nodes.
-// Example: form.New(input.Text("name", ""), button.Submit("Send"))
+// Form creates a new form element with child nodes.
+// Example: Form(input.Text("name", ""), button.Submit("Send"))
 // Renders: <form><input name="name" type="text" /><button type="submit">Send</button></form>
 func Form(nodes ...node.Node) *form.Element {
 	return form.New(nodes...)
 }
 
-// New creates a new h1 element with the given child nodes.
-// Example: h1.New(text.Text("Page Title"))
+// H1 creates a new h1 element with the given child nodes.
+// Example: H1(text.Text("Page Title"))
 // Renders: <h1>Page Title</h1>
 func H1(nodes ...node.Node) *h1.Element {
 	return h1.New(nodes...)
 }
 
-// New creates a new h2 element with the given child nodes.
-// Example: h2.New(text.Text("Section Title"))
+// H2 creates a new h2 element with the given child nodes.
+// Example: H2(text.Text("Section Title"))
 // Renders: <h2>Section Title</h2>
 func H2(nodes ...node.Node) *h2.Element {
 	return h2.New(nodes...)
 }
 
-// New creates a new h3 element with the given child nodes.
-// Example: h3.New(text.Text("Subsection Title"))
+// H3 creates a new h3 element with the given child nodes.
+// Example: H3(text.Text("Subsection Title"))
 // Renders: <h3>Subsection Title</h3>
 func H3(nodes ...node.Node) *h3.Element {
 	return h3.New(nodes...)
 }
 
-// New creates a new h4 element with the given child nodes.
-// Example: h4.New(text.Text("Detailed Point"))
+// H4 creates a new h4 element with the given child nodes.
+// Example: H4(text.Text("Detailed Point"))
 // Renders: <h4>Detailed Point</h4>
 func H4(nodes ...node.Node) *h4.Element {
 	return h4.New(nodes...)
 }
 
-// New creates a new h5 element with the given child nodes.
-// Example: h5.New(text.Text("Sub-point"))
+// H5 creates a new h5 element with the given child nodes.
+// Example: H5(text.Text("Sub-point"))
 // Renders: <h5>Sub-point</h5>
 func H5(nodes ...node.Node) *h5.Element {
 	return h5.New(nodes...)
 }
 
-// New creates a new h6 element with the given child nodes.
-// Example: h6.New(text.Text("Footnote Title"))
+// H6 creates a new h6 element with the given child nodes.
+// Example: H6(text.Text("Footnote Title"))
 // Renders: <h6>Footnote Title</h6>
 func H6(nodes ...node.Node) *h6.Element {
 	return h6.New(nodes...)
 }
 
-// New creates a new head element with the given child nodes (metadata content).
-// Example: head.New(title.New(text.Text("My Page")), meta.Charset("UTF-8"))
+// Head creates a new head element with the given child nodes (metadata content).
+// Example: Head(title.New(text.Text("My Page")), meta.Charset("UTF-8"))
 // Renders: <head><title>My Page</title><meta charset="UTF-8" /></head>
 func Head(nodes ...node.Node) *head.Element {
 	return head.New(nodes...)
 }
 
-// New creates a new header element with the given child nodes.
-// Example: header.New(h1.Text("Welcome"), p.Text("A brief introduction"))
+// Header creates a new header element with the given child nodes.
+// Example: Header(h1.Text("Welcome"), p.Text("A brief introduction"))
 // Renders: <header><h1>Welcome</h1><p>A brief introduction</p></header>
 func Header(nodes ...node.Node) *header.Element {
 	return header.New(nodes...)
 }
 
-// New creates a new hgroup element with child nodes (typically a heading and subtitle paragraphs).
-// Example: hgroup.New(h1.Text("Main Title"), p.Text("A subtitle"))
+// Hgroup creates a new hgroup element with child nodes (typically a heading and subtitle paragraphs).
+// Example: Hgroup(h1.Text("Main Title"), p.Text("A subtitle"))
 // Renders: <hgroup><h1>Main Title</h1><p>A subtitle</p></hgroup>
 func Hgroup(nodes ...node.Node) *hgroup.Element {
 	return hgroup.New(nodes...)
 }
 
-// New creates a new hr element without any initial attributes.
-// Example: hr.New()
+// Hr creates a new hr element without any initial attributes.
+// Example: Hr()
 // Renders: <hr />
 func Hr() *hr.Element {
 	return hr.New()
 }
 
-// New creates a complete HTML5 document with DOCTYPE declaration
-// Example: html.New()
+// Html creates a complete HTML5 document with DOCTYPE declaration
+// Example: Html()
 // Renders: <!DOCTYPE html><html></html>
 func Html(nodes ...node.Node) *html.Element {
 	return html.New(nodes...)
 }
 
-// New creates a new italic element with optional child nodes.
-// Example: i.New()
+// I creates a new italic element with optional child nodes.
+// Example: I()
 // Renders: <i></i>
 func I(nodes ...node.Node) *i.Element {
 	return i.New(nodes...)
 }
 
-// New creates a new iframe element with optional fallback content.
-// Example: iframe.New().Src("/page.html")
+// Iframe creates a new iframe element with optional fallback content.
+// Example: Iframe().Src("/page.html")
 // Renders: <iframe src="/page.html"></iframe>
 func Iframe(nodes ...node.Node) *iframe.Element {
 	return iframe.New(nodes...)
 }
 
-// New creates a new img element without any initial attributes.
-// Example: img.New().Src("photo.jpg").Alt("A beautiful sunset")
+// Img creates a new img element without any initial attributes.
+// Example: Img().Src("photo.jpg").Alt("A beautiful sunset")
 // Renders: <img src="photo.jpg" alt="A beautiful sunset" />
 func Img() *img.Element {
 	return img.New()
 }
 
-// New creates a new input element without any initial attributes.
-// Example: input.New().Type(inputtype.Text).Name("username")
+// Input creates a new input element without any initial attributes.
+// Example: Input().Type(inputtype.Text).Name("username")
 // Renders: <input name="username" type="text" />
 func Input() *input.Element {
 	return input.New()
 }
 
-// New creates a new ins element with optional child nodes.
-// Example: ins.New()
+// Ins creates a new ins element with optional child nodes.
+// Example: Ins()
 // Renders: <ins></ins>
 func Ins(nodes ...node.Node) *ins.Element {
 	return ins.New(nodes...)
 }
 
-// New creates a new kbd element with optional child nodes.
-// Example: kbd.New()
+// Kbd creates a new kbd element with optional child nodes.
+// Example: Kbd()
 // Renders: <kbd></kbd>
 func Kbd(nodes ...node.Node) *kbd.Element {
 	return kbd.New(nodes...)
 }
 
-// New creates a new label element with child nodes.
-// Example: label.New()
+// Label creates a new label element with child nodes.
+// Example: Label()
 // Renders: <label></label>
 func Label(nodes ...node.Node) *label.Element {
 	return label.New(nodes...)
 }
 
-// New creates a new legend element with optional child nodes.
-// Example: legend.New()
+// Legend creates a new legend element with optional child nodes.
+// Example: Legend()
 // Renders: <legend></legend>
 func Legend(nodes ...node.Node) *legend.Element {
 	return legend.New(nodes...)
 }
 
-// New creates a new list item element with optional child nodes.
-// Example: li.New()
+// Li creates a new list item element with optional child nodes.
+// Example: Li()
 // Renders: <li></li>
 func Li(nodes ...node.Node) *li.Element {
 	return li.New(nodes...)
 }
 
-// New creates a new link element without any initial attributes.
-// Example: link.New()
+// Link creates a new link element without any initial attributes.
+// Example: Link()
 // Renders: <link />
 func Link() *link.Element {
 	return link.New()
 }
 
-// New creates a new main element with optional child nodes
-// Example: primary.New()
+// Primary creates a new main element with optional child nodes
+// Example: Primary()
 // Renders: <main></main>
 func Primary(nodes ...node.Node) *primary.Element {
 	return primary.New(nodes...)
 }
 
-// New creates a new map element with optional child nodes (typically area elements).
-// Example: imagemap.New(area.Rect(0, 0, 100, 50, "/page1"))
+// Imagemap creates a new map element with optional child nodes (typically area elements).
+// Example: Imagemap(area.Rect(0, 0, 100, 50, "/page1"))
 // Renders: <map><area shape="rect" coords="0,0,100,50" href="/page1" /></map>
 func Imagemap(nodes ...node.Node) *imagemap.Element {
 	return imagemap.New(nodes...)
 }
 
-// New creates a new mark element with the given child nodes.
-// Example: mark.New(text.Text("highlighted text"))
+// Mark creates a new mark element with the given child nodes.
+// Example: Mark(text.Text("highlighted text"))
 // Renders: <mark>highlighted text</mark>
 func Mark(nodes ...node.Node) *mark.Element {
 	return mark.New(nodes...)
 }
 
-// New creates a new math element with optional child nodes.
-// Example: math.New()
+// Math creates a new math element with optional child nodes.
+// Example: Math()
 // Renders: <math></math>
 func Math(nodes ...node.Node) *math.Element {
 	return math.New(nodes...)
 }
 
-// New creates a new menu element with child li elements.
-// Example: menu.New(li.Text("Cut"), li.Text("Copy"), li.Text("Paste"))
+// Menu creates a new menu element with child li elements.
+// Example: Menu(li.Text("Cut"), li.Text("Copy"), li.Text("Paste"))
 // Renders: <menu><li>Cut</li><li>Copy</li><li>Paste</li></menu>
 func Menu(nodes ...node.Node) *menu.Element {
 	return menu.New(nodes...)
 }
 
-// New creates a new meta element without any initial attributes.
-// Example: meta.New()
+// Meta creates a new meta element without any initial attributes.
+// Example: Meta()
 // Renders: <meta />
 func Meta() *meta.Element {
 	return meta.New()
 }
 
-// New creates a new meter element with optional child nodes
-// Example: meter.New()
+// Meter creates a new meter element with optional child nodes
+// Example: Meter()
 // Renders: <meter></meter>
 func Meter(nodes ...node.Node) *meter.Element {
 	return meter.New(nodes...)
 }
 
-// New creates a new nav element with optional child nodes
-// Example: nav.New()
+// Nav creates a new nav element with optional child nodes
+// Example: Nav()
 // Renders: <nav></nav>
 func Nav(nodes ...node.Node) *nav.Element {
 	return nav.New(nodes...)
 }
 
-// New creates a new noscript element with optional child nodes
-// Example: noscript.New()
+// Noscript creates a new noscript element with optional child nodes
+// Example: Noscript()
 // Renders: <noscript></noscript>
 func Noscript(nodes ...node.Node) *noscript.Element {
 	return noscript.New(nodes...)
 }
 
-// New creates a new object element with optional child nodes
-// Example: object.New()
+// Object creates a new object element with optional child nodes
+// Example: Object()
 // Renders: <object></object>
 func Object(nodes ...node.Node) *object.Element {
 	return object.New(nodes...)
 }
 
-// New creates a new ordered list element with optional child nodes (typically li elements)
-// Example: ol.New()
+// Ol creates a new ordered list element with optional child nodes (typically li elements)
+// Example: Ol()
 // Renders: <ol></ol>
 func Ol(nodes ...node.Node) *ol.Element {
 	return ol.New(nodes...)
 }
 
-// New creates a new optgroup element with child option elements.
-// Example: optgroup.New(option.Option("red", "Red"), option.Option("blue", "Blue")).Label("Colours")
+// Optgroup creates a new optgroup element with child option elements.
+// Example: Optgroup(option.Option("red", "Red"), option.Option("blue", "Blue")).Label("Colours")
 // Renders: <optgroup label="Colours"><option value="red">Red</option><option value="blue">Blue</option></optgroup>
 func Optgroup(nodes ...node.Node) *optgroup.Element {
 	return optgroup.New(nodes...)
 }
 
-// New creates a new option element with optional child nodes
-// Example: option.New()
+// Option creates a new option element with optional child nodes
+// Example: Option()
 // Renders: <option></option>
 func Option(nodes ...node.Node) *option.Element {
 	return option.New(nodes...)
 }
 
-// New creates a new output element with optional child nodes
-// Example: output.New()
+// Output creates a new output element with optional child nodes
+// Example: Output()
 // Renders: <output></output>
 func Output(nodes ...node.Node) *output.Element {
 	return output.New(nodes...)
 }
 
-// New creates a new paragraph element with optional child nodes
-// Example: p.New(text.Text("Hello"))
+// P creates a new paragraph element with optional child nodes
+// Example: P(text.Text("Hello"))
 // Renders: <p>Hello</p>
 func P(nodes ...node.Node) *p.Element {
 	return p.New(nodes...)
 }
 
-// New creates a new picture element with source and img child elements.
-// Example: picture.New(source.ImageWebP("photo.webp"), img.Src("photo.jpg"))
+// Picture creates a new picture element with source and img child elements.
+// Example: Picture(source.ImageWebP("photo.webp"), img.Src("photo.jpg"))
 // Renders: <picture><source srcset="photo.webp" type="image/webp"><img src="photo.jpg"></picture>
 func Picture(nodes ...node.Node) *picture.Element {
 	return picture.New(nodes...)
 }
 
-// New creates a new pre element with the given child nodes
-// Example: pre.New(text.Text("Code"))
+// Pre creates a new pre element with the given child nodes
+// Example: Pre(text.Text("Code"))
 // Renders: <pre>Code</pre>
 func Pre(nodes ...node.Node) *pre.Element {
 	return pre.New(nodes...)
 }
 
-// New creates a new progress element with optional child nodes for fallback content.
-// Example: progress.New()
+// Progress creates a new progress element with optional child nodes for fallback content.
+// Example: Progress()
 // Renders: <progress></progress>
 func Progress(nodes ...node.Node) *progress.Element {
 	return progress.New(nodes...)
 }
 
-// New creates a new q element with optional child nodes.
-// Example: q.New(text.Text("To be or not to be"))
+// Q creates a new q element with optional child nodes.
+// Example: Q(text.Text("To be or not to be"))
 // Renders: <q>To be or not to be</q>
 func Q(nodes ...node.Node) *q.Element {
 	return q.New(nodes...)
 }
 
-// New creates a new rp element with optional child nodes.
-// Example: rp.New(text.Text("("))
+// Rp creates a new rp element with optional child nodes.
+// Example: Rp(text.Text("("))
 // Renders: <rp>(</rp>
 func Rp(nodes ...node.Node) *rp.Element {
 	return rp.New(nodes...)
 }
 
-// New creates a new rt element with optional child nodes
-// Example: rt.New(text.Text("kan"))
+// Rt creates a new rt element with optional child nodes
+// Example: Rt(text.Text("kan"))
 // Renders: <rt>kan</rt>
 func Rt(nodes ...node.Node) *rt.Element {
 	return rt.New(nodes...)
 }
 
-// New creates a new ruby element with optional child nodes
-// Example: ruby.New(text.Text("漢字"))
+// Ruby creates a new ruby element with optional child nodes
+// Example: Ruby(text.Text("漢字"))
 // Renders: <ruby>漢字</ruby>
 func Ruby(nodes ...node.Node) *ruby.Element {
 	return ruby.New(nodes...)
 }
 
-// New creates a new s element with optional child nodes.
+// S creates a new s element with optional child nodes.
 // Examples:
-// s.New() renders <s></s>
-// s.New(text.Text("Old price: $100")) renders <s>Old price: $100</s>
+// S() renders <s></s>
+// S(text.Text("Old price: $100")) renders <s>Old price: $100</s>
 func S(nodes ...node.Node) *s.Element {
 	return s.New(nodes...)
 }
 
-// New creates a new samp element with optional child nodes
-// Example: samp.New(text.Text("Output"))
+// Samp creates a new samp element with optional child nodes
+// Example: Samp(text.Text("Output"))
 // Renders: <samp>Output</samp>
 func Samp(nodes ...node.Node) *samp.Element {
 	return samp.New(nodes...)
 }
 
-// New creates a new script element without any initial attributes
-// Example: script.New()
+// Script creates a new script element without any initial attributes
+// Example: Script()
 // Renders: <script></script>
 func Script(nodes ...node.Node) *script.Element {
 	return script.New(nodes...)
 }
 
-// New creates a new search element with optional child nodes
-// Example: search.New()
+// Search creates a new search element with optional child nodes
+// Example: Search()
 // Renders: <search></search>
 func Search(nodes ...node.Node) *search.Element {
 	return search.New(nodes...)
 }
 
-// New creates a new section element with optional child nodes
-// Example: section.New()
+// Section creates a new section element with optional child nodes
+// Example: Section()
 // Renders: <section></section>
 func Section(nodes ...node.Node) *section.Element {
 	return section.New(nodes...)
 }
 
-// New creates a new select element with option and optgroup child elements.
-// Example: dropdown.New(option.Option("Red", "red"), option.Option("Blue", "blue"))
+// Dropdown creates a new select element with option and optgroup child elements.
+// Example: Dropdown(option.Option("Red", "red"), option.Option("Blue", "blue"))
 // Renders: <select><option value="red">Red</option><option value="blue">Blue</option></select>
 func Dropdown(nodes ...node.Node) *dropdown.Element {
 	return dropdown.New(nodes...)
 }
 
-// New creates a new slot element with optional child nodes.
-// Example: slot.New()
+// Slot creates a new slot element with optional child nodes.
+// Example: Slot()
 // Renders: <slot></slot>
 func Slot(nodes ...node.Node) *slot.Element {
 	return slot.New(nodes...)
 }
 
-// New creates a new small element with the given child nodes.
-// Example: small.New(text.Text("© 2024 Company Name"))
+// Small creates a new small element with the given child nodes.
+// Example: Small(text.Text("© 2024 Company Name"))
 // Renders: <small>© 2024 Company Name</small>
 func Small(nodes ...node.Node) *small.Element {
 	return small.New(nodes...)
 }
 
-// New creates a new source element without any initial attributes.
-// Example: source.New().Src("image.webp").Type("image/webp")
+// Source creates a new source element without any initial attributes.
+// Example: Source().Src("image.webp").Type("image/webp")
 // Renders: <source src="image.webp" type="image/webp" />
 func Source() *source.Element {
 	return source.New()
 }
 
-// New creates a new span element with optional child nodes.
-// Example: span.New()
+// Span creates a new span element with optional child nodes.
+// Example: Span()
 // Renders: <span></span>
 func Span(nodes ...node.Node) *span.Element {
 	return span.New(nodes...)
 }
 
-// New creates a new strong element with optional child nodes.
-// Example: strong.New()
+// Strong creates a new strong element with optional child nodes.
+// Example: Strong()
 // Renders: <strong></strong>
 func Strong(nodes ...node.Node) *strong.Element {
 	return strong.New(nodes...)
 }
 
-// New creates a new style element without any initial attributes.
-// Example: style.New()
+// Style creates a new style element without any initial attributes.
+// Example: Style()
 // Renders: <style></style>
 func Style(nodes ...node.Node) *style.Element {
 	return style.New(nodes...)
 }
 
-// New creates a new sub element with the given child nodes.
-// Example: sub.New(text.Text("2"))
+// Sub creates a new sub element with the given child nodes.
+// Example: Sub(text.Text("2"))
 // Renders: <sub>2</sub>
 func Sub(nodes ...node.Node) *sub.Element {
 	return sub.New(nodes...)
 }
 
-// New creates a new summary element with optional child nodes.
-// Example: summary.New()
+// Summary creates a new summary element with optional child nodes.
+// Example: Summary()
 // Renders: <summary></summary>
 func Summary(nodes ...node.Node) *summary.Element {
 	return summary.New(nodes...)
 }
 
-// New creates a new sup element with the given child nodes.
-// Example: sup.New(text.Text("2"))
+// Sup creates a new sup element with the given child nodes.
+// Example: Sup(text.Text("2"))
 // Renders: <sup>2</sup>
 func Sup(nodes ...node.Node) *sup.Element {
 	return sup.New(nodes...)
 }
 
-// New creates a new svg element with child SVG elements.
-// Example: svg.New().Width("100").Height("100").ViewBox("0 0 100 100")
+// Svg creates a new svg element with child SVG elements.
+// Example: Svg().Width("100").Height("100").ViewBox("0 0 100 100")
 // Renders: <svg width="100" height="100" viewBox="0 0 100 100"></svg>
 func Svg(nodes ...node.Node) *svg.Element {
 	return svg.New(nodes...)
 }
 
-// New creates a new table element with optional child nodes (typically thead, tbody, tfoot, tr elements).
-// Example: table.New()
+// Table creates a new table element with optional child nodes (typically thead, tbody, tfoot, tr elements).
+// Example: Table()
 // Renders: <table></table>
 func Table(nodes ...node.Node) *table.Element {
 	return table.New(nodes...)
 }
 
-// New creates a new tbody element with child tr elements.
-// Example: tbody.New(tr.New(td.Text("cell")))
+// Tbody creates a new tbody element with child tr elements.
+// Example: Tbody(tr.New(td.Text("cell")))
 // Renders: <tbody><tr><td>cell</td></tr></tbody>
 func Tbody(nodes ...node.Node) *tbody.Element {
 	return tbody.New(nodes...)
 }
 
-// New creates a new table data cell element with optional child nodes.
-// Example: td.New()
+// Td creates a new table data cell element with optional child nodes.
+// Example: Td()
 // Renders: <td></td>
 func Td(nodes ...node.Node) *td.Element {
 	return td.New(nodes...)
 }
 
-// New creates a new template element with child nodes. Content is not rendered
+// Template creates a new template element with child nodes. Content is not rendered
 // directly but can be instantiated at runtime using JavaScript.
-// Example: template.New()
+// Example: Template()
 // Renders: <template></template>
 func Template(nodes ...node.Node) *template.Element {
 	return template.New(nodes...)
 }
 
-// New creates a new textarea element with optional child nodes
-// Example: textarea.New()
+// Textarea creates a new textarea element with optional child nodes
+// Example: Textarea()
 // Renders: <textarea></textarea>
 func Textarea(nodes ...node.Node) *textarea.Element {
 	return textarea.New(nodes...)
 }
 
-// New creates a new tfoot element with child tr elements.
-// Example: tfoot.New(tr.New(td.Text("Total"), td.Text("100")))
+// Tfoot creates a new tfoot element with child tr elements.
+// Example: Tfoot(tr.New(td.Text("Total"), td.Text("100")))
 // Renders: <tfoot><tr><td>Total</td><td>100</td></tr></tfoot>
 func Tfoot(nodes ...node.Node) *tfoot.Element {
 	return tfoot.New(nodes...)
 }
 
-// New creates a new th element with optional child nodes.
-// Example: th.New()
+// Th creates a new th element with optional child nodes.
+// Example: Th()
 // Renders: <th></th>
 func Th(nodes ...node.Node) *th.Element {
 	return th.New(nodes...)
 }
 
-// New creates a new thead element with child tr elements.
-// Example: thead.New(tr.New(th.Text("Name"), th.Text("Age")))
+// Thead creates a new thead element with child tr elements.
+// Example: Thead(tr.New(th.Text("Name"), th.Text("Age")))
 // Renders: <thead><tr><th>Name</th><th>Age</th></tr></thead>
 func Thead(nodes ...node.Node) *thead.Element {
 	return thead.New(nodes...)
 }
 
-// New creates a new time element with optional child nodes
-// Example: time.New()
+// Time creates a new time element with optional child nodes
+// Example: Time()
 // Renders: <time></time>
 func Time(nodes ...node.Node) *time.Element {
 	return time.New(nodes...)
 }
 
-// New creates a new title element with text content
-// Example: title.New()
+// Title creates a new title element with text content
+// Example: Title()
 // Renders: <title></title>
 func Title(nodes ...node.Node) *title.Element {
 	return title.New(nodes...)
 }
 
-// New creates a new table row element with optional child nodes (typically td or th elements).
-// Example: tr.New()
+// Tr creates a new table row element with optional child nodes (typically td or th elements).
+// Example: Tr()
 // Renders: <tr></tr>
 func Tr(nodes ...node.Node) *tr.Element {
 	return tr.New(nodes...)
 }
 
-// New creates a new track element without any initial attributes.
-// Example: track.New()
+// Track creates a new track element without any initial attributes.
+// Example: Track()
 // Renders: <track />
 func Track() *track.Element {
 	return track.New()
 }
 
-// New creates a new u element with the given child nodes.
-// Example: u.New(text.Text("misspelled"))
+// U creates a new u element with the given child nodes.
+// Example: U(text.Text("misspelled"))
 func U(nodes ...node.Node) *u.Element {
 	return u.New(nodes...)
 }
 
-// New creates a new unordered list element with optional child nodes (typically li elements).
-// Example: ul.New()
+// Ul creates a new unordered list element with optional child nodes (typically li elements).
+// Example: Ul()
 // Renders: <ul></ul>
 func Ul(nodes ...node.Node) *ul.Element {
 	return ul.New(nodes...)
 }
 
-// New creates a new var element with optional child nodes.
-// Example: variable.New()
+// Variable creates a new var element with optional child nodes.
+// Example: Variable()
 // Renders: <var></var>
 func Variable(nodes ...node.Node) *variable.Element {
 	return variable.New(nodes...)
 }
 
-// New creates a new video element with optional child nodes
-// Example: video.New()
+// Video creates a new video element with optional child nodes
+// Example: Video()
 // Renders: <video></video>
 func Video(nodes ...node.Node) *video.Element {
 	return video.New(nodes...)
 }
 
-// New creates a new wbr element without any initial attributes.
-// Example: wbr.New()
+// Wbr creates a new wbr element without any initial attributes.
+// Example: Wbr()
 // Renders: <wbr />
 func Wbr() *wbr.Element {
 	return wbr.New()
