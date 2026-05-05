@@ -10,11 +10,30 @@ import "bytes"
 type Element interface {
 	Node
 
+	// SetAttribute is the escape hatch for attributes that Fluent's typed
+	// API does not cover - framework directives like Alpine.js (x-on:click)
+	// or HTMX (hx-get), and any other custom or non-standard attribute.
+	//
+	// For everything else, prefer the typed methods on each element
+	// (.Class, .Href, .Checked, ...). They produce the right escaping,
+	// validate enumerated values at compile time, and chain. SetAttribute
+	// returns nothing on purpose - it cannot be chained, which keeps the
+	// Fluent API the obvious default.
+	//
+	// For ARIA attributes use SetAria(name, value); for data-* attributes
+	// use SetData(name, value). Both return the element for chaining.
 	SetAttribute(key string, value string)
 
-	// RenderOpen and RenderClose split the element's rendering so that JIT can
-	// cache the opening tag separately from the children.
-	// For example: RenderOpen writes <div class="container">, RenderClose writes </div>.
+	// RenderOpen writes the opening tag, including the element name and
+	// every attribute, into buf. JIT compilation caches this output
+	// separately from the children so static wrappers can be pre-rendered
+	// while dynamic content re-evaluates each render. For <div class="x">
+	// it writes the entire opening fragment.
 	RenderOpen(buf *bytes.Buffer)
+
+	// RenderClose writes the closing tag (or the self-closing terminator
+	// for void elements) into buf. Paired with RenderOpen so the JIT can
+	// cache the open and close fragments independently of the children
+	// rendered between them.
 	RenderClose(buf *bytes.Buffer)
 }

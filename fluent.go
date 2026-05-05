@@ -1,3 +1,16 @@
+// Package fluent is the root of the Fluent HTML rendering library. It
+// exposes the buffer pool used throughout the render pipeline so that
+// callers and extensions can borrow and return buffers without taking
+// a direct dependency on the [pool] package.
+//
+// The HTML elements live under [github.com/jpl-au/fluent/html5], the
+// core node interfaces under [github.com/jpl-au/fluent/node], and text
+// nodes under [github.com/jpl-au/fluent/text]. Optional dot-import
+// constructors live under [github.com/jpl-au/fluent/dot].
+//
+// Most callers never touch this package directly. Calling Render(w)
+// on any node uses the pool transparently; reach for [NewBuffer] and
+// [PutBuffer] only when composing renders manually with RenderBuilder.
 package fluent
 
 import (

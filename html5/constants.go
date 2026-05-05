@@ -2,7 +2,14 @@
 
 package html5
 
-// Utility constants for HTML rendering
+// Utility constants are the byte fragments shared across every
+// element's RenderOpen and RenderClose: the doctype, the spaces
+// and quotes that delimit attributes, and the terminators that
+// close a tag. They are exported so extensions building custom
+// elements can reuse the same allocation-free write path.
+// To set an attribute in user code, use the typed methods on the
+// element (.Class, .Href, .Checked, ...) or, for custom keys,
+// node.Element.SetAttribute - not these constants.
 var (
 	MarkupDoctype      = []byte(`<!DOCTYPE html>`)
 	MarkupSpace        = []byte(` `)
@@ -12,7 +19,10 @@ var (
 	MarkupSelfCloseTag = []byte(` />`)
 )
 
-// HTML tag opening constants
+// Tag opening constants are the leading bytes of each element's
+// open tag - the < followed by the element name, with no trailing
+// space or > so that AttributeBuilder can append attributes
+// directly. Used by every element's RenderOpen.
 var (
 	TagA          = []byte(`<a`)
 	TagAbbr       = []byte(`<abbr`)
@@ -130,7 +140,8 @@ var (
 	TagWbr        = []byte(`<wbr`)
 )
 
-// HTML tag closing constants
+// Tag closing constants are the complete closing tags for every
+// non-void element. Used by every element's RenderClose.
 var (
 	TagAClose          = []byte(`</a>`)
 	TagAbbrClose       = []byte(`</abbr>`)
@@ -235,7 +246,11 @@ var (
 	TagVideoClose      = []byte(`</video>`)
 )
 
-// HTML attribute name constants
+// Attribute name constants are the leading bytes of each
+// attribute fragment - a leading space, the attribute name, the
+// equals sign, and the opening quote (e.g. ` class="`) - so the
+// renderer can append the value and closing quote without further
+// allocation. Used by AttributeBuilder on every element.
 var (
 	AttrClass                     = []byte(` class="`)
 	AttrID                        = []byte(` id="`)
@@ -488,7 +503,10 @@ var (
 	AttrPoster                    = []byte(` poster="`)
 )
 
-// Boolean attribute constants
+// Boolean attribute constants are the complete fragments emitted
+// for HTML boolean attributes when set - typically a leading space
+// followed by the attribute name (e.g. ` checked`). The renderer
+// writes them verbatim, with no value or quoting.
 var (
 	AttrAutoFocus                = []byte(` autofocus`)
 	AttrDraggable                = []byte(` draggable`)

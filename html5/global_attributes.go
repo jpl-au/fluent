@@ -19,7 +19,11 @@ import (
 	"github.com/jpl-au/fluent/node"
 )
 
-// GlobalAttributes represents global HTML attributes
+// GlobalAttributes holds the global HTML attributes that every element supports.
+// It is embedded into every generated element struct so the typed
+// fields below are reachable on the element directly. The unexported
+// attr slice backs the generic key-value store written by
+// SetAttribute for keys that have no typed field.
 type GlobalAttributes struct {
 	Style                 string
 	Title                 string
@@ -45,7 +49,15 @@ type GlobalAttributes struct {
 	attr                  *[]node.Attribute
 }
 
-// SetAttribute sets an attribute in the global attributes slice
+// SetAttribute is the escape hatch for attributes that the typed
+// API does not cover - framework directives like Alpine.js (x-on:click)
+// or HTMX (hx-get), and any other custom or non-standard attribute.
+// For everything else, prefer the typed methods on the element
+// (.Class, .Href, .Checked, ...) or, for ARIA and data-* attributes,
+// SetAria and SetData. Repeated calls with the same key overwrite the
+// existing value rather than appending a duplicate. The method
+// returns nothing on purpose: it cannot be chained, which keeps the
+// Fluent API the obvious default.
 func (ga *GlobalAttributes) SetAttribute(key string, value string) {
 	if ga.attr == nil {
 		slice := make([]node.Attribute, 0, 1)
@@ -64,12 +76,21 @@ func (ga *GlobalAttributes) SetAttribute(key string, value string) {
 	*ga.attr = append(*ga.attr, node.Attribute{Key: key, Value: value})
 }
 
-// Attributes returns the slice of attributes
+// Attributes returns a pointer to the underlying generic-attribute
+// slice - the same slice SetAttribute writes into. The pointer is
+// nil until SetAttribute has been called at least once. Intended
+// for extensions and tooling that need to inspect or mutate the
+// custom attributes set on an element; application code should
+// rarely need it.
 func (ga *GlobalAttributes) Attributes() *[]node.Attribute {
 	return ga.attr
 }
 
-// AttributeBuilder writes all global attributes to the buffer
+// AttributeBuilder writes every set global attribute - both the typed
+// fields and any custom keys added via SetAttribute - directly into
+// buf using the pre-allocated byte constants from the html5 package.
+// Called by each element's RenderOpen between the tag-open prefix
+// and the closing > so attributes appear in the rendered tag.
 func (ga *GlobalAttributes) AttributeBuilder(buf *bytes.Buffer) {
 	if ga.Style != "" {
 		buf.Write(AttrStyle)

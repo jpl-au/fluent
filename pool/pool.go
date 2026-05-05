@@ -1,3 +1,15 @@
+// Package pool provides the two-tier sync.Pool used by every Fluent
+// render call. Buffers below [Threshold] are recycled through the
+// small pool; larger buffers go through the large pool, and anything
+// above [MaxPoolSize] is discarded so the pool cannot retain
+// pathological allocations.
+//
+// Pooling is on by default and can be toggled at runtime with
+// [Enable] and [Disable]. Configure sizing through [SetThreshold] and
+// [SetMaxPoolSize], and observe what the pool is doing by attaching a
+// JSONL writer with [SetDiagnostics]. Most callers reach the pool
+// indirectly through [github.com/jpl-au/fluent.NewBuffer] rather than
+// importing this package.
 package pool
 
 import (
@@ -10,13 +22,13 @@ import (
 
 // Pool behaviour - configure via the exported setter functions.
 var (
-	poolThreshold    = 4 * 1024   // Threshold defines the pool (small, large) the builder is returned to
-	maxPoolSize      = 256 * 1024 // Maximum size to keep in pools - discard larger buffers
-	discardOversized = true       // Whether to discard oversized buffers (true by default)
+	poolThreshold    = 4 * 1024   // Threshold defines the pool (small, large) the builder is returned to.
+	maxPoolSize      = 256 * 1024 // Maximum size to keep in pools - discard larger buffers.
+	discardOversized = true       // Whether to discard oversized buffers (true by default).
 )
 
-// enabled controls whether sync.Pool optimizations are enabled globally.
-// Can be safely toggled at runtime using atomic operations.
+// enabled controls whether sync.Pool optimisations are enabled globally.
+// It is safe to toggle at runtime via atomic operations.
 var enabled atomic.Bool
 
 // diagnostics receives JSONL entries for every Get and Put when set.
@@ -52,17 +64,20 @@ var (
 	}
 )
 
-// Enable turns on sync.Pool optimizations
+// Enable turns on sync.Pool optimisations. Pooling is enabled by
+// default; call this only after a prior [Disable].
 func Enable() {
 	enabled.Store(true)
 }
 
-// Disable turns off sync.Pool optimizations
+// Disable turns off sync.Pool optimisations. Subsequent [Get] calls
+// return fresh buffers and [Put] becomes a no-op until [Enable] is
+// called.
 func Disable() {
 	enabled.Store(false)
 }
 
-// Enabled returns whether pool optimizations are currently enabled
+// Enabled reports whether pool optimisations are currently enabled.
 func Enabled() bool {
 	return enabled.Load()
 }
@@ -128,14 +143,17 @@ func Put(buf *bytes.Buffer) {
 
 // Configuration setters
 
-// SetThreshold sets the size threshold between small and large pools in bytes
+// SetThreshold sets the size threshold in bytes between the small and
+// large pools. Buffers with capacity below the threshold are recycled
+// through the small pool; the rest go through the large pool.
 func SetThreshold(size int) {
 	poolThreshold = size
 }
 
-// SetMaxPoolSize configures the maximum buffer size to keep in pools.
-// Buffers larger than this will be discarded if drop is true, otherwise
-// they will be resized back to maxSize before being pooled.
+// SetMaxPoolSize configures the maximum buffer size in bytes to keep
+// in pools. Buffers larger than size are discarded when drop is true;
+// when drop is false they are still discarded today (the rebound path
+// is not implemented).
 func SetMaxPoolSize(size int, drop bool) {
 	maxPoolSize = size
 	discardOversized = drop
@@ -143,17 +161,20 @@ func SetMaxPoolSize(size int, drop bool) {
 
 // Configuration getters
 
-// Threshold returns the size threshold between small and large pools in bytes
+// Threshold returns the size threshold in bytes between the small and
+// large pools.
 func Threshold() int {
 	return poolThreshold
 }
 
-// MaxPoolSize returns the maximum buffer size to keep in pools in bytes
+// MaxPoolSize returns the maximum buffer size in bytes that the pool
+// will retain.
 func MaxPoolSize() int {
 	return maxPoolSize
 }
 
-// DiscardOversized returns whether oversized buffers should be discarded
+// DiscardOversized reports whether buffers larger than [MaxPoolSize]
+// are discarded when returned to the pool.
 func DiscardOversized() bool {
 	return discardOversized
 }

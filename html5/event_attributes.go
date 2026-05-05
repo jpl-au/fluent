@@ -8,7 +8,11 @@ import (
 	"github.com/jpl-au/fluent/node"
 )
 
-// EventAttributes represents event HTML attributes
+// EventAttributes holds the event HTML attributes that every element supports.
+// It is embedded into every generated element struct so the typed
+// fields below are reachable on the element directly. The unexported
+// attr slice backs the generic key-value store written by
+// SetAttribute for keys that have no typed field.
 type EventAttributes struct {
 	OnClick   string
 	OnChange  string
@@ -21,7 +25,15 @@ type EventAttributes struct {
 	attr      *[]node.Attribute
 }
 
-// SetAttribute sets an attribute in the event attributes slice
+// SetAttribute is the escape hatch for attributes that the typed
+// API does not cover - framework directives like Alpine.js (x-on:click)
+// or HTMX (hx-get), and any other custom or non-standard attribute.
+// For everything else, prefer the typed methods on the element
+// (.Class, .Href, .Checked, ...) or, for ARIA and data-* attributes,
+// SetAria and SetData. Repeated calls with the same key overwrite the
+// existing value rather than appending a duplicate. The method
+// returns nothing on purpose: it cannot be chained, which keeps the
+// Fluent API the obvious default.
 func (ea *EventAttributes) SetAttribute(key string, value string) {
 	if ea.attr == nil {
 		slice := make([]node.Attribute, 0, 1)
@@ -40,12 +52,21 @@ func (ea *EventAttributes) SetAttribute(key string, value string) {
 	*ea.attr = append(*ea.attr, node.Attribute{Key: key, Value: value})
 }
 
-// Attributes returns the slice of attributes
+// Attributes returns a pointer to the underlying generic-attribute
+// slice - the same slice SetAttribute writes into. The pointer is
+// nil until SetAttribute has been called at least once. Intended
+// for extensions and tooling that need to inspect or mutate the
+// custom attributes set on an element; application code should
+// rarely need it.
 func (ea *EventAttributes) Attributes() *[]node.Attribute {
 	return ea.attr
 }
 
-// AttributeBuilder writes all event attributes to the buffer
+// AttributeBuilder writes every set event attribute - both the typed
+// fields and any custom keys added via SetAttribute - directly into
+// buf using the pre-allocated byte constants from the html5 package.
+// Called by each element's RenderOpen between the tag-open prefix
+// and the closing > so attributes appear in the rendered tag.
 func (ea *EventAttributes) AttributeBuilder(buf *bytes.Buffer) {
 	if ea.OnClick != "" {
 		buf.Write(AttrOnClick)
