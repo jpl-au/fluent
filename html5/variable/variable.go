@@ -1656,14 +1656,18 @@ func (e *element) RawTextf(format string, args ...any) *element {
 
 // Node interface implementation
 
-// BufferHint sets or gets the buffer size hint for pool allocation.
-// When called with a hint, it sets the hint and returns it.
-// When called without arguments, it returns the current hint.
-// After Render(w), this reflects the actual rendered size.
-func (e *element) BufferHint(hint ...int) int {
-	if len(hint) > 0 && hint[0] > 0 {
-		e.bufferhint = hint[0]
+// BufferHint sets the buffer size hint used for pool allocation and
+// returns the element, so it chains. A hint of zero or less is ignored.
+func (e *element) BufferHint(hint int) *element {
+	if hint > 0 {
+		e.bufferhint = hint
 	}
+	return e
+}
+
+// RenderedSize returns the buffer size hint. After Render(w) it reflects
+// the actual rendered size, so a retained element self-tunes.
+func (e *element) RenderedSize() int {
 	return e.bufferhint
 }
 
