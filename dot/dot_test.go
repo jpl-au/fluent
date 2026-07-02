@@ -2,916 +2,920 @@
 
 package dot
 
-import "testing"
+import (
+	"testing"
+
+	"github.com/jpl-au/fluent/html5/a"
+	"github.com/jpl-au/fluent/html5/abbr"
+	"github.com/jpl-au/fluent/html5/address"
+	"github.com/jpl-au/fluent/html5/area"
+	"github.com/jpl-au/fluent/html5/article"
+	"github.com/jpl-au/fluent/html5/aside"
+	"github.com/jpl-au/fluent/html5/audio"
+	"github.com/jpl-au/fluent/html5/b"
+	"github.com/jpl-au/fluent/html5/base"
+	"github.com/jpl-au/fluent/html5/bdi"
+	"github.com/jpl-au/fluent/html5/bdo"
+	"github.com/jpl-au/fluent/html5/blockquote"
+	"github.com/jpl-au/fluent/html5/body"
+	"github.com/jpl-au/fluent/html5/br"
+	"github.com/jpl-au/fluent/html5/button"
+	"github.com/jpl-au/fluent/html5/canvas"
+	"github.com/jpl-au/fluent/html5/caption"
+	"github.com/jpl-au/fluent/html5/cite"
+	"github.com/jpl-au/fluent/html5/code"
+	"github.com/jpl-au/fluent/html5/col"
+	"github.com/jpl-au/fluent/html5/colgroup"
+	"github.com/jpl-au/fluent/html5/data"
+	"github.com/jpl-au/fluent/html5/datalist"
+	"github.com/jpl-au/fluent/html5/dd"
+	"github.com/jpl-au/fluent/html5/del"
+	"github.com/jpl-au/fluent/html5/details"
+	"github.com/jpl-au/fluent/html5/dfn"
+	"github.com/jpl-au/fluent/html5/dialog"
+	"github.com/jpl-au/fluent/html5/div"
+	"github.com/jpl-au/fluent/html5/dl"
+	"github.com/jpl-au/fluent/html5/dropdown"
+	"github.com/jpl-au/fluent/html5/dt"
+	"github.com/jpl-au/fluent/html5/em"
+	"github.com/jpl-au/fluent/html5/embed"
+	"github.com/jpl-au/fluent/html5/fieldset"
+	"github.com/jpl-au/fluent/html5/figcaption"
+	"github.com/jpl-au/fluent/html5/figure"
+	"github.com/jpl-au/fluent/html5/footer"
+	"github.com/jpl-au/fluent/html5/form"
+	"github.com/jpl-au/fluent/html5/h1"
+	"github.com/jpl-au/fluent/html5/h2"
+	"github.com/jpl-au/fluent/html5/h3"
+	"github.com/jpl-au/fluent/html5/h4"
+	"github.com/jpl-au/fluent/html5/h5"
+	"github.com/jpl-au/fluent/html5/h6"
+	"github.com/jpl-au/fluent/html5/head"
+	"github.com/jpl-au/fluent/html5/header"
+	"github.com/jpl-au/fluent/html5/hgroup"
+	"github.com/jpl-au/fluent/html5/hr"
+	"github.com/jpl-au/fluent/html5/html"
+	"github.com/jpl-au/fluent/html5/i"
+	"github.com/jpl-au/fluent/html5/iframe"
+	"github.com/jpl-au/fluent/html5/imagemap"
+	"github.com/jpl-au/fluent/html5/img"
+	"github.com/jpl-au/fluent/html5/input"
+	"github.com/jpl-au/fluent/html5/ins"
+	"github.com/jpl-au/fluent/html5/kbd"
+	"github.com/jpl-au/fluent/html5/label"
+	"github.com/jpl-au/fluent/html5/legend"
+	"github.com/jpl-au/fluent/html5/li"
+	"github.com/jpl-au/fluent/html5/link"
+	"github.com/jpl-au/fluent/html5/mark"
+	"github.com/jpl-au/fluent/html5/math"
+	"github.com/jpl-au/fluent/html5/menu"
+	"github.com/jpl-au/fluent/html5/meta"
+	"github.com/jpl-au/fluent/html5/meter"
+	"github.com/jpl-au/fluent/html5/nav"
+	"github.com/jpl-au/fluent/html5/noscript"
+	"github.com/jpl-au/fluent/html5/object"
+	"github.com/jpl-au/fluent/html5/ol"
+	"github.com/jpl-au/fluent/html5/optgroup"
+	"github.com/jpl-au/fluent/html5/option"
+	"github.com/jpl-au/fluent/html5/output"
+	"github.com/jpl-au/fluent/html5/p"
+	"github.com/jpl-au/fluent/html5/picture"
+	"github.com/jpl-au/fluent/html5/pre"
+	"github.com/jpl-au/fluent/html5/primary"
+	"github.com/jpl-au/fluent/html5/progress"
+	"github.com/jpl-au/fluent/html5/q"
+	"github.com/jpl-au/fluent/html5/rp"
+	"github.com/jpl-au/fluent/html5/rt"
+	"github.com/jpl-au/fluent/html5/ruby"
+	"github.com/jpl-au/fluent/html5/s"
+	"github.com/jpl-au/fluent/html5/samp"
+	"github.com/jpl-au/fluent/html5/script"
+	"github.com/jpl-au/fluent/html5/search"
+	"github.com/jpl-au/fluent/html5/section"
+	"github.com/jpl-au/fluent/html5/slot"
+	"github.com/jpl-au/fluent/html5/small"
+	"github.com/jpl-au/fluent/html5/source"
+	"github.com/jpl-au/fluent/html5/span"
+	"github.com/jpl-au/fluent/html5/strong"
+	"github.com/jpl-au/fluent/html5/style"
+	"github.com/jpl-au/fluent/html5/sub"
+	"github.com/jpl-au/fluent/html5/summary"
+	"github.com/jpl-au/fluent/html5/sup"
+	"github.com/jpl-au/fluent/html5/svg"
+	"github.com/jpl-au/fluent/html5/table"
+	"github.com/jpl-au/fluent/html5/tbody"
+	"github.com/jpl-au/fluent/html5/td"
+	"github.com/jpl-au/fluent/html5/template"
+	"github.com/jpl-au/fluent/html5/textarea"
+	"github.com/jpl-au/fluent/html5/tfoot"
+	"github.com/jpl-au/fluent/html5/th"
+	"github.com/jpl-au/fluent/html5/thead"
+	"github.com/jpl-au/fluent/html5/time"
+	"github.com/jpl-au/fluent/html5/title"
+	"github.com/jpl-au/fluent/html5/tr"
+	"github.com/jpl-au/fluent/html5/track"
+	"github.com/jpl-au/fluent/html5/u"
+	"github.com/jpl-au/fluent/html5/ul"
+	"github.com/jpl-au/fluent/html5/variable"
+	"github.com/jpl-au/fluent/html5/video"
+	"github.com/jpl-au/fluent/html5/wbr"
+)
 
 func TestA(t *testing.T) {
 	got := string(A().Render())
-	want := `<a></a>`
+	want := string(a.New().Render())
 	if got != want {
-		t.Errorf("got %q, want %q", got, want)
+		t.Errorf("A() = %q, want New() = %q", got, want)
 	}
 }
-
 func TestAbbr(t *testing.T) {
 	got := string(Abbr().Render())
-	want := `<abbr></abbr>`
+	want := string(abbr.New().Render())
 	if got != want {
-		t.Errorf("got %q, want %q", got, want)
+		t.Errorf("Abbr() = %q, want New() = %q", got, want)
 	}
 }
-
 func TestAddress(t *testing.T) {
 	got := string(Address().Render())
-	want := `<address></address>`
+	want := string(address.New().Render())
 	if got != want {
-		t.Errorf("got %q, want %q", got, want)
+		t.Errorf("Address() = %q, want New() = %q", got, want)
 	}
 }
-
 func TestArea(t *testing.T) {
 	got := string(Area().Render())
-	want := `<area />`
+	want := string(area.New().Render())
 	if got != want {
-		t.Errorf("got %q, want %q", got, want)
+		t.Errorf("Area() = %q, want New() = %q", got, want)
 	}
 }
-
 func TestArticle(t *testing.T) {
 	got := string(Article().Render())
-	want := `<article></article>`
+	want := string(article.New().Render())
 	if got != want {
-		t.Errorf("got %q, want %q", got, want)
+		t.Errorf("Article() = %q, want New() = %q", got, want)
 	}
 }
-
 func TestAside(t *testing.T) {
 	got := string(Aside().Render())
-	want := `<aside></aside>`
+	want := string(aside.New().Render())
 	if got != want {
-		t.Errorf("got %q, want %q", got, want)
+		t.Errorf("Aside() = %q, want New() = %q", got, want)
 	}
 }
-
 func TestAudio(t *testing.T) {
 	got := string(Audio().Render())
-	want := `<audio></audio>`
+	want := string(audio.New().Render())
 	if got != want {
-		t.Errorf("got %q, want %q", got, want)
+		t.Errorf("Audio() = %q, want New() = %q", got, want)
 	}
 }
-
 func TestB(t *testing.T) {
 	got := string(B().Render())
-	want := `<b></b>`
+	want := string(b.New().Render())
 	if got != want {
-		t.Errorf("got %q, want %q", got, want)
+		t.Errorf("B() = %q, want New() = %q", got, want)
 	}
 }
-
 func TestBase(t *testing.T) {
 	got := string(Base().Render())
-	want := `<base />`
+	want := string(base.New().Render())
 	if got != want {
-		t.Errorf("got %q, want %q", got, want)
+		t.Errorf("Base() = %q, want New() = %q", got, want)
 	}
 }
-
 func TestBdi(t *testing.T) {
 	got := string(Bdi().Render())
-	want := `<bdi></bdi>`
+	want := string(bdi.New().Render())
 	if got != want {
-		t.Errorf("got %q, want %q", got, want)
+		t.Errorf("Bdi() = %q, want New() = %q", got, want)
 	}
 }
-
 func TestBdo(t *testing.T) {
 	got := string(Bdo().Render())
-	want := `<bdo></bdo>`
+	want := string(bdo.New().Render())
 	if got != want {
-		t.Errorf("got %q, want %q", got, want)
+		t.Errorf("Bdo() = %q, want New() = %q", got, want)
 	}
 }
-
 func TestBlockquote(t *testing.T) {
 	got := string(Blockquote().Render())
-	want := `<blockquote></blockquote>`
+	want := string(blockquote.New().Render())
 	if got != want {
-		t.Errorf("got %q, want %q", got, want)
+		t.Errorf("Blockquote() = %q, want New() = %q", got, want)
 	}
 }
-
 func TestBody(t *testing.T) {
 	got := string(Body().Render())
-	want := `<body></body>`
+	want := string(body.New().Render())
 	if got != want {
-		t.Errorf("got %q, want %q", got, want)
+		t.Errorf("Body() = %q, want New() = %q", got, want)
 	}
 }
-
 func TestBr(t *testing.T) {
 	got := string(Br().Render())
-	want := `<br />`
+	want := string(br.New().Render())
 	if got != want {
-		t.Errorf("got %q, want %q", got, want)
+		t.Errorf("Br() = %q, want New() = %q", got, want)
 	}
 }
-
 func TestButton(t *testing.T) {
 	got := string(Button().Render())
-	want := `<button></button>`
+	want := string(button.New().Render())
 	if got != want {
-		t.Errorf("got %q, want %q", got, want)
+		t.Errorf("Button() = %q, want New() = %q", got, want)
 	}
 }
-
 func TestCanvas(t *testing.T) {
 	got := string(Canvas().Render())
-	want := `<canvas></canvas>`
+	want := string(canvas.New().Render())
 	if got != want {
-		t.Errorf("got %q, want %q", got, want)
+		t.Errorf("Canvas() = %q, want New() = %q", got, want)
 	}
 }
-
 func TestCaption(t *testing.T) {
 	got := string(Caption().Render())
-	want := `<caption></caption>`
+	want := string(caption.New().Render())
 	if got != want {
-		t.Errorf("got %q, want %q", got, want)
+		t.Errorf("Caption() = %q, want New() = %q", got, want)
 	}
 }
-
 func TestCite(t *testing.T) {
 	got := string(Cite().Render())
-	want := `<cite></cite>`
+	want := string(cite.New().Render())
 	if got != want {
-		t.Errorf("got %q, want %q", got, want)
+		t.Errorf("Cite() = %q, want New() = %q", got, want)
 	}
 }
-
 func TestCode(t *testing.T) {
 	got := string(Code().Render())
-	want := `<code></code>`
+	want := string(code.New().Render())
 	if got != want {
-		t.Errorf("got %q, want %q", got, want)
+		t.Errorf("Code() = %q, want New() = %q", got, want)
 	}
 }
-
 func TestCol(t *testing.T) {
 	got := string(Col().Render())
-	want := `<col />`
+	want := string(col.New().Render())
 	if got != want {
-		t.Errorf("got %q, want %q", got, want)
+		t.Errorf("Col() = %q, want New() = %q", got, want)
 	}
 }
-
 func TestColgroup(t *testing.T) {
 	got := string(Colgroup().Render())
-	want := `<colgroup></colgroup>`
+	want := string(colgroup.New().Render())
 	if got != want {
-		t.Errorf("got %q, want %q", got, want)
+		t.Errorf("Colgroup() = %q, want New() = %q", got, want)
 	}
 }
-
 func TestData(t *testing.T) {
 	got := string(Data().Render())
-	want := `<data></data>`
+	want := string(data.New().Render())
 	if got != want {
-		t.Errorf("got %q, want %q", got, want)
+		t.Errorf("Data() = %q, want New() = %q", got, want)
 	}
 }
-
 func TestDatalist(t *testing.T) {
 	got := string(Datalist().Render())
-	want := `<datalist></datalist>`
+	want := string(datalist.New().Render())
 	if got != want {
-		t.Errorf("got %q, want %q", got, want)
+		t.Errorf("Datalist() = %q, want New() = %q", got, want)
 	}
 }
-
 func TestDd(t *testing.T) {
 	got := string(Dd().Render())
-	want := `<dd></dd>`
+	want := string(dd.New().Render())
 	if got != want {
-		t.Errorf("got %q, want %q", got, want)
+		t.Errorf("Dd() = %q, want New() = %q", got, want)
 	}
 }
-
 func TestDel(t *testing.T) {
 	got := string(Del().Render())
-	want := `<del></del>`
+	want := string(del.New().Render())
 	if got != want {
-		t.Errorf("got %q, want %q", got, want)
+		t.Errorf("Del() = %q, want New() = %q", got, want)
 	}
 }
-
 func TestDetails(t *testing.T) {
 	got := string(Details().Render())
-	want := `<details></details>`
+	want := string(details.New().Render())
 	if got != want {
-		t.Errorf("got %q, want %q", got, want)
+		t.Errorf("Details() = %q, want New() = %q", got, want)
 	}
 }
-
 func TestDfn(t *testing.T) {
 	got := string(Dfn().Render())
-	want := `<dfn></dfn>`
+	want := string(dfn.New().Render())
 	if got != want {
-		t.Errorf("got %q, want %q", got, want)
+		t.Errorf("Dfn() = %q, want New() = %q", got, want)
 	}
 }
-
 func TestDialog(t *testing.T) {
 	got := string(Dialog().Render())
-	want := `<dialog></dialog>`
+	want := string(dialog.New().Render())
 	if got != want {
-		t.Errorf("got %q, want %q", got, want)
+		t.Errorf("Dialog() = %q, want New() = %q", got, want)
 	}
 }
-
 func TestDiv(t *testing.T) {
 	got := string(Div().Render())
-	want := `<div></div>`
+	want := string(div.New().Render())
 	if got != want {
-		t.Errorf("got %q, want %q", got, want)
+		t.Errorf("Div() = %q, want New() = %q", got, want)
 	}
 }
-
 func TestDl(t *testing.T) {
 	got := string(Dl().Render())
-	want := `<dl></dl>`
+	want := string(dl.New().Render())
 	if got != want {
-		t.Errorf("got %q, want %q", got, want)
+		t.Errorf("Dl() = %q, want New() = %q", got, want)
 	}
 }
-
-func TestDt(t *testing.T) {
-	got := string(Dt().Render())
-	want := `<dt></dt>`
-	if got != want {
-		t.Errorf("got %q, want %q", got, want)
-	}
-}
-
-func TestEm(t *testing.T) {
-	got := string(Em().Render())
-	want := `<em></em>`
-	if got != want {
-		t.Errorf("got %q, want %q", got, want)
-	}
-}
-
-func TestEmbed(t *testing.T) {
-	got := string(Embed().Render())
-	want := `<embed />`
-	if got != want {
-		t.Errorf("got %q, want %q", got, want)
-	}
-}
-
-func TestFieldset(t *testing.T) {
-	got := string(Fieldset().Render())
-	want := `<fieldset></fieldset>`
-	if got != want {
-		t.Errorf("got %q, want %q", got, want)
-	}
-}
-
-func TestFigcaption(t *testing.T) {
-	got := string(Figcaption().Render())
-	want := `<figcaption></figcaption>`
-	if got != want {
-		t.Errorf("got %q, want %q", got, want)
-	}
-}
-
-func TestFigure(t *testing.T) {
-	got := string(Figure().Render())
-	want := `<figure></figure>`
-	if got != want {
-		t.Errorf("got %q, want %q", got, want)
-	}
-}
-
-func TestFooter(t *testing.T) {
-	got := string(Footer().Render())
-	want := `<footer></footer>`
-	if got != want {
-		t.Errorf("got %q, want %q", got, want)
-	}
-}
-
-func TestForm(t *testing.T) {
-	got := string(Form().Render())
-	want := `<form></form>`
-	if got != want {
-		t.Errorf("got %q, want %q", got, want)
-	}
-}
-
-func TestH1(t *testing.T) {
-	got := string(H1().Render())
-	want := `<h1></h1>`
-	if got != want {
-		t.Errorf("got %q, want %q", got, want)
-	}
-}
-
-func TestH2(t *testing.T) {
-	got := string(H2().Render())
-	want := `<h2></h2>`
-	if got != want {
-		t.Errorf("got %q, want %q", got, want)
-	}
-}
-
-func TestH3(t *testing.T) {
-	got := string(H3().Render())
-	want := `<h3></h3>`
-	if got != want {
-		t.Errorf("got %q, want %q", got, want)
-	}
-}
-
-func TestH4(t *testing.T) {
-	got := string(H4().Render())
-	want := `<h4></h4>`
-	if got != want {
-		t.Errorf("got %q, want %q", got, want)
-	}
-}
-
-func TestH5(t *testing.T) {
-	got := string(H5().Render())
-	want := `<h5></h5>`
-	if got != want {
-		t.Errorf("got %q, want %q", got, want)
-	}
-}
-
-func TestH6(t *testing.T) {
-	got := string(H6().Render())
-	want := `<h6></h6>`
-	if got != want {
-		t.Errorf("got %q, want %q", got, want)
-	}
-}
-
-func TestHead(t *testing.T) {
-	got := string(Head().Render())
-	want := `<head></head>`
-	if got != want {
-		t.Errorf("got %q, want %q", got, want)
-	}
-}
-
-func TestHeader(t *testing.T) {
-	got := string(Header().Render())
-	want := `<header></header>`
-	if got != want {
-		t.Errorf("got %q, want %q", got, want)
-	}
-}
-
-func TestHgroup(t *testing.T) {
-	got := string(Hgroup().Render())
-	want := `<hgroup></hgroup>`
-	if got != want {
-		t.Errorf("got %q, want %q", got, want)
-	}
-}
-
-func TestHr(t *testing.T) {
-	got := string(Hr().Render())
-	want := `<hr />`
-	if got != want {
-		t.Errorf("got %q, want %q", got, want)
-	}
-}
-
-func TestHtml(t *testing.T) {
-	got := string(Html().Render())
-	want := `<!DOCTYPE html><html></html>`
-	if got != want {
-		t.Errorf("got %q, want %q", got, want)
-	}
-}
-
-func TestI(t *testing.T) {
-	got := string(I().Render())
-	want := `<i></i>`
-	if got != want {
-		t.Errorf("got %q, want %q", got, want)
-	}
-}
-
-func TestIframe(t *testing.T) {
-	got := string(Iframe().Render())
-	want := `<iframe></iframe>`
-	if got != want {
-		t.Errorf("got %q, want %q", got, want)
-	}
-}
-
-func TestImg(t *testing.T) {
-	got := string(Img().Render())
-	want := `<img />`
-	if got != want {
-		t.Errorf("got %q, want %q", got, want)
-	}
-}
-
-func TestInput(t *testing.T) {
-	got := string(Input().Render())
-	want := `<input />`
-	if got != want {
-		t.Errorf("got %q, want %q", got, want)
-	}
-}
-
-func TestIns(t *testing.T) {
-	got := string(Ins().Render())
-	want := `<ins></ins>`
-	if got != want {
-		t.Errorf("got %q, want %q", got, want)
-	}
-}
-
-func TestKbd(t *testing.T) {
-	got := string(Kbd().Render())
-	want := `<kbd></kbd>`
-	if got != want {
-		t.Errorf("got %q, want %q", got, want)
-	}
-}
-
-func TestLabel(t *testing.T) {
-	got := string(Label().Render())
-	want := `<label></label>`
-	if got != want {
-		t.Errorf("got %q, want %q", got, want)
-	}
-}
-
-func TestLegend(t *testing.T) {
-	got := string(Legend().Render())
-	want := `<legend></legend>`
-	if got != want {
-		t.Errorf("got %q, want %q", got, want)
-	}
-}
-
-func TestLi(t *testing.T) {
-	got := string(Li().Render())
-	want := `<li></li>`
-	if got != want {
-		t.Errorf("got %q, want %q", got, want)
-	}
-}
-
-func TestLink(t *testing.T) {
-	got := string(Link().Render())
-	want := `<link />`
-	if got != want {
-		t.Errorf("got %q, want %q", got, want)
-	}
-}
-
-func TestPrimary(t *testing.T) {
-	got := string(Primary().Render())
-	want := `<main></main>`
-	if got != want {
-		t.Errorf("got %q, want %q", got, want)
-	}
-}
-
-func TestImagemap(t *testing.T) {
-	got := string(Imagemap().Render())
-	want := `<map></map>`
-	if got != want {
-		t.Errorf("got %q, want %q", got, want)
-	}
-}
-
-func TestMark(t *testing.T) {
-	got := string(Mark().Render())
-	want := `<mark></mark>`
-	if got != want {
-		t.Errorf("got %q, want %q", got, want)
-	}
-}
-
-func TestMath(t *testing.T) {
-	got := string(Math().Render())
-	want := `<math></math>`
-	if got != want {
-		t.Errorf("got %q, want %q", got, want)
-	}
-}
-
-func TestMenu(t *testing.T) {
-	got := string(Menu().Render())
-	want := `<menu></menu>`
-	if got != want {
-		t.Errorf("got %q, want %q", got, want)
-	}
-}
-
-func TestMeta(t *testing.T) {
-	got := string(Meta().Render())
-	want := `<meta />`
-	if got != want {
-		t.Errorf("got %q, want %q", got, want)
-	}
-}
-
-func TestMeter(t *testing.T) {
-	got := string(Meter().Render())
-	want := `<meter></meter>`
-	if got != want {
-		t.Errorf("got %q, want %q", got, want)
-	}
-}
-
-func TestNav(t *testing.T) {
-	got := string(Nav().Render())
-	want := `<nav></nav>`
-	if got != want {
-		t.Errorf("got %q, want %q", got, want)
-	}
-}
-
-func TestNoscript(t *testing.T) {
-	got := string(Noscript().Render())
-	want := `<noscript></noscript>`
-	if got != want {
-		t.Errorf("got %q, want %q", got, want)
-	}
-}
-
-func TestObject(t *testing.T) {
-	got := string(Object().Render())
-	want := `<object></object>`
-	if got != want {
-		t.Errorf("got %q, want %q", got, want)
-	}
-}
-
-func TestOl(t *testing.T) {
-	got := string(Ol().Render())
-	want := `<ol></ol>`
-	if got != want {
-		t.Errorf("got %q, want %q", got, want)
-	}
-}
-
-func TestOptgroup(t *testing.T) {
-	got := string(Optgroup().Render())
-	want := `<optgroup></optgroup>`
-	if got != want {
-		t.Errorf("got %q, want %q", got, want)
-	}
-}
-
-func TestOption(t *testing.T) {
-	got := string(Option().Render())
-	want := `<option></option>`
-	if got != want {
-		t.Errorf("got %q, want %q", got, want)
-	}
-}
-
-func TestOutput(t *testing.T) {
-	got := string(Output().Render())
-	want := `<output></output>`
-	if got != want {
-		t.Errorf("got %q, want %q", got, want)
-	}
-}
-
-func TestP(t *testing.T) {
-	got := string(P().Render())
-	want := `<p></p>`
-	if got != want {
-		t.Errorf("got %q, want %q", got, want)
-	}
-}
-
-func TestPicture(t *testing.T) {
-	got := string(Picture().Render())
-	want := `<picture></picture>`
-	if got != want {
-		t.Errorf("got %q, want %q", got, want)
-	}
-}
-
-func TestPre(t *testing.T) {
-	got := string(Pre().Render())
-	want := `<pre></pre>`
-	if got != want {
-		t.Errorf("got %q, want %q", got, want)
-	}
-}
-
-func TestProgress(t *testing.T) {
-	got := string(Progress().Render())
-	want := `<progress></progress>`
-	if got != want {
-		t.Errorf("got %q, want %q", got, want)
-	}
-}
-
-func TestQ(t *testing.T) {
-	got := string(Q().Render())
-	want := `<q></q>`
-	if got != want {
-		t.Errorf("got %q, want %q", got, want)
-	}
-}
-
-func TestRp(t *testing.T) {
-	got := string(Rp().Render())
-	want := `<rp></rp>`
-	if got != want {
-		t.Errorf("got %q, want %q", got, want)
-	}
-}
-
-func TestRt(t *testing.T) {
-	got := string(Rt().Render())
-	want := `<rt></rt>`
-	if got != want {
-		t.Errorf("got %q, want %q", got, want)
-	}
-}
-
-func TestRuby(t *testing.T) {
-	got := string(Ruby().Render())
-	want := `<ruby></ruby>`
-	if got != want {
-		t.Errorf("got %q, want %q", got, want)
-	}
-}
-
-func TestS(t *testing.T) {
-	got := string(S().Render())
-	want := `<s></s>`
-	if got != want {
-		t.Errorf("got %q, want %q", got, want)
-	}
-}
-
-func TestSamp(t *testing.T) {
-	got := string(Samp().Render())
-	want := `<samp></samp>`
-	if got != want {
-		t.Errorf("got %q, want %q", got, want)
-	}
-}
-
-func TestScript(t *testing.T) {
-	got := string(Script().Render())
-	want := `<script></script>`
-	if got != want {
-		t.Errorf("got %q, want %q", got, want)
-	}
-}
-
-func TestSearch(t *testing.T) {
-	got := string(Search().Render())
-	want := `<search></search>`
-	if got != want {
-		t.Errorf("got %q, want %q", got, want)
-	}
-}
-
-func TestSection(t *testing.T) {
-	got := string(Section().Render())
-	want := `<section></section>`
-	if got != want {
-		t.Errorf("got %q, want %q", got, want)
-	}
-}
-
 func TestDropdown(t *testing.T) {
 	got := string(Dropdown().Render())
-	want := `<select></select>`
+	want := string(dropdown.New().Render())
 	if got != want {
-		t.Errorf("got %q, want %q", got, want)
+		t.Errorf("Dropdown() = %q, want New() = %q", got, want)
 	}
 }
-
+func TestDt(t *testing.T) {
+	got := string(Dt().Render())
+	want := string(dt.New().Render())
+	if got != want {
+		t.Errorf("Dt() = %q, want New() = %q", got, want)
+	}
+}
+func TestEm(t *testing.T) {
+	got := string(Em().Render())
+	want := string(em.New().Render())
+	if got != want {
+		t.Errorf("Em() = %q, want New() = %q", got, want)
+	}
+}
+func TestEmbed(t *testing.T) {
+	got := string(Embed().Render())
+	want := string(embed.New().Render())
+	if got != want {
+		t.Errorf("Embed() = %q, want New() = %q", got, want)
+	}
+}
+func TestFieldset(t *testing.T) {
+	got := string(Fieldset().Render())
+	want := string(fieldset.New().Render())
+	if got != want {
+		t.Errorf("Fieldset() = %q, want New() = %q", got, want)
+	}
+}
+func TestFigcaption(t *testing.T) {
+	got := string(Figcaption().Render())
+	want := string(figcaption.New().Render())
+	if got != want {
+		t.Errorf("Figcaption() = %q, want New() = %q", got, want)
+	}
+}
+func TestFigure(t *testing.T) {
+	got := string(Figure().Render())
+	want := string(figure.New().Render())
+	if got != want {
+		t.Errorf("Figure() = %q, want New() = %q", got, want)
+	}
+}
+func TestFooter(t *testing.T) {
+	got := string(Footer().Render())
+	want := string(footer.New().Render())
+	if got != want {
+		t.Errorf("Footer() = %q, want New() = %q", got, want)
+	}
+}
+func TestForm(t *testing.T) {
+	got := string(Form().Render())
+	want := string(form.New().Render())
+	if got != want {
+		t.Errorf("Form() = %q, want New() = %q", got, want)
+	}
+}
+func TestH1(t *testing.T) {
+	got := string(H1().Render())
+	want := string(h1.New().Render())
+	if got != want {
+		t.Errorf("H1() = %q, want New() = %q", got, want)
+	}
+}
+func TestH2(t *testing.T) {
+	got := string(H2().Render())
+	want := string(h2.New().Render())
+	if got != want {
+		t.Errorf("H2() = %q, want New() = %q", got, want)
+	}
+}
+func TestH3(t *testing.T) {
+	got := string(H3().Render())
+	want := string(h3.New().Render())
+	if got != want {
+		t.Errorf("H3() = %q, want New() = %q", got, want)
+	}
+}
+func TestH4(t *testing.T) {
+	got := string(H4().Render())
+	want := string(h4.New().Render())
+	if got != want {
+		t.Errorf("H4() = %q, want New() = %q", got, want)
+	}
+}
+func TestH5(t *testing.T) {
+	got := string(H5().Render())
+	want := string(h5.New().Render())
+	if got != want {
+		t.Errorf("H5() = %q, want New() = %q", got, want)
+	}
+}
+func TestH6(t *testing.T) {
+	got := string(H6().Render())
+	want := string(h6.New().Render())
+	if got != want {
+		t.Errorf("H6() = %q, want New() = %q", got, want)
+	}
+}
+func TestHead(t *testing.T) {
+	got := string(Head().Render())
+	want := string(head.New().Render())
+	if got != want {
+		t.Errorf("Head() = %q, want New() = %q", got, want)
+	}
+}
+func TestHeader(t *testing.T) {
+	got := string(Header().Render())
+	want := string(header.New().Render())
+	if got != want {
+		t.Errorf("Header() = %q, want New() = %q", got, want)
+	}
+}
+func TestHgroup(t *testing.T) {
+	got := string(Hgroup().Render())
+	want := string(hgroup.New().Render())
+	if got != want {
+		t.Errorf("Hgroup() = %q, want New() = %q", got, want)
+	}
+}
+func TestHr(t *testing.T) {
+	got := string(Hr().Render())
+	want := string(hr.New().Render())
+	if got != want {
+		t.Errorf("Hr() = %q, want New() = %q", got, want)
+	}
+}
+func TestHtml(t *testing.T) {
+	got := string(Html().Render())
+	want := string(html.New().Render())
+	if got != want {
+		t.Errorf("Html() = %q, want New() = %q", got, want)
+	}
+}
+func TestI(t *testing.T) {
+	got := string(I().Render())
+	want := string(i.New().Render())
+	if got != want {
+		t.Errorf("I() = %q, want New() = %q", got, want)
+	}
+}
+func TestIframe(t *testing.T) {
+	got := string(Iframe().Render())
+	want := string(iframe.New().Render())
+	if got != want {
+		t.Errorf("Iframe() = %q, want New() = %q", got, want)
+	}
+}
+func TestImagemap(t *testing.T) {
+	got := string(Imagemap().Render())
+	want := string(imagemap.New().Render())
+	if got != want {
+		t.Errorf("Imagemap() = %q, want New() = %q", got, want)
+	}
+}
+func TestImg(t *testing.T) {
+	got := string(Img().Render())
+	want := string(img.New().Render())
+	if got != want {
+		t.Errorf("Img() = %q, want New() = %q", got, want)
+	}
+}
+func TestInput(t *testing.T) {
+	got := string(Input().Render())
+	want := string(input.New().Render())
+	if got != want {
+		t.Errorf("Input() = %q, want New() = %q", got, want)
+	}
+}
+func TestIns(t *testing.T) {
+	got := string(Ins().Render())
+	want := string(ins.New().Render())
+	if got != want {
+		t.Errorf("Ins() = %q, want New() = %q", got, want)
+	}
+}
+func TestKbd(t *testing.T) {
+	got := string(Kbd().Render())
+	want := string(kbd.New().Render())
+	if got != want {
+		t.Errorf("Kbd() = %q, want New() = %q", got, want)
+	}
+}
+func TestLabel(t *testing.T) {
+	got := string(Label().Render())
+	want := string(label.New().Render())
+	if got != want {
+		t.Errorf("Label() = %q, want New() = %q", got, want)
+	}
+}
+func TestLegend(t *testing.T) {
+	got := string(Legend().Render())
+	want := string(legend.New().Render())
+	if got != want {
+		t.Errorf("Legend() = %q, want New() = %q", got, want)
+	}
+}
+func TestLi(t *testing.T) {
+	got := string(Li().Render())
+	want := string(li.New().Render())
+	if got != want {
+		t.Errorf("Li() = %q, want New() = %q", got, want)
+	}
+}
+func TestLink(t *testing.T) {
+	got := string(Link().Render())
+	want := string(link.New().Render())
+	if got != want {
+		t.Errorf("Link() = %q, want New() = %q", got, want)
+	}
+}
+func TestMark(t *testing.T) {
+	got := string(Mark().Render())
+	want := string(mark.New().Render())
+	if got != want {
+		t.Errorf("Mark() = %q, want New() = %q", got, want)
+	}
+}
+func TestMath(t *testing.T) {
+	got := string(Math().Render())
+	want := string(math.New().Render())
+	if got != want {
+		t.Errorf("Math() = %q, want New() = %q", got, want)
+	}
+}
+func TestMenu(t *testing.T) {
+	got := string(Menu().Render())
+	want := string(menu.New().Render())
+	if got != want {
+		t.Errorf("Menu() = %q, want New() = %q", got, want)
+	}
+}
+func TestMeta(t *testing.T) {
+	got := string(Meta().Render())
+	want := string(meta.New().Render())
+	if got != want {
+		t.Errorf("Meta() = %q, want New() = %q", got, want)
+	}
+}
+func TestMeter(t *testing.T) {
+	got := string(Meter().Render())
+	want := string(meter.New().Render())
+	if got != want {
+		t.Errorf("Meter() = %q, want New() = %q", got, want)
+	}
+}
+func TestNav(t *testing.T) {
+	got := string(Nav().Render())
+	want := string(nav.New().Render())
+	if got != want {
+		t.Errorf("Nav() = %q, want New() = %q", got, want)
+	}
+}
+func TestNoscript(t *testing.T) {
+	got := string(Noscript().Render())
+	want := string(noscript.New().Render())
+	if got != want {
+		t.Errorf("Noscript() = %q, want New() = %q", got, want)
+	}
+}
+func TestObject(t *testing.T) {
+	got := string(Object().Render())
+	want := string(object.New().Render())
+	if got != want {
+		t.Errorf("Object() = %q, want New() = %q", got, want)
+	}
+}
+func TestOl(t *testing.T) {
+	got := string(Ol().Render())
+	want := string(ol.New().Render())
+	if got != want {
+		t.Errorf("Ol() = %q, want New() = %q", got, want)
+	}
+}
+func TestOptgroup(t *testing.T) {
+	got := string(Optgroup().Render())
+	want := string(optgroup.New().Render())
+	if got != want {
+		t.Errorf("Optgroup() = %q, want New() = %q", got, want)
+	}
+}
+func TestOption(t *testing.T) {
+	got := string(Option().Render())
+	want := string(option.New().Render())
+	if got != want {
+		t.Errorf("Option() = %q, want New() = %q", got, want)
+	}
+}
+func TestOutput(t *testing.T) {
+	got := string(Output().Render())
+	want := string(output.New().Render())
+	if got != want {
+		t.Errorf("Output() = %q, want New() = %q", got, want)
+	}
+}
+func TestP(t *testing.T) {
+	got := string(P().Render())
+	want := string(p.New().Render())
+	if got != want {
+		t.Errorf("P() = %q, want New() = %q", got, want)
+	}
+}
+func TestPicture(t *testing.T) {
+	got := string(Picture().Render())
+	want := string(picture.New().Render())
+	if got != want {
+		t.Errorf("Picture() = %q, want New() = %q", got, want)
+	}
+}
+func TestPre(t *testing.T) {
+	got := string(Pre().Render())
+	want := string(pre.New().Render())
+	if got != want {
+		t.Errorf("Pre() = %q, want New() = %q", got, want)
+	}
+}
+func TestPrimary(t *testing.T) {
+	got := string(Primary().Render())
+	want := string(primary.New().Render())
+	if got != want {
+		t.Errorf("Primary() = %q, want New() = %q", got, want)
+	}
+}
+func TestProgress(t *testing.T) {
+	got := string(Progress().Render())
+	want := string(progress.New().Render())
+	if got != want {
+		t.Errorf("Progress() = %q, want New() = %q", got, want)
+	}
+}
+func TestQ(t *testing.T) {
+	got := string(Q().Render())
+	want := string(q.New().Render())
+	if got != want {
+		t.Errorf("Q() = %q, want New() = %q", got, want)
+	}
+}
+func TestRp(t *testing.T) {
+	got := string(Rp().Render())
+	want := string(rp.New().Render())
+	if got != want {
+		t.Errorf("Rp() = %q, want New() = %q", got, want)
+	}
+}
+func TestRt(t *testing.T) {
+	got := string(Rt().Render())
+	want := string(rt.New().Render())
+	if got != want {
+		t.Errorf("Rt() = %q, want New() = %q", got, want)
+	}
+}
+func TestRuby(t *testing.T) {
+	got := string(Ruby().Render())
+	want := string(ruby.New().Render())
+	if got != want {
+		t.Errorf("Ruby() = %q, want New() = %q", got, want)
+	}
+}
+func TestS(t *testing.T) {
+	got := string(S().Render())
+	want := string(s.New().Render())
+	if got != want {
+		t.Errorf("S() = %q, want New() = %q", got, want)
+	}
+}
+func TestSamp(t *testing.T) {
+	got := string(Samp().Render())
+	want := string(samp.New().Render())
+	if got != want {
+		t.Errorf("Samp() = %q, want New() = %q", got, want)
+	}
+}
+func TestScript(t *testing.T) {
+	got := string(Script().Render())
+	want := string(script.New().Render())
+	if got != want {
+		t.Errorf("Script() = %q, want New() = %q", got, want)
+	}
+}
+func TestSearch(t *testing.T) {
+	got := string(Search().Render())
+	want := string(search.New().Render())
+	if got != want {
+		t.Errorf("Search() = %q, want New() = %q", got, want)
+	}
+}
+func TestSection(t *testing.T) {
+	got := string(Section().Render())
+	want := string(section.New().Render())
+	if got != want {
+		t.Errorf("Section() = %q, want New() = %q", got, want)
+	}
+}
 func TestSlot(t *testing.T) {
 	got := string(Slot().Render())
-	want := `<slot></slot>`
+	want := string(slot.New().Render())
 	if got != want {
-		t.Errorf("got %q, want %q", got, want)
+		t.Errorf("Slot() = %q, want New() = %q", got, want)
 	}
 }
-
 func TestSmall(t *testing.T) {
 	got := string(Small().Render())
-	want := `<small></small>`
+	want := string(small.New().Render())
 	if got != want {
-		t.Errorf("got %q, want %q", got, want)
+		t.Errorf("Small() = %q, want New() = %q", got, want)
 	}
 }
-
 func TestSource(t *testing.T) {
 	got := string(Source().Render())
-	want := `<source />`
+	want := string(source.New().Render())
 	if got != want {
-		t.Errorf("got %q, want %q", got, want)
+		t.Errorf("Source() = %q, want New() = %q", got, want)
 	}
 }
-
 func TestSpan(t *testing.T) {
 	got := string(Span().Render())
-	want := `<span></span>`
+	want := string(span.New().Render())
 	if got != want {
-		t.Errorf("got %q, want %q", got, want)
+		t.Errorf("Span() = %q, want New() = %q", got, want)
 	}
 }
-
 func TestStrong(t *testing.T) {
 	got := string(Strong().Render())
-	want := `<strong></strong>`
+	want := string(strong.New().Render())
 	if got != want {
-		t.Errorf("got %q, want %q", got, want)
+		t.Errorf("Strong() = %q, want New() = %q", got, want)
 	}
 }
-
 func TestStyle(t *testing.T) {
 	got := string(Style().Render())
-	want := `<style></style>`
+	want := string(style.New().Render())
 	if got != want {
-		t.Errorf("got %q, want %q", got, want)
+		t.Errorf("Style() = %q, want New() = %q", got, want)
 	}
 }
-
 func TestSub(t *testing.T) {
 	got := string(Sub().Render())
-	want := `<sub></sub>`
+	want := string(sub.New().Render())
 	if got != want {
-		t.Errorf("got %q, want %q", got, want)
+		t.Errorf("Sub() = %q, want New() = %q", got, want)
 	}
 }
-
 func TestSummary(t *testing.T) {
 	got := string(Summary().Render())
-	want := `<summary></summary>`
+	want := string(summary.New().Render())
 	if got != want {
-		t.Errorf("got %q, want %q", got, want)
+		t.Errorf("Summary() = %q, want New() = %q", got, want)
 	}
 }
-
 func TestSup(t *testing.T) {
 	got := string(Sup().Render())
-	want := `<sup></sup>`
+	want := string(sup.New().Render())
 	if got != want {
-		t.Errorf("got %q, want %q", got, want)
+		t.Errorf("Sup() = %q, want New() = %q", got, want)
 	}
 }
-
 func TestSvg(t *testing.T) {
 	got := string(Svg().Render())
-	want := `<svg></svg>`
+	want := string(svg.New().Render())
 	if got != want {
-		t.Errorf("got %q, want %q", got, want)
+		t.Errorf("Svg() = %q, want New() = %q", got, want)
 	}
 }
-
 func TestTable(t *testing.T) {
 	got := string(Table().Render())
-	want := `<table></table>`
+	want := string(table.New().Render())
 	if got != want {
-		t.Errorf("got %q, want %q", got, want)
+		t.Errorf("Table() = %q, want New() = %q", got, want)
 	}
 }
-
 func TestTbody(t *testing.T) {
 	got := string(Tbody().Render())
-	want := `<tbody></tbody>`
+	want := string(tbody.New().Render())
 	if got != want {
-		t.Errorf("got %q, want %q", got, want)
+		t.Errorf("Tbody() = %q, want New() = %q", got, want)
 	}
 }
-
 func TestTd(t *testing.T) {
 	got := string(Td().Render())
-	want := `<td></td>`
+	want := string(td.New().Render())
 	if got != want {
-		t.Errorf("got %q, want %q", got, want)
+		t.Errorf("Td() = %q, want New() = %q", got, want)
 	}
 }
-
 func TestTemplate(t *testing.T) {
 	got := string(Template().Render())
-	want := `<template></template>`
+	want := string(template.New().Render())
 	if got != want {
-		t.Errorf("got %q, want %q", got, want)
+		t.Errorf("Template() = %q, want New() = %q", got, want)
 	}
 }
-
 func TestTextarea(t *testing.T) {
 	got := string(Textarea().Render())
-	want := `<textarea></textarea>`
+	want := string(textarea.New().Render())
 	if got != want {
-		t.Errorf("got %q, want %q", got, want)
+		t.Errorf("Textarea() = %q, want New() = %q", got, want)
 	}
 }
-
 func TestTfoot(t *testing.T) {
 	got := string(Tfoot().Render())
-	want := `<tfoot></tfoot>`
+	want := string(tfoot.New().Render())
 	if got != want {
-		t.Errorf("got %q, want %q", got, want)
+		t.Errorf("Tfoot() = %q, want New() = %q", got, want)
 	}
 }
-
 func TestTh(t *testing.T) {
 	got := string(Th().Render())
-	want := `<th></th>`
+	want := string(th.New().Render())
 	if got != want {
-		t.Errorf("got %q, want %q", got, want)
+		t.Errorf("Th() = %q, want New() = %q", got, want)
 	}
 }
-
 func TestThead(t *testing.T) {
 	got := string(Thead().Render())
-	want := `<thead></thead>`
+	want := string(thead.New().Render())
 	if got != want {
-		t.Errorf("got %q, want %q", got, want)
+		t.Errorf("Thead() = %q, want New() = %q", got, want)
 	}
 }
-
 func TestTime(t *testing.T) {
 	got := string(Time().Render())
-	want := `<time></time>`
+	want := string(time.New().Render())
 	if got != want {
-		t.Errorf("got %q, want %q", got, want)
+		t.Errorf("Time() = %q, want New() = %q", got, want)
 	}
 }
-
 func TestTitle(t *testing.T) {
 	got := string(Title().Render())
-	want := `<title></title>`
+	want := string(title.New().Render())
 	if got != want {
-		t.Errorf("got %q, want %q", got, want)
+		t.Errorf("Title() = %q, want New() = %q", got, want)
 	}
 }
-
 func TestTr(t *testing.T) {
 	got := string(Tr().Render())
-	want := `<tr></tr>`
+	want := string(tr.New().Render())
 	if got != want {
-		t.Errorf("got %q, want %q", got, want)
+		t.Errorf("Tr() = %q, want New() = %q", got, want)
 	}
 }
-
 func TestTrack(t *testing.T) {
 	got := string(Track().Render())
-	want := `<track />`
+	want := string(track.New().Render())
 	if got != want {
-		t.Errorf("got %q, want %q", got, want)
+		t.Errorf("Track() = %q, want New() = %q", got, want)
 	}
 }
-
 func TestU(t *testing.T) {
 	got := string(U().Render())
-	want := `<u></u>`
+	want := string(u.New().Render())
 	if got != want {
-		t.Errorf("got %q, want %q", got, want)
+		t.Errorf("U() = %q, want New() = %q", got, want)
 	}
 }
-
 func TestUl(t *testing.T) {
 	got := string(Ul().Render())
-	want := `<ul></ul>`
+	want := string(ul.New().Render())
 	if got != want {
-		t.Errorf("got %q, want %q", got, want)
+		t.Errorf("Ul() = %q, want New() = %q", got, want)
 	}
 }
-
 func TestVariable(t *testing.T) {
 	got := string(Variable().Render())
-	want := `<var></var>`
+	want := string(variable.New().Render())
 	if got != want {
-		t.Errorf("got %q, want %q", got, want)
+		t.Errorf("Variable() = %q, want New() = %q", got, want)
 	}
 }
-
 func TestVideo(t *testing.T) {
 	got := string(Video().Render())
-	want := `<video></video>`
+	want := string(video.New().Render())
 	if got != want {
-		t.Errorf("got %q, want %q", got, want)
+		t.Errorf("Video() = %q, want New() = %q", got, want)
 	}
 }
-
 func TestWbr(t *testing.T) {
 	got := string(Wbr().Render())
-	want := `<wbr />`
+	want := string(wbr.New().Render())
 	if got != want {
-		t.Errorf("got %q, want %q", got, want)
+		t.Errorf("Wbr() = %q, want New() = %q", got, want)
 	}
 }

@@ -10,86 +10,79 @@ import (
 	"github.com/jpl-au/fluent"
 	"github.com/jpl-au/fluent/html5/attr/strokelinecap"
 	"github.com/jpl-au/fluent/html5/attr/strokelinejoin"
+	"github.com/jpl-au/fluent/html5/attr/textanchor"
 	"github.com/jpl-au/fluent/node"
+	txt "github.com/jpl-au/fluent/text"
 )
 
-// Element is an exported alias for the unexported root element type.
-type Element = element
-
-// element represents the <svg> SVG element.
-type element struct {
-	nodes               []node.Node
-	dynamic             string
-	height              string
-	preserveAspectRatio string
-	viewBox             string
-	width               string
-	xmlns               string
-	attr                *[]node.Attribute
-	sa                  *svgAttrs
-	bufferhint          int
+// text represents the <text> SVG element.
+type text struct {
+	nodes      []node.Node
+	textAnchor textanchor.TextAnchor
+	dx         string
+	dy         string
+	dynamic    string
+	x          string
+	y          string
+	attr       *[]node.Attribute
+	sa         *svgAttrs
+	bufferhint int
 }
 
 // svg returns the shared svg attributes, initialising if nil.
-func (e *element) svg() *svgAttrs {
+func (e *text) svg() *svgAttrs {
 	if e.sa == nil {
 		e.sa = &svgAttrs{}
 	}
 	return e.sa
 }
 
-// New creates the root <svg> element. It renders the SVG namespace
-// (xmlns="http://www.w3.org/2000/svg") by default and accepts SVG shapes as
-// children.
-func New(children ...Shape) *element {
-	nodes := make([]node.Node, len(children))
-	for i, child := range children {
-		nodes[i] = child
-	}
-	return &element{
-		nodes: nodes,
-		xmlns: "http://www.w3.org/2000/svg",
+// Text creates a <text> element with the given string content (HTML-escaped),
+// positioned at (x,y). Add tspan children for styled runs within the text.
+func Text(s string) *text {
+	return &text{
+		nodes: []node.Node{txt.Text(s)},
 	}
 }
 
-// Width sets the width attribute.
-func (e *element) Width(value string) *element {
-	e.width = value
+// X sets the x attribute.
+func (e *text) X(value string) *text {
+	e.x = value
 	return e
 }
 
-// Height sets the height attribute.
-func (e *element) Height(value string) *element {
-	e.height = value
+// Y sets the y attribute.
+func (e *text) Y(value string) *text {
+	e.y = value
 	return e
 }
 
-// ViewBox sets the viewBox attribute.
-func (e *element) ViewBox(value string) *element {
-	e.viewBox = value
+// Dx sets the dx attribute.
+func (e *text) Dx(value string) *text {
+	e.dx = value
 	return e
 }
 
-// PreserveAspectRatio sets the preserveAspectRatio attribute.
-func (e *element) PreserveAspectRatio(value string) *element {
-	e.preserveAspectRatio = value
+// Dy sets the dy attribute.
+func (e *text) Dy(value string) *text {
+	e.dy = value
 	return e
 }
 
-// Xmlns sets the xmlns attribute.
-func (e *element) Xmlns(value string) *element {
-	e.xmlns = value
+// TextAnchor sets the text-anchor attribute.
+func (e *text) TextAnchor(value textanchor.TextAnchor) *text {
+	e.textAnchor = value
 	return e
 }
 
 // ID sets the id attribute.
-func (e *element) ID(id string) *element {
+func (e *text) ID(id string) *text {
 	e.svg().ID = id
 	return e
 }
 
 // Class appends to the space-separated class attribute.
-func (e *element) Class(class string) *element {
+func (e *text) Class(class string) *text {
 	if e.svg().Class == "" {
 		e.svg().Class = class
 	} else {
@@ -99,139 +92,139 @@ func (e *element) Class(class string) *element {
 }
 
 // Style sets the style attribute.
-func (e *element) Style(css string) *element {
+func (e *text) Style(css string) *text {
 	e.svg().Style = css
 	return e
 }
 
 // Transform sets the transform attribute.
-func (e *element) Transform(transform string) *element {
+func (e *text) Transform(transform string) *text {
 	e.svg().Transform = transform
 	return e
 }
 
 // TabIndex sets the tabindex attribute.
-func (e *element) TabIndex(index string) *element {
+func (e *text) TabIndex(index string) *text {
 	e.svg().TabIndex = index
 	return e
 }
 
 // Role sets the role attribute.
-func (e *element) Role(role string) *element {
+func (e *text) Role(role string) *text {
 	e.svg().Role = role
 	return e
 }
 
 // SetAria sets an aria-* attribute. The key is prefixed with "aria-".
-func (e *element) SetAria(key string, value string) *element {
+func (e *text) SetAria(key string, value string) *text {
 	e.SetAttribute("aria-"+key, value)
 	return e
 }
 
 // Fill sets the fill attribute.
-func (e *element) Fill(fill string) *element {
+func (e *text) Fill(fill string) *text {
 	e.svg().Fill = fill
 	return e
 }
 
 // Stroke sets the stroke attribute.
-func (e *element) Stroke(stroke string) *element {
+func (e *text) Stroke(stroke string) *text {
 	e.svg().Stroke = stroke
 	return e
 }
 
 // StrokeWidth sets the stroke-width attribute.
-func (e *element) StrokeWidth(width string) *element {
+func (e *text) StrokeWidth(width string) *text {
 	e.svg().StrokeWidth = width
 	return e
 }
 
 // StrokeLineCap sets the stroke-linecap attribute.
-func (e *element) StrokeLineCap(linecap strokelinecap.StrokeLineCap) *element {
+func (e *text) StrokeLineCap(linecap strokelinecap.StrokeLineCap) *text {
 	e.svg().StrokeLineCap = linecap
 	return e
 }
 
 // StrokeLineJoin sets the stroke-linejoin attribute.
-func (e *element) StrokeLineJoin(join strokelinejoin.StrokeLineJoin) *element {
+func (e *text) StrokeLineJoin(join strokelinejoin.StrokeLineJoin) *text {
 	e.svg().StrokeLineJoin = join
 	return e
 }
 
 // StrokeDashArray sets the stroke-dasharray attribute.
-func (e *element) StrokeDashArray(dashes string) *element {
+func (e *text) StrokeDashArray(dashes string) *text {
 	e.svg().StrokeDashArray = dashes
 	return e
 }
 
 // Opacity sets the opacity attribute.
-func (e *element) Opacity(opacity string) *element {
+func (e *text) Opacity(opacity string) *text {
 	e.svg().Opacity = opacity
 	return e
 }
 
 // FillOpacity sets the fill-opacity attribute.
-func (e *element) FillOpacity(opacity string) *element {
+func (e *text) FillOpacity(opacity string) *text {
 	e.svg().FillOpacity = opacity
 	return e
 }
 
 // StrokeOpacity sets the stroke-opacity attribute.
-func (e *element) StrokeOpacity(opacity string) *element {
+func (e *text) StrokeOpacity(opacity string) *text {
 	e.svg().StrokeOpacity = opacity
 	return e
 }
 
 // OnClick sets the onclick attribute.
-func (e *element) OnClick(handler string) *element {
+func (e *text) OnClick(handler string) *text {
 	e.svg().OnClick = handler
 	return e
 }
 
 // OnMouseDown sets the onmousedown attribute.
-func (e *element) OnMouseDown(handler string) *element {
+func (e *text) OnMouseDown(handler string) *text {
 	e.svg().OnMouseDown = handler
 	return e
 }
 
 // OnMouseUp sets the onmouseup attribute.
-func (e *element) OnMouseUp(handler string) *element {
+func (e *text) OnMouseUp(handler string) *text {
 	e.svg().OnMouseUp = handler
 	return e
 }
 
 // OnMouseMove sets the onmousemove attribute.
-func (e *element) OnMouseMove(handler string) *element {
+func (e *text) OnMouseMove(handler string) *text {
 	e.svg().OnMouseMove = handler
 	return e
 }
 
 // OnMouseOver sets the onmouseover attribute.
-func (e *element) OnMouseOver(handler string) *element {
+func (e *text) OnMouseOver(handler string) *text {
 	e.svg().OnMouseOver = handler
 	return e
 }
 
 // OnMouseOut sets the onmouseout attribute.
-func (e *element) OnMouseOut(handler string) *element {
+func (e *text) OnMouseOut(handler string) *text {
 	e.svg().OnMouseOut = handler
 	return e
 }
 
 // OnFocus sets the onfocus attribute.
-func (e *element) OnFocus(handler string) *element {
+func (e *text) OnFocus(handler string) *text {
 	e.svg().OnFocus = handler
 	return e
 }
 
 // OnBlur sets the onblur attribute.
-func (e *element) OnBlur(handler string) *element {
+func (e *text) OnBlur(handler string) *text {
 	e.svg().OnBlur = handler
 	return e
 }
 
 // SetAttribute sets a custom attribute on the element
-func (e *element) SetAttribute(key string, value string) {
+func (e *text) SetAttribute(key string, value string) {
 	if e.attr == nil {
 		e.attr = &[]node.Attribute{}
 	}
@@ -246,7 +239,7 @@ func (e *element) SetAttribute(key string, value string) {
 }
 
 // Add appends children to the element.
-func (e *element) Add(children ...Shape) *element {
+func (e *text) Add(children ...Shape) *text {
 	for _, child := range children {
 		e.nodes = append(e.nodes, child)
 	}
@@ -254,7 +247,7 @@ func (e *element) Add(children ...Shape) *element {
 }
 
 // Replace replaces all children with the provided ones.
-func (e *element) Replace(children ...Shape) *element {
+func (e *text) Replace(children ...Shape) *text {
 	e.nodes = make([]node.Node, len(children))
 	for i, child := range children {
 		e.nodes[i] = child
@@ -266,7 +259,7 @@ func (e *element) Replace(children ...Shape) *element {
 // The key identifies this element across renders so the diff engine can detect
 // changes and send targeted patches. Keys must be unique within a render tree.
 // Calling without a key marks the element as dynamic without a tracking key.
-func (e *element) Dynamic(key ...string) *element {
+func (e *text) Dynamic(key ...string) *text {
 	if len(key) > 0 {
 		e.dynamic = key[0]
 	} else {
@@ -276,13 +269,13 @@ func (e *element) Dynamic(key ...string) *element {
 }
 
 // IsDynamic reports whether this element has been marked for reactive tracking.
-func (e *element) IsDynamic() bool {
+func (e *text) IsDynamic() bool {
 	return e.dynamic != ""
 }
 
 // DynamicKey returns the developer-assigned key for diff engine tracking.
 // Returns an empty string if the element has not been marked as dynamic.
-func (e *element) DynamicKey() string {
+func (e *text) DynamicKey() string {
 	return e.dynamic
 }
 
@@ -290,7 +283,7 @@ func (e *element) DynamicKey() string {
 
 // BufferHint sets the buffer size hint used for pool allocation and
 // returns the element, so it chains. A hint of zero or less is ignored.
-func (e *element) BufferHint(hint int) *element {
+func (e *text) BufferHint(hint int) *text {
 	if hint > 0 {
 		e.bufferhint = hint
 	}
@@ -299,14 +292,14 @@ func (e *element) BufferHint(hint int) *element {
 
 // RenderedSize returns the buffer size hint. After Render(w) it reflects
 // the actual rendered size, so a retained element self-tunes.
-func (e *element) RenderedSize() int {
+func (e *text) RenderedSize() int {
 	return e.bufferhint
 }
 
 // Render generates the complete HTML representation of the element.
 // If a writer is provided, the output is written to it using a pooled buffer and nil is returned.
 // If no writer is provided, the output is returned as a byte slice.
-func (e *element) Render(w ...io.Writer) []byte {
+func (e *text) Render(w ...io.Writer) []byte {
 	if len(w) > 0 && w[0] != nil {
 		buf := fluent.NewBuffer(e.bufferhint)
 		e.RenderBuilder(buf)
@@ -321,30 +314,30 @@ func (e *element) Render(w ...io.Writer) []byte {
 }
 
 // AttributeBuilder writes all attributes for the element to the buffer.
-func (e *element) AttributeBuilder(buf *bytes.Buffer) {
-	if e.width != "" {
-		buf.Write(AttrWidth)
-		buf.WriteString(e.width)
+func (e *text) AttributeBuilder(buf *bytes.Buffer) {
+	if e.x != "" {
+		buf.Write(AttrX)
+		buf.WriteString(e.x)
 		buf.Write(MarkupQuote)
 	}
-	if e.height != "" {
-		buf.Write(AttrHeight)
-		buf.WriteString(e.height)
+	if e.y != "" {
+		buf.Write(AttrY)
+		buf.WriteString(e.y)
 		buf.Write(MarkupQuote)
 	}
-	if e.viewBox != "" {
-		buf.Write(AttrViewBox)
-		buf.WriteString(e.viewBox)
+	if e.dx != "" {
+		buf.Write(AttrDx)
+		buf.WriteString(e.dx)
 		buf.Write(MarkupQuote)
 	}
-	if e.preserveAspectRatio != "" {
-		buf.Write(AttrPreserveAspectRatio)
-		buf.WriteString(e.preserveAspectRatio)
+	if e.dy != "" {
+		buf.Write(AttrDy)
+		buf.WriteString(e.dy)
 		buf.Write(MarkupQuote)
 	}
-	if e.xmlns != "" {
-		buf.Write(AttrXmlns)
-		buf.WriteString(e.xmlns)
+	if len(e.textAnchor) > 0 {
+		buf.Write(AttrTextAnchor)
+		buf.Write(e.textAnchor)
 		buf.Write(MarkupQuote)
 	}
 
@@ -371,8 +364,8 @@ func (e *element) AttributeBuilder(buf *bytes.Buffer) {
 }
 
 // RenderBuilder writes the SVG representation directly to a buffer.
-func (e *element) RenderBuilder(buf *bytes.Buffer) {
-	buf.Write(TagSvg)
+func (e *text) RenderBuilder(buf *bytes.Buffer) {
+	buf.Write(TagText)
 	e.AttributeBuilder(buf)
 	buf.Write(MarkupCloseTag)
 	for _, child := range e.nodes {
@@ -380,28 +373,28 @@ func (e *element) RenderBuilder(buf *bytes.Buffer) {
 			child.RenderBuilder(buf)
 		}
 	}
-	buf.Write(TagSvgClose)
+	buf.Write(TagTextClose)
 }
 
 // RenderOpen writes the opening tag and attributes to the buffer.
-func (e *element) RenderOpen(buf *bytes.Buffer) {
-	buf.Write(TagSvg)
+func (e *text) RenderOpen(buf *bytes.Buffer) {
+	buf.Write(TagText)
 	e.AttributeBuilder(buf)
 	buf.Write(MarkupCloseTag)
 }
 
 // RenderClose writes the closing tag to the buffer.
-func (e *element) RenderClose(buf *bytes.Buffer) {
-	buf.Write(TagSvgClose)
+func (e *text) RenderClose(buf *bytes.Buffer) {
+	buf.Write(TagTextClose)
 }
 
 // Nodes returns a slice of child nodes.
-func (e *element) Nodes() []node.Node {
+func (e *text) Nodes() []node.Node {
 	return e.nodes
 }
 
 // Attributes returns a pointer to the underlying attributes slice for direct attribute manipulation.
-func (e *element) Attributes() *[]node.Attribute {
+func (e *text) Attributes() *[]node.Attribute {
 	if e.attr == nil {
 		slice := make([]node.Attribute, 0, 1)
 		e.attr = &slice
@@ -409,5 +402,5 @@ func (e *element) Attributes() *[]node.Attribute {
 	return e.attr
 }
 
-// isSVGShape seals element as an SVG Shape.
-func (*element) isSVGShape() {}
+// isSVGShape seals text as an SVG Shape.
+func (*text) isSVGShape() {}
