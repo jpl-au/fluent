@@ -14,6 +14,29 @@ func TestMemoisedRendersOutput(t *testing.T) {
 	}
 }
 
+func TestSharedIsMemoisedAndMarked(t *testing.T) {
+	s := Shared("nav:v1", func() Node { return stub("nav") })
+
+	// Renders like any memoised node.
+	if got := string(s.Render()); got != "nav" {
+		t.Errorf("Shared should render closure output, got %q", got)
+	}
+	// Reports its key and opts into cross-session sharing.
+	if s.MemoiseKey() != "nav:v1" {
+		t.Errorf("MemoiseKey = %v, want nav:v1", s.MemoiseKey())
+	}
+	if !s.MemoiseShared() {
+		t.Error("Shared node should report MemoiseShared() == true")
+	}
+	var _ SharedMemoiser = s // must satisfy the marker interface
+}
+
+func TestMemoiseIsNotShared(t *testing.T) {
+	if Memoise("v1", func() Node { return stub("x") }).MemoiseShared() {
+		t.Error("plain Memoise must not report as shared")
+	}
+}
+
 func TestMemoisedNilClosure(t *testing.T) {
 	got := string(Memoise("v1", nil).Render())
 	if got != "" {
