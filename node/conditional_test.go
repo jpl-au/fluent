@@ -180,3 +180,28 @@ func TestConditionIsDynamic(t *testing.T) {
 		t.Error("conditional should be dynamic")
 	}
 }
+
+// valueNode is a value-type (non-pointer) Node, like node.Empty's
+// emptyNode. The old typed-nil check in True/False called
+// reflect.Value.IsNil on whatever it was given, which panics for
+// struct values - so any value-type node crashed the constructor.
+type valueNode struct{}
+
+func (valueNode) Render(w io.Writer)               {}
+func (valueNode) WriteTo(io.Writer) (int64, error) { return 0, nil }
+func (valueNode) RenderBytes() []byte              { return []byte("value") }
+func (valueNode) RenderBuilder(buf *bytes.Buffer)  { buf.WriteString("value") }
+func (valueNode) Nodes() []Node                    { return nil }
+
+// TestConditionalAcceptsValueNodes verifies that True and False accept
+// value-type nodes without panicking. node.Empty returns a struct
+// value and the Empty docs recommend it for conditional branches, so
+// this must not crash.
+func TestConditionalAcceptsValueNodes(t *testing.T) {
+	if got := string(When(true, valueNode{}).RenderBytes()); got != "value" {
+		t.Errorf("When(true, valueNode) should render the node, got %q", got)
+	}
+	if got := string(Condition(false).True(valueNode{}).False(valueNode{}).RenderBytes()); got != "value" {
+		t.Errorf("Condition(false).False(valueNode) should render the false branch, got %q", got)
+	}
+}

@@ -3,7 +3,6 @@ package node
 import (
 	"bytes"
 	"io"
-	"reflect"
 
 	"github.com/jpl-au/fluent"
 )
@@ -57,19 +56,24 @@ func Unless(condition bool, node Node) *ConditionalBuilder {
 	return Condition(!condition).True(node)
 }
 
-// True sets the node to render when the condition is true.
-// If node is nil (explicit or typed nil pointer), it is not stored.
+// True sets the node to render when the condition is true. An untyped
+// nil is ignored. There is deliberately no reflection-based typed-nil
+// check: the old one panicked on value-type nodes (reflect.IsNil is
+// invalid for structs), and a typed nil pointer fails at render time
+// the same way it does anywhere else in a tree - return a real
+// nothing-node from branches instead of a nil concrete type.
 func (c *ConditionalBuilder) True(node Node) *ConditionalBuilder {
-	if node != nil && !reflect.ValueOf(node).IsNil() {
+	if node != nil {
 		c.trueNode = node
 	}
 	return c
 }
 
-// False sets the node to render when the condition is false.
-// If node is nil (explicit or typed nil pointer), it is not stored.
+// False sets the node to render when the condition is false. An
+// untyped nil is ignored; see [ConditionalBuilder.True] for why there
+// is no typed-nil check.
 func (c *ConditionalBuilder) False(node Node) *ConditionalBuilder {
-	if node != nil && !reflect.ValueOf(node).IsNil() {
+	if node != nil {
 		c.falseNode = node
 	}
 	return c
