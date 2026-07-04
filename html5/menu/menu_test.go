@@ -217,8 +217,8 @@ func TestDirAttr(t *testing.T) {
 }
 
 func TestDraggableAttr(t *testing.T) {
-	got := string(menu.New().Draggable().RenderBytes())
-	want := `<menu draggable></menu>`
+	got := string(menu.New().Draggable(true).RenderBytes())
+	want := `<menu draggable="true"></menu>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
 	}

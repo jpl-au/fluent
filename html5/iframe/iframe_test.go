@@ -380,8 +380,8 @@ func TestDirAttr(t *testing.T) {
 }
 
 func TestDraggableAttr(t *testing.T) {
-	got := string(iframe.New().Draggable().RenderBytes())
-	want := `<iframe draggable></iframe>`
+	got := string(iframe.New().Draggable(true).RenderBytes())
+	want := `<iframe draggable="true"></iframe>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
 	}

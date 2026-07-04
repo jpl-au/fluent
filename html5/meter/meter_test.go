@@ -308,8 +308,8 @@ func TestDirAttr(t *testing.T) {
 }
 
 func TestDraggableAttr(t *testing.T) {
-	got := string(meter.New().Draggable().RenderBytes())
-	want := `<meter draggable></meter>`
+	got := string(meter.New().Draggable(true).RenderBytes())
+	want := `<meter draggable="true"></meter>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
 	}

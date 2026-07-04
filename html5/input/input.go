@@ -57,6 +57,7 @@ type element struct {
 	popovertargetaction popovertargetaction.PopoverTargetAction
 	target              target.Target
 	class               string
+	draggable           string
 	dynamic             string
 	id                  string
 	name                string
@@ -66,13 +67,12 @@ type element struct {
 	attr                *[]node.Attribute
 	ea                  *html5.EventAttributes
 	ga                  *html5.GlobalAttributes
-	maxlength           int
-	tabindex            int
+	maxlength           *int
+	tabindex            *int
 	alpha               bool
 	autofocus           bool
 	checked             bool
 	disabled            bool
-	draggable           bool
 	formnovalidate      bool
 	inert               bool
 	itemscope           bool
@@ -529,7 +529,7 @@ func (e *element) Max(max string) *element {
 //
 // Defines the maximum number of characters that can be entered in text-based input types (text, password, search, tel, url, email). The browser enforces this limit during user input and validates it during form submission. This helps prevent excessively long input and can be used to match database field constraints or business rules for data length.
 func (e *element) MaxLength(length int) *element {
-	e.maxlength = length
+	e.maxlength = &length
 	return e
 }
 
@@ -743,7 +743,7 @@ func (e *element) Hidden(value ...hidden.Hidden) *element {
 // sequential keyboard navigation, and if so, at what position. It can take several values: a negative value, 0, or
 // a positive value.
 func (e *element) TabIndex(index int) *element {
-	e.tabindex = index
+	e.tabindex = &index
 	return e
 }
 
@@ -886,15 +886,10 @@ func (e *element) Dir(direction dir.Dir) *element {
 // Draggable sets the draggable attribute.
 //
 // An enumerated attribute indicating whether the element can be dragged, using the Drag and Drop API.
-// Possible values: true, false.
-//
-// Calling without an argument sets the attribute. Pass a bool to control presence conditionally.
-func (e *element) Draggable(conds ...bool) *element {
-	if len(conds) > 0 {
-		e.draggable = conds[0]
-	} else {
-		e.draggable = true
-	}
+// Renders draggable="true" or draggable="false". The bare attribute is invalid HTML and falls back to
+// auto, and draggable="false" is meaningful on links and images, which are draggable by default.
+func (e *element) Draggable(draggable bool) *element {
+	e.draggable = strconv.FormatBool(draggable)
 	return e
 }
 
@@ -2248,9 +2243,9 @@ func (e *element) AttributeBuilder(buf *bytes.Buffer) {
 	if e.disabled {
 		buf.Write(html5.AttrDisabled)
 	}
-	if e.maxlength != 0 {
+	if e.maxlength != nil {
 		buf.Write(html5.AttrMaxLength)
-		buf.Write(strconv.AppendInt(nil, int64(e.maxlength), 10))
+		buf.Write(strconv.AppendInt(nil, int64(*e.maxlength), 10))
 		buf.Write(html5.MarkupQuote)
 	}
 	if e.placeholder != "" {
@@ -2313,16 +2308,18 @@ func (e *element) AttributeBuilder(buf *bytes.Buffer) {
 		buf.Write(e.hidden)
 		buf.Write(html5.MarkupQuote)
 	}
-	if e.tabindex != 0 {
+	if e.tabindex != nil {
 		buf.Write(html5.AttrTabIndex)
-		buf.Write(strconv.AppendInt(nil, int64(e.tabindex), 10))
+		buf.Write(strconv.AppendInt(nil, int64(*e.tabindex), 10))
 		buf.Write(html5.MarkupQuote)
 	}
 	if e.autofocus {
 		buf.Write(html5.AttrAutoFocus)
 	}
-	if e.draggable {
+	if e.draggable != "" {
 		buf.Write(html5.AttrDraggable)
+		buf.WriteString(e.draggable)
+		buf.Write(html5.MarkupQuote)
 	}
 	if e.inert {
 		buf.Write(html5.AttrInert)

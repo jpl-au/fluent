@@ -267,8 +267,8 @@ func TestDirAttr(t *testing.T) {
 }
 
 func TestDraggableAttr(t *testing.T) {
-	got := string(imagemap.New().Draggable().RenderBytes())
-	want := `<map draggable></map>`
+	got := string(imagemap.New().Draggable(true).RenderBytes())
+	want := `<map draggable="true"></map>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
 	}

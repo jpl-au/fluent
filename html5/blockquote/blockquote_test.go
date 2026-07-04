@@ -282,8 +282,8 @@ func TestDirAttr(t *testing.T) {
 }
 
 func TestDraggableAttr(t *testing.T) {
-	got := string(blockquote.New().Draggable().RenderBytes())
-	want := `<blockquote draggable></blockquote>`
+	got := string(blockquote.New().Draggable(true).RenderBytes())
+	want := `<blockquote draggable="true"></blockquote>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
 	}

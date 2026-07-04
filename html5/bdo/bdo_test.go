@@ -248,8 +248,8 @@ func TestSetDataAttr(t *testing.T) {
 }
 
 func TestDraggableAttr(t *testing.T) {
-	got := string(bdo.New().Draggable().RenderBytes())
-	want := `<bdo draggable></bdo>`
+	got := string(bdo.New().Draggable(true).RenderBytes())
+	want := `<bdo draggable="true"></bdo>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
 	}

@@ -252,12 +252,16 @@ var (
 // renderer can append the value and closing quote without further
 // allocation. Used by AttributeBuilder on every element.
 var (
-	AttrClass                     = []byte(` class="`)
-	AttrID                        = []byte(` id="`)
-	AttrStyle                     = []byte(` style="`)
-	AttrTitle                     = []byte(` title="`)
-	AttrHidden                    = []byte(` hidden="`)
-	AttrTabIndex                  = []byte(` tabindex="`)
+	AttrClass    = []byte(` class="`)
+	AttrID       = []byte(` id="`)
+	AttrStyle    = []byte(` style="`)
+	AttrTitle    = []byte(` title="`)
+	AttrHidden   = []byte(` hidden="`)
+	AttrTabIndex = []byte(` tabindex="`)
+	// Draggable is enumerated, not boolean: it must render
+	// draggable="true" or draggable="false" - the bare attribute is
+	// invalid and falls back to auto.
+	AttrDraggable                 = []byte(` draggable="`)
 	AttrRole                      = []byte(` role="`)
 	AttrLang                      = []byte(` lang="`)
 	AttrAccessKey                 = []byte(` accesskey="`)
@@ -509,7 +513,6 @@ var (
 // writes them verbatim, with no value or quoting.
 var (
 	AttrAutoFocus                = []byte(` autofocus`)
-	AttrDraggable                = []byte(` draggable`)
 	AttrInert                    = []byte(` inert`)
 	AttrItemScope                = []byte(` itemscope`)
 	AttrAutoplay                 = []byte(` autoplay`)

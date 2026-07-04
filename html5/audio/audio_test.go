@@ -340,8 +340,8 @@ func TestDirAttr(t *testing.T) {
 }
 
 func TestDraggableAttr(t *testing.T) {
-	got := string(audio.New().Draggable().RenderBytes())
-	want := `<audio draggable></audio>`
+	got := string(audio.New().Draggable(true).RenderBytes())
+	want := `<audio draggable="true"></audio>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
 	}

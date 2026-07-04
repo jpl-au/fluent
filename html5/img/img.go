@@ -53,6 +53,7 @@ type element struct {
 	sizes          sizes.Size
 	alt            string
 	class          string
+	draggable      string
 	dynamic        string
 	id             string
 	src            string
@@ -60,11 +61,10 @@ type element struct {
 	attr           *[]node.Attribute
 	ea             *html5.EventAttributes
 	ga             *html5.GlobalAttributes
+	tabindex       *int
 	height         int
-	tabindex       int
 	width          int
 	autofocus      bool
-	draggable      bool
 	inert          bool
 	ismap          bool
 	itemscope      bool
@@ -369,7 +369,7 @@ func (e *element) Hidden(value ...hidden.Hidden) *element {
 // sequential keyboard navigation, and if so, at what position. It can take several values: a negative value, 0, or
 // a positive value.
 func (e *element) TabIndex(index int) *element {
-	e.tabindex = index
+	e.tabindex = &index
 	return e
 }
 
@@ -512,15 +512,10 @@ func (e *element) Dir(direction dir.Dir) *element {
 // Draggable sets the draggable attribute.
 //
 // An enumerated attribute indicating whether the element can be dragged, using the Drag and Drop API.
-// Possible values: true, false.
-//
-// Calling without an argument sets the attribute. Pass a bool to control presence conditionally.
-func (e *element) Draggable(conds ...bool) *element {
-	if len(conds) > 0 {
-		e.draggable = conds[0]
-	} else {
-		e.draggable = true
-	}
+// Renders draggable="true" or draggable="false". The bare attribute is invalid HTML and falls back to
+// auto, and draggable="false" is meaningful on links and images, which are draggable by default.
+func (e *element) Draggable(draggable bool) *element {
+	e.draggable = strconv.FormatBool(draggable)
 	return e
 }
 
@@ -1911,16 +1906,18 @@ func (e *element) AttributeBuilder(buf *bytes.Buffer) {
 		buf.Write(e.hidden)
 		buf.Write(html5.MarkupQuote)
 	}
-	if e.tabindex != 0 {
+	if e.tabindex != nil {
 		buf.Write(html5.AttrTabIndex)
-		buf.Write(strconv.AppendInt(nil, int64(e.tabindex), 10))
+		buf.Write(strconv.AppendInt(nil, int64(*e.tabindex), 10))
 		buf.Write(html5.MarkupQuote)
 	}
 	if e.autofocus {
 		buf.Write(html5.AttrAutoFocus)
 	}
-	if e.draggable {
+	if e.draggable != "" {
 		buf.Write(html5.AttrDraggable)
+		buf.WriteString(e.draggable)
+		buf.Write(html5.MarkupQuote)
 	}
 	if e.inert {
 		buf.Write(html5.AttrInert)
