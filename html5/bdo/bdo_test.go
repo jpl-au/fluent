@@ -22,14 +22,14 @@ import (
 
 func TestNewCtor(t *testing.T) {
 	// Test empty element
-	got := string(bdo.New().Render())
+	got := string(bdo.New().RenderBytes())
 	want := `<bdo></bdo>`
 	if got != want {
 		t.Errorf("empty: got %q, want %q", got, want)
 	}
 
 	// Test nested element
-	got = string(bdo.New(bdo.New()).Render())
+	got = string(bdo.New(bdo.New()).RenderBytes())
 	want = `<bdo><bdo></bdo></bdo>`
 	if got != want {
 		t.Errorf("nested: got %q, want %q", got, want)
@@ -37,7 +37,7 @@ func TestNewCtor(t *testing.T) {
 }
 
 func TestTextCtor(t *testing.T) {
-	got := string(bdo.Text("Hello World").Dir(dir.RightToLeft).Render())
+	got := string(bdo.Text("Hello World").Dir(dir.RightToLeft).RenderBytes())
 	want := `<bdo dir="rtl">Hello World</bdo>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -45,7 +45,7 @@ func TestTextCtor(t *testing.T) {
 }
 
 func TestStaticCtor(t *testing.T) {
-	got := string(bdo.Static("ABC").Dir(dir.LeftToRight).Render())
+	got := string(bdo.Static("ABC").Dir(dir.LeftToRight).RenderBytes())
 	want := `<bdo dir="ltr">ABC</bdo>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -53,7 +53,7 @@ func TestStaticCtor(t *testing.T) {
 }
 
 func TestRawTextCtor(t *testing.T) {
-	got := string(bdo.RawText("<em>Text</em>").Dir(dir.RightToLeft).Render())
+	got := string(bdo.RawText("<em>Text</em>").Dir(dir.RightToLeft).RenderBytes())
 	want := `<bdo dir="rtl"><em>Text</em></bdo>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -61,7 +61,7 @@ func TestRawTextCtor(t *testing.T) {
 }
 
 func TestTextfCtor(t *testing.T) {
-	got := string(bdo.Textf("Hello %s", "World").Dir(dir.RightToLeft).Render())
+	got := string(bdo.Textf("Hello %s", "World").Dir(dir.RightToLeft).RenderBytes())
 	want := `<bdo dir="rtl">Hello World</bdo>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -69,7 +69,7 @@ func TestTextfCtor(t *testing.T) {
 }
 
 func TestRawTextfCtor(t *testing.T) {
-	got := string(bdo.RawTextf("<strong>%s</strong>", "Text").Dir(dir.RightToLeft).Render())
+	got := string(bdo.RawTextf("<strong>%s</strong>", "Text").Dir(dir.RightToLeft).RenderBytes())
 	want := `<bdo dir="rtl"><strong>Text</strong></bdo>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -77,7 +77,7 @@ func TestRawTextfCtor(t *testing.T) {
 }
 
 func TestDirAttr(t *testing.T) {
-	got := string(bdo.New().Dir(dir.LeftToRight).Render())
+	got := string(bdo.New().Dir(dir.LeftToRight).RenderBytes())
 	want := `<bdo dir="ltr"></bdo>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -85,7 +85,7 @@ func TestDirAttr(t *testing.T) {
 }
 
 func TestClassAttr(t *testing.T) {
-	got := string(bdo.New().Class("test").Render())
+	got := string(bdo.New().Class("test").RenderBytes())
 	want := `<bdo class="test"></bdo>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -94,7 +94,7 @@ func TestClassAttr(t *testing.T) {
 
 func TestClassMulti(t *testing.T) {
 	// Test multiple chained calls
-	got := string(bdo.New().Class("one").Class("two").Class("three").Render())
+	got := string(bdo.New().Class("one").Class("two").Class("three").RenderBytes())
 	want := `<bdo class="one two three"></bdo>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -102,7 +102,7 @@ func TestClassMulti(t *testing.T) {
 }
 
 func TestIDAttr(t *testing.T) {
-	got := string(bdo.New().ID("test").Render())
+	got := string(bdo.New().ID("test").RenderBytes())
 	want := `<bdo id="test"></bdo>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -110,7 +110,7 @@ func TestIDAttr(t *testing.T) {
 }
 
 func TestStyleAttr(t *testing.T) {
-	got := string(bdo.New().Style("test").Render())
+	got := string(bdo.New().Style("test").RenderBytes())
 	want := `<bdo style="test"></bdo>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -119,7 +119,7 @@ func TestStyleAttr(t *testing.T) {
 
 func TestStyleMulti(t *testing.T) {
 	// Test multiple chained calls
-	got := string(bdo.New().Style("one").Style("two").Style("three").Render())
+	got := string(bdo.New().Style("one").Style("two").Style("three").RenderBytes())
 	want := `<bdo style="one; two; three"></bdo>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -127,7 +127,7 @@ func TestStyleMulti(t *testing.T) {
 }
 
 func TestTitleAttr(t *testing.T) {
-	got := string(bdo.New().Title("test").Render())
+	got := string(bdo.New().Title("test").RenderBytes())
 	want := `<bdo title="test"></bdo>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -135,7 +135,7 @@ func TestTitleAttr(t *testing.T) {
 }
 
 func TestHiddenAttr(t *testing.T) {
-	got := string(bdo.New().Hidden(hidden.True).Render())
+	got := string(bdo.New().Hidden(hidden.True).RenderBytes())
 	want := `<bdo hidden="true"></bdo>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -143,7 +143,7 @@ func TestHiddenAttr(t *testing.T) {
 }
 
 func TestTabIndexAttr(t *testing.T) {
-	got := string(bdo.New().TabIndex(42).Render())
+	got := string(bdo.New().TabIndex(42).RenderBytes())
 	want := `<bdo tabindex="42"></bdo>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -151,7 +151,7 @@ func TestTabIndexAttr(t *testing.T) {
 }
 
 func TestRoleAttr(t *testing.T) {
-	got := string(bdo.New().Role("test").Render())
+	got := string(bdo.New().Role("test").RenderBytes())
 	want := `<bdo role="test"></bdo>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -159,7 +159,7 @@ func TestRoleAttr(t *testing.T) {
 }
 
 func TestLangAttr(t *testing.T) {
-	got := string(bdo.New().Lang("test").Render())
+	got := string(bdo.New().Lang("test").RenderBytes())
 	want := `<bdo lang="test"></bdo>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -167,7 +167,7 @@ func TestLangAttr(t *testing.T) {
 }
 
 func TestAccessKeyAttr(t *testing.T) {
-	got := string(bdo.New().AccessKey("test").Render())
+	got := string(bdo.New().AccessKey("test").RenderBytes())
 	want := `<bdo accesskey="test"></bdo>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -176,7 +176,7 @@ func TestAccessKeyAttr(t *testing.T) {
 
 func TestAccessKeyMulti(t *testing.T) {
 	// Test multiple chained calls
-	got := string(bdo.New().AccessKey("one").AccessKey("two").AccessKey("three").Render())
+	got := string(bdo.New().AccessKey("one").AccessKey("two").AccessKey("three").RenderBytes())
 	want := `<bdo accesskey="one two three"></bdo>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -184,7 +184,7 @@ func TestAccessKeyMulti(t *testing.T) {
 }
 
 func TestAnchorAttr(t *testing.T) {
-	got := string(bdo.New().Anchor("test").Render())
+	got := string(bdo.New().Anchor("test").RenderBytes())
 	want := `<bdo anchor="test"></bdo>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -192,7 +192,7 @@ func TestAnchorAttr(t *testing.T) {
 }
 
 func TestAriaLabelAttr(t *testing.T) {
-	got := string(bdo.New().AriaLabel("test").Render())
+	got := string(bdo.New().AriaLabel("test").RenderBytes())
 	want := `<bdo aria-label="test"></bdo>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -200,7 +200,7 @@ func TestAriaLabelAttr(t *testing.T) {
 }
 
 func TestSetAriaAttr(t *testing.T) {
-	got := string(bdo.New().SetAria("label", "test-value").Render())
+	got := string(bdo.New().SetAria("label", "test-value").RenderBytes())
 	want := `<bdo aria-label="test-value"></bdo>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -208,7 +208,7 @@ func TestSetAriaAttr(t *testing.T) {
 }
 
 func TestAutoCapitalizeAttr(t *testing.T) {
-	got := string(bdo.New().AutoCapitalize(autocapitalize.Off).Render())
+	got := string(bdo.New().AutoCapitalize(autocapitalize.Off).RenderBytes())
 	want := `<bdo autocapitalize="off"></bdo>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -216,7 +216,7 @@ func TestAutoCapitalizeAttr(t *testing.T) {
 }
 
 func TestAutoCorrectAttr(t *testing.T) {
-	got := string(bdo.New().AutoCorrect(autocorrect.On).Render())
+	got := string(bdo.New().AutoCorrect(autocorrect.On).RenderBytes())
 	want := `<bdo autocorrect="on"></bdo>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -224,7 +224,7 @@ func TestAutoCorrectAttr(t *testing.T) {
 }
 
 func TestAutoFocusAttr(t *testing.T) {
-	got := string(bdo.New().AutoFocus().Render())
+	got := string(bdo.New().AutoFocus().RenderBytes())
 	want := `<bdo autofocus></bdo>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -232,7 +232,7 @@ func TestAutoFocusAttr(t *testing.T) {
 }
 
 func TestContentEditableAttr(t *testing.T) {
-	got := string(bdo.New().ContentEditable(contenteditable.True).Render())
+	got := string(bdo.New().ContentEditable(contenteditable.True).RenderBytes())
 	want := `<bdo contenteditable="true"></bdo>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -240,7 +240,7 @@ func TestContentEditableAttr(t *testing.T) {
 }
 
 func TestSetDataAttr(t *testing.T) {
-	got := string(bdo.New().SetData("user-id", "test-value").Render())
+	got := string(bdo.New().SetData("user-id", "test-value").RenderBytes())
 	want := `<bdo data-user-id="test-value"></bdo>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -248,7 +248,7 @@ func TestSetDataAttr(t *testing.T) {
 }
 
 func TestDraggableAttr(t *testing.T) {
-	got := string(bdo.New().Draggable().Render())
+	got := string(bdo.New().Draggable().RenderBytes())
 	want := `<bdo draggable></bdo>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -256,7 +256,7 @@ func TestDraggableAttr(t *testing.T) {
 }
 
 func TestEnterKeyHintAttr(t *testing.T) {
-	got := string(bdo.New().EnterKeyHint(enterkeyhint.Enter).Render())
+	got := string(bdo.New().EnterKeyHint(enterkeyhint.Enter).RenderBytes())
 	want := `<bdo enterkeyhint="enter"></bdo>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -264,7 +264,7 @@ func TestEnterKeyHintAttr(t *testing.T) {
 }
 
 func TestExportPartsAttr(t *testing.T) {
-	got := string(bdo.New().ExportParts("test").Render())
+	got := string(bdo.New().ExportParts("test").RenderBytes())
 	want := `<bdo exportparts="test"></bdo>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -272,7 +272,7 @@ func TestExportPartsAttr(t *testing.T) {
 }
 
 func TestInertAttr(t *testing.T) {
-	got := string(bdo.New().Inert().Render())
+	got := string(bdo.New().Inert().RenderBytes())
 	want := `<bdo inert></bdo>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -280,7 +280,7 @@ func TestInertAttr(t *testing.T) {
 }
 
 func TestInputModeAttr(t *testing.T) {
-	got := string(bdo.New().InputMode(inputmode.None).Render())
+	got := string(bdo.New().InputMode(inputmode.None).RenderBytes())
 	want := `<bdo inputmode="none"></bdo>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -288,7 +288,7 @@ func TestInputModeAttr(t *testing.T) {
 }
 
 func TestIsAttr(t *testing.T) {
-	got := string(bdo.New().Is("test").Render())
+	got := string(bdo.New().Is("test").RenderBytes())
 	want := `<bdo is="test"></bdo>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -296,7 +296,7 @@ func TestIsAttr(t *testing.T) {
 }
 
 func TestItemIdAttr(t *testing.T) {
-	got := string(bdo.New().ItemId("test").Render())
+	got := string(bdo.New().ItemId("test").RenderBytes())
 	want := `<bdo itemid="test"></bdo>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -304,7 +304,7 @@ func TestItemIdAttr(t *testing.T) {
 }
 
 func TestItemPropAttr(t *testing.T) {
-	got := string(bdo.New().ItemProp("test").Render())
+	got := string(bdo.New().ItemProp("test").RenderBytes())
 	want := `<bdo itemprop="test"></bdo>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -312,7 +312,7 @@ func TestItemPropAttr(t *testing.T) {
 }
 
 func TestItemRefAttr(t *testing.T) {
-	got := string(bdo.New().ItemRef("test").Render())
+	got := string(bdo.New().ItemRef("test").RenderBytes())
 	want := `<bdo itemref="test"></bdo>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -320,7 +320,7 @@ func TestItemRefAttr(t *testing.T) {
 }
 
 func TestItemScopeAttr(t *testing.T) {
-	got := string(bdo.New().ItemScope().Render())
+	got := string(bdo.New().ItemScope().RenderBytes())
 	want := `<bdo itemscope></bdo>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -328,7 +328,7 @@ func TestItemScopeAttr(t *testing.T) {
 }
 
 func TestItemTypeAttr(t *testing.T) {
-	got := string(bdo.New().ItemType("test").Render())
+	got := string(bdo.New().ItemType("test").RenderBytes())
 	want := `<bdo itemtype="test"></bdo>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -336,7 +336,7 @@ func TestItemTypeAttr(t *testing.T) {
 }
 
 func TestNonceAttr(t *testing.T) {
-	got := string(bdo.New().Nonce("test").Render())
+	got := string(bdo.New().Nonce("test").RenderBytes())
 	want := `<bdo nonce="test"></bdo>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -344,7 +344,7 @@ func TestNonceAttr(t *testing.T) {
 }
 
 func TestPartAttr(t *testing.T) {
-	got := string(bdo.New().Part("test").Render())
+	got := string(bdo.New().Part("test").RenderBytes())
 	want := `<bdo part="test"></bdo>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -353,7 +353,7 @@ func TestPartAttr(t *testing.T) {
 
 func TestPartMulti(t *testing.T) {
 	// Test multiple chained calls
-	got := string(bdo.New().Part("one").Part("two").Part("three").Render())
+	got := string(bdo.New().Part("one").Part("two").Part("three").RenderBytes())
 	want := `<bdo part="one two three"></bdo>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -361,7 +361,7 @@ func TestPartMulti(t *testing.T) {
 }
 
 func TestPopoverAttr(t *testing.T) {
-	got := string(bdo.New().Popover(popover.Auto).Render())
+	got := string(bdo.New().Popover(popover.Auto).RenderBytes())
 	want := `<bdo popover="auto"></bdo>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -369,7 +369,7 @@ func TestPopoverAttr(t *testing.T) {
 }
 
 func TestSlotAttr(t *testing.T) {
-	got := string(bdo.New().Slot("test").Render())
+	got := string(bdo.New().Slot("test").RenderBytes())
 	want := `<bdo slot="test"></bdo>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -377,7 +377,7 @@ func TestSlotAttr(t *testing.T) {
 }
 
 func TestSpellCheckAttr(t *testing.T) {
-	got := string(bdo.New().SpellCheck(spellcheck.True).Render())
+	got := string(bdo.New().SpellCheck(spellcheck.True).RenderBytes())
 	want := `<bdo spellcheck="true"></bdo>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -385,7 +385,7 @@ func TestSpellCheckAttr(t *testing.T) {
 }
 
 func TestTranslateAttr(t *testing.T) {
-	got := string(bdo.New().Translate(translate.Yes).Render())
+	got := string(bdo.New().Translate(translate.Yes).RenderBytes())
 	want := `<bdo translate="yes"></bdo>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -393,7 +393,7 @@ func TestTranslateAttr(t *testing.T) {
 }
 
 func TestVirtualKeyboardPolicyAttr(t *testing.T) {
-	got := string(bdo.New().VirtualKeyboardPolicy(virtualkeyboardpolicy.Auto).Render())
+	got := string(bdo.New().VirtualKeyboardPolicy(virtualkeyboardpolicy.Auto).RenderBytes())
 	want := `<bdo virtualkeyboardpolicy="auto"></bdo>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -401,7 +401,7 @@ func TestVirtualKeyboardPolicyAttr(t *testing.T) {
 }
 
 func TestWritingSuggestionsAttr(t *testing.T) {
-	got := string(bdo.New().WritingSuggestions(writingsuggestions.True).Render())
+	got := string(bdo.New().WritingSuggestions(writingsuggestions.True).RenderBytes())
 	want := `<bdo writingsuggestions="true"></bdo>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -409,7 +409,7 @@ func TestWritingSuggestionsAttr(t *testing.T) {
 }
 
 func TestOnClickAttr(t *testing.T) {
-	got := string(bdo.New().OnClick("test").Render())
+	got := string(bdo.New().OnClick("test").RenderBytes())
 	want := `<bdo onclick="test"></bdo>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -417,7 +417,7 @@ func TestOnClickAttr(t *testing.T) {
 }
 
 func TestOnChangeAttr(t *testing.T) {
-	got := string(bdo.New().OnChange("test").Render())
+	got := string(bdo.New().OnChange("test").RenderBytes())
 	want := `<bdo onchange="test"></bdo>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -425,7 +425,7 @@ func TestOnChangeAttr(t *testing.T) {
 }
 
 func TestOnInputAttr(t *testing.T) {
-	got := string(bdo.New().OnInput("test").Render())
+	got := string(bdo.New().OnInput("test").RenderBytes())
 	want := `<bdo oninput="test"></bdo>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -433,7 +433,7 @@ func TestOnInputAttr(t *testing.T) {
 }
 
 func TestOnFocusAttr(t *testing.T) {
-	got := string(bdo.New().OnFocus("test").Render())
+	got := string(bdo.New().OnFocus("test").RenderBytes())
 	want := `<bdo onfocus="test"></bdo>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -441,7 +441,7 @@ func TestOnFocusAttr(t *testing.T) {
 }
 
 func TestOnBlurAttr(t *testing.T) {
-	got := string(bdo.New().OnBlur("test").Render())
+	got := string(bdo.New().OnBlur("test").RenderBytes())
 	want := `<bdo onblur="test"></bdo>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -449,7 +449,7 @@ func TestOnBlurAttr(t *testing.T) {
 }
 
 func TestOnSubmitAttr(t *testing.T) {
-	got := string(bdo.New().OnSubmit("test").Render())
+	got := string(bdo.New().OnSubmit("test").RenderBytes())
 	want := `<bdo onsubmit="test"></bdo>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -457,7 +457,7 @@ func TestOnSubmitAttr(t *testing.T) {
 }
 
 func TestOnLoadAttr(t *testing.T) {
-	got := string(bdo.New().OnLoad("test").Render())
+	got := string(bdo.New().OnLoad("test").RenderBytes())
 	want := `<bdo onload="test"></bdo>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -465,7 +465,7 @@ func TestOnLoadAttr(t *testing.T) {
 }
 
 func TestOnErrorAttr(t *testing.T) {
-	got := string(bdo.New().OnError("test").Render())
+	got := string(bdo.New().OnError("test").RenderBytes())
 	want := `<bdo onerror="test"></bdo>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -473,7 +473,7 @@ func TestOnErrorAttr(t *testing.T) {
 }
 
 func TestSetEventAttr(t *testing.T) {
-	got := string(bdo.New().SetEvent("onclick", "test-value").Render())
+	got := string(bdo.New().SetEvent("onclick", "test-value").RenderBytes())
 	want := `<bdo onclick="test-value"></bdo>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -481,7 +481,7 @@ func TestSetEventAttr(t *testing.T) {
 }
 
 func TestOnAbortAttr(t *testing.T) {
-	got := string(bdo.New().OnAbort("test").Render())
+	got := string(bdo.New().OnAbort("test").RenderBytes())
 	want := `<bdo onabort="test"></bdo>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -489,7 +489,7 @@ func TestOnAbortAttr(t *testing.T) {
 }
 
 func TestOnAutoCompleteAttr(t *testing.T) {
-	got := string(bdo.New().OnAutoComplete("test").Render())
+	got := string(bdo.New().OnAutoComplete("test").RenderBytes())
 	want := `<bdo onautocomplete="test"></bdo>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -497,7 +497,7 @@ func TestOnAutoCompleteAttr(t *testing.T) {
 }
 
 func TestOnAutoCompleteErrorAttr(t *testing.T) {
-	got := string(bdo.New().OnAutoCompleteError("test").Render())
+	got := string(bdo.New().OnAutoCompleteError("test").RenderBytes())
 	want := `<bdo onautocompleteerror="test"></bdo>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -505,7 +505,7 @@ func TestOnAutoCompleteErrorAttr(t *testing.T) {
 }
 
 func TestOnCancelAttr(t *testing.T) {
-	got := string(bdo.New().OnCancel("test").Render())
+	got := string(bdo.New().OnCancel("test").RenderBytes())
 	want := `<bdo oncancel="test"></bdo>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -513,7 +513,7 @@ func TestOnCancelAttr(t *testing.T) {
 }
 
 func TestOnCanPlayAttr(t *testing.T) {
-	got := string(bdo.New().OnCanPlay("test").Render())
+	got := string(bdo.New().OnCanPlay("test").RenderBytes())
 	want := `<bdo oncanplay="test"></bdo>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -521,7 +521,7 @@ func TestOnCanPlayAttr(t *testing.T) {
 }
 
 func TestOnCanPlayThroughAttr(t *testing.T) {
-	got := string(bdo.New().OnCanPlayThrough("test").Render())
+	got := string(bdo.New().OnCanPlayThrough("test").RenderBytes())
 	want := `<bdo oncanplaythrough="test"></bdo>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -529,7 +529,7 @@ func TestOnCanPlayThroughAttr(t *testing.T) {
 }
 
 func TestOnCloseAttr(t *testing.T) {
-	got := string(bdo.New().OnClose("test").Render())
+	got := string(bdo.New().OnClose("test").RenderBytes())
 	want := `<bdo onclose="test"></bdo>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -537,7 +537,7 @@ func TestOnCloseAttr(t *testing.T) {
 }
 
 func TestOnContextMenuAttr(t *testing.T) {
-	got := string(bdo.New().OnContextMenu("test").Render())
+	got := string(bdo.New().OnContextMenu("test").RenderBytes())
 	want := `<bdo oncontextmenu="test"></bdo>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -545,7 +545,7 @@ func TestOnContextMenuAttr(t *testing.T) {
 }
 
 func TestOnCueChangeAttr(t *testing.T) {
-	got := string(bdo.New().OnCueChange("test").Render())
+	got := string(bdo.New().OnCueChange("test").RenderBytes())
 	want := `<bdo oncuechange="test"></bdo>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -553,7 +553,7 @@ func TestOnCueChangeAttr(t *testing.T) {
 }
 
 func TestOnDblClickAttr(t *testing.T) {
-	got := string(bdo.New().OnDblClick("test").Render())
+	got := string(bdo.New().OnDblClick("test").RenderBytes())
 	want := `<bdo ondblclick="test"></bdo>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -561,7 +561,7 @@ func TestOnDblClickAttr(t *testing.T) {
 }
 
 func TestOnDragAttr(t *testing.T) {
-	got := string(bdo.New().OnDrag("test").Render())
+	got := string(bdo.New().OnDrag("test").RenderBytes())
 	want := `<bdo ondrag="test"></bdo>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -569,7 +569,7 @@ func TestOnDragAttr(t *testing.T) {
 }
 
 func TestOnDragEndAttr(t *testing.T) {
-	got := string(bdo.New().OnDragEnd("test").Render())
+	got := string(bdo.New().OnDragEnd("test").RenderBytes())
 	want := `<bdo ondragend="test"></bdo>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -577,7 +577,7 @@ func TestOnDragEndAttr(t *testing.T) {
 }
 
 func TestOnDragEnterAttr(t *testing.T) {
-	got := string(bdo.New().OnDragEnter("test").Render())
+	got := string(bdo.New().OnDragEnter("test").RenderBytes())
 	want := `<bdo ondragenter="test"></bdo>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -585,7 +585,7 @@ func TestOnDragEnterAttr(t *testing.T) {
 }
 
 func TestOnDragLeaveAttr(t *testing.T) {
-	got := string(bdo.New().OnDragLeave("test").Render())
+	got := string(bdo.New().OnDragLeave("test").RenderBytes())
 	want := `<bdo ondragleave="test"></bdo>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -593,7 +593,7 @@ func TestOnDragLeaveAttr(t *testing.T) {
 }
 
 func TestOnDragOverAttr(t *testing.T) {
-	got := string(bdo.New().OnDragOver("test").Render())
+	got := string(bdo.New().OnDragOver("test").RenderBytes())
 	want := `<bdo ondragover="test"></bdo>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -601,7 +601,7 @@ func TestOnDragOverAttr(t *testing.T) {
 }
 
 func TestOnDragStartAttr(t *testing.T) {
-	got := string(bdo.New().OnDragStart("test").Render())
+	got := string(bdo.New().OnDragStart("test").RenderBytes())
 	want := `<bdo ondragstart="test"></bdo>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -609,7 +609,7 @@ func TestOnDragStartAttr(t *testing.T) {
 }
 
 func TestOnDropAttr(t *testing.T) {
-	got := string(bdo.New().OnDrop("test").Render())
+	got := string(bdo.New().OnDrop("test").RenderBytes())
 	want := `<bdo ondrop="test"></bdo>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -617,7 +617,7 @@ func TestOnDropAttr(t *testing.T) {
 }
 
 func TestOnDurationChangeAttr(t *testing.T) {
-	got := string(bdo.New().OnDurationChange("test").Render())
+	got := string(bdo.New().OnDurationChange("test").RenderBytes())
 	want := `<bdo ondurationchange="test"></bdo>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -625,7 +625,7 @@ func TestOnDurationChangeAttr(t *testing.T) {
 }
 
 func TestOnEmptiedAttr(t *testing.T) {
-	got := string(bdo.New().OnEmptied("test").Render())
+	got := string(bdo.New().OnEmptied("test").RenderBytes())
 	want := `<bdo onemptied="test"></bdo>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -633,7 +633,7 @@ func TestOnEmptiedAttr(t *testing.T) {
 }
 
 func TestOnEndedAttr(t *testing.T) {
-	got := string(bdo.New().OnEnded("test").Render())
+	got := string(bdo.New().OnEnded("test").RenderBytes())
 	want := `<bdo onended="test"></bdo>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -641,7 +641,7 @@ func TestOnEndedAttr(t *testing.T) {
 }
 
 func TestOnInvalidAttr(t *testing.T) {
-	got := string(bdo.New().OnInvalid("test").Render())
+	got := string(bdo.New().OnInvalid("test").RenderBytes())
 	want := `<bdo oninvalid="test"></bdo>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -649,7 +649,7 @@ func TestOnInvalidAttr(t *testing.T) {
 }
 
 func TestOnKeyDownAttr(t *testing.T) {
-	got := string(bdo.New().OnKeyDown("test").Render())
+	got := string(bdo.New().OnKeyDown("test").RenderBytes())
 	want := `<bdo onkeydown="test"></bdo>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -657,7 +657,7 @@ func TestOnKeyDownAttr(t *testing.T) {
 }
 
 func TestOnKeyPressAttr(t *testing.T) {
-	got := string(bdo.New().OnKeyPress("test").Render())
+	got := string(bdo.New().OnKeyPress("test").RenderBytes())
 	want := `<bdo onkeypress="test"></bdo>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -665,7 +665,7 @@ func TestOnKeyPressAttr(t *testing.T) {
 }
 
 func TestOnKeyUpAttr(t *testing.T) {
-	got := string(bdo.New().OnKeyUp("test").Render())
+	got := string(bdo.New().OnKeyUp("test").RenderBytes())
 	want := `<bdo onkeyup="test"></bdo>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -673,7 +673,7 @@ func TestOnKeyUpAttr(t *testing.T) {
 }
 
 func TestOnLoadedDataAttr(t *testing.T) {
-	got := string(bdo.New().OnLoadedData("test").Render())
+	got := string(bdo.New().OnLoadedData("test").RenderBytes())
 	want := `<bdo onloadeddata="test"></bdo>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -681,7 +681,7 @@ func TestOnLoadedDataAttr(t *testing.T) {
 }
 
 func TestOnLoadedMetadataAttr(t *testing.T) {
-	got := string(bdo.New().OnLoadedMetadata("test").Render())
+	got := string(bdo.New().OnLoadedMetadata("test").RenderBytes())
 	want := `<bdo onloadedmetadata="test"></bdo>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -689,7 +689,7 @@ func TestOnLoadedMetadataAttr(t *testing.T) {
 }
 
 func TestOnLoadStartAttr(t *testing.T) {
-	got := string(bdo.New().OnLoadStart("test").Render())
+	got := string(bdo.New().OnLoadStart("test").RenderBytes())
 	want := `<bdo onloadstart="test"></bdo>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -697,7 +697,7 @@ func TestOnLoadStartAttr(t *testing.T) {
 }
 
 func TestOnMouseDownAttr(t *testing.T) {
-	got := string(bdo.New().OnMouseDown("test").Render())
+	got := string(bdo.New().OnMouseDown("test").RenderBytes())
 	want := `<bdo onmousedown="test"></bdo>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -705,7 +705,7 @@ func TestOnMouseDownAttr(t *testing.T) {
 }
 
 func TestOnMouseEnterAttr(t *testing.T) {
-	got := string(bdo.New().OnMouseEnter("test").Render())
+	got := string(bdo.New().OnMouseEnter("test").RenderBytes())
 	want := `<bdo onmouseenter="test"></bdo>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -713,7 +713,7 @@ func TestOnMouseEnterAttr(t *testing.T) {
 }
 
 func TestOnMouseLeaveAttr(t *testing.T) {
-	got := string(bdo.New().OnMouseLeave("test").Render())
+	got := string(bdo.New().OnMouseLeave("test").RenderBytes())
 	want := `<bdo onmouseleave="test"></bdo>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -721,7 +721,7 @@ func TestOnMouseLeaveAttr(t *testing.T) {
 }
 
 func TestOnMouseMoveAttr(t *testing.T) {
-	got := string(bdo.New().OnMouseMove("test").Render())
+	got := string(bdo.New().OnMouseMove("test").RenderBytes())
 	want := `<bdo onmousemove="test"></bdo>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -729,7 +729,7 @@ func TestOnMouseMoveAttr(t *testing.T) {
 }
 
 func TestOnMouseOutAttr(t *testing.T) {
-	got := string(bdo.New().OnMouseOut("test").Render())
+	got := string(bdo.New().OnMouseOut("test").RenderBytes())
 	want := `<bdo onmouseout="test"></bdo>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -737,7 +737,7 @@ func TestOnMouseOutAttr(t *testing.T) {
 }
 
 func TestOnMouseOverAttr(t *testing.T) {
-	got := string(bdo.New().OnMouseOver("test").Render())
+	got := string(bdo.New().OnMouseOver("test").RenderBytes())
 	want := `<bdo onmouseover="test"></bdo>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -745,7 +745,7 @@ func TestOnMouseOverAttr(t *testing.T) {
 }
 
 func TestOnMouseUpAttr(t *testing.T) {
-	got := string(bdo.New().OnMouseUp("test").Render())
+	got := string(bdo.New().OnMouseUp("test").RenderBytes())
 	want := `<bdo onmouseup="test"></bdo>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -753,7 +753,7 @@ func TestOnMouseUpAttr(t *testing.T) {
 }
 
 func TestOnMouseWheelAttr(t *testing.T) {
-	got := string(bdo.New().OnMouseWheel("test").Render())
+	got := string(bdo.New().OnMouseWheel("test").RenderBytes())
 	want := `<bdo onmousewheel="test"></bdo>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -761,7 +761,7 @@ func TestOnMouseWheelAttr(t *testing.T) {
 }
 
 func TestOnPauseAttr(t *testing.T) {
-	got := string(bdo.New().OnPause("test").Render())
+	got := string(bdo.New().OnPause("test").RenderBytes())
 	want := `<bdo onpause="test"></bdo>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -769,7 +769,7 @@ func TestOnPauseAttr(t *testing.T) {
 }
 
 func TestOnPlayAttr(t *testing.T) {
-	got := string(bdo.New().OnPlay("test").Render())
+	got := string(bdo.New().OnPlay("test").RenderBytes())
 	want := `<bdo onplay="test"></bdo>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -777,7 +777,7 @@ func TestOnPlayAttr(t *testing.T) {
 }
 
 func TestOnPlayingAttr(t *testing.T) {
-	got := string(bdo.New().OnPlaying("test").Render())
+	got := string(bdo.New().OnPlaying("test").RenderBytes())
 	want := `<bdo onplaying="test"></bdo>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -785,7 +785,7 @@ func TestOnPlayingAttr(t *testing.T) {
 }
 
 func TestOnProgressAttr(t *testing.T) {
-	got := string(bdo.New().OnProgress("test").Render())
+	got := string(bdo.New().OnProgress("test").RenderBytes())
 	want := `<bdo onprogress="test"></bdo>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -793,7 +793,7 @@ func TestOnProgressAttr(t *testing.T) {
 }
 
 func TestOnRateChangeAttr(t *testing.T) {
-	got := string(bdo.New().OnRateChange("test").Render())
+	got := string(bdo.New().OnRateChange("test").RenderBytes())
 	want := `<bdo onratechange="test"></bdo>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -801,7 +801,7 @@ func TestOnRateChangeAttr(t *testing.T) {
 }
 
 func TestOnResetAttr(t *testing.T) {
-	got := string(bdo.New().OnReset("test").Render())
+	got := string(bdo.New().OnReset("test").RenderBytes())
 	want := `<bdo onreset="test"></bdo>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -809,7 +809,7 @@ func TestOnResetAttr(t *testing.T) {
 }
 
 func TestOnResizeAttr(t *testing.T) {
-	got := string(bdo.New().OnResize("test").Render())
+	got := string(bdo.New().OnResize("test").RenderBytes())
 	want := `<bdo onresize="test"></bdo>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -817,7 +817,7 @@ func TestOnResizeAttr(t *testing.T) {
 }
 
 func TestOnScrollAttr(t *testing.T) {
-	got := string(bdo.New().OnScroll("test").Render())
+	got := string(bdo.New().OnScroll("test").RenderBytes())
 	want := `<bdo onscroll="test"></bdo>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -825,7 +825,7 @@ func TestOnScrollAttr(t *testing.T) {
 }
 
 func TestOnSeekedAttr(t *testing.T) {
-	got := string(bdo.New().OnSeeked("test").Render())
+	got := string(bdo.New().OnSeeked("test").RenderBytes())
 	want := `<bdo onseeked="test"></bdo>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -833,7 +833,7 @@ func TestOnSeekedAttr(t *testing.T) {
 }
 
 func TestOnSeekingAttr(t *testing.T) {
-	got := string(bdo.New().OnSeeking("test").Render())
+	got := string(bdo.New().OnSeeking("test").RenderBytes())
 	want := `<bdo onseeking="test"></bdo>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -841,7 +841,7 @@ func TestOnSeekingAttr(t *testing.T) {
 }
 
 func TestOnSelectAttr(t *testing.T) {
-	got := string(bdo.New().OnSelect("test").Render())
+	got := string(bdo.New().OnSelect("test").RenderBytes())
 	want := `<bdo onselect="test"></bdo>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -849,7 +849,7 @@ func TestOnSelectAttr(t *testing.T) {
 }
 
 func TestOnShowAttr(t *testing.T) {
-	got := string(bdo.New().OnShow("test").Render())
+	got := string(bdo.New().OnShow("test").RenderBytes())
 	want := `<bdo onshow="test"></bdo>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -857,7 +857,7 @@ func TestOnShowAttr(t *testing.T) {
 }
 
 func TestOnSortAttr(t *testing.T) {
-	got := string(bdo.New().OnSort("test").Render())
+	got := string(bdo.New().OnSort("test").RenderBytes())
 	want := `<bdo onsort="test"></bdo>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -865,7 +865,7 @@ func TestOnSortAttr(t *testing.T) {
 }
 
 func TestOnStalledAttr(t *testing.T) {
-	got := string(bdo.New().OnStalled("test").Render())
+	got := string(bdo.New().OnStalled("test").RenderBytes())
 	want := `<bdo onstalled="test"></bdo>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -873,7 +873,7 @@ func TestOnStalledAttr(t *testing.T) {
 }
 
 func TestOnSuspendAttr(t *testing.T) {
-	got := string(bdo.New().OnSuspend("test").Render())
+	got := string(bdo.New().OnSuspend("test").RenderBytes())
 	want := `<bdo onsuspend="test"></bdo>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -881,7 +881,7 @@ func TestOnSuspendAttr(t *testing.T) {
 }
 
 func TestOnTimeUpdateAttr(t *testing.T) {
-	got := string(bdo.New().OnTimeUpdate("test").Render())
+	got := string(bdo.New().OnTimeUpdate("test").RenderBytes())
 	want := `<bdo ontimeupdate="test"></bdo>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -889,7 +889,7 @@ func TestOnTimeUpdateAttr(t *testing.T) {
 }
 
 func TestOnToggleAttr(t *testing.T) {
-	got := string(bdo.New().OnToggle("test").Render())
+	got := string(bdo.New().OnToggle("test").RenderBytes())
 	want := `<bdo ontoggle="test"></bdo>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -897,7 +897,7 @@ func TestOnToggleAttr(t *testing.T) {
 }
 
 func TestOnVolumeChangeAttr(t *testing.T) {
-	got := string(bdo.New().OnVolumeChange("test").Render())
+	got := string(bdo.New().OnVolumeChange("test").RenderBytes())
 	want := `<bdo onvolumechange="test"></bdo>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -905,7 +905,7 @@ func TestOnVolumeChangeAttr(t *testing.T) {
 }
 
 func TestOnWaitingAttr(t *testing.T) {
-	got := string(bdo.New().OnWaiting("test").Render())
+	got := string(bdo.New().OnWaiting("test").RenderBytes())
 	want := `<bdo onwaiting="test"></bdo>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -913,7 +913,7 @@ func TestOnWaitingAttr(t *testing.T) {
 }
 
 func TestOnAuxClickAttr(t *testing.T) {
-	got := string(bdo.New().OnAuxClick("test").Render())
+	got := string(bdo.New().OnAuxClick("test").RenderBytes())
 	want := `<bdo onauxclick="test"></bdo>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -921,7 +921,7 @@ func TestOnAuxClickAttr(t *testing.T) {
 }
 
 func TestOnWheelAttr(t *testing.T) {
-	got := string(bdo.New().OnWheel("test").Render())
+	got := string(bdo.New().OnWheel("test").RenderBytes())
 	want := `<bdo onwheel="test"></bdo>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -929,7 +929,7 @@ func TestOnWheelAttr(t *testing.T) {
 }
 
 func TestOnCopyAttr(t *testing.T) {
-	got := string(bdo.New().OnCopy("test").Render())
+	got := string(bdo.New().OnCopy("test").RenderBytes())
 	want := `<bdo oncopy="test"></bdo>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -937,7 +937,7 @@ func TestOnCopyAttr(t *testing.T) {
 }
 
 func TestOnCutAttr(t *testing.T) {
-	got := string(bdo.New().OnCut("test").Render())
+	got := string(bdo.New().OnCut("test").RenderBytes())
 	want := `<bdo oncut="test"></bdo>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -945,7 +945,7 @@ func TestOnCutAttr(t *testing.T) {
 }
 
 func TestOnPasteAttr(t *testing.T) {
-	got := string(bdo.New().OnPaste("test").Render())
+	got := string(bdo.New().OnPaste("test").RenderBytes())
 	want := `<bdo onpaste="test"></bdo>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -953,7 +953,7 @@ func TestOnPasteAttr(t *testing.T) {
 }
 
 func TestOnScrollEndAttr(t *testing.T) {
-	got := string(bdo.New().OnScrollEnd("test").Render())
+	got := string(bdo.New().OnScrollEnd("test").RenderBytes())
 	want := `<bdo onscrollend="test"></bdo>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -961,7 +961,7 @@ func TestOnScrollEndAttr(t *testing.T) {
 }
 
 func TestOnFormDataAttr(t *testing.T) {
-	got := string(bdo.New().OnFormData("test").Render())
+	got := string(bdo.New().OnFormData("test").RenderBytes())
 	want := `<bdo onformdata="test"></bdo>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -969,7 +969,7 @@ func TestOnFormDataAttr(t *testing.T) {
 }
 
 func TestOnAnimationCancelAttr(t *testing.T) {
-	got := string(bdo.New().OnAnimationCancel("test").Render())
+	got := string(bdo.New().OnAnimationCancel("test").RenderBytes())
 	want := `<bdo onanimationcancel="test"></bdo>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -977,7 +977,7 @@ func TestOnAnimationCancelAttr(t *testing.T) {
 }
 
 func TestOnAnimationEndAttr(t *testing.T) {
-	got := string(bdo.New().OnAnimationEnd("test").Render())
+	got := string(bdo.New().OnAnimationEnd("test").RenderBytes())
 	want := `<bdo onanimationend="test"></bdo>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -985,7 +985,7 @@ func TestOnAnimationEndAttr(t *testing.T) {
 }
 
 func TestOnAnimationIterationAttr(t *testing.T) {
-	got := string(bdo.New().OnAnimationIteration("test").Render())
+	got := string(bdo.New().OnAnimationIteration("test").RenderBytes())
 	want := `<bdo onanimationiteration="test"></bdo>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -993,7 +993,7 @@ func TestOnAnimationIterationAttr(t *testing.T) {
 }
 
 func TestOnAnimationStartAttr(t *testing.T) {
-	got := string(bdo.New().OnAnimationStart("test").Render())
+	got := string(bdo.New().OnAnimationStart("test").RenderBytes())
 	want := `<bdo onanimationstart="test"></bdo>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -1001,7 +1001,7 @@ func TestOnAnimationStartAttr(t *testing.T) {
 }
 
 func TestOnTransitionCancelAttr(t *testing.T) {
-	got := string(bdo.New().OnTransitionCancel("test").Render())
+	got := string(bdo.New().OnTransitionCancel("test").RenderBytes())
 	want := `<bdo ontransitioncancel="test"></bdo>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -1009,7 +1009,7 @@ func TestOnTransitionCancelAttr(t *testing.T) {
 }
 
 func TestOnTransitionEndAttr(t *testing.T) {
-	got := string(bdo.New().OnTransitionEnd("test").Render())
+	got := string(bdo.New().OnTransitionEnd("test").RenderBytes())
 	want := `<bdo ontransitionend="test"></bdo>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -1017,7 +1017,7 @@ func TestOnTransitionEndAttr(t *testing.T) {
 }
 
 func TestOnTransitionRunAttr(t *testing.T) {
-	got := string(bdo.New().OnTransitionRun("test").Render())
+	got := string(bdo.New().OnTransitionRun("test").RenderBytes())
 	want := `<bdo ontransitionrun="test"></bdo>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -1025,7 +1025,7 @@ func TestOnTransitionRunAttr(t *testing.T) {
 }
 
 func TestOnTransitionStartAttr(t *testing.T) {
-	got := string(bdo.New().OnTransitionStart("test").Render())
+	got := string(bdo.New().OnTransitionStart("test").RenderBytes())
 	want := `<bdo ontransitionstart="test"></bdo>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -1033,7 +1033,7 @@ func TestOnTransitionStartAttr(t *testing.T) {
 }
 
 func TestOnBeforeToggleAttr(t *testing.T) {
-	got := string(bdo.New().OnBeforeToggle("test").Render())
+	got := string(bdo.New().OnBeforeToggle("test").RenderBytes())
 	want := `<bdo onbeforetoggle="test"></bdo>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -1041,7 +1041,7 @@ func TestOnBeforeToggleAttr(t *testing.T) {
 }
 
 func TestOnBeforeInputAttr(t *testing.T) {
-	got := string(bdo.New().OnBeforeInput("test").Render())
+	got := string(bdo.New().OnBeforeInput("test").RenderBytes())
 	want := `<bdo onbeforeinput="test"></bdo>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -1049,7 +1049,7 @@ func TestOnBeforeInputAttr(t *testing.T) {
 }
 
 func TestOnBeforeMatchAttr(t *testing.T) {
-	got := string(bdo.New().OnBeforeMatch("test").Render())
+	got := string(bdo.New().OnBeforeMatch("test").RenderBytes())
 	want := `<bdo onbeforematch="test"></bdo>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -1057,7 +1057,7 @@ func TestOnBeforeMatchAttr(t *testing.T) {
 }
 
 func TestOnCommandAttr(t *testing.T) {
-	got := string(bdo.New().OnCommand("test").Render())
+	got := string(bdo.New().OnCommand("test").RenderBytes())
 	want := `<bdo oncommand="test"></bdo>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -1065,7 +1065,7 @@ func TestOnCommandAttr(t *testing.T) {
 }
 
 func TestOnContextLostAttr(t *testing.T) {
-	got := string(bdo.New().OnContextLost("test").Render())
+	got := string(bdo.New().OnContextLost("test").RenderBytes())
 	want := `<bdo oncontextlost="test"></bdo>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -1073,7 +1073,7 @@ func TestOnContextLostAttr(t *testing.T) {
 }
 
 func TestOnContextRestoredAttr(t *testing.T) {
-	got := string(bdo.New().OnContextRestored("test").Render())
+	got := string(bdo.New().OnContextRestored("test").RenderBytes())
 	want := `<bdo oncontextrestored="test"></bdo>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -1081,7 +1081,7 @@ func TestOnContextRestoredAttr(t *testing.T) {
 }
 
 func TestOnSecurityPolicyViolationAttr(t *testing.T) {
-	got := string(bdo.New().OnSecurityPolicyViolation("test").Render())
+	got := string(bdo.New().OnSecurityPolicyViolation("test").RenderBytes())
 	want := `<bdo onsecuritypolicyviolation="test"></bdo>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -1089,7 +1089,7 @@ func TestOnSecurityPolicyViolationAttr(t *testing.T) {
 }
 
 func TestOnSlotChangeAttr(t *testing.T) {
-	got := string(bdo.New().OnSlotChange("test").Render())
+	got := string(bdo.New().OnSlotChange("test").RenderBytes())
 	want := `<bdo onslotchange="test"></bdo>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -1097,7 +1097,7 @@ func TestOnSlotChangeAttr(t *testing.T) {
 }
 
 func TestOnPointerDownAttr(t *testing.T) {
-	got := string(bdo.New().OnPointerDown("test").Render())
+	got := string(bdo.New().OnPointerDown("test").RenderBytes())
 	want := `<bdo onpointerdown="test"></bdo>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -1105,7 +1105,7 @@ func TestOnPointerDownAttr(t *testing.T) {
 }
 
 func TestOnPointerUpAttr(t *testing.T) {
-	got := string(bdo.New().OnPointerUp("test").Render())
+	got := string(bdo.New().OnPointerUp("test").RenderBytes())
 	want := `<bdo onpointerup="test"></bdo>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -1113,7 +1113,7 @@ func TestOnPointerUpAttr(t *testing.T) {
 }
 
 func TestOnPointerMoveAttr(t *testing.T) {
-	got := string(bdo.New().OnPointerMove("test").Render())
+	got := string(bdo.New().OnPointerMove("test").RenderBytes())
 	want := `<bdo onpointermove="test"></bdo>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -1121,7 +1121,7 @@ func TestOnPointerMoveAttr(t *testing.T) {
 }
 
 func TestOnPointerEnterAttr(t *testing.T) {
-	got := string(bdo.New().OnPointerEnter("test").Render())
+	got := string(bdo.New().OnPointerEnter("test").RenderBytes())
 	want := `<bdo onpointerenter="test"></bdo>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -1129,7 +1129,7 @@ func TestOnPointerEnterAttr(t *testing.T) {
 }
 
 func TestOnPointerLeaveAttr(t *testing.T) {
-	got := string(bdo.New().OnPointerLeave("test").Render())
+	got := string(bdo.New().OnPointerLeave("test").RenderBytes())
 	want := `<bdo onpointerleave="test"></bdo>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -1137,7 +1137,7 @@ func TestOnPointerLeaveAttr(t *testing.T) {
 }
 
 func TestOnPointerOverAttr(t *testing.T) {
-	got := string(bdo.New().OnPointerOver("test").Render())
+	got := string(bdo.New().OnPointerOver("test").RenderBytes())
 	want := `<bdo onpointerover="test"></bdo>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -1145,7 +1145,7 @@ func TestOnPointerOverAttr(t *testing.T) {
 }
 
 func TestOnPointerOutAttr(t *testing.T) {
-	got := string(bdo.New().OnPointerOut("test").Render())
+	got := string(bdo.New().OnPointerOut("test").RenderBytes())
 	want := `<bdo onpointerout="test"></bdo>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -1153,7 +1153,7 @@ func TestOnPointerOutAttr(t *testing.T) {
 }
 
 func TestOnPointerCancelAttr(t *testing.T) {
-	got := string(bdo.New().OnPointerCancel("test").Render())
+	got := string(bdo.New().OnPointerCancel("test").RenderBytes())
 	want := `<bdo onpointercancel="test"></bdo>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -1161,7 +1161,7 @@ func TestOnPointerCancelAttr(t *testing.T) {
 }
 
 func TestOnGotPointerCaptureAttr(t *testing.T) {
-	got := string(bdo.New().OnGotPointerCapture("test").Render())
+	got := string(bdo.New().OnGotPointerCapture("test").RenderBytes())
 	want := `<bdo ongotpointercapture="test"></bdo>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -1169,7 +1169,7 @@ func TestOnGotPointerCaptureAttr(t *testing.T) {
 }
 
 func TestOnLostPointerCaptureAttr(t *testing.T) {
-	got := string(bdo.New().OnLostPointerCapture("test").Render())
+	got := string(bdo.New().OnLostPointerCapture("test").RenderBytes())
 	want := `<bdo onlostpointercapture="test"></bdo>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -1177,7 +1177,7 @@ func TestOnLostPointerCaptureAttr(t *testing.T) {
 }
 
 func TestOnTouchStartAttr(t *testing.T) {
-	got := string(bdo.New().OnTouchStart("test").Render())
+	got := string(bdo.New().OnTouchStart("test").RenderBytes())
 	want := `<bdo ontouchstart="test"></bdo>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -1185,7 +1185,7 @@ func TestOnTouchStartAttr(t *testing.T) {
 }
 
 func TestOnTouchEndAttr(t *testing.T) {
-	got := string(bdo.New().OnTouchEnd("test").Render())
+	got := string(bdo.New().OnTouchEnd("test").RenderBytes())
 	want := `<bdo ontouchend="test"></bdo>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -1193,7 +1193,7 @@ func TestOnTouchEndAttr(t *testing.T) {
 }
 
 func TestOnTouchMoveAttr(t *testing.T) {
-	got := string(bdo.New().OnTouchMove("test").Render())
+	got := string(bdo.New().OnTouchMove("test").RenderBytes())
 	want := `<bdo ontouchmove="test"></bdo>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -1201,7 +1201,7 @@ func TestOnTouchMoveAttr(t *testing.T) {
 }
 
 func TestOnTouchCancelAttr(t *testing.T) {
-	got := string(bdo.New().OnTouchCancel("test").Render())
+	got := string(bdo.New().OnTouchCancel("test").RenderBytes())
 	want := `<bdo ontouchcancel="test"></bdo>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -1209,7 +1209,7 @@ func TestOnTouchCancelAttr(t *testing.T) {
 }
 
 func TestOnSelectStartAttr(t *testing.T) {
-	got := string(bdo.New().OnSelectStart("test").Render())
+	got := string(bdo.New().OnSelectStart("test").RenderBytes())
 	want := `<bdo onselectstart="test"></bdo>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -1217,7 +1217,7 @@ func TestOnSelectStartAttr(t *testing.T) {
 }
 
 func TestOnSelectionChangeAttr(t *testing.T) {
-	got := string(bdo.New().OnSelectionChange("test").Render())
+	got := string(bdo.New().OnSelectionChange("test").RenderBytes())
 	want := `<bdo onselectionchange="test"></bdo>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -1225,7 +1225,7 @@ func TestOnSelectionChangeAttr(t *testing.T) {
 }
 
 func TestNewMulti(t *testing.T) {
-	got := string(bdo.New(bdo.New(), bdo.New()).Render())
+	got := string(bdo.New(bdo.New(), bdo.New()).RenderBytes())
 	want := `<bdo><bdo></bdo><bdo></bdo></bdo>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -1236,7 +1236,7 @@ func TestAdd(t *testing.T) {
 	element := bdo.New().Add(bdo.New(), bdo.New())
 
 	// Test rendered output
-	got := string(element.Render())
+	got := string(element.RenderBytes())
 	want := `<bdo><bdo></bdo><bdo></bdo></bdo>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -1261,7 +1261,7 @@ func TestReplace(t *testing.T) {
 	element.Replace(bdo.New())
 
 	// Test rendered output
-	got := string(element.Render())
+	got := string(element.RenderBytes())
 	want := `<bdo><bdo></bdo></bdo>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -1274,7 +1274,7 @@ func TestReplace(t *testing.T) {
 }
 
 func TestTextMethod(t *testing.T) {
-	got := string(bdo.New().Text("hello").Render())
+	got := string(bdo.New().Text("hello").RenderBytes())
 	want := `<bdo>hello</bdo>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -1282,7 +1282,7 @@ func TestTextMethod(t *testing.T) {
 }
 
 func TestTextfMethod(t *testing.T) {
-	got := string(bdo.New().Textf("hello %s", "world").Render())
+	got := string(bdo.New().Textf("hello %s", "world").RenderBytes())
 	want := `<bdo>hello world</bdo>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -1290,7 +1290,7 @@ func TestTextfMethod(t *testing.T) {
 }
 
 func TestStaticMethod(t *testing.T) {
-	got := string(bdo.New().Static("static content").Render())
+	got := string(bdo.New().Static("static content").RenderBytes())
 	want := `<bdo>static content</bdo>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -1298,7 +1298,7 @@ func TestStaticMethod(t *testing.T) {
 }
 
 func TestRawTextMethod(t *testing.T) {
-	got := string(bdo.New().RawText("<em>bold</em>").Render())
+	got := string(bdo.New().RawText("<em>bold</em>").RenderBytes())
 	want := `<bdo><em>bold</em></bdo>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -1306,7 +1306,7 @@ func TestRawTextMethod(t *testing.T) {
 }
 
 func TestRawTextfMethod(t *testing.T) {
-	got := string(bdo.New().RawTextf("<%s>test</%s>", "span", "span").Render())
+	got := string(bdo.New().RawTextf("<%s>test</%s>", "span", "span").RenderBytes())
 	want := `<bdo><span>test</span></bdo>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -1314,7 +1314,7 @@ func TestRawTextfMethod(t *testing.T) {
 }
 
 func TestTextChaining(t *testing.T) {
-	got := string(bdo.New().Class("foo").Text("content").ID("bar").Render())
+	got := string(bdo.New().Class("foo").Text("content").ID("bar").RenderBytes())
 	want := `<bdo class="foo" id="bar">content</bdo>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -1322,7 +1322,7 @@ func TestTextChaining(t *testing.T) {
 }
 
 func TestDynamicKey(t *testing.T) {
-	got := string(bdo.New().Dynamic("mykey").Render())
+	got := string(bdo.New().Dynamic("mykey").RenderBytes())
 	want := `<bdo data-tether-key="mykey"></bdo>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -1337,7 +1337,7 @@ func TestDynamicNoKey(t *testing.T) {
 	if el.DynamicKey() != "_" {
 		t.Errorf("DynamicKey() should be \"_\", got %q", el.DynamicKey())
 	}
-	got := string(el.Render())
+	got := string(el.RenderBytes())
 	want := `<bdo></bdo>`
 	if got != want {
 		t.Errorf("Dynamic() without key should not render data-tether-key: got %q, want %q", got, want)

@@ -22,17 +22,25 @@ import (
 // This is the base contract that all renderable types satisfy - text, elements,
 // function components, and conditionals alike.
 type Node interface {
-	// Render returns the HTML as a byte slice, or writes it to the provided writer.
-	// Use this for top-level rendering where you need the final output.
+	// Render writes the HTML to w. Fire-and-forget for HTTP handlers.
 	//
 	// Write errors are deliberately discarded rather than returned. A write
 	// failure during rendering is almost always a disconnected client or a
 	// closed stream - a condition the render tree cannot act on. The real
 	// error path lives with the writer's owner (the HTTP handler, the buffer
-	// consumer), not inside rendering. Returning an error here would force
-	// every node in the tree to handle a failure that isn't its to handle.
-	// Implementations silently drop write errors on purpose.
-	Render(w ...io.Writer) []byte
+	// consumer), not inside rendering. Choosing Render over WriteTo is
+	// choosing to drop that error on purpose; use WriteTo when it matters.
+	Render(w io.Writer)
+
+	// WriteTo renders the HTML and writes it to w, returning the byte
+	// count and any write error. It satisfies [io.WriterTo], so a node
+	// drops straight into io.Copy and anything else that accepts one.
+	// This is the one place a render's write error surfaces.
+	WriteTo(w io.Writer) (int64, error)
+
+	// RenderBytes returns the HTML as a byte slice. Use it where no
+	// writer is involved: caching, snapshots, tests.
+	RenderBytes() []byte
 
 	// RenderBuilder writes HTML into a shared buffer to avoid allocations
 	// when composing a tree of nodes. Parent nodes call this on their children.

@@ -122,799 +122,799 @@ import (
 )
 
 func TestA(t *testing.T) {
-	got := string(A().Render())
-	want := string(a.New().Render())
+	got := string(A().RenderBytes())
+	want := string(a.New().RenderBytes())
 	if got != want {
 		t.Errorf("A() = %q, want New() = %q", got, want)
 	}
 }
 func TestAbbr(t *testing.T) {
-	got := string(Abbr().Render())
-	want := string(abbr.New().Render())
+	got := string(Abbr().RenderBytes())
+	want := string(abbr.New().RenderBytes())
 	if got != want {
 		t.Errorf("Abbr() = %q, want New() = %q", got, want)
 	}
 }
 func TestAddress(t *testing.T) {
-	got := string(Address().Render())
-	want := string(address.New().Render())
+	got := string(Address().RenderBytes())
+	want := string(address.New().RenderBytes())
 	if got != want {
 		t.Errorf("Address() = %q, want New() = %q", got, want)
 	}
 }
 func TestArea(t *testing.T) {
-	got := string(Area().Render())
-	want := string(area.New().Render())
+	got := string(Area().RenderBytes())
+	want := string(area.New().RenderBytes())
 	if got != want {
 		t.Errorf("Area() = %q, want New() = %q", got, want)
 	}
 }
 func TestArticle(t *testing.T) {
-	got := string(Article().Render())
-	want := string(article.New().Render())
+	got := string(Article().RenderBytes())
+	want := string(article.New().RenderBytes())
 	if got != want {
 		t.Errorf("Article() = %q, want New() = %q", got, want)
 	}
 }
 func TestAside(t *testing.T) {
-	got := string(Aside().Render())
-	want := string(aside.New().Render())
+	got := string(Aside().RenderBytes())
+	want := string(aside.New().RenderBytes())
 	if got != want {
 		t.Errorf("Aside() = %q, want New() = %q", got, want)
 	}
 }
 func TestAudio(t *testing.T) {
-	got := string(Audio().Render())
-	want := string(audio.New().Render())
+	got := string(Audio().RenderBytes())
+	want := string(audio.New().RenderBytes())
 	if got != want {
 		t.Errorf("Audio() = %q, want New() = %q", got, want)
 	}
 }
 func TestB(t *testing.T) {
-	got := string(B().Render())
-	want := string(b.New().Render())
+	got := string(B().RenderBytes())
+	want := string(b.New().RenderBytes())
 	if got != want {
 		t.Errorf("B() = %q, want New() = %q", got, want)
 	}
 }
 func TestBase(t *testing.T) {
-	got := string(Base().Render())
-	want := string(base.New().Render())
+	got := string(Base().RenderBytes())
+	want := string(base.New().RenderBytes())
 	if got != want {
 		t.Errorf("Base() = %q, want New() = %q", got, want)
 	}
 }
 func TestBdi(t *testing.T) {
-	got := string(Bdi().Render())
-	want := string(bdi.New().Render())
+	got := string(Bdi().RenderBytes())
+	want := string(bdi.New().RenderBytes())
 	if got != want {
 		t.Errorf("Bdi() = %q, want New() = %q", got, want)
 	}
 }
 func TestBdo(t *testing.T) {
-	got := string(Bdo().Render())
-	want := string(bdo.New().Render())
+	got := string(Bdo().RenderBytes())
+	want := string(bdo.New().RenderBytes())
 	if got != want {
 		t.Errorf("Bdo() = %q, want New() = %q", got, want)
 	}
 }
 func TestBlockquote(t *testing.T) {
-	got := string(Blockquote().Render())
-	want := string(blockquote.New().Render())
+	got := string(Blockquote().RenderBytes())
+	want := string(blockquote.New().RenderBytes())
 	if got != want {
 		t.Errorf("Blockquote() = %q, want New() = %q", got, want)
 	}
 }
 func TestBody(t *testing.T) {
-	got := string(Body().Render())
-	want := string(body.New().Render())
+	got := string(Body().RenderBytes())
+	want := string(body.New().RenderBytes())
 	if got != want {
 		t.Errorf("Body() = %q, want New() = %q", got, want)
 	}
 }
 func TestBr(t *testing.T) {
-	got := string(Br().Render())
-	want := string(br.New().Render())
+	got := string(Br().RenderBytes())
+	want := string(br.New().RenderBytes())
 	if got != want {
 		t.Errorf("Br() = %q, want New() = %q", got, want)
 	}
 }
 func TestButton(t *testing.T) {
-	got := string(Button().Render())
-	want := string(button.New().Render())
+	got := string(Button().RenderBytes())
+	want := string(button.New().RenderBytes())
 	if got != want {
 		t.Errorf("Button() = %q, want New() = %q", got, want)
 	}
 }
 func TestCanvas(t *testing.T) {
-	got := string(Canvas().Render())
-	want := string(canvas.New().Render())
+	got := string(Canvas().RenderBytes())
+	want := string(canvas.New().RenderBytes())
 	if got != want {
 		t.Errorf("Canvas() = %q, want New() = %q", got, want)
 	}
 }
 func TestCaption(t *testing.T) {
-	got := string(Caption().Render())
-	want := string(caption.New().Render())
+	got := string(Caption().RenderBytes())
+	want := string(caption.New().RenderBytes())
 	if got != want {
 		t.Errorf("Caption() = %q, want New() = %q", got, want)
 	}
 }
 func TestCite(t *testing.T) {
-	got := string(Cite().Render())
-	want := string(cite.New().Render())
+	got := string(Cite().RenderBytes())
+	want := string(cite.New().RenderBytes())
 	if got != want {
 		t.Errorf("Cite() = %q, want New() = %q", got, want)
 	}
 }
 func TestCode(t *testing.T) {
-	got := string(Code().Render())
-	want := string(code.New().Render())
+	got := string(Code().RenderBytes())
+	want := string(code.New().RenderBytes())
 	if got != want {
 		t.Errorf("Code() = %q, want New() = %q", got, want)
 	}
 }
 func TestCol(t *testing.T) {
-	got := string(Col().Render())
-	want := string(col.New().Render())
+	got := string(Col().RenderBytes())
+	want := string(col.New().RenderBytes())
 	if got != want {
 		t.Errorf("Col() = %q, want New() = %q", got, want)
 	}
 }
 func TestColgroup(t *testing.T) {
-	got := string(Colgroup().Render())
-	want := string(colgroup.New().Render())
+	got := string(Colgroup().RenderBytes())
+	want := string(colgroup.New().RenderBytes())
 	if got != want {
 		t.Errorf("Colgroup() = %q, want New() = %q", got, want)
 	}
 }
 func TestData(t *testing.T) {
-	got := string(Data().Render())
-	want := string(data.New().Render())
+	got := string(Data().RenderBytes())
+	want := string(data.New().RenderBytes())
 	if got != want {
 		t.Errorf("Data() = %q, want New() = %q", got, want)
 	}
 }
 func TestDatalist(t *testing.T) {
-	got := string(Datalist().Render())
-	want := string(datalist.New().Render())
+	got := string(Datalist().RenderBytes())
+	want := string(datalist.New().RenderBytes())
 	if got != want {
 		t.Errorf("Datalist() = %q, want New() = %q", got, want)
 	}
 }
 func TestDd(t *testing.T) {
-	got := string(Dd().Render())
-	want := string(dd.New().Render())
+	got := string(Dd().RenderBytes())
+	want := string(dd.New().RenderBytes())
 	if got != want {
 		t.Errorf("Dd() = %q, want New() = %q", got, want)
 	}
 }
 func TestDel(t *testing.T) {
-	got := string(Del().Render())
-	want := string(del.New().Render())
+	got := string(Del().RenderBytes())
+	want := string(del.New().RenderBytes())
 	if got != want {
 		t.Errorf("Del() = %q, want New() = %q", got, want)
 	}
 }
 func TestDetails(t *testing.T) {
-	got := string(Details().Render())
-	want := string(details.New().Render())
+	got := string(Details().RenderBytes())
+	want := string(details.New().RenderBytes())
 	if got != want {
 		t.Errorf("Details() = %q, want New() = %q", got, want)
 	}
 }
 func TestDfn(t *testing.T) {
-	got := string(Dfn().Render())
-	want := string(dfn.New().Render())
+	got := string(Dfn().RenderBytes())
+	want := string(dfn.New().RenderBytes())
 	if got != want {
 		t.Errorf("Dfn() = %q, want New() = %q", got, want)
 	}
 }
 func TestDialog(t *testing.T) {
-	got := string(Dialog().Render())
-	want := string(dialog.New().Render())
+	got := string(Dialog().RenderBytes())
+	want := string(dialog.New().RenderBytes())
 	if got != want {
 		t.Errorf("Dialog() = %q, want New() = %q", got, want)
 	}
 }
 func TestDiv(t *testing.T) {
-	got := string(Div().Render())
-	want := string(div.New().Render())
+	got := string(Div().RenderBytes())
+	want := string(div.New().RenderBytes())
 	if got != want {
 		t.Errorf("Div() = %q, want New() = %q", got, want)
 	}
 }
 func TestDl(t *testing.T) {
-	got := string(Dl().Render())
-	want := string(dl.New().Render())
+	got := string(Dl().RenderBytes())
+	want := string(dl.New().RenderBytes())
 	if got != want {
 		t.Errorf("Dl() = %q, want New() = %q", got, want)
 	}
 }
 func TestDropdown(t *testing.T) {
-	got := string(Dropdown().Render())
-	want := string(dropdown.New().Render())
+	got := string(Dropdown().RenderBytes())
+	want := string(dropdown.New().RenderBytes())
 	if got != want {
 		t.Errorf("Dropdown() = %q, want New() = %q", got, want)
 	}
 }
 func TestDt(t *testing.T) {
-	got := string(Dt().Render())
-	want := string(dt.New().Render())
+	got := string(Dt().RenderBytes())
+	want := string(dt.New().RenderBytes())
 	if got != want {
 		t.Errorf("Dt() = %q, want New() = %q", got, want)
 	}
 }
 func TestEm(t *testing.T) {
-	got := string(Em().Render())
-	want := string(em.New().Render())
+	got := string(Em().RenderBytes())
+	want := string(em.New().RenderBytes())
 	if got != want {
 		t.Errorf("Em() = %q, want New() = %q", got, want)
 	}
 }
 func TestEmbed(t *testing.T) {
-	got := string(Embed().Render())
-	want := string(embed.New().Render())
+	got := string(Embed().RenderBytes())
+	want := string(embed.New().RenderBytes())
 	if got != want {
 		t.Errorf("Embed() = %q, want New() = %q", got, want)
 	}
 }
 func TestFieldset(t *testing.T) {
-	got := string(Fieldset().Render())
-	want := string(fieldset.New().Render())
+	got := string(Fieldset().RenderBytes())
+	want := string(fieldset.New().RenderBytes())
 	if got != want {
 		t.Errorf("Fieldset() = %q, want New() = %q", got, want)
 	}
 }
 func TestFigcaption(t *testing.T) {
-	got := string(Figcaption().Render())
-	want := string(figcaption.New().Render())
+	got := string(Figcaption().RenderBytes())
+	want := string(figcaption.New().RenderBytes())
 	if got != want {
 		t.Errorf("Figcaption() = %q, want New() = %q", got, want)
 	}
 }
 func TestFigure(t *testing.T) {
-	got := string(Figure().Render())
-	want := string(figure.New().Render())
+	got := string(Figure().RenderBytes())
+	want := string(figure.New().RenderBytes())
 	if got != want {
 		t.Errorf("Figure() = %q, want New() = %q", got, want)
 	}
 }
 func TestFooter(t *testing.T) {
-	got := string(Footer().Render())
-	want := string(footer.New().Render())
+	got := string(Footer().RenderBytes())
+	want := string(footer.New().RenderBytes())
 	if got != want {
 		t.Errorf("Footer() = %q, want New() = %q", got, want)
 	}
 }
 func TestForm(t *testing.T) {
-	got := string(Form().Render())
-	want := string(form.New().Render())
+	got := string(Form().RenderBytes())
+	want := string(form.New().RenderBytes())
 	if got != want {
 		t.Errorf("Form() = %q, want New() = %q", got, want)
 	}
 }
 func TestH1(t *testing.T) {
-	got := string(H1().Render())
-	want := string(h1.New().Render())
+	got := string(H1().RenderBytes())
+	want := string(h1.New().RenderBytes())
 	if got != want {
 		t.Errorf("H1() = %q, want New() = %q", got, want)
 	}
 }
 func TestH2(t *testing.T) {
-	got := string(H2().Render())
-	want := string(h2.New().Render())
+	got := string(H2().RenderBytes())
+	want := string(h2.New().RenderBytes())
 	if got != want {
 		t.Errorf("H2() = %q, want New() = %q", got, want)
 	}
 }
 func TestH3(t *testing.T) {
-	got := string(H3().Render())
-	want := string(h3.New().Render())
+	got := string(H3().RenderBytes())
+	want := string(h3.New().RenderBytes())
 	if got != want {
 		t.Errorf("H3() = %q, want New() = %q", got, want)
 	}
 }
 func TestH4(t *testing.T) {
-	got := string(H4().Render())
-	want := string(h4.New().Render())
+	got := string(H4().RenderBytes())
+	want := string(h4.New().RenderBytes())
 	if got != want {
 		t.Errorf("H4() = %q, want New() = %q", got, want)
 	}
 }
 func TestH5(t *testing.T) {
-	got := string(H5().Render())
-	want := string(h5.New().Render())
+	got := string(H5().RenderBytes())
+	want := string(h5.New().RenderBytes())
 	if got != want {
 		t.Errorf("H5() = %q, want New() = %q", got, want)
 	}
 }
 func TestH6(t *testing.T) {
-	got := string(H6().Render())
-	want := string(h6.New().Render())
+	got := string(H6().RenderBytes())
+	want := string(h6.New().RenderBytes())
 	if got != want {
 		t.Errorf("H6() = %q, want New() = %q", got, want)
 	}
 }
 func TestHead(t *testing.T) {
-	got := string(Head().Render())
-	want := string(head.New().Render())
+	got := string(Head().RenderBytes())
+	want := string(head.New().RenderBytes())
 	if got != want {
 		t.Errorf("Head() = %q, want New() = %q", got, want)
 	}
 }
 func TestHeader(t *testing.T) {
-	got := string(Header().Render())
-	want := string(header.New().Render())
+	got := string(Header().RenderBytes())
+	want := string(header.New().RenderBytes())
 	if got != want {
 		t.Errorf("Header() = %q, want New() = %q", got, want)
 	}
 }
 func TestHgroup(t *testing.T) {
-	got := string(Hgroup().Render())
-	want := string(hgroup.New().Render())
+	got := string(Hgroup().RenderBytes())
+	want := string(hgroup.New().RenderBytes())
 	if got != want {
 		t.Errorf("Hgroup() = %q, want New() = %q", got, want)
 	}
 }
 func TestHr(t *testing.T) {
-	got := string(Hr().Render())
-	want := string(hr.New().Render())
+	got := string(Hr().RenderBytes())
+	want := string(hr.New().RenderBytes())
 	if got != want {
 		t.Errorf("Hr() = %q, want New() = %q", got, want)
 	}
 }
 func TestHtml(t *testing.T) {
-	got := string(Html().Render())
-	want := string(html.New().Render())
+	got := string(Html().RenderBytes())
+	want := string(html.New().RenderBytes())
 	if got != want {
 		t.Errorf("Html() = %q, want New() = %q", got, want)
 	}
 }
 func TestI(t *testing.T) {
-	got := string(I().Render())
-	want := string(i.New().Render())
+	got := string(I().RenderBytes())
+	want := string(i.New().RenderBytes())
 	if got != want {
 		t.Errorf("I() = %q, want New() = %q", got, want)
 	}
 }
 func TestIframe(t *testing.T) {
-	got := string(Iframe().Render())
-	want := string(iframe.New().Render())
+	got := string(Iframe().RenderBytes())
+	want := string(iframe.New().RenderBytes())
 	if got != want {
 		t.Errorf("Iframe() = %q, want New() = %q", got, want)
 	}
 }
 func TestImagemap(t *testing.T) {
-	got := string(Imagemap().Render())
-	want := string(imagemap.New().Render())
+	got := string(Imagemap().RenderBytes())
+	want := string(imagemap.New().RenderBytes())
 	if got != want {
 		t.Errorf("Imagemap() = %q, want New() = %q", got, want)
 	}
 }
 func TestImg(t *testing.T) {
-	got := string(Img().Render())
-	want := string(img.New().Render())
+	got := string(Img().RenderBytes())
+	want := string(img.New().RenderBytes())
 	if got != want {
 		t.Errorf("Img() = %q, want New() = %q", got, want)
 	}
 }
 func TestInput(t *testing.T) {
-	got := string(Input().Render())
-	want := string(input.New().Render())
+	got := string(Input().RenderBytes())
+	want := string(input.New().RenderBytes())
 	if got != want {
 		t.Errorf("Input() = %q, want New() = %q", got, want)
 	}
 }
 func TestIns(t *testing.T) {
-	got := string(Ins().Render())
-	want := string(ins.New().Render())
+	got := string(Ins().RenderBytes())
+	want := string(ins.New().RenderBytes())
 	if got != want {
 		t.Errorf("Ins() = %q, want New() = %q", got, want)
 	}
 }
 func TestKbd(t *testing.T) {
-	got := string(Kbd().Render())
-	want := string(kbd.New().Render())
+	got := string(Kbd().RenderBytes())
+	want := string(kbd.New().RenderBytes())
 	if got != want {
 		t.Errorf("Kbd() = %q, want New() = %q", got, want)
 	}
 }
 func TestLabel(t *testing.T) {
-	got := string(Label().Render())
-	want := string(label.New().Render())
+	got := string(Label().RenderBytes())
+	want := string(label.New().RenderBytes())
 	if got != want {
 		t.Errorf("Label() = %q, want New() = %q", got, want)
 	}
 }
 func TestLegend(t *testing.T) {
-	got := string(Legend().Render())
-	want := string(legend.New().Render())
+	got := string(Legend().RenderBytes())
+	want := string(legend.New().RenderBytes())
 	if got != want {
 		t.Errorf("Legend() = %q, want New() = %q", got, want)
 	}
 }
 func TestLi(t *testing.T) {
-	got := string(Li().Render())
-	want := string(li.New().Render())
+	got := string(Li().RenderBytes())
+	want := string(li.New().RenderBytes())
 	if got != want {
 		t.Errorf("Li() = %q, want New() = %q", got, want)
 	}
 }
 func TestLink(t *testing.T) {
-	got := string(Link().Render())
-	want := string(link.New().Render())
+	got := string(Link().RenderBytes())
+	want := string(link.New().RenderBytes())
 	if got != want {
 		t.Errorf("Link() = %q, want New() = %q", got, want)
 	}
 }
 func TestMark(t *testing.T) {
-	got := string(Mark().Render())
-	want := string(mark.New().Render())
+	got := string(Mark().RenderBytes())
+	want := string(mark.New().RenderBytes())
 	if got != want {
 		t.Errorf("Mark() = %q, want New() = %q", got, want)
 	}
 }
 func TestMath(t *testing.T) {
-	got := string(Math().Render())
-	want := string(math.New().Render())
+	got := string(Math().RenderBytes())
+	want := string(math.New().RenderBytes())
 	if got != want {
 		t.Errorf("Math() = %q, want New() = %q", got, want)
 	}
 }
 func TestMenu(t *testing.T) {
-	got := string(Menu().Render())
-	want := string(menu.New().Render())
+	got := string(Menu().RenderBytes())
+	want := string(menu.New().RenderBytes())
 	if got != want {
 		t.Errorf("Menu() = %q, want New() = %q", got, want)
 	}
 }
 func TestMeta(t *testing.T) {
-	got := string(Meta().Render())
-	want := string(meta.New().Render())
+	got := string(Meta().RenderBytes())
+	want := string(meta.New().RenderBytes())
 	if got != want {
 		t.Errorf("Meta() = %q, want New() = %q", got, want)
 	}
 }
 func TestMeter(t *testing.T) {
-	got := string(Meter().Render())
-	want := string(meter.New().Render())
+	got := string(Meter().RenderBytes())
+	want := string(meter.New().RenderBytes())
 	if got != want {
 		t.Errorf("Meter() = %q, want New() = %q", got, want)
 	}
 }
 func TestNav(t *testing.T) {
-	got := string(Nav().Render())
-	want := string(nav.New().Render())
+	got := string(Nav().RenderBytes())
+	want := string(nav.New().RenderBytes())
 	if got != want {
 		t.Errorf("Nav() = %q, want New() = %q", got, want)
 	}
 }
 func TestNoscript(t *testing.T) {
-	got := string(Noscript().Render())
-	want := string(noscript.New().Render())
+	got := string(Noscript().RenderBytes())
+	want := string(noscript.New().RenderBytes())
 	if got != want {
 		t.Errorf("Noscript() = %q, want New() = %q", got, want)
 	}
 }
 func TestObject(t *testing.T) {
-	got := string(Object().Render())
-	want := string(object.New().Render())
+	got := string(Object().RenderBytes())
+	want := string(object.New().RenderBytes())
 	if got != want {
 		t.Errorf("Object() = %q, want New() = %q", got, want)
 	}
 }
 func TestOl(t *testing.T) {
-	got := string(Ol().Render())
-	want := string(ol.New().Render())
+	got := string(Ol().RenderBytes())
+	want := string(ol.New().RenderBytes())
 	if got != want {
 		t.Errorf("Ol() = %q, want New() = %q", got, want)
 	}
 }
 func TestOptgroup(t *testing.T) {
-	got := string(Optgroup().Render())
-	want := string(optgroup.New().Render())
+	got := string(Optgroup().RenderBytes())
+	want := string(optgroup.New().RenderBytes())
 	if got != want {
 		t.Errorf("Optgroup() = %q, want New() = %q", got, want)
 	}
 }
 func TestOption(t *testing.T) {
-	got := string(Option().Render())
-	want := string(option.New().Render())
+	got := string(Option().RenderBytes())
+	want := string(option.New().RenderBytes())
 	if got != want {
 		t.Errorf("Option() = %q, want New() = %q", got, want)
 	}
 }
 func TestOutput(t *testing.T) {
-	got := string(Output().Render())
-	want := string(output.New().Render())
+	got := string(Output().RenderBytes())
+	want := string(output.New().RenderBytes())
 	if got != want {
 		t.Errorf("Output() = %q, want New() = %q", got, want)
 	}
 }
 func TestP(t *testing.T) {
-	got := string(P().Render())
-	want := string(p.New().Render())
+	got := string(P().RenderBytes())
+	want := string(p.New().RenderBytes())
 	if got != want {
 		t.Errorf("P() = %q, want New() = %q", got, want)
 	}
 }
 func TestPicture(t *testing.T) {
-	got := string(Picture().Render())
-	want := string(picture.New().Render())
+	got := string(Picture().RenderBytes())
+	want := string(picture.New().RenderBytes())
 	if got != want {
 		t.Errorf("Picture() = %q, want New() = %q", got, want)
 	}
 }
 func TestPre(t *testing.T) {
-	got := string(Pre().Render())
-	want := string(pre.New().Render())
+	got := string(Pre().RenderBytes())
+	want := string(pre.New().RenderBytes())
 	if got != want {
 		t.Errorf("Pre() = %q, want New() = %q", got, want)
 	}
 }
 func TestPrimary(t *testing.T) {
-	got := string(Primary().Render())
-	want := string(primary.New().Render())
+	got := string(Primary().RenderBytes())
+	want := string(primary.New().RenderBytes())
 	if got != want {
 		t.Errorf("Primary() = %q, want New() = %q", got, want)
 	}
 }
 func TestProgress(t *testing.T) {
-	got := string(Progress().Render())
-	want := string(progress.New().Render())
+	got := string(Progress().RenderBytes())
+	want := string(progress.New().RenderBytes())
 	if got != want {
 		t.Errorf("Progress() = %q, want New() = %q", got, want)
 	}
 }
 func TestQ(t *testing.T) {
-	got := string(Q().Render())
-	want := string(q.New().Render())
+	got := string(Q().RenderBytes())
+	want := string(q.New().RenderBytes())
 	if got != want {
 		t.Errorf("Q() = %q, want New() = %q", got, want)
 	}
 }
 func TestRp(t *testing.T) {
-	got := string(Rp().Render())
-	want := string(rp.New().Render())
+	got := string(Rp().RenderBytes())
+	want := string(rp.New().RenderBytes())
 	if got != want {
 		t.Errorf("Rp() = %q, want New() = %q", got, want)
 	}
 }
 func TestRt(t *testing.T) {
-	got := string(Rt().Render())
-	want := string(rt.New().Render())
+	got := string(Rt().RenderBytes())
+	want := string(rt.New().RenderBytes())
 	if got != want {
 		t.Errorf("Rt() = %q, want New() = %q", got, want)
 	}
 }
 func TestRuby(t *testing.T) {
-	got := string(Ruby().Render())
-	want := string(ruby.New().Render())
+	got := string(Ruby().RenderBytes())
+	want := string(ruby.New().RenderBytes())
 	if got != want {
 		t.Errorf("Ruby() = %q, want New() = %q", got, want)
 	}
 }
 func TestS(t *testing.T) {
-	got := string(S().Render())
-	want := string(s.New().Render())
+	got := string(S().RenderBytes())
+	want := string(s.New().RenderBytes())
 	if got != want {
 		t.Errorf("S() = %q, want New() = %q", got, want)
 	}
 }
 func TestSamp(t *testing.T) {
-	got := string(Samp().Render())
-	want := string(samp.New().Render())
+	got := string(Samp().RenderBytes())
+	want := string(samp.New().RenderBytes())
 	if got != want {
 		t.Errorf("Samp() = %q, want New() = %q", got, want)
 	}
 }
 func TestScript(t *testing.T) {
-	got := string(Script().Render())
-	want := string(script.New().Render())
+	got := string(Script().RenderBytes())
+	want := string(script.New().RenderBytes())
 	if got != want {
 		t.Errorf("Script() = %q, want New() = %q", got, want)
 	}
 }
 func TestSearch(t *testing.T) {
-	got := string(Search().Render())
-	want := string(search.New().Render())
+	got := string(Search().RenderBytes())
+	want := string(search.New().RenderBytes())
 	if got != want {
 		t.Errorf("Search() = %q, want New() = %q", got, want)
 	}
 }
 func TestSection(t *testing.T) {
-	got := string(Section().Render())
-	want := string(section.New().Render())
+	got := string(Section().RenderBytes())
+	want := string(section.New().RenderBytes())
 	if got != want {
 		t.Errorf("Section() = %q, want New() = %q", got, want)
 	}
 }
 func TestSlot(t *testing.T) {
-	got := string(Slot().Render())
-	want := string(slot.New().Render())
+	got := string(Slot().RenderBytes())
+	want := string(slot.New().RenderBytes())
 	if got != want {
 		t.Errorf("Slot() = %q, want New() = %q", got, want)
 	}
 }
 func TestSmall(t *testing.T) {
-	got := string(Small().Render())
-	want := string(small.New().Render())
+	got := string(Small().RenderBytes())
+	want := string(small.New().RenderBytes())
 	if got != want {
 		t.Errorf("Small() = %q, want New() = %q", got, want)
 	}
 }
 func TestSource(t *testing.T) {
-	got := string(Source().Render())
-	want := string(source.New().Render())
+	got := string(Source().RenderBytes())
+	want := string(source.New().RenderBytes())
 	if got != want {
 		t.Errorf("Source() = %q, want New() = %q", got, want)
 	}
 }
 func TestSpan(t *testing.T) {
-	got := string(Span().Render())
-	want := string(span.New().Render())
+	got := string(Span().RenderBytes())
+	want := string(span.New().RenderBytes())
 	if got != want {
 		t.Errorf("Span() = %q, want New() = %q", got, want)
 	}
 }
 func TestStrong(t *testing.T) {
-	got := string(Strong().Render())
-	want := string(strong.New().Render())
+	got := string(Strong().RenderBytes())
+	want := string(strong.New().RenderBytes())
 	if got != want {
 		t.Errorf("Strong() = %q, want New() = %q", got, want)
 	}
 }
 func TestStyle(t *testing.T) {
-	got := string(Style().Render())
-	want := string(style.New().Render())
+	got := string(Style().RenderBytes())
+	want := string(style.New().RenderBytes())
 	if got != want {
 		t.Errorf("Style() = %q, want New() = %q", got, want)
 	}
 }
 func TestSub(t *testing.T) {
-	got := string(Sub().Render())
-	want := string(sub.New().Render())
+	got := string(Sub().RenderBytes())
+	want := string(sub.New().RenderBytes())
 	if got != want {
 		t.Errorf("Sub() = %q, want New() = %q", got, want)
 	}
 }
 func TestSummary(t *testing.T) {
-	got := string(Summary().Render())
-	want := string(summary.New().Render())
+	got := string(Summary().RenderBytes())
+	want := string(summary.New().RenderBytes())
 	if got != want {
 		t.Errorf("Summary() = %q, want New() = %q", got, want)
 	}
 }
 func TestSup(t *testing.T) {
-	got := string(Sup().Render())
-	want := string(sup.New().Render())
+	got := string(Sup().RenderBytes())
+	want := string(sup.New().RenderBytes())
 	if got != want {
 		t.Errorf("Sup() = %q, want New() = %q", got, want)
 	}
 }
 func TestSvg(t *testing.T) {
-	got := string(Svg().Render())
-	want := string(svg.New().Render())
+	got := string(Svg().RenderBytes())
+	want := string(svg.New().RenderBytes())
 	if got != want {
 		t.Errorf("Svg() = %q, want New() = %q", got, want)
 	}
 }
 func TestTable(t *testing.T) {
-	got := string(Table().Render())
-	want := string(table.New().Render())
+	got := string(Table().RenderBytes())
+	want := string(table.New().RenderBytes())
 	if got != want {
 		t.Errorf("Table() = %q, want New() = %q", got, want)
 	}
 }
 func TestTbody(t *testing.T) {
-	got := string(Tbody().Render())
-	want := string(tbody.New().Render())
+	got := string(Tbody().RenderBytes())
+	want := string(tbody.New().RenderBytes())
 	if got != want {
 		t.Errorf("Tbody() = %q, want New() = %q", got, want)
 	}
 }
 func TestTd(t *testing.T) {
-	got := string(Td().Render())
-	want := string(td.New().Render())
+	got := string(Td().RenderBytes())
+	want := string(td.New().RenderBytes())
 	if got != want {
 		t.Errorf("Td() = %q, want New() = %q", got, want)
 	}
 }
 func TestTemplate(t *testing.T) {
-	got := string(Template().Render())
-	want := string(template.New().Render())
+	got := string(Template().RenderBytes())
+	want := string(template.New().RenderBytes())
 	if got != want {
 		t.Errorf("Template() = %q, want New() = %q", got, want)
 	}
 }
 func TestTextarea(t *testing.T) {
-	got := string(Textarea().Render())
-	want := string(textarea.New().Render())
+	got := string(Textarea().RenderBytes())
+	want := string(textarea.New().RenderBytes())
 	if got != want {
 		t.Errorf("Textarea() = %q, want New() = %q", got, want)
 	}
 }
 func TestTfoot(t *testing.T) {
-	got := string(Tfoot().Render())
-	want := string(tfoot.New().Render())
+	got := string(Tfoot().RenderBytes())
+	want := string(tfoot.New().RenderBytes())
 	if got != want {
 		t.Errorf("Tfoot() = %q, want New() = %q", got, want)
 	}
 }
 func TestTh(t *testing.T) {
-	got := string(Th().Render())
-	want := string(th.New().Render())
+	got := string(Th().RenderBytes())
+	want := string(th.New().RenderBytes())
 	if got != want {
 		t.Errorf("Th() = %q, want New() = %q", got, want)
 	}
 }
 func TestThead(t *testing.T) {
-	got := string(Thead().Render())
-	want := string(thead.New().Render())
+	got := string(Thead().RenderBytes())
+	want := string(thead.New().RenderBytes())
 	if got != want {
 		t.Errorf("Thead() = %q, want New() = %q", got, want)
 	}
 }
 func TestTime(t *testing.T) {
-	got := string(Time().Render())
-	want := string(time.New().Render())
+	got := string(Time().RenderBytes())
+	want := string(time.New().RenderBytes())
 	if got != want {
 		t.Errorf("Time() = %q, want New() = %q", got, want)
 	}
 }
 func TestTitle(t *testing.T) {
-	got := string(Title().Render())
-	want := string(title.New().Render())
+	got := string(Title().RenderBytes())
+	want := string(title.New().RenderBytes())
 	if got != want {
 		t.Errorf("Title() = %q, want New() = %q", got, want)
 	}
 }
 func TestTr(t *testing.T) {
-	got := string(Tr().Render())
-	want := string(tr.New().Render())
+	got := string(Tr().RenderBytes())
+	want := string(tr.New().RenderBytes())
 	if got != want {
 		t.Errorf("Tr() = %q, want New() = %q", got, want)
 	}
 }
 func TestTrack(t *testing.T) {
-	got := string(Track().Render())
-	want := string(track.New().Render())
+	got := string(Track().RenderBytes())
+	want := string(track.New().RenderBytes())
 	if got != want {
 		t.Errorf("Track() = %q, want New() = %q", got, want)
 	}
 }
 func TestU(t *testing.T) {
-	got := string(U().Render())
-	want := string(u.New().Render())
+	got := string(U().RenderBytes())
+	want := string(u.New().RenderBytes())
 	if got != want {
 		t.Errorf("U() = %q, want New() = %q", got, want)
 	}
 }
 func TestUl(t *testing.T) {
-	got := string(Ul().Render())
-	want := string(ul.New().Render())
+	got := string(Ul().RenderBytes())
+	want := string(ul.New().RenderBytes())
 	if got != want {
 		t.Errorf("Ul() = %q, want New() = %q", got, want)
 	}
 }
 func TestVariable(t *testing.T) {
-	got := string(Variable().Render())
-	want := string(variable.New().Render())
+	got := string(Variable().RenderBytes())
+	want := string(variable.New().RenderBytes())
 	if got != want {
 		t.Errorf("Variable() = %q, want New() = %q", got, want)
 	}
 }
 func TestVideo(t *testing.T) {
-	got := string(Video().Render())
-	want := string(video.New().Render())
+	got := string(Video().RenderBytes())
+	want := string(video.New().RenderBytes())
 	if got != want {
 		t.Errorf("Video() = %q, want New() = %q", got, want)
 	}
 }
 func TestWbr(t *testing.T) {
-	got := string(Wbr().Render())
-	want := string(wbr.New().Render())
+	got := string(Wbr().RenderBytes())
+	want := string(wbr.New().RenderBytes())
 	if got != want {
 		t.Errorf("Wbr() = %q, want New() = %q", got, want)
 	}

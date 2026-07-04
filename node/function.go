@@ -37,19 +37,27 @@ func Func(fn func() Node) *FunctionComponent {
 	}
 }
 
-// Render generates the HTML representation by calling the function.
-// If a writer is provided, the output is written to it and nil is returned.
-// If no writer is provided, the output is returned as a byte slice.
-func (f *FunctionComponent) Render(w ...io.Writer) []byte {
+// Render calls the function and writes its rendered output to w.
+// Write errors are intentionally discarded; see [Node] for rationale.
+func (f *FunctionComponent) Render(w io.Writer) {
+	_, _ = f.WriteTo(w)
+}
+
+// WriteTo calls the function and writes its rendered output to w,
+// returning the byte count and any write error. Satisfies [io.WriterTo].
+func (f *FunctionComponent) WriteTo(w io.Writer) (int64, error) {
 	buf := fluent.NewBuffer()
 	f.RenderBuilder(buf)
+	n, err := buf.WriteTo(w)
+	fluent.PutBuffer(buf)
+	return n, err
+}
 
-	if len(w) > 0 && w[0] != nil {
-		// Write errors are intentionally discarded; see [node.Node] for rationale.
-		_, _ = buf.WriteTo(w[0])
-		fluent.PutBuffer(buf)
-		return nil
-	}
+// RenderBytes calls the function and returns its rendered output as a
+// byte slice.
+func (f *FunctionComponent) RenderBytes() []byte {
+	var buf bytes.Buffer
+	f.RenderBuilder(&buf)
 	return buf.Bytes()
 }
 

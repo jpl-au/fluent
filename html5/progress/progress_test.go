@@ -22,14 +22,14 @@ import (
 
 func TestNewCtor(t *testing.T) {
 	// Test empty element
-	got := string(progress.New().Render())
+	got := string(progress.New().RenderBytes())
 	want := `<progress></progress>`
 	if got != want {
 		t.Errorf("empty: got %q, want %q", got, want)
 	}
 
 	// Test nested element
-	got = string(progress.New(progress.New()).Render())
+	got = string(progress.New(progress.New()).RenderBytes())
 	want = `<progress><progress></progress></progress>`
 	if got != want {
 		t.Errorf("nested: got %q, want %q", got, want)
@@ -37,7 +37,7 @@ func TestNewCtor(t *testing.T) {
 }
 
 func TestTextCtor(t *testing.T) {
-	got := string(progress.Text("50% complete").Render())
+	got := string(progress.Text("50% complete").RenderBytes())
 	want := `<progress>50% complete</progress>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -45,7 +45,7 @@ func TestTextCtor(t *testing.T) {
 }
 
 func TestStaticCtor(t *testing.T) {
-	got := string(progress.Static("Loading...").Render())
+	got := string(progress.Static("Loading...").RenderBytes())
 	want := `<progress>Loading...</progress>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -53,7 +53,7 @@ func TestStaticCtor(t *testing.T) {
 }
 
 func TestRawTextCtor(t *testing.T) {
-	got := string(progress.RawText("<span>50%</span>").Render())
+	got := string(progress.RawText("<span>50%</span>").RenderBytes())
 	want := `<progress><span>50%</span></progress>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -62,7 +62,7 @@ func TestRawTextCtor(t *testing.T) {
 
 func TestTextfCtor(t *testing.T) {
 	pct := 75
-	got := string(progress.Textf("%d%% complete", pct).Render())
+	got := string(progress.Textf("%d%% complete", pct).RenderBytes())
 	want := `<progress>75% complete</progress>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -71,7 +71,7 @@ func TestTextfCtor(t *testing.T) {
 
 func TestRawTextfCtor(t *testing.T) {
 	pct := 75
-	got := string(progress.RawTextf("<strong>%d%%</strong>", pct).Render())
+	got := string(progress.RawTextf("<strong>%d%%</strong>", pct).RenderBytes())
 	want := `<progress><strong>75%</strong></progress>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -79,7 +79,7 @@ func TestRawTextfCtor(t *testing.T) {
 }
 
 func TestValueMaxCtor(t *testing.T) {
-	got := string(progress.ValueMax(75, 100).Render())
+	got := string(progress.ValueMax(75, 100).RenderBytes())
 	want := `<progress value="75" max="100"></progress>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -87,7 +87,7 @@ func TestValueMaxCtor(t *testing.T) {
 }
 
 func TestValueAttr(t *testing.T) {
-	got := string(progress.New().Value(3.14).Render())
+	got := string(progress.New().Value(3.14).RenderBytes())
 	want := `<progress value="3.14"></progress>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -95,7 +95,7 @@ func TestValueAttr(t *testing.T) {
 }
 
 func TestMaxAttr(t *testing.T) {
-	got := string(progress.New().Max(3.14).Render())
+	got := string(progress.New().Max(3.14).RenderBytes())
 	want := `<progress max="3.14"></progress>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -103,7 +103,7 @@ func TestMaxAttr(t *testing.T) {
 }
 
 func TestClassAttr(t *testing.T) {
-	got := string(progress.New().Class("test").Render())
+	got := string(progress.New().Class("test").RenderBytes())
 	want := `<progress class="test"></progress>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -112,7 +112,7 @@ func TestClassAttr(t *testing.T) {
 
 func TestClassMulti(t *testing.T) {
 	// Test multiple chained calls
-	got := string(progress.New().Class("one").Class("two").Class("three").Render())
+	got := string(progress.New().Class("one").Class("two").Class("three").RenderBytes())
 	want := `<progress class="one two three"></progress>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -120,7 +120,7 @@ func TestClassMulti(t *testing.T) {
 }
 
 func TestIDAttr(t *testing.T) {
-	got := string(progress.New().ID("test").Render())
+	got := string(progress.New().ID("test").RenderBytes())
 	want := `<progress id="test"></progress>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -128,7 +128,7 @@ func TestIDAttr(t *testing.T) {
 }
 
 func TestStyleAttr(t *testing.T) {
-	got := string(progress.New().Style("test").Render())
+	got := string(progress.New().Style("test").RenderBytes())
 	want := `<progress style="test"></progress>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -137,7 +137,7 @@ func TestStyleAttr(t *testing.T) {
 
 func TestStyleMulti(t *testing.T) {
 	// Test multiple chained calls
-	got := string(progress.New().Style("one").Style("two").Style("three").Render())
+	got := string(progress.New().Style("one").Style("two").Style("three").RenderBytes())
 	want := `<progress style="one; two; three"></progress>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -145,7 +145,7 @@ func TestStyleMulti(t *testing.T) {
 }
 
 func TestTitleAttr(t *testing.T) {
-	got := string(progress.New().Title("test").Render())
+	got := string(progress.New().Title("test").RenderBytes())
 	want := `<progress title="test"></progress>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -153,7 +153,7 @@ func TestTitleAttr(t *testing.T) {
 }
 
 func TestHiddenAttr(t *testing.T) {
-	got := string(progress.New().Hidden(hidden.True).Render())
+	got := string(progress.New().Hidden(hidden.True).RenderBytes())
 	want := `<progress hidden="true"></progress>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -161,7 +161,7 @@ func TestHiddenAttr(t *testing.T) {
 }
 
 func TestTabIndexAttr(t *testing.T) {
-	got := string(progress.New().TabIndex(42).Render())
+	got := string(progress.New().TabIndex(42).RenderBytes())
 	want := `<progress tabindex="42"></progress>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -169,7 +169,7 @@ func TestTabIndexAttr(t *testing.T) {
 }
 
 func TestRoleAttr(t *testing.T) {
-	got := string(progress.New().Role("test").Render())
+	got := string(progress.New().Role("test").RenderBytes())
 	want := `<progress role="test"></progress>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -177,7 +177,7 @@ func TestRoleAttr(t *testing.T) {
 }
 
 func TestLangAttr(t *testing.T) {
-	got := string(progress.New().Lang("test").Render())
+	got := string(progress.New().Lang("test").RenderBytes())
 	want := `<progress lang="test"></progress>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -185,7 +185,7 @@ func TestLangAttr(t *testing.T) {
 }
 
 func TestAccessKeyAttr(t *testing.T) {
-	got := string(progress.New().AccessKey("test").Render())
+	got := string(progress.New().AccessKey("test").RenderBytes())
 	want := `<progress accesskey="test"></progress>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -194,7 +194,7 @@ func TestAccessKeyAttr(t *testing.T) {
 
 func TestAccessKeyMulti(t *testing.T) {
 	// Test multiple chained calls
-	got := string(progress.New().AccessKey("one").AccessKey("two").AccessKey("three").Render())
+	got := string(progress.New().AccessKey("one").AccessKey("two").AccessKey("three").RenderBytes())
 	want := `<progress accesskey="one two three"></progress>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -202,7 +202,7 @@ func TestAccessKeyMulti(t *testing.T) {
 }
 
 func TestAnchorAttr(t *testing.T) {
-	got := string(progress.New().Anchor("test").Render())
+	got := string(progress.New().Anchor("test").RenderBytes())
 	want := `<progress anchor="test"></progress>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -210,7 +210,7 @@ func TestAnchorAttr(t *testing.T) {
 }
 
 func TestAriaLabelAttr(t *testing.T) {
-	got := string(progress.New().AriaLabel("test").Render())
+	got := string(progress.New().AriaLabel("test").RenderBytes())
 	want := `<progress aria-label="test"></progress>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -218,7 +218,7 @@ func TestAriaLabelAttr(t *testing.T) {
 }
 
 func TestSetAriaAttr(t *testing.T) {
-	got := string(progress.New().SetAria("label", "test-value").Render())
+	got := string(progress.New().SetAria("label", "test-value").RenderBytes())
 	want := `<progress aria-label="test-value"></progress>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -226,7 +226,7 @@ func TestSetAriaAttr(t *testing.T) {
 }
 
 func TestAutoCapitalizeAttr(t *testing.T) {
-	got := string(progress.New().AutoCapitalize(autocapitalize.Off).Render())
+	got := string(progress.New().AutoCapitalize(autocapitalize.Off).RenderBytes())
 	want := `<progress autocapitalize="off"></progress>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -234,7 +234,7 @@ func TestAutoCapitalizeAttr(t *testing.T) {
 }
 
 func TestAutoCorrectAttr(t *testing.T) {
-	got := string(progress.New().AutoCorrect(autocorrect.On).Render())
+	got := string(progress.New().AutoCorrect(autocorrect.On).RenderBytes())
 	want := `<progress autocorrect="on"></progress>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -242,7 +242,7 @@ func TestAutoCorrectAttr(t *testing.T) {
 }
 
 func TestAutoFocusAttr(t *testing.T) {
-	got := string(progress.New().AutoFocus().Render())
+	got := string(progress.New().AutoFocus().RenderBytes())
 	want := `<progress autofocus></progress>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -250,7 +250,7 @@ func TestAutoFocusAttr(t *testing.T) {
 }
 
 func TestContentEditableAttr(t *testing.T) {
-	got := string(progress.New().ContentEditable(contenteditable.True).Render())
+	got := string(progress.New().ContentEditable(contenteditable.True).RenderBytes())
 	want := `<progress contenteditable="true"></progress>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -258,7 +258,7 @@ func TestContentEditableAttr(t *testing.T) {
 }
 
 func TestSetDataAttr(t *testing.T) {
-	got := string(progress.New().SetData("user-id", "test-value").Render())
+	got := string(progress.New().SetData("user-id", "test-value").RenderBytes())
 	want := `<progress data-user-id="test-value"></progress>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -266,7 +266,7 @@ func TestSetDataAttr(t *testing.T) {
 }
 
 func TestDirAttr(t *testing.T) {
-	got := string(progress.New().Dir(dir.LeftToRight).Render())
+	got := string(progress.New().Dir(dir.LeftToRight).RenderBytes())
 	want := `<progress dir="ltr"></progress>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -274,7 +274,7 @@ func TestDirAttr(t *testing.T) {
 }
 
 func TestDraggableAttr(t *testing.T) {
-	got := string(progress.New().Draggable().Render())
+	got := string(progress.New().Draggable().RenderBytes())
 	want := `<progress draggable></progress>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -282,7 +282,7 @@ func TestDraggableAttr(t *testing.T) {
 }
 
 func TestEnterKeyHintAttr(t *testing.T) {
-	got := string(progress.New().EnterKeyHint(enterkeyhint.Enter).Render())
+	got := string(progress.New().EnterKeyHint(enterkeyhint.Enter).RenderBytes())
 	want := `<progress enterkeyhint="enter"></progress>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -290,7 +290,7 @@ func TestEnterKeyHintAttr(t *testing.T) {
 }
 
 func TestExportPartsAttr(t *testing.T) {
-	got := string(progress.New().ExportParts("test").Render())
+	got := string(progress.New().ExportParts("test").RenderBytes())
 	want := `<progress exportparts="test"></progress>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -298,7 +298,7 @@ func TestExportPartsAttr(t *testing.T) {
 }
 
 func TestInertAttr(t *testing.T) {
-	got := string(progress.New().Inert().Render())
+	got := string(progress.New().Inert().RenderBytes())
 	want := `<progress inert></progress>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -306,7 +306,7 @@ func TestInertAttr(t *testing.T) {
 }
 
 func TestInputModeAttr(t *testing.T) {
-	got := string(progress.New().InputMode(inputmode.None).Render())
+	got := string(progress.New().InputMode(inputmode.None).RenderBytes())
 	want := `<progress inputmode="none"></progress>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -314,7 +314,7 @@ func TestInputModeAttr(t *testing.T) {
 }
 
 func TestIsAttr(t *testing.T) {
-	got := string(progress.New().Is("test").Render())
+	got := string(progress.New().Is("test").RenderBytes())
 	want := `<progress is="test"></progress>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -322,7 +322,7 @@ func TestIsAttr(t *testing.T) {
 }
 
 func TestItemIdAttr(t *testing.T) {
-	got := string(progress.New().ItemId("test").Render())
+	got := string(progress.New().ItemId("test").RenderBytes())
 	want := `<progress itemid="test"></progress>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -330,7 +330,7 @@ func TestItemIdAttr(t *testing.T) {
 }
 
 func TestItemPropAttr(t *testing.T) {
-	got := string(progress.New().ItemProp("test").Render())
+	got := string(progress.New().ItemProp("test").RenderBytes())
 	want := `<progress itemprop="test"></progress>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -338,7 +338,7 @@ func TestItemPropAttr(t *testing.T) {
 }
 
 func TestItemRefAttr(t *testing.T) {
-	got := string(progress.New().ItemRef("test").Render())
+	got := string(progress.New().ItemRef("test").RenderBytes())
 	want := `<progress itemref="test"></progress>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -346,7 +346,7 @@ func TestItemRefAttr(t *testing.T) {
 }
 
 func TestItemScopeAttr(t *testing.T) {
-	got := string(progress.New().ItemScope().Render())
+	got := string(progress.New().ItemScope().RenderBytes())
 	want := `<progress itemscope></progress>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -354,7 +354,7 @@ func TestItemScopeAttr(t *testing.T) {
 }
 
 func TestItemTypeAttr(t *testing.T) {
-	got := string(progress.New().ItemType("test").Render())
+	got := string(progress.New().ItemType("test").RenderBytes())
 	want := `<progress itemtype="test"></progress>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -362,7 +362,7 @@ func TestItemTypeAttr(t *testing.T) {
 }
 
 func TestNonceAttr(t *testing.T) {
-	got := string(progress.New().Nonce("test").Render())
+	got := string(progress.New().Nonce("test").RenderBytes())
 	want := `<progress nonce="test"></progress>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -370,7 +370,7 @@ func TestNonceAttr(t *testing.T) {
 }
 
 func TestPartAttr(t *testing.T) {
-	got := string(progress.New().Part("test").Render())
+	got := string(progress.New().Part("test").RenderBytes())
 	want := `<progress part="test"></progress>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -379,7 +379,7 @@ func TestPartAttr(t *testing.T) {
 
 func TestPartMulti(t *testing.T) {
 	// Test multiple chained calls
-	got := string(progress.New().Part("one").Part("two").Part("three").Render())
+	got := string(progress.New().Part("one").Part("two").Part("three").RenderBytes())
 	want := `<progress part="one two three"></progress>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -387,7 +387,7 @@ func TestPartMulti(t *testing.T) {
 }
 
 func TestPopoverAttr(t *testing.T) {
-	got := string(progress.New().Popover(popover.Auto).Render())
+	got := string(progress.New().Popover(popover.Auto).RenderBytes())
 	want := `<progress popover="auto"></progress>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -395,7 +395,7 @@ func TestPopoverAttr(t *testing.T) {
 }
 
 func TestSlotAttr(t *testing.T) {
-	got := string(progress.New().Slot("test").Render())
+	got := string(progress.New().Slot("test").RenderBytes())
 	want := `<progress slot="test"></progress>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -403,7 +403,7 @@ func TestSlotAttr(t *testing.T) {
 }
 
 func TestSpellCheckAttr(t *testing.T) {
-	got := string(progress.New().SpellCheck(spellcheck.True).Render())
+	got := string(progress.New().SpellCheck(spellcheck.True).RenderBytes())
 	want := `<progress spellcheck="true"></progress>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -411,7 +411,7 @@ func TestSpellCheckAttr(t *testing.T) {
 }
 
 func TestTranslateAttr(t *testing.T) {
-	got := string(progress.New().Translate(translate.Yes).Render())
+	got := string(progress.New().Translate(translate.Yes).RenderBytes())
 	want := `<progress translate="yes"></progress>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -419,7 +419,7 @@ func TestTranslateAttr(t *testing.T) {
 }
 
 func TestVirtualKeyboardPolicyAttr(t *testing.T) {
-	got := string(progress.New().VirtualKeyboardPolicy(virtualkeyboardpolicy.Auto).Render())
+	got := string(progress.New().VirtualKeyboardPolicy(virtualkeyboardpolicy.Auto).RenderBytes())
 	want := `<progress virtualkeyboardpolicy="auto"></progress>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -427,7 +427,7 @@ func TestVirtualKeyboardPolicyAttr(t *testing.T) {
 }
 
 func TestWritingSuggestionsAttr(t *testing.T) {
-	got := string(progress.New().WritingSuggestions(writingsuggestions.True).Render())
+	got := string(progress.New().WritingSuggestions(writingsuggestions.True).RenderBytes())
 	want := `<progress writingsuggestions="true"></progress>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -435,7 +435,7 @@ func TestWritingSuggestionsAttr(t *testing.T) {
 }
 
 func TestOnClickAttr(t *testing.T) {
-	got := string(progress.New().OnClick("test").Render())
+	got := string(progress.New().OnClick("test").RenderBytes())
 	want := `<progress onclick="test"></progress>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -443,7 +443,7 @@ func TestOnClickAttr(t *testing.T) {
 }
 
 func TestOnChangeAttr(t *testing.T) {
-	got := string(progress.New().OnChange("test").Render())
+	got := string(progress.New().OnChange("test").RenderBytes())
 	want := `<progress onchange="test"></progress>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -451,7 +451,7 @@ func TestOnChangeAttr(t *testing.T) {
 }
 
 func TestOnInputAttr(t *testing.T) {
-	got := string(progress.New().OnInput("test").Render())
+	got := string(progress.New().OnInput("test").RenderBytes())
 	want := `<progress oninput="test"></progress>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -459,7 +459,7 @@ func TestOnInputAttr(t *testing.T) {
 }
 
 func TestOnFocusAttr(t *testing.T) {
-	got := string(progress.New().OnFocus("test").Render())
+	got := string(progress.New().OnFocus("test").RenderBytes())
 	want := `<progress onfocus="test"></progress>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -467,7 +467,7 @@ func TestOnFocusAttr(t *testing.T) {
 }
 
 func TestOnBlurAttr(t *testing.T) {
-	got := string(progress.New().OnBlur("test").Render())
+	got := string(progress.New().OnBlur("test").RenderBytes())
 	want := `<progress onblur="test"></progress>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -475,7 +475,7 @@ func TestOnBlurAttr(t *testing.T) {
 }
 
 func TestOnSubmitAttr(t *testing.T) {
-	got := string(progress.New().OnSubmit("test").Render())
+	got := string(progress.New().OnSubmit("test").RenderBytes())
 	want := `<progress onsubmit="test"></progress>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -483,7 +483,7 @@ func TestOnSubmitAttr(t *testing.T) {
 }
 
 func TestOnLoadAttr(t *testing.T) {
-	got := string(progress.New().OnLoad("test").Render())
+	got := string(progress.New().OnLoad("test").RenderBytes())
 	want := `<progress onload="test"></progress>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -491,7 +491,7 @@ func TestOnLoadAttr(t *testing.T) {
 }
 
 func TestOnErrorAttr(t *testing.T) {
-	got := string(progress.New().OnError("test").Render())
+	got := string(progress.New().OnError("test").RenderBytes())
 	want := `<progress onerror="test"></progress>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -499,7 +499,7 @@ func TestOnErrorAttr(t *testing.T) {
 }
 
 func TestSetEventAttr(t *testing.T) {
-	got := string(progress.New().SetEvent("onclick", "test-value").Render())
+	got := string(progress.New().SetEvent("onclick", "test-value").RenderBytes())
 	want := `<progress onclick="test-value"></progress>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -507,7 +507,7 @@ func TestSetEventAttr(t *testing.T) {
 }
 
 func TestOnAbortAttr(t *testing.T) {
-	got := string(progress.New().OnAbort("test").Render())
+	got := string(progress.New().OnAbort("test").RenderBytes())
 	want := `<progress onabort="test"></progress>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -515,7 +515,7 @@ func TestOnAbortAttr(t *testing.T) {
 }
 
 func TestOnAutoCompleteAttr(t *testing.T) {
-	got := string(progress.New().OnAutoComplete("test").Render())
+	got := string(progress.New().OnAutoComplete("test").RenderBytes())
 	want := `<progress onautocomplete="test"></progress>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -523,7 +523,7 @@ func TestOnAutoCompleteAttr(t *testing.T) {
 }
 
 func TestOnAutoCompleteErrorAttr(t *testing.T) {
-	got := string(progress.New().OnAutoCompleteError("test").Render())
+	got := string(progress.New().OnAutoCompleteError("test").RenderBytes())
 	want := `<progress onautocompleteerror="test"></progress>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -531,7 +531,7 @@ func TestOnAutoCompleteErrorAttr(t *testing.T) {
 }
 
 func TestOnCancelAttr(t *testing.T) {
-	got := string(progress.New().OnCancel("test").Render())
+	got := string(progress.New().OnCancel("test").RenderBytes())
 	want := `<progress oncancel="test"></progress>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -539,7 +539,7 @@ func TestOnCancelAttr(t *testing.T) {
 }
 
 func TestOnCanPlayAttr(t *testing.T) {
-	got := string(progress.New().OnCanPlay("test").Render())
+	got := string(progress.New().OnCanPlay("test").RenderBytes())
 	want := `<progress oncanplay="test"></progress>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -547,7 +547,7 @@ func TestOnCanPlayAttr(t *testing.T) {
 }
 
 func TestOnCanPlayThroughAttr(t *testing.T) {
-	got := string(progress.New().OnCanPlayThrough("test").Render())
+	got := string(progress.New().OnCanPlayThrough("test").RenderBytes())
 	want := `<progress oncanplaythrough="test"></progress>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -555,7 +555,7 @@ func TestOnCanPlayThroughAttr(t *testing.T) {
 }
 
 func TestOnCloseAttr(t *testing.T) {
-	got := string(progress.New().OnClose("test").Render())
+	got := string(progress.New().OnClose("test").RenderBytes())
 	want := `<progress onclose="test"></progress>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -563,7 +563,7 @@ func TestOnCloseAttr(t *testing.T) {
 }
 
 func TestOnContextMenuAttr(t *testing.T) {
-	got := string(progress.New().OnContextMenu("test").Render())
+	got := string(progress.New().OnContextMenu("test").RenderBytes())
 	want := `<progress oncontextmenu="test"></progress>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -571,7 +571,7 @@ func TestOnContextMenuAttr(t *testing.T) {
 }
 
 func TestOnCueChangeAttr(t *testing.T) {
-	got := string(progress.New().OnCueChange("test").Render())
+	got := string(progress.New().OnCueChange("test").RenderBytes())
 	want := `<progress oncuechange="test"></progress>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -579,7 +579,7 @@ func TestOnCueChangeAttr(t *testing.T) {
 }
 
 func TestOnDblClickAttr(t *testing.T) {
-	got := string(progress.New().OnDblClick("test").Render())
+	got := string(progress.New().OnDblClick("test").RenderBytes())
 	want := `<progress ondblclick="test"></progress>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -587,7 +587,7 @@ func TestOnDblClickAttr(t *testing.T) {
 }
 
 func TestOnDragAttr(t *testing.T) {
-	got := string(progress.New().OnDrag("test").Render())
+	got := string(progress.New().OnDrag("test").RenderBytes())
 	want := `<progress ondrag="test"></progress>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -595,7 +595,7 @@ func TestOnDragAttr(t *testing.T) {
 }
 
 func TestOnDragEndAttr(t *testing.T) {
-	got := string(progress.New().OnDragEnd("test").Render())
+	got := string(progress.New().OnDragEnd("test").RenderBytes())
 	want := `<progress ondragend="test"></progress>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -603,7 +603,7 @@ func TestOnDragEndAttr(t *testing.T) {
 }
 
 func TestOnDragEnterAttr(t *testing.T) {
-	got := string(progress.New().OnDragEnter("test").Render())
+	got := string(progress.New().OnDragEnter("test").RenderBytes())
 	want := `<progress ondragenter="test"></progress>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -611,7 +611,7 @@ func TestOnDragEnterAttr(t *testing.T) {
 }
 
 func TestOnDragLeaveAttr(t *testing.T) {
-	got := string(progress.New().OnDragLeave("test").Render())
+	got := string(progress.New().OnDragLeave("test").RenderBytes())
 	want := `<progress ondragleave="test"></progress>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -619,7 +619,7 @@ func TestOnDragLeaveAttr(t *testing.T) {
 }
 
 func TestOnDragOverAttr(t *testing.T) {
-	got := string(progress.New().OnDragOver("test").Render())
+	got := string(progress.New().OnDragOver("test").RenderBytes())
 	want := `<progress ondragover="test"></progress>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -627,7 +627,7 @@ func TestOnDragOverAttr(t *testing.T) {
 }
 
 func TestOnDragStartAttr(t *testing.T) {
-	got := string(progress.New().OnDragStart("test").Render())
+	got := string(progress.New().OnDragStart("test").RenderBytes())
 	want := `<progress ondragstart="test"></progress>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -635,7 +635,7 @@ func TestOnDragStartAttr(t *testing.T) {
 }
 
 func TestOnDropAttr(t *testing.T) {
-	got := string(progress.New().OnDrop("test").Render())
+	got := string(progress.New().OnDrop("test").RenderBytes())
 	want := `<progress ondrop="test"></progress>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -643,7 +643,7 @@ func TestOnDropAttr(t *testing.T) {
 }
 
 func TestOnDurationChangeAttr(t *testing.T) {
-	got := string(progress.New().OnDurationChange("test").Render())
+	got := string(progress.New().OnDurationChange("test").RenderBytes())
 	want := `<progress ondurationchange="test"></progress>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -651,7 +651,7 @@ func TestOnDurationChangeAttr(t *testing.T) {
 }
 
 func TestOnEmptiedAttr(t *testing.T) {
-	got := string(progress.New().OnEmptied("test").Render())
+	got := string(progress.New().OnEmptied("test").RenderBytes())
 	want := `<progress onemptied="test"></progress>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -659,7 +659,7 @@ func TestOnEmptiedAttr(t *testing.T) {
 }
 
 func TestOnEndedAttr(t *testing.T) {
-	got := string(progress.New().OnEnded("test").Render())
+	got := string(progress.New().OnEnded("test").RenderBytes())
 	want := `<progress onended="test"></progress>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -667,7 +667,7 @@ func TestOnEndedAttr(t *testing.T) {
 }
 
 func TestOnInvalidAttr(t *testing.T) {
-	got := string(progress.New().OnInvalid("test").Render())
+	got := string(progress.New().OnInvalid("test").RenderBytes())
 	want := `<progress oninvalid="test"></progress>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -675,7 +675,7 @@ func TestOnInvalidAttr(t *testing.T) {
 }
 
 func TestOnKeyDownAttr(t *testing.T) {
-	got := string(progress.New().OnKeyDown("test").Render())
+	got := string(progress.New().OnKeyDown("test").RenderBytes())
 	want := `<progress onkeydown="test"></progress>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -683,7 +683,7 @@ func TestOnKeyDownAttr(t *testing.T) {
 }
 
 func TestOnKeyPressAttr(t *testing.T) {
-	got := string(progress.New().OnKeyPress("test").Render())
+	got := string(progress.New().OnKeyPress("test").RenderBytes())
 	want := `<progress onkeypress="test"></progress>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -691,7 +691,7 @@ func TestOnKeyPressAttr(t *testing.T) {
 }
 
 func TestOnKeyUpAttr(t *testing.T) {
-	got := string(progress.New().OnKeyUp("test").Render())
+	got := string(progress.New().OnKeyUp("test").RenderBytes())
 	want := `<progress onkeyup="test"></progress>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -699,7 +699,7 @@ func TestOnKeyUpAttr(t *testing.T) {
 }
 
 func TestOnLoadedDataAttr(t *testing.T) {
-	got := string(progress.New().OnLoadedData("test").Render())
+	got := string(progress.New().OnLoadedData("test").RenderBytes())
 	want := `<progress onloadeddata="test"></progress>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -707,7 +707,7 @@ func TestOnLoadedDataAttr(t *testing.T) {
 }
 
 func TestOnLoadedMetadataAttr(t *testing.T) {
-	got := string(progress.New().OnLoadedMetadata("test").Render())
+	got := string(progress.New().OnLoadedMetadata("test").RenderBytes())
 	want := `<progress onloadedmetadata="test"></progress>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -715,7 +715,7 @@ func TestOnLoadedMetadataAttr(t *testing.T) {
 }
 
 func TestOnLoadStartAttr(t *testing.T) {
-	got := string(progress.New().OnLoadStart("test").Render())
+	got := string(progress.New().OnLoadStart("test").RenderBytes())
 	want := `<progress onloadstart="test"></progress>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -723,7 +723,7 @@ func TestOnLoadStartAttr(t *testing.T) {
 }
 
 func TestOnMouseDownAttr(t *testing.T) {
-	got := string(progress.New().OnMouseDown("test").Render())
+	got := string(progress.New().OnMouseDown("test").RenderBytes())
 	want := `<progress onmousedown="test"></progress>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -731,7 +731,7 @@ func TestOnMouseDownAttr(t *testing.T) {
 }
 
 func TestOnMouseEnterAttr(t *testing.T) {
-	got := string(progress.New().OnMouseEnter("test").Render())
+	got := string(progress.New().OnMouseEnter("test").RenderBytes())
 	want := `<progress onmouseenter="test"></progress>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -739,7 +739,7 @@ func TestOnMouseEnterAttr(t *testing.T) {
 }
 
 func TestOnMouseLeaveAttr(t *testing.T) {
-	got := string(progress.New().OnMouseLeave("test").Render())
+	got := string(progress.New().OnMouseLeave("test").RenderBytes())
 	want := `<progress onmouseleave="test"></progress>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -747,7 +747,7 @@ func TestOnMouseLeaveAttr(t *testing.T) {
 }
 
 func TestOnMouseMoveAttr(t *testing.T) {
-	got := string(progress.New().OnMouseMove("test").Render())
+	got := string(progress.New().OnMouseMove("test").RenderBytes())
 	want := `<progress onmousemove="test"></progress>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -755,7 +755,7 @@ func TestOnMouseMoveAttr(t *testing.T) {
 }
 
 func TestOnMouseOutAttr(t *testing.T) {
-	got := string(progress.New().OnMouseOut("test").Render())
+	got := string(progress.New().OnMouseOut("test").RenderBytes())
 	want := `<progress onmouseout="test"></progress>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -763,7 +763,7 @@ func TestOnMouseOutAttr(t *testing.T) {
 }
 
 func TestOnMouseOverAttr(t *testing.T) {
-	got := string(progress.New().OnMouseOver("test").Render())
+	got := string(progress.New().OnMouseOver("test").RenderBytes())
 	want := `<progress onmouseover="test"></progress>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -771,7 +771,7 @@ func TestOnMouseOverAttr(t *testing.T) {
 }
 
 func TestOnMouseUpAttr(t *testing.T) {
-	got := string(progress.New().OnMouseUp("test").Render())
+	got := string(progress.New().OnMouseUp("test").RenderBytes())
 	want := `<progress onmouseup="test"></progress>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -779,7 +779,7 @@ func TestOnMouseUpAttr(t *testing.T) {
 }
 
 func TestOnMouseWheelAttr(t *testing.T) {
-	got := string(progress.New().OnMouseWheel("test").Render())
+	got := string(progress.New().OnMouseWheel("test").RenderBytes())
 	want := `<progress onmousewheel="test"></progress>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -787,7 +787,7 @@ func TestOnMouseWheelAttr(t *testing.T) {
 }
 
 func TestOnPauseAttr(t *testing.T) {
-	got := string(progress.New().OnPause("test").Render())
+	got := string(progress.New().OnPause("test").RenderBytes())
 	want := `<progress onpause="test"></progress>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -795,7 +795,7 @@ func TestOnPauseAttr(t *testing.T) {
 }
 
 func TestOnPlayAttr(t *testing.T) {
-	got := string(progress.New().OnPlay("test").Render())
+	got := string(progress.New().OnPlay("test").RenderBytes())
 	want := `<progress onplay="test"></progress>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -803,7 +803,7 @@ func TestOnPlayAttr(t *testing.T) {
 }
 
 func TestOnPlayingAttr(t *testing.T) {
-	got := string(progress.New().OnPlaying("test").Render())
+	got := string(progress.New().OnPlaying("test").RenderBytes())
 	want := `<progress onplaying="test"></progress>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -811,7 +811,7 @@ func TestOnPlayingAttr(t *testing.T) {
 }
 
 func TestOnProgressAttr(t *testing.T) {
-	got := string(progress.New().OnProgress("test").Render())
+	got := string(progress.New().OnProgress("test").RenderBytes())
 	want := `<progress onprogress="test"></progress>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -819,7 +819,7 @@ func TestOnProgressAttr(t *testing.T) {
 }
 
 func TestOnRateChangeAttr(t *testing.T) {
-	got := string(progress.New().OnRateChange("test").Render())
+	got := string(progress.New().OnRateChange("test").RenderBytes())
 	want := `<progress onratechange="test"></progress>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -827,7 +827,7 @@ func TestOnRateChangeAttr(t *testing.T) {
 }
 
 func TestOnResetAttr(t *testing.T) {
-	got := string(progress.New().OnReset("test").Render())
+	got := string(progress.New().OnReset("test").RenderBytes())
 	want := `<progress onreset="test"></progress>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -835,7 +835,7 @@ func TestOnResetAttr(t *testing.T) {
 }
 
 func TestOnResizeAttr(t *testing.T) {
-	got := string(progress.New().OnResize("test").Render())
+	got := string(progress.New().OnResize("test").RenderBytes())
 	want := `<progress onresize="test"></progress>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -843,7 +843,7 @@ func TestOnResizeAttr(t *testing.T) {
 }
 
 func TestOnScrollAttr(t *testing.T) {
-	got := string(progress.New().OnScroll("test").Render())
+	got := string(progress.New().OnScroll("test").RenderBytes())
 	want := `<progress onscroll="test"></progress>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -851,7 +851,7 @@ func TestOnScrollAttr(t *testing.T) {
 }
 
 func TestOnSeekedAttr(t *testing.T) {
-	got := string(progress.New().OnSeeked("test").Render())
+	got := string(progress.New().OnSeeked("test").RenderBytes())
 	want := `<progress onseeked="test"></progress>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -859,7 +859,7 @@ func TestOnSeekedAttr(t *testing.T) {
 }
 
 func TestOnSeekingAttr(t *testing.T) {
-	got := string(progress.New().OnSeeking("test").Render())
+	got := string(progress.New().OnSeeking("test").RenderBytes())
 	want := `<progress onseeking="test"></progress>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -867,7 +867,7 @@ func TestOnSeekingAttr(t *testing.T) {
 }
 
 func TestOnSelectAttr(t *testing.T) {
-	got := string(progress.New().OnSelect("test").Render())
+	got := string(progress.New().OnSelect("test").RenderBytes())
 	want := `<progress onselect="test"></progress>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -875,7 +875,7 @@ func TestOnSelectAttr(t *testing.T) {
 }
 
 func TestOnShowAttr(t *testing.T) {
-	got := string(progress.New().OnShow("test").Render())
+	got := string(progress.New().OnShow("test").RenderBytes())
 	want := `<progress onshow="test"></progress>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -883,7 +883,7 @@ func TestOnShowAttr(t *testing.T) {
 }
 
 func TestOnSortAttr(t *testing.T) {
-	got := string(progress.New().OnSort("test").Render())
+	got := string(progress.New().OnSort("test").RenderBytes())
 	want := `<progress onsort="test"></progress>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -891,7 +891,7 @@ func TestOnSortAttr(t *testing.T) {
 }
 
 func TestOnStalledAttr(t *testing.T) {
-	got := string(progress.New().OnStalled("test").Render())
+	got := string(progress.New().OnStalled("test").RenderBytes())
 	want := `<progress onstalled="test"></progress>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -899,7 +899,7 @@ func TestOnStalledAttr(t *testing.T) {
 }
 
 func TestOnSuspendAttr(t *testing.T) {
-	got := string(progress.New().OnSuspend("test").Render())
+	got := string(progress.New().OnSuspend("test").RenderBytes())
 	want := `<progress onsuspend="test"></progress>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -907,7 +907,7 @@ func TestOnSuspendAttr(t *testing.T) {
 }
 
 func TestOnTimeUpdateAttr(t *testing.T) {
-	got := string(progress.New().OnTimeUpdate("test").Render())
+	got := string(progress.New().OnTimeUpdate("test").RenderBytes())
 	want := `<progress ontimeupdate="test"></progress>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -915,7 +915,7 @@ func TestOnTimeUpdateAttr(t *testing.T) {
 }
 
 func TestOnToggleAttr(t *testing.T) {
-	got := string(progress.New().OnToggle("test").Render())
+	got := string(progress.New().OnToggle("test").RenderBytes())
 	want := `<progress ontoggle="test"></progress>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -923,7 +923,7 @@ func TestOnToggleAttr(t *testing.T) {
 }
 
 func TestOnVolumeChangeAttr(t *testing.T) {
-	got := string(progress.New().OnVolumeChange("test").Render())
+	got := string(progress.New().OnVolumeChange("test").RenderBytes())
 	want := `<progress onvolumechange="test"></progress>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -931,7 +931,7 @@ func TestOnVolumeChangeAttr(t *testing.T) {
 }
 
 func TestOnWaitingAttr(t *testing.T) {
-	got := string(progress.New().OnWaiting("test").Render())
+	got := string(progress.New().OnWaiting("test").RenderBytes())
 	want := `<progress onwaiting="test"></progress>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -939,7 +939,7 @@ func TestOnWaitingAttr(t *testing.T) {
 }
 
 func TestOnAuxClickAttr(t *testing.T) {
-	got := string(progress.New().OnAuxClick("test").Render())
+	got := string(progress.New().OnAuxClick("test").RenderBytes())
 	want := `<progress onauxclick="test"></progress>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -947,7 +947,7 @@ func TestOnAuxClickAttr(t *testing.T) {
 }
 
 func TestOnWheelAttr(t *testing.T) {
-	got := string(progress.New().OnWheel("test").Render())
+	got := string(progress.New().OnWheel("test").RenderBytes())
 	want := `<progress onwheel="test"></progress>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -955,7 +955,7 @@ func TestOnWheelAttr(t *testing.T) {
 }
 
 func TestOnCopyAttr(t *testing.T) {
-	got := string(progress.New().OnCopy("test").Render())
+	got := string(progress.New().OnCopy("test").RenderBytes())
 	want := `<progress oncopy="test"></progress>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -963,7 +963,7 @@ func TestOnCopyAttr(t *testing.T) {
 }
 
 func TestOnCutAttr(t *testing.T) {
-	got := string(progress.New().OnCut("test").Render())
+	got := string(progress.New().OnCut("test").RenderBytes())
 	want := `<progress oncut="test"></progress>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -971,7 +971,7 @@ func TestOnCutAttr(t *testing.T) {
 }
 
 func TestOnPasteAttr(t *testing.T) {
-	got := string(progress.New().OnPaste("test").Render())
+	got := string(progress.New().OnPaste("test").RenderBytes())
 	want := `<progress onpaste="test"></progress>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -979,7 +979,7 @@ func TestOnPasteAttr(t *testing.T) {
 }
 
 func TestOnScrollEndAttr(t *testing.T) {
-	got := string(progress.New().OnScrollEnd("test").Render())
+	got := string(progress.New().OnScrollEnd("test").RenderBytes())
 	want := `<progress onscrollend="test"></progress>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -987,7 +987,7 @@ func TestOnScrollEndAttr(t *testing.T) {
 }
 
 func TestOnFormDataAttr(t *testing.T) {
-	got := string(progress.New().OnFormData("test").Render())
+	got := string(progress.New().OnFormData("test").RenderBytes())
 	want := `<progress onformdata="test"></progress>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -995,7 +995,7 @@ func TestOnFormDataAttr(t *testing.T) {
 }
 
 func TestOnAnimationCancelAttr(t *testing.T) {
-	got := string(progress.New().OnAnimationCancel("test").Render())
+	got := string(progress.New().OnAnimationCancel("test").RenderBytes())
 	want := `<progress onanimationcancel="test"></progress>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -1003,7 +1003,7 @@ func TestOnAnimationCancelAttr(t *testing.T) {
 }
 
 func TestOnAnimationEndAttr(t *testing.T) {
-	got := string(progress.New().OnAnimationEnd("test").Render())
+	got := string(progress.New().OnAnimationEnd("test").RenderBytes())
 	want := `<progress onanimationend="test"></progress>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -1011,7 +1011,7 @@ func TestOnAnimationEndAttr(t *testing.T) {
 }
 
 func TestOnAnimationIterationAttr(t *testing.T) {
-	got := string(progress.New().OnAnimationIteration("test").Render())
+	got := string(progress.New().OnAnimationIteration("test").RenderBytes())
 	want := `<progress onanimationiteration="test"></progress>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -1019,7 +1019,7 @@ func TestOnAnimationIterationAttr(t *testing.T) {
 }
 
 func TestOnAnimationStartAttr(t *testing.T) {
-	got := string(progress.New().OnAnimationStart("test").Render())
+	got := string(progress.New().OnAnimationStart("test").RenderBytes())
 	want := `<progress onanimationstart="test"></progress>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -1027,7 +1027,7 @@ func TestOnAnimationStartAttr(t *testing.T) {
 }
 
 func TestOnTransitionCancelAttr(t *testing.T) {
-	got := string(progress.New().OnTransitionCancel("test").Render())
+	got := string(progress.New().OnTransitionCancel("test").RenderBytes())
 	want := `<progress ontransitioncancel="test"></progress>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -1035,7 +1035,7 @@ func TestOnTransitionCancelAttr(t *testing.T) {
 }
 
 func TestOnTransitionEndAttr(t *testing.T) {
-	got := string(progress.New().OnTransitionEnd("test").Render())
+	got := string(progress.New().OnTransitionEnd("test").RenderBytes())
 	want := `<progress ontransitionend="test"></progress>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -1043,7 +1043,7 @@ func TestOnTransitionEndAttr(t *testing.T) {
 }
 
 func TestOnTransitionRunAttr(t *testing.T) {
-	got := string(progress.New().OnTransitionRun("test").Render())
+	got := string(progress.New().OnTransitionRun("test").RenderBytes())
 	want := `<progress ontransitionrun="test"></progress>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -1051,7 +1051,7 @@ func TestOnTransitionRunAttr(t *testing.T) {
 }
 
 func TestOnTransitionStartAttr(t *testing.T) {
-	got := string(progress.New().OnTransitionStart("test").Render())
+	got := string(progress.New().OnTransitionStart("test").RenderBytes())
 	want := `<progress ontransitionstart="test"></progress>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -1059,7 +1059,7 @@ func TestOnTransitionStartAttr(t *testing.T) {
 }
 
 func TestOnBeforeToggleAttr(t *testing.T) {
-	got := string(progress.New().OnBeforeToggle("test").Render())
+	got := string(progress.New().OnBeforeToggle("test").RenderBytes())
 	want := `<progress onbeforetoggle="test"></progress>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -1067,7 +1067,7 @@ func TestOnBeforeToggleAttr(t *testing.T) {
 }
 
 func TestOnBeforeInputAttr(t *testing.T) {
-	got := string(progress.New().OnBeforeInput("test").Render())
+	got := string(progress.New().OnBeforeInput("test").RenderBytes())
 	want := `<progress onbeforeinput="test"></progress>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -1075,7 +1075,7 @@ func TestOnBeforeInputAttr(t *testing.T) {
 }
 
 func TestOnBeforeMatchAttr(t *testing.T) {
-	got := string(progress.New().OnBeforeMatch("test").Render())
+	got := string(progress.New().OnBeforeMatch("test").RenderBytes())
 	want := `<progress onbeforematch="test"></progress>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -1083,7 +1083,7 @@ func TestOnBeforeMatchAttr(t *testing.T) {
 }
 
 func TestOnCommandAttr(t *testing.T) {
-	got := string(progress.New().OnCommand("test").Render())
+	got := string(progress.New().OnCommand("test").RenderBytes())
 	want := `<progress oncommand="test"></progress>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -1091,7 +1091,7 @@ func TestOnCommandAttr(t *testing.T) {
 }
 
 func TestOnContextLostAttr(t *testing.T) {
-	got := string(progress.New().OnContextLost("test").Render())
+	got := string(progress.New().OnContextLost("test").RenderBytes())
 	want := `<progress oncontextlost="test"></progress>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -1099,7 +1099,7 @@ func TestOnContextLostAttr(t *testing.T) {
 }
 
 func TestOnContextRestoredAttr(t *testing.T) {
-	got := string(progress.New().OnContextRestored("test").Render())
+	got := string(progress.New().OnContextRestored("test").RenderBytes())
 	want := `<progress oncontextrestored="test"></progress>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -1107,7 +1107,7 @@ func TestOnContextRestoredAttr(t *testing.T) {
 }
 
 func TestOnSecurityPolicyViolationAttr(t *testing.T) {
-	got := string(progress.New().OnSecurityPolicyViolation("test").Render())
+	got := string(progress.New().OnSecurityPolicyViolation("test").RenderBytes())
 	want := `<progress onsecuritypolicyviolation="test"></progress>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -1115,7 +1115,7 @@ func TestOnSecurityPolicyViolationAttr(t *testing.T) {
 }
 
 func TestOnSlotChangeAttr(t *testing.T) {
-	got := string(progress.New().OnSlotChange("test").Render())
+	got := string(progress.New().OnSlotChange("test").RenderBytes())
 	want := `<progress onslotchange="test"></progress>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -1123,7 +1123,7 @@ func TestOnSlotChangeAttr(t *testing.T) {
 }
 
 func TestOnPointerDownAttr(t *testing.T) {
-	got := string(progress.New().OnPointerDown("test").Render())
+	got := string(progress.New().OnPointerDown("test").RenderBytes())
 	want := `<progress onpointerdown="test"></progress>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -1131,7 +1131,7 @@ func TestOnPointerDownAttr(t *testing.T) {
 }
 
 func TestOnPointerUpAttr(t *testing.T) {
-	got := string(progress.New().OnPointerUp("test").Render())
+	got := string(progress.New().OnPointerUp("test").RenderBytes())
 	want := `<progress onpointerup="test"></progress>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -1139,7 +1139,7 @@ func TestOnPointerUpAttr(t *testing.T) {
 }
 
 func TestOnPointerMoveAttr(t *testing.T) {
-	got := string(progress.New().OnPointerMove("test").Render())
+	got := string(progress.New().OnPointerMove("test").RenderBytes())
 	want := `<progress onpointermove="test"></progress>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -1147,7 +1147,7 @@ func TestOnPointerMoveAttr(t *testing.T) {
 }
 
 func TestOnPointerEnterAttr(t *testing.T) {
-	got := string(progress.New().OnPointerEnter("test").Render())
+	got := string(progress.New().OnPointerEnter("test").RenderBytes())
 	want := `<progress onpointerenter="test"></progress>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -1155,7 +1155,7 @@ func TestOnPointerEnterAttr(t *testing.T) {
 }
 
 func TestOnPointerLeaveAttr(t *testing.T) {
-	got := string(progress.New().OnPointerLeave("test").Render())
+	got := string(progress.New().OnPointerLeave("test").RenderBytes())
 	want := `<progress onpointerleave="test"></progress>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -1163,7 +1163,7 @@ func TestOnPointerLeaveAttr(t *testing.T) {
 }
 
 func TestOnPointerOverAttr(t *testing.T) {
-	got := string(progress.New().OnPointerOver("test").Render())
+	got := string(progress.New().OnPointerOver("test").RenderBytes())
 	want := `<progress onpointerover="test"></progress>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -1171,7 +1171,7 @@ func TestOnPointerOverAttr(t *testing.T) {
 }
 
 func TestOnPointerOutAttr(t *testing.T) {
-	got := string(progress.New().OnPointerOut("test").Render())
+	got := string(progress.New().OnPointerOut("test").RenderBytes())
 	want := `<progress onpointerout="test"></progress>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -1179,7 +1179,7 @@ func TestOnPointerOutAttr(t *testing.T) {
 }
 
 func TestOnPointerCancelAttr(t *testing.T) {
-	got := string(progress.New().OnPointerCancel("test").Render())
+	got := string(progress.New().OnPointerCancel("test").RenderBytes())
 	want := `<progress onpointercancel="test"></progress>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -1187,7 +1187,7 @@ func TestOnPointerCancelAttr(t *testing.T) {
 }
 
 func TestOnGotPointerCaptureAttr(t *testing.T) {
-	got := string(progress.New().OnGotPointerCapture("test").Render())
+	got := string(progress.New().OnGotPointerCapture("test").RenderBytes())
 	want := `<progress ongotpointercapture="test"></progress>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -1195,7 +1195,7 @@ func TestOnGotPointerCaptureAttr(t *testing.T) {
 }
 
 func TestOnLostPointerCaptureAttr(t *testing.T) {
-	got := string(progress.New().OnLostPointerCapture("test").Render())
+	got := string(progress.New().OnLostPointerCapture("test").RenderBytes())
 	want := `<progress onlostpointercapture="test"></progress>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -1203,7 +1203,7 @@ func TestOnLostPointerCaptureAttr(t *testing.T) {
 }
 
 func TestOnTouchStartAttr(t *testing.T) {
-	got := string(progress.New().OnTouchStart("test").Render())
+	got := string(progress.New().OnTouchStart("test").RenderBytes())
 	want := `<progress ontouchstart="test"></progress>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -1211,7 +1211,7 @@ func TestOnTouchStartAttr(t *testing.T) {
 }
 
 func TestOnTouchEndAttr(t *testing.T) {
-	got := string(progress.New().OnTouchEnd("test").Render())
+	got := string(progress.New().OnTouchEnd("test").RenderBytes())
 	want := `<progress ontouchend="test"></progress>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -1219,7 +1219,7 @@ func TestOnTouchEndAttr(t *testing.T) {
 }
 
 func TestOnTouchMoveAttr(t *testing.T) {
-	got := string(progress.New().OnTouchMove("test").Render())
+	got := string(progress.New().OnTouchMove("test").RenderBytes())
 	want := `<progress ontouchmove="test"></progress>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -1227,7 +1227,7 @@ func TestOnTouchMoveAttr(t *testing.T) {
 }
 
 func TestOnTouchCancelAttr(t *testing.T) {
-	got := string(progress.New().OnTouchCancel("test").Render())
+	got := string(progress.New().OnTouchCancel("test").RenderBytes())
 	want := `<progress ontouchcancel="test"></progress>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -1235,7 +1235,7 @@ func TestOnTouchCancelAttr(t *testing.T) {
 }
 
 func TestOnSelectStartAttr(t *testing.T) {
-	got := string(progress.New().OnSelectStart("test").Render())
+	got := string(progress.New().OnSelectStart("test").RenderBytes())
 	want := `<progress onselectstart="test"></progress>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -1243,7 +1243,7 @@ func TestOnSelectStartAttr(t *testing.T) {
 }
 
 func TestOnSelectionChangeAttr(t *testing.T) {
-	got := string(progress.New().OnSelectionChange("test").Render())
+	got := string(progress.New().OnSelectionChange("test").RenderBytes())
 	want := `<progress onselectionchange="test"></progress>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -1251,7 +1251,7 @@ func TestOnSelectionChangeAttr(t *testing.T) {
 }
 
 func TestNewMulti(t *testing.T) {
-	got := string(progress.New(progress.New(), progress.New()).Render())
+	got := string(progress.New(progress.New(), progress.New()).RenderBytes())
 	want := `<progress><progress></progress><progress></progress></progress>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -1262,7 +1262,7 @@ func TestAdd(t *testing.T) {
 	element := progress.New().Add(progress.New(), progress.New())
 
 	// Test rendered output
-	got := string(element.Render())
+	got := string(element.RenderBytes())
 	want := `<progress><progress></progress><progress></progress></progress>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -1287,7 +1287,7 @@ func TestReplace(t *testing.T) {
 	element.Replace(progress.New())
 
 	// Test rendered output
-	got := string(element.Render())
+	got := string(element.RenderBytes())
 	want := `<progress><progress></progress></progress>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -1300,7 +1300,7 @@ func TestReplace(t *testing.T) {
 }
 
 func TestTextMethod(t *testing.T) {
-	got := string(progress.New().Text("hello").Render())
+	got := string(progress.New().Text("hello").RenderBytes())
 	want := `<progress>hello</progress>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -1308,7 +1308,7 @@ func TestTextMethod(t *testing.T) {
 }
 
 func TestTextfMethod(t *testing.T) {
-	got := string(progress.New().Textf("hello %s", "world").Render())
+	got := string(progress.New().Textf("hello %s", "world").RenderBytes())
 	want := `<progress>hello world</progress>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -1316,7 +1316,7 @@ func TestTextfMethod(t *testing.T) {
 }
 
 func TestStaticMethod(t *testing.T) {
-	got := string(progress.New().Static("static content").Render())
+	got := string(progress.New().Static("static content").RenderBytes())
 	want := `<progress>static content</progress>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -1324,7 +1324,7 @@ func TestStaticMethod(t *testing.T) {
 }
 
 func TestRawTextMethod(t *testing.T) {
-	got := string(progress.New().RawText("<em>bold</em>").Render())
+	got := string(progress.New().RawText("<em>bold</em>").RenderBytes())
 	want := `<progress><em>bold</em></progress>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -1332,7 +1332,7 @@ func TestRawTextMethod(t *testing.T) {
 }
 
 func TestRawTextfMethod(t *testing.T) {
-	got := string(progress.New().RawTextf("<%s>test</%s>", "span", "span").Render())
+	got := string(progress.New().RawTextf("<%s>test</%s>", "span", "span").RenderBytes())
 	want := `<progress><span>test</span></progress>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -1340,7 +1340,7 @@ func TestRawTextfMethod(t *testing.T) {
 }
 
 func TestTextChaining(t *testing.T) {
-	got := string(progress.New().Class("foo").Text("content").ID("bar").Render())
+	got := string(progress.New().Class("foo").Text("content").ID("bar").RenderBytes())
 	want := `<progress class="foo" id="bar">content</progress>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -1348,7 +1348,7 @@ func TestTextChaining(t *testing.T) {
 }
 
 func TestDynamicKey(t *testing.T) {
-	got := string(progress.New().Dynamic("mykey").Render())
+	got := string(progress.New().Dynamic("mykey").RenderBytes())
 	want := `<progress data-tether-key="mykey"></progress>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -1363,7 +1363,7 @@ func TestDynamicNoKey(t *testing.T) {
 	if el.DynamicKey() != "_" {
 		t.Errorf("DynamicKey() should be \"_\", got %q", el.DynamicKey())
 	}
-	got := string(el.Render())
+	got := string(el.RenderBytes())
 	want := `<progress></progress>`
 	if got != want {
 		t.Errorf("Dynamic() without key should not render data-tether-key: got %q, want %q", got, want)

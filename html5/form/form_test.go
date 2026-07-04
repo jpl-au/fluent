@@ -30,14 +30,14 @@ import (
 
 func TestNewCtor(t *testing.T) {
 	// Test empty element
-	got := string(form.New().Render())
+	got := string(form.New().RenderBytes())
 	want := `<form></form>`
 	if got != want {
 		t.Errorf("empty: got %q, want %q", got, want)
 	}
 
 	// Test nested element
-	got = string(form.New(form.New()).Render())
+	got = string(form.New(form.New()).RenderBytes())
 	want = `<form><form></form></form>`
 	if got != want {
 		t.Errorf("nested: got %q, want %q", got, want)
@@ -45,7 +45,7 @@ func TestNewCtor(t *testing.T) {
 }
 
 func TestGetCtor(t *testing.T) {
-	got := string(form.Get("/search", input.Text("q", "")).Render())
+	got := string(form.Get("/search", input.Text("q", "")).RenderBytes())
 	want := `<form action="/search" method="get"><input name="q" type="text" /></form>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -53,7 +53,7 @@ func TestGetCtor(t *testing.T) {
 }
 
 func TestPostCtor(t *testing.T) {
-	got := string(form.Post("/login", input.Email("email"), input.Password("password")).Render())
+	got := string(form.Post("/login", input.Email("email"), input.Password("password")).RenderBytes())
 	want := `<form action="/login" method="post"><input name="email" type="email" /><input name="password" type="password" /></form>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -61,7 +61,7 @@ func TestPostCtor(t *testing.T) {
 }
 
 func TestDialogCtor(t *testing.T) {
-	got := string(form.Dialog(button.Submit("Confirm"), button.Button("Cancel")).Render())
+	got := string(form.Dialog(button.Submit("Confirm"), button.Button("Cancel")).RenderBytes())
 	want := `<form method="dialog"><button type="submit">Confirm</button><button type="button">Cancel</button></form>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -69,7 +69,7 @@ func TestDialogCtor(t *testing.T) {
 }
 
 func TestActionAttr(t *testing.T) {
-	got := string(form.New().Action("test").Render())
+	got := string(form.New().Action("test").RenderBytes())
 	want := `<form action="test"></form>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -77,7 +77,7 @@ func TestActionAttr(t *testing.T) {
 }
 
 func TestMethodAttr(t *testing.T) {
-	got := string(form.New().Method(method.Get).Render())
+	got := string(form.New().Method(method.Get).RenderBytes())
 	want := `<form method="get"></form>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -85,7 +85,7 @@ func TestMethodAttr(t *testing.T) {
 }
 
 func TestAcceptCharsetAttr(t *testing.T) {
-	got := string(form.New().AcceptCharset(charset.UTF8).Render())
+	got := string(form.New().AcceptCharset(charset.UTF8).RenderBytes())
 	want := `<form accept-charset="UTF-8"></form>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -93,7 +93,7 @@ func TestAcceptCharsetAttr(t *testing.T) {
 }
 
 func TestAutoCapitalizeAttr(t *testing.T) {
-	got := string(form.New().AutoCapitalize(autocapitalize.Off).Render())
+	got := string(form.New().AutoCapitalize(autocapitalize.Off).RenderBytes())
 	want := `<form autocapitalize="off"></form>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -101,7 +101,7 @@ func TestAutoCapitalizeAttr(t *testing.T) {
 }
 
 func TestAutoCompleteAttr(t *testing.T) {
-	got := string(form.New().AutoComplete(autocomplete.On).Render())
+	got := string(form.New().AutoComplete(autocomplete.On).RenderBytes())
 	want := `<form autocomplete="on"></form>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -109,7 +109,7 @@ func TestAutoCompleteAttr(t *testing.T) {
 }
 
 func TestEncTypeAttr(t *testing.T) {
-	got := string(form.New().EncType(enctype.UrlEncoded).Render())
+	got := string(form.New().EncType(enctype.UrlEncoded).RenderBytes())
 	want := `<form enctype="application/x-www-form-urlencoded"></form>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -117,7 +117,7 @@ func TestEncTypeAttr(t *testing.T) {
 }
 
 func TestNameAttr(t *testing.T) {
-	got := string(form.New().Name("test").Render())
+	got := string(form.New().Name("test").RenderBytes())
 	want := `<form name="test"></form>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -125,7 +125,7 @@ func TestNameAttr(t *testing.T) {
 }
 
 func TestNoValidateAttr(t *testing.T) {
-	got := string(form.New().NoValidate().Render())
+	got := string(form.New().NoValidate().RenderBytes())
 	want := `<form novalidate></form>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -133,7 +133,7 @@ func TestNoValidateAttr(t *testing.T) {
 }
 
 func TestRelAttr(t *testing.T) {
-	got := string(form.New().Rel(rel.Stylesheet).Render())
+	got := string(form.New().Rel(rel.Stylesheet).RenderBytes())
 	want := `<form rel="stylesheet"></form>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -141,14 +141,14 @@ func TestRelAttr(t *testing.T) {
 }
 
 func TestRelMulti(t *testing.T) {
-	got := string(form.New().Rel(rel.Stylesheet, rel.Icon, rel.Preload).Render())
+	got := string(form.New().Rel(rel.Stylesheet, rel.Icon, rel.Preload).RenderBytes())
 	want := `<form rel="stylesheet icon preload"></form>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
 	}
 
 	// Test multiple chained calls
-	got = string(form.New().Rel(rel.Stylesheet).Rel(rel.Icon).Rel(rel.Preload).Render())
+	got = string(form.New().Rel(rel.Stylesheet).Rel(rel.Icon).Rel(rel.Preload).RenderBytes())
 	want = `<form rel="stylesheet icon preload"></form>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -156,7 +156,7 @@ func TestRelMulti(t *testing.T) {
 }
 
 func TestTargetAttr(t *testing.T) {
-	got := string(form.New().Target(target.Self).Render())
+	got := string(form.New().Target(target.Self).RenderBytes())
 	want := `<form target="_self"></form>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -164,7 +164,7 @@ func TestTargetAttr(t *testing.T) {
 }
 
 func TestClassAttr(t *testing.T) {
-	got := string(form.New().Class("test").Render())
+	got := string(form.New().Class("test").RenderBytes())
 	want := `<form class="test"></form>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -173,7 +173,7 @@ func TestClassAttr(t *testing.T) {
 
 func TestClassMulti(t *testing.T) {
 	// Test multiple chained calls
-	got := string(form.New().Class("one").Class("two").Class("three").Render())
+	got := string(form.New().Class("one").Class("two").Class("three").RenderBytes())
 	want := `<form class="one two three"></form>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -181,7 +181,7 @@ func TestClassMulti(t *testing.T) {
 }
 
 func TestIDAttr(t *testing.T) {
-	got := string(form.New().ID("test").Render())
+	got := string(form.New().ID("test").RenderBytes())
 	want := `<form id="test"></form>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -189,7 +189,7 @@ func TestIDAttr(t *testing.T) {
 }
 
 func TestStyleAttr(t *testing.T) {
-	got := string(form.New().Style("test").Render())
+	got := string(form.New().Style("test").RenderBytes())
 	want := `<form style="test"></form>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -198,7 +198,7 @@ func TestStyleAttr(t *testing.T) {
 
 func TestStyleMulti(t *testing.T) {
 	// Test multiple chained calls
-	got := string(form.New().Style("one").Style("two").Style("three").Render())
+	got := string(form.New().Style("one").Style("two").Style("three").RenderBytes())
 	want := `<form style="one; two; three"></form>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -206,7 +206,7 @@ func TestStyleMulti(t *testing.T) {
 }
 
 func TestTitleAttr(t *testing.T) {
-	got := string(form.New().Title("test").Render())
+	got := string(form.New().Title("test").RenderBytes())
 	want := `<form title="test"></form>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -214,7 +214,7 @@ func TestTitleAttr(t *testing.T) {
 }
 
 func TestHiddenAttr(t *testing.T) {
-	got := string(form.New().Hidden(hidden.True).Render())
+	got := string(form.New().Hidden(hidden.True).RenderBytes())
 	want := `<form hidden="true"></form>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -222,7 +222,7 @@ func TestHiddenAttr(t *testing.T) {
 }
 
 func TestTabIndexAttr(t *testing.T) {
-	got := string(form.New().TabIndex(42).Render())
+	got := string(form.New().TabIndex(42).RenderBytes())
 	want := `<form tabindex="42"></form>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -230,7 +230,7 @@ func TestTabIndexAttr(t *testing.T) {
 }
 
 func TestRoleAttr(t *testing.T) {
-	got := string(form.New().Role("test").Render())
+	got := string(form.New().Role("test").RenderBytes())
 	want := `<form role="test"></form>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -238,7 +238,7 @@ func TestRoleAttr(t *testing.T) {
 }
 
 func TestLangAttr(t *testing.T) {
-	got := string(form.New().Lang("test").Render())
+	got := string(form.New().Lang("test").RenderBytes())
 	want := `<form lang="test"></form>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -246,7 +246,7 @@ func TestLangAttr(t *testing.T) {
 }
 
 func TestAccessKeyAttr(t *testing.T) {
-	got := string(form.New().AccessKey("test").Render())
+	got := string(form.New().AccessKey("test").RenderBytes())
 	want := `<form accesskey="test"></form>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -255,7 +255,7 @@ func TestAccessKeyAttr(t *testing.T) {
 
 func TestAccessKeyMulti(t *testing.T) {
 	// Test multiple chained calls
-	got := string(form.New().AccessKey("one").AccessKey("two").AccessKey("three").Render())
+	got := string(form.New().AccessKey("one").AccessKey("two").AccessKey("three").RenderBytes())
 	want := `<form accesskey="one two three"></form>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -263,7 +263,7 @@ func TestAccessKeyMulti(t *testing.T) {
 }
 
 func TestAnchorAttr(t *testing.T) {
-	got := string(form.New().Anchor("test").Render())
+	got := string(form.New().Anchor("test").RenderBytes())
 	want := `<form anchor="test"></form>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -271,7 +271,7 @@ func TestAnchorAttr(t *testing.T) {
 }
 
 func TestAriaLabelAttr(t *testing.T) {
-	got := string(form.New().AriaLabel("test").Render())
+	got := string(form.New().AriaLabel("test").RenderBytes())
 	want := `<form aria-label="test"></form>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -279,7 +279,7 @@ func TestAriaLabelAttr(t *testing.T) {
 }
 
 func TestSetAriaAttr(t *testing.T) {
-	got := string(form.New().SetAria("label", "test-value").Render())
+	got := string(form.New().SetAria("label", "test-value").RenderBytes())
 	want := `<form aria-label="test-value"></form>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -287,7 +287,7 @@ func TestSetAriaAttr(t *testing.T) {
 }
 
 func TestAutoCorrectAttr(t *testing.T) {
-	got := string(form.New().AutoCorrect(autocorrect.On).Render())
+	got := string(form.New().AutoCorrect(autocorrect.On).RenderBytes())
 	want := `<form autocorrect="on"></form>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -295,7 +295,7 @@ func TestAutoCorrectAttr(t *testing.T) {
 }
 
 func TestAutoFocusAttr(t *testing.T) {
-	got := string(form.New().AutoFocus().Render())
+	got := string(form.New().AutoFocus().RenderBytes())
 	want := `<form autofocus></form>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -303,7 +303,7 @@ func TestAutoFocusAttr(t *testing.T) {
 }
 
 func TestContentEditableAttr(t *testing.T) {
-	got := string(form.New().ContentEditable(contenteditable.True).Render())
+	got := string(form.New().ContentEditable(contenteditable.True).RenderBytes())
 	want := `<form contenteditable="true"></form>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -311,7 +311,7 @@ func TestContentEditableAttr(t *testing.T) {
 }
 
 func TestSetDataAttr(t *testing.T) {
-	got := string(form.New().SetData("user-id", "test-value").Render())
+	got := string(form.New().SetData("user-id", "test-value").RenderBytes())
 	want := `<form data-user-id="test-value"></form>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -319,7 +319,7 @@ func TestSetDataAttr(t *testing.T) {
 }
 
 func TestDirAttr(t *testing.T) {
-	got := string(form.New().Dir(dir.LeftToRight).Render())
+	got := string(form.New().Dir(dir.LeftToRight).RenderBytes())
 	want := `<form dir="ltr"></form>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -327,7 +327,7 @@ func TestDirAttr(t *testing.T) {
 }
 
 func TestDraggableAttr(t *testing.T) {
-	got := string(form.New().Draggable().Render())
+	got := string(form.New().Draggable().RenderBytes())
 	want := `<form draggable></form>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -335,7 +335,7 @@ func TestDraggableAttr(t *testing.T) {
 }
 
 func TestEnterKeyHintAttr(t *testing.T) {
-	got := string(form.New().EnterKeyHint(enterkeyhint.Enter).Render())
+	got := string(form.New().EnterKeyHint(enterkeyhint.Enter).RenderBytes())
 	want := `<form enterkeyhint="enter"></form>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -343,7 +343,7 @@ func TestEnterKeyHintAttr(t *testing.T) {
 }
 
 func TestExportPartsAttr(t *testing.T) {
-	got := string(form.New().ExportParts("test").Render())
+	got := string(form.New().ExportParts("test").RenderBytes())
 	want := `<form exportparts="test"></form>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -351,7 +351,7 @@ func TestExportPartsAttr(t *testing.T) {
 }
 
 func TestInertAttr(t *testing.T) {
-	got := string(form.New().Inert().Render())
+	got := string(form.New().Inert().RenderBytes())
 	want := `<form inert></form>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -359,7 +359,7 @@ func TestInertAttr(t *testing.T) {
 }
 
 func TestInputModeAttr(t *testing.T) {
-	got := string(form.New().InputMode(inputmode.None).Render())
+	got := string(form.New().InputMode(inputmode.None).RenderBytes())
 	want := `<form inputmode="none"></form>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -367,7 +367,7 @@ func TestInputModeAttr(t *testing.T) {
 }
 
 func TestIsAttr(t *testing.T) {
-	got := string(form.New().Is("test").Render())
+	got := string(form.New().Is("test").RenderBytes())
 	want := `<form is="test"></form>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -375,7 +375,7 @@ func TestIsAttr(t *testing.T) {
 }
 
 func TestItemIdAttr(t *testing.T) {
-	got := string(form.New().ItemId("test").Render())
+	got := string(form.New().ItemId("test").RenderBytes())
 	want := `<form itemid="test"></form>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -383,7 +383,7 @@ func TestItemIdAttr(t *testing.T) {
 }
 
 func TestItemPropAttr(t *testing.T) {
-	got := string(form.New().ItemProp("test").Render())
+	got := string(form.New().ItemProp("test").RenderBytes())
 	want := `<form itemprop="test"></form>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -391,7 +391,7 @@ func TestItemPropAttr(t *testing.T) {
 }
 
 func TestItemRefAttr(t *testing.T) {
-	got := string(form.New().ItemRef("test").Render())
+	got := string(form.New().ItemRef("test").RenderBytes())
 	want := `<form itemref="test"></form>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -399,7 +399,7 @@ func TestItemRefAttr(t *testing.T) {
 }
 
 func TestItemScopeAttr(t *testing.T) {
-	got := string(form.New().ItemScope().Render())
+	got := string(form.New().ItemScope().RenderBytes())
 	want := `<form itemscope></form>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -407,7 +407,7 @@ func TestItemScopeAttr(t *testing.T) {
 }
 
 func TestItemTypeAttr(t *testing.T) {
-	got := string(form.New().ItemType("test").Render())
+	got := string(form.New().ItemType("test").RenderBytes())
 	want := `<form itemtype="test"></form>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -415,7 +415,7 @@ func TestItemTypeAttr(t *testing.T) {
 }
 
 func TestNonceAttr(t *testing.T) {
-	got := string(form.New().Nonce("test").Render())
+	got := string(form.New().Nonce("test").RenderBytes())
 	want := `<form nonce="test"></form>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -423,7 +423,7 @@ func TestNonceAttr(t *testing.T) {
 }
 
 func TestPartAttr(t *testing.T) {
-	got := string(form.New().Part("test").Render())
+	got := string(form.New().Part("test").RenderBytes())
 	want := `<form part="test"></form>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -432,7 +432,7 @@ func TestPartAttr(t *testing.T) {
 
 func TestPartMulti(t *testing.T) {
 	// Test multiple chained calls
-	got := string(form.New().Part("one").Part("two").Part("three").Render())
+	got := string(form.New().Part("one").Part("two").Part("three").RenderBytes())
 	want := `<form part="one two three"></form>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -440,7 +440,7 @@ func TestPartMulti(t *testing.T) {
 }
 
 func TestPopoverAttr(t *testing.T) {
-	got := string(form.New().Popover(popover.Auto).Render())
+	got := string(form.New().Popover(popover.Auto).RenderBytes())
 	want := `<form popover="auto"></form>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -448,7 +448,7 @@ func TestPopoverAttr(t *testing.T) {
 }
 
 func TestSlotAttr(t *testing.T) {
-	got := string(form.New().Slot("test").Render())
+	got := string(form.New().Slot("test").RenderBytes())
 	want := `<form slot="test"></form>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -456,7 +456,7 @@ func TestSlotAttr(t *testing.T) {
 }
 
 func TestSpellCheckAttr(t *testing.T) {
-	got := string(form.New().SpellCheck(spellcheck.True).Render())
+	got := string(form.New().SpellCheck(spellcheck.True).RenderBytes())
 	want := `<form spellcheck="true"></form>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -464,7 +464,7 @@ func TestSpellCheckAttr(t *testing.T) {
 }
 
 func TestTranslateAttr(t *testing.T) {
-	got := string(form.New().Translate(translate.Yes).Render())
+	got := string(form.New().Translate(translate.Yes).RenderBytes())
 	want := `<form translate="yes"></form>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -472,7 +472,7 @@ func TestTranslateAttr(t *testing.T) {
 }
 
 func TestVirtualKeyboardPolicyAttr(t *testing.T) {
-	got := string(form.New().VirtualKeyboardPolicy(virtualkeyboardpolicy.Auto).Render())
+	got := string(form.New().VirtualKeyboardPolicy(virtualkeyboardpolicy.Auto).RenderBytes())
 	want := `<form virtualkeyboardpolicy="auto"></form>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -480,7 +480,7 @@ func TestVirtualKeyboardPolicyAttr(t *testing.T) {
 }
 
 func TestWritingSuggestionsAttr(t *testing.T) {
-	got := string(form.New().WritingSuggestions(writingsuggestions.True).Render())
+	got := string(form.New().WritingSuggestions(writingsuggestions.True).RenderBytes())
 	want := `<form writingsuggestions="true"></form>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -488,7 +488,7 @@ func TestWritingSuggestionsAttr(t *testing.T) {
 }
 
 func TestOnClickAttr(t *testing.T) {
-	got := string(form.New().OnClick("test").Render())
+	got := string(form.New().OnClick("test").RenderBytes())
 	want := `<form onclick="test"></form>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -496,7 +496,7 @@ func TestOnClickAttr(t *testing.T) {
 }
 
 func TestOnChangeAttr(t *testing.T) {
-	got := string(form.New().OnChange("test").Render())
+	got := string(form.New().OnChange("test").RenderBytes())
 	want := `<form onchange="test"></form>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -504,7 +504,7 @@ func TestOnChangeAttr(t *testing.T) {
 }
 
 func TestOnInputAttr(t *testing.T) {
-	got := string(form.New().OnInput("test").Render())
+	got := string(form.New().OnInput("test").RenderBytes())
 	want := `<form oninput="test"></form>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -512,7 +512,7 @@ func TestOnInputAttr(t *testing.T) {
 }
 
 func TestOnFocusAttr(t *testing.T) {
-	got := string(form.New().OnFocus("test").Render())
+	got := string(form.New().OnFocus("test").RenderBytes())
 	want := `<form onfocus="test"></form>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -520,7 +520,7 @@ func TestOnFocusAttr(t *testing.T) {
 }
 
 func TestOnBlurAttr(t *testing.T) {
-	got := string(form.New().OnBlur("test").Render())
+	got := string(form.New().OnBlur("test").RenderBytes())
 	want := `<form onblur="test"></form>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -528,7 +528,7 @@ func TestOnBlurAttr(t *testing.T) {
 }
 
 func TestOnSubmitAttr(t *testing.T) {
-	got := string(form.New().OnSubmit("test").Render())
+	got := string(form.New().OnSubmit("test").RenderBytes())
 	want := `<form onsubmit="test"></form>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -536,7 +536,7 @@ func TestOnSubmitAttr(t *testing.T) {
 }
 
 func TestOnLoadAttr(t *testing.T) {
-	got := string(form.New().OnLoad("test").Render())
+	got := string(form.New().OnLoad("test").RenderBytes())
 	want := `<form onload="test"></form>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -544,7 +544,7 @@ func TestOnLoadAttr(t *testing.T) {
 }
 
 func TestOnErrorAttr(t *testing.T) {
-	got := string(form.New().OnError("test").Render())
+	got := string(form.New().OnError("test").RenderBytes())
 	want := `<form onerror="test"></form>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -552,7 +552,7 @@ func TestOnErrorAttr(t *testing.T) {
 }
 
 func TestSetEventAttr(t *testing.T) {
-	got := string(form.New().SetEvent("onclick", "test-value").Render())
+	got := string(form.New().SetEvent("onclick", "test-value").RenderBytes())
 	want := `<form onclick="test-value"></form>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -560,7 +560,7 @@ func TestSetEventAttr(t *testing.T) {
 }
 
 func TestOnAbortAttr(t *testing.T) {
-	got := string(form.New().OnAbort("test").Render())
+	got := string(form.New().OnAbort("test").RenderBytes())
 	want := `<form onabort="test"></form>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -568,7 +568,7 @@ func TestOnAbortAttr(t *testing.T) {
 }
 
 func TestOnAutoCompleteAttr(t *testing.T) {
-	got := string(form.New().OnAutoComplete("test").Render())
+	got := string(form.New().OnAutoComplete("test").RenderBytes())
 	want := `<form onautocomplete="test"></form>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -576,7 +576,7 @@ func TestOnAutoCompleteAttr(t *testing.T) {
 }
 
 func TestOnAutoCompleteErrorAttr(t *testing.T) {
-	got := string(form.New().OnAutoCompleteError("test").Render())
+	got := string(form.New().OnAutoCompleteError("test").RenderBytes())
 	want := `<form onautocompleteerror="test"></form>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -584,7 +584,7 @@ func TestOnAutoCompleteErrorAttr(t *testing.T) {
 }
 
 func TestOnCancelAttr(t *testing.T) {
-	got := string(form.New().OnCancel("test").Render())
+	got := string(form.New().OnCancel("test").RenderBytes())
 	want := `<form oncancel="test"></form>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -592,7 +592,7 @@ func TestOnCancelAttr(t *testing.T) {
 }
 
 func TestOnCanPlayAttr(t *testing.T) {
-	got := string(form.New().OnCanPlay("test").Render())
+	got := string(form.New().OnCanPlay("test").RenderBytes())
 	want := `<form oncanplay="test"></form>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -600,7 +600,7 @@ func TestOnCanPlayAttr(t *testing.T) {
 }
 
 func TestOnCanPlayThroughAttr(t *testing.T) {
-	got := string(form.New().OnCanPlayThrough("test").Render())
+	got := string(form.New().OnCanPlayThrough("test").RenderBytes())
 	want := `<form oncanplaythrough="test"></form>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -608,7 +608,7 @@ func TestOnCanPlayThroughAttr(t *testing.T) {
 }
 
 func TestOnCloseAttr(t *testing.T) {
-	got := string(form.New().OnClose("test").Render())
+	got := string(form.New().OnClose("test").RenderBytes())
 	want := `<form onclose="test"></form>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -616,7 +616,7 @@ func TestOnCloseAttr(t *testing.T) {
 }
 
 func TestOnContextMenuAttr(t *testing.T) {
-	got := string(form.New().OnContextMenu("test").Render())
+	got := string(form.New().OnContextMenu("test").RenderBytes())
 	want := `<form oncontextmenu="test"></form>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -624,7 +624,7 @@ func TestOnContextMenuAttr(t *testing.T) {
 }
 
 func TestOnCueChangeAttr(t *testing.T) {
-	got := string(form.New().OnCueChange("test").Render())
+	got := string(form.New().OnCueChange("test").RenderBytes())
 	want := `<form oncuechange="test"></form>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -632,7 +632,7 @@ func TestOnCueChangeAttr(t *testing.T) {
 }
 
 func TestOnDblClickAttr(t *testing.T) {
-	got := string(form.New().OnDblClick("test").Render())
+	got := string(form.New().OnDblClick("test").RenderBytes())
 	want := `<form ondblclick="test"></form>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -640,7 +640,7 @@ func TestOnDblClickAttr(t *testing.T) {
 }
 
 func TestOnDragAttr(t *testing.T) {
-	got := string(form.New().OnDrag("test").Render())
+	got := string(form.New().OnDrag("test").RenderBytes())
 	want := `<form ondrag="test"></form>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -648,7 +648,7 @@ func TestOnDragAttr(t *testing.T) {
 }
 
 func TestOnDragEndAttr(t *testing.T) {
-	got := string(form.New().OnDragEnd("test").Render())
+	got := string(form.New().OnDragEnd("test").RenderBytes())
 	want := `<form ondragend="test"></form>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -656,7 +656,7 @@ func TestOnDragEndAttr(t *testing.T) {
 }
 
 func TestOnDragEnterAttr(t *testing.T) {
-	got := string(form.New().OnDragEnter("test").Render())
+	got := string(form.New().OnDragEnter("test").RenderBytes())
 	want := `<form ondragenter="test"></form>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -664,7 +664,7 @@ func TestOnDragEnterAttr(t *testing.T) {
 }
 
 func TestOnDragLeaveAttr(t *testing.T) {
-	got := string(form.New().OnDragLeave("test").Render())
+	got := string(form.New().OnDragLeave("test").RenderBytes())
 	want := `<form ondragleave="test"></form>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -672,7 +672,7 @@ func TestOnDragLeaveAttr(t *testing.T) {
 }
 
 func TestOnDragOverAttr(t *testing.T) {
-	got := string(form.New().OnDragOver("test").Render())
+	got := string(form.New().OnDragOver("test").RenderBytes())
 	want := `<form ondragover="test"></form>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -680,7 +680,7 @@ func TestOnDragOverAttr(t *testing.T) {
 }
 
 func TestOnDragStartAttr(t *testing.T) {
-	got := string(form.New().OnDragStart("test").Render())
+	got := string(form.New().OnDragStart("test").RenderBytes())
 	want := `<form ondragstart="test"></form>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -688,7 +688,7 @@ func TestOnDragStartAttr(t *testing.T) {
 }
 
 func TestOnDropAttr(t *testing.T) {
-	got := string(form.New().OnDrop("test").Render())
+	got := string(form.New().OnDrop("test").RenderBytes())
 	want := `<form ondrop="test"></form>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -696,7 +696,7 @@ func TestOnDropAttr(t *testing.T) {
 }
 
 func TestOnDurationChangeAttr(t *testing.T) {
-	got := string(form.New().OnDurationChange("test").Render())
+	got := string(form.New().OnDurationChange("test").RenderBytes())
 	want := `<form ondurationchange="test"></form>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -704,7 +704,7 @@ func TestOnDurationChangeAttr(t *testing.T) {
 }
 
 func TestOnEmptiedAttr(t *testing.T) {
-	got := string(form.New().OnEmptied("test").Render())
+	got := string(form.New().OnEmptied("test").RenderBytes())
 	want := `<form onemptied="test"></form>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -712,7 +712,7 @@ func TestOnEmptiedAttr(t *testing.T) {
 }
 
 func TestOnEndedAttr(t *testing.T) {
-	got := string(form.New().OnEnded("test").Render())
+	got := string(form.New().OnEnded("test").RenderBytes())
 	want := `<form onended="test"></form>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -720,7 +720,7 @@ func TestOnEndedAttr(t *testing.T) {
 }
 
 func TestOnInvalidAttr(t *testing.T) {
-	got := string(form.New().OnInvalid("test").Render())
+	got := string(form.New().OnInvalid("test").RenderBytes())
 	want := `<form oninvalid="test"></form>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -728,7 +728,7 @@ func TestOnInvalidAttr(t *testing.T) {
 }
 
 func TestOnKeyDownAttr(t *testing.T) {
-	got := string(form.New().OnKeyDown("test").Render())
+	got := string(form.New().OnKeyDown("test").RenderBytes())
 	want := `<form onkeydown="test"></form>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -736,7 +736,7 @@ func TestOnKeyDownAttr(t *testing.T) {
 }
 
 func TestOnKeyPressAttr(t *testing.T) {
-	got := string(form.New().OnKeyPress("test").Render())
+	got := string(form.New().OnKeyPress("test").RenderBytes())
 	want := `<form onkeypress="test"></form>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -744,7 +744,7 @@ func TestOnKeyPressAttr(t *testing.T) {
 }
 
 func TestOnKeyUpAttr(t *testing.T) {
-	got := string(form.New().OnKeyUp("test").Render())
+	got := string(form.New().OnKeyUp("test").RenderBytes())
 	want := `<form onkeyup="test"></form>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -752,7 +752,7 @@ func TestOnKeyUpAttr(t *testing.T) {
 }
 
 func TestOnLoadedDataAttr(t *testing.T) {
-	got := string(form.New().OnLoadedData("test").Render())
+	got := string(form.New().OnLoadedData("test").RenderBytes())
 	want := `<form onloadeddata="test"></form>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -760,7 +760,7 @@ func TestOnLoadedDataAttr(t *testing.T) {
 }
 
 func TestOnLoadedMetadataAttr(t *testing.T) {
-	got := string(form.New().OnLoadedMetadata("test").Render())
+	got := string(form.New().OnLoadedMetadata("test").RenderBytes())
 	want := `<form onloadedmetadata="test"></form>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -768,7 +768,7 @@ func TestOnLoadedMetadataAttr(t *testing.T) {
 }
 
 func TestOnLoadStartAttr(t *testing.T) {
-	got := string(form.New().OnLoadStart("test").Render())
+	got := string(form.New().OnLoadStart("test").RenderBytes())
 	want := `<form onloadstart="test"></form>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -776,7 +776,7 @@ func TestOnLoadStartAttr(t *testing.T) {
 }
 
 func TestOnMouseDownAttr(t *testing.T) {
-	got := string(form.New().OnMouseDown("test").Render())
+	got := string(form.New().OnMouseDown("test").RenderBytes())
 	want := `<form onmousedown="test"></form>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -784,7 +784,7 @@ func TestOnMouseDownAttr(t *testing.T) {
 }
 
 func TestOnMouseEnterAttr(t *testing.T) {
-	got := string(form.New().OnMouseEnter("test").Render())
+	got := string(form.New().OnMouseEnter("test").RenderBytes())
 	want := `<form onmouseenter="test"></form>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -792,7 +792,7 @@ func TestOnMouseEnterAttr(t *testing.T) {
 }
 
 func TestOnMouseLeaveAttr(t *testing.T) {
-	got := string(form.New().OnMouseLeave("test").Render())
+	got := string(form.New().OnMouseLeave("test").RenderBytes())
 	want := `<form onmouseleave="test"></form>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -800,7 +800,7 @@ func TestOnMouseLeaveAttr(t *testing.T) {
 }
 
 func TestOnMouseMoveAttr(t *testing.T) {
-	got := string(form.New().OnMouseMove("test").Render())
+	got := string(form.New().OnMouseMove("test").RenderBytes())
 	want := `<form onmousemove="test"></form>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -808,7 +808,7 @@ func TestOnMouseMoveAttr(t *testing.T) {
 }
 
 func TestOnMouseOutAttr(t *testing.T) {
-	got := string(form.New().OnMouseOut("test").Render())
+	got := string(form.New().OnMouseOut("test").RenderBytes())
 	want := `<form onmouseout="test"></form>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -816,7 +816,7 @@ func TestOnMouseOutAttr(t *testing.T) {
 }
 
 func TestOnMouseOverAttr(t *testing.T) {
-	got := string(form.New().OnMouseOver("test").Render())
+	got := string(form.New().OnMouseOver("test").RenderBytes())
 	want := `<form onmouseover="test"></form>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -824,7 +824,7 @@ func TestOnMouseOverAttr(t *testing.T) {
 }
 
 func TestOnMouseUpAttr(t *testing.T) {
-	got := string(form.New().OnMouseUp("test").Render())
+	got := string(form.New().OnMouseUp("test").RenderBytes())
 	want := `<form onmouseup="test"></form>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -832,7 +832,7 @@ func TestOnMouseUpAttr(t *testing.T) {
 }
 
 func TestOnMouseWheelAttr(t *testing.T) {
-	got := string(form.New().OnMouseWheel("test").Render())
+	got := string(form.New().OnMouseWheel("test").RenderBytes())
 	want := `<form onmousewheel="test"></form>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -840,7 +840,7 @@ func TestOnMouseWheelAttr(t *testing.T) {
 }
 
 func TestOnPauseAttr(t *testing.T) {
-	got := string(form.New().OnPause("test").Render())
+	got := string(form.New().OnPause("test").RenderBytes())
 	want := `<form onpause="test"></form>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -848,7 +848,7 @@ func TestOnPauseAttr(t *testing.T) {
 }
 
 func TestOnPlayAttr(t *testing.T) {
-	got := string(form.New().OnPlay("test").Render())
+	got := string(form.New().OnPlay("test").RenderBytes())
 	want := `<form onplay="test"></form>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -856,7 +856,7 @@ func TestOnPlayAttr(t *testing.T) {
 }
 
 func TestOnPlayingAttr(t *testing.T) {
-	got := string(form.New().OnPlaying("test").Render())
+	got := string(form.New().OnPlaying("test").RenderBytes())
 	want := `<form onplaying="test"></form>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -864,7 +864,7 @@ func TestOnPlayingAttr(t *testing.T) {
 }
 
 func TestOnProgressAttr(t *testing.T) {
-	got := string(form.New().OnProgress("test").Render())
+	got := string(form.New().OnProgress("test").RenderBytes())
 	want := `<form onprogress="test"></form>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -872,7 +872,7 @@ func TestOnProgressAttr(t *testing.T) {
 }
 
 func TestOnRateChangeAttr(t *testing.T) {
-	got := string(form.New().OnRateChange("test").Render())
+	got := string(form.New().OnRateChange("test").RenderBytes())
 	want := `<form onratechange="test"></form>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -880,7 +880,7 @@ func TestOnRateChangeAttr(t *testing.T) {
 }
 
 func TestOnResetAttr(t *testing.T) {
-	got := string(form.New().OnReset("test").Render())
+	got := string(form.New().OnReset("test").RenderBytes())
 	want := `<form onreset="test"></form>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -888,7 +888,7 @@ func TestOnResetAttr(t *testing.T) {
 }
 
 func TestOnResizeAttr(t *testing.T) {
-	got := string(form.New().OnResize("test").Render())
+	got := string(form.New().OnResize("test").RenderBytes())
 	want := `<form onresize="test"></form>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -896,7 +896,7 @@ func TestOnResizeAttr(t *testing.T) {
 }
 
 func TestOnScrollAttr(t *testing.T) {
-	got := string(form.New().OnScroll("test").Render())
+	got := string(form.New().OnScroll("test").RenderBytes())
 	want := `<form onscroll="test"></form>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -904,7 +904,7 @@ func TestOnScrollAttr(t *testing.T) {
 }
 
 func TestOnSeekedAttr(t *testing.T) {
-	got := string(form.New().OnSeeked("test").Render())
+	got := string(form.New().OnSeeked("test").RenderBytes())
 	want := `<form onseeked="test"></form>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -912,7 +912,7 @@ func TestOnSeekedAttr(t *testing.T) {
 }
 
 func TestOnSeekingAttr(t *testing.T) {
-	got := string(form.New().OnSeeking("test").Render())
+	got := string(form.New().OnSeeking("test").RenderBytes())
 	want := `<form onseeking="test"></form>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -920,7 +920,7 @@ func TestOnSeekingAttr(t *testing.T) {
 }
 
 func TestOnSelectAttr(t *testing.T) {
-	got := string(form.New().OnSelect("test").Render())
+	got := string(form.New().OnSelect("test").RenderBytes())
 	want := `<form onselect="test"></form>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -928,7 +928,7 @@ func TestOnSelectAttr(t *testing.T) {
 }
 
 func TestOnShowAttr(t *testing.T) {
-	got := string(form.New().OnShow("test").Render())
+	got := string(form.New().OnShow("test").RenderBytes())
 	want := `<form onshow="test"></form>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -936,7 +936,7 @@ func TestOnShowAttr(t *testing.T) {
 }
 
 func TestOnSortAttr(t *testing.T) {
-	got := string(form.New().OnSort("test").Render())
+	got := string(form.New().OnSort("test").RenderBytes())
 	want := `<form onsort="test"></form>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -944,7 +944,7 @@ func TestOnSortAttr(t *testing.T) {
 }
 
 func TestOnStalledAttr(t *testing.T) {
-	got := string(form.New().OnStalled("test").Render())
+	got := string(form.New().OnStalled("test").RenderBytes())
 	want := `<form onstalled="test"></form>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -952,7 +952,7 @@ func TestOnStalledAttr(t *testing.T) {
 }
 
 func TestOnSuspendAttr(t *testing.T) {
-	got := string(form.New().OnSuspend("test").Render())
+	got := string(form.New().OnSuspend("test").RenderBytes())
 	want := `<form onsuspend="test"></form>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -960,7 +960,7 @@ func TestOnSuspendAttr(t *testing.T) {
 }
 
 func TestOnTimeUpdateAttr(t *testing.T) {
-	got := string(form.New().OnTimeUpdate("test").Render())
+	got := string(form.New().OnTimeUpdate("test").RenderBytes())
 	want := `<form ontimeupdate="test"></form>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -968,7 +968,7 @@ func TestOnTimeUpdateAttr(t *testing.T) {
 }
 
 func TestOnToggleAttr(t *testing.T) {
-	got := string(form.New().OnToggle("test").Render())
+	got := string(form.New().OnToggle("test").RenderBytes())
 	want := `<form ontoggle="test"></form>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -976,7 +976,7 @@ func TestOnToggleAttr(t *testing.T) {
 }
 
 func TestOnVolumeChangeAttr(t *testing.T) {
-	got := string(form.New().OnVolumeChange("test").Render())
+	got := string(form.New().OnVolumeChange("test").RenderBytes())
 	want := `<form onvolumechange="test"></form>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -984,7 +984,7 @@ func TestOnVolumeChangeAttr(t *testing.T) {
 }
 
 func TestOnWaitingAttr(t *testing.T) {
-	got := string(form.New().OnWaiting("test").Render())
+	got := string(form.New().OnWaiting("test").RenderBytes())
 	want := `<form onwaiting="test"></form>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -992,7 +992,7 @@ func TestOnWaitingAttr(t *testing.T) {
 }
 
 func TestOnAuxClickAttr(t *testing.T) {
-	got := string(form.New().OnAuxClick("test").Render())
+	got := string(form.New().OnAuxClick("test").RenderBytes())
 	want := `<form onauxclick="test"></form>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -1000,7 +1000,7 @@ func TestOnAuxClickAttr(t *testing.T) {
 }
 
 func TestOnWheelAttr(t *testing.T) {
-	got := string(form.New().OnWheel("test").Render())
+	got := string(form.New().OnWheel("test").RenderBytes())
 	want := `<form onwheel="test"></form>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -1008,7 +1008,7 @@ func TestOnWheelAttr(t *testing.T) {
 }
 
 func TestOnCopyAttr(t *testing.T) {
-	got := string(form.New().OnCopy("test").Render())
+	got := string(form.New().OnCopy("test").RenderBytes())
 	want := `<form oncopy="test"></form>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -1016,7 +1016,7 @@ func TestOnCopyAttr(t *testing.T) {
 }
 
 func TestOnCutAttr(t *testing.T) {
-	got := string(form.New().OnCut("test").Render())
+	got := string(form.New().OnCut("test").RenderBytes())
 	want := `<form oncut="test"></form>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -1024,7 +1024,7 @@ func TestOnCutAttr(t *testing.T) {
 }
 
 func TestOnPasteAttr(t *testing.T) {
-	got := string(form.New().OnPaste("test").Render())
+	got := string(form.New().OnPaste("test").RenderBytes())
 	want := `<form onpaste="test"></form>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -1032,7 +1032,7 @@ func TestOnPasteAttr(t *testing.T) {
 }
 
 func TestOnScrollEndAttr(t *testing.T) {
-	got := string(form.New().OnScrollEnd("test").Render())
+	got := string(form.New().OnScrollEnd("test").RenderBytes())
 	want := `<form onscrollend="test"></form>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -1040,7 +1040,7 @@ func TestOnScrollEndAttr(t *testing.T) {
 }
 
 func TestOnFormDataAttr(t *testing.T) {
-	got := string(form.New().OnFormData("test").Render())
+	got := string(form.New().OnFormData("test").RenderBytes())
 	want := `<form onformdata="test"></form>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -1048,7 +1048,7 @@ func TestOnFormDataAttr(t *testing.T) {
 }
 
 func TestOnAnimationCancelAttr(t *testing.T) {
-	got := string(form.New().OnAnimationCancel("test").Render())
+	got := string(form.New().OnAnimationCancel("test").RenderBytes())
 	want := `<form onanimationcancel="test"></form>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -1056,7 +1056,7 @@ func TestOnAnimationCancelAttr(t *testing.T) {
 }
 
 func TestOnAnimationEndAttr(t *testing.T) {
-	got := string(form.New().OnAnimationEnd("test").Render())
+	got := string(form.New().OnAnimationEnd("test").RenderBytes())
 	want := `<form onanimationend="test"></form>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -1064,7 +1064,7 @@ func TestOnAnimationEndAttr(t *testing.T) {
 }
 
 func TestOnAnimationIterationAttr(t *testing.T) {
-	got := string(form.New().OnAnimationIteration("test").Render())
+	got := string(form.New().OnAnimationIteration("test").RenderBytes())
 	want := `<form onanimationiteration="test"></form>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -1072,7 +1072,7 @@ func TestOnAnimationIterationAttr(t *testing.T) {
 }
 
 func TestOnAnimationStartAttr(t *testing.T) {
-	got := string(form.New().OnAnimationStart("test").Render())
+	got := string(form.New().OnAnimationStart("test").RenderBytes())
 	want := `<form onanimationstart="test"></form>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -1080,7 +1080,7 @@ func TestOnAnimationStartAttr(t *testing.T) {
 }
 
 func TestOnTransitionCancelAttr(t *testing.T) {
-	got := string(form.New().OnTransitionCancel("test").Render())
+	got := string(form.New().OnTransitionCancel("test").RenderBytes())
 	want := `<form ontransitioncancel="test"></form>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -1088,7 +1088,7 @@ func TestOnTransitionCancelAttr(t *testing.T) {
 }
 
 func TestOnTransitionEndAttr(t *testing.T) {
-	got := string(form.New().OnTransitionEnd("test").Render())
+	got := string(form.New().OnTransitionEnd("test").RenderBytes())
 	want := `<form ontransitionend="test"></form>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -1096,7 +1096,7 @@ func TestOnTransitionEndAttr(t *testing.T) {
 }
 
 func TestOnTransitionRunAttr(t *testing.T) {
-	got := string(form.New().OnTransitionRun("test").Render())
+	got := string(form.New().OnTransitionRun("test").RenderBytes())
 	want := `<form ontransitionrun="test"></form>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -1104,7 +1104,7 @@ func TestOnTransitionRunAttr(t *testing.T) {
 }
 
 func TestOnTransitionStartAttr(t *testing.T) {
-	got := string(form.New().OnTransitionStart("test").Render())
+	got := string(form.New().OnTransitionStart("test").RenderBytes())
 	want := `<form ontransitionstart="test"></form>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -1112,7 +1112,7 @@ func TestOnTransitionStartAttr(t *testing.T) {
 }
 
 func TestOnBeforeToggleAttr(t *testing.T) {
-	got := string(form.New().OnBeforeToggle("test").Render())
+	got := string(form.New().OnBeforeToggle("test").RenderBytes())
 	want := `<form onbeforetoggle="test"></form>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -1120,7 +1120,7 @@ func TestOnBeforeToggleAttr(t *testing.T) {
 }
 
 func TestOnBeforeInputAttr(t *testing.T) {
-	got := string(form.New().OnBeforeInput("test").Render())
+	got := string(form.New().OnBeforeInput("test").RenderBytes())
 	want := `<form onbeforeinput="test"></form>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -1128,7 +1128,7 @@ func TestOnBeforeInputAttr(t *testing.T) {
 }
 
 func TestOnBeforeMatchAttr(t *testing.T) {
-	got := string(form.New().OnBeforeMatch("test").Render())
+	got := string(form.New().OnBeforeMatch("test").RenderBytes())
 	want := `<form onbeforematch="test"></form>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -1136,7 +1136,7 @@ func TestOnBeforeMatchAttr(t *testing.T) {
 }
 
 func TestOnCommandAttr(t *testing.T) {
-	got := string(form.New().OnCommand("test").Render())
+	got := string(form.New().OnCommand("test").RenderBytes())
 	want := `<form oncommand="test"></form>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -1144,7 +1144,7 @@ func TestOnCommandAttr(t *testing.T) {
 }
 
 func TestOnContextLostAttr(t *testing.T) {
-	got := string(form.New().OnContextLost("test").Render())
+	got := string(form.New().OnContextLost("test").RenderBytes())
 	want := `<form oncontextlost="test"></form>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -1152,7 +1152,7 @@ func TestOnContextLostAttr(t *testing.T) {
 }
 
 func TestOnContextRestoredAttr(t *testing.T) {
-	got := string(form.New().OnContextRestored("test").Render())
+	got := string(form.New().OnContextRestored("test").RenderBytes())
 	want := `<form oncontextrestored="test"></form>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -1160,7 +1160,7 @@ func TestOnContextRestoredAttr(t *testing.T) {
 }
 
 func TestOnSecurityPolicyViolationAttr(t *testing.T) {
-	got := string(form.New().OnSecurityPolicyViolation("test").Render())
+	got := string(form.New().OnSecurityPolicyViolation("test").RenderBytes())
 	want := `<form onsecuritypolicyviolation="test"></form>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -1168,7 +1168,7 @@ func TestOnSecurityPolicyViolationAttr(t *testing.T) {
 }
 
 func TestOnSlotChangeAttr(t *testing.T) {
-	got := string(form.New().OnSlotChange("test").Render())
+	got := string(form.New().OnSlotChange("test").RenderBytes())
 	want := `<form onslotchange="test"></form>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -1176,7 +1176,7 @@ func TestOnSlotChangeAttr(t *testing.T) {
 }
 
 func TestOnPointerDownAttr(t *testing.T) {
-	got := string(form.New().OnPointerDown("test").Render())
+	got := string(form.New().OnPointerDown("test").RenderBytes())
 	want := `<form onpointerdown="test"></form>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -1184,7 +1184,7 @@ func TestOnPointerDownAttr(t *testing.T) {
 }
 
 func TestOnPointerUpAttr(t *testing.T) {
-	got := string(form.New().OnPointerUp("test").Render())
+	got := string(form.New().OnPointerUp("test").RenderBytes())
 	want := `<form onpointerup="test"></form>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -1192,7 +1192,7 @@ func TestOnPointerUpAttr(t *testing.T) {
 }
 
 func TestOnPointerMoveAttr(t *testing.T) {
-	got := string(form.New().OnPointerMove("test").Render())
+	got := string(form.New().OnPointerMove("test").RenderBytes())
 	want := `<form onpointermove="test"></form>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -1200,7 +1200,7 @@ func TestOnPointerMoveAttr(t *testing.T) {
 }
 
 func TestOnPointerEnterAttr(t *testing.T) {
-	got := string(form.New().OnPointerEnter("test").Render())
+	got := string(form.New().OnPointerEnter("test").RenderBytes())
 	want := `<form onpointerenter="test"></form>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -1208,7 +1208,7 @@ func TestOnPointerEnterAttr(t *testing.T) {
 }
 
 func TestOnPointerLeaveAttr(t *testing.T) {
-	got := string(form.New().OnPointerLeave("test").Render())
+	got := string(form.New().OnPointerLeave("test").RenderBytes())
 	want := `<form onpointerleave="test"></form>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -1216,7 +1216,7 @@ func TestOnPointerLeaveAttr(t *testing.T) {
 }
 
 func TestOnPointerOverAttr(t *testing.T) {
-	got := string(form.New().OnPointerOver("test").Render())
+	got := string(form.New().OnPointerOver("test").RenderBytes())
 	want := `<form onpointerover="test"></form>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -1224,7 +1224,7 @@ func TestOnPointerOverAttr(t *testing.T) {
 }
 
 func TestOnPointerOutAttr(t *testing.T) {
-	got := string(form.New().OnPointerOut("test").Render())
+	got := string(form.New().OnPointerOut("test").RenderBytes())
 	want := `<form onpointerout="test"></form>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -1232,7 +1232,7 @@ func TestOnPointerOutAttr(t *testing.T) {
 }
 
 func TestOnPointerCancelAttr(t *testing.T) {
-	got := string(form.New().OnPointerCancel("test").Render())
+	got := string(form.New().OnPointerCancel("test").RenderBytes())
 	want := `<form onpointercancel="test"></form>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -1240,7 +1240,7 @@ func TestOnPointerCancelAttr(t *testing.T) {
 }
 
 func TestOnGotPointerCaptureAttr(t *testing.T) {
-	got := string(form.New().OnGotPointerCapture("test").Render())
+	got := string(form.New().OnGotPointerCapture("test").RenderBytes())
 	want := `<form ongotpointercapture="test"></form>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -1248,7 +1248,7 @@ func TestOnGotPointerCaptureAttr(t *testing.T) {
 }
 
 func TestOnLostPointerCaptureAttr(t *testing.T) {
-	got := string(form.New().OnLostPointerCapture("test").Render())
+	got := string(form.New().OnLostPointerCapture("test").RenderBytes())
 	want := `<form onlostpointercapture="test"></form>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -1256,7 +1256,7 @@ func TestOnLostPointerCaptureAttr(t *testing.T) {
 }
 
 func TestOnTouchStartAttr(t *testing.T) {
-	got := string(form.New().OnTouchStart("test").Render())
+	got := string(form.New().OnTouchStart("test").RenderBytes())
 	want := `<form ontouchstart="test"></form>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -1264,7 +1264,7 @@ func TestOnTouchStartAttr(t *testing.T) {
 }
 
 func TestOnTouchEndAttr(t *testing.T) {
-	got := string(form.New().OnTouchEnd("test").Render())
+	got := string(form.New().OnTouchEnd("test").RenderBytes())
 	want := `<form ontouchend="test"></form>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -1272,7 +1272,7 @@ func TestOnTouchEndAttr(t *testing.T) {
 }
 
 func TestOnTouchMoveAttr(t *testing.T) {
-	got := string(form.New().OnTouchMove("test").Render())
+	got := string(form.New().OnTouchMove("test").RenderBytes())
 	want := `<form ontouchmove="test"></form>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -1280,7 +1280,7 @@ func TestOnTouchMoveAttr(t *testing.T) {
 }
 
 func TestOnTouchCancelAttr(t *testing.T) {
-	got := string(form.New().OnTouchCancel("test").Render())
+	got := string(form.New().OnTouchCancel("test").RenderBytes())
 	want := `<form ontouchcancel="test"></form>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -1288,7 +1288,7 @@ func TestOnTouchCancelAttr(t *testing.T) {
 }
 
 func TestOnSelectStartAttr(t *testing.T) {
-	got := string(form.New().OnSelectStart("test").Render())
+	got := string(form.New().OnSelectStart("test").RenderBytes())
 	want := `<form onselectstart="test"></form>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -1296,7 +1296,7 @@ func TestOnSelectStartAttr(t *testing.T) {
 }
 
 func TestOnSelectionChangeAttr(t *testing.T) {
-	got := string(form.New().OnSelectionChange("test").Render())
+	got := string(form.New().OnSelectionChange("test").RenderBytes())
 	want := `<form onselectionchange="test"></form>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -1304,7 +1304,7 @@ func TestOnSelectionChangeAttr(t *testing.T) {
 }
 
 func TestNewMulti(t *testing.T) {
-	got := string(form.New(form.New(), form.New()).Render())
+	got := string(form.New(form.New(), form.New()).RenderBytes())
 	want := `<form><form></form><form></form></form>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -1315,7 +1315,7 @@ func TestAdd(t *testing.T) {
 	element := form.New().Add(form.New(), form.New())
 
 	// Test rendered output
-	got := string(element.Render())
+	got := string(element.RenderBytes())
 	want := `<form><form></form><form></form></form>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -1340,7 +1340,7 @@ func TestReplace(t *testing.T) {
 	element.Replace(form.New())
 
 	// Test rendered output
-	got := string(element.Render())
+	got := string(element.RenderBytes())
 	want := `<form><form></form></form>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -1353,7 +1353,7 @@ func TestReplace(t *testing.T) {
 }
 
 func TestTextMethod(t *testing.T) {
-	got := string(form.New().Text("hello").Render())
+	got := string(form.New().Text("hello").RenderBytes())
 	want := `<form>hello</form>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -1361,7 +1361,7 @@ func TestTextMethod(t *testing.T) {
 }
 
 func TestTextfMethod(t *testing.T) {
-	got := string(form.New().Textf("hello %s", "world").Render())
+	got := string(form.New().Textf("hello %s", "world").RenderBytes())
 	want := `<form>hello world</form>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -1369,7 +1369,7 @@ func TestTextfMethod(t *testing.T) {
 }
 
 func TestStaticMethod(t *testing.T) {
-	got := string(form.New().Static("static content").Render())
+	got := string(form.New().Static("static content").RenderBytes())
 	want := `<form>static content</form>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -1377,7 +1377,7 @@ func TestStaticMethod(t *testing.T) {
 }
 
 func TestRawTextMethod(t *testing.T) {
-	got := string(form.New().RawText("<em>bold</em>").Render())
+	got := string(form.New().RawText("<em>bold</em>").RenderBytes())
 	want := `<form><em>bold</em></form>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -1385,7 +1385,7 @@ func TestRawTextMethod(t *testing.T) {
 }
 
 func TestRawTextfMethod(t *testing.T) {
-	got := string(form.New().RawTextf("<%s>test</%s>", "span", "span").Render())
+	got := string(form.New().RawTextf("<%s>test</%s>", "span", "span").RenderBytes())
 	want := `<form><span>test</span></form>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -1393,7 +1393,7 @@ func TestRawTextfMethod(t *testing.T) {
 }
 
 func TestTextChaining(t *testing.T) {
-	got := string(form.New().Class("foo").Text("content").ID("bar").Render())
+	got := string(form.New().Class("foo").Text("content").ID("bar").RenderBytes())
 	want := `<form class="foo" id="bar">content</form>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -1401,7 +1401,7 @@ func TestTextChaining(t *testing.T) {
 }
 
 func TestDynamicKey(t *testing.T) {
-	got := string(form.New().Dynamic("mykey").Render())
+	got := string(form.New().Dynamic("mykey").RenderBytes())
 	want := `<form data-tether-key="mykey"></form>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -1416,7 +1416,7 @@ func TestDynamicNoKey(t *testing.T) {
 	if el.DynamicKey() != "_" {
 		t.Errorf("DynamicKey() should be \"_\", got %q", el.DynamicKey())
 	}
-	got := string(el.Render())
+	got := string(el.RenderBytes())
 	want := `<form></form>`
 	if got != want {
 		t.Errorf("Dynamic() without key should not render data-tether-key: got %q, want %q", got, want)

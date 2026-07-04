@@ -111,19 +111,28 @@ func (m *MemoisedNode) MemoiseRender() Node {
 	return m.fn()
 }
 
-// Render calls the closure unconditionally and renders the result.
+// Render calls the closure unconditionally and renders the result to w.
 // This is the path taken by a plain Differ (which does not check
 // for Memoiser). The closure always executes - no key checking.
-func (m *MemoisedNode) Render(w ...io.Writer) []byte {
+// Write errors are intentionally discarded; see [Node] for rationale.
+func (m *MemoisedNode) Render(w io.Writer) {
+	_, _ = m.WriteTo(w)
+}
+
+// WriteTo renders the closure's output to w, returning the byte count
+// and any write error. Satisfies [io.WriterTo].
+func (m *MemoisedNode) WriteTo(w io.Writer) (int64, error) {
 	buf := fluent.NewBuffer()
 	m.RenderBuilder(buf)
+	n, err := buf.WriteTo(w)
+	fluent.PutBuffer(buf)
+	return n, err
+}
 
-	if len(w) > 0 && w[0] != nil {
-		// Write errors are intentionally discarded; see [node.Node] for rationale.
-		_, _ = buf.WriteTo(w[0])
-		fluent.PutBuffer(buf)
-		return nil
-	}
+// RenderBytes returns the closure's rendered output as a byte slice.
+func (m *MemoisedNode) RenderBytes() []byte {
+	var buf bytes.Buffer
+	m.RenderBuilder(&buf)
 	return buf.Bytes()
 }
 

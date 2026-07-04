@@ -26,14 +26,14 @@ import (
 
 func TestNewCtor(t *testing.T) {
 	// Test empty element
-	got := string(audio.New().Render())
+	got := string(audio.New().RenderBytes())
 	want := `<audio></audio>`
 	if got != want {
 		t.Errorf("empty: got %q, want %q", got, want)
 	}
 
 	// Test nested element
-	got = string(audio.New(audio.New()).Render())
+	got = string(audio.New(audio.New()).RenderBytes())
 	want = `<audio><audio></audio></audio>`
 	if got != want {
 		t.Errorf("nested: got %q, want %q", got, want)
@@ -41,7 +41,7 @@ func TestNewCtor(t *testing.T) {
 }
 
 func TestFallbackCtor(t *testing.T) {
-	got := string(audio.Fallback("Your browser does not support audio.").Render())
+	got := string(audio.Fallback("Your browser does not support audio.").RenderBytes())
 	want := `<audio>Your browser does not support audio.</audio>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -49,7 +49,7 @@ func TestFallbackCtor(t *testing.T) {
 }
 
 func TestSourcesCtor(t *testing.T) {
-	got := string(audio.Sources(source.AudioMP3("/music/song.mp3"), source.AudioOgg("/music/song.ogg")).Render())
+	got := string(audio.Sources(source.AudioMP3("/music/song.mp3"), source.AudioOgg("/music/song.ogg")).RenderBytes())
 	want := `<audio><source src="/music/song.mp3" type="audio/mpeg" /><source src="/music/song.ogg" type="audio/ogg" /></audio>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -57,7 +57,7 @@ func TestSourcesCtor(t *testing.T) {
 }
 
 func TestSrcCtor(t *testing.T) {
-	got := string(audio.Src("/music/song.mp3").Render())
+	got := string(audio.Src("/music/song.mp3").RenderBytes())
 	want := `<audio src="/music/song.mp3"></audio>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -65,7 +65,7 @@ func TestSrcCtor(t *testing.T) {
 }
 
 func TestPreloadAutoCtor(t *testing.T) {
-	got := string(audio.PreloadAuto().Render())
+	got := string(audio.PreloadAuto().RenderBytes())
 	want := `<audio preload="auto"></audio>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -73,7 +73,7 @@ func TestPreloadAutoCtor(t *testing.T) {
 }
 
 func TestPreloadMetadataCtor(t *testing.T) {
-	got := string(audio.PreloadMetadata().Render())
+	got := string(audio.PreloadMetadata().RenderBytes())
 	want := `<audio preload="metadata"></audio>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -81,7 +81,7 @@ func TestPreloadMetadataCtor(t *testing.T) {
 }
 
 func TestPreloadNoneCtor(t *testing.T) {
-	got := string(audio.PreloadNone().Render())
+	got := string(audio.PreloadNone().RenderBytes())
 	want := `<audio preload="none"></audio>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -89,7 +89,7 @@ func TestPreloadNoneCtor(t *testing.T) {
 }
 
 func TestAutoplayAttr(t *testing.T) {
-	got := string(audio.New().Autoplay().Render())
+	got := string(audio.New().Autoplay().RenderBytes())
 	want := `<audio autoplay></audio>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -97,7 +97,7 @@ func TestAutoplayAttr(t *testing.T) {
 }
 
 func TestControlsAttr(t *testing.T) {
-	got := string(audio.New().Controls().Render())
+	got := string(audio.New().Controls().RenderBytes())
 	want := `<audio controls></audio>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -105,7 +105,7 @@ func TestControlsAttr(t *testing.T) {
 }
 
 func TestLoopAttr(t *testing.T) {
-	got := string(audio.New().Loop().Render())
+	got := string(audio.New().Loop().RenderBytes())
 	want := `<audio loop></audio>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -113,7 +113,7 @@ func TestLoopAttr(t *testing.T) {
 }
 
 func TestMutedAttr(t *testing.T) {
-	got := string(audio.New().Muted().Render())
+	got := string(audio.New().Muted().RenderBytes())
 	want := `<audio muted></audio>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -121,7 +121,7 @@ func TestMutedAttr(t *testing.T) {
 }
 
 func TestSrcAttr(t *testing.T) {
-	got := string(audio.New().Src("test").Render())
+	got := string(audio.New().Src("test").RenderBytes())
 	want := `<audio src="test"></audio>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -129,7 +129,7 @@ func TestSrcAttr(t *testing.T) {
 }
 
 func TestControlsListAttr(t *testing.T) {
-	got := string(audio.New().ControlsList("test").Render())
+	got := string(audio.New().ControlsList("test").RenderBytes())
 	want := `<audio controlslist="test"></audio>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -137,7 +137,7 @@ func TestControlsListAttr(t *testing.T) {
 }
 
 func TestCrossOriginAttr(t *testing.T) {
-	got := string(audio.New().CrossOrigin(crossorigin.Anonymous).Render())
+	got := string(audio.New().CrossOrigin(crossorigin.Anonymous).RenderBytes())
 	want := `<audio crossorigin="anonymous"></audio>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -145,7 +145,7 @@ func TestCrossOriginAttr(t *testing.T) {
 }
 
 func TestDisableRemotePlaybackAttr(t *testing.T) {
-	got := string(audio.New().DisableRemotePlayback().Render())
+	got := string(audio.New().DisableRemotePlayback().RenderBytes())
 	want := `<audio disableremoteplayback></audio>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -153,7 +153,7 @@ func TestDisableRemotePlaybackAttr(t *testing.T) {
 }
 
 func TestLoadingAttr(t *testing.T) {
-	got := string(audio.New().Loading(loading.Eager).Render())
+	got := string(audio.New().Loading(loading.Eager).RenderBytes())
 	want := `<audio loading="eager"></audio>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -161,7 +161,7 @@ func TestLoadingAttr(t *testing.T) {
 }
 
 func TestPreloadAttr(t *testing.T) {
-	got := string(audio.New().Preload(preload.None).Render())
+	got := string(audio.New().Preload(preload.None).RenderBytes())
 	want := `<audio preload="none"></audio>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -169,7 +169,7 @@ func TestPreloadAttr(t *testing.T) {
 }
 
 func TestClassAttr(t *testing.T) {
-	got := string(audio.New().Class("test").Render())
+	got := string(audio.New().Class("test").RenderBytes())
 	want := `<audio class="test"></audio>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -178,7 +178,7 @@ func TestClassAttr(t *testing.T) {
 
 func TestClassMulti(t *testing.T) {
 	// Test multiple chained calls
-	got := string(audio.New().Class("one").Class("two").Class("three").Render())
+	got := string(audio.New().Class("one").Class("two").Class("three").RenderBytes())
 	want := `<audio class="one two three"></audio>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -186,7 +186,7 @@ func TestClassMulti(t *testing.T) {
 }
 
 func TestIDAttr(t *testing.T) {
-	got := string(audio.New().ID("test").Render())
+	got := string(audio.New().ID("test").RenderBytes())
 	want := `<audio id="test"></audio>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -194,7 +194,7 @@ func TestIDAttr(t *testing.T) {
 }
 
 func TestStyleAttr(t *testing.T) {
-	got := string(audio.New().Style("test").Render())
+	got := string(audio.New().Style("test").RenderBytes())
 	want := `<audio style="test"></audio>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -203,7 +203,7 @@ func TestStyleAttr(t *testing.T) {
 
 func TestStyleMulti(t *testing.T) {
 	// Test multiple chained calls
-	got := string(audio.New().Style("one").Style("two").Style("three").Render())
+	got := string(audio.New().Style("one").Style("two").Style("three").RenderBytes())
 	want := `<audio style="one; two; three"></audio>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -211,7 +211,7 @@ func TestStyleMulti(t *testing.T) {
 }
 
 func TestTitleAttr(t *testing.T) {
-	got := string(audio.New().Title("test").Render())
+	got := string(audio.New().Title("test").RenderBytes())
 	want := `<audio title="test"></audio>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -219,7 +219,7 @@ func TestTitleAttr(t *testing.T) {
 }
 
 func TestHiddenAttr(t *testing.T) {
-	got := string(audio.New().Hidden(hidden.True).Render())
+	got := string(audio.New().Hidden(hidden.True).RenderBytes())
 	want := `<audio hidden="true"></audio>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -227,7 +227,7 @@ func TestHiddenAttr(t *testing.T) {
 }
 
 func TestTabIndexAttr(t *testing.T) {
-	got := string(audio.New().TabIndex(42).Render())
+	got := string(audio.New().TabIndex(42).RenderBytes())
 	want := `<audio tabindex="42"></audio>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -235,7 +235,7 @@ func TestTabIndexAttr(t *testing.T) {
 }
 
 func TestRoleAttr(t *testing.T) {
-	got := string(audio.New().Role("test").Render())
+	got := string(audio.New().Role("test").RenderBytes())
 	want := `<audio role="test"></audio>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -243,7 +243,7 @@ func TestRoleAttr(t *testing.T) {
 }
 
 func TestLangAttr(t *testing.T) {
-	got := string(audio.New().Lang("test").Render())
+	got := string(audio.New().Lang("test").RenderBytes())
 	want := `<audio lang="test"></audio>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -251,7 +251,7 @@ func TestLangAttr(t *testing.T) {
 }
 
 func TestAccessKeyAttr(t *testing.T) {
-	got := string(audio.New().AccessKey("test").Render())
+	got := string(audio.New().AccessKey("test").RenderBytes())
 	want := `<audio accesskey="test"></audio>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -260,7 +260,7 @@ func TestAccessKeyAttr(t *testing.T) {
 
 func TestAccessKeyMulti(t *testing.T) {
 	// Test multiple chained calls
-	got := string(audio.New().AccessKey("one").AccessKey("two").AccessKey("three").Render())
+	got := string(audio.New().AccessKey("one").AccessKey("two").AccessKey("three").RenderBytes())
 	want := `<audio accesskey="one two three"></audio>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -268,7 +268,7 @@ func TestAccessKeyMulti(t *testing.T) {
 }
 
 func TestAnchorAttr(t *testing.T) {
-	got := string(audio.New().Anchor("test").Render())
+	got := string(audio.New().Anchor("test").RenderBytes())
 	want := `<audio anchor="test"></audio>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -276,7 +276,7 @@ func TestAnchorAttr(t *testing.T) {
 }
 
 func TestAriaLabelAttr(t *testing.T) {
-	got := string(audio.New().AriaLabel("test").Render())
+	got := string(audio.New().AriaLabel("test").RenderBytes())
 	want := `<audio aria-label="test"></audio>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -284,7 +284,7 @@ func TestAriaLabelAttr(t *testing.T) {
 }
 
 func TestSetAriaAttr(t *testing.T) {
-	got := string(audio.New().SetAria("label", "test-value").Render())
+	got := string(audio.New().SetAria("label", "test-value").RenderBytes())
 	want := `<audio aria-label="test-value"></audio>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -292,7 +292,7 @@ func TestSetAriaAttr(t *testing.T) {
 }
 
 func TestAutoCapitalizeAttr(t *testing.T) {
-	got := string(audio.New().AutoCapitalize(autocapitalize.Off).Render())
+	got := string(audio.New().AutoCapitalize(autocapitalize.Off).RenderBytes())
 	want := `<audio autocapitalize="off"></audio>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -300,7 +300,7 @@ func TestAutoCapitalizeAttr(t *testing.T) {
 }
 
 func TestAutoCorrectAttr(t *testing.T) {
-	got := string(audio.New().AutoCorrect(autocorrect.On).Render())
+	got := string(audio.New().AutoCorrect(autocorrect.On).RenderBytes())
 	want := `<audio autocorrect="on"></audio>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -308,7 +308,7 @@ func TestAutoCorrectAttr(t *testing.T) {
 }
 
 func TestAutoFocusAttr(t *testing.T) {
-	got := string(audio.New().AutoFocus().Render())
+	got := string(audio.New().AutoFocus().RenderBytes())
 	want := `<audio autofocus></audio>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -316,7 +316,7 @@ func TestAutoFocusAttr(t *testing.T) {
 }
 
 func TestContentEditableAttr(t *testing.T) {
-	got := string(audio.New().ContentEditable(contenteditable.True).Render())
+	got := string(audio.New().ContentEditable(contenteditable.True).RenderBytes())
 	want := `<audio contenteditable="true"></audio>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -324,7 +324,7 @@ func TestContentEditableAttr(t *testing.T) {
 }
 
 func TestSetDataAttr(t *testing.T) {
-	got := string(audio.New().SetData("user-id", "test-value").Render())
+	got := string(audio.New().SetData("user-id", "test-value").RenderBytes())
 	want := `<audio data-user-id="test-value"></audio>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -332,7 +332,7 @@ func TestSetDataAttr(t *testing.T) {
 }
 
 func TestDirAttr(t *testing.T) {
-	got := string(audio.New().Dir(dir.LeftToRight).Render())
+	got := string(audio.New().Dir(dir.LeftToRight).RenderBytes())
 	want := `<audio dir="ltr"></audio>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -340,7 +340,7 @@ func TestDirAttr(t *testing.T) {
 }
 
 func TestDraggableAttr(t *testing.T) {
-	got := string(audio.New().Draggable().Render())
+	got := string(audio.New().Draggable().RenderBytes())
 	want := `<audio draggable></audio>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -348,7 +348,7 @@ func TestDraggableAttr(t *testing.T) {
 }
 
 func TestEnterKeyHintAttr(t *testing.T) {
-	got := string(audio.New().EnterKeyHint(enterkeyhint.Enter).Render())
+	got := string(audio.New().EnterKeyHint(enterkeyhint.Enter).RenderBytes())
 	want := `<audio enterkeyhint="enter"></audio>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -356,7 +356,7 @@ func TestEnterKeyHintAttr(t *testing.T) {
 }
 
 func TestExportPartsAttr(t *testing.T) {
-	got := string(audio.New().ExportParts("test").Render())
+	got := string(audio.New().ExportParts("test").RenderBytes())
 	want := `<audio exportparts="test"></audio>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -364,7 +364,7 @@ func TestExportPartsAttr(t *testing.T) {
 }
 
 func TestInertAttr(t *testing.T) {
-	got := string(audio.New().Inert().Render())
+	got := string(audio.New().Inert().RenderBytes())
 	want := `<audio inert></audio>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -372,7 +372,7 @@ func TestInertAttr(t *testing.T) {
 }
 
 func TestInputModeAttr(t *testing.T) {
-	got := string(audio.New().InputMode(inputmode.None).Render())
+	got := string(audio.New().InputMode(inputmode.None).RenderBytes())
 	want := `<audio inputmode="none"></audio>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -380,7 +380,7 @@ func TestInputModeAttr(t *testing.T) {
 }
 
 func TestIsAttr(t *testing.T) {
-	got := string(audio.New().Is("test").Render())
+	got := string(audio.New().Is("test").RenderBytes())
 	want := `<audio is="test"></audio>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -388,7 +388,7 @@ func TestIsAttr(t *testing.T) {
 }
 
 func TestItemIdAttr(t *testing.T) {
-	got := string(audio.New().ItemId("test").Render())
+	got := string(audio.New().ItemId("test").RenderBytes())
 	want := `<audio itemid="test"></audio>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -396,7 +396,7 @@ func TestItemIdAttr(t *testing.T) {
 }
 
 func TestItemPropAttr(t *testing.T) {
-	got := string(audio.New().ItemProp("test").Render())
+	got := string(audio.New().ItemProp("test").RenderBytes())
 	want := `<audio itemprop="test"></audio>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -404,7 +404,7 @@ func TestItemPropAttr(t *testing.T) {
 }
 
 func TestItemRefAttr(t *testing.T) {
-	got := string(audio.New().ItemRef("test").Render())
+	got := string(audio.New().ItemRef("test").RenderBytes())
 	want := `<audio itemref="test"></audio>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -412,7 +412,7 @@ func TestItemRefAttr(t *testing.T) {
 }
 
 func TestItemScopeAttr(t *testing.T) {
-	got := string(audio.New().ItemScope().Render())
+	got := string(audio.New().ItemScope().RenderBytes())
 	want := `<audio itemscope></audio>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -420,7 +420,7 @@ func TestItemScopeAttr(t *testing.T) {
 }
 
 func TestItemTypeAttr(t *testing.T) {
-	got := string(audio.New().ItemType("test").Render())
+	got := string(audio.New().ItemType("test").RenderBytes())
 	want := `<audio itemtype="test"></audio>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -428,7 +428,7 @@ func TestItemTypeAttr(t *testing.T) {
 }
 
 func TestNonceAttr(t *testing.T) {
-	got := string(audio.New().Nonce("test").Render())
+	got := string(audio.New().Nonce("test").RenderBytes())
 	want := `<audio nonce="test"></audio>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -436,7 +436,7 @@ func TestNonceAttr(t *testing.T) {
 }
 
 func TestPartAttr(t *testing.T) {
-	got := string(audio.New().Part("test").Render())
+	got := string(audio.New().Part("test").RenderBytes())
 	want := `<audio part="test"></audio>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -445,7 +445,7 @@ func TestPartAttr(t *testing.T) {
 
 func TestPartMulti(t *testing.T) {
 	// Test multiple chained calls
-	got := string(audio.New().Part("one").Part("two").Part("three").Render())
+	got := string(audio.New().Part("one").Part("two").Part("three").RenderBytes())
 	want := `<audio part="one two three"></audio>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -453,7 +453,7 @@ func TestPartMulti(t *testing.T) {
 }
 
 func TestPopoverAttr(t *testing.T) {
-	got := string(audio.New().Popover(popover.Auto).Render())
+	got := string(audio.New().Popover(popover.Auto).RenderBytes())
 	want := `<audio popover="auto"></audio>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -461,7 +461,7 @@ func TestPopoverAttr(t *testing.T) {
 }
 
 func TestSlotAttr(t *testing.T) {
-	got := string(audio.New().Slot("test").Render())
+	got := string(audio.New().Slot("test").RenderBytes())
 	want := `<audio slot="test"></audio>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -469,7 +469,7 @@ func TestSlotAttr(t *testing.T) {
 }
 
 func TestSpellCheckAttr(t *testing.T) {
-	got := string(audio.New().SpellCheck(spellcheck.True).Render())
+	got := string(audio.New().SpellCheck(spellcheck.True).RenderBytes())
 	want := `<audio spellcheck="true"></audio>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -477,7 +477,7 @@ func TestSpellCheckAttr(t *testing.T) {
 }
 
 func TestTranslateAttr(t *testing.T) {
-	got := string(audio.New().Translate(translate.Yes).Render())
+	got := string(audio.New().Translate(translate.Yes).RenderBytes())
 	want := `<audio translate="yes"></audio>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -485,7 +485,7 @@ func TestTranslateAttr(t *testing.T) {
 }
 
 func TestVirtualKeyboardPolicyAttr(t *testing.T) {
-	got := string(audio.New().VirtualKeyboardPolicy(virtualkeyboardpolicy.Auto).Render())
+	got := string(audio.New().VirtualKeyboardPolicy(virtualkeyboardpolicy.Auto).RenderBytes())
 	want := `<audio virtualkeyboardpolicy="auto"></audio>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -493,7 +493,7 @@ func TestVirtualKeyboardPolicyAttr(t *testing.T) {
 }
 
 func TestWritingSuggestionsAttr(t *testing.T) {
-	got := string(audio.New().WritingSuggestions(writingsuggestions.True).Render())
+	got := string(audio.New().WritingSuggestions(writingsuggestions.True).RenderBytes())
 	want := `<audio writingsuggestions="true"></audio>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -501,7 +501,7 @@ func TestWritingSuggestionsAttr(t *testing.T) {
 }
 
 func TestOnClickAttr(t *testing.T) {
-	got := string(audio.New().OnClick("test").Render())
+	got := string(audio.New().OnClick("test").RenderBytes())
 	want := `<audio onclick="test"></audio>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -509,7 +509,7 @@ func TestOnClickAttr(t *testing.T) {
 }
 
 func TestOnChangeAttr(t *testing.T) {
-	got := string(audio.New().OnChange("test").Render())
+	got := string(audio.New().OnChange("test").RenderBytes())
 	want := `<audio onchange="test"></audio>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -517,7 +517,7 @@ func TestOnChangeAttr(t *testing.T) {
 }
 
 func TestOnInputAttr(t *testing.T) {
-	got := string(audio.New().OnInput("test").Render())
+	got := string(audio.New().OnInput("test").RenderBytes())
 	want := `<audio oninput="test"></audio>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -525,7 +525,7 @@ func TestOnInputAttr(t *testing.T) {
 }
 
 func TestOnFocusAttr(t *testing.T) {
-	got := string(audio.New().OnFocus("test").Render())
+	got := string(audio.New().OnFocus("test").RenderBytes())
 	want := `<audio onfocus="test"></audio>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -533,7 +533,7 @@ func TestOnFocusAttr(t *testing.T) {
 }
 
 func TestOnBlurAttr(t *testing.T) {
-	got := string(audio.New().OnBlur("test").Render())
+	got := string(audio.New().OnBlur("test").RenderBytes())
 	want := `<audio onblur="test"></audio>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -541,7 +541,7 @@ func TestOnBlurAttr(t *testing.T) {
 }
 
 func TestOnSubmitAttr(t *testing.T) {
-	got := string(audio.New().OnSubmit("test").Render())
+	got := string(audio.New().OnSubmit("test").RenderBytes())
 	want := `<audio onsubmit="test"></audio>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -549,7 +549,7 @@ func TestOnSubmitAttr(t *testing.T) {
 }
 
 func TestOnLoadAttr(t *testing.T) {
-	got := string(audio.New().OnLoad("test").Render())
+	got := string(audio.New().OnLoad("test").RenderBytes())
 	want := `<audio onload="test"></audio>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -557,7 +557,7 @@ func TestOnLoadAttr(t *testing.T) {
 }
 
 func TestOnErrorAttr(t *testing.T) {
-	got := string(audio.New().OnError("test").Render())
+	got := string(audio.New().OnError("test").RenderBytes())
 	want := `<audio onerror="test"></audio>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -565,7 +565,7 @@ func TestOnErrorAttr(t *testing.T) {
 }
 
 func TestSetEventAttr(t *testing.T) {
-	got := string(audio.New().SetEvent("onclick", "test-value").Render())
+	got := string(audio.New().SetEvent("onclick", "test-value").RenderBytes())
 	want := `<audio onclick="test-value"></audio>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -573,7 +573,7 @@ func TestSetEventAttr(t *testing.T) {
 }
 
 func TestOnAbortAttr(t *testing.T) {
-	got := string(audio.New().OnAbort("test").Render())
+	got := string(audio.New().OnAbort("test").RenderBytes())
 	want := `<audio onabort="test"></audio>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -581,7 +581,7 @@ func TestOnAbortAttr(t *testing.T) {
 }
 
 func TestOnAutoCompleteAttr(t *testing.T) {
-	got := string(audio.New().OnAutoComplete("test").Render())
+	got := string(audio.New().OnAutoComplete("test").RenderBytes())
 	want := `<audio onautocomplete="test"></audio>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -589,7 +589,7 @@ func TestOnAutoCompleteAttr(t *testing.T) {
 }
 
 func TestOnAutoCompleteErrorAttr(t *testing.T) {
-	got := string(audio.New().OnAutoCompleteError("test").Render())
+	got := string(audio.New().OnAutoCompleteError("test").RenderBytes())
 	want := `<audio onautocompleteerror="test"></audio>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -597,7 +597,7 @@ func TestOnAutoCompleteErrorAttr(t *testing.T) {
 }
 
 func TestOnCancelAttr(t *testing.T) {
-	got := string(audio.New().OnCancel("test").Render())
+	got := string(audio.New().OnCancel("test").RenderBytes())
 	want := `<audio oncancel="test"></audio>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -605,7 +605,7 @@ func TestOnCancelAttr(t *testing.T) {
 }
 
 func TestOnCanPlayAttr(t *testing.T) {
-	got := string(audio.New().OnCanPlay("test").Render())
+	got := string(audio.New().OnCanPlay("test").RenderBytes())
 	want := `<audio oncanplay="test"></audio>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -613,7 +613,7 @@ func TestOnCanPlayAttr(t *testing.T) {
 }
 
 func TestOnCanPlayThroughAttr(t *testing.T) {
-	got := string(audio.New().OnCanPlayThrough("test").Render())
+	got := string(audio.New().OnCanPlayThrough("test").RenderBytes())
 	want := `<audio oncanplaythrough="test"></audio>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -621,7 +621,7 @@ func TestOnCanPlayThroughAttr(t *testing.T) {
 }
 
 func TestOnCloseAttr(t *testing.T) {
-	got := string(audio.New().OnClose("test").Render())
+	got := string(audio.New().OnClose("test").RenderBytes())
 	want := `<audio onclose="test"></audio>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -629,7 +629,7 @@ func TestOnCloseAttr(t *testing.T) {
 }
 
 func TestOnContextMenuAttr(t *testing.T) {
-	got := string(audio.New().OnContextMenu("test").Render())
+	got := string(audio.New().OnContextMenu("test").RenderBytes())
 	want := `<audio oncontextmenu="test"></audio>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -637,7 +637,7 @@ func TestOnContextMenuAttr(t *testing.T) {
 }
 
 func TestOnCueChangeAttr(t *testing.T) {
-	got := string(audio.New().OnCueChange("test").Render())
+	got := string(audio.New().OnCueChange("test").RenderBytes())
 	want := `<audio oncuechange="test"></audio>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -645,7 +645,7 @@ func TestOnCueChangeAttr(t *testing.T) {
 }
 
 func TestOnDblClickAttr(t *testing.T) {
-	got := string(audio.New().OnDblClick("test").Render())
+	got := string(audio.New().OnDblClick("test").RenderBytes())
 	want := `<audio ondblclick="test"></audio>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -653,7 +653,7 @@ func TestOnDblClickAttr(t *testing.T) {
 }
 
 func TestOnDragAttr(t *testing.T) {
-	got := string(audio.New().OnDrag("test").Render())
+	got := string(audio.New().OnDrag("test").RenderBytes())
 	want := `<audio ondrag="test"></audio>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -661,7 +661,7 @@ func TestOnDragAttr(t *testing.T) {
 }
 
 func TestOnDragEndAttr(t *testing.T) {
-	got := string(audio.New().OnDragEnd("test").Render())
+	got := string(audio.New().OnDragEnd("test").RenderBytes())
 	want := `<audio ondragend="test"></audio>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -669,7 +669,7 @@ func TestOnDragEndAttr(t *testing.T) {
 }
 
 func TestOnDragEnterAttr(t *testing.T) {
-	got := string(audio.New().OnDragEnter("test").Render())
+	got := string(audio.New().OnDragEnter("test").RenderBytes())
 	want := `<audio ondragenter="test"></audio>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -677,7 +677,7 @@ func TestOnDragEnterAttr(t *testing.T) {
 }
 
 func TestOnDragLeaveAttr(t *testing.T) {
-	got := string(audio.New().OnDragLeave("test").Render())
+	got := string(audio.New().OnDragLeave("test").RenderBytes())
 	want := `<audio ondragleave="test"></audio>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -685,7 +685,7 @@ func TestOnDragLeaveAttr(t *testing.T) {
 }
 
 func TestOnDragOverAttr(t *testing.T) {
-	got := string(audio.New().OnDragOver("test").Render())
+	got := string(audio.New().OnDragOver("test").RenderBytes())
 	want := `<audio ondragover="test"></audio>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -693,7 +693,7 @@ func TestOnDragOverAttr(t *testing.T) {
 }
 
 func TestOnDragStartAttr(t *testing.T) {
-	got := string(audio.New().OnDragStart("test").Render())
+	got := string(audio.New().OnDragStart("test").RenderBytes())
 	want := `<audio ondragstart="test"></audio>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -701,7 +701,7 @@ func TestOnDragStartAttr(t *testing.T) {
 }
 
 func TestOnDropAttr(t *testing.T) {
-	got := string(audio.New().OnDrop("test").Render())
+	got := string(audio.New().OnDrop("test").RenderBytes())
 	want := `<audio ondrop="test"></audio>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -709,7 +709,7 @@ func TestOnDropAttr(t *testing.T) {
 }
 
 func TestOnDurationChangeAttr(t *testing.T) {
-	got := string(audio.New().OnDurationChange("test").Render())
+	got := string(audio.New().OnDurationChange("test").RenderBytes())
 	want := `<audio ondurationchange="test"></audio>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -717,7 +717,7 @@ func TestOnDurationChangeAttr(t *testing.T) {
 }
 
 func TestOnEmptiedAttr(t *testing.T) {
-	got := string(audio.New().OnEmptied("test").Render())
+	got := string(audio.New().OnEmptied("test").RenderBytes())
 	want := `<audio onemptied="test"></audio>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -725,7 +725,7 @@ func TestOnEmptiedAttr(t *testing.T) {
 }
 
 func TestOnEndedAttr(t *testing.T) {
-	got := string(audio.New().OnEnded("test").Render())
+	got := string(audio.New().OnEnded("test").RenderBytes())
 	want := `<audio onended="test"></audio>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -733,7 +733,7 @@ func TestOnEndedAttr(t *testing.T) {
 }
 
 func TestOnInvalidAttr(t *testing.T) {
-	got := string(audio.New().OnInvalid("test").Render())
+	got := string(audio.New().OnInvalid("test").RenderBytes())
 	want := `<audio oninvalid="test"></audio>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -741,7 +741,7 @@ func TestOnInvalidAttr(t *testing.T) {
 }
 
 func TestOnKeyDownAttr(t *testing.T) {
-	got := string(audio.New().OnKeyDown("test").Render())
+	got := string(audio.New().OnKeyDown("test").RenderBytes())
 	want := `<audio onkeydown="test"></audio>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -749,7 +749,7 @@ func TestOnKeyDownAttr(t *testing.T) {
 }
 
 func TestOnKeyPressAttr(t *testing.T) {
-	got := string(audio.New().OnKeyPress("test").Render())
+	got := string(audio.New().OnKeyPress("test").RenderBytes())
 	want := `<audio onkeypress="test"></audio>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -757,7 +757,7 @@ func TestOnKeyPressAttr(t *testing.T) {
 }
 
 func TestOnKeyUpAttr(t *testing.T) {
-	got := string(audio.New().OnKeyUp("test").Render())
+	got := string(audio.New().OnKeyUp("test").RenderBytes())
 	want := `<audio onkeyup="test"></audio>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -765,7 +765,7 @@ func TestOnKeyUpAttr(t *testing.T) {
 }
 
 func TestOnLoadedDataAttr(t *testing.T) {
-	got := string(audio.New().OnLoadedData("test").Render())
+	got := string(audio.New().OnLoadedData("test").RenderBytes())
 	want := `<audio onloadeddata="test"></audio>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -773,7 +773,7 @@ func TestOnLoadedDataAttr(t *testing.T) {
 }
 
 func TestOnLoadedMetadataAttr(t *testing.T) {
-	got := string(audio.New().OnLoadedMetadata("test").Render())
+	got := string(audio.New().OnLoadedMetadata("test").RenderBytes())
 	want := `<audio onloadedmetadata="test"></audio>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -781,7 +781,7 @@ func TestOnLoadedMetadataAttr(t *testing.T) {
 }
 
 func TestOnLoadStartAttr(t *testing.T) {
-	got := string(audio.New().OnLoadStart("test").Render())
+	got := string(audio.New().OnLoadStart("test").RenderBytes())
 	want := `<audio onloadstart="test"></audio>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -789,7 +789,7 @@ func TestOnLoadStartAttr(t *testing.T) {
 }
 
 func TestOnMouseDownAttr(t *testing.T) {
-	got := string(audio.New().OnMouseDown("test").Render())
+	got := string(audio.New().OnMouseDown("test").RenderBytes())
 	want := `<audio onmousedown="test"></audio>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -797,7 +797,7 @@ func TestOnMouseDownAttr(t *testing.T) {
 }
 
 func TestOnMouseEnterAttr(t *testing.T) {
-	got := string(audio.New().OnMouseEnter("test").Render())
+	got := string(audio.New().OnMouseEnter("test").RenderBytes())
 	want := `<audio onmouseenter="test"></audio>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -805,7 +805,7 @@ func TestOnMouseEnterAttr(t *testing.T) {
 }
 
 func TestOnMouseLeaveAttr(t *testing.T) {
-	got := string(audio.New().OnMouseLeave("test").Render())
+	got := string(audio.New().OnMouseLeave("test").RenderBytes())
 	want := `<audio onmouseleave="test"></audio>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -813,7 +813,7 @@ func TestOnMouseLeaveAttr(t *testing.T) {
 }
 
 func TestOnMouseMoveAttr(t *testing.T) {
-	got := string(audio.New().OnMouseMove("test").Render())
+	got := string(audio.New().OnMouseMove("test").RenderBytes())
 	want := `<audio onmousemove="test"></audio>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -821,7 +821,7 @@ func TestOnMouseMoveAttr(t *testing.T) {
 }
 
 func TestOnMouseOutAttr(t *testing.T) {
-	got := string(audio.New().OnMouseOut("test").Render())
+	got := string(audio.New().OnMouseOut("test").RenderBytes())
 	want := `<audio onmouseout="test"></audio>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -829,7 +829,7 @@ func TestOnMouseOutAttr(t *testing.T) {
 }
 
 func TestOnMouseOverAttr(t *testing.T) {
-	got := string(audio.New().OnMouseOver("test").Render())
+	got := string(audio.New().OnMouseOver("test").RenderBytes())
 	want := `<audio onmouseover="test"></audio>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -837,7 +837,7 @@ func TestOnMouseOverAttr(t *testing.T) {
 }
 
 func TestOnMouseUpAttr(t *testing.T) {
-	got := string(audio.New().OnMouseUp("test").Render())
+	got := string(audio.New().OnMouseUp("test").RenderBytes())
 	want := `<audio onmouseup="test"></audio>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -845,7 +845,7 @@ func TestOnMouseUpAttr(t *testing.T) {
 }
 
 func TestOnMouseWheelAttr(t *testing.T) {
-	got := string(audio.New().OnMouseWheel("test").Render())
+	got := string(audio.New().OnMouseWheel("test").RenderBytes())
 	want := `<audio onmousewheel="test"></audio>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -853,7 +853,7 @@ func TestOnMouseWheelAttr(t *testing.T) {
 }
 
 func TestOnPauseAttr(t *testing.T) {
-	got := string(audio.New().OnPause("test").Render())
+	got := string(audio.New().OnPause("test").RenderBytes())
 	want := `<audio onpause="test"></audio>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -861,7 +861,7 @@ func TestOnPauseAttr(t *testing.T) {
 }
 
 func TestOnPlayAttr(t *testing.T) {
-	got := string(audio.New().OnPlay("test").Render())
+	got := string(audio.New().OnPlay("test").RenderBytes())
 	want := `<audio onplay="test"></audio>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -869,7 +869,7 @@ func TestOnPlayAttr(t *testing.T) {
 }
 
 func TestOnPlayingAttr(t *testing.T) {
-	got := string(audio.New().OnPlaying("test").Render())
+	got := string(audio.New().OnPlaying("test").RenderBytes())
 	want := `<audio onplaying="test"></audio>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -877,7 +877,7 @@ func TestOnPlayingAttr(t *testing.T) {
 }
 
 func TestOnProgressAttr(t *testing.T) {
-	got := string(audio.New().OnProgress("test").Render())
+	got := string(audio.New().OnProgress("test").RenderBytes())
 	want := `<audio onprogress="test"></audio>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -885,7 +885,7 @@ func TestOnProgressAttr(t *testing.T) {
 }
 
 func TestOnRateChangeAttr(t *testing.T) {
-	got := string(audio.New().OnRateChange("test").Render())
+	got := string(audio.New().OnRateChange("test").RenderBytes())
 	want := `<audio onratechange="test"></audio>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -893,7 +893,7 @@ func TestOnRateChangeAttr(t *testing.T) {
 }
 
 func TestOnResetAttr(t *testing.T) {
-	got := string(audio.New().OnReset("test").Render())
+	got := string(audio.New().OnReset("test").RenderBytes())
 	want := `<audio onreset="test"></audio>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -901,7 +901,7 @@ func TestOnResetAttr(t *testing.T) {
 }
 
 func TestOnResizeAttr(t *testing.T) {
-	got := string(audio.New().OnResize("test").Render())
+	got := string(audio.New().OnResize("test").RenderBytes())
 	want := `<audio onresize="test"></audio>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -909,7 +909,7 @@ func TestOnResizeAttr(t *testing.T) {
 }
 
 func TestOnScrollAttr(t *testing.T) {
-	got := string(audio.New().OnScroll("test").Render())
+	got := string(audio.New().OnScroll("test").RenderBytes())
 	want := `<audio onscroll="test"></audio>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -917,7 +917,7 @@ func TestOnScrollAttr(t *testing.T) {
 }
 
 func TestOnSeekedAttr(t *testing.T) {
-	got := string(audio.New().OnSeeked("test").Render())
+	got := string(audio.New().OnSeeked("test").RenderBytes())
 	want := `<audio onseeked="test"></audio>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -925,7 +925,7 @@ func TestOnSeekedAttr(t *testing.T) {
 }
 
 func TestOnSeekingAttr(t *testing.T) {
-	got := string(audio.New().OnSeeking("test").Render())
+	got := string(audio.New().OnSeeking("test").RenderBytes())
 	want := `<audio onseeking="test"></audio>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -933,7 +933,7 @@ func TestOnSeekingAttr(t *testing.T) {
 }
 
 func TestOnSelectAttr(t *testing.T) {
-	got := string(audio.New().OnSelect("test").Render())
+	got := string(audio.New().OnSelect("test").RenderBytes())
 	want := `<audio onselect="test"></audio>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -941,7 +941,7 @@ func TestOnSelectAttr(t *testing.T) {
 }
 
 func TestOnShowAttr(t *testing.T) {
-	got := string(audio.New().OnShow("test").Render())
+	got := string(audio.New().OnShow("test").RenderBytes())
 	want := `<audio onshow="test"></audio>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -949,7 +949,7 @@ func TestOnShowAttr(t *testing.T) {
 }
 
 func TestOnSortAttr(t *testing.T) {
-	got := string(audio.New().OnSort("test").Render())
+	got := string(audio.New().OnSort("test").RenderBytes())
 	want := `<audio onsort="test"></audio>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -957,7 +957,7 @@ func TestOnSortAttr(t *testing.T) {
 }
 
 func TestOnStalledAttr(t *testing.T) {
-	got := string(audio.New().OnStalled("test").Render())
+	got := string(audio.New().OnStalled("test").RenderBytes())
 	want := `<audio onstalled="test"></audio>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -965,7 +965,7 @@ func TestOnStalledAttr(t *testing.T) {
 }
 
 func TestOnSuspendAttr(t *testing.T) {
-	got := string(audio.New().OnSuspend("test").Render())
+	got := string(audio.New().OnSuspend("test").RenderBytes())
 	want := `<audio onsuspend="test"></audio>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -973,7 +973,7 @@ func TestOnSuspendAttr(t *testing.T) {
 }
 
 func TestOnTimeUpdateAttr(t *testing.T) {
-	got := string(audio.New().OnTimeUpdate("test").Render())
+	got := string(audio.New().OnTimeUpdate("test").RenderBytes())
 	want := `<audio ontimeupdate="test"></audio>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -981,7 +981,7 @@ func TestOnTimeUpdateAttr(t *testing.T) {
 }
 
 func TestOnToggleAttr(t *testing.T) {
-	got := string(audio.New().OnToggle("test").Render())
+	got := string(audio.New().OnToggle("test").RenderBytes())
 	want := `<audio ontoggle="test"></audio>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -989,7 +989,7 @@ func TestOnToggleAttr(t *testing.T) {
 }
 
 func TestOnVolumeChangeAttr(t *testing.T) {
-	got := string(audio.New().OnVolumeChange("test").Render())
+	got := string(audio.New().OnVolumeChange("test").RenderBytes())
 	want := `<audio onvolumechange="test"></audio>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -997,7 +997,7 @@ func TestOnVolumeChangeAttr(t *testing.T) {
 }
 
 func TestOnWaitingAttr(t *testing.T) {
-	got := string(audio.New().OnWaiting("test").Render())
+	got := string(audio.New().OnWaiting("test").RenderBytes())
 	want := `<audio onwaiting="test"></audio>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -1005,7 +1005,7 @@ func TestOnWaitingAttr(t *testing.T) {
 }
 
 func TestOnAuxClickAttr(t *testing.T) {
-	got := string(audio.New().OnAuxClick("test").Render())
+	got := string(audio.New().OnAuxClick("test").RenderBytes())
 	want := `<audio onauxclick="test"></audio>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -1013,7 +1013,7 @@ func TestOnAuxClickAttr(t *testing.T) {
 }
 
 func TestOnWheelAttr(t *testing.T) {
-	got := string(audio.New().OnWheel("test").Render())
+	got := string(audio.New().OnWheel("test").RenderBytes())
 	want := `<audio onwheel="test"></audio>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -1021,7 +1021,7 @@ func TestOnWheelAttr(t *testing.T) {
 }
 
 func TestOnCopyAttr(t *testing.T) {
-	got := string(audio.New().OnCopy("test").Render())
+	got := string(audio.New().OnCopy("test").RenderBytes())
 	want := `<audio oncopy="test"></audio>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -1029,7 +1029,7 @@ func TestOnCopyAttr(t *testing.T) {
 }
 
 func TestOnCutAttr(t *testing.T) {
-	got := string(audio.New().OnCut("test").Render())
+	got := string(audio.New().OnCut("test").RenderBytes())
 	want := `<audio oncut="test"></audio>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -1037,7 +1037,7 @@ func TestOnCutAttr(t *testing.T) {
 }
 
 func TestOnPasteAttr(t *testing.T) {
-	got := string(audio.New().OnPaste("test").Render())
+	got := string(audio.New().OnPaste("test").RenderBytes())
 	want := `<audio onpaste="test"></audio>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -1045,7 +1045,7 @@ func TestOnPasteAttr(t *testing.T) {
 }
 
 func TestOnScrollEndAttr(t *testing.T) {
-	got := string(audio.New().OnScrollEnd("test").Render())
+	got := string(audio.New().OnScrollEnd("test").RenderBytes())
 	want := `<audio onscrollend="test"></audio>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -1053,7 +1053,7 @@ func TestOnScrollEndAttr(t *testing.T) {
 }
 
 func TestOnFormDataAttr(t *testing.T) {
-	got := string(audio.New().OnFormData("test").Render())
+	got := string(audio.New().OnFormData("test").RenderBytes())
 	want := `<audio onformdata="test"></audio>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -1061,7 +1061,7 @@ func TestOnFormDataAttr(t *testing.T) {
 }
 
 func TestOnAnimationCancelAttr(t *testing.T) {
-	got := string(audio.New().OnAnimationCancel("test").Render())
+	got := string(audio.New().OnAnimationCancel("test").RenderBytes())
 	want := `<audio onanimationcancel="test"></audio>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -1069,7 +1069,7 @@ func TestOnAnimationCancelAttr(t *testing.T) {
 }
 
 func TestOnAnimationEndAttr(t *testing.T) {
-	got := string(audio.New().OnAnimationEnd("test").Render())
+	got := string(audio.New().OnAnimationEnd("test").RenderBytes())
 	want := `<audio onanimationend="test"></audio>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -1077,7 +1077,7 @@ func TestOnAnimationEndAttr(t *testing.T) {
 }
 
 func TestOnAnimationIterationAttr(t *testing.T) {
-	got := string(audio.New().OnAnimationIteration("test").Render())
+	got := string(audio.New().OnAnimationIteration("test").RenderBytes())
 	want := `<audio onanimationiteration="test"></audio>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -1085,7 +1085,7 @@ func TestOnAnimationIterationAttr(t *testing.T) {
 }
 
 func TestOnAnimationStartAttr(t *testing.T) {
-	got := string(audio.New().OnAnimationStart("test").Render())
+	got := string(audio.New().OnAnimationStart("test").RenderBytes())
 	want := `<audio onanimationstart="test"></audio>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -1093,7 +1093,7 @@ func TestOnAnimationStartAttr(t *testing.T) {
 }
 
 func TestOnTransitionCancelAttr(t *testing.T) {
-	got := string(audio.New().OnTransitionCancel("test").Render())
+	got := string(audio.New().OnTransitionCancel("test").RenderBytes())
 	want := `<audio ontransitioncancel="test"></audio>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -1101,7 +1101,7 @@ func TestOnTransitionCancelAttr(t *testing.T) {
 }
 
 func TestOnTransitionEndAttr(t *testing.T) {
-	got := string(audio.New().OnTransitionEnd("test").Render())
+	got := string(audio.New().OnTransitionEnd("test").RenderBytes())
 	want := `<audio ontransitionend="test"></audio>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -1109,7 +1109,7 @@ func TestOnTransitionEndAttr(t *testing.T) {
 }
 
 func TestOnTransitionRunAttr(t *testing.T) {
-	got := string(audio.New().OnTransitionRun("test").Render())
+	got := string(audio.New().OnTransitionRun("test").RenderBytes())
 	want := `<audio ontransitionrun="test"></audio>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -1117,7 +1117,7 @@ func TestOnTransitionRunAttr(t *testing.T) {
 }
 
 func TestOnTransitionStartAttr(t *testing.T) {
-	got := string(audio.New().OnTransitionStart("test").Render())
+	got := string(audio.New().OnTransitionStart("test").RenderBytes())
 	want := `<audio ontransitionstart="test"></audio>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -1125,7 +1125,7 @@ func TestOnTransitionStartAttr(t *testing.T) {
 }
 
 func TestOnBeforeToggleAttr(t *testing.T) {
-	got := string(audio.New().OnBeforeToggle("test").Render())
+	got := string(audio.New().OnBeforeToggle("test").RenderBytes())
 	want := `<audio onbeforetoggle="test"></audio>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -1133,7 +1133,7 @@ func TestOnBeforeToggleAttr(t *testing.T) {
 }
 
 func TestOnBeforeInputAttr(t *testing.T) {
-	got := string(audio.New().OnBeforeInput("test").Render())
+	got := string(audio.New().OnBeforeInput("test").RenderBytes())
 	want := `<audio onbeforeinput="test"></audio>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -1141,7 +1141,7 @@ func TestOnBeforeInputAttr(t *testing.T) {
 }
 
 func TestOnBeforeMatchAttr(t *testing.T) {
-	got := string(audio.New().OnBeforeMatch("test").Render())
+	got := string(audio.New().OnBeforeMatch("test").RenderBytes())
 	want := `<audio onbeforematch="test"></audio>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -1149,7 +1149,7 @@ func TestOnBeforeMatchAttr(t *testing.T) {
 }
 
 func TestOnCommandAttr(t *testing.T) {
-	got := string(audio.New().OnCommand("test").Render())
+	got := string(audio.New().OnCommand("test").RenderBytes())
 	want := `<audio oncommand="test"></audio>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -1157,7 +1157,7 @@ func TestOnCommandAttr(t *testing.T) {
 }
 
 func TestOnContextLostAttr(t *testing.T) {
-	got := string(audio.New().OnContextLost("test").Render())
+	got := string(audio.New().OnContextLost("test").RenderBytes())
 	want := `<audio oncontextlost="test"></audio>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -1165,7 +1165,7 @@ func TestOnContextLostAttr(t *testing.T) {
 }
 
 func TestOnContextRestoredAttr(t *testing.T) {
-	got := string(audio.New().OnContextRestored("test").Render())
+	got := string(audio.New().OnContextRestored("test").RenderBytes())
 	want := `<audio oncontextrestored="test"></audio>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -1173,7 +1173,7 @@ func TestOnContextRestoredAttr(t *testing.T) {
 }
 
 func TestOnSecurityPolicyViolationAttr(t *testing.T) {
-	got := string(audio.New().OnSecurityPolicyViolation("test").Render())
+	got := string(audio.New().OnSecurityPolicyViolation("test").RenderBytes())
 	want := `<audio onsecuritypolicyviolation="test"></audio>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -1181,7 +1181,7 @@ func TestOnSecurityPolicyViolationAttr(t *testing.T) {
 }
 
 func TestOnSlotChangeAttr(t *testing.T) {
-	got := string(audio.New().OnSlotChange("test").Render())
+	got := string(audio.New().OnSlotChange("test").RenderBytes())
 	want := `<audio onslotchange="test"></audio>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -1189,7 +1189,7 @@ func TestOnSlotChangeAttr(t *testing.T) {
 }
 
 func TestOnPointerDownAttr(t *testing.T) {
-	got := string(audio.New().OnPointerDown("test").Render())
+	got := string(audio.New().OnPointerDown("test").RenderBytes())
 	want := `<audio onpointerdown="test"></audio>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -1197,7 +1197,7 @@ func TestOnPointerDownAttr(t *testing.T) {
 }
 
 func TestOnPointerUpAttr(t *testing.T) {
-	got := string(audio.New().OnPointerUp("test").Render())
+	got := string(audio.New().OnPointerUp("test").RenderBytes())
 	want := `<audio onpointerup="test"></audio>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -1205,7 +1205,7 @@ func TestOnPointerUpAttr(t *testing.T) {
 }
 
 func TestOnPointerMoveAttr(t *testing.T) {
-	got := string(audio.New().OnPointerMove("test").Render())
+	got := string(audio.New().OnPointerMove("test").RenderBytes())
 	want := `<audio onpointermove="test"></audio>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -1213,7 +1213,7 @@ func TestOnPointerMoveAttr(t *testing.T) {
 }
 
 func TestOnPointerEnterAttr(t *testing.T) {
-	got := string(audio.New().OnPointerEnter("test").Render())
+	got := string(audio.New().OnPointerEnter("test").RenderBytes())
 	want := `<audio onpointerenter="test"></audio>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -1221,7 +1221,7 @@ func TestOnPointerEnterAttr(t *testing.T) {
 }
 
 func TestOnPointerLeaveAttr(t *testing.T) {
-	got := string(audio.New().OnPointerLeave("test").Render())
+	got := string(audio.New().OnPointerLeave("test").RenderBytes())
 	want := `<audio onpointerleave="test"></audio>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -1229,7 +1229,7 @@ func TestOnPointerLeaveAttr(t *testing.T) {
 }
 
 func TestOnPointerOverAttr(t *testing.T) {
-	got := string(audio.New().OnPointerOver("test").Render())
+	got := string(audio.New().OnPointerOver("test").RenderBytes())
 	want := `<audio onpointerover="test"></audio>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -1237,7 +1237,7 @@ func TestOnPointerOverAttr(t *testing.T) {
 }
 
 func TestOnPointerOutAttr(t *testing.T) {
-	got := string(audio.New().OnPointerOut("test").Render())
+	got := string(audio.New().OnPointerOut("test").RenderBytes())
 	want := `<audio onpointerout="test"></audio>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -1245,7 +1245,7 @@ func TestOnPointerOutAttr(t *testing.T) {
 }
 
 func TestOnPointerCancelAttr(t *testing.T) {
-	got := string(audio.New().OnPointerCancel("test").Render())
+	got := string(audio.New().OnPointerCancel("test").RenderBytes())
 	want := `<audio onpointercancel="test"></audio>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -1253,7 +1253,7 @@ func TestOnPointerCancelAttr(t *testing.T) {
 }
 
 func TestOnGotPointerCaptureAttr(t *testing.T) {
-	got := string(audio.New().OnGotPointerCapture("test").Render())
+	got := string(audio.New().OnGotPointerCapture("test").RenderBytes())
 	want := `<audio ongotpointercapture="test"></audio>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -1261,7 +1261,7 @@ func TestOnGotPointerCaptureAttr(t *testing.T) {
 }
 
 func TestOnLostPointerCaptureAttr(t *testing.T) {
-	got := string(audio.New().OnLostPointerCapture("test").Render())
+	got := string(audio.New().OnLostPointerCapture("test").RenderBytes())
 	want := `<audio onlostpointercapture="test"></audio>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -1269,7 +1269,7 @@ func TestOnLostPointerCaptureAttr(t *testing.T) {
 }
 
 func TestOnTouchStartAttr(t *testing.T) {
-	got := string(audio.New().OnTouchStart("test").Render())
+	got := string(audio.New().OnTouchStart("test").RenderBytes())
 	want := `<audio ontouchstart="test"></audio>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -1277,7 +1277,7 @@ func TestOnTouchStartAttr(t *testing.T) {
 }
 
 func TestOnTouchEndAttr(t *testing.T) {
-	got := string(audio.New().OnTouchEnd("test").Render())
+	got := string(audio.New().OnTouchEnd("test").RenderBytes())
 	want := `<audio ontouchend="test"></audio>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -1285,7 +1285,7 @@ func TestOnTouchEndAttr(t *testing.T) {
 }
 
 func TestOnTouchMoveAttr(t *testing.T) {
-	got := string(audio.New().OnTouchMove("test").Render())
+	got := string(audio.New().OnTouchMove("test").RenderBytes())
 	want := `<audio ontouchmove="test"></audio>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -1293,7 +1293,7 @@ func TestOnTouchMoveAttr(t *testing.T) {
 }
 
 func TestOnTouchCancelAttr(t *testing.T) {
-	got := string(audio.New().OnTouchCancel("test").Render())
+	got := string(audio.New().OnTouchCancel("test").RenderBytes())
 	want := `<audio ontouchcancel="test"></audio>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -1301,7 +1301,7 @@ func TestOnTouchCancelAttr(t *testing.T) {
 }
 
 func TestOnSelectStartAttr(t *testing.T) {
-	got := string(audio.New().OnSelectStart("test").Render())
+	got := string(audio.New().OnSelectStart("test").RenderBytes())
 	want := `<audio onselectstart="test"></audio>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -1309,7 +1309,7 @@ func TestOnSelectStartAttr(t *testing.T) {
 }
 
 func TestOnSelectionChangeAttr(t *testing.T) {
-	got := string(audio.New().OnSelectionChange("test").Render())
+	got := string(audio.New().OnSelectionChange("test").RenderBytes())
 	want := `<audio onselectionchange="test"></audio>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -1317,7 +1317,7 @@ func TestOnSelectionChangeAttr(t *testing.T) {
 }
 
 func TestNewMulti(t *testing.T) {
-	got := string(audio.New(audio.New(), audio.New()).Render())
+	got := string(audio.New(audio.New(), audio.New()).RenderBytes())
 	want := `<audio><audio></audio><audio></audio></audio>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -1328,7 +1328,7 @@ func TestAdd(t *testing.T) {
 	element := audio.New().Add(audio.New(), audio.New())
 
 	// Test rendered output
-	got := string(element.Render())
+	got := string(element.RenderBytes())
 	want := `<audio><audio></audio><audio></audio></audio>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -1353,7 +1353,7 @@ func TestReplace(t *testing.T) {
 	element.Replace(audio.New())
 
 	// Test rendered output
-	got := string(element.Render())
+	got := string(element.RenderBytes())
 	want := `<audio><audio></audio></audio>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -1366,7 +1366,7 @@ func TestReplace(t *testing.T) {
 }
 
 func TestTextMethod(t *testing.T) {
-	got := string(audio.New().Text("hello").Render())
+	got := string(audio.New().Text("hello").RenderBytes())
 	want := `<audio>hello</audio>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -1374,7 +1374,7 @@ func TestTextMethod(t *testing.T) {
 }
 
 func TestTextfMethod(t *testing.T) {
-	got := string(audio.New().Textf("hello %s", "world").Render())
+	got := string(audio.New().Textf("hello %s", "world").RenderBytes())
 	want := `<audio>hello world</audio>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -1382,7 +1382,7 @@ func TestTextfMethod(t *testing.T) {
 }
 
 func TestStaticMethod(t *testing.T) {
-	got := string(audio.New().Static("static content").Render())
+	got := string(audio.New().Static("static content").RenderBytes())
 	want := `<audio>static content</audio>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -1390,7 +1390,7 @@ func TestStaticMethod(t *testing.T) {
 }
 
 func TestRawTextMethod(t *testing.T) {
-	got := string(audio.New().RawText("<em>bold</em>").Render())
+	got := string(audio.New().RawText("<em>bold</em>").RenderBytes())
 	want := `<audio><em>bold</em></audio>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -1398,7 +1398,7 @@ func TestRawTextMethod(t *testing.T) {
 }
 
 func TestRawTextfMethod(t *testing.T) {
-	got := string(audio.New().RawTextf("<%s>test</%s>", "span", "span").Render())
+	got := string(audio.New().RawTextf("<%s>test</%s>", "span", "span").RenderBytes())
 	want := `<audio><span>test</span></audio>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -1406,7 +1406,7 @@ func TestRawTextfMethod(t *testing.T) {
 }
 
 func TestTextChaining(t *testing.T) {
-	got := string(audio.New().Class("foo").Text("content").ID("bar").Render())
+	got := string(audio.New().Class("foo").Text("content").ID("bar").RenderBytes())
 	want := `<audio class="foo" id="bar">content</audio>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -1414,7 +1414,7 @@ func TestTextChaining(t *testing.T) {
 }
 
 func TestDynamicKey(t *testing.T) {
-	got := string(audio.New().Dynamic("mykey").Render())
+	got := string(audio.New().Dynamic("mykey").RenderBytes())
 	want := `<audio data-tether-key="mykey"></audio>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -1429,7 +1429,7 @@ func TestDynamicNoKey(t *testing.T) {
 	if el.DynamicKey() != "_" {
 		t.Errorf("DynamicKey() should be \"_\", got %q", el.DynamicKey())
 	}
-	got := string(el.Render())
+	got := string(el.RenderBytes())
 	want := `<audio></audio>`
 	if got != want {
 		t.Errorf("Dynamic() without key should not render data-tether-key: got %q, want %q", got, want)

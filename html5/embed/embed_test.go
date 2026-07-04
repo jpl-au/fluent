@@ -21,7 +21,7 @@ import (
 )
 
 func TestNewCtor(t *testing.T) {
-	got := string(embed.New().Render())
+	got := string(embed.New().RenderBytes())
 	want := `<embed />`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -29,7 +29,7 @@ func TestNewCtor(t *testing.T) {
 }
 
 func TestPDFCtor(t *testing.T) {
-	got := string(embed.PDF("document.pdf", 800, 600).Render())
+	got := string(embed.PDF("document.pdf", 800, 600).RenderBytes())
 	want := `<embed src="document.pdf" type="application/pdf" width="800" height="600" />`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -37,7 +37,7 @@ func TestPDFCtor(t *testing.T) {
 }
 
 func TestFlashCtor(t *testing.T) {
-	got := string(embed.Flash("animation.swf", 640, 480).Render())
+	got := string(embed.Flash("animation.swf", 640, 480).RenderBytes())
 	want := `<embed src="animation.swf" type="application/x-shockwave-flash" width="640" height="480" />`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -45,7 +45,7 @@ func TestFlashCtor(t *testing.T) {
 }
 
 func TestVideoCtor(t *testing.T) {
-	got := string(embed.Video("movie.mp4", 640, 480).Render())
+	got := string(embed.Video("movie.mp4", 640, 480).RenderBytes())
 	want := `<embed src="movie.mp4" type="video/mp4" width="640" height="480" />`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -53,7 +53,7 @@ func TestVideoCtor(t *testing.T) {
 }
 
 func TestAudioCtor(t *testing.T) {
-	got := string(embed.Audio("song.mp3", 320, 50).Render())
+	got := string(embed.Audio("song.mp3", 320, 50).RenderBytes())
 	want := `<embed src="song.mp3" type="audio/mpeg" width="320" height="50" />`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -61,7 +61,7 @@ func TestAudioCtor(t *testing.T) {
 }
 
 func TestSrcAttr(t *testing.T) {
-	got := string(embed.New().Src("test").Render())
+	got := string(embed.New().Src("test").RenderBytes())
 	want := `<embed src="test" />`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -69,7 +69,7 @@ func TestSrcAttr(t *testing.T) {
 }
 
 func TestTypeAttr(t *testing.T) {
-	got := string(embed.New().Type("test").Render())
+	got := string(embed.New().Type("test").RenderBytes())
 	want := `<embed type="test" />`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -77,7 +77,7 @@ func TestTypeAttr(t *testing.T) {
 }
 
 func TestWidthAttr(t *testing.T) {
-	got := string(embed.New().Width(42).Render())
+	got := string(embed.New().Width(42).RenderBytes())
 	want := `<embed width="42" />`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -85,7 +85,7 @@ func TestWidthAttr(t *testing.T) {
 }
 
 func TestHeightAttr(t *testing.T) {
-	got := string(embed.New().Height(42).Render())
+	got := string(embed.New().Height(42).RenderBytes())
 	want := `<embed height="42" />`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -93,7 +93,7 @@ func TestHeightAttr(t *testing.T) {
 }
 
 func TestClassAttr(t *testing.T) {
-	got := string(embed.New().Class("test").Render())
+	got := string(embed.New().Class("test").RenderBytes())
 	want := `<embed class="test" />`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -102,7 +102,7 @@ func TestClassAttr(t *testing.T) {
 
 func TestClassMulti(t *testing.T) {
 	// Test multiple chained calls
-	got := string(embed.New().Class("one").Class("two").Class("three").Render())
+	got := string(embed.New().Class("one").Class("two").Class("three").RenderBytes())
 	want := `<embed class="one two three" />`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -110,7 +110,7 @@ func TestClassMulti(t *testing.T) {
 }
 
 func TestIDAttr(t *testing.T) {
-	got := string(embed.New().ID("test").Render())
+	got := string(embed.New().ID("test").RenderBytes())
 	want := `<embed id="test" />`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -118,7 +118,7 @@ func TestIDAttr(t *testing.T) {
 }
 
 func TestStyleAttr(t *testing.T) {
-	got := string(embed.New().Style("test").Render())
+	got := string(embed.New().Style("test").RenderBytes())
 	want := `<embed style="test" />`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -127,7 +127,7 @@ func TestStyleAttr(t *testing.T) {
 
 func TestStyleMulti(t *testing.T) {
 	// Test multiple chained calls
-	got := string(embed.New().Style("one").Style("two").Style("three").Render())
+	got := string(embed.New().Style("one").Style("two").Style("three").RenderBytes())
 	want := `<embed style="one; two; three" />`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -135,7 +135,7 @@ func TestStyleMulti(t *testing.T) {
 }
 
 func TestTitleAttr(t *testing.T) {
-	got := string(embed.New().Title("test").Render())
+	got := string(embed.New().Title("test").RenderBytes())
 	want := `<embed title="test" />`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -143,7 +143,7 @@ func TestTitleAttr(t *testing.T) {
 }
 
 func TestHiddenAttr(t *testing.T) {
-	got := string(embed.New().Hidden(hidden.True).Render())
+	got := string(embed.New().Hidden(hidden.True).RenderBytes())
 	want := `<embed hidden="true" />`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -151,7 +151,7 @@ func TestHiddenAttr(t *testing.T) {
 }
 
 func TestTabIndexAttr(t *testing.T) {
-	got := string(embed.New().TabIndex(42).Render())
+	got := string(embed.New().TabIndex(42).RenderBytes())
 	want := `<embed tabindex="42" />`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -159,7 +159,7 @@ func TestTabIndexAttr(t *testing.T) {
 }
 
 func TestRoleAttr(t *testing.T) {
-	got := string(embed.New().Role("test").Render())
+	got := string(embed.New().Role("test").RenderBytes())
 	want := `<embed role="test" />`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -167,7 +167,7 @@ func TestRoleAttr(t *testing.T) {
 }
 
 func TestLangAttr(t *testing.T) {
-	got := string(embed.New().Lang("test").Render())
+	got := string(embed.New().Lang("test").RenderBytes())
 	want := `<embed lang="test" />`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -175,7 +175,7 @@ func TestLangAttr(t *testing.T) {
 }
 
 func TestAccessKeyAttr(t *testing.T) {
-	got := string(embed.New().AccessKey("test").Render())
+	got := string(embed.New().AccessKey("test").RenderBytes())
 	want := `<embed accesskey="test" />`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -184,7 +184,7 @@ func TestAccessKeyAttr(t *testing.T) {
 
 func TestAccessKeyMulti(t *testing.T) {
 	// Test multiple chained calls
-	got := string(embed.New().AccessKey("one").AccessKey("two").AccessKey("three").Render())
+	got := string(embed.New().AccessKey("one").AccessKey("two").AccessKey("three").RenderBytes())
 	want := `<embed accesskey="one two three" />`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -192,7 +192,7 @@ func TestAccessKeyMulti(t *testing.T) {
 }
 
 func TestAnchorAttr(t *testing.T) {
-	got := string(embed.New().Anchor("test").Render())
+	got := string(embed.New().Anchor("test").RenderBytes())
 	want := `<embed anchor="test" />`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -200,7 +200,7 @@ func TestAnchorAttr(t *testing.T) {
 }
 
 func TestAriaLabelAttr(t *testing.T) {
-	got := string(embed.New().AriaLabel("test").Render())
+	got := string(embed.New().AriaLabel("test").RenderBytes())
 	want := `<embed aria-label="test" />`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -208,7 +208,7 @@ func TestAriaLabelAttr(t *testing.T) {
 }
 
 func TestSetAriaAttr(t *testing.T) {
-	got := string(embed.New().SetAria("label", "test-value").Render())
+	got := string(embed.New().SetAria("label", "test-value").RenderBytes())
 	want := `<embed aria-label="test-value" />`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -216,7 +216,7 @@ func TestSetAriaAttr(t *testing.T) {
 }
 
 func TestAutoCapitalizeAttr(t *testing.T) {
-	got := string(embed.New().AutoCapitalize(autocapitalize.Off).Render())
+	got := string(embed.New().AutoCapitalize(autocapitalize.Off).RenderBytes())
 	want := `<embed autocapitalize="off" />`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -224,7 +224,7 @@ func TestAutoCapitalizeAttr(t *testing.T) {
 }
 
 func TestAutoCorrectAttr(t *testing.T) {
-	got := string(embed.New().AutoCorrect(autocorrect.On).Render())
+	got := string(embed.New().AutoCorrect(autocorrect.On).RenderBytes())
 	want := `<embed autocorrect="on" />`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -232,7 +232,7 @@ func TestAutoCorrectAttr(t *testing.T) {
 }
 
 func TestAutoFocusAttr(t *testing.T) {
-	got := string(embed.New().AutoFocus().Render())
+	got := string(embed.New().AutoFocus().RenderBytes())
 	want := `<embed autofocus />`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -240,7 +240,7 @@ func TestAutoFocusAttr(t *testing.T) {
 }
 
 func TestContentEditableAttr(t *testing.T) {
-	got := string(embed.New().ContentEditable(contenteditable.True).Render())
+	got := string(embed.New().ContentEditable(contenteditable.True).RenderBytes())
 	want := `<embed contenteditable="true" />`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -248,7 +248,7 @@ func TestContentEditableAttr(t *testing.T) {
 }
 
 func TestSetDataAttr(t *testing.T) {
-	got := string(embed.New().SetData("user-id", "test-value").Render())
+	got := string(embed.New().SetData("user-id", "test-value").RenderBytes())
 	want := `<embed data-user-id="test-value" />`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -256,7 +256,7 @@ func TestSetDataAttr(t *testing.T) {
 }
 
 func TestDirAttr(t *testing.T) {
-	got := string(embed.New().Dir(dir.LeftToRight).Render())
+	got := string(embed.New().Dir(dir.LeftToRight).RenderBytes())
 	want := `<embed dir="ltr" />`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -264,7 +264,7 @@ func TestDirAttr(t *testing.T) {
 }
 
 func TestDraggableAttr(t *testing.T) {
-	got := string(embed.New().Draggable().Render())
+	got := string(embed.New().Draggable().RenderBytes())
 	want := `<embed draggable />`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -272,7 +272,7 @@ func TestDraggableAttr(t *testing.T) {
 }
 
 func TestEnterKeyHintAttr(t *testing.T) {
-	got := string(embed.New().EnterKeyHint(enterkeyhint.Enter).Render())
+	got := string(embed.New().EnterKeyHint(enterkeyhint.Enter).RenderBytes())
 	want := `<embed enterkeyhint="enter" />`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -280,7 +280,7 @@ func TestEnterKeyHintAttr(t *testing.T) {
 }
 
 func TestExportPartsAttr(t *testing.T) {
-	got := string(embed.New().ExportParts("test").Render())
+	got := string(embed.New().ExportParts("test").RenderBytes())
 	want := `<embed exportparts="test" />`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -288,7 +288,7 @@ func TestExportPartsAttr(t *testing.T) {
 }
 
 func TestInertAttr(t *testing.T) {
-	got := string(embed.New().Inert().Render())
+	got := string(embed.New().Inert().RenderBytes())
 	want := `<embed inert />`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -296,7 +296,7 @@ func TestInertAttr(t *testing.T) {
 }
 
 func TestInputModeAttr(t *testing.T) {
-	got := string(embed.New().InputMode(inputmode.None).Render())
+	got := string(embed.New().InputMode(inputmode.None).RenderBytes())
 	want := `<embed inputmode="none" />`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -304,7 +304,7 @@ func TestInputModeAttr(t *testing.T) {
 }
 
 func TestIsAttr(t *testing.T) {
-	got := string(embed.New().Is("test").Render())
+	got := string(embed.New().Is("test").RenderBytes())
 	want := `<embed is="test" />`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -312,7 +312,7 @@ func TestIsAttr(t *testing.T) {
 }
 
 func TestItemIdAttr(t *testing.T) {
-	got := string(embed.New().ItemId("test").Render())
+	got := string(embed.New().ItemId("test").RenderBytes())
 	want := `<embed itemid="test" />`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -320,7 +320,7 @@ func TestItemIdAttr(t *testing.T) {
 }
 
 func TestItemPropAttr(t *testing.T) {
-	got := string(embed.New().ItemProp("test").Render())
+	got := string(embed.New().ItemProp("test").RenderBytes())
 	want := `<embed itemprop="test" />`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -328,7 +328,7 @@ func TestItemPropAttr(t *testing.T) {
 }
 
 func TestItemRefAttr(t *testing.T) {
-	got := string(embed.New().ItemRef("test").Render())
+	got := string(embed.New().ItemRef("test").RenderBytes())
 	want := `<embed itemref="test" />`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -336,7 +336,7 @@ func TestItemRefAttr(t *testing.T) {
 }
 
 func TestItemScopeAttr(t *testing.T) {
-	got := string(embed.New().ItemScope().Render())
+	got := string(embed.New().ItemScope().RenderBytes())
 	want := `<embed itemscope />`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -344,7 +344,7 @@ func TestItemScopeAttr(t *testing.T) {
 }
 
 func TestItemTypeAttr(t *testing.T) {
-	got := string(embed.New().ItemType("test").Render())
+	got := string(embed.New().ItemType("test").RenderBytes())
 	want := `<embed itemtype="test" />`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -352,7 +352,7 @@ func TestItemTypeAttr(t *testing.T) {
 }
 
 func TestNonceAttr(t *testing.T) {
-	got := string(embed.New().Nonce("test").Render())
+	got := string(embed.New().Nonce("test").RenderBytes())
 	want := `<embed nonce="test" />`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -360,7 +360,7 @@ func TestNonceAttr(t *testing.T) {
 }
 
 func TestPartAttr(t *testing.T) {
-	got := string(embed.New().Part("test").Render())
+	got := string(embed.New().Part("test").RenderBytes())
 	want := `<embed part="test" />`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -369,7 +369,7 @@ func TestPartAttr(t *testing.T) {
 
 func TestPartMulti(t *testing.T) {
 	// Test multiple chained calls
-	got := string(embed.New().Part("one").Part("two").Part("three").Render())
+	got := string(embed.New().Part("one").Part("two").Part("three").RenderBytes())
 	want := `<embed part="one two three" />`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -377,7 +377,7 @@ func TestPartMulti(t *testing.T) {
 }
 
 func TestPopoverAttr(t *testing.T) {
-	got := string(embed.New().Popover(popover.Auto).Render())
+	got := string(embed.New().Popover(popover.Auto).RenderBytes())
 	want := `<embed popover="auto" />`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -385,7 +385,7 @@ func TestPopoverAttr(t *testing.T) {
 }
 
 func TestSlotAttr(t *testing.T) {
-	got := string(embed.New().Slot("test").Render())
+	got := string(embed.New().Slot("test").RenderBytes())
 	want := `<embed slot="test" />`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -393,7 +393,7 @@ func TestSlotAttr(t *testing.T) {
 }
 
 func TestSpellCheckAttr(t *testing.T) {
-	got := string(embed.New().SpellCheck(spellcheck.True).Render())
+	got := string(embed.New().SpellCheck(spellcheck.True).RenderBytes())
 	want := `<embed spellcheck="true" />`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -401,7 +401,7 @@ func TestSpellCheckAttr(t *testing.T) {
 }
 
 func TestTranslateAttr(t *testing.T) {
-	got := string(embed.New().Translate(translate.Yes).Render())
+	got := string(embed.New().Translate(translate.Yes).RenderBytes())
 	want := `<embed translate="yes" />`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -409,7 +409,7 @@ func TestTranslateAttr(t *testing.T) {
 }
 
 func TestVirtualKeyboardPolicyAttr(t *testing.T) {
-	got := string(embed.New().VirtualKeyboardPolicy(virtualkeyboardpolicy.Auto).Render())
+	got := string(embed.New().VirtualKeyboardPolicy(virtualkeyboardpolicy.Auto).RenderBytes())
 	want := `<embed virtualkeyboardpolicy="auto" />`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -417,7 +417,7 @@ func TestVirtualKeyboardPolicyAttr(t *testing.T) {
 }
 
 func TestWritingSuggestionsAttr(t *testing.T) {
-	got := string(embed.New().WritingSuggestions(writingsuggestions.True).Render())
+	got := string(embed.New().WritingSuggestions(writingsuggestions.True).RenderBytes())
 	want := `<embed writingsuggestions="true" />`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -425,7 +425,7 @@ func TestWritingSuggestionsAttr(t *testing.T) {
 }
 
 func TestOnClickAttr(t *testing.T) {
-	got := string(embed.New().OnClick("test").Render())
+	got := string(embed.New().OnClick("test").RenderBytes())
 	want := `<embed onclick="test" />`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -433,7 +433,7 @@ func TestOnClickAttr(t *testing.T) {
 }
 
 func TestOnChangeAttr(t *testing.T) {
-	got := string(embed.New().OnChange("test").Render())
+	got := string(embed.New().OnChange("test").RenderBytes())
 	want := `<embed onchange="test" />`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -441,7 +441,7 @@ func TestOnChangeAttr(t *testing.T) {
 }
 
 func TestOnInputAttr(t *testing.T) {
-	got := string(embed.New().OnInput("test").Render())
+	got := string(embed.New().OnInput("test").RenderBytes())
 	want := `<embed oninput="test" />`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -449,7 +449,7 @@ func TestOnInputAttr(t *testing.T) {
 }
 
 func TestOnFocusAttr(t *testing.T) {
-	got := string(embed.New().OnFocus("test").Render())
+	got := string(embed.New().OnFocus("test").RenderBytes())
 	want := `<embed onfocus="test" />`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -457,7 +457,7 @@ func TestOnFocusAttr(t *testing.T) {
 }
 
 func TestOnBlurAttr(t *testing.T) {
-	got := string(embed.New().OnBlur("test").Render())
+	got := string(embed.New().OnBlur("test").RenderBytes())
 	want := `<embed onblur="test" />`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -465,7 +465,7 @@ func TestOnBlurAttr(t *testing.T) {
 }
 
 func TestOnSubmitAttr(t *testing.T) {
-	got := string(embed.New().OnSubmit("test").Render())
+	got := string(embed.New().OnSubmit("test").RenderBytes())
 	want := `<embed onsubmit="test" />`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -473,7 +473,7 @@ func TestOnSubmitAttr(t *testing.T) {
 }
 
 func TestOnLoadAttr(t *testing.T) {
-	got := string(embed.New().OnLoad("test").Render())
+	got := string(embed.New().OnLoad("test").RenderBytes())
 	want := `<embed onload="test" />`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -481,7 +481,7 @@ func TestOnLoadAttr(t *testing.T) {
 }
 
 func TestOnErrorAttr(t *testing.T) {
-	got := string(embed.New().OnError("test").Render())
+	got := string(embed.New().OnError("test").RenderBytes())
 	want := `<embed onerror="test" />`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -489,7 +489,7 @@ func TestOnErrorAttr(t *testing.T) {
 }
 
 func TestSetEventAttr(t *testing.T) {
-	got := string(embed.New().SetEvent("onclick", "test-value").Render())
+	got := string(embed.New().SetEvent("onclick", "test-value").RenderBytes())
 	want := `<embed onclick="test-value" />`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -497,7 +497,7 @@ func TestSetEventAttr(t *testing.T) {
 }
 
 func TestOnAbortAttr(t *testing.T) {
-	got := string(embed.New().OnAbort("test").Render())
+	got := string(embed.New().OnAbort("test").RenderBytes())
 	want := `<embed onabort="test" />`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -505,7 +505,7 @@ func TestOnAbortAttr(t *testing.T) {
 }
 
 func TestOnAutoCompleteAttr(t *testing.T) {
-	got := string(embed.New().OnAutoComplete("test").Render())
+	got := string(embed.New().OnAutoComplete("test").RenderBytes())
 	want := `<embed onautocomplete="test" />`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -513,7 +513,7 @@ func TestOnAutoCompleteAttr(t *testing.T) {
 }
 
 func TestOnAutoCompleteErrorAttr(t *testing.T) {
-	got := string(embed.New().OnAutoCompleteError("test").Render())
+	got := string(embed.New().OnAutoCompleteError("test").RenderBytes())
 	want := `<embed onautocompleteerror="test" />`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -521,7 +521,7 @@ func TestOnAutoCompleteErrorAttr(t *testing.T) {
 }
 
 func TestOnCancelAttr(t *testing.T) {
-	got := string(embed.New().OnCancel("test").Render())
+	got := string(embed.New().OnCancel("test").RenderBytes())
 	want := `<embed oncancel="test" />`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -529,7 +529,7 @@ func TestOnCancelAttr(t *testing.T) {
 }
 
 func TestOnCanPlayAttr(t *testing.T) {
-	got := string(embed.New().OnCanPlay("test").Render())
+	got := string(embed.New().OnCanPlay("test").RenderBytes())
 	want := `<embed oncanplay="test" />`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -537,7 +537,7 @@ func TestOnCanPlayAttr(t *testing.T) {
 }
 
 func TestOnCanPlayThroughAttr(t *testing.T) {
-	got := string(embed.New().OnCanPlayThrough("test").Render())
+	got := string(embed.New().OnCanPlayThrough("test").RenderBytes())
 	want := `<embed oncanplaythrough="test" />`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -545,7 +545,7 @@ func TestOnCanPlayThroughAttr(t *testing.T) {
 }
 
 func TestOnCloseAttr(t *testing.T) {
-	got := string(embed.New().OnClose("test").Render())
+	got := string(embed.New().OnClose("test").RenderBytes())
 	want := `<embed onclose="test" />`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -553,7 +553,7 @@ func TestOnCloseAttr(t *testing.T) {
 }
 
 func TestOnContextMenuAttr(t *testing.T) {
-	got := string(embed.New().OnContextMenu("test").Render())
+	got := string(embed.New().OnContextMenu("test").RenderBytes())
 	want := `<embed oncontextmenu="test" />`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -561,7 +561,7 @@ func TestOnContextMenuAttr(t *testing.T) {
 }
 
 func TestOnCueChangeAttr(t *testing.T) {
-	got := string(embed.New().OnCueChange("test").Render())
+	got := string(embed.New().OnCueChange("test").RenderBytes())
 	want := `<embed oncuechange="test" />`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -569,7 +569,7 @@ func TestOnCueChangeAttr(t *testing.T) {
 }
 
 func TestOnDblClickAttr(t *testing.T) {
-	got := string(embed.New().OnDblClick("test").Render())
+	got := string(embed.New().OnDblClick("test").RenderBytes())
 	want := `<embed ondblclick="test" />`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -577,7 +577,7 @@ func TestOnDblClickAttr(t *testing.T) {
 }
 
 func TestOnDragAttr(t *testing.T) {
-	got := string(embed.New().OnDrag("test").Render())
+	got := string(embed.New().OnDrag("test").RenderBytes())
 	want := `<embed ondrag="test" />`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -585,7 +585,7 @@ func TestOnDragAttr(t *testing.T) {
 }
 
 func TestOnDragEndAttr(t *testing.T) {
-	got := string(embed.New().OnDragEnd("test").Render())
+	got := string(embed.New().OnDragEnd("test").RenderBytes())
 	want := `<embed ondragend="test" />`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -593,7 +593,7 @@ func TestOnDragEndAttr(t *testing.T) {
 }
 
 func TestOnDragEnterAttr(t *testing.T) {
-	got := string(embed.New().OnDragEnter("test").Render())
+	got := string(embed.New().OnDragEnter("test").RenderBytes())
 	want := `<embed ondragenter="test" />`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -601,7 +601,7 @@ func TestOnDragEnterAttr(t *testing.T) {
 }
 
 func TestOnDragLeaveAttr(t *testing.T) {
-	got := string(embed.New().OnDragLeave("test").Render())
+	got := string(embed.New().OnDragLeave("test").RenderBytes())
 	want := `<embed ondragleave="test" />`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -609,7 +609,7 @@ func TestOnDragLeaveAttr(t *testing.T) {
 }
 
 func TestOnDragOverAttr(t *testing.T) {
-	got := string(embed.New().OnDragOver("test").Render())
+	got := string(embed.New().OnDragOver("test").RenderBytes())
 	want := `<embed ondragover="test" />`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -617,7 +617,7 @@ func TestOnDragOverAttr(t *testing.T) {
 }
 
 func TestOnDragStartAttr(t *testing.T) {
-	got := string(embed.New().OnDragStart("test").Render())
+	got := string(embed.New().OnDragStart("test").RenderBytes())
 	want := `<embed ondragstart="test" />`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -625,7 +625,7 @@ func TestOnDragStartAttr(t *testing.T) {
 }
 
 func TestOnDropAttr(t *testing.T) {
-	got := string(embed.New().OnDrop("test").Render())
+	got := string(embed.New().OnDrop("test").RenderBytes())
 	want := `<embed ondrop="test" />`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -633,7 +633,7 @@ func TestOnDropAttr(t *testing.T) {
 }
 
 func TestOnDurationChangeAttr(t *testing.T) {
-	got := string(embed.New().OnDurationChange("test").Render())
+	got := string(embed.New().OnDurationChange("test").RenderBytes())
 	want := `<embed ondurationchange="test" />`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -641,7 +641,7 @@ func TestOnDurationChangeAttr(t *testing.T) {
 }
 
 func TestOnEmptiedAttr(t *testing.T) {
-	got := string(embed.New().OnEmptied("test").Render())
+	got := string(embed.New().OnEmptied("test").RenderBytes())
 	want := `<embed onemptied="test" />`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -649,7 +649,7 @@ func TestOnEmptiedAttr(t *testing.T) {
 }
 
 func TestOnEndedAttr(t *testing.T) {
-	got := string(embed.New().OnEnded("test").Render())
+	got := string(embed.New().OnEnded("test").RenderBytes())
 	want := `<embed onended="test" />`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -657,7 +657,7 @@ func TestOnEndedAttr(t *testing.T) {
 }
 
 func TestOnInvalidAttr(t *testing.T) {
-	got := string(embed.New().OnInvalid("test").Render())
+	got := string(embed.New().OnInvalid("test").RenderBytes())
 	want := `<embed oninvalid="test" />`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -665,7 +665,7 @@ func TestOnInvalidAttr(t *testing.T) {
 }
 
 func TestOnKeyDownAttr(t *testing.T) {
-	got := string(embed.New().OnKeyDown("test").Render())
+	got := string(embed.New().OnKeyDown("test").RenderBytes())
 	want := `<embed onkeydown="test" />`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -673,7 +673,7 @@ func TestOnKeyDownAttr(t *testing.T) {
 }
 
 func TestOnKeyPressAttr(t *testing.T) {
-	got := string(embed.New().OnKeyPress("test").Render())
+	got := string(embed.New().OnKeyPress("test").RenderBytes())
 	want := `<embed onkeypress="test" />`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -681,7 +681,7 @@ func TestOnKeyPressAttr(t *testing.T) {
 }
 
 func TestOnKeyUpAttr(t *testing.T) {
-	got := string(embed.New().OnKeyUp("test").Render())
+	got := string(embed.New().OnKeyUp("test").RenderBytes())
 	want := `<embed onkeyup="test" />`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -689,7 +689,7 @@ func TestOnKeyUpAttr(t *testing.T) {
 }
 
 func TestOnLoadedDataAttr(t *testing.T) {
-	got := string(embed.New().OnLoadedData("test").Render())
+	got := string(embed.New().OnLoadedData("test").RenderBytes())
 	want := `<embed onloadeddata="test" />`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -697,7 +697,7 @@ func TestOnLoadedDataAttr(t *testing.T) {
 }
 
 func TestOnLoadedMetadataAttr(t *testing.T) {
-	got := string(embed.New().OnLoadedMetadata("test").Render())
+	got := string(embed.New().OnLoadedMetadata("test").RenderBytes())
 	want := `<embed onloadedmetadata="test" />`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -705,7 +705,7 @@ func TestOnLoadedMetadataAttr(t *testing.T) {
 }
 
 func TestOnLoadStartAttr(t *testing.T) {
-	got := string(embed.New().OnLoadStart("test").Render())
+	got := string(embed.New().OnLoadStart("test").RenderBytes())
 	want := `<embed onloadstart="test" />`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -713,7 +713,7 @@ func TestOnLoadStartAttr(t *testing.T) {
 }
 
 func TestOnMouseDownAttr(t *testing.T) {
-	got := string(embed.New().OnMouseDown("test").Render())
+	got := string(embed.New().OnMouseDown("test").RenderBytes())
 	want := `<embed onmousedown="test" />`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -721,7 +721,7 @@ func TestOnMouseDownAttr(t *testing.T) {
 }
 
 func TestOnMouseEnterAttr(t *testing.T) {
-	got := string(embed.New().OnMouseEnter("test").Render())
+	got := string(embed.New().OnMouseEnter("test").RenderBytes())
 	want := `<embed onmouseenter="test" />`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -729,7 +729,7 @@ func TestOnMouseEnterAttr(t *testing.T) {
 }
 
 func TestOnMouseLeaveAttr(t *testing.T) {
-	got := string(embed.New().OnMouseLeave("test").Render())
+	got := string(embed.New().OnMouseLeave("test").RenderBytes())
 	want := `<embed onmouseleave="test" />`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -737,7 +737,7 @@ func TestOnMouseLeaveAttr(t *testing.T) {
 }
 
 func TestOnMouseMoveAttr(t *testing.T) {
-	got := string(embed.New().OnMouseMove("test").Render())
+	got := string(embed.New().OnMouseMove("test").RenderBytes())
 	want := `<embed onmousemove="test" />`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -745,7 +745,7 @@ func TestOnMouseMoveAttr(t *testing.T) {
 }
 
 func TestOnMouseOutAttr(t *testing.T) {
-	got := string(embed.New().OnMouseOut("test").Render())
+	got := string(embed.New().OnMouseOut("test").RenderBytes())
 	want := `<embed onmouseout="test" />`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -753,7 +753,7 @@ func TestOnMouseOutAttr(t *testing.T) {
 }
 
 func TestOnMouseOverAttr(t *testing.T) {
-	got := string(embed.New().OnMouseOver("test").Render())
+	got := string(embed.New().OnMouseOver("test").RenderBytes())
 	want := `<embed onmouseover="test" />`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -761,7 +761,7 @@ func TestOnMouseOverAttr(t *testing.T) {
 }
 
 func TestOnMouseUpAttr(t *testing.T) {
-	got := string(embed.New().OnMouseUp("test").Render())
+	got := string(embed.New().OnMouseUp("test").RenderBytes())
 	want := `<embed onmouseup="test" />`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -769,7 +769,7 @@ func TestOnMouseUpAttr(t *testing.T) {
 }
 
 func TestOnMouseWheelAttr(t *testing.T) {
-	got := string(embed.New().OnMouseWheel("test").Render())
+	got := string(embed.New().OnMouseWheel("test").RenderBytes())
 	want := `<embed onmousewheel="test" />`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -777,7 +777,7 @@ func TestOnMouseWheelAttr(t *testing.T) {
 }
 
 func TestOnPauseAttr(t *testing.T) {
-	got := string(embed.New().OnPause("test").Render())
+	got := string(embed.New().OnPause("test").RenderBytes())
 	want := `<embed onpause="test" />`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -785,7 +785,7 @@ func TestOnPauseAttr(t *testing.T) {
 }
 
 func TestOnPlayAttr(t *testing.T) {
-	got := string(embed.New().OnPlay("test").Render())
+	got := string(embed.New().OnPlay("test").RenderBytes())
 	want := `<embed onplay="test" />`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -793,7 +793,7 @@ func TestOnPlayAttr(t *testing.T) {
 }
 
 func TestOnPlayingAttr(t *testing.T) {
-	got := string(embed.New().OnPlaying("test").Render())
+	got := string(embed.New().OnPlaying("test").RenderBytes())
 	want := `<embed onplaying="test" />`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -801,7 +801,7 @@ func TestOnPlayingAttr(t *testing.T) {
 }
 
 func TestOnProgressAttr(t *testing.T) {
-	got := string(embed.New().OnProgress("test").Render())
+	got := string(embed.New().OnProgress("test").RenderBytes())
 	want := `<embed onprogress="test" />`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -809,7 +809,7 @@ func TestOnProgressAttr(t *testing.T) {
 }
 
 func TestOnRateChangeAttr(t *testing.T) {
-	got := string(embed.New().OnRateChange("test").Render())
+	got := string(embed.New().OnRateChange("test").RenderBytes())
 	want := `<embed onratechange="test" />`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -817,7 +817,7 @@ func TestOnRateChangeAttr(t *testing.T) {
 }
 
 func TestOnResetAttr(t *testing.T) {
-	got := string(embed.New().OnReset("test").Render())
+	got := string(embed.New().OnReset("test").RenderBytes())
 	want := `<embed onreset="test" />`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -825,7 +825,7 @@ func TestOnResetAttr(t *testing.T) {
 }
 
 func TestOnResizeAttr(t *testing.T) {
-	got := string(embed.New().OnResize("test").Render())
+	got := string(embed.New().OnResize("test").RenderBytes())
 	want := `<embed onresize="test" />`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -833,7 +833,7 @@ func TestOnResizeAttr(t *testing.T) {
 }
 
 func TestOnScrollAttr(t *testing.T) {
-	got := string(embed.New().OnScroll("test").Render())
+	got := string(embed.New().OnScroll("test").RenderBytes())
 	want := `<embed onscroll="test" />`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -841,7 +841,7 @@ func TestOnScrollAttr(t *testing.T) {
 }
 
 func TestOnSeekedAttr(t *testing.T) {
-	got := string(embed.New().OnSeeked("test").Render())
+	got := string(embed.New().OnSeeked("test").RenderBytes())
 	want := `<embed onseeked="test" />`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -849,7 +849,7 @@ func TestOnSeekedAttr(t *testing.T) {
 }
 
 func TestOnSeekingAttr(t *testing.T) {
-	got := string(embed.New().OnSeeking("test").Render())
+	got := string(embed.New().OnSeeking("test").RenderBytes())
 	want := `<embed onseeking="test" />`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -857,7 +857,7 @@ func TestOnSeekingAttr(t *testing.T) {
 }
 
 func TestOnSelectAttr(t *testing.T) {
-	got := string(embed.New().OnSelect("test").Render())
+	got := string(embed.New().OnSelect("test").RenderBytes())
 	want := `<embed onselect="test" />`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -865,7 +865,7 @@ func TestOnSelectAttr(t *testing.T) {
 }
 
 func TestOnShowAttr(t *testing.T) {
-	got := string(embed.New().OnShow("test").Render())
+	got := string(embed.New().OnShow("test").RenderBytes())
 	want := `<embed onshow="test" />`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -873,7 +873,7 @@ func TestOnShowAttr(t *testing.T) {
 }
 
 func TestOnSortAttr(t *testing.T) {
-	got := string(embed.New().OnSort("test").Render())
+	got := string(embed.New().OnSort("test").RenderBytes())
 	want := `<embed onsort="test" />`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -881,7 +881,7 @@ func TestOnSortAttr(t *testing.T) {
 }
 
 func TestOnStalledAttr(t *testing.T) {
-	got := string(embed.New().OnStalled("test").Render())
+	got := string(embed.New().OnStalled("test").RenderBytes())
 	want := `<embed onstalled="test" />`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -889,7 +889,7 @@ func TestOnStalledAttr(t *testing.T) {
 }
 
 func TestOnSuspendAttr(t *testing.T) {
-	got := string(embed.New().OnSuspend("test").Render())
+	got := string(embed.New().OnSuspend("test").RenderBytes())
 	want := `<embed onsuspend="test" />`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -897,7 +897,7 @@ func TestOnSuspendAttr(t *testing.T) {
 }
 
 func TestOnTimeUpdateAttr(t *testing.T) {
-	got := string(embed.New().OnTimeUpdate("test").Render())
+	got := string(embed.New().OnTimeUpdate("test").RenderBytes())
 	want := `<embed ontimeupdate="test" />`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -905,7 +905,7 @@ func TestOnTimeUpdateAttr(t *testing.T) {
 }
 
 func TestOnToggleAttr(t *testing.T) {
-	got := string(embed.New().OnToggle("test").Render())
+	got := string(embed.New().OnToggle("test").RenderBytes())
 	want := `<embed ontoggle="test" />`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -913,7 +913,7 @@ func TestOnToggleAttr(t *testing.T) {
 }
 
 func TestOnVolumeChangeAttr(t *testing.T) {
-	got := string(embed.New().OnVolumeChange("test").Render())
+	got := string(embed.New().OnVolumeChange("test").RenderBytes())
 	want := `<embed onvolumechange="test" />`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -921,7 +921,7 @@ func TestOnVolumeChangeAttr(t *testing.T) {
 }
 
 func TestOnWaitingAttr(t *testing.T) {
-	got := string(embed.New().OnWaiting("test").Render())
+	got := string(embed.New().OnWaiting("test").RenderBytes())
 	want := `<embed onwaiting="test" />`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -929,7 +929,7 @@ func TestOnWaitingAttr(t *testing.T) {
 }
 
 func TestOnAuxClickAttr(t *testing.T) {
-	got := string(embed.New().OnAuxClick("test").Render())
+	got := string(embed.New().OnAuxClick("test").RenderBytes())
 	want := `<embed onauxclick="test" />`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -937,7 +937,7 @@ func TestOnAuxClickAttr(t *testing.T) {
 }
 
 func TestOnWheelAttr(t *testing.T) {
-	got := string(embed.New().OnWheel("test").Render())
+	got := string(embed.New().OnWheel("test").RenderBytes())
 	want := `<embed onwheel="test" />`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -945,7 +945,7 @@ func TestOnWheelAttr(t *testing.T) {
 }
 
 func TestOnCopyAttr(t *testing.T) {
-	got := string(embed.New().OnCopy("test").Render())
+	got := string(embed.New().OnCopy("test").RenderBytes())
 	want := `<embed oncopy="test" />`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -953,7 +953,7 @@ func TestOnCopyAttr(t *testing.T) {
 }
 
 func TestOnCutAttr(t *testing.T) {
-	got := string(embed.New().OnCut("test").Render())
+	got := string(embed.New().OnCut("test").RenderBytes())
 	want := `<embed oncut="test" />`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -961,7 +961,7 @@ func TestOnCutAttr(t *testing.T) {
 }
 
 func TestOnPasteAttr(t *testing.T) {
-	got := string(embed.New().OnPaste("test").Render())
+	got := string(embed.New().OnPaste("test").RenderBytes())
 	want := `<embed onpaste="test" />`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -969,7 +969,7 @@ func TestOnPasteAttr(t *testing.T) {
 }
 
 func TestOnScrollEndAttr(t *testing.T) {
-	got := string(embed.New().OnScrollEnd("test").Render())
+	got := string(embed.New().OnScrollEnd("test").RenderBytes())
 	want := `<embed onscrollend="test" />`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -977,7 +977,7 @@ func TestOnScrollEndAttr(t *testing.T) {
 }
 
 func TestOnFormDataAttr(t *testing.T) {
-	got := string(embed.New().OnFormData("test").Render())
+	got := string(embed.New().OnFormData("test").RenderBytes())
 	want := `<embed onformdata="test" />`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -985,7 +985,7 @@ func TestOnFormDataAttr(t *testing.T) {
 }
 
 func TestOnAnimationCancelAttr(t *testing.T) {
-	got := string(embed.New().OnAnimationCancel("test").Render())
+	got := string(embed.New().OnAnimationCancel("test").RenderBytes())
 	want := `<embed onanimationcancel="test" />`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -993,7 +993,7 @@ func TestOnAnimationCancelAttr(t *testing.T) {
 }
 
 func TestOnAnimationEndAttr(t *testing.T) {
-	got := string(embed.New().OnAnimationEnd("test").Render())
+	got := string(embed.New().OnAnimationEnd("test").RenderBytes())
 	want := `<embed onanimationend="test" />`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -1001,7 +1001,7 @@ func TestOnAnimationEndAttr(t *testing.T) {
 }
 
 func TestOnAnimationIterationAttr(t *testing.T) {
-	got := string(embed.New().OnAnimationIteration("test").Render())
+	got := string(embed.New().OnAnimationIteration("test").RenderBytes())
 	want := `<embed onanimationiteration="test" />`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -1009,7 +1009,7 @@ func TestOnAnimationIterationAttr(t *testing.T) {
 }
 
 func TestOnAnimationStartAttr(t *testing.T) {
-	got := string(embed.New().OnAnimationStart("test").Render())
+	got := string(embed.New().OnAnimationStart("test").RenderBytes())
 	want := `<embed onanimationstart="test" />`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -1017,7 +1017,7 @@ func TestOnAnimationStartAttr(t *testing.T) {
 }
 
 func TestOnTransitionCancelAttr(t *testing.T) {
-	got := string(embed.New().OnTransitionCancel("test").Render())
+	got := string(embed.New().OnTransitionCancel("test").RenderBytes())
 	want := `<embed ontransitioncancel="test" />`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -1025,7 +1025,7 @@ func TestOnTransitionCancelAttr(t *testing.T) {
 }
 
 func TestOnTransitionEndAttr(t *testing.T) {
-	got := string(embed.New().OnTransitionEnd("test").Render())
+	got := string(embed.New().OnTransitionEnd("test").RenderBytes())
 	want := `<embed ontransitionend="test" />`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -1033,7 +1033,7 @@ func TestOnTransitionEndAttr(t *testing.T) {
 }
 
 func TestOnTransitionRunAttr(t *testing.T) {
-	got := string(embed.New().OnTransitionRun("test").Render())
+	got := string(embed.New().OnTransitionRun("test").RenderBytes())
 	want := `<embed ontransitionrun="test" />`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -1041,7 +1041,7 @@ func TestOnTransitionRunAttr(t *testing.T) {
 }
 
 func TestOnTransitionStartAttr(t *testing.T) {
-	got := string(embed.New().OnTransitionStart("test").Render())
+	got := string(embed.New().OnTransitionStart("test").RenderBytes())
 	want := `<embed ontransitionstart="test" />`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -1049,7 +1049,7 @@ func TestOnTransitionStartAttr(t *testing.T) {
 }
 
 func TestOnBeforeToggleAttr(t *testing.T) {
-	got := string(embed.New().OnBeforeToggle("test").Render())
+	got := string(embed.New().OnBeforeToggle("test").RenderBytes())
 	want := `<embed onbeforetoggle="test" />`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -1057,7 +1057,7 @@ func TestOnBeforeToggleAttr(t *testing.T) {
 }
 
 func TestOnBeforeInputAttr(t *testing.T) {
-	got := string(embed.New().OnBeforeInput("test").Render())
+	got := string(embed.New().OnBeforeInput("test").RenderBytes())
 	want := `<embed onbeforeinput="test" />`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -1065,7 +1065,7 @@ func TestOnBeforeInputAttr(t *testing.T) {
 }
 
 func TestOnBeforeMatchAttr(t *testing.T) {
-	got := string(embed.New().OnBeforeMatch("test").Render())
+	got := string(embed.New().OnBeforeMatch("test").RenderBytes())
 	want := `<embed onbeforematch="test" />`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -1073,7 +1073,7 @@ func TestOnBeforeMatchAttr(t *testing.T) {
 }
 
 func TestOnCommandAttr(t *testing.T) {
-	got := string(embed.New().OnCommand("test").Render())
+	got := string(embed.New().OnCommand("test").RenderBytes())
 	want := `<embed oncommand="test" />`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -1081,7 +1081,7 @@ func TestOnCommandAttr(t *testing.T) {
 }
 
 func TestOnContextLostAttr(t *testing.T) {
-	got := string(embed.New().OnContextLost("test").Render())
+	got := string(embed.New().OnContextLost("test").RenderBytes())
 	want := `<embed oncontextlost="test" />`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -1089,7 +1089,7 @@ func TestOnContextLostAttr(t *testing.T) {
 }
 
 func TestOnContextRestoredAttr(t *testing.T) {
-	got := string(embed.New().OnContextRestored("test").Render())
+	got := string(embed.New().OnContextRestored("test").RenderBytes())
 	want := `<embed oncontextrestored="test" />`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -1097,7 +1097,7 @@ func TestOnContextRestoredAttr(t *testing.T) {
 }
 
 func TestOnSecurityPolicyViolationAttr(t *testing.T) {
-	got := string(embed.New().OnSecurityPolicyViolation("test").Render())
+	got := string(embed.New().OnSecurityPolicyViolation("test").RenderBytes())
 	want := `<embed onsecuritypolicyviolation="test" />`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -1105,7 +1105,7 @@ func TestOnSecurityPolicyViolationAttr(t *testing.T) {
 }
 
 func TestOnSlotChangeAttr(t *testing.T) {
-	got := string(embed.New().OnSlotChange("test").Render())
+	got := string(embed.New().OnSlotChange("test").RenderBytes())
 	want := `<embed onslotchange="test" />`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -1113,7 +1113,7 @@ func TestOnSlotChangeAttr(t *testing.T) {
 }
 
 func TestOnPointerDownAttr(t *testing.T) {
-	got := string(embed.New().OnPointerDown("test").Render())
+	got := string(embed.New().OnPointerDown("test").RenderBytes())
 	want := `<embed onpointerdown="test" />`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -1121,7 +1121,7 @@ func TestOnPointerDownAttr(t *testing.T) {
 }
 
 func TestOnPointerUpAttr(t *testing.T) {
-	got := string(embed.New().OnPointerUp("test").Render())
+	got := string(embed.New().OnPointerUp("test").RenderBytes())
 	want := `<embed onpointerup="test" />`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -1129,7 +1129,7 @@ func TestOnPointerUpAttr(t *testing.T) {
 }
 
 func TestOnPointerMoveAttr(t *testing.T) {
-	got := string(embed.New().OnPointerMove("test").Render())
+	got := string(embed.New().OnPointerMove("test").RenderBytes())
 	want := `<embed onpointermove="test" />`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -1137,7 +1137,7 @@ func TestOnPointerMoveAttr(t *testing.T) {
 }
 
 func TestOnPointerEnterAttr(t *testing.T) {
-	got := string(embed.New().OnPointerEnter("test").Render())
+	got := string(embed.New().OnPointerEnter("test").RenderBytes())
 	want := `<embed onpointerenter="test" />`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -1145,7 +1145,7 @@ func TestOnPointerEnterAttr(t *testing.T) {
 }
 
 func TestOnPointerLeaveAttr(t *testing.T) {
-	got := string(embed.New().OnPointerLeave("test").Render())
+	got := string(embed.New().OnPointerLeave("test").RenderBytes())
 	want := `<embed onpointerleave="test" />`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -1153,7 +1153,7 @@ func TestOnPointerLeaveAttr(t *testing.T) {
 }
 
 func TestOnPointerOverAttr(t *testing.T) {
-	got := string(embed.New().OnPointerOver("test").Render())
+	got := string(embed.New().OnPointerOver("test").RenderBytes())
 	want := `<embed onpointerover="test" />`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -1161,7 +1161,7 @@ func TestOnPointerOverAttr(t *testing.T) {
 }
 
 func TestOnPointerOutAttr(t *testing.T) {
-	got := string(embed.New().OnPointerOut("test").Render())
+	got := string(embed.New().OnPointerOut("test").RenderBytes())
 	want := `<embed onpointerout="test" />`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -1169,7 +1169,7 @@ func TestOnPointerOutAttr(t *testing.T) {
 }
 
 func TestOnPointerCancelAttr(t *testing.T) {
-	got := string(embed.New().OnPointerCancel("test").Render())
+	got := string(embed.New().OnPointerCancel("test").RenderBytes())
 	want := `<embed onpointercancel="test" />`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -1177,7 +1177,7 @@ func TestOnPointerCancelAttr(t *testing.T) {
 }
 
 func TestOnGotPointerCaptureAttr(t *testing.T) {
-	got := string(embed.New().OnGotPointerCapture("test").Render())
+	got := string(embed.New().OnGotPointerCapture("test").RenderBytes())
 	want := `<embed ongotpointercapture="test" />`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -1185,7 +1185,7 @@ func TestOnGotPointerCaptureAttr(t *testing.T) {
 }
 
 func TestOnLostPointerCaptureAttr(t *testing.T) {
-	got := string(embed.New().OnLostPointerCapture("test").Render())
+	got := string(embed.New().OnLostPointerCapture("test").RenderBytes())
 	want := `<embed onlostpointercapture="test" />`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -1193,7 +1193,7 @@ func TestOnLostPointerCaptureAttr(t *testing.T) {
 }
 
 func TestOnTouchStartAttr(t *testing.T) {
-	got := string(embed.New().OnTouchStart("test").Render())
+	got := string(embed.New().OnTouchStart("test").RenderBytes())
 	want := `<embed ontouchstart="test" />`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -1201,7 +1201,7 @@ func TestOnTouchStartAttr(t *testing.T) {
 }
 
 func TestOnTouchEndAttr(t *testing.T) {
-	got := string(embed.New().OnTouchEnd("test").Render())
+	got := string(embed.New().OnTouchEnd("test").RenderBytes())
 	want := `<embed ontouchend="test" />`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -1209,7 +1209,7 @@ func TestOnTouchEndAttr(t *testing.T) {
 }
 
 func TestOnTouchMoveAttr(t *testing.T) {
-	got := string(embed.New().OnTouchMove("test").Render())
+	got := string(embed.New().OnTouchMove("test").RenderBytes())
 	want := `<embed ontouchmove="test" />`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -1217,7 +1217,7 @@ func TestOnTouchMoveAttr(t *testing.T) {
 }
 
 func TestOnTouchCancelAttr(t *testing.T) {
-	got := string(embed.New().OnTouchCancel("test").Render())
+	got := string(embed.New().OnTouchCancel("test").RenderBytes())
 	want := `<embed ontouchcancel="test" />`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -1225,7 +1225,7 @@ func TestOnTouchCancelAttr(t *testing.T) {
 }
 
 func TestOnSelectStartAttr(t *testing.T) {
-	got := string(embed.New().OnSelectStart("test").Render())
+	got := string(embed.New().OnSelectStart("test").RenderBytes())
 	want := `<embed onselectstart="test" />`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -1233,7 +1233,7 @@ func TestOnSelectStartAttr(t *testing.T) {
 }
 
 func TestOnSelectionChangeAttr(t *testing.T) {
-	got := string(embed.New().OnSelectionChange("test").Render())
+	got := string(embed.New().OnSelectionChange("test").RenderBytes())
 	want := `<embed onselectionchange="test" />`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -1241,7 +1241,7 @@ func TestOnSelectionChangeAttr(t *testing.T) {
 }
 
 func TestDynamicKey(t *testing.T) {
-	got := string(embed.New().Dynamic("mykey").Render())
+	got := string(embed.New().Dynamic("mykey").RenderBytes())
 	want := `<embed data-tether-key="mykey" />`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -1256,7 +1256,7 @@ func TestDynamicNoKey(t *testing.T) {
 	if el.DynamicKey() != "_" {
 		t.Errorf("DynamicKey() should be \"_\", got %q", el.DynamicKey())
 	}
-	got := string(el.Render())
+	got := string(el.RenderBytes())
 	want := `<embed />`
 	if got != want {
 		t.Errorf("Dynamic() without key should not render data-tether-key: got %q, want %q", got, want)

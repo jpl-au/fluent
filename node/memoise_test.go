@@ -8,7 +8,7 @@ import (
 func TestMemoisedRendersOutput(t *testing.T) {
 	got := string(Memoise("v1", func() Node {
 		return stub("hello")
-	}).Render())
+	}).RenderBytes())
 	if got != "hello" {
 		t.Errorf("Memoise should render closure output, got %q", got)
 	}
@@ -18,7 +18,7 @@ func TestSharedIsMemoisedAndMarked(t *testing.T) {
 	s := Shared("nav:v1", func() Node { return stub("nav") })
 
 	// Renders like any memoised node.
-	if got := string(s.Render()); got != "nav" {
+	if got := string(s.RenderBytes()); got != "nav" {
 		t.Errorf("Shared should render closure output, got %q", got)
 	}
 	// Reports its key and opts into cross-session sharing.
@@ -38,14 +38,14 @@ func TestMemoiseIsNotShared(t *testing.T) {
 }
 
 func TestMemoisedNilClosure(t *testing.T) {
-	got := string(Memoise("v1", nil).Render())
+	got := string(Memoise("v1", nil).RenderBytes())
 	if got != "" {
 		t.Errorf("Memoise with nil closure should render nothing, got %q", got)
 	}
 }
 
 func TestMemoisedNilReturn(t *testing.T) {
-	got := string(Memoise("v1", func() Node { return nil }).Render())
+	got := string(Memoise("v1", func() Node { return nil }).RenderBytes())
 	if got != "" {
 		t.Errorf("Memoise returning nil should render nothing, got %q", got)
 	}
@@ -63,12 +63,21 @@ func TestMemoisedRenderBuilder(t *testing.T) {
 func TestMemoisedRenderToWriter(t *testing.T) {
 	m := Memoise("v1", func() Node { return stub("hello") })
 	var buf bytes.Buffer
-	result := m.Render(&buf)
-	if result != nil {
-		t.Error("Render(writer) should return nil")
+	n, err := m.WriteTo(&buf)
+	if err != nil {
+		t.Fatalf("WriteTo returned error: %v", err)
+	}
+	if n != int64(buf.Len()) {
+		t.Errorf("WriteTo reported %d bytes but wrote %d", n, buf.Len())
 	}
 	if buf.String() != "hello" {
-		t.Errorf("Render(writer) should write %q, got %q", "hello", buf.String())
+		t.Errorf("WriteTo should write %q, got %q", "hello", buf.String())
+	}
+
+	buf.Reset()
+	m.Render(&buf)
+	if buf.String() != "hello" {
+		t.Errorf("Render should write %q, got %q", "hello", buf.String())
 	}
 }
 
@@ -78,8 +87,8 @@ func TestMemoisedNodesReturnsOutput(t *testing.T) {
 	if len(nodes) != 1 {
 		t.Fatalf("Nodes() should return 1 node, got %d", len(nodes))
 	}
-	if string(nodes[0].Render()) != "hello" {
-		t.Errorf("Nodes() should return closure output, got %q", string(nodes[0].Render()))
+	if string(nodes[0].RenderBytes()) != "hello" {
+		t.Errorf("Nodes() should return closure output, got %q", string(nodes[0].RenderBytes()))
 	}
 }
 
@@ -110,8 +119,8 @@ func TestMemoisedRenderCallsClosure(t *testing.T) {
 	if n == nil {
 		t.Fatal("MemoiseRender() should return a node")
 	}
-	if string(n.Render()) != "from closure" {
-		t.Errorf("MemoiseRender() should return closure output, got %q", string(n.Render()))
+	if string(n.RenderBytes()) != "from closure" {
+		t.Errorf("MemoiseRender() should return closure output, got %q", string(n.RenderBytes()))
 	}
 }
 

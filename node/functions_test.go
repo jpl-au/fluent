@@ -10,7 +10,7 @@ import (
 func TestFuncsRendersOutput(t *testing.T) {
 	got := string(Funcs(func() []Node {
 		return []Node{stub("one"), stub("two")}
-	}).Render())
+	}).RenderBytes())
 	if got != "onetwo" {
 		t.Errorf("Funcs should render all nodes, got %q", got)
 	}
@@ -19,7 +19,7 @@ func TestFuncsRendersOutput(t *testing.T) {
 // TestFuncsEmptySlice verifies that Funcs renders nothing when the
 // function returns an empty slice.
 func TestFuncsEmptySlice(t *testing.T) {
-	got := string(Funcs(func() []Node { return nil }).Render())
+	got := string(Funcs(func() []Node { return nil }).RenderBytes())
 	if got != "" {
 		t.Errorf("Funcs returning nil should render nothing, got %q", got)
 	}
@@ -30,7 +30,7 @@ func TestFuncsEmptySlice(t *testing.T) {
 func TestFuncsSkipsNilEntries(t *testing.T) {
 	got := string(Funcs(func() []Node {
 		return []Node{stub("a"), nil, stub("b")}
-	}).Render())
+	}).RenderBytes())
 	if got != "ab" {
 		t.Errorf("Funcs should skip nil entries, got %q", got)
 	}
@@ -39,7 +39,7 @@ func TestFuncsSkipsNilEntries(t *testing.T) {
 // TestFuncsNilFunction verifies that a Funcs with a nil function
 // renders nothing rather than panicking.
 func TestFuncsNilFunction(t *testing.T) {
-	got := string(Funcs(nil).Render())
+	got := string(Funcs(nil).RenderBytes())
 	if got != "" {
 		t.Errorf("Funcs(nil) should render nothing, got %q", got)
 	}
@@ -61,12 +61,21 @@ func TestFuncsRenderBuilder(t *testing.T) {
 func TestFuncsRenderToWriter(t *testing.T) {
 	f := Funcs(func() []Node { return []Node{stub("hello")} })
 	var buf bytes.Buffer
-	result := f.Render(&buf)
-	if result != nil {
-		t.Error("Render(writer) should return nil")
+	n, err := f.WriteTo(&buf)
+	if err != nil {
+		t.Fatalf("WriteTo returned error: %v", err)
+	}
+	if n != int64(buf.Len()) {
+		t.Errorf("WriteTo reported %d bytes but wrote %d", n, buf.Len())
 	}
 	if buf.String() != "hello" {
-		t.Errorf("Render(writer) should write %q, got %q", "hello", buf.String())
+		t.Errorf("WriteTo should write %q, got %q", "hello", buf.String())
+	}
+
+	buf.Reset()
+	f.Render(&buf)
+	if buf.String() != "hello" {
+		t.Errorf("Render should write %q, got %q", "hello", buf.String())
 	}
 }
 
@@ -79,11 +88,11 @@ func TestFuncsNodesReturnsOutput(t *testing.T) {
 	if len(nodes) != 2 {
 		t.Fatalf("Nodes() should return 2 nodes, got %d", len(nodes))
 	}
-	if string(nodes[0].Render()) != "a" {
-		t.Errorf("first node should be %q, got %q", "a", string(nodes[0].Render()))
+	if string(nodes[0].RenderBytes()) != "a" {
+		t.Errorf("first node should be %q, got %q", "a", string(nodes[0].RenderBytes()))
 	}
-	if string(nodes[1].Render()) != "b" {
-		t.Errorf("second node should be %q, got %q", "b", string(nodes[1].Render()))
+	if string(nodes[1].RenderBytes()) != "b" {
+		t.Errorf("second node should be %q, got %q", "b", string(nodes[1].RenderBytes()))
 	}
 }
 

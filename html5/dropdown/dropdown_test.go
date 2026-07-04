@@ -24,14 +24,14 @@ import (
 
 func TestNewCtor(t *testing.T) {
 	// Test empty element
-	got := string(dropdown.New().Render())
+	got := string(dropdown.New().RenderBytes())
 	want := `<select></select>`
 	if got != want {
 		t.Errorf("empty: got %q, want %q", got, want)
 	}
 
 	// Test nested element
-	got = string(dropdown.New(dropdown.New()).Render())
+	got = string(dropdown.New(dropdown.New()).RenderBytes())
 	want = `<select><select></select></select>`
 	if got != want {
 		t.Errorf("nested: got %q, want %q", got, want)
@@ -39,7 +39,7 @@ func TestNewCtor(t *testing.T) {
 }
 
 func TestOptionsCtor(t *testing.T) {
-	got := string(dropdown.Options(option.Option("red", "Red"), option.Option("blue", "Blue")).Render())
+	got := string(dropdown.Options(option.Option("red", "Red"), option.Option("blue", "Blue")).RenderBytes())
 	want := `<select><option value="red">Red</option><option value="blue">Blue</option></select>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -47,7 +47,7 @@ func TestOptionsCtor(t *testing.T) {
 }
 
 func TestNameAttr(t *testing.T) {
-	got := string(dropdown.New().Name("test").Render())
+	got := string(dropdown.New().Name("test").RenderBytes())
 	want := `<select name="test"></select>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -55,7 +55,7 @@ func TestNameAttr(t *testing.T) {
 }
 
 func TestAutoCompleteAttr(t *testing.T) {
-	got := string(dropdown.New().AutoComplete(autocomplete.On).Render())
+	got := string(dropdown.New().AutoComplete(autocomplete.On).RenderBytes())
 	want := `<select autocomplete="on"></select>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -63,7 +63,7 @@ func TestAutoCompleteAttr(t *testing.T) {
 }
 
 func TestDisabledAttr(t *testing.T) {
-	got := string(dropdown.New().Disabled().Render())
+	got := string(dropdown.New().Disabled().RenderBytes())
 	want := `<select disabled></select>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -71,7 +71,7 @@ func TestDisabledAttr(t *testing.T) {
 }
 
 func TestFormAttr(t *testing.T) {
-	got := string(dropdown.New().Form("test").Render())
+	got := string(dropdown.New().Form("test").RenderBytes())
 	want := `<select form="test"></select>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -79,7 +79,7 @@ func TestFormAttr(t *testing.T) {
 }
 
 func TestMultipleAttr(t *testing.T) {
-	got := string(dropdown.New().Multiple().Render())
+	got := string(dropdown.New().Multiple().RenderBytes())
 	want := `<select multiple></select>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -87,7 +87,7 @@ func TestMultipleAttr(t *testing.T) {
 }
 
 func TestRequiredAttr(t *testing.T) {
-	got := string(dropdown.New().Required().Render())
+	got := string(dropdown.New().Required().RenderBytes())
 	want := `<select required></select>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -95,7 +95,7 @@ func TestRequiredAttr(t *testing.T) {
 }
 
 func TestSizeAttr(t *testing.T) {
-	got := string(dropdown.New().Size(42).Render())
+	got := string(dropdown.New().Size(42).RenderBytes())
 	want := `<select size="42"></select>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -103,7 +103,7 @@ func TestSizeAttr(t *testing.T) {
 }
 
 func TestClassAttr(t *testing.T) {
-	got := string(dropdown.New().Class("test").Render())
+	got := string(dropdown.New().Class("test").RenderBytes())
 	want := `<select class="test"></select>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -112,7 +112,7 @@ func TestClassAttr(t *testing.T) {
 
 func TestClassMulti(t *testing.T) {
 	// Test multiple chained calls
-	got := string(dropdown.New().Class("one").Class("two").Class("three").Render())
+	got := string(dropdown.New().Class("one").Class("two").Class("three").RenderBytes())
 	want := `<select class="one two three"></select>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -120,7 +120,7 @@ func TestClassMulti(t *testing.T) {
 }
 
 func TestIDAttr(t *testing.T) {
-	got := string(dropdown.New().ID("test").Render())
+	got := string(dropdown.New().ID("test").RenderBytes())
 	want := `<select id="test"></select>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -128,7 +128,7 @@ func TestIDAttr(t *testing.T) {
 }
 
 func TestStyleAttr(t *testing.T) {
-	got := string(dropdown.New().Style("test").Render())
+	got := string(dropdown.New().Style("test").RenderBytes())
 	want := `<select style="test"></select>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -137,7 +137,7 @@ func TestStyleAttr(t *testing.T) {
 
 func TestStyleMulti(t *testing.T) {
 	// Test multiple chained calls
-	got := string(dropdown.New().Style("one").Style("two").Style("three").Render())
+	got := string(dropdown.New().Style("one").Style("two").Style("three").RenderBytes())
 	want := `<select style="one; two; three"></select>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -145,7 +145,7 @@ func TestStyleMulti(t *testing.T) {
 }
 
 func TestTitleAttr(t *testing.T) {
-	got := string(dropdown.New().Title("test").Render())
+	got := string(dropdown.New().Title("test").RenderBytes())
 	want := `<select title="test"></select>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -153,7 +153,7 @@ func TestTitleAttr(t *testing.T) {
 }
 
 func TestHiddenAttr(t *testing.T) {
-	got := string(dropdown.New().Hidden(hidden.True).Render())
+	got := string(dropdown.New().Hidden(hidden.True).RenderBytes())
 	want := `<select hidden="true"></select>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -161,7 +161,7 @@ func TestHiddenAttr(t *testing.T) {
 }
 
 func TestTabIndexAttr(t *testing.T) {
-	got := string(dropdown.New().TabIndex(42).Render())
+	got := string(dropdown.New().TabIndex(42).RenderBytes())
 	want := `<select tabindex="42"></select>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -169,7 +169,7 @@ func TestTabIndexAttr(t *testing.T) {
 }
 
 func TestRoleAttr(t *testing.T) {
-	got := string(dropdown.New().Role("test").Render())
+	got := string(dropdown.New().Role("test").RenderBytes())
 	want := `<select role="test"></select>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -177,7 +177,7 @@ func TestRoleAttr(t *testing.T) {
 }
 
 func TestLangAttr(t *testing.T) {
-	got := string(dropdown.New().Lang("test").Render())
+	got := string(dropdown.New().Lang("test").RenderBytes())
 	want := `<select lang="test"></select>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -185,7 +185,7 @@ func TestLangAttr(t *testing.T) {
 }
 
 func TestAccessKeyAttr(t *testing.T) {
-	got := string(dropdown.New().AccessKey("test").Render())
+	got := string(dropdown.New().AccessKey("test").RenderBytes())
 	want := `<select accesskey="test"></select>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -194,7 +194,7 @@ func TestAccessKeyAttr(t *testing.T) {
 
 func TestAccessKeyMulti(t *testing.T) {
 	// Test multiple chained calls
-	got := string(dropdown.New().AccessKey("one").AccessKey("two").AccessKey("three").Render())
+	got := string(dropdown.New().AccessKey("one").AccessKey("two").AccessKey("three").RenderBytes())
 	want := `<select accesskey="one two three"></select>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -202,7 +202,7 @@ func TestAccessKeyMulti(t *testing.T) {
 }
 
 func TestAnchorAttr(t *testing.T) {
-	got := string(dropdown.New().Anchor("test").Render())
+	got := string(dropdown.New().Anchor("test").RenderBytes())
 	want := `<select anchor="test"></select>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -210,7 +210,7 @@ func TestAnchorAttr(t *testing.T) {
 }
 
 func TestAriaLabelAttr(t *testing.T) {
-	got := string(dropdown.New().AriaLabel("test").Render())
+	got := string(dropdown.New().AriaLabel("test").RenderBytes())
 	want := `<select aria-label="test"></select>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -218,7 +218,7 @@ func TestAriaLabelAttr(t *testing.T) {
 }
 
 func TestSetAriaAttr(t *testing.T) {
-	got := string(dropdown.New().SetAria("label", "test-value").Render())
+	got := string(dropdown.New().SetAria("label", "test-value").RenderBytes())
 	want := `<select aria-label="test-value"></select>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -226,7 +226,7 @@ func TestSetAriaAttr(t *testing.T) {
 }
 
 func TestAutoCapitalizeAttr(t *testing.T) {
-	got := string(dropdown.New().AutoCapitalize(autocapitalize.Off).Render())
+	got := string(dropdown.New().AutoCapitalize(autocapitalize.Off).RenderBytes())
 	want := `<select autocapitalize="off"></select>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -234,7 +234,7 @@ func TestAutoCapitalizeAttr(t *testing.T) {
 }
 
 func TestAutoCorrectAttr(t *testing.T) {
-	got := string(dropdown.New().AutoCorrect(autocorrect.On).Render())
+	got := string(dropdown.New().AutoCorrect(autocorrect.On).RenderBytes())
 	want := `<select autocorrect="on"></select>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -242,7 +242,7 @@ func TestAutoCorrectAttr(t *testing.T) {
 }
 
 func TestAutoFocusAttr(t *testing.T) {
-	got := string(dropdown.New().AutoFocus().Render())
+	got := string(dropdown.New().AutoFocus().RenderBytes())
 	want := `<select autofocus></select>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -250,7 +250,7 @@ func TestAutoFocusAttr(t *testing.T) {
 }
 
 func TestContentEditableAttr(t *testing.T) {
-	got := string(dropdown.New().ContentEditable(contenteditable.True).Render())
+	got := string(dropdown.New().ContentEditable(contenteditable.True).RenderBytes())
 	want := `<select contenteditable="true"></select>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -258,7 +258,7 @@ func TestContentEditableAttr(t *testing.T) {
 }
 
 func TestSetDataAttr(t *testing.T) {
-	got := string(dropdown.New().SetData("user-id", "test-value").Render())
+	got := string(dropdown.New().SetData("user-id", "test-value").RenderBytes())
 	want := `<select data-user-id="test-value"></select>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -266,7 +266,7 @@ func TestSetDataAttr(t *testing.T) {
 }
 
 func TestDirAttr(t *testing.T) {
-	got := string(dropdown.New().Dir(dir.LeftToRight).Render())
+	got := string(dropdown.New().Dir(dir.LeftToRight).RenderBytes())
 	want := `<select dir="ltr"></select>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -274,7 +274,7 @@ func TestDirAttr(t *testing.T) {
 }
 
 func TestDraggableAttr(t *testing.T) {
-	got := string(dropdown.New().Draggable().Render())
+	got := string(dropdown.New().Draggable().RenderBytes())
 	want := `<select draggable></select>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -282,7 +282,7 @@ func TestDraggableAttr(t *testing.T) {
 }
 
 func TestEnterKeyHintAttr(t *testing.T) {
-	got := string(dropdown.New().EnterKeyHint(enterkeyhint.Enter).Render())
+	got := string(dropdown.New().EnterKeyHint(enterkeyhint.Enter).RenderBytes())
 	want := `<select enterkeyhint="enter"></select>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -290,7 +290,7 @@ func TestEnterKeyHintAttr(t *testing.T) {
 }
 
 func TestExportPartsAttr(t *testing.T) {
-	got := string(dropdown.New().ExportParts("test").Render())
+	got := string(dropdown.New().ExportParts("test").RenderBytes())
 	want := `<select exportparts="test"></select>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -298,7 +298,7 @@ func TestExportPartsAttr(t *testing.T) {
 }
 
 func TestInertAttr(t *testing.T) {
-	got := string(dropdown.New().Inert().Render())
+	got := string(dropdown.New().Inert().RenderBytes())
 	want := `<select inert></select>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -306,7 +306,7 @@ func TestInertAttr(t *testing.T) {
 }
 
 func TestInputModeAttr(t *testing.T) {
-	got := string(dropdown.New().InputMode(inputmode.None).Render())
+	got := string(dropdown.New().InputMode(inputmode.None).RenderBytes())
 	want := `<select inputmode="none"></select>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -314,7 +314,7 @@ func TestInputModeAttr(t *testing.T) {
 }
 
 func TestIsAttr(t *testing.T) {
-	got := string(dropdown.New().Is("test").Render())
+	got := string(dropdown.New().Is("test").RenderBytes())
 	want := `<select is="test"></select>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -322,7 +322,7 @@ func TestIsAttr(t *testing.T) {
 }
 
 func TestItemIdAttr(t *testing.T) {
-	got := string(dropdown.New().ItemId("test").Render())
+	got := string(dropdown.New().ItemId("test").RenderBytes())
 	want := `<select itemid="test"></select>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -330,7 +330,7 @@ func TestItemIdAttr(t *testing.T) {
 }
 
 func TestItemPropAttr(t *testing.T) {
-	got := string(dropdown.New().ItemProp("test").Render())
+	got := string(dropdown.New().ItemProp("test").RenderBytes())
 	want := `<select itemprop="test"></select>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -338,7 +338,7 @@ func TestItemPropAttr(t *testing.T) {
 }
 
 func TestItemRefAttr(t *testing.T) {
-	got := string(dropdown.New().ItemRef("test").Render())
+	got := string(dropdown.New().ItemRef("test").RenderBytes())
 	want := `<select itemref="test"></select>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -346,7 +346,7 @@ func TestItemRefAttr(t *testing.T) {
 }
 
 func TestItemScopeAttr(t *testing.T) {
-	got := string(dropdown.New().ItemScope().Render())
+	got := string(dropdown.New().ItemScope().RenderBytes())
 	want := `<select itemscope></select>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -354,7 +354,7 @@ func TestItemScopeAttr(t *testing.T) {
 }
 
 func TestItemTypeAttr(t *testing.T) {
-	got := string(dropdown.New().ItemType("test").Render())
+	got := string(dropdown.New().ItemType("test").RenderBytes())
 	want := `<select itemtype="test"></select>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -362,7 +362,7 @@ func TestItemTypeAttr(t *testing.T) {
 }
 
 func TestNonceAttr(t *testing.T) {
-	got := string(dropdown.New().Nonce("test").Render())
+	got := string(dropdown.New().Nonce("test").RenderBytes())
 	want := `<select nonce="test"></select>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -370,7 +370,7 @@ func TestNonceAttr(t *testing.T) {
 }
 
 func TestPartAttr(t *testing.T) {
-	got := string(dropdown.New().Part("test").Render())
+	got := string(dropdown.New().Part("test").RenderBytes())
 	want := `<select part="test"></select>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -379,7 +379,7 @@ func TestPartAttr(t *testing.T) {
 
 func TestPartMulti(t *testing.T) {
 	// Test multiple chained calls
-	got := string(dropdown.New().Part("one").Part("two").Part("three").Render())
+	got := string(dropdown.New().Part("one").Part("two").Part("three").RenderBytes())
 	want := `<select part="one two three"></select>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -387,7 +387,7 @@ func TestPartMulti(t *testing.T) {
 }
 
 func TestPopoverAttr(t *testing.T) {
-	got := string(dropdown.New().Popover(popover.Auto).Render())
+	got := string(dropdown.New().Popover(popover.Auto).RenderBytes())
 	want := `<select popover="auto"></select>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -395,7 +395,7 @@ func TestPopoverAttr(t *testing.T) {
 }
 
 func TestSlotAttr(t *testing.T) {
-	got := string(dropdown.New().Slot("test").Render())
+	got := string(dropdown.New().Slot("test").RenderBytes())
 	want := `<select slot="test"></select>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -403,7 +403,7 @@ func TestSlotAttr(t *testing.T) {
 }
 
 func TestSpellCheckAttr(t *testing.T) {
-	got := string(dropdown.New().SpellCheck(spellcheck.True).Render())
+	got := string(dropdown.New().SpellCheck(spellcheck.True).RenderBytes())
 	want := `<select spellcheck="true"></select>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -411,7 +411,7 @@ func TestSpellCheckAttr(t *testing.T) {
 }
 
 func TestTranslateAttr(t *testing.T) {
-	got := string(dropdown.New().Translate(translate.Yes).Render())
+	got := string(dropdown.New().Translate(translate.Yes).RenderBytes())
 	want := `<select translate="yes"></select>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -419,7 +419,7 @@ func TestTranslateAttr(t *testing.T) {
 }
 
 func TestVirtualKeyboardPolicyAttr(t *testing.T) {
-	got := string(dropdown.New().VirtualKeyboardPolicy(virtualkeyboardpolicy.Auto).Render())
+	got := string(dropdown.New().VirtualKeyboardPolicy(virtualkeyboardpolicy.Auto).RenderBytes())
 	want := `<select virtualkeyboardpolicy="auto"></select>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -427,7 +427,7 @@ func TestVirtualKeyboardPolicyAttr(t *testing.T) {
 }
 
 func TestWritingSuggestionsAttr(t *testing.T) {
-	got := string(dropdown.New().WritingSuggestions(writingsuggestions.True).Render())
+	got := string(dropdown.New().WritingSuggestions(writingsuggestions.True).RenderBytes())
 	want := `<select writingsuggestions="true"></select>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -435,7 +435,7 @@ func TestWritingSuggestionsAttr(t *testing.T) {
 }
 
 func TestOnClickAttr(t *testing.T) {
-	got := string(dropdown.New().OnClick("test").Render())
+	got := string(dropdown.New().OnClick("test").RenderBytes())
 	want := `<select onclick="test"></select>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -443,7 +443,7 @@ func TestOnClickAttr(t *testing.T) {
 }
 
 func TestOnChangeAttr(t *testing.T) {
-	got := string(dropdown.New().OnChange("test").Render())
+	got := string(dropdown.New().OnChange("test").RenderBytes())
 	want := `<select onchange="test"></select>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -451,7 +451,7 @@ func TestOnChangeAttr(t *testing.T) {
 }
 
 func TestOnInputAttr(t *testing.T) {
-	got := string(dropdown.New().OnInput("test").Render())
+	got := string(dropdown.New().OnInput("test").RenderBytes())
 	want := `<select oninput="test"></select>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -459,7 +459,7 @@ func TestOnInputAttr(t *testing.T) {
 }
 
 func TestOnFocusAttr(t *testing.T) {
-	got := string(dropdown.New().OnFocus("test").Render())
+	got := string(dropdown.New().OnFocus("test").RenderBytes())
 	want := `<select onfocus="test"></select>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -467,7 +467,7 @@ func TestOnFocusAttr(t *testing.T) {
 }
 
 func TestOnBlurAttr(t *testing.T) {
-	got := string(dropdown.New().OnBlur("test").Render())
+	got := string(dropdown.New().OnBlur("test").RenderBytes())
 	want := `<select onblur="test"></select>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -475,7 +475,7 @@ func TestOnBlurAttr(t *testing.T) {
 }
 
 func TestOnSubmitAttr(t *testing.T) {
-	got := string(dropdown.New().OnSubmit("test").Render())
+	got := string(dropdown.New().OnSubmit("test").RenderBytes())
 	want := `<select onsubmit="test"></select>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -483,7 +483,7 @@ func TestOnSubmitAttr(t *testing.T) {
 }
 
 func TestOnLoadAttr(t *testing.T) {
-	got := string(dropdown.New().OnLoad("test").Render())
+	got := string(dropdown.New().OnLoad("test").RenderBytes())
 	want := `<select onload="test"></select>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -491,7 +491,7 @@ func TestOnLoadAttr(t *testing.T) {
 }
 
 func TestOnErrorAttr(t *testing.T) {
-	got := string(dropdown.New().OnError("test").Render())
+	got := string(dropdown.New().OnError("test").RenderBytes())
 	want := `<select onerror="test"></select>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -499,7 +499,7 @@ func TestOnErrorAttr(t *testing.T) {
 }
 
 func TestSetEventAttr(t *testing.T) {
-	got := string(dropdown.New().SetEvent("onclick", "test-value").Render())
+	got := string(dropdown.New().SetEvent("onclick", "test-value").RenderBytes())
 	want := `<select onclick="test-value"></select>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -507,7 +507,7 @@ func TestSetEventAttr(t *testing.T) {
 }
 
 func TestOnAbortAttr(t *testing.T) {
-	got := string(dropdown.New().OnAbort("test").Render())
+	got := string(dropdown.New().OnAbort("test").RenderBytes())
 	want := `<select onabort="test"></select>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -515,7 +515,7 @@ func TestOnAbortAttr(t *testing.T) {
 }
 
 func TestOnAutoCompleteAttr(t *testing.T) {
-	got := string(dropdown.New().OnAutoComplete("test").Render())
+	got := string(dropdown.New().OnAutoComplete("test").RenderBytes())
 	want := `<select onautocomplete="test"></select>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -523,7 +523,7 @@ func TestOnAutoCompleteAttr(t *testing.T) {
 }
 
 func TestOnAutoCompleteErrorAttr(t *testing.T) {
-	got := string(dropdown.New().OnAutoCompleteError("test").Render())
+	got := string(dropdown.New().OnAutoCompleteError("test").RenderBytes())
 	want := `<select onautocompleteerror="test"></select>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -531,7 +531,7 @@ func TestOnAutoCompleteErrorAttr(t *testing.T) {
 }
 
 func TestOnCancelAttr(t *testing.T) {
-	got := string(dropdown.New().OnCancel("test").Render())
+	got := string(dropdown.New().OnCancel("test").RenderBytes())
 	want := `<select oncancel="test"></select>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -539,7 +539,7 @@ func TestOnCancelAttr(t *testing.T) {
 }
 
 func TestOnCanPlayAttr(t *testing.T) {
-	got := string(dropdown.New().OnCanPlay("test").Render())
+	got := string(dropdown.New().OnCanPlay("test").RenderBytes())
 	want := `<select oncanplay="test"></select>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -547,7 +547,7 @@ func TestOnCanPlayAttr(t *testing.T) {
 }
 
 func TestOnCanPlayThroughAttr(t *testing.T) {
-	got := string(dropdown.New().OnCanPlayThrough("test").Render())
+	got := string(dropdown.New().OnCanPlayThrough("test").RenderBytes())
 	want := `<select oncanplaythrough="test"></select>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -555,7 +555,7 @@ func TestOnCanPlayThroughAttr(t *testing.T) {
 }
 
 func TestOnCloseAttr(t *testing.T) {
-	got := string(dropdown.New().OnClose("test").Render())
+	got := string(dropdown.New().OnClose("test").RenderBytes())
 	want := `<select onclose="test"></select>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -563,7 +563,7 @@ func TestOnCloseAttr(t *testing.T) {
 }
 
 func TestOnContextMenuAttr(t *testing.T) {
-	got := string(dropdown.New().OnContextMenu("test").Render())
+	got := string(dropdown.New().OnContextMenu("test").RenderBytes())
 	want := `<select oncontextmenu="test"></select>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -571,7 +571,7 @@ func TestOnContextMenuAttr(t *testing.T) {
 }
 
 func TestOnCueChangeAttr(t *testing.T) {
-	got := string(dropdown.New().OnCueChange("test").Render())
+	got := string(dropdown.New().OnCueChange("test").RenderBytes())
 	want := `<select oncuechange="test"></select>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -579,7 +579,7 @@ func TestOnCueChangeAttr(t *testing.T) {
 }
 
 func TestOnDblClickAttr(t *testing.T) {
-	got := string(dropdown.New().OnDblClick("test").Render())
+	got := string(dropdown.New().OnDblClick("test").RenderBytes())
 	want := `<select ondblclick="test"></select>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -587,7 +587,7 @@ func TestOnDblClickAttr(t *testing.T) {
 }
 
 func TestOnDragAttr(t *testing.T) {
-	got := string(dropdown.New().OnDrag("test").Render())
+	got := string(dropdown.New().OnDrag("test").RenderBytes())
 	want := `<select ondrag="test"></select>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -595,7 +595,7 @@ func TestOnDragAttr(t *testing.T) {
 }
 
 func TestOnDragEndAttr(t *testing.T) {
-	got := string(dropdown.New().OnDragEnd("test").Render())
+	got := string(dropdown.New().OnDragEnd("test").RenderBytes())
 	want := `<select ondragend="test"></select>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -603,7 +603,7 @@ func TestOnDragEndAttr(t *testing.T) {
 }
 
 func TestOnDragEnterAttr(t *testing.T) {
-	got := string(dropdown.New().OnDragEnter("test").Render())
+	got := string(dropdown.New().OnDragEnter("test").RenderBytes())
 	want := `<select ondragenter="test"></select>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -611,7 +611,7 @@ func TestOnDragEnterAttr(t *testing.T) {
 }
 
 func TestOnDragLeaveAttr(t *testing.T) {
-	got := string(dropdown.New().OnDragLeave("test").Render())
+	got := string(dropdown.New().OnDragLeave("test").RenderBytes())
 	want := `<select ondragleave="test"></select>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -619,7 +619,7 @@ func TestOnDragLeaveAttr(t *testing.T) {
 }
 
 func TestOnDragOverAttr(t *testing.T) {
-	got := string(dropdown.New().OnDragOver("test").Render())
+	got := string(dropdown.New().OnDragOver("test").RenderBytes())
 	want := `<select ondragover="test"></select>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -627,7 +627,7 @@ func TestOnDragOverAttr(t *testing.T) {
 }
 
 func TestOnDragStartAttr(t *testing.T) {
-	got := string(dropdown.New().OnDragStart("test").Render())
+	got := string(dropdown.New().OnDragStart("test").RenderBytes())
 	want := `<select ondragstart="test"></select>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -635,7 +635,7 @@ func TestOnDragStartAttr(t *testing.T) {
 }
 
 func TestOnDropAttr(t *testing.T) {
-	got := string(dropdown.New().OnDrop("test").Render())
+	got := string(dropdown.New().OnDrop("test").RenderBytes())
 	want := `<select ondrop="test"></select>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -643,7 +643,7 @@ func TestOnDropAttr(t *testing.T) {
 }
 
 func TestOnDurationChangeAttr(t *testing.T) {
-	got := string(dropdown.New().OnDurationChange("test").Render())
+	got := string(dropdown.New().OnDurationChange("test").RenderBytes())
 	want := `<select ondurationchange="test"></select>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -651,7 +651,7 @@ func TestOnDurationChangeAttr(t *testing.T) {
 }
 
 func TestOnEmptiedAttr(t *testing.T) {
-	got := string(dropdown.New().OnEmptied("test").Render())
+	got := string(dropdown.New().OnEmptied("test").RenderBytes())
 	want := `<select onemptied="test"></select>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -659,7 +659,7 @@ func TestOnEmptiedAttr(t *testing.T) {
 }
 
 func TestOnEndedAttr(t *testing.T) {
-	got := string(dropdown.New().OnEnded("test").Render())
+	got := string(dropdown.New().OnEnded("test").RenderBytes())
 	want := `<select onended="test"></select>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -667,7 +667,7 @@ func TestOnEndedAttr(t *testing.T) {
 }
 
 func TestOnInvalidAttr(t *testing.T) {
-	got := string(dropdown.New().OnInvalid("test").Render())
+	got := string(dropdown.New().OnInvalid("test").RenderBytes())
 	want := `<select oninvalid="test"></select>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -675,7 +675,7 @@ func TestOnInvalidAttr(t *testing.T) {
 }
 
 func TestOnKeyDownAttr(t *testing.T) {
-	got := string(dropdown.New().OnKeyDown("test").Render())
+	got := string(dropdown.New().OnKeyDown("test").RenderBytes())
 	want := `<select onkeydown="test"></select>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -683,7 +683,7 @@ func TestOnKeyDownAttr(t *testing.T) {
 }
 
 func TestOnKeyPressAttr(t *testing.T) {
-	got := string(dropdown.New().OnKeyPress("test").Render())
+	got := string(dropdown.New().OnKeyPress("test").RenderBytes())
 	want := `<select onkeypress="test"></select>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -691,7 +691,7 @@ func TestOnKeyPressAttr(t *testing.T) {
 }
 
 func TestOnKeyUpAttr(t *testing.T) {
-	got := string(dropdown.New().OnKeyUp("test").Render())
+	got := string(dropdown.New().OnKeyUp("test").RenderBytes())
 	want := `<select onkeyup="test"></select>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -699,7 +699,7 @@ func TestOnKeyUpAttr(t *testing.T) {
 }
 
 func TestOnLoadedDataAttr(t *testing.T) {
-	got := string(dropdown.New().OnLoadedData("test").Render())
+	got := string(dropdown.New().OnLoadedData("test").RenderBytes())
 	want := `<select onloadeddata="test"></select>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -707,7 +707,7 @@ func TestOnLoadedDataAttr(t *testing.T) {
 }
 
 func TestOnLoadedMetadataAttr(t *testing.T) {
-	got := string(dropdown.New().OnLoadedMetadata("test").Render())
+	got := string(dropdown.New().OnLoadedMetadata("test").RenderBytes())
 	want := `<select onloadedmetadata="test"></select>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -715,7 +715,7 @@ func TestOnLoadedMetadataAttr(t *testing.T) {
 }
 
 func TestOnLoadStartAttr(t *testing.T) {
-	got := string(dropdown.New().OnLoadStart("test").Render())
+	got := string(dropdown.New().OnLoadStart("test").RenderBytes())
 	want := `<select onloadstart="test"></select>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -723,7 +723,7 @@ func TestOnLoadStartAttr(t *testing.T) {
 }
 
 func TestOnMouseDownAttr(t *testing.T) {
-	got := string(dropdown.New().OnMouseDown("test").Render())
+	got := string(dropdown.New().OnMouseDown("test").RenderBytes())
 	want := `<select onmousedown="test"></select>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -731,7 +731,7 @@ func TestOnMouseDownAttr(t *testing.T) {
 }
 
 func TestOnMouseEnterAttr(t *testing.T) {
-	got := string(dropdown.New().OnMouseEnter("test").Render())
+	got := string(dropdown.New().OnMouseEnter("test").RenderBytes())
 	want := `<select onmouseenter="test"></select>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -739,7 +739,7 @@ func TestOnMouseEnterAttr(t *testing.T) {
 }
 
 func TestOnMouseLeaveAttr(t *testing.T) {
-	got := string(dropdown.New().OnMouseLeave("test").Render())
+	got := string(dropdown.New().OnMouseLeave("test").RenderBytes())
 	want := `<select onmouseleave="test"></select>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -747,7 +747,7 @@ func TestOnMouseLeaveAttr(t *testing.T) {
 }
 
 func TestOnMouseMoveAttr(t *testing.T) {
-	got := string(dropdown.New().OnMouseMove("test").Render())
+	got := string(dropdown.New().OnMouseMove("test").RenderBytes())
 	want := `<select onmousemove="test"></select>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -755,7 +755,7 @@ func TestOnMouseMoveAttr(t *testing.T) {
 }
 
 func TestOnMouseOutAttr(t *testing.T) {
-	got := string(dropdown.New().OnMouseOut("test").Render())
+	got := string(dropdown.New().OnMouseOut("test").RenderBytes())
 	want := `<select onmouseout="test"></select>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -763,7 +763,7 @@ func TestOnMouseOutAttr(t *testing.T) {
 }
 
 func TestOnMouseOverAttr(t *testing.T) {
-	got := string(dropdown.New().OnMouseOver("test").Render())
+	got := string(dropdown.New().OnMouseOver("test").RenderBytes())
 	want := `<select onmouseover="test"></select>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -771,7 +771,7 @@ func TestOnMouseOverAttr(t *testing.T) {
 }
 
 func TestOnMouseUpAttr(t *testing.T) {
-	got := string(dropdown.New().OnMouseUp("test").Render())
+	got := string(dropdown.New().OnMouseUp("test").RenderBytes())
 	want := `<select onmouseup="test"></select>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -779,7 +779,7 @@ func TestOnMouseUpAttr(t *testing.T) {
 }
 
 func TestOnMouseWheelAttr(t *testing.T) {
-	got := string(dropdown.New().OnMouseWheel("test").Render())
+	got := string(dropdown.New().OnMouseWheel("test").RenderBytes())
 	want := `<select onmousewheel="test"></select>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -787,7 +787,7 @@ func TestOnMouseWheelAttr(t *testing.T) {
 }
 
 func TestOnPauseAttr(t *testing.T) {
-	got := string(dropdown.New().OnPause("test").Render())
+	got := string(dropdown.New().OnPause("test").RenderBytes())
 	want := `<select onpause="test"></select>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -795,7 +795,7 @@ func TestOnPauseAttr(t *testing.T) {
 }
 
 func TestOnPlayAttr(t *testing.T) {
-	got := string(dropdown.New().OnPlay("test").Render())
+	got := string(dropdown.New().OnPlay("test").RenderBytes())
 	want := `<select onplay="test"></select>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -803,7 +803,7 @@ func TestOnPlayAttr(t *testing.T) {
 }
 
 func TestOnPlayingAttr(t *testing.T) {
-	got := string(dropdown.New().OnPlaying("test").Render())
+	got := string(dropdown.New().OnPlaying("test").RenderBytes())
 	want := `<select onplaying="test"></select>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -811,7 +811,7 @@ func TestOnPlayingAttr(t *testing.T) {
 }
 
 func TestOnProgressAttr(t *testing.T) {
-	got := string(dropdown.New().OnProgress("test").Render())
+	got := string(dropdown.New().OnProgress("test").RenderBytes())
 	want := `<select onprogress="test"></select>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -819,7 +819,7 @@ func TestOnProgressAttr(t *testing.T) {
 }
 
 func TestOnRateChangeAttr(t *testing.T) {
-	got := string(dropdown.New().OnRateChange("test").Render())
+	got := string(dropdown.New().OnRateChange("test").RenderBytes())
 	want := `<select onratechange="test"></select>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -827,7 +827,7 @@ func TestOnRateChangeAttr(t *testing.T) {
 }
 
 func TestOnResetAttr(t *testing.T) {
-	got := string(dropdown.New().OnReset("test").Render())
+	got := string(dropdown.New().OnReset("test").RenderBytes())
 	want := `<select onreset="test"></select>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -835,7 +835,7 @@ func TestOnResetAttr(t *testing.T) {
 }
 
 func TestOnResizeAttr(t *testing.T) {
-	got := string(dropdown.New().OnResize("test").Render())
+	got := string(dropdown.New().OnResize("test").RenderBytes())
 	want := `<select onresize="test"></select>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -843,7 +843,7 @@ func TestOnResizeAttr(t *testing.T) {
 }
 
 func TestOnScrollAttr(t *testing.T) {
-	got := string(dropdown.New().OnScroll("test").Render())
+	got := string(dropdown.New().OnScroll("test").RenderBytes())
 	want := `<select onscroll="test"></select>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -851,7 +851,7 @@ func TestOnScrollAttr(t *testing.T) {
 }
 
 func TestOnSeekedAttr(t *testing.T) {
-	got := string(dropdown.New().OnSeeked("test").Render())
+	got := string(dropdown.New().OnSeeked("test").RenderBytes())
 	want := `<select onseeked="test"></select>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -859,7 +859,7 @@ func TestOnSeekedAttr(t *testing.T) {
 }
 
 func TestOnSeekingAttr(t *testing.T) {
-	got := string(dropdown.New().OnSeeking("test").Render())
+	got := string(dropdown.New().OnSeeking("test").RenderBytes())
 	want := `<select onseeking="test"></select>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -867,7 +867,7 @@ func TestOnSeekingAttr(t *testing.T) {
 }
 
 func TestOnSelectAttr(t *testing.T) {
-	got := string(dropdown.New().OnSelect("test").Render())
+	got := string(dropdown.New().OnSelect("test").RenderBytes())
 	want := `<select onselect="test"></select>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -875,7 +875,7 @@ func TestOnSelectAttr(t *testing.T) {
 }
 
 func TestOnShowAttr(t *testing.T) {
-	got := string(dropdown.New().OnShow("test").Render())
+	got := string(dropdown.New().OnShow("test").RenderBytes())
 	want := `<select onshow="test"></select>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -883,7 +883,7 @@ func TestOnShowAttr(t *testing.T) {
 }
 
 func TestOnSortAttr(t *testing.T) {
-	got := string(dropdown.New().OnSort("test").Render())
+	got := string(dropdown.New().OnSort("test").RenderBytes())
 	want := `<select onsort="test"></select>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -891,7 +891,7 @@ func TestOnSortAttr(t *testing.T) {
 }
 
 func TestOnStalledAttr(t *testing.T) {
-	got := string(dropdown.New().OnStalled("test").Render())
+	got := string(dropdown.New().OnStalled("test").RenderBytes())
 	want := `<select onstalled="test"></select>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -899,7 +899,7 @@ func TestOnStalledAttr(t *testing.T) {
 }
 
 func TestOnSuspendAttr(t *testing.T) {
-	got := string(dropdown.New().OnSuspend("test").Render())
+	got := string(dropdown.New().OnSuspend("test").RenderBytes())
 	want := `<select onsuspend="test"></select>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -907,7 +907,7 @@ func TestOnSuspendAttr(t *testing.T) {
 }
 
 func TestOnTimeUpdateAttr(t *testing.T) {
-	got := string(dropdown.New().OnTimeUpdate("test").Render())
+	got := string(dropdown.New().OnTimeUpdate("test").RenderBytes())
 	want := `<select ontimeupdate="test"></select>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -915,7 +915,7 @@ func TestOnTimeUpdateAttr(t *testing.T) {
 }
 
 func TestOnToggleAttr(t *testing.T) {
-	got := string(dropdown.New().OnToggle("test").Render())
+	got := string(dropdown.New().OnToggle("test").RenderBytes())
 	want := `<select ontoggle="test"></select>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -923,7 +923,7 @@ func TestOnToggleAttr(t *testing.T) {
 }
 
 func TestOnVolumeChangeAttr(t *testing.T) {
-	got := string(dropdown.New().OnVolumeChange("test").Render())
+	got := string(dropdown.New().OnVolumeChange("test").RenderBytes())
 	want := `<select onvolumechange="test"></select>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -931,7 +931,7 @@ func TestOnVolumeChangeAttr(t *testing.T) {
 }
 
 func TestOnWaitingAttr(t *testing.T) {
-	got := string(dropdown.New().OnWaiting("test").Render())
+	got := string(dropdown.New().OnWaiting("test").RenderBytes())
 	want := `<select onwaiting="test"></select>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -939,7 +939,7 @@ func TestOnWaitingAttr(t *testing.T) {
 }
 
 func TestOnAuxClickAttr(t *testing.T) {
-	got := string(dropdown.New().OnAuxClick("test").Render())
+	got := string(dropdown.New().OnAuxClick("test").RenderBytes())
 	want := `<select onauxclick="test"></select>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -947,7 +947,7 @@ func TestOnAuxClickAttr(t *testing.T) {
 }
 
 func TestOnWheelAttr(t *testing.T) {
-	got := string(dropdown.New().OnWheel("test").Render())
+	got := string(dropdown.New().OnWheel("test").RenderBytes())
 	want := `<select onwheel="test"></select>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -955,7 +955,7 @@ func TestOnWheelAttr(t *testing.T) {
 }
 
 func TestOnCopyAttr(t *testing.T) {
-	got := string(dropdown.New().OnCopy("test").Render())
+	got := string(dropdown.New().OnCopy("test").RenderBytes())
 	want := `<select oncopy="test"></select>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -963,7 +963,7 @@ func TestOnCopyAttr(t *testing.T) {
 }
 
 func TestOnCutAttr(t *testing.T) {
-	got := string(dropdown.New().OnCut("test").Render())
+	got := string(dropdown.New().OnCut("test").RenderBytes())
 	want := `<select oncut="test"></select>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -971,7 +971,7 @@ func TestOnCutAttr(t *testing.T) {
 }
 
 func TestOnPasteAttr(t *testing.T) {
-	got := string(dropdown.New().OnPaste("test").Render())
+	got := string(dropdown.New().OnPaste("test").RenderBytes())
 	want := `<select onpaste="test"></select>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -979,7 +979,7 @@ func TestOnPasteAttr(t *testing.T) {
 }
 
 func TestOnScrollEndAttr(t *testing.T) {
-	got := string(dropdown.New().OnScrollEnd("test").Render())
+	got := string(dropdown.New().OnScrollEnd("test").RenderBytes())
 	want := `<select onscrollend="test"></select>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -987,7 +987,7 @@ func TestOnScrollEndAttr(t *testing.T) {
 }
 
 func TestOnFormDataAttr(t *testing.T) {
-	got := string(dropdown.New().OnFormData("test").Render())
+	got := string(dropdown.New().OnFormData("test").RenderBytes())
 	want := `<select onformdata="test"></select>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -995,7 +995,7 @@ func TestOnFormDataAttr(t *testing.T) {
 }
 
 func TestOnAnimationCancelAttr(t *testing.T) {
-	got := string(dropdown.New().OnAnimationCancel("test").Render())
+	got := string(dropdown.New().OnAnimationCancel("test").RenderBytes())
 	want := `<select onanimationcancel="test"></select>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -1003,7 +1003,7 @@ func TestOnAnimationCancelAttr(t *testing.T) {
 }
 
 func TestOnAnimationEndAttr(t *testing.T) {
-	got := string(dropdown.New().OnAnimationEnd("test").Render())
+	got := string(dropdown.New().OnAnimationEnd("test").RenderBytes())
 	want := `<select onanimationend="test"></select>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -1011,7 +1011,7 @@ func TestOnAnimationEndAttr(t *testing.T) {
 }
 
 func TestOnAnimationIterationAttr(t *testing.T) {
-	got := string(dropdown.New().OnAnimationIteration("test").Render())
+	got := string(dropdown.New().OnAnimationIteration("test").RenderBytes())
 	want := `<select onanimationiteration="test"></select>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -1019,7 +1019,7 @@ func TestOnAnimationIterationAttr(t *testing.T) {
 }
 
 func TestOnAnimationStartAttr(t *testing.T) {
-	got := string(dropdown.New().OnAnimationStart("test").Render())
+	got := string(dropdown.New().OnAnimationStart("test").RenderBytes())
 	want := `<select onanimationstart="test"></select>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -1027,7 +1027,7 @@ func TestOnAnimationStartAttr(t *testing.T) {
 }
 
 func TestOnTransitionCancelAttr(t *testing.T) {
-	got := string(dropdown.New().OnTransitionCancel("test").Render())
+	got := string(dropdown.New().OnTransitionCancel("test").RenderBytes())
 	want := `<select ontransitioncancel="test"></select>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -1035,7 +1035,7 @@ func TestOnTransitionCancelAttr(t *testing.T) {
 }
 
 func TestOnTransitionEndAttr(t *testing.T) {
-	got := string(dropdown.New().OnTransitionEnd("test").Render())
+	got := string(dropdown.New().OnTransitionEnd("test").RenderBytes())
 	want := `<select ontransitionend="test"></select>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -1043,7 +1043,7 @@ func TestOnTransitionEndAttr(t *testing.T) {
 }
 
 func TestOnTransitionRunAttr(t *testing.T) {
-	got := string(dropdown.New().OnTransitionRun("test").Render())
+	got := string(dropdown.New().OnTransitionRun("test").RenderBytes())
 	want := `<select ontransitionrun="test"></select>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -1051,7 +1051,7 @@ func TestOnTransitionRunAttr(t *testing.T) {
 }
 
 func TestOnTransitionStartAttr(t *testing.T) {
-	got := string(dropdown.New().OnTransitionStart("test").Render())
+	got := string(dropdown.New().OnTransitionStart("test").RenderBytes())
 	want := `<select ontransitionstart="test"></select>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -1059,7 +1059,7 @@ func TestOnTransitionStartAttr(t *testing.T) {
 }
 
 func TestOnBeforeToggleAttr(t *testing.T) {
-	got := string(dropdown.New().OnBeforeToggle("test").Render())
+	got := string(dropdown.New().OnBeforeToggle("test").RenderBytes())
 	want := `<select onbeforetoggle="test"></select>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -1067,7 +1067,7 @@ func TestOnBeforeToggleAttr(t *testing.T) {
 }
 
 func TestOnBeforeInputAttr(t *testing.T) {
-	got := string(dropdown.New().OnBeforeInput("test").Render())
+	got := string(dropdown.New().OnBeforeInput("test").RenderBytes())
 	want := `<select onbeforeinput="test"></select>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -1075,7 +1075,7 @@ func TestOnBeforeInputAttr(t *testing.T) {
 }
 
 func TestOnBeforeMatchAttr(t *testing.T) {
-	got := string(dropdown.New().OnBeforeMatch("test").Render())
+	got := string(dropdown.New().OnBeforeMatch("test").RenderBytes())
 	want := `<select onbeforematch="test"></select>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -1083,7 +1083,7 @@ func TestOnBeforeMatchAttr(t *testing.T) {
 }
 
 func TestOnCommandAttr(t *testing.T) {
-	got := string(dropdown.New().OnCommand("test").Render())
+	got := string(dropdown.New().OnCommand("test").RenderBytes())
 	want := `<select oncommand="test"></select>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -1091,7 +1091,7 @@ func TestOnCommandAttr(t *testing.T) {
 }
 
 func TestOnContextLostAttr(t *testing.T) {
-	got := string(dropdown.New().OnContextLost("test").Render())
+	got := string(dropdown.New().OnContextLost("test").RenderBytes())
 	want := `<select oncontextlost="test"></select>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -1099,7 +1099,7 @@ func TestOnContextLostAttr(t *testing.T) {
 }
 
 func TestOnContextRestoredAttr(t *testing.T) {
-	got := string(dropdown.New().OnContextRestored("test").Render())
+	got := string(dropdown.New().OnContextRestored("test").RenderBytes())
 	want := `<select oncontextrestored="test"></select>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -1107,7 +1107,7 @@ func TestOnContextRestoredAttr(t *testing.T) {
 }
 
 func TestOnSecurityPolicyViolationAttr(t *testing.T) {
-	got := string(dropdown.New().OnSecurityPolicyViolation("test").Render())
+	got := string(dropdown.New().OnSecurityPolicyViolation("test").RenderBytes())
 	want := `<select onsecuritypolicyviolation="test"></select>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -1115,7 +1115,7 @@ func TestOnSecurityPolicyViolationAttr(t *testing.T) {
 }
 
 func TestOnSlotChangeAttr(t *testing.T) {
-	got := string(dropdown.New().OnSlotChange("test").Render())
+	got := string(dropdown.New().OnSlotChange("test").RenderBytes())
 	want := `<select onslotchange="test"></select>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -1123,7 +1123,7 @@ func TestOnSlotChangeAttr(t *testing.T) {
 }
 
 func TestOnPointerDownAttr(t *testing.T) {
-	got := string(dropdown.New().OnPointerDown("test").Render())
+	got := string(dropdown.New().OnPointerDown("test").RenderBytes())
 	want := `<select onpointerdown="test"></select>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -1131,7 +1131,7 @@ func TestOnPointerDownAttr(t *testing.T) {
 }
 
 func TestOnPointerUpAttr(t *testing.T) {
-	got := string(dropdown.New().OnPointerUp("test").Render())
+	got := string(dropdown.New().OnPointerUp("test").RenderBytes())
 	want := `<select onpointerup="test"></select>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -1139,7 +1139,7 @@ func TestOnPointerUpAttr(t *testing.T) {
 }
 
 func TestOnPointerMoveAttr(t *testing.T) {
-	got := string(dropdown.New().OnPointerMove("test").Render())
+	got := string(dropdown.New().OnPointerMove("test").RenderBytes())
 	want := `<select onpointermove="test"></select>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -1147,7 +1147,7 @@ func TestOnPointerMoveAttr(t *testing.T) {
 }
 
 func TestOnPointerEnterAttr(t *testing.T) {
-	got := string(dropdown.New().OnPointerEnter("test").Render())
+	got := string(dropdown.New().OnPointerEnter("test").RenderBytes())
 	want := `<select onpointerenter="test"></select>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -1155,7 +1155,7 @@ func TestOnPointerEnterAttr(t *testing.T) {
 }
 
 func TestOnPointerLeaveAttr(t *testing.T) {
-	got := string(dropdown.New().OnPointerLeave("test").Render())
+	got := string(dropdown.New().OnPointerLeave("test").RenderBytes())
 	want := `<select onpointerleave="test"></select>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -1163,7 +1163,7 @@ func TestOnPointerLeaveAttr(t *testing.T) {
 }
 
 func TestOnPointerOverAttr(t *testing.T) {
-	got := string(dropdown.New().OnPointerOver("test").Render())
+	got := string(dropdown.New().OnPointerOver("test").RenderBytes())
 	want := `<select onpointerover="test"></select>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -1171,7 +1171,7 @@ func TestOnPointerOverAttr(t *testing.T) {
 }
 
 func TestOnPointerOutAttr(t *testing.T) {
-	got := string(dropdown.New().OnPointerOut("test").Render())
+	got := string(dropdown.New().OnPointerOut("test").RenderBytes())
 	want := `<select onpointerout="test"></select>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -1179,7 +1179,7 @@ func TestOnPointerOutAttr(t *testing.T) {
 }
 
 func TestOnPointerCancelAttr(t *testing.T) {
-	got := string(dropdown.New().OnPointerCancel("test").Render())
+	got := string(dropdown.New().OnPointerCancel("test").RenderBytes())
 	want := `<select onpointercancel="test"></select>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -1187,7 +1187,7 @@ func TestOnPointerCancelAttr(t *testing.T) {
 }
 
 func TestOnGotPointerCaptureAttr(t *testing.T) {
-	got := string(dropdown.New().OnGotPointerCapture("test").Render())
+	got := string(dropdown.New().OnGotPointerCapture("test").RenderBytes())
 	want := `<select ongotpointercapture="test"></select>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -1195,7 +1195,7 @@ func TestOnGotPointerCaptureAttr(t *testing.T) {
 }
 
 func TestOnLostPointerCaptureAttr(t *testing.T) {
-	got := string(dropdown.New().OnLostPointerCapture("test").Render())
+	got := string(dropdown.New().OnLostPointerCapture("test").RenderBytes())
 	want := `<select onlostpointercapture="test"></select>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -1203,7 +1203,7 @@ func TestOnLostPointerCaptureAttr(t *testing.T) {
 }
 
 func TestOnTouchStartAttr(t *testing.T) {
-	got := string(dropdown.New().OnTouchStart("test").Render())
+	got := string(dropdown.New().OnTouchStart("test").RenderBytes())
 	want := `<select ontouchstart="test"></select>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -1211,7 +1211,7 @@ func TestOnTouchStartAttr(t *testing.T) {
 }
 
 func TestOnTouchEndAttr(t *testing.T) {
-	got := string(dropdown.New().OnTouchEnd("test").Render())
+	got := string(dropdown.New().OnTouchEnd("test").RenderBytes())
 	want := `<select ontouchend="test"></select>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -1219,7 +1219,7 @@ func TestOnTouchEndAttr(t *testing.T) {
 }
 
 func TestOnTouchMoveAttr(t *testing.T) {
-	got := string(dropdown.New().OnTouchMove("test").Render())
+	got := string(dropdown.New().OnTouchMove("test").RenderBytes())
 	want := `<select ontouchmove="test"></select>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -1227,7 +1227,7 @@ func TestOnTouchMoveAttr(t *testing.T) {
 }
 
 func TestOnTouchCancelAttr(t *testing.T) {
-	got := string(dropdown.New().OnTouchCancel("test").Render())
+	got := string(dropdown.New().OnTouchCancel("test").RenderBytes())
 	want := `<select ontouchcancel="test"></select>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -1235,7 +1235,7 @@ func TestOnTouchCancelAttr(t *testing.T) {
 }
 
 func TestOnSelectStartAttr(t *testing.T) {
-	got := string(dropdown.New().OnSelectStart("test").Render())
+	got := string(dropdown.New().OnSelectStart("test").RenderBytes())
 	want := `<select onselectstart="test"></select>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -1243,7 +1243,7 @@ func TestOnSelectStartAttr(t *testing.T) {
 }
 
 func TestOnSelectionChangeAttr(t *testing.T) {
-	got := string(dropdown.New().OnSelectionChange("test").Render())
+	got := string(dropdown.New().OnSelectionChange("test").RenderBytes())
 	want := `<select onselectionchange="test"></select>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -1251,7 +1251,7 @@ func TestOnSelectionChangeAttr(t *testing.T) {
 }
 
 func TestNewMulti(t *testing.T) {
-	got := string(dropdown.New(dropdown.New(), dropdown.New()).Render())
+	got := string(dropdown.New(dropdown.New(), dropdown.New()).RenderBytes())
 	want := `<select><select></select><select></select></select>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -1262,7 +1262,7 @@ func TestAdd(t *testing.T) {
 	element := dropdown.New().Add(dropdown.New(), dropdown.New())
 
 	// Test rendered output
-	got := string(element.Render())
+	got := string(element.RenderBytes())
 	want := `<select><select></select><select></select></select>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -1287,7 +1287,7 @@ func TestReplace(t *testing.T) {
 	element.Replace(dropdown.New())
 
 	// Test rendered output
-	got := string(element.Render())
+	got := string(element.RenderBytes())
 	want := `<select><select></select></select>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -1300,7 +1300,7 @@ func TestReplace(t *testing.T) {
 }
 
 func TestTextMethod(t *testing.T) {
-	got := string(dropdown.New().Text("hello").Render())
+	got := string(dropdown.New().Text("hello").RenderBytes())
 	want := `<select>hello</select>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -1308,7 +1308,7 @@ func TestTextMethod(t *testing.T) {
 }
 
 func TestTextfMethod(t *testing.T) {
-	got := string(dropdown.New().Textf("hello %s", "world").Render())
+	got := string(dropdown.New().Textf("hello %s", "world").RenderBytes())
 	want := `<select>hello world</select>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -1316,7 +1316,7 @@ func TestTextfMethod(t *testing.T) {
 }
 
 func TestStaticMethod(t *testing.T) {
-	got := string(dropdown.New().Static("static content").Render())
+	got := string(dropdown.New().Static("static content").RenderBytes())
 	want := `<select>static content</select>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -1324,7 +1324,7 @@ func TestStaticMethod(t *testing.T) {
 }
 
 func TestRawTextMethod(t *testing.T) {
-	got := string(dropdown.New().RawText("<em>bold</em>").Render())
+	got := string(dropdown.New().RawText("<em>bold</em>").RenderBytes())
 	want := `<select><em>bold</em></select>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -1332,7 +1332,7 @@ func TestRawTextMethod(t *testing.T) {
 }
 
 func TestRawTextfMethod(t *testing.T) {
-	got := string(dropdown.New().RawTextf("<%s>test</%s>", "span", "span").Render())
+	got := string(dropdown.New().RawTextf("<%s>test</%s>", "span", "span").RenderBytes())
 	want := `<select><span>test</span></select>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -1340,7 +1340,7 @@ func TestRawTextfMethod(t *testing.T) {
 }
 
 func TestTextChaining(t *testing.T) {
-	got := string(dropdown.New().Class("foo").Text("content").ID("bar").Render())
+	got := string(dropdown.New().Class("foo").Text("content").ID("bar").RenderBytes())
 	want := `<select class="foo" id="bar">content</select>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -1348,7 +1348,7 @@ func TestTextChaining(t *testing.T) {
 }
 
 func TestDynamicKey(t *testing.T) {
-	got := string(dropdown.New().Dynamic("mykey").Render())
+	got := string(dropdown.New().Dynamic("mykey").RenderBytes())
 	want := `<select data-tether-key="mykey"></select>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -1363,7 +1363,7 @@ func TestDynamicNoKey(t *testing.T) {
 	if el.DynamicKey() != "_" {
 		t.Errorf("DynamicKey() should be \"_\", got %q", el.DynamicKey())
 	}
-	got := string(el.Render())
+	got := string(el.RenderBytes())
 	want := `<select></select>`
 	if got != want {
 		t.Errorf("Dynamic() without key should not render data-tether-key: got %q, want %q", got, want)

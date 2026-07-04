@@ -22,14 +22,14 @@ import (
 
 func TestNewCtor(t *testing.T) {
 	// Test empty element
-	got := string(legend.New().Render())
+	got := string(legend.New().RenderBytes())
 	want := `<legend></legend>`
 	if got != want {
 		t.Errorf("empty: got %q, want %q", got, want)
 	}
 
 	// Test nested element
-	got = string(legend.New(legend.New()).Render())
+	got = string(legend.New(legend.New()).RenderBytes())
 	want = `<legend><legend></legend></legend>`
 	if got != want {
 		t.Errorf("nested: got %q, want %q", got, want)
@@ -37,7 +37,7 @@ func TestNewCtor(t *testing.T) {
 }
 
 func TestTextCtor(t *testing.T) {
-	got := string(legend.Text("Personal Information").Render())
+	got := string(legend.Text("Personal Information").RenderBytes())
 	want := `<legend>Personal Information</legend>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -45,7 +45,7 @@ func TestTextCtor(t *testing.T) {
 }
 
 func TestStaticCtor(t *testing.T) {
-	got := string(legend.Static("Account Settings").Render())
+	got := string(legend.Static("Account Settings").RenderBytes())
 	want := `<legend>Account Settings</legend>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -53,7 +53,7 @@ func TestStaticCtor(t *testing.T) {
 }
 
 func TestRawTextCtor(t *testing.T) {
-	got := string(legend.RawText("<span class=\"required\">*</span> Personal Information").Render())
+	got := string(legend.RawText("<span class=\"required\">*</span> Personal Information").RenderBytes())
 	want := `<legend><span class="required">*</span> Personal Information</legend>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -62,7 +62,7 @@ func TestRawTextCtor(t *testing.T) {
 
 func TestTextfCtor(t *testing.T) {
 	step := 1
-	got := string(legend.Textf("Step %d: %s", step, "Details").Render())
+	got := string(legend.Textf("Step %d: %s", step, "Details").RenderBytes())
 	want := `<legend>Step 1: Details</legend>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -71,7 +71,7 @@ func TestTextfCtor(t *testing.T) {
 
 func TestRawTextfCtor(t *testing.T) {
 	step := 1
-	got := string(legend.RawTextf("<span class=\"step\">%d</span> %s", step, "Details").Render())
+	got := string(legend.RawTextf("<span class=\"step\">%d</span> %s", step, "Details").RenderBytes())
 	want := `<legend><span class="step">1</span> Details</legend>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -79,7 +79,7 @@ func TestRawTextfCtor(t *testing.T) {
 }
 
 func TestClassAttr(t *testing.T) {
-	got := string(legend.New().Class("test").Render())
+	got := string(legend.New().Class("test").RenderBytes())
 	want := `<legend class="test"></legend>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -88,7 +88,7 @@ func TestClassAttr(t *testing.T) {
 
 func TestClassMulti(t *testing.T) {
 	// Test multiple chained calls
-	got := string(legend.New().Class("one").Class("two").Class("three").Render())
+	got := string(legend.New().Class("one").Class("two").Class("three").RenderBytes())
 	want := `<legend class="one two three"></legend>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -96,7 +96,7 @@ func TestClassMulti(t *testing.T) {
 }
 
 func TestIDAttr(t *testing.T) {
-	got := string(legend.New().ID("test").Render())
+	got := string(legend.New().ID("test").RenderBytes())
 	want := `<legend id="test"></legend>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -104,7 +104,7 @@ func TestIDAttr(t *testing.T) {
 }
 
 func TestStyleAttr(t *testing.T) {
-	got := string(legend.New().Style("test").Render())
+	got := string(legend.New().Style("test").RenderBytes())
 	want := `<legend style="test"></legend>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -113,7 +113,7 @@ func TestStyleAttr(t *testing.T) {
 
 func TestStyleMulti(t *testing.T) {
 	// Test multiple chained calls
-	got := string(legend.New().Style("one").Style("two").Style("three").Render())
+	got := string(legend.New().Style("one").Style("two").Style("three").RenderBytes())
 	want := `<legend style="one; two; three"></legend>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -121,7 +121,7 @@ func TestStyleMulti(t *testing.T) {
 }
 
 func TestTitleAttr(t *testing.T) {
-	got := string(legend.New().Title("test").Render())
+	got := string(legend.New().Title("test").RenderBytes())
 	want := `<legend title="test"></legend>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -129,7 +129,7 @@ func TestTitleAttr(t *testing.T) {
 }
 
 func TestHiddenAttr(t *testing.T) {
-	got := string(legend.New().Hidden(hidden.True).Render())
+	got := string(legend.New().Hidden(hidden.True).RenderBytes())
 	want := `<legend hidden="true"></legend>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -137,7 +137,7 @@ func TestHiddenAttr(t *testing.T) {
 }
 
 func TestTabIndexAttr(t *testing.T) {
-	got := string(legend.New().TabIndex(42).Render())
+	got := string(legend.New().TabIndex(42).RenderBytes())
 	want := `<legend tabindex="42"></legend>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -145,7 +145,7 @@ func TestTabIndexAttr(t *testing.T) {
 }
 
 func TestRoleAttr(t *testing.T) {
-	got := string(legend.New().Role("test").Render())
+	got := string(legend.New().Role("test").RenderBytes())
 	want := `<legend role="test"></legend>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -153,7 +153,7 @@ func TestRoleAttr(t *testing.T) {
 }
 
 func TestLangAttr(t *testing.T) {
-	got := string(legend.New().Lang("test").Render())
+	got := string(legend.New().Lang("test").RenderBytes())
 	want := `<legend lang="test"></legend>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -161,7 +161,7 @@ func TestLangAttr(t *testing.T) {
 }
 
 func TestAccessKeyAttr(t *testing.T) {
-	got := string(legend.New().AccessKey("test").Render())
+	got := string(legend.New().AccessKey("test").RenderBytes())
 	want := `<legend accesskey="test"></legend>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -170,7 +170,7 @@ func TestAccessKeyAttr(t *testing.T) {
 
 func TestAccessKeyMulti(t *testing.T) {
 	// Test multiple chained calls
-	got := string(legend.New().AccessKey("one").AccessKey("two").AccessKey("three").Render())
+	got := string(legend.New().AccessKey("one").AccessKey("two").AccessKey("three").RenderBytes())
 	want := `<legend accesskey="one two three"></legend>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -178,7 +178,7 @@ func TestAccessKeyMulti(t *testing.T) {
 }
 
 func TestAnchorAttr(t *testing.T) {
-	got := string(legend.New().Anchor("test").Render())
+	got := string(legend.New().Anchor("test").RenderBytes())
 	want := `<legend anchor="test"></legend>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -186,7 +186,7 @@ func TestAnchorAttr(t *testing.T) {
 }
 
 func TestAriaLabelAttr(t *testing.T) {
-	got := string(legend.New().AriaLabel("test").Render())
+	got := string(legend.New().AriaLabel("test").RenderBytes())
 	want := `<legend aria-label="test"></legend>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -194,7 +194,7 @@ func TestAriaLabelAttr(t *testing.T) {
 }
 
 func TestSetAriaAttr(t *testing.T) {
-	got := string(legend.New().SetAria("label", "test-value").Render())
+	got := string(legend.New().SetAria("label", "test-value").RenderBytes())
 	want := `<legend aria-label="test-value"></legend>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -202,7 +202,7 @@ func TestSetAriaAttr(t *testing.T) {
 }
 
 func TestAutoCapitalizeAttr(t *testing.T) {
-	got := string(legend.New().AutoCapitalize(autocapitalize.Off).Render())
+	got := string(legend.New().AutoCapitalize(autocapitalize.Off).RenderBytes())
 	want := `<legend autocapitalize="off"></legend>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -210,7 +210,7 @@ func TestAutoCapitalizeAttr(t *testing.T) {
 }
 
 func TestAutoCorrectAttr(t *testing.T) {
-	got := string(legend.New().AutoCorrect(autocorrect.On).Render())
+	got := string(legend.New().AutoCorrect(autocorrect.On).RenderBytes())
 	want := `<legend autocorrect="on"></legend>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -218,7 +218,7 @@ func TestAutoCorrectAttr(t *testing.T) {
 }
 
 func TestAutoFocusAttr(t *testing.T) {
-	got := string(legend.New().AutoFocus().Render())
+	got := string(legend.New().AutoFocus().RenderBytes())
 	want := `<legend autofocus></legend>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -226,7 +226,7 @@ func TestAutoFocusAttr(t *testing.T) {
 }
 
 func TestContentEditableAttr(t *testing.T) {
-	got := string(legend.New().ContentEditable(contenteditable.True).Render())
+	got := string(legend.New().ContentEditable(contenteditable.True).RenderBytes())
 	want := `<legend contenteditable="true"></legend>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -234,7 +234,7 @@ func TestContentEditableAttr(t *testing.T) {
 }
 
 func TestSetDataAttr(t *testing.T) {
-	got := string(legend.New().SetData("user-id", "test-value").Render())
+	got := string(legend.New().SetData("user-id", "test-value").RenderBytes())
 	want := `<legend data-user-id="test-value"></legend>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -242,7 +242,7 @@ func TestSetDataAttr(t *testing.T) {
 }
 
 func TestDirAttr(t *testing.T) {
-	got := string(legend.New().Dir(dir.LeftToRight).Render())
+	got := string(legend.New().Dir(dir.LeftToRight).RenderBytes())
 	want := `<legend dir="ltr"></legend>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -250,7 +250,7 @@ func TestDirAttr(t *testing.T) {
 }
 
 func TestDraggableAttr(t *testing.T) {
-	got := string(legend.New().Draggable().Render())
+	got := string(legend.New().Draggable().RenderBytes())
 	want := `<legend draggable></legend>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -258,7 +258,7 @@ func TestDraggableAttr(t *testing.T) {
 }
 
 func TestEnterKeyHintAttr(t *testing.T) {
-	got := string(legend.New().EnterKeyHint(enterkeyhint.Enter).Render())
+	got := string(legend.New().EnterKeyHint(enterkeyhint.Enter).RenderBytes())
 	want := `<legend enterkeyhint="enter"></legend>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -266,7 +266,7 @@ func TestEnterKeyHintAttr(t *testing.T) {
 }
 
 func TestExportPartsAttr(t *testing.T) {
-	got := string(legend.New().ExportParts("test").Render())
+	got := string(legend.New().ExportParts("test").RenderBytes())
 	want := `<legend exportparts="test"></legend>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -274,7 +274,7 @@ func TestExportPartsAttr(t *testing.T) {
 }
 
 func TestInertAttr(t *testing.T) {
-	got := string(legend.New().Inert().Render())
+	got := string(legend.New().Inert().RenderBytes())
 	want := `<legend inert></legend>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -282,7 +282,7 @@ func TestInertAttr(t *testing.T) {
 }
 
 func TestInputModeAttr(t *testing.T) {
-	got := string(legend.New().InputMode(inputmode.None).Render())
+	got := string(legend.New().InputMode(inputmode.None).RenderBytes())
 	want := `<legend inputmode="none"></legend>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -290,7 +290,7 @@ func TestInputModeAttr(t *testing.T) {
 }
 
 func TestIsAttr(t *testing.T) {
-	got := string(legend.New().Is("test").Render())
+	got := string(legend.New().Is("test").RenderBytes())
 	want := `<legend is="test"></legend>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -298,7 +298,7 @@ func TestIsAttr(t *testing.T) {
 }
 
 func TestItemIdAttr(t *testing.T) {
-	got := string(legend.New().ItemId("test").Render())
+	got := string(legend.New().ItemId("test").RenderBytes())
 	want := `<legend itemid="test"></legend>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -306,7 +306,7 @@ func TestItemIdAttr(t *testing.T) {
 }
 
 func TestItemPropAttr(t *testing.T) {
-	got := string(legend.New().ItemProp("test").Render())
+	got := string(legend.New().ItemProp("test").RenderBytes())
 	want := `<legend itemprop="test"></legend>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -314,7 +314,7 @@ func TestItemPropAttr(t *testing.T) {
 }
 
 func TestItemRefAttr(t *testing.T) {
-	got := string(legend.New().ItemRef("test").Render())
+	got := string(legend.New().ItemRef("test").RenderBytes())
 	want := `<legend itemref="test"></legend>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -322,7 +322,7 @@ func TestItemRefAttr(t *testing.T) {
 }
 
 func TestItemScopeAttr(t *testing.T) {
-	got := string(legend.New().ItemScope().Render())
+	got := string(legend.New().ItemScope().RenderBytes())
 	want := `<legend itemscope></legend>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -330,7 +330,7 @@ func TestItemScopeAttr(t *testing.T) {
 }
 
 func TestItemTypeAttr(t *testing.T) {
-	got := string(legend.New().ItemType("test").Render())
+	got := string(legend.New().ItemType("test").RenderBytes())
 	want := `<legend itemtype="test"></legend>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -338,7 +338,7 @@ func TestItemTypeAttr(t *testing.T) {
 }
 
 func TestNonceAttr(t *testing.T) {
-	got := string(legend.New().Nonce("test").Render())
+	got := string(legend.New().Nonce("test").RenderBytes())
 	want := `<legend nonce="test"></legend>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -346,7 +346,7 @@ func TestNonceAttr(t *testing.T) {
 }
 
 func TestPartAttr(t *testing.T) {
-	got := string(legend.New().Part("test").Render())
+	got := string(legend.New().Part("test").RenderBytes())
 	want := `<legend part="test"></legend>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -355,7 +355,7 @@ func TestPartAttr(t *testing.T) {
 
 func TestPartMulti(t *testing.T) {
 	// Test multiple chained calls
-	got := string(legend.New().Part("one").Part("two").Part("three").Render())
+	got := string(legend.New().Part("one").Part("two").Part("three").RenderBytes())
 	want := `<legend part="one two three"></legend>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -363,7 +363,7 @@ func TestPartMulti(t *testing.T) {
 }
 
 func TestPopoverAttr(t *testing.T) {
-	got := string(legend.New().Popover(popover.Auto).Render())
+	got := string(legend.New().Popover(popover.Auto).RenderBytes())
 	want := `<legend popover="auto"></legend>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -371,7 +371,7 @@ func TestPopoverAttr(t *testing.T) {
 }
 
 func TestSlotAttr(t *testing.T) {
-	got := string(legend.New().Slot("test").Render())
+	got := string(legend.New().Slot("test").RenderBytes())
 	want := `<legend slot="test"></legend>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -379,7 +379,7 @@ func TestSlotAttr(t *testing.T) {
 }
 
 func TestSpellCheckAttr(t *testing.T) {
-	got := string(legend.New().SpellCheck(spellcheck.True).Render())
+	got := string(legend.New().SpellCheck(spellcheck.True).RenderBytes())
 	want := `<legend spellcheck="true"></legend>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -387,7 +387,7 @@ func TestSpellCheckAttr(t *testing.T) {
 }
 
 func TestTranslateAttr(t *testing.T) {
-	got := string(legend.New().Translate(translate.Yes).Render())
+	got := string(legend.New().Translate(translate.Yes).RenderBytes())
 	want := `<legend translate="yes"></legend>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -395,7 +395,7 @@ func TestTranslateAttr(t *testing.T) {
 }
 
 func TestVirtualKeyboardPolicyAttr(t *testing.T) {
-	got := string(legend.New().VirtualKeyboardPolicy(virtualkeyboardpolicy.Auto).Render())
+	got := string(legend.New().VirtualKeyboardPolicy(virtualkeyboardpolicy.Auto).RenderBytes())
 	want := `<legend virtualkeyboardpolicy="auto"></legend>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -403,7 +403,7 @@ func TestVirtualKeyboardPolicyAttr(t *testing.T) {
 }
 
 func TestWritingSuggestionsAttr(t *testing.T) {
-	got := string(legend.New().WritingSuggestions(writingsuggestions.True).Render())
+	got := string(legend.New().WritingSuggestions(writingsuggestions.True).RenderBytes())
 	want := `<legend writingsuggestions="true"></legend>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -411,7 +411,7 @@ func TestWritingSuggestionsAttr(t *testing.T) {
 }
 
 func TestOnClickAttr(t *testing.T) {
-	got := string(legend.New().OnClick("test").Render())
+	got := string(legend.New().OnClick("test").RenderBytes())
 	want := `<legend onclick="test"></legend>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -419,7 +419,7 @@ func TestOnClickAttr(t *testing.T) {
 }
 
 func TestOnChangeAttr(t *testing.T) {
-	got := string(legend.New().OnChange("test").Render())
+	got := string(legend.New().OnChange("test").RenderBytes())
 	want := `<legend onchange="test"></legend>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -427,7 +427,7 @@ func TestOnChangeAttr(t *testing.T) {
 }
 
 func TestOnInputAttr(t *testing.T) {
-	got := string(legend.New().OnInput("test").Render())
+	got := string(legend.New().OnInput("test").RenderBytes())
 	want := `<legend oninput="test"></legend>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -435,7 +435,7 @@ func TestOnInputAttr(t *testing.T) {
 }
 
 func TestOnFocusAttr(t *testing.T) {
-	got := string(legend.New().OnFocus("test").Render())
+	got := string(legend.New().OnFocus("test").RenderBytes())
 	want := `<legend onfocus="test"></legend>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -443,7 +443,7 @@ func TestOnFocusAttr(t *testing.T) {
 }
 
 func TestOnBlurAttr(t *testing.T) {
-	got := string(legend.New().OnBlur("test").Render())
+	got := string(legend.New().OnBlur("test").RenderBytes())
 	want := `<legend onblur="test"></legend>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -451,7 +451,7 @@ func TestOnBlurAttr(t *testing.T) {
 }
 
 func TestOnSubmitAttr(t *testing.T) {
-	got := string(legend.New().OnSubmit("test").Render())
+	got := string(legend.New().OnSubmit("test").RenderBytes())
 	want := `<legend onsubmit="test"></legend>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -459,7 +459,7 @@ func TestOnSubmitAttr(t *testing.T) {
 }
 
 func TestOnLoadAttr(t *testing.T) {
-	got := string(legend.New().OnLoad("test").Render())
+	got := string(legend.New().OnLoad("test").RenderBytes())
 	want := `<legend onload="test"></legend>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -467,7 +467,7 @@ func TestOnLoadAttr(t *testing.T) {
 }
 
 func TestOnErrorAttr(t *testing.T) {
-	got := string(legend.New().OnError("test").Render())
+	got := string(legend.New().OnError("test").RenderBytes())
 	want := `<legend onerror="test"></legend>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -475,7 +475,7 @@ func TestOnErrorAttr(t *testing.T) {
 }
 
 func TestSetEventAttr(t *testing.T) {
-	got := string(legend.New().SetEvent("onclick", "test-value").Render())
+	got := string(legend.New().SetEvent("onclick", "test-value").RenderBytes())
 	want := `<legend onclick="test-value"></legend>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -483,7 +483,7 @@ func TestSetEventAttr(t *testing.T) {
 }
 
 func TestOnAbortAttr(t *testing.T) {
-	got := string(legend.New().OnAbort("test").Render())
+	got := string(legend.New().OnAbort("test").RenderBytes())
 	want := `<legend onabort="test"></legend>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -491,7 +491,7 @@ func TestOnAbortAttr(t *testing.T) {
 }
 
 func TestOnAutoCompleteAttr(t *testing.T) {
-	got := string(legend.New().OnAutoComplete("test").Render())
+	got := string(legend.New().OnAutoComplete("test").RenderBytes())
 	want := `<legend onautocomplete="test"></legend>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -499,7 +499,7 @@ func TestOnAutoCompleteAttr(t *testing.T) {
 }
 
 func TestOnAutoCompleteErrorAttr(t *testing.T) {
-	got := string(legend.New().OnAutoCompleteError("test").Render())
+	got := string(legend.New().OnAutoCompleteError("test").RenderBytes())
 	want := `<legend onautocompleteerror="test"></legend>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -507,7 +507,7 @@ func TestOnAutoCompleteErrorAttr(t *testing.T) {
 }
 
 func TestOnCancelAttr(t *testing.T) {
-	got := string(legend.New().OnCancel("test").Render())
+	got := string(legend.New().OnCancel("test").RenderBytes())
 	want := `<legend oncancel="test"></legend>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -515,7 +515,7 @@ func TestOnCancelAttr(t *testing.T) {
 }
 
 func TestOnCanPlayAttr(t *testing.T) {
-	got := string(legend.New().OnCanPlay("test").Render())
+	got := string(legend.New().OnCanPlay("test").RenderBytes())
 	want := `<legend oncanplay="test"></legend>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -523,7 +523,7 @@ func TestOnCanPlayAttr(t *testing.T) {
 }
 
 func TestOnCanPlayThroughAttr(t *testing.T) {
-	got := string(legend.New().OnCanPlayThrough("test").Render())
+	got := string(legend.New().OnCanPlayThrough("test").RenderBytes())
 	want := `<legend oncanplaythrough="test"></legend>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -531,7 +531,7 @@ func TestOnCanPlayThroughAttr(t *testing.T) {
 }
 
 func TestOnCloseAttr(t *testing.T) {
-	got := string(legend.New().OnClose("test").Render())
+	got := string(legend.New().OnClose("test").RenderBytes())
 	want := `<legend onclose="test"></legend>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -539,7 +539,7 @@ func TestOnCloseAttr(t *testing.T) {
 }
 
 func TestOnContextMenuAttr(t *testing.T) {
-	got := string(legend.New().OnContextMenu("test").Render())
+	got := string(legend.New().OnContextMenu("test").RenderBytes())
 	want := `<legend oncontextmenu="test"></legend>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -547,7 +547,7 @@ func TestOnContextMenuAttr(t *testing.T) {
 }
 
 func TestOnCueChangeAttr(t *testing.T) {
-	got := string(legend.New().OnCueChange("test").Render())
+	got := string(legend.New().OnCueChange("test").RenderBytes())
 	want := `<legend oncuechange="test"></legend>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -555,7 +555,7 @@ func TestOnCueChangeAttr(t *testing.T) {
 }
 
 func TestOnDblClickAttr(t *testing.T) {
-	got := string(legend.New().OnDblClick("test").Render())
+	got := string(legend.New().OnDblClick("test").RenderBytes())
 	want := `<legend ondblclick="test"></legend>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -563,7 +563,7 @@ func TestOnDblClickAttr(t *testing.T) {
 }
 
 func TestOnDragAttr(t *testing.T) {
-	got := string(legend.New().OnDrag("test").Render())
+	got := string(legend.New().OnDrag("test").RenderBytes())
 	want := `<legend ondrag="test"></legend>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -571,7 +571,7 @@ func TestOnDragAttr(t *testing.T) {
 }
 
 func TestOnDragEndAttr(t *testing.T) {
-	got := string(legend.New().OnDragEnd("test").Render())
+	got := string(legend.New().OnDragEnd("test").RenderBytes())
 	want := `<legend ondragend="test"></legend>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -579,7 +579,7 @@ func TestOnDragEndAttr(t *testing.T) {
 }
 
 func TestOnDragEnterAttr(t *testing.T) {
-	got := string(legend.New().OnDragEnter("test").Render())
+	got := string(legend.New().OnDragEnter("test").RenderBytes())
 	want := `<legend ondragenter="test"></legend>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -587,7 +587,7 @@ func TestOnDragEnterAttr(t *testing.T) {
 }
 
 func TestOnDragLeaveAttr(t *testing.T) {
-	got := string(legend.New().OnDragLeave("test").Render())
+	got := string(legend.New().OnDragLeave("test").RenderBytes())
 	want := `<legend ondragleave="test"></legend>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -595,7 +595,7 @@ func TestOnDragLeaveAttr(t *testing.T) {
 }
 
 func TestOnDragOverAttr(t *testing.T) {
-	got := string(legend.New().OnDragOver("test").Render())
+	got := string(legend.New().OnDragOver("test").RenderBytes())
 	want := `<legend ondragover="test"></legend>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -603,7 +603,7 @@ func TestOnDragOverAttr(t *testing.T) {
 }
 
 func TestOnDragStartAttr(t *testing.T) {
-	got := string(legend.New().OnDragStart("test").Render())
+	got := string(legend.New().OnDragStart("test").RenderBytes())
 	want := `<legend ondragstart="test"></legend>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -611,7 +611,7 @@ func TestOnDragStartAttr(t *testing.T) {
 }
 
 func TestOnDropAttr(t *testing.T) {
-	got := string(legend.New().OnDrop("test").Render())
+	got := string(legend.New().OnDrop("test").RenderBytes())
 	want := `<legend ondrop="test"></legend>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -619,7 +619,7 @@ func TestOnDropAttr(t *testing.T) {
 }
 
 func TestOnDurationChangeAttr(t *testing.T) {
-	got := string(legend.New().OnDurationChange("test").Render())
+	got := string(legend.New().OnDurationChange("test").RenderBytes())
 	want := `<legend ondurationchange="test"></legend>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -627,7 +627,7 @@ func TestOnDurationChangeAttr(t *testing.T) {
 }
 
 func TestOnEmptiedAttr(t *testing.T) {
-	got := string(legend.New().OnEmptied("test").Render())
+	got := string(legend.New().OnEmptied("test").RenderBytes())
 	want := `<legend onemptied="test"></legend>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -635,7 +635,7 @@ func TestOnEmptiedAttr(t *testing.T) {
 }
 
 func TestOnEndedAttr(t *testing.T) {
-	got := string(legend.New().OnEnded("test").Render())
+	got := string(legend.New().OnEnded("test").RenderBytes())
 	want := `<legend onended="test"></legend>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -643,7 +643,7 @@ func TestOnEndedAttr(t *testing.T) {
 }
 
 func TestOnInvalidAttr(t *testing.T) {
-	got := string(legend.New().OnInvalid("test").Render())
+	got := string(legend.New().OnInvalid("test").RenderBytes())
 	want := `<legend oninvalid="test"></legend>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -651,7 +651,7 @@ func TestOnInvalidAttr(t *testing.T) {
 }
 
 func TestOnKeyDownAttr(t *testing.T) {
-	got := string(legend.New().OnKeyDown("test").Render())
+	got := string(legend.New().OnKeyDown("test").RenderBytes())
 	want := `<legend onkeydown="test"></legend>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -659,7 +659,7 @@ func TestOnKeyDownAttr(t *testing.T) {
 }
 
 func TestOnKeyPressAttr(t *testing.T) {
-	got := string(legend.New().OnKeyPress("test").Render())
+	got := string(legend.New().OnKeyPress("test").RenderBytes())
 	want := `<legend onkeypress="test"></legend>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -667,7 +667,7 @@ func TestOnKeyPressAttr(t *testing.T) {
 }
 
 func TestOnKeyUpAttr(t *testing.T) {
-	got := string(legend.New().OnKeyUp("test").Render())
+	got := string(legend.New().OnKeyUp("test").RenderBytes())
 	want := `<legend onkeyup="test"></legend>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -675,7 +675,7 @@ func TestOnKeyUpAttr(t *testing.T) {
 }
 
 func TestOnLoadedDataAttr(t *testing.T) {
-	got := string(legend.New().OnLoadedData("test").Render())
+	got := string(legend.New().OnLoadedData("test").RenderBytes())
 	want := `<legend onloadeddata="test"></legend>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -683,7 +683,7 @@ func TestOnLoadedDataAttr(t *testing.T) {
 }
 
 func TestOnLoadedMetadataAttr(t *testing.T) {
-	got := string(legend.New().OnLoadedMetadata("test").Render())
+	got := string(legend.New().OnLoadedMetadata("test").RenderBytes())
 	want := `<legend onloadedmetadata="test"></legend>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -691,7 +691,7 @@ func TestOnLoadedMetadataAttr(t *testing.T) {
 }
 
 func TestOnLoadStartAttr(t *testing.T) {
-	got := string(legend.New().OnLoadStart("test").Render())
+	got := string(legend.New().OnLoadStart("test").RenderBytes())
 	want := `<legend onloadstart="test"></legend>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -699,7 +699,7 @@ func TestOnLoadStartAttr(t *testing.T) {
 }
 
 func TestOnMouseDownAttr(t *testing.T) {
-	got := string(legend.New().OnMouseDown("test").Render())
+	got := string(legend.New().OnMouseDown("test").RenderBytes())
 	want := `<legend onmousedown="test"></legend>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -707,7 +707,7 @@ func TestOnMouseDownAttr(t *testing.T) {
 }
 
 func TestOnMouseEnterAttr(t *testing.T) {
-	got := string(legend.New().OnMouseEnter("test").Render())
+	got := string(legend.New().OnMouseEnter("test").RenderBytes())
 	want := `<legend onmouseenter="test"></legend>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -715,7 +715,7 @@ func TestOnMouseEnterAttr(t *testing.T) {
 }
 
 func TestOnMouseLeaveAttr(t *testing.T) {
-	got := string(legend.New().OnMouseLeave("test").Render())
+	got := string(legend.New().OnMouseLeave("test").RenderBytes())
 	want := `<legend onmouseleave="test"></legend>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -723,7 +723,7 @@ func TestOnMouseLeaveAttr(t *testing.T) {
 }
 
 func TestOnMouseMoveAttr(t *testing.T) {
-	got := string(legend.New().OnMouseMove("test").Render())
+	got := string(legend.New().OnMouseMove("test").RenderBytes())
 	want := `<legend onmousemove="test"></legend>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -731,7 +731,7 @@ func TestOnMouseMoveAttr(t *testing.T) {
 }
 
 func TestOnMouseOutAttr(t *testing.T) {
-	got := string(legend.New().OnMouseOut("test").Render())
+	got := string(legend.New().OnMouseOut("test").RenderBytes())
 	want := `<legend onmouseout="test"></legend>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -739,7 +739,7 @@ func TestOnMouseOutAttr(t *testing.T) {
 }
 
 func TestOnMouseOverAttr(t *testing.T) {
-	got := string(legend.New().OnMouseOver("test").Render())
+	got := string(legend.New().OnMouseOver("test").RenderBytes())
 	want := `<legend onmouseover="test"></legend>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -747,7 +747,7 @@ func TestOnMouseOverAttr(t *testing.T) {
 }
 
 func TestOnMouseUpAttr(t *testing.T) {
-	got := string(legend.New().OnMouseUp("test").Render())
+	got := string(legend.New().OnMouseUp("test").RenderBytes())
 	want := `<legend onmouseup="test"></legend>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -755,7 +755,7 @@ func TestOnMouseUpAttr(t *testing.T) {
 }
 
 func TestOnMouseWheelAttr(t *testing.T) {
-	got := string(legend.New().OnMouseWheel("test").Render())
+	got := string(legend.New().OnMouseWheel("test").RenderBytes())
 	want := `<legend onmousewheel="test"></legend>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -763,7 +763,7 @@ func TestOnMouseWheelAttr(t *testing.T) {
 }
 
 func TestOnPauseAttr(t *testing.T) {
-	got := string(legend.New().OnPause("test").Render())
+	got := string(legend.New().OnPause("test").RenderBytes())
 	want := `<legend onpause="test"></legend>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -771,7 +771,7 @@ func TestOnPauseAttr(t *testing.T) {
 }
 
 func TestOnPlayAttr(t *testing.T) {
-	got := string(legend.New().OnPlay("test").Render())
+	got := string(legend.New().OnPlay("test").RenderBytes())
 	want := `<legend onplay="test"></legend>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -779,7 +779,7 @@ func TestOnPlayAttr(t *testing.T) {
 }
 
 func TestOnPlayingAttr(t *testing.T) {
-	got := string(legend.New().OnPlaying("test").Render())
+	got := string(legend.New().OnPlaying("test").RenderBytes())
 	want := `<legend onplaying="test"></legend>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -787,7 +787,7 @@ func TestOnPlayingAttr(t *testing.T) {
 }
 
 func TestOnProgressAttr(t *testing.T) {
-	got := string(legend.New().OnProgress("test").Render())
+	got := string(legend.New().OnProgress("test").RenderBytes())
 	want := `<legend onprogress="test"></legend>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -795,7 +795,7 @@ func TestOnProgressAttr(t *testing.T) {
 }
 
 func TestOnRateChangeAttr(t *testing.T) {
-	got := string(legend.New().OnRateChange("test").Render())
+	got := string(legend.New().OnRateChange("test").RenderBytes())
 	want := `<legend onratechange="test"></legend>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -803,7 +803,7 @@ func TestOnRateChangeAttr(t *testing.T) {
 }
 
 func TestOnResetAttr(t *testing.T) {
-	got := string(legend.New().OnReset("test").Render())
+	got := string(legend.New().OnReset("test").RenderBytes())
 	want := `<legend onreset="test"></legend>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -811,7 +811,7 @@ func TestOnResetAttr(t *testing.T) {
 }
 
 func TestOnResizeAttr(t *testing.T) {
-	got := string(legend.New().OnResize("test").Render())
+	got := string(legend.New().OnResize("test").RenderBytes())
 	want := `<legend onresize="test"></legend>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -819,7 +819,7 @@ func TestOnResizeAttr(t *testing.T) {
 }
 
 func TestOnScrollAttr(t *testing.T) {
-	got := string(legend.New().OnScroll("test").Render())
+	got := string(legend.New().OnScroll("test").RenderBytes())
 	want := `<legend onscroll="test"></legend>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -827,7 +827,7 @@ func TestOnScrollAttr(t *testing.T) {
 }
 
 func TestOnSeekedAttr(t *testing.T) {
-	got := string(legend.New().OnSeeked("test").Render())
+	got := string(legend.New().OnSeeked("test").RenderBytes())
 	want := `<legend onseeked="test"></legend>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -835,7 +835,7 @@ func TestOnSeekedAttr(t *testing.T) {
 }
 
 func TestOnSeekingAttr(t *testing.T) {
-	got := string(legend.New().OnSeeking("test").Render())
+	got := string(legend.New().OnSeeking("test").RenderBytes())
 	want := `<legend onseeking="test"></legend>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -843,7 +843,7 @@ func TestOnSeekingAttr(t *testing.T) {
 }
 
 func TestOnSelectAttr(t *testing.T) {
-	got := string(legend.New().OnSelect("test").Render())
+	got := string(legend.New().OnSelect("test").RenderBytes())
 	want := `<legend onselect="test"></legend>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -851,7 +851,7 @@ func TestOnSelectAttr(t *testing.T) {
 }
 
 func TestOnShowAttr(t *testing.T) {
-	got := string(legend.New().OnShow("test").Render())
+	got := string(legend.New().OnShow("test").RenderBytes())
 	want := `<legend onshow="test"></legend>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -859,7 +859,7 @@ func TestOnShowAttr(t *testing.T) {
 }
 
 func TestOnSortAttr(t *testing.T) {
-	got := string(legend.New().OnSort("test").Render())
+	got := string(legend.New().OnSort("test").RenderBytes())
 	want := `<legend onsort="test"></legend>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -867,7 +867,7 @@ func TestOnSortAttr(t *testing.T) {
 }
 
 func TestOnStalledAttr(t *testing.T) {
-	got := string(legend.New().OnStalled("test").Render())
+	got := string(legend.New().OnStalled("test").RenderBytes())
 	want := `<legend onstalled="test"></legend>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -875,7 +875,7 @@ func TestOnStalledAttr(t *testing.T) {
 }
 
 func TestOnSuspendAttr(t *testing.T) {
-	got := string(legend.New().OnSuspend("test").Render())
+	got := string(legend.New().OnSuspend("test").RenderBytes())
 	want := `<legend onsuspend="test"></legend>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -883,7 +883,7 @@ func TestOnSuspendAttr(t *testing.T) {
 }
 
 func TestOnTimeUpdateAttr(t *testing.T) {
-	got := string(legend.New().OnTimeUpdate("test").Render())
+	got := string(legend.New().OnTimeUpdate("test").RenderBytes())
 	want := `<legend ontimeupdate="test"></legend>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -891,7 +891,7 @@ func TestOnTimeUpdateAttr(t *testing.T) {
 }
 
 func TestOnToggleAttr(t *testing.T) {
-	got := string(legend.New().OnToggle("test").Render())
+	got := string(legend.New().OnToggle("test").RenderBytes())
 	want := `<legend ontoggle="test"></legend>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -899,7 +899,7 @@ func TestOnToggleAttr(t *testing.T) {
 }
 
 func TestOnVolumeChangeAttr(t *testing.T) {
-	got := string(legend.New().OnVolumeChange("test").Render())
+	got := string(legend.New().OnVolumeChange("test").RenderBytes())
 	want := `<legend onvolumechange="test"></legend>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -907,7 +907,7 @@ func TestOnVolumeChangeAttr(t *testing.T) {
 }
 
 func TestOnWaitingAttr(t *testing.T) {
-	got := string(legend.New().OnWaiting("test").Render())
+	got := string(legend.New().OnWaiting("test").RenderBytes())
 	want := `<legend onwaiting="test"></legend>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -915,7 +915,7 @@ func TestOnWaitingAttr(t *testing.T) {
 }
 
 func TestOnAuxClickAttr(t *testing.T) {
-	got := string(legend.New().OnAuxClick("test").Render())
+	got := string(legend.New().OnAuxClick("test").RenderBytes())
 	want := `<legend onauxclick="test"></legend>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -923,7 +923,7 @@ func TestOnAuxClickAttr(t *testing.T) {
 }
 
 func TestOnWheelAttr(t *testing.T) {
-	got := string(legend.New().OnWheel("test").Render())
+	got := string(legend.New().OnWheel("test").RenderBytes())
 	want := `<legend onwheel="test"></legend>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -931,7 +931,7 @@ func TestOnWheelAttr(t *testing.T) {
 }
 
 func TestOnCopyAttr(t *testing.T) {
-	got := string(legend.New().OnCopy("test").Render())
+	got := string(legend.New().OnCopy("test").RenderBytes())
 	want := `<legend oncopy="test"></legend>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -939,7 +939,7 @@ func TestOnCopyAttr(t *testing.T) {
 }
 
 func TestOnCutAttr(t *testing.T) {
-	got := string(legend.New().OnCut("test").Render())
+	got := string(legend.New().OnCut("test").RenderBytes())
 	want := `<legend oncut="test"></legend>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -947,7 +947,7 @@ func TestOnCutAttr(t *testing.T) {
 }
 
 func TestOnPasteAttr(t *testing.T) {
-	got := string(legend.New().OnPaste("test").Render())
+	got := string(legend.New().OnPaste("test").RenderBytes())
 	want := `<legend onpaste="test"></legend>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -955,7 +955,7 @@ func TestOnPasteAttr(t *testing.T) {
 }
 
 func TestOnScrollEndAttr(t *testing.T) {
-	got := string(legend.New().OnScrollEnd("test").Render())
+	got := string(legend.New().OnScrollEnd("test").RenderBytes())
 	want := `<legend onscrollend="test"></legend>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -963,7 +963,7 @@ func TestOnScrollEndAttr(t *testing.T) {
 }
 
 func TestOnFormDataAttr(t *testing.T) {
-	got := string(legend.New().OnFormData("test").Render())
+	got := string(legend.New().OnFormData("test").RenderBytes())
 	want := `<legend onformdata="test"></legend>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -971,7 +971,7 @@ func TestOnFormDataAttr(t *testing.T) {
 }
 
 func TestOnAnimationCancelAttr(t *testing.T) {
-	got := string(legend.New().OnAnimationCancel("test").Render())
+	got := string(legend.New().OnAnimationCancel("test").RenderBytes())
 	want := `<legend onanimationcancel="test"></legend>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -979,7 +979,7 @@ func TestOnAnimationCancelAttr(t *testing.T) {
 }
 
 func TestOnAnimationEndAttr(t *testing.T) {
-	got := string(legend.New().OnAnimationEnd("test").Render())
+	got := string(legend.New().OnAnimationEnd("test").RenderBytes())
 	want := `<legend onanimationend="test"></legend>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -987,7 +987,7 @@ func TestOnAnimationEndAttr(t *testing.T) {
 }
 
 func TestOnAnimationIterationAttr(t *testing.T) {
-	got := string(legend.New().OnAnimationIteration("test").Render())
+	got := string(legend.New().OnAnimationIteration("test").RenderBytes())
 	want := `<legend onanimationiteration="test"></legend>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -995,7 +995,7 @@ func TestOnAnimationIterationAttr(t *testing.T) {
 }
 
 func TestOnAnimationStartAttr(t *testing.T) {
-	got := string(legend.New().OnAnimationStart("test").Render())
+	got := string(legend.New().OnAnimationStart("test").RenderBytes())
 	want := `<legend onanimationstart="test"></legend>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -1003,7 +1003,7 @@ func TestOnAnimationStartAttr(t *testing.T) {
 }
 
 func TestOnTransitionCancelAttr(t *testing.T) {
-	got := string(legend.New().OnTransitionCancel("test").Render())
+	got := string(legend.New().OnTransitionCancel("test").RenderBytes())
 	want := `<legend ontransitioncancel="test"></legend>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -1011,7 +1011,7 @@ func TestOnTransitionCancelAttr(t *testing.T) {
 }
 
 func TestOnTransitionEndAttr(t *testing.T) {
-	got := string(legend.New().OnTransitionEnd("test").Render())
+	got := string(legend.New().OnTransitionEnd("test").RenderBytes())
 	want := `<legend ontransitionend="test"></legend>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -1019,7 +1019,7 @@ func TestOnTransitionEndAttr(t *testing.T) {
 }
 
 func TestOnTransitionRunAttr(t *testing.T) {
-	got := string(legend.New().OnTransitionRun("test").Render())
+	got := string(legend.New().OnTransitionRun("test").RenderBytes())
 	want := `<legend ontransitionrun="test"></legend>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -1027,7 +1027,7 @@ func TestOnTransitionRunAttr(t *testing.T) {
 }
 
 func TestOnTransitionStartAttr(t *testing.T) {
-	got := string(legend.New().OnTransitionStart("test").Render())
+	got := string(legend.New().OnTransitionStart("test").RenderBytes())
 	want := `<legend ontransitionstart="test"></legend>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -1035,7 +1035,7 @@ func TestOnTransitionStartAttr(t *testing.T) {
 }
 
 func TestOnBeforeToggleAttr(t *testing.T) {
-	got := string(legend.New().OnBeforeToggle("test").Render())
+	got := string(legend.New().OnBeforeToggle("test").RenderBytes())
 	want := `<legend onbeforetoggle="test"></legend>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -1043,7 +1043,7 @@ func TestOnBeforeToggleAttr(t *testing.T) {
 }
 
 func TestOnBeforeInputAttr(t *testing.T) {
-	got := string(legend.New().OnBeforeInput("test").Render())
+	got := string(legend.New().OnBeforeInput("test").RenderBytes())
 	want := `<legend onbeforeinput="test"></legend>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -1051,7 +1051,7 @@ func TestOnBeforeInputAttr(t *testing.T) {
 }
 
 func TestOnBeforeMatchAttr(t *testing.T) {
-	got := string(legend.New().OnBeforeMatch("test").Render())
+	got := string(legend.New().OnBeforeMatch("test").RenderBytes())
 	want := `<legend onbeforematch="test"></legend>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -1059,7 +1059,7 @@ func TestOnBeforeMatchAttr(t *testing.T) {
 }
 
 func TestOnCommandAttr(t *testing.T) {
-	got := string(legend.New().OnCommand("test").Render())
+	got := string(legend.New().OnCommand("test").RenderBytes())
 	want := `<legend oncommand="test"></legend>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -1067,7 +1067,7 @@ func TestOnCommandAttr(t *testing.T) {
 }
 
 func TestOnContextLostAttr(t *testing.T) {
-	got := string(legend.New().OnContextLost("test").Render())
+	got := string(legend.New().OnContextLost("test").RenderBytes())
 	want := `<legend oncontextlost="test"></legend>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -1075,7 +1075,7 @@ func TestOnContextLostAttr(t *testing.T) {
 }
 
 func TestOnContextRestoredAttr(t *testing.T) {
-	got := string(legend.New().OnContextRestored("test").Render())
+	got := string(legend.New().OnContextRestored("test").RenderBytes())
 	want := `<legend oncontextrestored="test"></legend>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -1083,7 +1083,7 @@ func TestOnContextRestoredAttr(t *testing.T) {
 }
 
 func TestOnSecurityPolicyViolationAttr(t *testing.T) {
-	got := string(legend.New().OnSecurityPolicyViolation("test").Render())
+	got := string(legend.New().OnSecurityPolicyViolation("test").RenderBytes())
 	want := `<legend onsecuritypolicyviolation="test"></legend>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -1091,7 +1091,7 @@ func TestOnSecurityPolicyViolationAttr(t *testing.T) {
 }
 
 func TestOnSlotChangeAttr(t *testing.T) {
-	got := string(legend.New().OnSlotChange("test").Render())
+	got := string(legend.New().OnSlotChange("test").RenderBytes())
 	want := `<legend onslotchange="test"></legend>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -1099,7 +1099,7 @@ func TestOnSlotChangeAttr(t *testing.T) {
 }
 
 func TestOnPointerDownAttr(t *testing.T) {
-	got := string(legend.New().OnPointerDown("test").Render())
+	got := string(legend.New().OnPointerDown("test").RenderBytes())
 	want := `<legend onpointerdown="test"></legend>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -1107,7 +1107,7 @@ func TestOnPointerDownAttr(t *testing.T) {
 }
 
 func TestOnPointerUpAttr(t *testing.T) {
-	got := string(legend.New().OnPointerUp("test").Render())
+	got := string(legend.New().OnPointerUp("test").RenderBytes())
 	want := `<legend onpointerup="test"></legend>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -1115,7 +1115,7 @@ func TestOnPointerUpAttr(t *testing.T) {
 }
 
 func TestOnPointerMoveAttr(t *testing.T) {
-	got := string(legend.New().OnPointerMove("test").Render())
+	got := string(legend.New().OnPointerMove("test").RenderBytes())
 	want := `<legend onpointermove="test"></legend>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -1123,7 +1123,7 @@ func TestOnPointerMoveAttr(t *testing.T) {
 }
 
 func TestOnPointerEnterAttr(t *testing.T) {
-	got := string(legend.New().OnPointerEnter("test").Render())
+	got := string(legend.New().OnPointerEnter("test").RenderBytes())
 	want := `<legend onpointerenter="test"></legend>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -1131,7 +1131,7 @@ func TestOnPointerEnterAttr(t *testing.T) {
 }
 
 func TestOnPointerLeaveAttr(t *testing.T) {
-	got := string(legend.New().OnPointerLeave("test").Render())
+	got := string(legend.New().OnPointerLeave("test").RenderBytes())
 	want := `<legend onpointerleave="test"></legend>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -1139,7 +1139,7 @@ func TestOnPointerLeaveAttr(t *testing.T) {
 }
 
 func TestOnPointerOverAttr(t *testing.T) {
-	got := string(legend.New().OnPointerOver("test").Render())
+	got := string(legend.New().OnPointerOver("test").RenderBytes())
 	want := `<legend onpointerover="test"></legend>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -1147,7 +1147,7 @@ func TestOnPointerOverAttr(t *testing.T) {
 }
 
 func TestOnPointerOutAttr(t *testing.T) {
-	got := string(legend.New().OnPointerOut("test").Render())
+	got := string(legend.New().OnPointerOut("test").RenderBytes())
 	want := `<legend onpointerout="test"></legend>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -1155,7 +1155,7 @@ func TestOnPointerOutAttr(t *testing.T) {
 }
 
 func TestOnPointerCancelAttr(t *testing.T) {
-	got := string(legend.New().OnPointerCancel("test").Render())
+	got := string(legend.New().OnPointerCancel("test").RenderBytes())
 	want := `<legend onpointercancel="test"></legend>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -1163,7 +1163,7 @@ func TestOnPointerCancelAttr(t *testing.T) {
 }
 
 func TestOnGotPointerCaptureAttr(t *testing.T) {
-	got := string(legend.New().OnGotPointerCapture("test").Render())
+	got := string(legend.New().OnGotPointerCapture("test").RenderBytes())
 	want := `<legend ongotpointercapture="test"></legend>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -1171,7 +1171,7 @@ func TestOnGotPointerCaptureAttr(t *testing.T) {
 }
 
 func TestOnLostPointerCaptureAttr(t *testing.T) {
-	got := string(legend.New().OnLostPointerCapture("test").Render())
+	got := string(legend.New().OnLostPointerCapture("test").RenderBytes())
 	want := `<legend onlostpointercapture="test"></legend>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -1179,7 +1179,7 @@ func TestOnLostPointerCaptureAttr(t *testing.T) {
 }
 
 func TestOnTouchStartAttr(t *testing.T) {
-	got := string(legend.New().OnTouchStart("test").Render())
+	got := string(legend.New().OnTouchStart("test").RenderBytes())
 	want := `<legend ontouchstart="test"></legend>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -1187,7 +1187,7 @@ func TestOnTouchStartAttr(t *testing.T) {
 }
 
 func TestOnTouchEndAttr(t *testing.T) {
-	got := string(legend.New().OnTouchEnd("test").Render())
+	got := string(legend.New().OnTouchEnd("test").RenderBytes())
 	want := `<legend ontouchend="test"></legend>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -1195,7 +1195,7 @@ func TestOnTouchEndAttr(t *testing.T) {
 }
 
 func TestOnTouchMoveAttr(t *testing.T) {
-	got := string(legend.New().OnTouchMove("test").Render())
+	got := string(legend.New().OnTouchMove("test").RenderBytes())
 	want := `<legend ontouchmove="test"></legend>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -1203,7 +1203,7 @@ func TestOnTouchMoveAttr(t *testing.T) {
 }
 
 func TestOnTouchCancelAttr(t *testing.T) {
-	got := string(legend.New().OnTouchCancel("test").Render())
+	got := string(legend.New().OnTouchCancel("test").RenderBytes())
 	want := `<legend ontouchcancel="test"></legend>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -1211,7 +1211,7 @@ func TestOnTouchCancelAttr(t *testing.T) {
 }
 
 func TestOnSelectStartAttr(t *testing.T) {
-	got := string(legend.New().OnSelectStart("test").Render())
+	got := string(legend.New().OnSelectStart("test").RenderBytes())
 	want := `<legend onselectstart="test"></legend>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -1219,7 +1219,7 @@ func TestOnSelectStartAttr(t *testing.T) {
 }
 
 func TestOnSelectionChangeAttr(t *testing.T) {
-	got := string(legend.New().OnSelectionChange("test").Render())
+	got := string(legend.New().OnSelectionChange("test").RenderBytes())
 	want := `<legend onselectionchange="test"></legend>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -1227,7 +1227,7 @@ func TestOnSelectionChangeAttr(t *testing.T) {
 }
 
 func TestNewMulti(t *testing.T) {
-	got := string(legend.New(legend.New(), legend.New()).Render())
+	got := string(legend.New(legend.New(), legend.New()).RenderBytes())
 	want := `<legend><legend></legend><legend></legend></legend>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -1238,7 +1238,7 @@ func TestAdd(t *testing.T) {
 	element := legend.New().Add(legend.New(), legend.New())
 
 	// Test rendered output
-	got := string(element.Render())
+	got := string(element.RenderBytes())
 	want := `<legend><legend></legend><legend></legend></legend>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -1263,7 +1263,7 @@ func TestReplace(t *testing.T) {
 	element.Replace(legend.New())
 
 	// Test rendered output
-	got := string(element.Render())
+	got := string(element.RenderBytes())
 	want := `<legend><legend></legend></legend>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -1276,7 +1276,7 @@ func TestReplace(t *testing.T) {
 }
 
 func TestTextMethod(t *testing.T) {
-	got := string(legend.New().Text("hello").Render())
+	got := string(legend.New().Text("hello").RenderBytes())
 	want := `<legend>hello</legend>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -1284,7 +1284,7 @@ func TestTextMethod(t *testing.T) {
 }
 
 func TestTextfMethod(t *testing.T) {
-	got := string(legend.New().Textf("hello %s", "world").Render())
+	got := string(legend.New().Textf("hello %s", "world").RenderBytes())
 	want := `<legend>hello world</legend>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -1292,7 +1292,7 @@ func TestTextfMethod(t *testing.T) {
 }
 
 func TestStaticMethod(t *testing.T) {
-	got := string(legend.New().Static("static content").Render())
+	got := string(legend.New().Static("static content").RenderBytes())
 	want := `<legend>static content</legend>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -1300,7 +1300,7 @@ func TestStaticMethod(t *testing.T) {
 }
 
 func TestRawTextMethod(t *testing.T) {
-	got := string(legend.New().RawText("<em>bold</em>").Render())
+	got := string(legend.New().RawText("<em>bold</em>").RenderBytes())
 	want := `<legend><em>bold</em></legend>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -1308,7 +1308,7 @@ func TestRawTextMethod(t *testing.T) {
 }
 
 func TestRawTextfMethod(t *testing.T) {
-	got := string(legend.New().RawTextf("<%s>test</%s>", "span", "span").Render())
+	got := string(legend.New().RawTextf("<%s>test</%s>", "span", "span").RenderBytes())
 	want := `<legend><span>test</span></legend>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -1316,7 +1316,7 @@ func TestRawTextfMethod(t *testing.T) {
 }
 
 func TestTextChaining(t *testing.T) {
-	got := string(legend.New().Class("foo").Text("content").ID("bar").Render())
+	got := string(legend.New().Class("foo").Text("content").ID("bar").RenderBytes())
 	want := `<legend class="foo" id="bar">content</legend>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -1324,7 +1324,7 @@ func TestTextChaining(t *testing.T) {
 }
 
 func TestDynamicKey(t *testing.T) {
-	got := string(legend.New().Dynamic("mykey").Render())
+	got := string(legend.New().Dynamic("mykey").RenderBytes())
 	want := `<legend data-tether-key="mykey"></legend>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -1339,7 +1339,7 @@ func TestDynamicNoKey(t *testing.T) {
 	if el.DynamicKey() != "_" {
 		t.Errorf("DynamicKey() should be \"_\", got %q", el.DynamicKey())
 	}
-	got := string(el.Render())
+	got := string(el.RenderBytes())
 	want := `<legend></legend>`
 	if got != want {
 		t.Errorf("Dynamic() without key should not render data-tether-key: got %q, want %q", got, want)

@@ -75,19 +75,27 @@ func (c *ConditionalBuilder) False(node Node) *ConditionalBuilder {
 	return c
 }
 
-// Render generates the HTML representation based on the condition.
-// If a writer is provided, the output is written to it and nil is returned.
-// If no writer is provided, the output is returned as a byte slice.
-func (c *ConditionalBuilder) Render(w ...io.Writer) []byte {
+// Render writes the active branch's rendered output to w.
+// Write errors are intentionally discarded; see [Node] for rationale.
+func (c *ConditionalBuilder) Render(w io.Writer) {
+	_, _ = c.WriteTo(w)
+}
+
+// WriteTo writes the active branch's rendered output to w, returning
+// the byte count and any write error. Satisfies [io.WriterTo].
+func (c *ConditionalBuilder) WriteTo(w io.Writer) (int64, error) {
 	buf := fluent.NewBuffer()
 	c.RenderBuilder(buf)
+	n, err := buf.WriteTo(w)
+	fluent.PutBuffer(buf)
+	return n, err
+}
 
-	if len(w) > 0 && w[0] != nil {
-		// Write errors are intentionally discarded; see [node.Node] for rationale.
-		_, _ = buf.WriteTo(w[0])
-		fluent.PutBuffer(buf)
-		return nil
-	}
+// RenderBytes returns the active branch's rendered output as a byte
+// slice.
+func (c *ConditionalBuilder) RenderBytes() []byte {
+	var buf bytes.Buffer
+	c.RenderBuilder(&buf)
 	return buf.Bytes()
 }
 

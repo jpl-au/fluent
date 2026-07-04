@@ -24,14 +24,14 @@ import (
 
 func TestNewCtor(t *testing.T) {
 	// Test empty element
-	got := string(fieldset.New().Render())
+	got := string(fieldset.New().RenderBytes())
 	want := `<fieldset></fieldset>`
 	if got != want {
 		t.Errorf("empty: got %q, want %q", got, want)
 	}
 
 	// Test nested element
-	got = string(fieldset.New(fieldset.New()).Render())
+	got = string(fieldset.New(fieldset.New()).RenderBytes())
 	want = `<fieldset><fieldset></fieldset></fieldset>`
 	if got != want {
 		t.Errorf("nested: got %q, want %q", got, want)
@@ -39,7 +39,7 @@ func TestNewCtor(t *testing.T) {
 }
 
 func TestLegendCtor(t *testing.T) {
-	got := string(fieldset.Legend("Address", input.Text("street", "")).Render())
+	got := string(fieldset.Legend("Address", input.Text("street", "")).RenderBytes())
 	want := `<fieldset><legend>Address</legend><input name="street" type="text" /></fieldset>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -47,7 +47,7 @@ func TestLegendCtor(t *testing.T) {
 }
 
 func TestDisabledCtor(t *testing.T) {
-	got := string(fieldset.Disabled(legend.Text("Premium features"), input.Text("code", "")).Render())
+	got := string(fieldset.Disabled(legend.Text("Premium features"), input.Text("code", "")).RenderBytes())
 	want := `<fieldset disabled><legend>Premium features</legend><input name="code" type="text" /></fieldset>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -55,7 +55,7 @@ func TestDisabledCtor(t *testing.T) {
 }
 
 func TestDisabledAttr(t *testing.T) {
-	got := string(fieldset.New().Disabled().Render())
+	got := string(fieldset.New().Disabled().RenderBytes())
 	want := `<fieldset disabled></fieldset>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -63,7 +63,7 @@ func TestDisabledAttr(t *testing.T) {
 }
 
 func TestFormAttr(t *testing.T) {
-	got := string(fieldset.New().Form("test").Render())
+	got := string(fieldset.New().Form("test").RenderBytes())
 	want := `<fieldset form="test"></fieldset>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -71,7 +71,7 @@ func TestFormAttr(t *testing.T) {
 }
 
 func TestNameAttr(t *testing.T) {
-	got := string(fieldset.New().Name("test").Render())
+	got := string(fieldset.New().Name("test").RenderBytes())
 	want := `<fieldset name="test"></fieldset>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -79,7 +79,7 @@ func TestNameAttr(t *testing.T) {
 }
 
 func TestClassAttr(t *testing.T) {
-	got := string(fieldset.New().Class("test").Render())
+	got := string(fieldset.New().Class("test").RenderBytes())
 	want := `<fieldset class="test"></fieldset>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -88,7 +88,7 @@ func TestClassAttr(t *testing.T) {
 
 func TestClassMulti(t *testing.T) {
 	// Test multiple chained calls
-	got := string(fieldset.New().Class("one").Class("two").Class("three").Render())
+	got := string(fieldset.New().Class("one").Class("two").Class("three").RenderBytes())
 	want := `<fieldset class="one two three"></fieldset>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -96,7 +96,7 @@ func TestClassMulti(t *testing.T) {
 }
 
 func TestIDAttr(t *testing.T) {
-	got := string(fieldset.New().ID("test").Render())
+	got := string(fieldset.New().ID("test").RenderBytes())
 	want := `<fieldset id="test"></fieldset>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -104,7 +104,7 @@ func TestIDAttr(t *testing.T) {
 }
 
 func TestStyleAttr(t *testing.T) {
-	got := string(fieldset.New().Style("test").Render())
+	got := string(fieldset.New().Style("test").RenderBytes())
 	want := `<fieldset style="test"></fieldset>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -113,7 +113,7 @@ func TestStyleAttr(t *testing.T) {
 
 func TestStyleMulti(t *testing.T) {
 	// Test multiple chained calls
-	got := string(fieldset.New().Style("one").Style("two").Style("three").Render())
+	got := string(fieldset.New().Style("one").Style("two").Style("three").RenderBytes())
 	want := `<fieldset style="one; two; three"></fieldset>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -121,7 +121,7 @@ func TestStyleMulti(t *testing.T) {
 }
 
 func TestTitleAttr(t *testing.T) {
-	got := string(fieldset.New().Title("test").Render())
+	got := string(fieldset.New().Title("test").RenderBytes())
 	want := `<fieldset title="test"></fieldset>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -129,7 +129,7 @@ func TestTitleAttr(t *testing.T) {
 }
 
 func TestHiddenAttr(t *testing.T) {
-	got := string(fieldset.New().Hidden(hidden.True).Render())
+	got := string(fieldset.New().Hidden(hidden.True).RenderBytes())
 	want := `<fieldset hidden="true"></fieldset>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -137,7 +137,7 @@ func TestHiddenAttr(t *testing.T) {
 }
 
 func TestTabIndexAttr(t *testing.T) {
-	got := string(fieldset.New().TabIndex(42).Render())
+	got := string(fieldset.New().TabIndex(42).RenderBytes())
 	want := `<fieldset tabindex="42"></fieldset>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -145,7 +145,7 @@ func TestTabIndexAttr(t *testing.T) {
 }
 
 func TestRoleAttr(t *testing.T) {
-	got := string(fieldset.New().Role("test").Render())
+	got := string(fieldset.New().Role("test").RenderBytes())
 	want := `<fieldset role="test"></fieldset>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -153,7 +153,7 @@ func TestRoleAttr(t *testing.T) {
 }
 
 func TestLangAttr(t *testing.T) {
-	got := string(fieldset.New().Lang("test").Render())
+	got := string(fieldset.New().Lang("test").RenderBytes())
 	want := `<fieldset lang="test"></fieldset>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -161,7 +161,7 @@ func TestLangAttr(t *testing.T) {
 }
 
 func TestAccessKeyAttr(t *testing.T) {
-	got := string(fieldset.New().AccessKey("test").Render())
+	got := string(fieldset.New().AccessKey("test").RenderBytes())
 	want := `<fieldset accesskey="test"></fieldset>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -170,7 +170,7 @@ func TestAccessKeyAttr(t *testing.T) {
 
 func TestAccessKeyMulti(t *testing.T) {
 	// Test multiple chained calls
-	got := string(fieldset.New().AccessKey("one").AccessKey("two").AccessKey("three").Render())
+	got := string(fieldset.New().AccessKey("one").AccessKey("two").AccessKey("three").RenderBytes())
 	want := `<fieldset accesskey="one two three"></fieldset>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -178,7 +178,7 @@ func TestAccessKeyMulti(t *testing.T) {
 }
 
 func TestAnchorAttr(t *testing.T) {
-	got := string(fieldset.New().Anchor("test").Render())
+	got := string(fieldset.New().Anchor("test").RenderBytes())
 	want := `<fieldset anchor="test"></fieldset>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -186,7 +186,7 @@ func TestAnchorAttr(t *testing.T) {
 }
 
 func TestAriaLabelAttr(t *testing.T) {
-	got := string(fieldset.New().AriaLabel("test").Render())
+	got := string(fieldset.New().AriaLabel("test").RenderBytes())
 	want := `<fieldset aria-label="test"></fieldset>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -194,7 +194,7 @@ func TestAriaLabelAttr(t *testing.T) {
 }
 
 func TestSetAriaAttr(t *testing.T) {
-	got := string(fieldset.New().SetAria("label", "test-value").Render())
+	got := string(fieldset.New().SetAria("label", "test-value").RenderBytes())
 	want := `<fieldset aria-label="test-value"></fieldset>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -202,7 +202,7 @@ func TestSetAriaAttr(t *testing.T) {
 }
 
 func TestAutoCapitalizeAttr(t *testing.T) {
-	got := string(fieldset.New().AutoCapitalize(autocapitalize.Off).Render())
+	got := string(fieldset.New().AutoCapitalize(autocapitalize.Off).RenderBytes())
 	want := `<fieldset autocapitalize="off"></fieldset>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -210,7 +210,7 @@ func TestAutoCapitalizeAttr(t *testing.T) {
 }
 
 func TestAutoCorrectAttr(t *testing.T) {
-	got := string(fieldset.New().AutoCorrect(autocorrect.On).Render())
+	got := string(fieldset.New().AutoCorrect(autocorrect.On).RenderBytes())
 	want := `<fieldset autocorrect="on"></fieldset>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -218,7 +218,7 @@ func TestAutoCorrectAttr(t *testing.T) {
 }
 
 func TestAutoFocusAttr(t *testing.T) {
-	got := string(fieldset.New().AutoFocus().Render())
+	got := string(fieldset.New().AutoFocus().RenderBytes())
 	want := `<fieldset autofocus></fieldset>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -226,7 +226,7 @@ func TestAutoFocusAttr(t *testing.T) {
 }
 
 func TestContentEditableAttr(t *testing.T) {
-	got := string(fieldset.New().ContentEditable(contenteditable.True).Render())
+	got := string(fieldset.New().ContentEditable(contenteditable.True).RenderBytes())
 	want := `<fieldset contenteditable="true"></fieldset>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -234,7 +234,7 @@ func TestContentEditableAttr(t *testing.T) {
 }
 
 func TestSetDataAttr(t *testing.T) {
-	got := string(fieldset.New().SetData("user-id", "test-value").Render())
+	got := string(fieldset.New().SetData("user-id", "test-value").RenderBytes())
 	want := `<fieldset data-user-id="test-value"></fieldset>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -242,7 +242,7 @@ func TestSetDataAttr(t *testing.T) {
 }
 
 func TestDirAttr(t *testing.T) {
-	got := string(fieldset.New().Dir(dir.LeftToRight).Render())
+	got := string(fieldset.New().Dir(dir.LeftToRight).RenderBytes())
 	want := `<fieldset dir="ltr"></fieldset>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -250,7 +250,7 @@ func TestDirAttr(t *testing.T) {
 }
 
 func TestDraggableAttr(t *testing.T) {
-	got := string(fieldset.New().Draggable().Render())
+	got := string(fieldset.New().Draggable().RenderBytes())
 	want := `<fieldset draggable></fieldset>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -258,7 +258,7 @@ func TestDraggableAttr(t *testing.T) {
 }
 
 func TestEnterKeyHintAttr(t *testing.T) {
-	got := string(fieldset.New().EnterKeyHint(enterkeyhint.Enter).Render())
+	got := string(fieldset.New().EnterKeyHint(enterkeyhint.Enter).RenderBytes())
 	want := `<fieldset enterkeyhint="enter"></fieldset>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -266,7 +266,7 @@ func TestEnterKeyHintAttr(t *testing.T) {
 }
 
 func TestExportPartsAttr(t *testing.T) {
-	got := string(fieldset.New().ExportParts("test").Render())
+	got := string(fieldset.New().ExportParts("test").RenderBytes())
 	want := `<fieldset exportparts="test"></fieldset>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -274,7 +274,7 @@ func TestExportPartsAttr(t *testing.T) {
 }
 
 func TestInertAttr(t *testing.T) {
-	got := string(fieldset.New().Inert().Render())
+	got := string(fieldset.New().Inert().RenderBytes())
 	want := `<fieldset inert></fieldset>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -282,7 +282,7 @@ func TestInertAttr(t *testing.T) {
 }
 
 func TestInputModeAttr(t *testing.T) {
-	got := string(fieldset.New().InputMode(inputmode.None).Render())
+	got := string(fieldset.New().InputMode(inputmode.None).RenderBytes())
 	want := `<fieldset inputmode="none"></fieldset>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -290,7 +290,7 @@ func TestInputModeAttr(t *testing.T) {
 }
 
 func TestIsAttr(t *testing.T) {
-	got := string(fieldset.New().Is("test").Render())
+	got := string(fieldset.New().Is("test").RenderBytes())
 	want := `<fieldset is="test"></fieldset>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -298,7 +298,7 @@ func TestIsAttr(t *testing.T) {
 }
 
 func TestItemIdAttr(t *testing.T) {
-	got := string(fieldset.New().ItemId("test").Render())
+	got := string(fieldset.New().ItemId("test").RenderBytes())
 	want := `<fieldset itemid="test"></fieldset>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -306,7 +306,7 @@ func TestItemIdAttr(t *testing.T) {
 }
 
 func TestItemPropAttr(t *testing.T) {
-	got := string(fieldset.New().ItemProp("test").Render())
+	got := string(fieldset.New().ItemProp("test").RenderBytes())
 	want := `<fieldset itemprop="test"></fieldset>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -314,7 +314,7 @@ func TestItemPropAttr(t *testing.T) {
 }
 
 func TestItemRefAttr(t *testing.T) {
-	got := string(fieldset.New().ItemRef("test").Render())
+	got := string(fieldset.New().ItemRef("test").RenderBytes())
 	want := `<fieldset itemref="test"></fieldset>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -322,7 +322,7 @@ func TestItemRefAttr(t *testing.T) {
 }
 
 func TestItemScopeAttr(t *testing.T) {
-	got := string(fieldset.New().ItemScope().Render())
+	got := string(fieldset.New().ItemScope().RenderBytes())
 	want := `<fieldset itemscope></fieldset>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -330,7 +330,7 @@ func TestItemScopeAttr(t *testing.T) {
 }
 
 func TestItemTypeAttr(t *testing.T) {
-	got := string(fieldset.New().ItemType("test").Render())
+	got := string(fieldset.New().ItemType("test").RenderBytes())
 	want := `<fieldset itemtype="test"></fieldset>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -338,7 +338,7 @@ func TestItemTypeAttr(t *testing.T) {
 }
 
 func TestNonceAttr(t *testing.T) {
-	got := string(fieldset.New().Nonce("test").Render())
+	got := string(fieldset.New().Nonce("test").RenderBytes())
 	want := `<fieldset nonce="test"></fieldset>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -346,7 +346,7 @@ func TestNonceAttr(t *testing.T) {
 }
 
 func TestPartAttr(t *testing.T) {
-	got := string(fieldset.New().Part("test").Render())
+	got := string(fieldset.New().Part("test").RenderBytes())
 	want := `<fieldset part="test"></fieldset>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -355,7 +355,7 @@ func TestPartAttr(t *testing.T) {
 
 func TestPartMulti(t *testing.T) {
 	// Test multiple chained calls
-	got := string(fieldset.New().Part("one").Part("two").Part("three").Render())
+	got := string(fieldset.New().Part("one").Part("two").Part("three").RenderBytes())
 	want := `<fieldset part="one two three"></fieldset>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -363,7 +363,7 @@ func TestPartMulti(t *testing.T) {
 }
 
 func TestPopoverAttr(t *testing.T) {
-	got := string(fieldset.New().Popover(popover.Auto).Render())
+	got := string(fieldset.New().Popover(popover.Auto).RenderBytes())
 	want := `<fieldset popover="auto"></fieldset>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -371,7 +371,7 @@ func TestPopoverAttr(t *testing.T) {
 }
 
 func TestSlotAttr(t *testing.T) {
-	got := string(fieldset.New().Slot("test").Render())
+	got := string(fieldset.New().Slot("test").RenderBytes())
 	want := `<fieldset slot="test"></fieldset>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -379,7 +379,7 @@ func TestSlotAttr(t *testing.T) {
 }
 
 func TestSpellCheckAttr(t *testing.T) {
-	got := string(fieldset.New().SpellCheck(spellcheck.True).Render())
+	got := string(fieldset.New().SpellCheck(spellcheck.True).RenderBytes())
 	want := `<fieldset spellcheck="true"></fieldset>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -387,7 +387,7 @@ func TestSpellCheckAttr(t *testing.T) {
 }
 
 func TestTranslateAttr(t *testing.T) {
-	got := string(fieldset.New().Translate(translate.Yes).Render())
+	got := string(fieldset.New().Translate(translate.Yes).RenderBytes())
 	want := `<fieldset translate="yes"></fieldset>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -395,7 +395,7 @@ func TestTranslateAttr(t *testing.T) {
 }
 
 func TestVirtualKeyboardPolicyAttr(t *testing.T) {
-	got := string(fieldset.New().VirtualKeyboardPolicy(virtualkeyboardpolicy.Auto).Render())
+	got := string(fieldset.New().VirtualKeyboardPolicy(virtualkeyboardpolicy.Auto).RenderBytes())
 	want := `<fieldset virtualkeyboardpolicy="auto"></fieldset>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -403,7 +403,7 @@ func TestVirtualKeyboardPolicyAttr(t *testing.T) {
 }
 
 func TestWritingSuggestionsAttr(t *testing.T) {
-	got := string(fieldset.New().WritingSuggestions(writingsuggestions.True).Render())
+	got := string(fieldset.New().WritingSuggestions(writingsuggestions.True).RenderBytes())
 	want := `<fieldset writingsuggestions="true"></fieldset>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -411,7 +411,7 @@ func TestWritingSuggestionsAttr(t *testing.T) {
 }
 
 func TestOnClickAttr(t *testing.T) {
-	got := string(fieldset.New().OnClick("test").Render())
+	got := string(fieldset.New().OnClick("test").RenderBytes())
 	want := `<fieldset onclick="test"></fieldset>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -419,7 +419,7 @@ func TestOnClickAttr(t *testing.T) {
 }
 
 func TestOnChangeAttr(t *testing.T) {
-	got := string(fieldset.New().OnChange("test").Render())
+	got := string(fieldset.New().OnChange("test").RenderBytes())
 	want := `<fieldset onchange="test"></fieldset>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -427,7 +427,7 @@ func TestOnChangeAttr(t *testing.T) {
 }
 
 func TestOnInputAttr(t *testing.T) {
-	got := string(fieldset.New().OnInput("test").Render())
+	got := string(fieldset.New().OnInput("test").RenderBytes())
 	want := `<fieldset oninput="test"></fieldset>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -435,7 +435,7 @@ func TestOnInputAttr(t *testing.T) {
 }
 
 func TestOnFocusAttr(t *testing.T) {
-	got := string(fieldset.New().OnFocus("test").Render())
+	got := string(fieldset.New().OnFocus("test").RenderBytes())
 	want := `<fieldset onfocus="test"></fieldset>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -443,7 +443,7 @@ func TestOnFocusAttr(t *testing.T) {
 }
 
 func TestOnBlurAttr(t *testing.T) {
-	got := string(fieldset.New().OnBlur("test").Render())
+	got := string(fieldset.New().OnBlur("test").RenderBytes())
 	want := `<fieldset onblur="test"></fieldset>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -451,7 +451,7 @@ func TestOnBlurAttr(t *testing.T) {
 }
 
 func TestOnSubmitAttr(t *testing.T) {
-	got := string(fieldset.New().OnSubmit("test").Render())
+	got := string(fieldset.New().OnSubmit("test").RenderBytes())
 	want := `<fieldset onsubmit="test"></fieldset>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -459,7 +459,7 @@ func TestOnSubmitAttr(t *testing.T) {
 }
 
 func TestOnLoadAttr(t *testing.T) {
-	got := string(fieldset.New().OnLoad("test").Render())
+	got := string(fieldset.New().OnLoad("test").RenderBytes())
 	want := `<fieldset onload="test"></fieldset>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -467,7 +467,7 @@ func TestOnLoadAttr(t *testing.T) {
 }
 
 func TestOnErrorAttr(t *testing.T) {
-	got := string(fieldset.New().OnError("test").Render())
+	got := string(fieldset.New().OnError("test").RenderBytes())
 	want := `<fieldset onerror="test"></fieldset>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -475,7 +475,7 @@ func TestOnErrorAttr(t *testing.T) {
 }
 
 func TestSetEventAttr(t *testing.T) {
-	got := string(fieldset.New().SetEvent("onclick", "test-value").Render())
+	got := string(fieldset.New().SetEvent("onclick", "test-value").RenderBytes())
 	want := `<fieldset onclick="test-value"></fieldset>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -483,7 +483,7 @@ func TestSetEventAttr(t *testing.T) {
 }
 
 func TestOnAbortAttr(t *testing.T) {
-	got := string(fieldset.New().OnAbort("test").Render())
+	got := string(fieldset.New().OnAbort("test").RenderBytes())
 	want := `<fieldset onabort="test"></fieldset>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -491,7 +491,7 @@ func TestOnAbortAttr(t *testing.T) {
 }
 
 func TestOnAutoCompleteAttr(t *testing.T) {
-	got := string(fieldset.New().OnAutoComplete("test").Render())
+	got := string(fieldset.New().OnAutoComplete("test").RenderBytes())
 	want := `<fieldset onautocomplete="test"></fieldset>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -499,7 +499,7 @@ func TestOnAutoCompleteAttr(t *testing.T) {
 }
 
 func TestOnAutoCompleteErrorAttr(t *testing.T) {
-	got := string(fieldset.New().OnAutoCompleteError("test").Render())
+	got := string(fieldset.New().OnAutoCompleteError("test").RenderBytes())
 	want := `<fieldset onautocompleteerror="test"></fieldset>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -507,7 +507,7 @@ func TestOnAutoCompleteErrorAttr(t *testing.T) {
 }
 
 func TestOnCancelAttr(t *testing.T) {
-	got := string(fieldset.New().OnCancel("test").Render())
+	got := string(fieldset.New().OnCancel("test").RenderBytes())
 	want := `<fieldset oncancel="test"></fieldset>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -515,7 +515,7 @@ func TestOnCancelAttr(t *testing.T) {
 }
 
 func TestOnCanPlayAttr(t *testing.T) {
-	got := string(fieldset.New().OnCanPlay("test").Render())
+	got := string(fieldset.New().OnCanPlay("test").RenderBytes())
 	want := `<fieldset oncanplay="test"></fieldset>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -523,7 +523,7 @@ func TestOnCanPlayAttr(t *testing.T) {
 }
 
 func TestOnCanPlayThroughAttr(t *testing.T) {
-	got := string(fieldset.New().OnCanPlayThrough("test").Render())
+	got := string(fieldset.New().OnCanPlayThrough("test").RenderBytes())
 	want := `<fieldset oncanplaythrough="test"></fieldset>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -531,7 +531,7 @@ func TestOnCanPlayThroughAttr(t *testing.T) {
 }
 
 func TestOnCloseAttr(t *testing.T) {
-	got := string(fieldset.New().OnClose("test").Render())
+	got := string(fieldset.New().OnClose("test").RenderBytes())
 	want := `<fieldset onclose="test"></fieldset>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -539,7 +539,7 @@ func TestOnCloseAttr(t *testing.T) {
 }
 
 func TestOnContextMenuAttr(t *testing.T) {
-	got := string(fieldset.New().OnContextMenu("test").Render())
+	got := string(fieldset.New().OnContextMenu("test").RenderBytes())
 	want := `<fieldset oncontextmenu="test"></fieldset>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -547,7 +547,7 @@ func TestOnContextMenuAttr(t *testing.T) {
 }
 
 func TestOnCueChangeAttr(t *testing.T) {
-	got := string(fieldset.New().OnCueChange("test").Render())
+	got := string(fieldset.New().OnCueChange("test").RenderBytes())
 	want := `<fieldset oncuechange="test"></fieldset>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -555,7 +555,7 @@ func TestOnCueChangeAttr(t *testing.T) {
 }
 
 func TestOnDblClickAttr(t *testing.T) {
-	got := string(fieldset.New().OnDblClick("test").Render())
+	got := string(fieldset.New().OnDblClick("test").RenderBytes())
 	want := `<fieldset ondblclick="test"></fieldset>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -563,7 +563,7 @@ func TestOnDblClickAttr(t *testing.T) {
 }
 
 func TestOnDragAttr(t *testing.T) {
-	got := string(fieldset.New().OnDrag("test").Render())
+	got := string(fieldset.New().OnDrag("test").RenderBytes())
 	want := `<fieldset ondrag="test"></fieldset>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -571,7 +571,7 @@ func TestOnDragAttr(t *testing.T) {
 }
 
 func TestOnDragEndAttr(t *testing.T) {
-	got := string(fieldset.New().OnDragEnd("test").Render())
+	got := string(fieldset.New().OnDragEnd("test").RenderBytes())
 	want := `<fieldset ondragend="test"></fieldset>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -579,7 +579,7 @@ func TestOnDragEndAttr(t *testing.T) {
 }
 
 func TestOnDragEnterAttr(t *testing.T) {
-	got := string(fieldset.New().OnDragEnter("test").Render())
+	got := string(fieldset.New().OnDragEnter("test").RenderBytes())
 	want := `<fieldset ondragenter="test"></fieldset>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -587,7 +587,7 @@ func TestOnDragEnterAttr(t *testing.T) {
 }
 
 func TestOnDragLeaveAttr(t *testing.T) {
-	got := string(fieldset.New().OnDragLeave("test").Render())
+	got := string(fieldset.New().OnDragLeave("test").RenderBytes())
 	want := `<fieldset ondragleave="test"></fieldset>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -595,7 +595,7 @@ func TestOnDragLeaveAttr(t *testing.T) {
 }
 
 func TestOnDragOverAttr(t *testing.T) {
-	got := string(fieldset.New().OnDragOver("test").Render())
+	got := string(fieldset.New().OnDragOver("test").RenderBytes())
 	want := `<fieldset ondragover="test"></fieldset>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -603,7 +603,7 @@ func TestOnDragOverAttr(t *testing.T) {
 }
 
 func TestOnDragStartAttr(t *testing.T) {
-	got := string(fieldset.New().OnDragStart("test").Render())
+	got := string(fieldset.New().OnDragStart("test").RenderBytes())
 	want := `<fieldset ondragstart="test"></fieldset>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -611,7 +611,7 @@ func TestOnDragStartAttr(t *testing.T) {
 }
 
 func TestOnDropAttr(t *testing.T) {
-	got := string(fieldset.New().OnDrop("test").Render())
+	got := string(fieldset.New().OnDrop("test").RenderBytes())
 	want := `<fieldset ondrop="test"></fieldset>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -619,7 +619,7 @@ func TestOnDropAttr(t *testing.T) {
 }
 
 func TestOnDurationChangeAttr(t *testing.T) {
-	got := string(fieldset.New().OnDurationChange("test").Render())
+	got := string(fieldset.New().OnDurationChange("test").RenderBytes())
 	want := `<fieldset ondurationchange="test"></fieldset>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -627,7 +627,7 @@ func TestOnDurationChangeAttr(t *testing.T) {
 }
 
 func TestOnEmptiedAttr(t *testing.T) {
-	got := string(fieldset.New().OnEmptied("test").Render())
+	got := string(fieldset.New().OnEmptied("test").RenderBytes())
 	want := `<fieldset onemptied="test"></fieldset>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -635,7 +635,7 @@ func TestOnEmptiedAttr(t *testing.T) {
 }
 
 func TestOnEndedAttr(t *testing.T) {
-	got := string(fieldset.New().OnEnded("test").Render())
+	got := string(fieldset.New().OnEnded("test").RenderBytes())
 	want := `<fieldset onended="test"></fieldset>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -643,7 +643,7 @@ func TestOnEndedAttr(t *testing.T) {
 }
 
 func TestOnInvalidAttr(t *testing.T) {
-	got := string(fieldset.New().OnInvalid("test").Render())
+	got := string(fieldset.New().OnInvalid("test").RenderBytes())
 	want := `<fieldset oninvalid="test"></fieldset>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -651,7 +651,7 @@ func TestOnInvalidAttr(t *testing.T) {
 }
 
 func TestOnKeyDownAttr(t *testing.T) {
-	got := string(fieldset.New().OnKeyDown("test").Render())
+	got := string(fieldset.New().OnKeyDown("test").RenderBytes())
 	want := `<fieldset onkeydown="test"></fieldset>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -659,7 +659,7 @@ func TestOnKeyDownAttr(t *testing.T) {
 }
 
 func TestOnKeyPressAttr(t *testing.T) {
-	got := string(fieldset.New().OnKeyPress("test").Render())
+	got := string(fieldset.New().OnKeyPress("test").RenderBytes())
 	want := `<fieldset onkeypress="test"></fieldset>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -667,7 +667,7 @@ func TestOnKeyPressAttr(t *testing.T) {
 }
 
 func TestOnKeyUpAttr(t *testing.T) {
-	got := string(fieldset.New().OnKeyUp("test").Render())
+	got := string(fieldset.New().OnKeyUp("test").RenderBytes())
 	want := `<fieldset onkeyup="test"></fieldset>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -675,7 +675,7 @@ func TestOnKeyUpAttr(t *testing.T) {
 }
 
 func TestOnLoadedDataAttr(t *testing.T) {
-	got := string(fieldset.New().OnLoadedData("test").Render())
+	got := string(fieldset.New().OnLoadedData("test").RenderBytes())
 	want := `<fieldset onloadeddata="test"></fieldset>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -683,7 +683,7 @@ func TestOnLoadedDataAttr(t *testing.T) {
 }
 
 func TestOnLoadedMetadataAttr(t *testing.T) {
-	got := string(fieldset.New().OnLoadedMetadata("test").Render())
+	got := string(fieldset.New().OnLoadedMetadata("test").RenderBytes())
 	want := `<fieldset onloadedmetadata="test"></fieldset>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -691,7 +691,7 @@ func TestOnLoadedMetadataAttr(t *testing.T) {
 }
 
 func TestOnLoadStartAttr(t *testing.T) {
-	got := string(fieldset.New().OnLoadStart("test").Render())
+	got := string(fieldset.New().OnLoadStart("test").RenderBytes())
 	want := `<fieldset onloadstart="test"></fieldset>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -699,7 +699,7 @@ func TestOnLoadStartAttr(t *testing.T) {
 }
 
 func TestOnMouseDownAttr(t *testing.T) {
-	got := string(fieldset.New().OnMouseDown("test").Render())
+	got := string(fieldset.New().OnMouseDown("test").RenderBytes())
 	want := `<fieldset onmousedown="test"></fieldset>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -707,7 +707,7 @@ func TestOnMouseDownAttr(t *testing.T) {
 }
 
 func TestOnMouseEnterAttr(t *testing.T) {
-	got := string(fieldset.New().OnMouseEnter("test").Render())
+	got := string(fieldset.New().OnMouseEnter("test").RenderBytes())
 	want := `<fieldset onmouseenter="test"></fieldset>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -715,7 +715,7 @@ func TestOnMouseEnterAttr(t *testing.T) {
 }
 
 func TestOnMouseLeaveAttr(t *testing.T) {
-	got := string(fieldset.New().OnMouseLeave("test").Render())
+	got := string(fieldset.New().OnMouseLeave("test").RenderBytes())
 	want := `<fieldset onmouseleave="test"></fieldset>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -723,7 +723,7 @@ func TestOnMouseLeaveAttr(t *testing.T) {
 }
 
 func TestOnMouseMoveAttr(t *testing.T) {
-	got := string(fieldset.New().OnMouseMove("test").Render())
+	got := string(fieldset.New().OnMouseMove("test").RenderBytes())
 	want := `<fieldset onmousemove="test"></fieldset>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -731,7 +731,7 @@ func TestOnMouseMoveAttr(t *testing.T) {
 }
 
 func TestOnMouseOutAttr(t *testing.T) {
-	got := string(fieldset.New().OnMouseOut("test").Render())
+	got := string(fieldset.New().OnMouseOut("test").RenderBytes())
 	want := `<fieldset onmouseout="test"></fieldset>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -739,7 +739,7 @@ func TestOnMouseOutAttr(t *testing.T) {
 }
 
 func TestOnMouseOverAttr(t *testing.T) {
-	got := string(fieldset.New().OnMouseOver("test").Render())
+	got := string(fieldset.New().OnMouseOver("test").RenderBytes())
 	want := `<fieldset onmouseover="test"></fieldset>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -747,7 +747,7 @@ func TestOnMouseOverAttr(t *testing.T) {
 }
 
 func TestOnMouseUpAttr(t *testing.T) {
-	got := string(fieldset.New().OnMouseUp("test").Render())
+	got := string(fieldset.New().OnMouseUp("test").RenderBytes())
 	want := `<fieldset onmouseup="test"></fieldset>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -755,7 +755,7 @@ func TestOnMouseUpAttr(t *testing.T) {
 }
 
 func TestOnMouseWheelAttr(t *testing.T) {
-	got := string(fieldset.New().OnMouseWheel("test").Render())
+	got := string(fieldset.New().OnMouseWheel("test").RenderBytes())
 	want := `<fieldset onmousewheel="test"></fieldset>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -763,7 +763,7 @@ func TestOnMouseWheelAttr(t *testing.T) {
 }
 
 func TestOnPauseAttr(t *testing.T) {
-	got := string(fieldset.New().OnPause("test").Render())
+	got := string(fieldset.New().OnPause("test").RenderBytes())
 	want := `<fieldset onpause="test"></fieldset>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -771,7 +771,7 @@ func TestOnPauseAttr(t *testing.T) {
 }
 
 func TestOnPlayAttr(t *testing.T) {
-	got := string(fieldset.New().OnPlay("test").Render())
+	got := string(fieldset.New().OnPlay("test").RenderBytes())
 	want := `<fieldset onplay="test"></fieldset>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -779,7 +779,7 @@ func TestOnPlayAttr(t *testing.T) {
 }
 
 func TestOnPlayingAttr(t *testing.T) {
-	got := string(fieldset.New().OnPlaying("test").Render())
+	got := string(fieldset.New().OnPlaying("test").RenderBytes())
 	want := `<fieldset onplaying="test"></fieldset>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -787,7 +787,7 @@ func TestOnPlayingAttr(t *testing.T) {
 }
 
 func TestOnProgressAttr(t *testing.T) {
-	got := string(fieldset.New().OnProgress("test").Render())
+	got := string(fieldset.New().OnProgress("test").RenderBytes())
 	want := `<fieldset onprogress="test"></fieldset>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -795,7 +795,7 @@ func TestOnProgressAttr(t *testing.T) {
 }
 
 func TestOnRateChangeAttr(t *testing.T) {
-	got := string(fieldset.New().OnRateChange("test").Render())
+	got := string(fieldset.New().OnRateChange("test").RenderBytes())
 	want := `<fieldset onratechange="test"></fieldset>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -803,7 +803,7 @@ func TestOnRateChangeAttr(t *testing.T) {
 }
 
 func TestOnResetAttr(t *testing.T) {
-	got := string(fieldset.New().OnReset("test").Render())
+	got := string(fieldset.New().OnReset("test").RenderBytes())
 	want := `<fieldset onreset="test"></fieldset>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -811,7 +811,7 @@ func TestOnResetAttr(t *testing.T) {
 }
 
 func TestOnResizeAttr(t *testing.T) {
-	got := string(fieldset.New().OnResize("test").Render())
+	got := string(fieldset.New().OnResize("test").RenderBytes())
 	want := `<fieldset onresize="test"></fieldset>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -819,7 +819,7 @@ func TestOnResizeAttr(t *testing.T) {
 }
 
 func TestOnScrollAttr(t *testing.T) {
-	got := string(fieldset.New().OnScroll("test").Render())
+	got := string(fieldset.New().OnScroll("test").RenderBytes())
 	want := `<fieldset onscroll="test"></fieldset>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -827,7 +827,7 @@ func TestOnScrollAttr(t *testing.T) {
 }
 
 func TestOnSeekedAttr(t *testing.T) {
-	got := string(fieldset.New().OnSeeked("test").Render())
+	got := string(fieldset.New().OnSeeked("test").RenderBytes())
 	want := `<fieldset onseeked="test"></fieldset>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -835,7 +835,7 @@ func TestOnSeekedAttr(t *testing.T) {
 }
 
 func TestOnSeekingAttr(t *testing.T) {
-	got := string(fieldset.New().OnSeeking("test").Render())
+	got := string(fieldset.New().OnSeeking("test").RenderBytes())
 	want := `<fieldset onseeking="test"></fieldset>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -843,7 +843,7 @@ func TestOnSeekingAttr(t *testing.T) {
 }
 
 func TestOnSelectAttr(t *testing.T) {
-	got := string(fieldset.New().OnSelect("test").Render())
+	got := string(fieldset.New().OnSelect("test").RenderBytes())
 	want := `<fieldset onselect="test"></fieldset>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -851,7 +851,7 @@ func TestOnSelectAttr(t *testing.T) {
 }
 
 func TestOnShowAttr(t *testing.T) {
-	got := string(fieldset.New().OnShow("test").Render())
+	got := string(fieldset.New().OnShow("test").RenderBytes())
 	want := `<fieldset onshow="test"></fieldset>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -859,7 +859,7 @@ func TestOnShowAttr(t *testing.T) {
 }
 
 func TestOnSortAttr(t *testing.T) {
-	got := string(fieldset.New().OnSort("test").Render())
+	got := string(fieldset.New().OnSort("test").RenderBytes())
 	want := `<fieldset onsort="test"></fieldset>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -867,7 +867,7 @@ func TestOnSortAttr(t *testing.T) {
 }
 
 func TestOnStalledAttr(t *testing.T) {
-	got := string(fieldset.New().OnStalled("test").Render())
+	got := string(fieldset.New().OnStalled("test").RenderBytes())
 	want := `<fieldset onstalled="test"></fieldset>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -875,7 +875,7 @@ func TestOnStalledAttr(t *testing.T) {
 }
 
 func TestOnSuspendAttr(t *testing.T) {
-	got := string(fieldset.New().OnSuspend("test").Render())
+	got := string(fieldset.New().OnSuspend("test").RenderBytes())
 	want := `<fieldset onsuspend="test"></fieldset>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -883,7 +883,7 @@ func TestOnSuspendAttr(t *testing.T) {
 }
 
 func TestOnTimeUpdateAttr(t *testing.T) {
-	got := string(fieldset.New().OnTimeUpdate("test").Render())
+	got := string(fieldset.New().OnTimeUpdate("test").RenderBytes())
 	want := `<fieldset ontimeupdate="test"></fieldset>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -891,7 +891,7 @@ func TestOnTimeUpdateAttr(t *testing.T) {
 }
 
 func TestOnToggleAttr(t *testing.T) {
-	got := string(fieldset.New().OnToggle("test").Render())
+	got := string(fieldset.New().OnToggle("test").RenderBytes())
 	want := `<fieldset ontoggle="test"></fieldset>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -899,7 +899,7 @@ func TestOnToggleAttr(t *testing.T) {
 }
 
 func TestOnVolumeChangeAttr(t *testing.T) {
-	got := string(fieldset.New().OnVolumeChange("test").Render())
+	got := string(fieldset.New().OnVolumeChange("test").RenderBytes())
 	want := `<fieldset onvolumechange="test"></fieldset>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -907,7 +907,7 @@ func TestOnVolumeChangeAttr(t *testing.T) {
 }
 
 func TestOnWaitingAttr(t *testing.T) {
-	got := string(fieldset.New().OnWaiting("test").Render())
+	got := string(fieldset.New().OnWaiting("test").RenderBytes())
 	want := `<fieldset onwaiting="test"></fieldset>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -915,7 +915,7 @@ func TestOnWaitingAttr(t *testing.T) {
 }
 
 func TestOnAuxClickAttr(t *testing.T) {
-	got := string(fieldset.New().OnAuxClick("test").Render())
+	got := string(fieldset.New().OnAuxClick("test").RenderBytes())
 	want := `<fieldset onauxclick="test"></fieldset>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -923,7 +923,7 @@ func TestOnAuxClickAttr(t *testing.T) {
 }
 
 func TestOnWheelAttr(t *testing.T) {
-	got := string(fieldset.New().OnWheel("test").Render())
+	got := string(fieldset.New().OnWheel("test").RenderBytes())
 	want := `<fieldset onwheel="test"></fieldset>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -931,7 +931,7 @@ func TestOnWheelAttr(t *testing.T) {
 }
 
 func TestOnCopyAttr(t *testing.T) {
-	got := string(fieldset.New().OnCopy("test").Render())
+	got := string(fieldset.New().OnCopy("test").RenderBytes())
 	want := `<fieldset oncopy="test"></fieldset>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -939,7 +939,7 @@ func TestOnCopyAttr(t *testing.T) {
 }
 
 func TestOnCutAttr(t *testing.T) {
-	got := string(fieldset.New().OnCut("test").Render())
+	got := string(fieldset.New().OnCut("test").RenderBytes())
 	want := `<fieldset oncut="test"></fieldset>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -947,7 +947,7 @@ func TestOnCutAttr(t *testing.T) {
 }
 
 func TestOnPasteAttr(t *testing.T) {
-	got := string(fieldset.New().OnPaste("test").Render())
+	got := string(fieldset.New().OnPaste("test").RenderBytes())
 	want := `<fieldset onpaste="test"></fieldset>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -955,7 +955,7 @@ func TestOnPasteAttr(t *testing.T) {
 }
 
 func TestOnScrollEndAttr(t *testing.T) {
-	got := string(fieldset.New().OnScrollEnd("test").Render())
+	got := string(fieldset.New().OnScrollEnd("test").RenderBytes())
 	want := `<fieldset onscrollend="test"></fieldset>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -963,7 +963,7 @@ func TestOnScrollEndAttr(t *testing.T) {
 }
 
 func TestOnFormDataAttr(t *testing.T) {
-	got := string(fieldset.New().OnFormData("test").Render())
+	got := string(fieldset.New().OnFormData("test").RenderBytes())
 	want := `<fieldset onformdata="test"></fieldset>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -971,7 +971,7 @@ func TestOnFormDataAttr(t *testing.T) {
 }
 
 func TestOnAnimationCancelAttr(t *testing.T) {
-	got := string(fieldset.New().OnAnimationCancel("test").Render())
+	got := string(fieldset.New().OnAnimationCancel("test").RenderBytes())
 	want := `<fieldset onanimationcancel="test"></fieldset>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -979,7 +979,7 @@ func TestOnAnimationCancelAttr(t *testing.T) {
 }
 
 func TestOnAnimationEndAttr(t *testing.T) {
-	got := string(fieldset.New().OnAnimationEnd("test").Render())
+	got := string(fieldset.New().OnAnimationEnd("test").RenderBytes())
 	want := `<fieldset onanimationend="test"></fieldset>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -987,7 +987,7 @@ func TestOnAnimationEndAttr(t *testing.T) {
 }
 
 func TestOnAnimationIterationAttr(t *testing.T) {
-	got := string(fieldset.New().OnAnimationIteration("test").Render())
+	got := string(fieldset.New().OnAnimationIteration("test").RenderBytes())
 	want := `<fieldset onanimationiteration="test"></fieldset>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -995,7 +995,7 @@ func TestOnAnimationIterationAttr(t *testing.T) {
 }
 
 func TestOnAnimationStartAttr(t *testing.T) {
-	got := string(fieldset.New().OnAnimationStart("test").Render())
+	got := string(fieldset.New().OnAnimationStart("test").RenderBytes())
 	want := `<fieldset onanimationstart="test"></fieldset>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -1003,7 +1003,7 @@ func TestOnAnimationStartAttr(t *testing.T) {
 }
 
 func TestOnTransitionCancelAttr(t *testing.T) {
-	got := string(fieldset.New().OnTransitionCancel("test").Render())
+	got := string(fieldset.New().OnTransitionCancel("test").RenderBytes())
 	want := `<fieldset ontransitioncancel="test"></fieldset>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -1011,7 +1011,7 @@ func TestOnTransitionCancelAttr(t *testing.T) {
 }
 
 func TestOnTransitionEndAttr(t *testing.T) {
-	got := string(fieldset.New().OnTransitionEnd("test").Render())
+	got := string(fieldset.New().OnTransitionEnd("test").RenderBytes())
 	want := `<fieldset ontransitionend="test"></fieldset>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -1019,7 +1019,7 @@ func TestOnTransitionEndAttr(t *testing.T) {
 }
 
 func TestOnTransitionRunAttr(t *testing.T) {
-	got := string(fieldset.New().OnTransitionRun("test").Render())
+	got := string(fieldset.New().OnTransitionRun("test").RenderBytes())
 	want := `<fieldset ontransitionrun="test"></fieldset>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -1027,7 +1027,7 @@ func TestOnTransitionRunAttr(t *testing.T) {
 }
 
 func TestOnTransitionStartAttr(t *testing.T) {
-	got := string(fieldset.New().OnTransitionStart("test").Render())
+	got := string(fieldset.New().OnTransitionStart("test").RenderBytes())
 	want := `<fieldset ontransitionstart="test"></fieldset>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -1035,7 +1035,7 @@ func TestOnTransitionStartAttr(t *testing.T) {
 }
 
 func TestOnBeforeToggleAttr(t *testing.T) {
-	got := string(fieldset.New().OnBeforeToggle("test").Render())
+	got := string(fieldset.New().OnBeforeToggle("test").RenderBytes())
 	want := `<fieldset onbeforetoggle="test"></fieldset>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -1043,7 +1043,7 @@ func TestOnBeforeToggleAttr(t *testing.T) {
 }
 
 func TestOnBeforeInputAttr(t *testing.T) {
-	got := string(fieldset.New().OnBeforeInput("test").Render())
+	got := string(fieldset.New().OnBeforeInput("test").RenderBytes())
 	want := `<fieldset onbeforeinput="test"></fieldset>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -1051,7 +1051,7 @@ func TestOnBeforeInputAttr(t *testing.T) {
 }
 
 func TestOnBeforeMatchAttr(t *testing.T) {
-	got := string(fieldset.New().OnBeforeMatch("test").Render())
+	got := string(fieldset.New().OnBeforeMatch("test").RenderBytes())
 	want := `<fieldset onbeforematch="test"></fieldset>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -1059,7 +1059,7 @@ func TestOnBeforeMatchAttr(t *testing.T) {
 }
 
 func TestOnCommandAttr(t *testing.T) {
-	got := string(fieldset.New().OnCommand("test").Render())
+	got := string(fieldset.New().OnCommand("test").RenderBytes())
 	want := `<fieldset oncommand="test"></fieldset>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -1067,7 +1067,7 @@ func TestOnCommandAttr(t *testing.T) {
 }
 
 func TestOnContextLostAttr(t *testing.T) {
-	got := string(fieldset.New().OnContextLost("test").Render())
+	got := string(fieldset.New().OnContextLost("test").RenderBytes())
 	want := `<fieldset oncontextlost="test"></fieldset>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -1075,7 +1075,7 @@ func TestOnContextLostAttr(t *testing.T) {
 }
 
 func TestOnContextRestoredAttr(t *testing.T) {
-	got := string(fieldset.New().OnContextRestored("test").Render())
+	got := string(fieldset.New().OnContextRestored("test").RenderBytes())
 	want := `<fieldset oncontextrestored="test"></fieldset>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -1083,7 +1083,7 @@ func TestOnContextRestoredAttr(t *testing.T) {
 }
 
 func TestOnSecurityPolicyViolationAttr(t *testing.T) {
-	got := string(fieldset.New().OnSecurityPolicyViolation("test").Render())
+	got := string(fieldset.New().OnSecurityPolicyViolation("test").RenderBytes())
 	want := `<fieldset onsecuritypolicyviolation="test"></fieldset>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -1091,7 +1091,7 @@ func TestOnSecurityPolicyViolationAttr(t *testing.T) {
 }
 
 func TestOnSlotChangeAttr(t *testing.T) {
-	got := string(fieldset.New().OnSlotChange("test").Render())
+	got := string(fieldset.New().OnSlotChange("test").RenderBytes())
 	want := `<fieldset onslotchange="test"></fieldset>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -1099,7 +1099,7 @@ func TestOnSlotChangeAttr(t *testing.T) {
 }
 
 func TestOnPointerDownAttr(t *testing.T) {
-	got := string(fieldset.New().OnPointerDown("test").Render())
+	got := string(fieldset.New().OnPointerDown("test").RenderBytes())
 	want := `<fieldset onpointerdown="test"></fieldset>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -1107,7 +1107,7 @@ func TestOnPointerDownAttr(t *testing.T) {
 }
 
 func TestOnPointerUpAttr(t *testing.T) {
-	got := string(fieldset.New().OnPointerUp("test").Render())
+	got := string(fieldset.New().OnPointerUp("test").RenderBytes())
 	want := `<fieldset onpointerup="test"></fieldset>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -1115,7 +1115,7 @@ func TestOnPointerUpAttr(t *testing.T) {
 }
 
 func TestOnPointerMoveAttr(t *testing.T) {
-	got := string(fieldset.New().OnPointerMove("test").Render())
+	got := string(fieldset.New().OnPointerMove("test").RenderBytes())
 	want := `<fieldset onpointermove="test"></fieldset>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -1123,7 +1123,7 @@ func TestOnPointerMoveAttr(t *testing.T) {
 }
 
 func TestOnPointerEnterAttr(t *testing.T) {
-	got := string(fieldset.New().OnPointerEnter("test").Render())
+	got := string(fieldset.New().OnPointerEnter("test").RenderBytes())
 	want := `<fieldset onpointerenter="test"></fieldset>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -1131,7 +1131,7 @@ func TestOnPointerEnterAttr(t *testing.T) {
 }
 
 func TestOnPointerLeaveAttr(t *testing.T) {
-	got := string(fieldset.New().OnPointerLeave("test").Render())
+	got := string(fieldset.New().OnPointerLeave("test").RenderBytes())
 	want := `<fieldset onpointerleave="test"></fieldset>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -1139,7 +1139,7 @@ func TestOnPointerLeaveAttr(t *testing.T) {
 }
 
 func TestOnPointerOverAttr(t *testing.T) {
-	got := string(fieldset.New().OnPointerOver("test").Render())
+	got := string(fieldset.New().OnPointerOver("test").RenderBytes())
 	want := `<fieldset onpointerover="test"></fieldset>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -1147,7 +1147,7 @@ func TestOnPointerOverAttr(t *testing.T) {
 }
 
 func TestOnPointerOutAttr(t *testing.T) {
-	got := string(fieldset.New().OnPointerOut("test").Render())
+	got := string(fieldset.New().OnPointerOut("test").RenderBytes())
 	want := `<fieldset onpointerout="test"></fieldset>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -1155,7 +1155,7 @@ func TestOnPointerOutAttr(t *testing.T) {
 }
 
 func TestOnPointerCancelAttr(t *testing.T) {
-	got := string(fieldset.New().OnPointerCancel("test").Render())
+	got := string(fieldset.New().OnPointerCancel("test").RenderBytes())
 	want := `<fieldset onpointercancel="test"></fieldset>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -1163,7 +1163,7 @@ func TestOnPointerCancelAttr(t *testing.T) {
 }
 
 func TestOnGotPointerCaptureAttr(t *testing.T) {
-	got := string(fieldset.New().OnGotPointerCapture("test").Render())
+	got := string(fieldset.New().OnGotPointerCapture("test").RenderBytes())
 	want := `<fieldset ongotpointercapture="test"></fieldset>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -1171,7 +1171,7 @@ func TestOnGotPointerCaptureAttr(t *testing.T) {
 }
 
 func TestOnLostPointerCaptureAttr(t *testing.T) {
-	got := string(fieldset.New().OnLostPointerCapture("test").Render())
+	got := string(fieldset.New().OnLostPointerCapture("test").RenderBytes())
 	want := `<fieldset onlostpointercapture="test"></fieldset>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -1179,7 +1179,7 @@ func TestOnLostPointerCaptureAttr(t *testing.T) {
 }
 
 func TestOnTouchStartAttr(t *testing.T) {
-	got := string(fieldset.New().OnTouchStart("test").Render())
+	got := string(fieldset.New().OnTouchStart("test").RenderBytes())
 	want := `<fieldset ontouchstart="test"></fieldset>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -1187,7 +1187,7 @@ func TestOnTouchStartAttr(t *testing.T) {
 }
 
 func TestOnTouchEndAttr(t *testing.T) {
-	got := string(fieldset.New().OnTouchEnd("test").Render())
+	got := string(fieldset.New().OnTouchEnd("test").RenderBytes())
 	want := `<fieldset ontouchend="test"></fieldset>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -1195,7 +1195,7 @@ func TestOnTouchEndAttr(t *testing.T) {
 }
 
 func TestOnTouchMoveAttr(t *testing.T) {
-	got := string(fieldset.New().OnTouchMove("test").Render())
+	got := string(fieldset.New().OnTouchMove("test").RenderBytes())
 	want := `<fieldset ontouchmove="test"></fieldset>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -1203,7 +1203,7 @@ func TestOnTouchMoveAttr(t *testing.T) {
 }
 
 func TestOnTouchCancelAttr(t *testing.T) {
-	got := string(fieldset.New().OnTouchCancel("test").Render())
+	got := string(fieldset.New().OnTouchCancel("test").RenderBytes())
 	want := `<fieldset ontouchcancel="test"></fieldset>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -1211,7 +1211,7 @@ func TestOnTouchCancelAttr(t *testing.T) {
 }
 
 func TestOnSelectStartAttr(t *testing.T) {
-	got := string(fieldset.New().OnSelectStart("test").Render())
+	got := string(fieldset.New().OnSelectStart("test").RenderBytes())
 	want := `<fieldset onselectstart="test"></fieldset>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -1219,7 +1219,7 @@ func TestOnSelectStartAttr(t *testing.T) {
 }
 
 func TestOnSelectionChangeAttr(t *testing.T) {
-	got := string(fieldset.New().OnSelectionChange("test").Render())
+	got := string(fieldset.New().OnSelectionChange("test").RenderBytes())
 	want := `<fieldset onselectionchange="test"></fieldset>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -1227,7 +1227,7 @@ func TestOnSelectionChangeAttr(t *testing.T) {
 }
 
 func TestNewMulti(t *testing.T) {
-	got := string(fieldset.New(fieldset.New(), fieldset.New()).Render())
+	got := string(fieldset.New(fieldset.New(), fieldset.New()).RenderBytes())
 	want := `<fieldset><fieldset></fieldset><fieldset></fieldset></fieldset>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -1238,7 +1238,7 @@ func TestAdd(t *testing.T) {
 	element := fieldset.New().Add(fieldset.New(), fieldset.New())
 
 	// Test rendered output
-	got := string(element.Render())
+	got := string(element.RenderBytes())
 	want := `<fieldset><fieldset></fieldset><fieldset></fieldset></fieldset>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -1263,7 +1263,7 @@ func TestReplace(t *testing.T) {
 	element.Replace(fieldset.New())
 
 	// Test rendered output
-	got := string(element.Render())
+	got := string(element.RenderBytes())
 	want := `<fieldset><fieldset></fieldset></fieldset>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -1276,7 +1276,7 @@ func TestReplace(t *testing.T) {
 }
 
 func TestTextMethod(t *testing.T) {
-	got := string(fieldset.New().Text("hello").Render())
+	got := string(fieldset.New().Text("hello").RenderBytes())
 	want := `<fieldset>hello</fieldset>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -1284,7 +1284,7 @@ func TestTextMethod(t *testing.T) {
 }
 
 func TestTextfMethod(t *testing.T) {
-	got := string(fieldset.New().Textf("hello %s", "world").Render())
+	got := string(fieldset.New().Textf("hello %s", "world").RenderBytes())
 	want := `<fieldset>hello world</fieldset>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -1292,7 +1292,7 @@ func TestTextfMethod(t *testing.T) {
 }
 
 func TestStaticMethod(t *testing.T) {
-	got := string(fieldset.New().Static("static content").Render())
+	got := string(fieldset.New().Static("static content").RenderBytes())
 	want := `<fieldset>static content</fieldset>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -1300,7 +1300,7 @@ func TestStaticMethod(t *testing.T) {
 }
 
 func TestRawTextMethod(t *testing.T) {
-	got := string(fieldset.New().RawText("<em>bold</em>").Render())
+	got := string(fieldset.New().RawText("<em>bold</em>").RenderBytes())
 	want := `<fieldset><em>bold</em></fieldset>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -1308,7 +1308,7 @@ func TestRawTextMethod(t *testing.T) {
 }
 
 func TestRawTextfMethod(t *testing.T) {
-	got := string(fieldset.New().RawTextf("<%s>test</%s>", "span", "span").Render())
+	got := string(fieldset.New().RawTextf("<%s>test</%s>", "span", "span").RenderBytes())
 	want := `<fieldset><span>test</span></fieldset>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -1316,7 +1316,7 @@ func TestRawTextfMethod(t *testing.T) {
 }
 
 func TestTextChaining(t *testing.T) {
-	got := string(fieldset.New().Class("foo").Text("content").ID("bar").Render())
+	got := string(fieldset.New().Class("foo").Text("content").ID("bar").RenderBytes())
 	want := `<fieldset class="foo" id="bar">content</fieldset>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -1324,7 +1324,7 @@ func TestTextChaining(t *testing.T) {
 }
 
 func TestDynamicKey(t *testing.T) {
-	got := string(fieldset.New().Dynamic("mykey").Render())
+	got := string(fieldset.New().Dynamic("mykey").RenderBytes())
 	want := `<fieldset data-tether-key="mykey"></fieldset>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -1339,7 +1339,7 @@ func TestDynamicNoKey(t *testing.T) {
 	if el.DynamicKey() != "_" {
 		t.Errorf("DynamicKey() should be \"_\", got %q", el.DynamicKey())
 	}
-	got := string(el.Render())
+	got := string(el.RenderBytes())
 	want := `<fieldset></fieldset>`
 	if got != want {
 		t.Errorf("Dynamic() without key should not render data-tether-key: got %q, want %q", got, want)

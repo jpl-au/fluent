@@ -10,6 +10,7 @@ import (
 	"io"
 	"strconv"
 	"strings"
+	"sync/atomic"
 
 	"github.com/jpl-au/fluent"
 	"github.com/jpl-au/fluent/html5"
@@ -33,6 +34,7 @@ type Element = element
 
 // element represents the <track> HTML element
 type element struct {
+	bufferhint atomic.Int64
 	hidden     hidden.Hidden
 	class      string
 	dynamic    string
@@ -44,7 +46,6 @@ type element struct {
 	attr       *[]node.Attribute
 	ea         *html5.EventAttributes
 	ga         *html5.GlobalAttributes
-	bufferhint int
 	tabindex   int
 	autofocus  bool
 	draggable  bool
@@ -1680,35 +1681,49 @@ func (e *element) DynamicKey() string {
 
 // Node interface implementation
 
-// BufferHint sets the buffer size hint used for pool allocation and
-// returns the element, so it chains. A hint of zero or less is ignored.
+// BufferHint seeds the buffer size used for pool allocation and returns
+// the element, so it chains. A hint of zero or less is ignored. The next
+// render's measured size replaces the hint - see RenderedSize.
 func (e *element) BufferHint(hint int) *element {
 	if hint > 0 {
-		e.bufferhint = hint
+		e.bufferhint.Store(int64(hint))
 	}
 	return e
 }
 
-// RenderedSize returns the buffer size hint. After Render(w) it reflects
-// the actual rendered size, so a retained element self-tunes.
+// RenderedSize returns the most recent render's measured size in bytes,
+// or the BufferHint value before the first render. Every render records
+// its size, so a retained element self-tunes: the next render draws a
+// right-sized buffer from the pool.
 func (e *element) RenderedSize() int {
-	return e.bufferhint
+	return int(e.bufferhint.Load())
 }
 
-// Render generates the complete HTML representation of the element.
-// If a writer is provided, the output is written to it using a pooled buffer and nil is returned.
-// If no writer is provided, the output is returned as a byte slice.
-func (e *element) Render(w ...io.Writer) []byte {
-	if len(w) > 0 && w[0] != nil {
-		buf := fluent.NewBuffer(e.bufferhint)
-		e.RenderBuilder(buf)
-		buf.WriteTo(w[0])
-		e.bufferhint = buf.Len()
-		fluent.PutBuffer(buf)
-		return nil
-	}
-	var buf bytes.Buffer
-	e.RenderBuilder(&buf)
+// Render writes the element's HTML to w. Write errors are deliberately
+// discarded - use WriteTo to observe them.
+func (e *element) Render(w io.Writer) {
+	_, _ = e.WriteTo(w)
+}
+
+// WriteTo renders into a pooled buffer sized by the last measured render
+// (or BufferHint before the first) and writes it to w, returning the byte
+// count and any write error. Satisfies io.WriterTo. The size is measured
+// before the buffer drains into w, so a retained element self-tunes.
+func (e *element) WriteTo(w io.Writer) (int64, error) {
+	buf := fluent.NewBuffer(int(e.bufferhint.Load()))
+	e.RenderBuilder(buf)
+	e.bufferhint.Store(int64(buf.Len()))
+	n, err := buf.WriteTo(w)
+	fluent.PutBuffer(buf)
+	return n, err
+}
+
+// RenderBytes returns the element's HTML as a byte slice, recording the
+// measured size for later renders like WriteTo does.
+func (e *element) RenderBytes() []byte {
+	buf := bytes.NewBuffer(make([]byte, 0, int(e.bufferhint.Load())))
+	e.RenderBuilder(buf)
+	e.bufferhint.Store(int64(buf.Len()))
 	return buf.Bytes()
 }
 

@@ -116,17 +116,26 @@ func (tn *Node) RenderBuilder(buf *bytes.Buffer) {
 	buf.WriteString(tn.content)
 }
 
-// Render returns the text content as a byte slice or writes to the provided writer.
-func (tn *Node) Render(w ...io.Writer) []byte {
+// Render writes the text content to w.
+// Write errors are intentionally discarded; see [node.Node] for rationale.
+func (tn *Node) Render(w io.Writer) {
+	_, _ = tn.WriteTo(w)
+}
+
+// WriteTo writes the text content to w, returning the byte count and
+// any write error. Satisfies [io.WriterTo].
+func (tn *Node) WriteTo(w io.Writer) (int64, error) {
 	buf := fluent.NewBuffer()
 	tn.RenderBuilder(buf)
+	n, err := buf.WriteTo(w)
+	fluent.PutBuffer(buf)
+	return n, err
+}
 
-	if len(w) > 0 && w[0] != nil {
-		// Write errors are intentionally discarded; see [node.Node] for rationale.
-		_, _ = buf.WriteTo(w[0])
-		fluent.PutBuffer(buf)
-		return nil
-	}
+// RenderBytes returns the text content as a byte slice.
+func (tn *Node) RenderBytes() []byte {
+	var buf bytes.Buffer
+	tn.RenderBuilder(&buf)
 	return buf.Bytes()
 }
 

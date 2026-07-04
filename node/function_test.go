@@ -10,7 +10,7 @@ import (
 func TestFuncRendersOutput(t *testing.T) {
 	got := string(Func(func() Node {
 		return stub("hello")
-	}).Render())
+	}).RenderBytes())
 	if got != "hello" {
 		t.Errorf("Func should render function output, got %q", got)
 	}
@@ -19,7 +19,7 @@ func TestFuncRendersOutput(t *testing.T) {
 // TestFuncNilReturn verifies that Func safely renders nothing when the
 // function returns nil.
 func TestFuncNilReturn(t *testing.T) {
-	got := string(Func(func() Node { return nil }).Render())
+	got := string(Func(func() Node { return nil }).RenderBytes())
 	if got != "" {
 		t.Errorf("Func returning nil should render nothing, got %q", got)
 	}
@@ -28,7 +28,7 @@ func TestFuncNilReturn(t *testing.T) {
 // TestFuncNilFunction verifies that a Func with a nil function renders
 // nothing rather than panicking.
 func TestFuncNilFunction(t *testing.T) {
-	got := string(Func(nil).Render())
+	got := string(Func(nil).RenderBytes())
 	if got != "" {
 		t.Errorf("Func(nil) should render nothing, got %q", got)
 	}
@@ -46,16 +46,25 @@ func TestFuncRenderBuilder(t *testing.T) {
 }
 
 // TestFuncRenderToWriter verifies that Render writes to a provided writer
-// and returns nil.
+// and that WriteTo reports the byte count.
 func TestFuncRenderToWriter(t *testing.T) {
 	f := Func(func() Node { return stub("hello") })
 	var buf bytes.Buffer
-	result := f.Render(&buf)
-	if result != nil {
-		t.Error("Render(writer) should return nil")
+	n, err := f.WriteTo(&buf)
+	if err != nil {
+		t.Fatalf("WriteTo returned error: %v", err)
+	}
+	if n != int64(buf.Len()) {
+		t.Errorf("WriteTo reported %d bytes but wrote %d", n, buf.Len())
 	}
 	if buf.String() != "hello" {
-		t.Errorf("Render(writer) should write %q, got %q", "hello", buf.String())
+		t.Errorf("WriteTo should write %q, got %q", "hello", buf.String())
+	}
+
+	buf.Reset()
+	f.Render(&buf)
+	if buf.String() != "hello" {
+		t.Errorf("Render should write %q, got %q", "hello", buf.String())
 	}
 }
 
@@ -68,8 +77,8 @@ func TestFuncNodeReturnsOutput(t *testing.T) {
 	if len(nodes) != 1 {
 		t.Fatalf("Nodes() should return 1 node, got %d", len(nodes))
 	}
-	if string(nodes[0].Render()) != "hello" {
-		t.Errorf("Nodes() should return function output, got %q", string(nodes[0].Render()))
+	if string(nodes[0].RenderBytes()) != "hello" {
+		t.Errorf("Nodes() should return function output, got %q", string(nodes[0].RenderBytes()))
 	}
 }
 

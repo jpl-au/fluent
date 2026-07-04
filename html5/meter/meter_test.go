@@ -22,14 +22,14 @@ import (
 
 func TestNewCtor(t *testing.T) {
 	// Test empty element
-	got := string(meter.New().Render())
+	got := string(meter.New().RenderBytes())
 	want := `<meter></meter>`
 	if got != want {
 		t.Errorf("empty: got %q, want %q", got, want)
 	}
 
 	// Test nested element
-	got = string(meter.New(meter.New()).Render())
+	got = string(meter.New(meter.New()).RenderBytes())
 	want = `<meter><meter></meter></meter>`
 	if got != want {
 		t.Errorf("nested: got %q, want %q", got, want)
@@ -37,7 +37,7 @@ func TestNewCtor(t *testing.T) {
 }
 
 func TestTextCtor(t *testing.T) {
-	got := string(meter.Text("6 out of 10").Render())
+	got := string(meter.Text("6 out of 10").RenderBytes())
 	want := `<meter>6 out of 10</meter>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -45,7 +45,7 @@ func TestTextCtor(t *testing.T) {
 }
 
 func TestStaticCtor(t *testing.T) {
-	got := string(meter.Static("75%").Render())
+	got := string(meter.Static("75%").RenderBytes())
 	want := `<meter>75%</meter>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -53,7 +53,7 @@ func TestStaticCtor(t *testing.T) {
 }
 
 func TestRawTextCtor(t *testing.T) {
-	got := string(meter.RawText("<strong>6</strong> out of 10").Render())
+	got := string(meter.RawText("<strong>6</strong> out of 10").RenderBytes())
 	want := `<meter><strong>6</strong> out of 10</meter>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -63,7 +63,7 @@ func TestRawTextCtor(t *testing.T) {
 func TestTextfCtor(t *testing.T) {
 	current := 7
 	total := 10
-	got := string(meter.Textf("%d out of %d", current, total).Render())
+	got := string(meter.Textf("%d out of %d", current, total).RenderBytes())
 	want := `<meter>7 out of 10</meter>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -73,7 +73,7 @@ func TestTextfCtor(t *testing.T) {
 func TestRawTextfCtor(t *testing.T) {
 	current := 7
 	total := 10
-	got := string(meter.RawTextf("<strong>%d</strong> out of %d", current, total).Render())
+	got := string(meter.RawTextf("<strong>%d</strong> out of %d", current, total).RenderBytes())
 	want := `<meter><strong>7</strong> out of 10</meter>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -81,7 +81,7 @@ func TestRawTextfCtor(t *testing.T) {
 }
 
 func TestValueMaxCtor(t *testing.T) {
-	got := string(meter.ValueMax(6, 10).Render())
+	got := string(meter.ValueMax(6, 10).RenderBytes())
 	want := `<meter value="6" max="10"></meter>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -89,7 +89,7 @@ func TestValueMaxCtor(t *testing.T) {
 }
 
 func TestValueAttr(t *testing.T) {
-	got := string(meter.New().Value(3.14).Render())
+	got := string(meter.New().Value(3.14).RenderBytes())
 	want := `<meter value="3.14"></meter>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -97,7 +97,7 @@ func TestValueAttr(t *testing.T) {
 }
 
 func TestMinAttr(t *testing.T) {
-	got := string(meter.New().Min(3.14).Render())
+	got := string(meter.New().Min(3.14).RenderBytes())
 	want := `<meter min="3.14"></meter>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -105,7 +105,7 @@ func TestMinAttr(t *testing.T) {
 }
 
 func TestMaxAttr(t *testing.T) {
-	got := string(meter.New().Max(3.14).Render())
+	got := string(meter.New().Max(3.14).RenderBytes())
 	want := `<meter max="3.14"></meter>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -113,7 +113,7 @@ func TestMaxAttr(t *testing.T) {
 }
 
 func TestLowAttr(t *testing.T) {
-	got := string(meter.New().Low(3.14).Render())
+	got := string(meter.New().Low(3.14).RenderBytes())
 	want := `<meter low="3.14"></meter>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -121,7 +121,7 @@ func TestLowAttr(t *testing.T) {
 }
 
 func TestHighAttr(t *testing.T) {
-	got := string(meter.New().High(3.14).Render())
+	got := string(meter.New().High(3.14).RenderBytes())
 	want := `<meter high="3.14"></meter>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -129,7 +129,7 @@ func TestHighAttr(t *testing.T) {
 }
 
 func TestOptimumAttr(t *testing.T) {
-	got := string(meter.New().Optimum(3.14).Render())
+	got := string(meter.New().Optimum(3.14).RenderBytes())
 	want := `<meter optimum="3.14"></meter>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -137,7 +137,7 @@ func TestOptimumAttr(t *testing.T) {
 }
 
 func TestClassAttr(t *testing.T) {
-	got := string(meter.New().Class("test").Render())
+	got := string(meter.New().Class("test").RenderBytes())
 	want := `<meter class="test"></meter>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -146,7 +146,7 @@ func TestClassAttr(t *testing.T) {
 
 func TestClassMulti(t *testing.T) {
 	// Test multiple chained calls
-	got := string(meter.New().Class("one").Class("two").Class("three").Render())
+	got := string(meter.New().Class("one").Class("two").Class("three").RenderBytes())
 	want := `<meter class="one two three"></meter>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -154,7 +154,7 @@ func TestClassMulti(t *testing.T) {
 }
 
 func TestIDAttr(t *testing.T) {
-	got := string(meter.New().ID("test").Render())
+	got := string(meter.New().ID("test").RenderBytes())
 	want := `<meter id="test"></meter>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -162,7 +162,7 @@ func TestIDAttr(t *testing.T) {
 }
 
 func TestStyleAttr(t *testing.T) {
-	got := string(meter.New().Style("test").Render())
+	got := string(meter.New().Style("test").RenderBytes())
 	want := `<meter style="test"></meter>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -171,7 +171,7 @@ func TestStyleAttr(t *testing.T) {
 
 func TestStyleMulti(t *testing.T) {
 	// Test multiple chained calls
-	got := string(meter.New().Style("one").Style("two").Style("three").Render())
+	got := string(meter.New().Style("one").Style("two").Style("three").RenderBytes())
 	want := `<meter style="one; two; three"></meter>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -179,7 +179,7 @@ func TestStyleMulti(t *testing.T) {
 }
 
 func TestTitleAttr(t *testing.T) {
-	got := string(meter.New().Title("test").Render())
+	got := string(meter.New().Title("test").RenderBytes())
 	want := `<meter title="test"></meter>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -187,7 +187,7 @@ func TestTitleAttr(t *testing.T) {
 }
 
 func TestHiddenAttr(t *testing.T) {
-	got := string(meter.New().Hidden(hidden.True).Render())
+	got := string(meter.New().Hidden(hidden.True).RenderBytes())
 	want := `<meter hidden="true"></meter>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -195,7 +195,7 @@ func TestHiddenAttr(t *testing.T) {
 }
 
 func TestTabIndexAttr(t *testing.T) {
-	got := string(meter.New().TabIndex(42).Render())
+	got := string(meter.New().TabIndex(42).RenderBytes())
 	want := `<meter tabindex="42"></meter>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -203,7 +203,7 @@ func TestTabIndexAttr(t *testing.T) {
 }
 
 func TestRoleAttr(t *testing.T) {
-	got := string(meter.New().Role("test").Render())
+	got := string(meter.New().Role("test").RenderBytes())
 	want := `<meter role="test"></meter>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -211,7 +211,7 @@ func TestRoleAttr(t *testing.T) {
 }
 
 func TestLangAttr(t *testing.T) {
-	got := string(meter.New().Lang("test").Render())
+	got := string(meter.New().Lang("test").RenderBytes())
 	want := `<meter lang="test"></meter>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -219,7 +219,7 @@ func TestLangAttr(t *testing.T) {
 }
 
 func TestAccessKeyAttr(t *testing.T) {
-	got := string(meter.New().AccessKey("test").Render())
+	got := string(meter.New().AccessKey("test").RenderBytes())
 	want := `<meter accesskey="test"></meter>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -228,7 +228,7 @@ func TestAccessKeyAttr(t *testing.T) {
 
 func TestAccessKeyMulti(t *testing.T) {
 	// Test multiple chained calls
-	got := string(meter.New().AccessKey("one").AccessKey("two").AccessKey("three").Render())
+	got := string(meter.New().AccessKey("one").AccessKey("two").AccessKey("three").RenderBytes())
 	want := `<meter accesskey="one two three"></meter>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -236,7 +236,7 @@ func TestAccessKeyMulti(t *testing.T) {
 }
 
 func TestAnchorAttr(t *testing.T) {
-	got := string(meter.New().Anchor("test").Render())
+	got := string(meter.New().Anchor("test").RenderBytes())
 	want := `<meter anchor="test"></meter>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -244,7 +244,7 @@ func TestAnchorAttr(t *testing.T) {
 }
 
 func TestAriaLabelAttr(t *testing.T) {
-	got := string(meter.New().AriaLabel("test").Render())
+	got := string(meter.New().AriaLabel("test").RenderBytes())
 	want := `<meter aria-label="test"></meter>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -252,7 +252,7 @@ func TestAriaLabelAttr(t *testing.T) {
 }
 
 func TestSetAriaAttr(t *testing.T) {
-	got := string(meter.New().SetAria("label", "test-value").Render())
+	got := string(meter.New().SetAria("label", "test-value").RenderBytes())
 	want := `<meter aria-label="test-value"></meter>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -260,7 +260,7 @@ func TestSetAriaAttr(t *testing.T) {
 }
 
 func TestAutoCapitalizeAttr(t *testing.T) {
-	got := string(meter.New().AutoCapitalize(autocapitalize.Off).Render())
+	got := string(meter.New().AutoCapitalize(autocapitalize.Off).RenderBytes())
 	want := `<meter autocapitalize="off"></meter>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -268,7 +268,7 @@ func TestAutoCapitalizeAttr(t *testing.T) {
 }
 
 func TestAutoCorrectAttr(t *testing.T) {
-	got := string(meter.New().AutoCorrect(autocorrect.On).Render())
+	got := string(meter.New().AutoCorrect(autocorrect.On).RenderBytes())
 	want := `<meter autocorrect="on"></meter>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -276,7 +276,7 @@ func TestAutoCorrectAttr(t *testing.T) {
 }
 
 func TestAutoFocusAttr(t *testing.T) {
-	got := string(meter.New().AutoFocus().Render())
+	got := string(meter.New().AutoFocus().RenderBytes())
 	want := `<meter autofocus></meter>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -284,7 +284,7 @@ func TestAutoFocusAttr(t *testing.T) {
 }
 
 func TestContentEditableAttr(t *testing.T) {
-	got := string(meter.New().ContentEditable(contenteditable.True).Render())
+	got := string(meter.New().ContentEditable(contenteditable.True).RenderBytes())
 	want := `<meter contenteditable="true"></meter>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -292,7 +292,7 @@ func TestContentEditableAttr(t *testing.T) {
 }
 
 func TestSetDataAttr(t *testing.T) {
-	got := string(meter.New().SetData("user-id", "test-value").Render())
+	got := string(meter.New().SetData("user-id", "test-value").RenderBytes())
 	want := `<meter data-user-id="test-value"></meter>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -300,7 +300,7 @@ func TestSetDataAttr(t *testing.T) {
 }
 
 func TestDirAttr(t *testing.T) {
-	got := string(meter.New().Dir(dir.LeftToRight).Render())
+	got := string(meter.New().Dir(dir.LeftToRight).RenderBytes())
 	want := `<meter dir="ltr"></meter>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -308,7 +308,7 @@ func TestDirAttr(t *testing.T) {
 }
 
 func TestDraggableAttr(t *testing.T) {
-	got := string(meter.New().Draggable().Render())
+	got := string(meter.New().Draggable().RenderBytes())
 	want := `<meter draggable></meter>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -316,7 +316,7 @@ func TestDraggableAttr(t *testing.T) {
 }
 
 func TestEnterKeyHintAttr(t *testing.T) {
-	got := string(meter.New().EnterKeyHint(enterkeyhint.Enter).Render())
+	got := string(meter.New().EnterKeyHint(enterkeyhint.Enter).RenderBytes())
 	want := `<meter enterkeyhint="enter"></meter>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -324,7 +324,7 @@ func TestEnterKeyHintAttr(t *testing.T) {
 }
 
 func TestExportPartsAttr(t *testing.T) {
-	got := string(meter.New().ExportParts("test").Render())
+	got := string(meter.New().ExportParts("test").RenderBytes())
 	want := `<meter exportparts="test"></meter>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -332,7 +332,7 @@ func TestExportPartsAttr(t *testing.T) {
 }
 
 func TestInertAttr(t *testing.T) {
-	got := string(meter.New().Inert().Render())
+	got := string(meter.New().Inert().RenderBytes())
 	want := `<meter inert></meter>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -340,7 +340,7 @@ func TestInertAttr(t *testing.T) {
 }
 
 func TestInputModeAttr(t *testing.T) {
-	got := string(meter.New().InputMode(inputmode.None).Render())
+	got := string(meter.New().InputMode(inputmode.None).RenderBytes())
 	want := `<meter inputmode="none"></meter>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -348,7 +348,7 @@ func TestInputModeAttr(t *testing.T) {
 }
 
 func TestIsAttr(t *testing.T) {
-	got := string(meter.New().Is("test").Render())
+	got := string(meter.New().Is("test").RenderBytes())
 	want := `<meter is="test"></meter>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -356,7 +356,7 @@ func TestIsAttr(t *testing.T) {
 }
 
 func TestItemIdAttr(t *testing.T) {
-	got := string(meter.New().ItemId("test").Render())
+	got := string(meter.New().ItemId("test").RenderBytes())
 	want := `<meter itemid="test"></meter>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -364,7 +364,7 @@ func TestItemIdAttr(t *testing.T) {
 }
 
 func TestItemPropAttr(t *testing.T) {
-	got := string(meter.New().ItemProp("test").Render())
+	got := string(meter.New().ItemProp("test").RenderBytes())
 	want := `<meter itemprop="test"></meter>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -372,7 +372,7 @@ func TestItemPropAttr(t *testing.T) {
 }
 
 func TestItemRefAttr(t *testing.T) {
-	got := string(meter.New().ItemRef("test").Render())
+	got := string(meter.New().ItemRef("test").RenderBytes())
 	want := `<meter itemref="test"></meter>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -380,7 +380,7 @@ func TestItemRefAttr(t *testing.T) {
 }
 
 func TestItemScopeAttr(t *testing.T) {
-	got := string(meter.New().ItemScope().Render())
+	got := string(meter.New().ItemScope().RenderBytes())
 	want := `<meter itemscope></meter>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -388,7 +388,7 @@ func TestItemScopeAttr(t *testing.T) {
 }
 
 func TestItemTypeAttr(t *testing.T) {
-	got := string(meter.New().ItemType("test").Render())
+	got := string(meter.New().ItemType("test").RenderBytes())
 	want := `<meter itemtype="test"></meter>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -396,7 +396,7 @@ func TestItemTypeAttr(t *testing.T) {
 }
 
 func TestNonceAttr(t *testing.T) {
-	got := string(meter.New().Nonce("test").Render())
+	got := string(meter.New().Nonce("test").RenderBytes())
 	want := `<meter nonce="test"></meter>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -404,7 +404,7 @@ func TestNonceAttr(t *testing.T) {
 }
 
 func TestPartAttr(t *testing.T) {
-	got := string(meter.New().Part("test").Render())
+	got := string(meter.New().Part("test").RenderBytes())
 	want := `<meter part="test"></meter>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -413,7 +413,7 @@ func TestPartAttr(t *testing.T) {
 
 func TestPartMulti(t *testing.T) {
 	// Test multiple chained calls
-	got := string(meter.New().Part("one").Part("two").Part("three").Render())
+	got := string(meter.New().Part("one").Part("two").Part("three").RenderBytes())
 	want := `<meter part="one two three"></meter>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -421,7 +421,7 @@ func TestPartMulti(t *testing.T) {
 }
 
 func TestPopoverAttr(t *testing.T) {
-	got := string(meter.New().Popover(popover.Auto).Render())
+	got := string(meter.New().Popover(popover.Auto).RenderBytes())
 	want := `<meter popover="auto"></meter>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -429,7 +429,7 @@ func TestPopoverAttr(t *testing.T) {
 }
 
 func TestSlotAttr(t *testing.T) {
-	got := string(meter.New().Slot("test").Render())
+	got := string(meter.New().Slot("test").RenderBytes())
 	want := `<meter slot="test"></meter>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -437,7 +437,7 @@ func TestSlotAttr(t *testing.T) {
 }
 
 func TestSpellCheckAttr(t *testing.T) {
-	got := string(meter.New().SpellCheck(spellcheck.True).Render())
+	got := string(meter.New().SpellCheck(spellcheck.True).RenderBytes())
 	want := `<meter spellcheck="true"></meter>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -445,7 +445,7 @@ func TestSpellCheckAttr(t *testing.T) {
 }
 
 func TestTranslateAttr(t *testing.T) {
-	got := string(meter.New().Translate(translate.Yes).Render())
+	got := string(meter.New().Translate(translate.Yes).RenderBytes())
 	want := `<meter translate="yes"></meter>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -453,7 +453,7 @@ func TestTranslateAttr(t *testing.T) {
 }
 
 func TestVirtualKeyboardPolicyAttr(t *testing.T) {
-	got := string(meter.New().VirtualKeyboardPolicy(virtualkeyboardpolicy.Auto).Render())
+	got := string(meter.New().VirtualKeyboardPolicy(virtualkeyboardpolicy.Auto).RenderBytes())
 	want := `<meter virtualkeyboardpolicy="auto"></meter>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -461,7 +461,7 @@ func TestVirtualKeyboardPolicyAttr(t *testing.T) {
 }
 
 func TestWritingSuggestionsAttr(t *testing.T) {
-	got := string(meter.New().WritingSuggestions(writingsuggestions.True).Render())
+	got := string(meter.New().WritingSuggestions(writingsuggestions.True).RenderBytes())
 	want := `<meter writingsuggestions="true"></meter>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -469,7 +469,7 @@ func TestWritingSuggestionsAttr(t *testing.T) {
 }
 
 func TestOnClickAttr(t *testing.T) {
-	got := string(meter.New().OnClick("test").Render())
+	got := string(meter.New().OnClick("test").RenderBytes())
 	want := `<meter onclick="test"></meter>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -477,7 +477,7 @@ func TestOnClickAttr(t *testing.T) {
 }
 
 func TestOnChangeAttr(t *testing.T) {
-	got := string(meter.New().OnChange("test").Render())
+	got := string(meter.New().OnChange("test").RenderBytes())
 	want := `<meter onchange="test"></meter>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -485,7 +485,7 @@ func TestOnChangeAttr(t *testing.T) {
 }
 
 func TestOnInputAttr(t *testing.T) {
-	got := string(meter.New().OnInput("test").Render())
+	got := string(meter.New().OnInput("test").RenderBytes())
 	want := `<meter oninput="test"></meter>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -493,7 +493,7 @@ func TestOnInputAttr(t *testing.T) {
 }
 
 func TestOnFocusAttr(t *testing.T) {
-	got := string(meter.New().OnFocus("test").Render())
+	got := string(meter.New().OnFocus("test").RenderBytes())
 	want := `<meter onfocus="test"></meter>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -501,7 +501,7 @@ func TestOnFocusAttr(t *testing.T) {
 }
 
 func TestOnBlurAttr(t *testing.T) {
-	got := string(meter.New().OnBlur("test").Render())
+	got := string(meter.New().OnBlur("test").RenderBytes())
 	want := `<meter onblur="test"></meter>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -509,7 +509,7 @@ func TestOnBlurAttr(t *testing.T) {
 }
 
 func TestOnSubmitAttr(t *testing.T) {
-	got := string(meter.New().OnSubmit("test").Render())
+	got := string(meter.New().OnSubmit("test").RenderBytes())
 	want := `<meter onsubmit="test"></meter>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -517,7 +517,7 @@ func TestOnSubmitAttr(t *testing.T) {
 }
 
 func TestOnLoadAttr(t *testing.T) {
-	got := string(meter.New().OnLoad("test").Render())
+	got := string(meter.New().OnLoad("test").RenderBytes())
 	want := `<meter onload="test"></meter>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -525,7 +525,7 @@ func TestOnLoadAttr(t *testing.T) {
 }
 
 func TestOnErrorAttr(t *testing.T) {
-	got := string(meter.New().OnError("test").Render())
+	got := string(meter.New().OnError("test").RenderBytes())
 	want := `<meter onerror="test"></meter>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -533,7 +533,7 @@ func TestOnErrorAttr(t *testing.T) {
 }
 
 func TestSetEventAttr(t *testing.T) {
-	got := string(meter.New().SetEvent("onclick", "test-value").Render())
+	got := string(meter.New().SetEvent("onclick", "test-value").RenderBytes())
 	want := `<meter onclick="test-value"></meter>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -541,7 +541,7 @@ func TestSetEventAttr(t *testing.T) {
 }
 
 func TestOnAbortAttr(t *testing.T) {
-	got := string(meter.New().OnAbort("test").Render())
+	got := string(meter.New().OnAbort("test").RenderBytes())
 	want := `<meter onabort="test"></meter>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -549,7 +549,7 @@ func TestOnAbortAttr(t *testing.T) {
 }
 
 func TestOnAutoCompleteAttr(t *testing.T) {
-	got := string(meter.New().OnAutoComplete("test").Render())
+	got := string(meter.New().OnAutoComplete("test").RenderBytes())
 	want := `<meter onautocomplete="test"></meter>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -557,7 +557,7 @@ func TestOnAutoCompleteAttr(t *testing.T) {
 }
 
 func TestOnAutoCompleteErrorAttr(t *testing.T) {
-	got := string(meter.New().OnAutoCompleteError("test").Render())
+	got := string(meter.New().OnAutoCompleteError("test").RenderBytes())
 	want := `<meter onautocompleteerror="test"></meter>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -565,7 +565,7 @@ func TestOnAutoCompleteErrorAttr(t *testing.T) {
 }
 
 func TestOnCancelAttr(t *testing.T) {
-	got := string(meter.New().OnCancel("test").Render())
+	got := string(meter.New().OnCancel("test").RenderBytes())
 	want := `<meter oncancel="test"></meter>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -573,7 +573,7 @@ func TestOnCancelAttr(t *testing.T) {
 }
 
 func TestOnCanPlayAttr(t *testing.T) {
-	got := string(meter.New().OnCanPlay("test").Render())
+	got := string(meter.New().OnCanPlay("test").RenderBytes())
 	want := `<meter oncanplay="test"></meter>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -581,7 +581,7 @@ func TestOnCanPlayAttr(t *testing.T) {
 }
 
 func TestOnCanPlayThroughAttr(t *testing.T) {
-	got := string(meter.New().OnCanPlayThrough("test").Render())
+	got := string(meter.New().OnCanPlayThrough("test").RenderBytes())
 	want := `<meter oncanplaythrough="test"></meter>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -589,7 +589,7 @@ func TestOnCanPlayThroughAttr(t *testing.T) {
 }
 
 func TestOnCloseAttr(t *testing.T) {
-	got := string(meter.New().OnClose("test").Render())
+	got := string(meter.New().OnClose("test").RenderBytes())
 	want := `<meter onclose="test"></meter>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -597,7 +597,7 @@ func TestOnCloseAttr(t *testing.T) {
 }
 
 func TestOnContextMenuAttr(t *testing.T) {
-	got := string(meter.New().OnContextMenu("test").Render())
+	got := string(meter.New().OnContextMenu("test").RenderBytes())
 	want := `<meter oncontextmenu="test"></meter>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -605,7 +605,7 @@ func TestOnContextMenuAttr(t *testing.T) {
 }
 
 func TestOnCueChangeAttr(t *testing.T) {
-	got := string(meter.New().OnCueChange("test").Render())
+	got := string(meter.New().OnCueChange("test").RenderBytes())
 	want := `<meter oncuechange="test"></meter>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -613,7 +613,7 @@ func TestOnCueChangeAttr(t *testing.T) {
 }
 
 func TestOnDblClickAttr(t *testing.T) {
-	got := string(meter.New().OnDblClick("test").Render())
+	got := string(meter.New().OnDblClick("test").RenderBytes())
 	want := `<meter ondblclick="test"></meter>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -621,7 +621,7 @@ func TestOnDblClickAttr(t *testing.T) {
 }
 
 func TestOnDragAttr(t *testing.T) {
-	got := string(meter.New().OnDrag("test").Render())
+	got := string(meter.New().OnDrag("test").RenderBytes())
 	want := `<meter ondrag="test"></meter>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -629,7 +629,7 @@ func TestOnDragAttr(t *testing.T) {
 }
 
 func TestOnDragEndAttr(t *testing.T) {
-	got := string(meter.New().OnDragEnd("test").Render())
+	got := string(meter.New().OnDragEnd("test").RenderBytes())
 	want := `<meter ondragend="test"></meter>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -637,7 +637,7 @@ func TestOnDragEndAttr(t *testing.T) {
 }
 
 func TestOnDragEnterAttr(t *testing.T) {
-	got := string(meter.New().OnDragEnter("test").Render())
+	got := string(meter.New().OnDragEnter("test").RenderBytes())
 	want := `<meter ondragenter="test"></meter>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -645,7 +645,7 @@ func TestOnDragEnterAttr(t *testing.T) {
 }
 
 func TestOnDragLeaveAttr(t *testing.T) {
-	got := string(meter.New().OnDragLeave("test").Render())
+	got := string(meter.New().OnDragLeave("test").RenderBytes())
 	want := `<meter ondragleave="test"></meter>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -653,7 +653,7 @@ func TestOnDragLeaveAttr(t *testing.T) {
 }
 
 func TestOnDragOverAttr(t *testing.T) {
-	got := string(meter.New().OnDragOver("test").Render())
+	got := string(meter.New().OnDragOver("test").RenderBytes())
 	want := `<meter ondragover="test"></meter>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -661,7 +661,7 @@ func TestOnDragOverAttr(t *testing.T) {
 }
 
 func TestOnDragStartAttr(t *testing.T) {
-	got := string(meter.New().OnDragStart("test").Render())
+	got := string(meter.New().OnDragStart("test").RenderBytes())
 	want := `<meter ondragstart="test"></meter>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -669,7 +669,7 @@ func TestOnDragStartAttr(t *testing.T) {
 }
 
 func TestOnDropAttr(t *testing.T) {
-	got := string(meter.New().OnDrop("test").Render())
+	got := string(meter.New().OnDrop("test").RenderBytes())
 	want := `<meter ondrop="test"></meter>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -677,7 +677,7 @@ func TestOnDropAttr(t *testing.T) {
 }
 
 func TestOnDurationChangeAttr(t *testing.T) {
-	got := string(meter.New().OnDurationChange("test").Render())
+	got := string(meter.New().OnDurationChange("test").RenderBytes())
 	want := `<meter ondurationchange="test"></meter>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -685,7 +685,7 @@ func TestOnDurationChangeAttr(t *testing.T) {
 }
 
 func TestOnEmptiedAttr(t *testing.T) {
-	got := string(meter.New().OnEmptied("test").Render())
+	got := string(meter.New().OnEmptied("test").RenderBytes())
 	want := `<meter onemptied="test"></meter>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -693,7 +693,7 @@ func TestOnEmptiedAttr(t *testing.T) {
 }
 
 func TestOnEndedAttr(t *testing.T) {
-	got := string(meter.New().OnEnded("test").Render())
+	got := string(meter.New().OnEnded("test").RenderBytes())
 	want := `<meter onended="test"></meter>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -701,7 +701,7 @@ func TestOnEndedAttr(t *testing.T) {
 }
 
 func TestOnInvalidAttr(t *testing.T) {
-	got := string(meter.New().OnInvalid("test").Render())
+	got := string(meter.New().OnInvalid("test").RenderBytes())
 	want := `<meter oninvalid="test"></meter>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -709,7 +709,7 @@ func TestOnInvalidAttr(t *testing.T) {
 }
 
 func TestOnKeyDownAttr(t *testing.T) {
-	got := string(meter.New().OnKeyDown("test").Render())
+	got := string(meter.New().OnKeyDown("test").RenderBytes())
 	want := `<meter onkeydown="test"></meter>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -717,7 +717,7 @@ func TestOnKeyDownAttr(t *testing.T) {
 }
 
 func TestOnKeyPressAttr(t *testing.T) {
-	got := string(meter.New().OnKeyPress("test").Render())
+	got := string(meter.New().OnKeyPress("test").RenderBytes())
 	want := `<meter onkeypress="test"></meter>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -725,7 +725,7 @@ func TestOnKeyPressAttr(t *testing.T) {
 }
 
 func TestOnKeyUpAttr(t *testing.T) {
-	got := string(meter.New().OnKeyUp("test").Render())
+	got := string(meter.New().OnKeyUp("test").RenderBytes())
 	want := `<meter onkeyup="test"></meter>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -733,7 +733,7 @@ func TestOnKeyUpAttr(t *testing.T) {
 }
 
 func TestOnLoadedDataAttr(t *testing.T) {
-	got := string(meter.New().OnLoadedData("test").Render())
+	got := string(meter.New().OnLoadedData("test").RenderBytes())
 	want := `<meter onloadeddata="test"></meter>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -741,7 +741,7 @@ func TestOnLoadedDataAttr(t *testing.T) {
 }
 
 func TestOnLoadedMetadataAttr(t *testing.T) {
-	got := string(meter.New().OnLoadedMetadata("test").Render())
+	got := string(meter.New().OnLoadedMetadata("test").RenderBytes())
 	want := `<meter onloadedmetadata="test"></meter>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -749,7 +749,7 @@ func TestOnLoadedMetadataAttr(t *testing.T) {
 }
 
 func TestOnLoadStartAttr(t *testing.T) {
-	got := string(meter.New().OnLoadStart("test").Render())
+	got := string(meter.New().OnLoadStart("test").RenderBytes())
 	want := `<meter onloadstart="test"></meter>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -757,7 +757,7 @@ func TestOnLoadStartAttr(t *testing.T) {
 }
 
 func TestOnMouseDownAttr(t *testing.T) {
-	got := string(meter.New().OnMouseDown("test").Render())
+	got := string(meter.New().OnMouseDown("test").RenderBytes())
 	want := `<meter onmousedown="test"></meter>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -765,7 +765,7 @@ func TestOnMouseDownAttr(t *testing.T) {
 }
 
 func TestOnMouseEnterAttr(t *testing.T) {
-	got := string(meter.New().OnMouseEnter("test").Render())
+	got := string(meter.New().OnMouseEnter("test").RenderBytes())
 	want := `<meter onmouseenter="test"></meter>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -773,7 +773,7 @@ func TestOnMouseEnterAttr(t *testing.T) {
 }
 
 func TestOnMouseLeaveAttr(t *testing.T) {
-	got := string(meter.New().OnMouseLeave("test").Render())
+	got := string(meter.New().OnMouseLeave("test").RenderBytes())
 	want := `<meter onmouseleave="test"></meter>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -781,7 +781,7 @@ func TestOnMouseLeaveAttr(t *testing.T) {
 }
 
 func TestOnMouseMoveAttr(t *testing.T) {
-	got := string(meter.New().OnMouseMove("test").Render())
+	got := string(meter.New().OnMouseMove("test").RenderBytes())
 	want := `<meter onmousemove="test"></meter>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -789,7 +789,7 @@ func TestOnMouseMoveAttr(t *testing.T) {
 }
 
 func TestOnMouseOutAttr(t *testing.T) {
-	got := string(meter.New().OnMouseOut("test").Render())
+	got := string(meter.New().OnMouseOut("test").RenderBytes())
 	want := `<meter onmouseout="test"></meter>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -797,7 +797,7 @@ func TestOnMouseOutAttr(t *testing.T) {
 }
 
 func TestOnMouseOverAttr(t *testing.T) {
-	got := string(meter.New().OnMouseOver("test").Render())
+	got := string(meter.New().OnMouseOver("test").RenderBytes())
 	want := `<meter onmouseover="test"></meter>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -805,7 +805,7 @@ func TestOnMouseOverAttr(t *testing.T) {
 }
 
 func TestOnMouseUpAttr(t *testing.T) {
-	got := string(meter.New().OnMouseUp("test").Render())
+	got := string(meter.New().OnMouseUp("test").RenderBytes())
 	want := `<meter onmouseup="test"></meter>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -813,7 +813,7 @@ func TestOnMouseUpAttr(t *testing.T) {
 }
 
 func TestOnMouseWheelAttr(t *testing.T) {
-	got := string(meter.New().OnMouseWheel("test").Render())
+	got := string(meter.New().OnMouseWheel("test").RenderBytes())
 	want := `<meter onmousewheel="test"></meter>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -821,7 +821,7 @@ func TestOnMouseWheelAttr(t *testing.T) {
 }
 
 func TestOnPauseAttr(t *testing.T) {
-	got := string(meter.New().OnPause("test").Render())
+	got := string(meter.New().OnPause("test").RenderBytes())
 	want := `<meter onpause="test"></meter>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -829,7 +829,7 @@ func TestOnPauseAttr(t *testing.T) {
 }
 
 func TestOnPlayAttr(t *testing.T) {
-	got := string(meter.New().OnPlay("test").Render())
+	got := string(meter.New().OnPlay("test").RenderBytes())
 	want := `<meter onplay="test"></meter>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -837,7 +837,7 @@ func TestOnPlayAttr(t *testing.T) {
 }
 
 func TestOnPlayingAttr(t *testing.T) {
-	got := string(meter.New().OnPlaying("test").Render())
+	got := string(meter.New().OnPlaying("test").RenderBytes())
 	want := `<meter onplaying="test"></meter>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -845,7 +845,7 @@ func TestOnPlayingAttr(t *testing.T) {
 }
 
 func TestOnProgressAttr(t *testing.T) {
-	got := string(meter.New().OnProgress("test").Render())
+	got := string(meter.New().OnProgress("test").RenderBytes())
 	want := `<meter onprogress="test"></meter>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -853,7 +853,7 @@ func TestOnProgressAttr(t *testing.T) {
 }
 
 func TestOnRateChangeAttr(t *testing.T) {
-	got := string(meter.New().OnRateChange("test").Render())
+	got := string(meter.New().OnRateChange("test").RenderBytes())
 	want := `<meter onratechange="test"></meter>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -861,7 +861,7 @@ func TestOnRateChangeAttr(t *testing.T) {
 }
 
 func TestOnResetAttr(t *testing.T) {
-	got := string(meter.New().OnReset("test").Render())
+	got := string(meter.New().OnReset("test").RenderBytes())
 	want := `<meter onreset="test"></meter>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -869,7 +869,7 @@ func TestOnResetAttr(t *testing.T) {
 }
 
 func TestOnResizeAttr(t *testing.T) {
-	got := string(meter.New().OnResize("test").Render())
+	got := string(meter.New().OnResize("test").RenderBytes())
 	want := `<meter onresize="test"></meter>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -877,7 +877,7 @@ func TestOnResizeAttr(t *testing.T) {
 }
 
 func TestOnScrollAttr(t *testing.T) {
-	got := string(meter.New().OnScroll("test").Render())
+	got := string(meter.New().OnScroll("test").RenderBytes())
 	want := `<meter onscroll="test"></meter>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -885,7 +885,7 @@ func TestOnScrollAttr(t *testing.T) {
 }
 
 func TestOnSeekedAttr(t *testing.T) {
-	got := string(meter.New().OnSeeked("test").Render())
+	got := string(meter.New().OnSeeked("test").RenderBytes())
 	want := `<meter onseeked="test"></meter>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -893,7 +893,7 @@ func TestOnSeekedAttr(t *testing.T) {
 }
 
 func TestOnSeekingAttr(t *testing.T) {
-	got := string(meter.New().OnSeeking("test").Render())
+	got := string(meter.New().OnSeeking("test").RenderBytes())
 	want := `<meter onseeking="test"></meter>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -901,7 +901,7 @@ func TestOnSeekingAttr(t *testing.T) {
 }
 
 func TestOnSelectAttr(t *testing.T) {
-	got := string(meter.New().OnSelect("test").Render())
+	got := string(meter.New().OnSelect("test").RenderBytes())
 	want := `<meter onselect="test"></meter>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -909,7 +909,7 @@ func TestOnSelectAttr(t *testing.T) {
 }
 
 func TestOnShowAttr(t *testing.T) {
-	got := string(meter.New().OnShow("test").Render())
+	got := string(meter.New().OnShow("test").RenderBytes())
 	want := `<meter onshow="test"></meter>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -917,7 +917,7 @@ func TestOnShowAttr(t *testing.T) {
 }
 
 func TestOnSortAttr(t *testing.T) {
-	got := string(meter.New().OnSort("test").Render())
+	got := string(meter.New().OnSort("test").RenderBytes())
 	want := `<meter onsort="test"></meter>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -925,7 +925,7 @@ func TestOnSortAttr(t *testing.T) {
 }
 
 func TestOnStalledAttr(t *testing.T) {
-	got := string(meter.New().OnStalled("test").Render())
+	got := string(meter.New().OnStalled("test").RenderBytes())
 	want := `<meter onstalled="test"></meter>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -933,7 +933,7 @@ func TestOnStalledAttr(t *testing.T) {
 }
 
 func TestOnSuspendAttr(t *testing.T) {
-	got := string(meter.New().OnSuspend("test").Render())
+	got := string(meter.New().OnSuspend("test").RenderBytes())
 	want := `<meter onsuspend="test"></meter>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -941,7 +941,7 @@ func TestOnSuspendAttr(t *testing.T) {
 }
 
 func TestOnTimeUpdateAttr(t *testing.T) {
-	got := string(meter.New().OnTimeUpdate("test").Render())
+	got := string(meter.New().OnTimeUpdate("test").RenderBytes())
 	want := `<meter ontimeupdate="test"></meter>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -949,7 +949,7 @@ func TestOnTimeUpdateAttr(t *testing.T) {
 }
 
 func TestOnToggleAttr(t *testing.T) {
-	got := string(meter.New().OnToggle("test").Render())
+	got := string(meter.New().OnToggle("test").RenderBytes())
 	want := `<meter ontoggle="test"></meter>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -957,7 +957,7 @@ func TestOnToggleAttr(t *testing.T) {
 }
 
 func TestOnVolumeChangeAttr(t *testing.T) {
-	got := string(meter.New().OnVolumeChange("test").Render())
+	got := string(meter.New().OnVolumeChange("test").RenderBytes())
 	want := `<meter onvolumechange="test"></meter>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -965,7 +965,7 @@ func TestOnVolumeChangeAttr(t *testing.T) {
 }
 
 func TestOnWaitingAttr(t *testing.T) {
-	got := string(meter.New().OnWaiting("test").Render())
+	got := string(meter.New().OnWaiting("test").RenderBytes())
 	want := `<meter onwaiting="test"></meter>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -973,7 +973,7 @@ func TestOnWaitingAttr(t *testing.T) {
 }
 
 func TestOnAuxClickAttr(t *testing.T) {
-	got := string(meter.New().OnAuxClick("test").Render())
+	got := string(meter.New().OnAuxClick("test").RenderBytes())
 	want := `<meter onauxclick="test"></meter>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -981,7 +981,7 @@ func TestOnAuxClickAttr(t *testing.T) {
 }
 
 func TestOnWheelAttr(t *testing.T) {
-	got := string(meter.New().OnWheel("test").Render())
+	got := string(meter.New().OnWheel("test").RenderBytes())
 	want := `<meter onwheel="test"></meter>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -989,7 +989,7 @@ func TestOnWheelAttr(t *testing.T) {
 }
 
 func TestOnCopyAttr(t *testing.T) {
-	got := string(meter.New().OnCopy("test").Render())
+	got := string(meter.New().OnCopy("test").RenderBytes())
 	want := `<meter oncopy="test"></meter>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -997,7 +997,7 @@ func TestOnCopyAttr(t *testing.T) {
 }
 
 func TestOnCutAttr(t *testing.T) {
-	got := string(meter.New().OnCut("test").Render())
+	got := string(meter.New().OnCut("test").RenderBytes())
 	want := `<meter oncut="test"></meter>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -1005,7 +1005,7 @@ func TestOnCutAttr(t *testing.T) {
 }
 
 func TestOnPasteAttr(t *testing.T) {
-	got := string(meter.New().OnPaste("test").Render())
+	got := string(meter.New().OnPaste("test").RenderBytes())
 	want := `<meter onpaste="test"></meter>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -1013,7 +1013,7 @@ func TestOnPasteAttr(t *testing.T) {
 }
 
 func TestOnScrollEndAttr(t *testing.T) {
-	got := string(meter.New().OnScrollEnd("test").Render())
+	got := string(meter.New().OnScrollEnd("test").RenderBytes())
 	want := `<meter onscrollend="test"></meter>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -1021,7 +1021,7 @@ func TestOnScrollEndAttr(t *testing.T) {
 }
 
 func TestOnFormDataAttr(t *testing.T) {
-	got := string(meter.New().OnFormData("test").Render())
+	got := string(meter.New().OnFormData("test").RenderBytes())
 	want := `<meter onformdata="test"></meter>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -1029,7 +1029,7 @@ func TestOnFormDataAttr(t *testing.T) {
 }
 
 func TestOnAnimationCancelAttr(t *testing.T) {
-	got := string(meter.New().OnAnimationCancel("test").Render())
+	got := string(meter.New().OnAnimationCancel("test").RenderBytes())
 	want := `<meter onanimationcancel="test"></meter>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -1037,7 +1037,7 @@ func TestOnAnimationCancelAttr(t *testing.T) {
 }
 
 func TestOnAnimationEndAttr(t *testing.T) {
-	got := string(meter.New().OnAnimationEnd("test").Render())
+	got := string(meter.New().OnAnimationEnd("test").RenderBytes())
 	want := `<meter onanimationend="test"></meter>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -1045,7 +1045,7 @@ func TestOnAnimationEndAttr(t *testing.T) {
 }
 
 func TestOnAnimationIterationAttr(t *testing.T) {
-	got := string(meter.New().OnAnimationIteration("test").Render())
+	got := string(meter.New().OnAnimationIteration("test").RenderBytes())
 	want := `<meter onanimationiteration="test"></meter>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -1053,7 +1053,7 @@ func TestOnAnimationIterationAttr(t *testing.T) {
 }
 
 func TestOnAnimationStartAttr(t *testing.T) {
-	got := string(meter.New().OnAnimationStart("test").Render())
+	got := string(meter.New().OnAnimationStart("test").RenderBytes())
 	want := `<meter onanimationstart="test"></meter>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -1061,7 +1061,7 @@ func TestOnAnimationStartAttr(t *testing.T) {
 }
 
 func TestOnTransitionCancelAttr(t *testing.T) {
-	got := string(meter.New().OnTransitionCancel("test").Render())
+	got := string(meter.New().OnTransitionCancel("test").RenderBytes())
 	want := `<meter ontransitioncancel="test"></meter>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -1069,7 +1069,7 @@ func TestOnTransitionCancelAttr(t *testing.T) {
 }
 
 func TestOnTransitionEndAttr(t *testing.T) {
-	got := string(meter.New().OnTransitionEnd("test").Render())
+	got := string(meter.New().OnTransitionEnd("test").RenderBytes())
 	want := `<meter ontransitionend="test"></meter>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -1077,7 +1077,7 @@ func TestOnTransitionEndAttr(t *testing.T) {
 }
 
 func TestOnTransitionRunAttr(t *testing.T) {
-	got := string(meter.New().OnTransitionRun("test").Render())
+	got := string(meter.New().OnTransitionRun("test").RenderBytes())
 	want := `<meter ontransitionrun="test"></meter>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -1085,7 +1085,7 @@ func TestOnTransitionRunAttr(t *testing.T) {
 }
 
 func TestOnTransitionStartAttr(t *testing.T) {
-	got := string(meter.New().OnTransitionStart("test").Render())
+	got := string(meter.New().OnTransitionStart("test").RenderBytes())
 	want := `<meter ontransitionstart="test"></meter>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -1093,7 +1093,7 @@ func TestOnTransitionStartAttr(t *testing.T) {
 }
 
 func TestOnBeforeToggleAttr(t *testing.T) {
-	got := string(meter.New().OnBeforeToggle("test").Render())
+	got := string(meter.New().OnBeforeToggle("test").RenderBytes())
 	want := `<meter onbeforetoggle="test"></meter>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -1101,7 +1101,7 @@ func TestOnBeforeToggleAttr(t *testing.T) {
 }
 
 func TestOnBeforeInputAttr(t *testing.T) {
-	got := string(meter.New().OnBeforeInput("test").Render())
+	got := string(meter.New().OnBeforeInput("test").RenderBytes())
 	want := `<meter onbeforeinput="test"></meter>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -1109,7 +1109,7 @@ func TestOnBeforeInputAttr(t *testing.T) {
 }
 
 func TestOnBeforeMatchAttr(t *testing.T) {
-	got := string(meter.New().OnBeforeMatch("test").Render())
+	got := string(meter.New().OnBeforeMatch("test").RenderBytes())
 	want := `<meter onbeforematch="test"></meter>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -1117,7 +1117,7 @@ func TestOnBeforeMatchAttr(t *testing.T) {
 }
 
 func TestOnCommandAttr(t *testing.T) {
-	got := string(meter.New().OnCommand("test").Render())
+	got := string(meter.New().OnCommand("test").RenderBytes())
 	want := `<meter oncommand="test"></meter>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -1125,7 +1125,7 @@ func TestOnCommandAttr(t *testing.T) {
 }
 
 func TestOnContextLostAttr(t *testing.T) {
-	got := string(meter.New().OnContextLost("test").Render())
+	got := string(meter.New().OnContextLost("test").RenderBytes())
 	want := `<meter oncontextlost="test"></meter>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -1133,7 +1133,7 @@ func TestOnContextLostAttr(t *testing.T) {
 }
 
 func TestOnContextRestoredAttr(t *testing.T) {
-	got := string(meter.New().OnContextRestored("test").Render())
+	got := string(meter.New().OnContextRestored("test").RenderBytes())
 	want := `<meter oncontextrestored="test"></meter>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -1141,7 +1141,7 @@ func TestOnContextRestoredAttr(t *testing.T) {
 }
 
 func TestOnSecurityPolicyViolationAttr(t *testing.T) {
-	got := string(meter.New().OnSecurityPolicyViolation("test").Render())
+	got := string(meter.New().OnSecurityPolicyViolation("test").RenderBytes())
 	want := `<meter onsecuritypolicyviolation="test"></meter>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -1149,7 +1149,7 @@ func TestOnSecurityPolicyViolationAttr(t *testing.T) {
 }
 
 func TestOnSlotChangeAttr(t *testing.T) {
-	got := string(meter.New().OnSlotChange("test").Render())
+	got := string(meter.New().OnSlotChange("test").RenderBytes())
 	want := `<meter onslotchange="test"></meter>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -1157,7 +1157,7 @@ func TestOnSlotChangeAttr(t *testing.T) {
 }
 
 func TestOnPointerDownAttr(t *testing.T) {
-	got := string(meter.New().OnPointerDown("test").Render())
+	got := string(meter.New().OnPointerDown("test").RenderBytes())
 	want := `<meter onpointerdown="test"></meter>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -1165,7 +1165,7 @@ func TestOnPointerDownAttr(t *testing.T) {
 }
 
 func TestOnPointerUpAttr(t *testing.T) {
-	got := string(meter.New().OnPointerUp("test").Render())
+	got := string(meter.New().OnPointerUp("test").RenderBytes())
 	want := `<meter onpointerup="test"></meter>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -1173,7 +1173,7 @@ func TestOnPointerUpAttr(t *testing.T) {
 }
 
 func TestOnPointerMoveAttr(t *testing.T) {
-	got := string(meter.New().OnPointerMove("test").Render())
+	got := string(meter.New().OnPointerMove("test").RenderBytes())
 	want := `<meter onpointermove="test"></meter>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -1181,7 +1181,7 @@ func TestOnPointerMoveAttr(t *testing.T) {
 }
 
 func TestOnPointerEnterAttr(t *testing.T) {
-	got := string(meter.New().OnPointerEnter("test").Render())
+	got := string(meter.New().OnPointerEnter("test").RenderBytes())
 	want := `<meter onpointerenter="test"></meter>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -1189,7 +1189,7 @@ func TestOnPointerEnterAttr(t *testing.T) {
 }
 
 func TestOnPointerLeaveAttr(t *testing.T) {
-	got := string(meter.New().OnPointerLeave("test").Render())
+	got := string(meter.New().OnPointerLeave("test").RenderBytes())
 	want := `<meter onpointerleave="test"></meter>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -1197,7 +1197,7 @@ func TestOnPointerLeaveAttr(t *testing.T) {
 }
 
 func TestOnPointerOverAttr(t *testing.T) {
-	got := string(meter.New().OnPointerOver("test").Render())
+	got := string(meter.New().OnPointerOver("test").RenderBytes())
 	want := `<meter onpointerover="test"></meter>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -1205,7 +1205,7 @@ func TestOnPointerOverAttr(t *testing.T) {
 }
 
 func TestOnPointerOutAttr(t *testing.T) {
-	got := string(meter.New().OnPointerOut("test").Render())
+	got := string(meter.New().OnPointerOut("test").RenderBytes())
 	want := `<meter onpointerout="test"></meter>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -1213,7 +1213,7 @@ func TestOnPointerOutAttr(t *testing.T) {
 }
 
 func TestOnPointerCancelAttr(t *testing.T) {
-	got := string(meter.New().OnPointerCancel("test").Render())
+	got := string(meter.New().OnPointerCancel("test").RenderBytes())
 	want := `<meter onpointercancel="test"></meter>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -1221,7 +1221,7 @@ func TestOnPointerCancelAttr(t *testing.T) {
 }
 
 func TestOnGotPointerCaptureAttr(t *testing.T) {
-	got := string(meter.New().OnGotPointerCapture("test").Render())
+	got := string(meter.New().OnGotPointerCapture("test").RenderBytes())
 	want := `<meter ongotpointercapture="test"></meter>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -1229,7 +1229,7 @@ func TestOnGotPointerCaptureAttr(t *testing.T) {
 }
 
 func TestOnLostPointerCaptureAttr(t *testing.T) {
-	got := string(meter.New().OnLostPointerCapture("test").Render())
+	got := string(meter.New().OnLostPointerCapture("test").RenderBytes())
 	want := `<meter onlostpointercapture="test"></meter>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -1237,7 +1237,7 @@ func TestOnLostPointerCaptureAttr(t *testing.T) {
 }
 
 func TestOnTouchStartAttr(t *testing.T) {
-	got := string(meter.New().OnTouchStart("test").Render())
+	got := string(meter.New().OnTouchStart("test").RenderBytes())
 	want := `<meter ontouchstart="test"></meter>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -1245,7 +1245,7 @@ func TestOnTouchStartAttr(t *testing.T) {
 }
 
 func TestOnTouchEndAttr(t *testing.T) {
-	got := string(meter.New().OnTouchEnd("test").Render())
+	got := string(meter.New().OnTouchEnd("test").RenderBytes())
 	want := `<meter ontouchend="test"></meter>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -1253,7 +1253,7 @@ func TestOnTouchEndAttr(t *testing.T) {
 }
 
 func TestOnTouchMoveAttr(t *testing.T) {
-	got := string(meter.New().OnTouchMove("test").Render())
+	got := string(meter.New().OnTouchMove("test").RenderBytes())
 	want := `<meter ontouchmove="test"></meter>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -1261,7 +1261,7 @@ func TestOnTouchMoveAttr(t *testing.T) {
 }
 
 func TestOnTouchCancelAttr(t *testing.T) {
-	got := string(meter.New().OnTouchCancel("test").Render())
+	got := string(meter.New().OnTouchCancel("test").RenderBytes())
 	want := `<meter ontouchcancel="test"></meter>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -1269,7 +1269,7 @@ func TestOnTouchCancelAttr(t *testing.T) {
 }
 
 func TestOnSelectStartAttr(t *testing.T) {
-	got := string(meter.New().OnSelectStart("test").Render())
+	got := string(meter.New().OnSelectStart("test").RenderBytes())
 	want := `<meter onselectstart="test"></meter>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -1277,7 +1277,7 @@ func TestOnSelectStartAttr(t *testing.T) {
 }
 
 func TestOnSelectionChangeAttr(t *testing.T) {
-	got := string(meter.New().OnSelectionChange("test").Render())
+	got := string(meter.New().OnSelectionChange("test").RenderBytes())
 	want := `<meter onselectionchange="test"></meter>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -1285,7 +1285,7 @@ func TestOnSelectionChangeAttr(t *testing.T) {
 }
 
 func TestNewMulti(t *testing.T) {
-	got := string(meter.New(meter.New(), meter.New()).Render())
+	got := string(meter.New(meter.New(), meter.New()).RenderBytes())
 	want := `<meter><meter></meter><meter></meter></meter>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -1296,7 +1296,7 @@ func TestAdd(t *testing.T) {
 	element := meter.New().Add(meter.New(), meter.New())
 
 	// Test rendered output
-	got := string(element.Render())
+	got := string(element.RenderBytes())
 	want := `<meter><meter></meter><meter></meter></meter>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -1321,7 +1321,7 @@ func TestReplace(t *testing.T) {
 	element.Replace(meter.New())
 
 	// Test rendered output
-	got := string(element.Render())
+	got := string(element.RenderBytes())
 	want := `<meter><meter></meter></meter>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -1334,7 +1334,7 @@ func TestReplace(t *testing.T) {
 }
 
 func TestTextMethod(t *testing.T) {
-	got := string(meter.New().Text("hello").Render())
+	got := string(meter.New().Text("hello").RenderBytes())
 	want := `<meter>hello</meter>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -1342,7 +1342,7 @@ func TestTextMethod(t *testing.T) {
 }
 
 func TestTextfMethod(t *testing.T) {
-	got := string(meter.New().Textf("hello %s", "world").Render())
+	got := string(meter.New().Textf("hello %s", "world").RenderBytes())
 	want := `<meter>hello world</meter>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -1350,7 +1350,7 @@ func TestTextfMethod(t *testing.T) {
 }
 
 func TestStaticMethod(t *testing.T) {
-	got := string(meter.New().Static("static content").Render())
+	got := string(meter.New().Static("static content").RenderBytes())
 	want := `<meter>static content</meter>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -1358,7 +1358,7 @@ func TestStaticMethod(t *testing.T) {
 }
 
 func TestRawTextMethod(t *testing.T) {
-	got := string(meter.New().RawText("<em>bold</em>").Render())
+	got := string(meter.New().RawText("<em>bold</em>").RenderBytes())
 	want := `<meter><em>bold</em></meter>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -1366,7 +1366,7 @@ func TestRawTextMethod(t *testing.T) {
 }
 
 func TestRawTextfMethod(t *testing.T) {
-	got := string(meter.New().RawTextf("<%s>test</%s>", "span", "span").Render())
+	got := string(meter.New().RawTextf("<%s>test</%s>", "span", "span").RenderBytes())
 	want := `<meter><span>test</span></meter>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -1374,7 +1374,7 @@ func TestRawTextfMethod(t *testing.T) {
 }
 
 func TestTextChaining(t *testing.T) {
-	got := string(meter.New().Class("foo").Text("content").ID("bar").Render())
+	got := string(meter.New().Class("foo").Text("content").ID("bar").RenderBytes())
 	want := `<meter class="foo" id="bar">content</meter>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -1382,7 +1382,7 @@ func TestTextChaining(t *testing.T) {
 }
 
 func TestDynamicKey(t *testing.T) {
-	got := string(meter.New().Dynamic("mykey").Render())
+	got := string(meter.New().Dynamic("mykey").RenderBytes())
 	want := `<meter data-tether-key="mykey"></meter>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -1397,7 +1397,7 @@ func TestDynamicNoKey(t *testing.T) {
 	if el.DynamicKey() != "_" {
 		t.Errorf("DynamicKey() should be \"_\", got %q", el.DynamicKey())
 	}
-	got := string(el.Render())
+	got := string(el.RenderBytes())
 	want := `<meter></meter>`
 	if got != want {
 		t.Errorf("Dynamic() without key should not render data-tether-key: got %q, want %q", got, want)

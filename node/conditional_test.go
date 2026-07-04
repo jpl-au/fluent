@@ -13,20 +13,21 @@ type stubNode struct {
 }
 
 func stub(content string) *stubNode { return &stubNode{content: content} }
-func (s *stubNode) Render(w ...io.Writer) []byte {
-	if len(w) > 0 && w[0] != nil {
-		w[0].Write([]byte(s.content))
-		return nil
-	}
-	return []byte(s.content)
+func (s *stubNode) Render(w io.Writer) {
+	_, _ = s.WriteTo(w)
 }
+func (s *stubNode) WriteTo(w io.Writer) (int64, error) {
+	n, err := w.Write([]byte(s.content))
+	return int64(n), err
+}
+func (s *stubNode) RenderBytes() []byte             { return []byte(s.content) }
 func (s *stubNode) RenderBuilder(buf *bytes.Buffer) { buf.WriteString(s.content) }
 func (s *stubNode) Nodes() []Node                   { return nil }
 
 // TestWhenTrueRendersChild verifies that When renders its child when the
 // condition is true.
 func TestWhenTrueRendersChild(t *testing.T) {
-	got := string(When(true, stub("visible")).Render())
+	got := string(When(true, stub("visible")).RenderBytes())
 	if got != "visible" {
 		t.Errorf("When(true) should render child, got %q", got)
 	}
@@ -35,7 +36,7 @@ func TestWhenTrueRendersChild(t *testing.T) {
 // TestWhenFalseRendersNothing verifies that When renders nothing when the
 // condition is false.
 func TestWhenFalseRendersNothing(t *testing.T) {
-	got := string(When(false, stub("hidden")).Render())
+	got := string(When(false, stub("hidden")).RenderBytes())
 	if got != "" {
 		t.Errorf("When(false) should render nothing, got %q", got)
 	}
@@ -44,7 +45,7 @@ func TestWhenFalseRendersNothing(t *testing.T) {
 // TestUnlessFalseRendersChild verifies that Unless renders its child when
 // the condition is false.
 func TestUnlessFalseRendersChild(t *testing.T) {
-	got := string(Unless(false, stub("visible")).Render())
+	got := string(Unless(false, stub("visible")).RenderBytes())
 	if got != "visible" {
 		t.Errorf("Unless(false) should render child, got %q", got)
 	}
@@ -53,7 +54,7 @@ func TestUnlessFalseRendersChild(t *testing.T) {
 // TestUnlessTrueRendersNothing verifies that Unless renders nothing when
 // the condition is true.
 func TestUnlessTrueRendersNothing(t *testing.T) {
-	got := string(Unless(true, stub("hidden")).Render())
+	got := string(Unless(true, stub("hidden")).RenderBytes())
 	if got != "" {
 		t.Errorf("Unless(true) should render nothing, got %q", got)
 	}
@@ -65,7 +66,7 @@ func TestConditionTrueBranch(t *testing.T) {
 	got := string(Condition(true).
 		True(stub("yes")).
 		False(stub("no")).
-		Render())
+		RenderBytes())
 	if got != "yes" {
 		t.Errorf("Condition(true) should render true branch, got %q", got)
 	}
@@ -77,7 +78,7 @@ func TestConditionFalseBranch(t *testing.T) {
 	got := string(Condition(false).
 		True(stub("yes")).
 		False(stub("no")).
-		Render())
+		RenderBytes())
 	if got != "no" {
 		t.Errorf("Condition(false) should render false branch, got %q", got)
 	}
@@ -94,24 +95,33 @@ func TestConditionRenderBuilder(t *testing.T) {
 	}
 }
 
-// TestConditionRenderToWriter verifies that Render writes to a provided
-// writer and returns nil.
+// TestConditionRenderToWriter verifies that WriteTo and Render write to a
+// provided writer.
 func TestConditionRenderToWriter(t *testing.T) {
 	c := When(true, stub("hello"))
 	var buf bytes.Buffer
-	result := c.Render(&buf)
-	if result != nil {
-		t.Error("Render(writer) should return nil")
+	n, err := c.WriteTo(&buf)
+	if err != nil {
+		t.Fatalf("WriteTo returned error: %v", err)
+	}
+	if n != int64(buf.Len()) {
+		t.Errorf("WriteTo reported %d bytes but wrote %d", n, buf.Len())
 	}
 	if buf.String() != "hello" {
-		t.Errorf("Render(writer) should write %q, got %q", "hello", buf.String())
+		t.Errorf("WriteTo should write %q, got %q", "hello", buf.String())
+	}
+
+	buf.Reset()
+	c.Render(&buf)
+	if buf.String() != "hello" {
+		t.Errorf("Render should write %q, got %q", "hello", buf.String())
 	}
 }
 
 // TestConditionNilTrueNode verifies that a nil true branch renders nothing
 // rather than panicking.
 func TestConditionNilTrueNode(t *testing.T) {
-	got := string(Condition(true).True(nil).Render())
+	got := string(Condition(true).True(nil).RenderBytes())
 	if got != "" {
 		t.Errorf("nil true node should render nothing, got %q", got)
 	}
@@ -120,7 +130,7 @@ func TestConditionNilTrueNode(t *testing.T) {
 // TestConditionNilFalseNode verifies that a nil false branch renders nothing
 // rather than panicking.
 func TestConditionNilFalseNode(t *testing.T) {
-	got := string(Condition(false).False(nil).Render())
+	got := string(Condition(false).False(nil).RenderBytes())
 	if got != "" {
 		t.Errorf("nil false node should render nothing, got %q", got)
 	}
@@ -138,8 +148,8 @@ func TestConditionNodesReturnsActiveBranch(t *testing.T) {
 	if len(nodes) != 1 {
 		t.Fatalf("Nodes() with condition=true should return 1 node, got %d", len(nodes))
 	}
-	if string(nodes[0].Render()) != "yes" {
-		t.Errorf("Nodes() with condition=true should return the true branch, got %q", string(nodes[0].Render()))
+	if string(nodes[0].RenderBytes()) != "yes" {
+		t.Errorf("Nodes() with condition=true should return the true branch, got %q", string(nodes[0].RenderBytes()))
 	}
 
 	c = Condition(false).True(trueNode).False(falseNode)
@@ -147,8 +157,8 @@ func TestConditionNodesReturnsActiveBranch(t *testing.T) {
 	if len(nodes) != 1 {
 		t.Fatalf("Nodes() with condition=false should return 1 node, got %d", len(nodes))
 	}
-	if string(nodes[0].Render()) != "no" {
-		t.Errorf("Nodes() with condition=false should return the false branch, got %q", string(nodes[0].Render()))
+	if string(nodes[0].RenderBytes()) != "no" {
+		t.Errorf("Nodes() with condition=false should return the false branch, got %q", string(nodes[0].RenderBytes()))
 	}
 }
 

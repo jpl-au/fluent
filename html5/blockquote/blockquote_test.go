@@ -22,14 +22,14 @@ import (
 
 func TestNewCtor(t *testing.T) {
 	// Test empty element
-	got := string(blockquote.New().Render())
+	got := string(blockquote.New().RenderBytes())
 	want := `<blockquote></blockquote>`
 	if got != want {
 		t.Errorf("empty: got %q, want %q", got, want)
 	}
 
 	// Test nested element
-	got = string(blockquote.New(blockquote.New()).Render())
+	got = string(blockquote.New(blockquote.New()).RenderBytes())
 	want = `<blockquote><blockquote></blockquote></blockquote>`
 	if got != want {
 		t.Errorf("nested: got %q, want %q", got, want)
@@ -37,7 +37,7 @@ func TestNewCtor(t *testing.T) {
 }
 
 func TestNewCiteCtor(t *testing.T) {
-	got := string(blockquote.NewCite("https://example.com/source").Render())
+	got := string(blockquote.NewCite("https://example.com/source").RenderBytes())
 	want := `<blockquote cite="https://example.com/source"></blockquote>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -45,7 +45,7 @@ func TestNewCiteCtor(t *testing.T) {
 }
 
 func TestTextCtor(t *testing.T) {
-	got := string(blockquote.Text("To be or not to be.").Render())
+	got := string(blockquote.Text("To be or not to be.").RenderBytes())
 	want := `<blockquote>To be or not to be.</blockquote>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -54,7 +54,7 @@ func TestTextCtor(t *testing.T) {
 
 func TestTextfCtor(t *testing.T) {
 	name := "Mary"
-	got := string(blockquote.Textf("%s once said...", name).Render())
+	got := string(blockquote.Textf("%s once said...", name).RenderBytes())
 	want := `<blockquote>Mary once said...</blockquote>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -62,7 +62,7 @@ func TestTextfCtor(t *testing.T) {
 }
 
 func TestTextCiteCtor(t *testing.T) {
-	got := string(blockquote.TextCite("https://example.com/source", "Quoted text.").Render())
+	got := string(blockquote.TextCite("https://example.com/source", "Quoted text.").RenderBytes())
 	want := `<blockquote cite="https://example.com/source">Quoted text.</blockquote>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -70,7 +70,7 @@ func TestTextCiteCtor(t *testing.T) {
 }
 
 func TestStaticCtor(t *testing.T) {
-	got := string(blockquote.Static("Quoted text.").Render())
+	got := string(blockquote.Static("Quoted text.").RenderBytes())
 	want := `<blockquote>Quoted text.</blockquote>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -78,7 +78,7 @@ func TestStaticCtor(t *testing.T) {
 }
 
 func TestRawTextCtor(t *testing.T) {
-	got := string(blockquote.RawText("<p>Quoted text.</p>").Render())
+	got := string(blockquote.RawText("<p>Quoted text.</p>").RenderBytes())
 	want := `<blockquote><p>Quoted text.</p></blockquote>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -87,7 +87,7 @@ func TestRawTextCtor(t *testing.T) {
 
 func TestRawTextfCtor(t *testing.T) {
 	quote := "To be or not to be."
-	got := string(blockquote.RawTextf("<p>%s</p>", quote).Render())
+	got := string(blockquote.RawTextf("<p>%s</p>", quote).RenderBytes())
 	want := `<blockquote><p>To be or not to be.</p></blockquote>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -95,7 +95,7 @@ func TestRawTextfCtor(t *testing.T) {
 }
 
 func TestRawTextCiteCtor(t *testing.T) {
-	got := string(blockquote.RawTextCite("https://example.com/source", "<p>Quoted text.</p>").Render())
+	got := string(blockquote.RawTextCite("https://example.com/source", "<p>Quoted text.</p>").RenderBytes())
 	want := `<blockquote cite="https://example.com/source"><p>Quoted text.</p></blockquote>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -103,7 +103,7 @@ func TestRawTextCiteCtor(t *testing.T) {
 }
 
 func TestCiteAttr(t *testing.T) {
-	got := string(blockquote.New().Cite("test").Render())
+	got := string(blockquote.New().Cite("test").RenderBytes())
 	want := `<blockquote cite="test"></blockquote>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -111,7 +111,7 @@ func TestCiteAttr(t *testing.T) {
 }
 
 func TestClassAttr(t *testing.T) {
-	got := string(blockquote.New().Class("test").Render())
+	got := string(blockquote.New().Class("test").RenderBytes())
 	want := `<blockquote class="test"></blockquote>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -120,7 +120,7 @@ func TestClassAttr(t *testing.T) {
 
 func TestClassMulti(t *testing.T) {
 	// Test multiple chained calls
-	got := string(blockquote.New().Class("one").Class("two").Class("three").Render())
+	got := string(blockquote.New().Class("one").Class("two").Class("three").RenderBytes())
 	want := `<blockquote class="one two three"></blockquote>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -128,7 +128,7 @@ func TestClassMulti(t *testing.T) {
 }
 
 func TestIDAttr(t *testing.T) {
-	got := string(blockquote.New().ID("test").Render())
+	got := string(blockquote.New().ID("test").RenderBytes())
 	want := `<blockquote id="test"></blockquote>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -136,7 +136,7 @@ func TestIDAttr(t *testing.T) {
 }
 
 func TestStyleAttr(t *testing.T) {
-	got := string(blockquote.New().Style("test").Render())
+	got := string(blockquote.New().Style("test").RenderBytes())
 	want := `<blockquote style="test"></blockquote>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -145,7 +145,7 @@ func TestStyleAttr(t *testing.T) {
 
 func TestStyleMulti(t *testing.T) {
 	// Test multiple chained calls
-	got := string(blockquote.New().Style("one").Style("two").Style("three").Render())
+	got := string(blockquote.New().Style("one").Style("two").Style("three").RenderBytes())
 	want := `<blockquote style="one; two; three"></blockquote>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -153,7 +153,7 @@ func TestStyleMulti(t *testing.T) {
 }
 
 func TestTitleAttr(t *testing.T) {
-	got := string(blockquote.New().Title("test").Render())
+	got := string(blockquote.New().Title("test").RenderBytes())
 	want := `<blockquote title="test"></blockquote>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -161,7 +161,7 @@ func TestTitleAttr(t *testing.T) {
 }
 
 func TestHiddenAttr(t *testing.T) {
-	got := string(blockquote.New().Hidden(hidden.True).Render())
+	got := string(blockquote.New().Hidden(hidden.True).RenderBytes())
 	want := `<blockquote hidden="true"></blockquote>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -169,7 +169,7 @@ func TestHiddenAttr(t *testing.T) {
 }
 
 func TestTabIndexAttr(t *testing.T) {
-	got := string(blockquote.New().TabIndex(42).Render())
+	got := string(blockquote.New().TabIndex(42).RenderBytes())
 	want := `<blockquote tabindex="42"></blockquote>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -177,7 +177,7 @@ func TestTabIndexAttr(t *testing.T) {
 }
 
 func TestRoleAttr(t *testing.T) {
-	got := string(blockquote.New().Role("test").Render())
+	got := string(blockquote.New().Role("test").RenderBytes())
 	want := `<blockquote role="test"></blockquote>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -185,7 +185,7 @@ func TestRoleAttr(t *testing.T) {
 }
 
 func TestLangAttr(t *testing.T) {
-	got := string(blockquote.New().Lang("test").Render())
+	got := string(blockquote.New().Lang("test").RenderBytes())
 	want := `<blockquote lang="test"></blockquote>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -193,7 +193,7 @@ func TestLangAttr(t *testing.T) {
 }
 
 func TestAccessKeyAttr(t *testing.T) {
-	got := string(blockquote.New().AccessKey("test").Render())
+	got := string(blockquote.New().AccessKey("test").RenderBytes())
 	want := `<blockquote accesskey="test"></blockquote>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -202,7 +202,7 @@ func TestAccessKeyAttr(t *testing.T) {
 
 func TestAccessKeyMulti(t *testing.T) {
 	// Test multiple chained calls
-	got := string(blockquote.New().AccessKey("one").AccessKey("two").AccessKey("three").Render())
+	got := string(blockquote.New().AccessKey("one").AccessKey("two").AccessKey("three").RenderBytes())
 	want := `<blockquote accesskey="one two three"></blockquote>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -210,7 +210,7 @@ func TestAccessKeyMulti(t *testing.T) {
 }
 
 func TestAnchorAttr(t *testing.T) {
-	got := string(blockquote.New().Anchor("test").Render())
+	got := string(blockquote.New().Anchor("test").RenderBytes())
 	want := `<blockquote anchor="test"></blockquote>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -218,7 +218,7 @@ func TestAnchorAttr(t *testing.T) {
 }
 
 func TestAriaLabelAttr(t *testing.T) {
-	got := string(blockquote.New().AriaLabel("test").Render())
+	got := string(blockquote.New().AriaLabel("test").RenderBytes())
 	want := `<blockquote aria-label="test"></blockquote>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -226,7 +226,7 @@ func TestAriaLabelAttr(t *testing.T) {
 }
 
 func TestSetAriaAttr(t *testing.T) {
-	got := string(blockquote.New().SetAria("label", "test-value").Render())
+	got := string(blockquote.New().SetAria("label", "test-value").RenderBytes())
 	want := `<blockquote aria-label="test-value"></blockquote>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -234,7 +234,7 @@ func TestSetAriaAttr(t *testing.T) {
 }
 
 func TestAutoCapitalizeAttr(t *testing.T) {
-	got := string(blockquote.New().AutoCapitalize(autocapitalize.Off).Render())
+	got := string(blockquote.New().AutoCapitalize(autocapitalize.Off).RenderBytes())
 	want := `<blockquote autocapitalize="off"></blockquote>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -242,7 +242,7 @@ func TestAutoCapitalizeAttr(t *testing.T) {
 }
 
 func TestAutoCorrectAttr(t *testing.T) {
-	got := string(blockquote.New().AutoCorrect(autocorrect.On).Render())
+	got := string(blockquote.New().AutoCorrect(autocorrect.On).RenderBytes())
 	want := `<blockquote autocorrect="on"></blockquote>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -250,7 +250,7 @@ func TestAutoCorrectAttr(t *testing.T) {
 }
 
 func TestAutoFocusAttr(t *testing.T) {
-	got := string(blockquote.New().AutoFocus().Render())
+	got := string(blockquote.New().AutoFocus().RenderBytes())
 	want := `<blockquote autofocus></blockquote>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -258,7 +258,7 @@ func TestAutoFocusAttr(t *testing.T) {
 }
 
 func TestContentEditableAttr(t *testing.T) {
-	got := string(blockquote.New().ContentEditable(contenteditable.True).Render())
+	got := string(blockquote.New().ContentEditable(contenteditable.True).RenderBytes())
 	want := `<blockquote contenteditable="true"></blockquote>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -266,7 +266,7 @@ func TestContentEditableAttr(t *testing.T) {
 }
 
 func TestSetDataAttr(t *testing.T) {
-	got := string(blockquote.New().SetData("user-id", "test-value").Render())
+	got := string(blockquote.New().SetData("user-id", "test-value").RenderBytes())
 	want := `<blockquote data-user-id="test-value"></blockquote>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -274,7 +274,7 @@ func TestSetDataAttr(t *testing.T) {
 }
 
 func TestDirAttr(t *testing.T) {
-	got := string(blockquote.New().Dir(dir.LeftToRight).Render())
+	got := string(blockquote.New().Dir(dir.LeftToRight).RenderBytes())
 	want := `<blockquote dir="ltr"></blockquote>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -282,7 +282,7 @@ func TestDirAttr(t *testing.T) {
 }
 
 func TestDraggableAttr(t *testing.T) {
-	got := string(blockquote.New().Draggable().Render())
+	got := string(blockquote.New().Draggable().RenderBytes())
 	want := `<blockquote draggable></blockquote>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -290,7 +290,7 @@ func TestDraggableAttr(t *testing.T) {
 }
 
 func TestEnterKeyHintAttr(t *testing.T) {
-	got := string(blockquote.New().EnterKeyHint(enterkeyhint.Enter).Render())
+	got := string(blockquote.New().EnterKeyHint(enterkeyhint.Enter).RenderBytes())
 	want := `<blockquote enterkeyhint="enter"></blockquote>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -298,7 +298,7 @@ func TestEnterKeyHintAttr(t *testing.T) {
 }
 
 func TestExportPartsAttr(t *testing.T) {
-	got := string(blockquote.New().ExportParts("test").Render())
+	got := string(blockquote.New().ExportParts("test").RenderBytes())
 	want := `<blockquote exportparts="test"></blockquote>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -306,7 +306,7 @@ func TestExportPartsAttr(t *testing.T) {
 }
 
 func TestInertAttr(t *testing.T) {
-	got := string(blockquote.New().Inert().Render())
+	got := string(blockquote.New().Inert().RenderBytes())
 	want := `<blockquote inert></blockquote>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -314,7 +314,7 @@ func TestInertAttr(t *testing.T) {
 }
 
 func TestInputModeAttr(t *testing.T) {
-	got := string(blockquote.New().InputMode(inputmode.None).Render())
+	got := string(blockquote.New().InputMode(inputmode.None).RenderBytes())
 	want := `<blockquote inputmode="none"></blockquote>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -322,7 +322,7 @@ func TestInputModeAttr(t *testing.T) {
 }
 
 func TestIsAttr(t *testing.T) {
-	got := string(blockquote.New().Is("test").Render())
+	got := string(blockquote.New().Is("test").RenderBytes())
 	want := `<blockquote is="test"></blockquote>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -330,7 +330,7 @@ func TestIsAttr(t *testing.T) {
 }
 
 func TestItemIdAttr(t *testing.T) {
-	got := string(blockquote.New().ItemId("test").Render())
+	got := string(blockquote.New().ItemId("test").RenderBytes())
 	want := `<blockquote itemid="test"></blockquote>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -338,7 +338,7 @@ func TestItemIdAttr(t *testing.T) {
 }
 
 func TestItemPropAttr(t *testing.T) {
-	got := string(blockquote.New().ItemProp("test").Render())
+	got := string(blockquote.New().ItemProp("test").RenderBytes())
 	want := `<blockquote itemprop="test"></blockquote>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -346,7 +346,7 @@ func TestItemPropAttr(t *testing.T) {
 }
 
 func TestItemRefAttr(t *testing.T) {
-	got := string(blockquote.New().ItemRef("test").Render())
+	got := string(blockquote.New().ItemRef("test").RenderBytes())
 	want := `<blockquote itemref="test"></blockquote>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -354,7 +354,7 @@ func TestItemRefAttr(t *testing.T) {
 }
 
 func TestItemScopeAttr(t *testing.T) {
-	got := string(blockquote.New().ItemScope().Render())
+	got := string(blockquote.New().ItemScope().RenderBytes())
 	want := `<blockquote itemscope></blockquote>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -362,7 +362,7 @@ func TestItemScopeAttr(t *testing.T) {
 }
 
 func TestItemTypeAttr(t *testing.T) {
-	got := string(blockquote.New().ItemType("test").Render())
+	got := string(blockquote.New().ItemType("test").RenderBytes())
 	want := `<blockquote itemtype="test"></blockquote>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -370,7 +370,7 @@ func TestItemTypeAttr(t *testing.T) {
 }
 
 func TestNonceAttr(t *testing.T) {
-	got := string(blockquote.New().Nonce("test").Render())
+	got := string(blockquote.New().Nonce("test").RenderBytes())
 	want := `<blockquote nonce="test"></blockquote>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -378,7 +378,7 @@ func TestNonceAttr(t *testing.T) {
 }
 
 func TestPartAttr(t *testing.T) {
-	got := string(blockquote.New().Part("test").Render())
+	got := string(blockquote.New().Part("test").RenderBytes())
 	want := `<blockquote part="test"></blockquote>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -387,7 +387,7 @@ func TestPartAttr(t *testing.T) {
 
 func TestPartMulti(t *testing.T) {
 	// Test multiple chained calls
-	got := string(blockquote.New().Part("one").Part("two").Part("three").Render())
+	got := string(blockquote.New().Part("one").Part("two").Part("three").RenderBytes())
 	want := `<blockquote part="one two three"></blockquote>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -395,7 +395,7 @@ func TestPartMulti(t *testing.T) {
 }
 
 func TestPopoverAttr(t *testing.T) {
-	got := string(blockquote.New().Popover(popover.Auto).Render())
+	got := string(blockquote.New().Popover(popover.Auto).RenderBytes())
 	want := `<blockquote popover="auto"></blockquote>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -403,7 +403,7 @@ func TestPopoverAttr(t *testing.T) {
 }
 
 func TestSlotAttr(t *testing.T) {
-	got := string(blockquote.New().Slot("test").Render())
+	got := string(blockquote.New().Slot("test").RenderBytes())
 	want := `<blockquote slot="test"></blockquote>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -411,7 +411,7 @@ func TestSlotAttr(t *testing.T) {
 }
 
 func TestSpellCheckAttr(t *testing.T) {
-	got := string(blockquote.New().SpellCheck(spellcheck.True).Render())
+	got := string(blockquote.New().SpellCheck(spellcheck.True).RenderBytes())
 	want := `<blockquote spellcheck="true"></blockquote>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -419,7 +419,7 @@ func TestSpellCheckAttr(t *testing.T) {
 }
 
 func TestTranslateAttr(t *testing.T) {
-	got := string(blockquote.New().Translate(translate.Yes).Render())
+	got := string(blockquote.New().Translate(translate.Yes).RenderBytes())
 	want := `<blockquote translate="yes"></blockquote>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -427,7 +427,7 @@ func TestTranslateAttr(t *testing.T) {
 }
 
 func TestVirtualKeyboardPolicyAttr(t *testing.T) {
-	got := string(blockquote.New().VirtualKeyboardPolicy(virtualkeyboardpolicy.Auto).Render())
+	got := string(blockquote.New().VirtualKeyboardPolicy(virtualkeyboardpolicy.Auto).RenderBytes())
 	want := `<blockquote virtualkeyboardpolicy="auto"></blockquote>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -435,7 +435,7 @@ func TestVirtualKeyboardPolicyAttr(t *testing.T) {
 }
 
 func TestWritingSuggestionsAttr(t *testing.T) {
-	got := string(blockquote.New().WritingSuggestions(writingsuggestions.True).Render())
+	got := string(blockquote.New().WritingSuggestions(writingsuggestions.True).RenderBytes())
 	want := `<blockquote writingsuggestions="true"></blockquote>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -443,7 +443,7 @@ func TestWritingSuggestionsAttr(t *testing.T) {
 }
 
 func TestOnClickAttr(t *testing.T) {
-	got := string(blockquote.New().OnClick("test").Render())
+	got := string(blockquote.New().OnClick("test").RenderBytes())
 	want := `<blockquote onclick="test"></blockquote>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -451,7 +451,7 @@ func TestOnClickAttr(t *testing.T) {
 }
 
 func TestOnChangeAttr(t *testing.T) {
-	got := string(blockquote.New().OnChange("test").Render())
+	got := string(blockquote.New().OnChange("test").RenderBytes())
 	want := `<blockquote onchange="test"></blockquote>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -459,7 +459,7 @@ func TestOnChangeAttr(t *testing.T) {
 }
 
 func TestOnInputAttr(t *testing.T) {
-	got := string(blockquote.New().OnInput("test").Render())
+	got := string(blockquote.New().OnInput("test").RenderBytes())
 	want := `<blockquote oninput="test"></blockquote>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -467,7 +467,7 @@ func TestOnInputAttr(t *testing.T) {
 }
 
 func TestOnFocusAttr(t *testing.T) {
-	got := string(blockquote.New().OnFocus("test").Render())
+	got := string(blockquote.New().OnFocus("test").RenderBytes())
 	want := `<blockquote onfocus="test"></blockquote>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -475,7 +475,7 @@ func TestOnFocusAttr(t *testing.T) {
 }
 
 func TestOnBlurAttr(t *testing.T) {
-	got := string(blockquote.New().OnBlur("test").Render())
+	got := string(blockquote.New().OnBlur("test").RenderBytes())
 	want := `<blockquote onblur="test"></blockquote>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -483,7 +483,7 @@ func TestOnBlurAttr(t *testing.T) {
 }
 
 func TestOnSubmitAttr(t *testing.T) {
-	got := string(blockquote.New().OnSubmit("test").Render())
+	got := string(blockquote.New().OnSubmit("test").RenderBytes())
 	want := `<blockquote onsubmit="test"></blockquote>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -491,7 +491,7 @@ func TestOnSubmitAttr(t *testing.T) {
 }
 
 func TestOnLoadAttr(t *testing.T) {
-	got := string(blockquote.New().OnLoad("test").Render())
+	got := string(blockquote.New().OnLoad("test").RenderBytes())
 	want := `<blockquote onload="test"></blockquote>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -499,7 +499,7 @@ func TestOnLoadAttr(t *testing.T) {
 }
 
 func TestOnErrorAttr(t *testing.T) {
-	got := string(blockquote.New().OnError("test").Render())
+	got := string(blockquote.New().OnError("test").RenderBytes())
 	want := `<blockquote onerror="test"></blockquote>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -507,7 +507,7 @@ func TestOnErrorAttr(t *testing.T) {
 }
 
 func TestSetEventAttr(t *testing.T) {
-	got := string(blockquote.New().SetEvent("onclick", "test-value").Render())
+	got := string(blockquote.New().SetEvent("onclick", "test-value").RenderBytes())
 	want := `<blockquote onclick="test-value"></blockquote>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -515,7 +515,7 @@ func TestSetEventAttr(t *testing.T) {
 }
 
 func TestOnAbortAttr(t *testing.T) {
-	got := string(blockquote.New().OnAbort("test").Render())
+	got := string(blockquote.New().OnAbort("test").RenderBytes())
 	want := `<blockquote onabort="test"></blockquote>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -523,7 +523,7 @@ func TestOnAbortAttr(t *testing.T) {
 }
 
 func TestOnAutoCompleteAttr(t *testing.T) {
-	got := string(blockquote.New().OnAutoComplete("test").Render())
+	got := string(blockquote.New().OnAutoComplete("test").RenderBytes())
 	want := `<blockquote onautocomplete="test"></blockquote>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -531,7 +531,7 @@ func TestOnAutoCompleteAttr(t *testing.T) {
 }
 
 func TestOnAutoCompleteErrorAttr(t *testing.T) {
-	got := string(blockquote.New().OnAutoCompleteError("test").Render())
+	got := string(blockquote.New().OnAutoCompleteError("test").RenderBytes())
 	want := `<blockquote onautocompleteerror="test"></blockquote>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -539,7 +539,7 @@ func TestOnAutoCompleteErrorAttr(t *testing.T) {
 }
 
 func TestOnCancelAttr(t *testing.T) {
-	got := string(blockquote.New().OnCancel("test").Render())
+	got := string(blockquote.New().OnCancel("test").RenderBytes())
 	want := `<blockquote oncancel="test"></blockquote>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -547,7 +547,7 @@ func TestOnCancelAttr(t *testing.T) {
 }
 
 func TestOnCanPlayAttr(t *testing.T) {
-	got := string(blockquote.New().OnCanPlay("test").Render())
+	got := string(blockquote.New().OnCanPlay("test").RenderBytes())
 	want := `<blockquote oncanplay="test"></blockquote>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -555,7 +555,7 @@ func TestOnCanPlayAttr(t *testing.T) {
 }
 
 func TestOnCanPlayThroughAttr(t *testing.T) {
-	got := string(blockquote.New().OnCanPlayThrough("test").Render())
+	got := string(blockquote.New().OnCanPlayThrough("test").RenderBytes())
 	want := `<blockquote oncanplaythrough="test"></blockquote>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -563,7 +563,7 @@ func TestOnCanPlayThroughAttr(t *testing.T) {
 }
 
 func TestOnCloseAttr(t *testing.T) {
-	got := string(blockquote.New().OnClose("test").Render())
+	got := string(blockquote.New().OnClose("test").RenderBytes())
 	want := `<blockquote onclose="test"></blockquote>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -571,7 +571,7 @@ func TestOnCloseAttr(t *testing.T) {
 }
 
 func TestOnContextMenuAttr(t *testing.T) {
-	got := string(blockquote.New().OnContextMenu("test").Render())
+	got := string(blockquote.New().OnContextMenu("test").RenderBytes())
 	want := `<blockquote oncontextmenu="test"></blockquote>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -579,7 +579,7 @@ func TestOnContextMenuAttr(t *testing.T) {
 }
 
 func TestOnCueChangeAttr(t *testing.T) {
-	got := string(blockquote.New().OnCueChange("test").Render())
+	got := string(blockquote.New().OnCueChange("test").RenderBytes())
 	want := `<blockquote oncuechange="test"></blockquote>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -587,7 +587,7 @@ func TestOnCueChangeAttr(t *testing.T) {
 }
 
 func TestOnDblClickAttr(t *testing.T) {
-	got := string(blockquote.New().OnDblClick("test").Render())
+	got := string(blockquote.New().OnDblClick("test").RenderBytes())
 	want := `<blockquote ondblclick="test"></blockquote>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -595,7 +595,7 @@ func TestOnDblClickAttr(t *testing.T) {
 }
 
 func TestOnDragAttr(t *testing.T) {
-	got := string(blockquote.New().OnDrag("test").Render())
+	got := string(blockquote.New().OnDrag("test").RenderBytes())
 	want := `<blockquote ondrag="test"></blockquote>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -603,7 +603,7 @@ func TestOnDragAttr(t *testing.T) {
 }
 
 func TestOnDragEndAttr(t *testing.T) {
-	got := string(blockquote.New().OnDragEnd("test").Render())
+	got := string(blockquote.New().OnDragEnd("test").RenderBytes())
 	want := `<blockquote ondragend="test"></blockquote>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -611,7 +611,7 @@ func TestOnDragEndAttr(t *testing.T) {
 }
 
 func TestOnDragEnterAttr(t *testing.T) {
-	got := string(blockquote.New().OnDragEnter("test").Render())
+	got := string(blockquote.New().OnDragEnter("test").RenderBytes())
 	want := `<blockquote ondragenter="test"></blockquote>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -619,7 +619,7 @@ func TestOnDragEnterAttr(t *testing.T) {
 }
 
 func TestOnDragLeaveAttr(t *testing.T) {
-	got := string(blockquote.New().OnDragLeave("test").Render())
+	got := string(blockquote.New().OnDragLeave("test").RenderBytes())
 	want := `<blockquote ondragleave="test"></blockquote>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -627,7 +627,7 @@ func TestOnDragLeaveAttr(t *testing.T) {
 }
 
 func TestOnDragOverAttr(t *testing.T) {
-	got := string(blockquote.New().OnDragOver("test").Render())
+	got := string(blockquote.New().OnDragOver("test").RenderBytes())
 	want := `<blockquote ondragover="test"></blockquote>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -635,7 +635,7 @@ func TestOnDragOverAttr(t *testing.T) {
 }
 
 func TestOnDragStartAttr(t *testing.T) {
-	got := string(blockquote.New().OnDragStart("test").Render())
+	got := string(blockquote.New().OnDragStart("test").RenderBytes())
 	want := `<blockquote ondragstart="test"></blockquote>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -643,7 +643,7 @@ func TestOnDragStartAttr(t *testing.T) {
 }
 
 func TestOnDropAttr(t *testing.T) {
-	got := string(blockquote.New().OnDrop("test").Render())
+	got := string(blockquote.New().OnDrop("test").RenderBytes())
 	want := `<blockquote ondrop="test"></blockquote>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -651,7 +651,7 @@ func TestOnDropAttr(t *testing.T) {
 }
 
 func TestOnDurationChangeAttr(t *testing.T) {
-	got := string(blockquote.New().OnDurationChange("test").Render())
+	got := string(blockquote.New().OnDurationChange("test").RenderBytes())
 	want := `<blockquote ondurationchange="test"></blockquote>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -659,7 +659,7 @@ func TestOnDurationChangeAttr(t *testing.T) {
 }
 
 func TestOnEmptiedAttr(t *testing.T) {
-	got := string(blockquote.New().OnEmptied("test").Render())
+	got := string(blockquote.New().OnEmptied("test").RenderBytes())
 	want := `<blockquote onemptied="test"></blockquote>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -667,7 +667,7 @@ func TestOnEmptiedAttr(t *testing.T) {
 }
 
 func TestOnEndedAttr(t *testing.T) {
-	got := string(blockquote.New().OnEnded("test").Render())
+	got := string(blockquote.New().OnEnded("test").RenderBytes())
 	want := `<blockquote onended="test"></blockquote>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -675,7 +675,7 @@ func TestOnEndedAttr(t *testing.T) {
 }
 
 func TestOnInvalidAttr(t *testing.T) {
-	got := string(blockquote.New().OnInvalid("test").Render())
+	got := string(blockquote.New().OnInvalid("test").RenderBytes())
 	want := `<blockquote oninvalid="test"></blockquote>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -683,7 +683,7 @@ func TestOnInvalidAttr(t *testing.T) {
 }
 
 func TestOnKeyDownAttr(t *testing.T) {
-	got := string(blockquote.New().OnKeyDown("test").Render())
+	got := string(blockquote.New().OnKeyDown("test").RenderBytes())
 	want := `<blockquote onkeydown="test"></blockquote>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -691,7 +691,7 @@ func TestOnKeyDownAttr(t *testing.T) {
 }
 
 func TestOnKeyPressAttr(t *testing.T) {
-	got := string(blockquote.New().OnKeyPress("test").Render())
+	got := string(blockquote.New().OnKeyPress("test").RenderBytes())
 	want := `<blockquote onkeypress="test"></blockquote>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -699,7 +699,7 @@ func TestOnKeyPressAttr(t *testing.T) {
 }
 
 func TestOnKeyUpAttr(t *testing.T) {
-	got := string(blockquote.New().OnKeyUp("test").Render())
+	got := string(blockquote.New().OnKeyUp("test").RenderBytes())
 	want := `<blockquote onkeyup="test"></blockquote>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -707,7 +707,7 @@ func TestOnKeyUpAttr(t *testing.T) {
 }
 
 func TestOnLoadedDataAttr(t *testing.T) {
-	got := string(blockquote.New().OnLoadedData("test").Render())
+	got := string(blockquote.New().OnLoadedData("test").RenderBytes())
 	want := `<blockquote onloadeddata="test"></blockquote>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -715,7 +715,7 @@ func TestOnLoadedDataAttr(t *testing.T) {
 }
 
 func TestOnLoadedMetadataAttr(t *testing.T) {
-	got := string(blockquote.New().OnLoadedMetadata("test").Render())
+	got := string(blockquote.New().OnLoadedMetadata("test").RenderBytes())
 	want := `<blockquote onloadedmetadata="test"></blockquote>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -723,7 +723,7 @@ func TestOnLoadedMetadataAttr(t *testing.T) {
 }
 
 func TestOnLoadStartAttr(t *testing.T) {
-	got := string(blockquote.New().OnLoadStart("test").Render())
+	got := string(blockquote.New().OnLoadStart("test").RenderBytes())
 	want := `<blockquote onloadstart="test"></blockquote>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -731,7 +731,7 @@ func TestOnLoadStartAttr(t *testing.T) {
 }
 
 func TestOnMouseDownAttr(t *testing.T) {
-	got := string(blockquote.New().OnMouseDown("test").Render())
+	got := string(blockquote.New().OnMouseDown("test").RenderBytes())
 	want := `<blockquote onmousedown="test"></blockquote>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -739,7 +739,7 @@ func TestOnMouseDownAttr(t *testing.T) {
 }
 
 func TestOnMouseEnterAttr(t *testing.T) {
-	got := string(blockquote.New().OnMouseEnter("test").Render())
+	got := string(blockquote.New().OnMouseEnter("test").RenderBytes())
 	want := `<blockquote onmouseenter="test"></blockquote>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -747,7 +747,7 @@ func TestOnMouseEnterAttr(t *testing.T) {
 }
 
 func TestOnMouseLeaveAttr(t *testing.T) {
-	got := string(blockquote.New().OnMouseLeave("test").Render())
+	got := string(blockquote.New().OnMouseLeave("test").RenderBytes())
 	want := `<blockquote onmouseleave="test"></blockquote>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -755,7 +755,7 @@ func TestOnMouseLeaveAttr(t *testing.T) {
 }
 
 func TestOnMouseMoveAttr(t *testing.T) {
-	got := string(blockquote.New().OnMouseMove("test").Render())
+	got := string(blockquote.New().OnMouseMove("test").RenderBytes())
 	want := `<blockquote onmousemove="test"></blockquote>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -763,7 +763,7 @@ func TestOnMouseMoveAttr(t *testing.T) {
 }
 
 func TestOnMouseOutAttr(t *testing.T) {
-	got := string(blockquote.New().OnMouseOut("test").Render())
+	got := string(blockquote.New().OnMouseOut("test").RenderBytes())
 	want := `<blockquote onmouseout="test"></blockquote>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -771,7 +771,7 @@ func TestOnMouseOutAttr(t *testing.T) {
 }
 
 func TestOnMouseOverAttr(t *testing.T) {
-	got := string(blockquote.New().OnMouseOver("test").Render())
+	got := string(blockquote.New().OnMouseOver("test").RenderBytes())
 	want := `<blockquote onmouseover="test"></blockquote>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -779,7 +779,7 @@ func TestOnMouseOverAttr(t *testing.T) {
 }
 
 func TestOnMouseUpAttr(t *testing.T) {
-	got := string(blockquote.New().OnMouseUp("test").Render())
+	got := string(blockquote.New().OnMouseUp("test").RenderBytes())
 	want := `<blockquote onmouseup="test"></blockquote>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -787,7 +787,7 @@ func TestOnMouseUpAttr(t *testing.T) {
 }
 
 func TestOnMouseWheelAttr(t *testing.T) {
-	got := string(blockquote.New().OnMouseWheel("test").Render())
+	got := string(blockquote.New().OnMouseWheel("test").RenderBytes())
 	want := `<blockquote onmousewheel="test"></blockquote>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -795,7 +795,7 @@ func TestOnMouseWheelAttr(t *testing.T) {
 }
 
 func TestOnPauseAttr(t *testing.T) {
-	got := string(blockquote.New().OnPause("test").Render())
+	got := string(blockquote.New().OnPause("test").RenderBytes())
 	want := `<blockquote onpause="test"></blockquote>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -803,7 +803,7 @@ func TestOnPauseAttr(t *testing.T) {
 }
 
 func TestOnPlayAttr(t *testing.T) {
-	got := string(blockquote.New().OnPlay("test").Render())
+	got := string(blockquote.New().OnPlay("test").RenderBytes())
 	want := `<blockquote onplay="test"></blockquote>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -811,7 +811,7 @@ func TestOnPlayAttr(t *testing.T) {
 }
 
 func TestOnPlayingAttr(t *testing.T) {
-	got := string(blockquote.New().OnPlaying("test").Render())
+	got := string(blockquote.New().OnPlaying("test").RenderBytes())
 	want := `<blockquote onplaying="test"></blockquote>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -819,7 +819,7 @@ func TestOnPlayingAttr(t *testing.T) {
 }
 
 func TestOnProgressAttr(t *testing.T) {
-	got := string(blockquote.New().OnProgress("test").Render())
+	got := string(blockquote.New().OnProgress("test").RenderBytes())
 	want := `<blockquote onprogress="test"></blockquote>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -827,7 +827,7 @@ func TestOnProgressAttr(t *testing.T) {
 }
 
 func TestOnRateChangeAttr(t *testing.T) {
-	got := string(blockquote.New().OnRateChange("test").Render())
+	got := string(blockquote.New().OnRateChange("test").RenderBytes())
 	want := `<blockquote onratechange="test"></blockquote>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -835,7 +835,7 @@ func TestOnRateChangeAttr(t *testing.T) {
 }
 
 func TestOnResetAttr(t *testing.T) {
-	got := string(blockquote.New().OnReset("test").Render())
+	got := string(blockquote.New().OnReset("test").RenderBytes())
 	want := `<blockquote onreset="test"></blockquote>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -843,7 +843,7 @@ func TestOnResetAttr(t *testing.T) {
 }
 
 func TestOnResizeAttr(t *testing.T) {
-	got := string(blockquote.New().OnResize("test").Render())
+	got := string(blockquote.New().OnResize("test").RenderBytes())
 	want := `<blockquote onresize="test"></blockquote>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -851,7 +851,7 @@ func TestOnResizeAttr(t *testing.T) {
 }
 
 func TestOnScrollAttr(t *testing.T) {
-	got := string(blockquote.New().OnScroll("test").Render())
+	got := string(blockquote.New().OnScroll("test").RenderBytes())
 	want := `<blockquote onscroll="test"></blockquote>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -859,7 +859,7 @@ func TestOnScrollAttr(t *testing.T) {
 }
 
 func TestOnSeekedAttr(t *testing.T) {
-	got := string(blockquote.New().OnSeeked("test").Render())
+	got := string(blockquote.New().OnSeeked("test").RenderBytes())
 	want := `<blockquote onseeked="test"></blockquote>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -867,7 +867,7 @@ func TestOnSeekedAttr(t *testing.T) {
 }
 
 func TestOnSeekingAttr(t *testing.T) {
-	got := string(blockquote.New().OnSeeking("test").Render())
+	got := string(blockquote.New().OnSeeking("test").RenderBytes())
 	want := `<blockquote onseeking="test"></blockquote>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -875,7 +875,7 @@ func TestOnSeekingAttr(t *testing.T) {
 }
 
 func TestOnSelectAttr(t *testing.T) {
-	got := string(blockquote.New().OnSelect("test").Render())
+	got := string(blockquote.New().OnSelect("test").RenderBytes())
 	want := `<blockquote onselect="test"></blockquote>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -883,7 +883,7 @@ func TestOnSelectAttr(t *testing.T) {
 }
 
 func TestOnShowAttr(t *testing.T) {
-	got := string(blockquote.New().OnShow("test").Render())
+	got := string(blockquote.New().OnShow("test").RenderBytes())
 	want := `<blockquote onshow="test"></blockquote>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -891,7 +891,7 @@ func TestOnShowAttr(t *testing.T) {
 }
 
 func TestOnSortAttr(t *testing.T) {
-	got := string(blockquote.New().OnSort("test").Render())
+	got := string(blockquote.New().OnSort("test").RenderBytes())
 	want := `<blockquote onsort="test"></blockquote>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -899,7 +899,7 @@ func TestOnSortAttr(t *testing.T) {
 }
 
 func TestOnStalledAttr(t *testing.T) {
-	got := string(blockquote.New().OnStalled("test").Render())
+	got := string(blockquote.New().OnStalled("test").RenderBytes())
 	want := `<blockquote onstalled="test"></blockquote>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -907,7 +907,7 @@ func TestOnStalledAttr(t *testing.T) {
 }
 
 func TestOnSuspendAttr(t *testing.T) {
-	got := string(blockquote.New().OnSuspend("test").Render())
+	got := string(blockquote.New().OnSuspend("test").RenderBytes())
 	want := `<blockquote onsuspend="test"></blockquote>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -915,7 +915,7 @@ func TestOnSuspendAttr(t *testing.T) {
 }
 
 func TestOnTimeUpdateAttr(t *testing.T) {
-	got := string(blockquote.New().OnTimeUpdate("test").Render())
+	got := string(blockquote.New().OnTimeUpdate("test").RenderBytes())
 	want := `<blockquote ontimeupdate="test"></blockquote>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -923,7 +923,7 @@ func TestOnTimeUpdateAttr(t *testing.T) {
 }
 
 func TestOnToggleAttr(t *testing.T) {
-	got := string(blockquote.New().OnToggle("test").Render())
+	got := string(blockquote.New().OnToggle("test").RenderBytes())
 	want := `<blockquote ontoggle="test"></blockquote>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -931,7 +931,7 @@ func TestOnToggleAttr(t *testing.T) {
 }
 
 func TestOnVolumeChangeAttr(t *testing.T) {
-	got := string(blockquote.New().OnVolumeChange("test").Render())
+	got := string(blockquote.New().OnVolumeChange("test").RenderBytes())
 	want := `<blockquote onvolumechange="test"></blockquote>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -939,7 +939,7 @@ func TestOnVolumeChangeAttr(t *testing.T) {
 }
 
 func TestOnWaitingAttr(t *testing.T) {
-	got := string(blockquote.New().OnWaiting("test").Render())
+	got := string(blockquote.New().OnWaiting("test").RenderBytes())
 	want := `<blockquote onwaiting="test"></blockquote>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -947,7 +947,7 @@ func TestOnWaitingAttr(t *testing.T) {
 }
 
 func TestOnAuxClickAttr(t *testing.T) {
-	got := string(blockquote.New().OnAuxClick("test").Render())
+	got := string(blockquote.New().OnAuxClick("test").RenderBytes())
 	want := `<blockquote onauxclick="test"></blockquote>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -955,7 +955,7 @@ func TestOnAuxClickAttr(t *testing.T) {
 }
 
 func TestOnWheelAttr(t *testing.T) {
-	got := string(blockquote.New().OnWheel("test").Render())
+	got := string(blockquote.New().OnWheel("test").RenderBytes())
 	want := `<blockquote onwheel="test"></blockquote>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -963,7 +963,7 @@ func TestOnWheelAttr(t *testing.T) {
 }
 
 func TestOnCopyAttr(t *testing.T) {
-	got := string(blockquote.New().OnCopy("test").Render())
+	got := string(blockquote.New().OnCopy("test").RenderBytes())
 	want := `<blockquote oncopy="test"></blockquote>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -971,7 +971,7 @@ func TestOnCopyAttr(t *testing.T) {
 }
 
 func TestOnCutAttr(t *testing.T) {
-	got := string(blockquote.New().OnCut("test").Render())
+	got := string(blockquote.New().OnCut("test").RenderBytes())
 	want := `<blockquote oncut="test"></blockquote>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -979,7 +979,7 @@ func TestOnCutAttr(t *testing.T) {
 }
 
 func TestOnPasteAttr(t *testing.T) {
-	got := string(blockquote.New().OnPaste("test").Render())
+	got := string(blockquote.New().OnPaste("test").RenderBytes())
 	want := `<blockquote onpaste="test"></blockquote>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -987,7 +987,7 @@ func TestOnPasteAttr(t *testing.T) {
 }
 
 func TestOnScrollEndAttr(t *testing.T) {
-	got := string(blockquote.New().OnScrollEnd("test").Render())
+	got := string(blockquote.New().OnScrollEnd("test").RenderBytes())
 	want := `<blockquote onscrollend="test"></blockquote>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -995,7 +995,7 @@ func TestOnScrollEndAttr(t *testing.T) {
 }
 
 func TestOnFormDataAttr(t *testing.T) {
-	got := string(blockquote.New().OnFormData("test").Render())
+	got := string(blockquote.New().OnFormData("test").RenderBytes())
 	want := `<blockquote onformdata="test"></blockquote>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -1003,7 +1003,7 @@ func TestOnFormDataAttr(t *testing.T) {
 }
 
 func TestOnAnimationCancelAttr(t *testing.T) {
-	got := string(blockquote.New().OnAnimationCancel("test").Render())
+	got := string(blockquote.New().OnAnimationCancel("test").RenderBytes())
 	want := `<blockquote onanimationcancel="test"></blockquote>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -1011,7 +1011,7 @@ func TestOnAnimationCancelAttr(t *testing.T) {
 }
 
 func TestOnAnimationEndAttr(t *testing.T) {
-	got := string(blockquote.New().OnAnimationEnd("test").Render())
+	got := string(blockquote.New().OnAnimationEnd("test").RenderBytes())
 	want := `<blockquote onanimationend="test"></blockquote>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -1019,7 +1019,7 @@ func TestOnAnimationEndAttr(t *testing.T) {
 }
 
 func TestOnAnimationIterationAttr(t *testing.T) {
-	got := string(blockquote.New().OnAnimationIteration("test").Render())
+	got := string(blockquote.New().OnAnimationIteration("test").RenderBytes())
 	want := `<blockquote onanimationiteration="test"></blockquote>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -1027,7 +1027,7 @@ func TestOnAnimationIterationAttr(t *testing.T) {
 }
 
 func TestOnAnimationStartAttr(t *testing.T) {
-	got := string(blockquote.New().OnAnimationStart("test").Render())
+	got := string(blockquote.New().OnAnimationStart("test").RenderBytes())
 	want := `<blockquote onanimationstart="test"></blockquote>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -1035,7 +1035,7 @@ func TestOnAnimationStartAttr(t *testing.T) {
 }
 
 func TestOnTransitionCancelAttr(t *testing.T) {
-	got := string(blockquote.New().OnTransitionCancel("test").Render())
+	got := string(blockquote.New().OnTransitionCancel("test").RenderBytes())
 	want := `<blockquote ontransitioncancel="test"></blockquote>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -1043,7 +1043,7 @@ func TestOnTransitionCancelAttr(t *testing.T) {
 }
 
 func TestOnTransitionEndAttr(t *testing.T) {
-	got := string(blockquote.New().OnTransitionEnd("test").Render())
+	got := string(blockquote.New().OnTransitionEnd("test").RenderBytes())
 	want := `<blockquote ontransitionend="test"></blockquote>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -1051,7 +1051,7 @@ func TestOnTransitionEndAttr(t *testing.T) {
 }
 
 func TestOnTransitionRunAttr(t *testing.T) {
-	got := string(blockquote.New().OnTransitionRun("test").Render())
+	got := string(blockquote.New().OnTransitionRun("test").RenderBytes())
 	want := `<blockquote ontransitionrun="test"></blockquote>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -1059,7 +1059,7 @@ func TestOnTransitionRunAttr(t *testing.T) {
 }
 
 func TestOnTransitionStartAttr(t *testing.T) {
-	got := string(blockquote.New().OnTransitionStart("test").Render())
+	got := string(blockquote.New().OnTransitionStart("test").RenderBytes())
 	want := `<blockquote ontransitionstart="test"></blockquote>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -1067,7 +1067,7 @@ func TestOnTransitionStartAttr(t *testing.T) {
 }
 
 func TestOnBeforeToggleAttr(t *testing.T) {
-	got := string(blockquote.New().OnBeforeToggle("test").Render())
+	got := string(blockquote.New().OnBeforeToggle("test").RenderBytes())
 	want := `<blockquote onbeforetoggle="test"></blockquote>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -1075,7 +1075,7 @@ func TestOnBeforeToggleAttr(t *testing.T) {
 }
 
 func TestOnBeforeInputAttr(t *testing.T) {
-	got := string(blockquote.New().OnBeforeInput("test").Render())
+	got := string(blockquote.New().OnBeforeInput("test").RenderBytes())
 	want := `<blockquote onbeforeinput="test"></blockquote>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -1083,7 +1083,7 @@ func TestOnBeforeInputAttr(t *testing.T) {
 }
 
 func TestOnBeforeMatchAttr(t *testing.T) {
-	got := string(blockquote.New().OnBeforeMatch("test").Render())
+	got := string(blockquote.New().OnBeforeMatch("test").RenderBytes())
 	want := `<blockquote onbeforematch="test"></blockquote>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -1091,7 +1091,7 @@ func TestOnBeforeMatchAttr(t *testing.T) {
 }
 
 func TestOnCommandAttr(t *testing.T) {
-	got := string(blockquote.New().OnCommand("test").Render())
+	got := string(blockquote.New().OnCommand("test").RenderBytes())
 	want := `<blockquote oncommand="test"></blockquote>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -1099,7 +1099,7 @@ func TestOnCommandAttr(t *testing.T) {
 }
 
 func TestOnContextLostAttr(t *testing.T) {
-	got := string(blockquote.New().OnContextLost("test").Render())
+	got := string(blockquote.New().OnContextLost("test").RenderBytes())
 	want := `<blockquote oncontextlost="test"></blockquote>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -1107,7 +1107,7 @@ func TestOnContextLostAttr(t *testing.T) {
 }
 
 func TestOnContextRestoredAttr(t *testing.T) {
-	got := string(blockquote.New().OnContextRestored("test").Render())
+	got := string(blockquote.New().OnContextRestored("test").RenderBytes())
 	want := `<blockquote oncontextrestored="test"></blockquote>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -1115,7 +1115,7 @@ func TestOnContextRestoredAttr(t *testing.T) {
 }
 
 func TestOnSecurityPolicyViolationAttr(t *testing.T) {
-	got := string(blockquote.New().OnSecurityPolicyViolation("test").Render())
+	got := string(blockquote.New().OnSecurityPolicyViolation("test").RenderBytes())
 	want := `<blockquote onsecuritypolicyviolation="test"></blockquote>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -1123,7 +1123,7 @@ func TestOnSecurityPolicyViolationAttr(t *testing.T) {
 }
 
 func TestOnSlotChangeAttr(t *testing.T) {
-	got := string(blockquote.New().OnSlotChange("test").Render())
+	got := string(blockquote.New().OnSlotChange("test").RenderBytes())
 	want := `<blockquote onslotchange="test"></blockquote>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -1131,7 +1131,7 @@ func TestOnSlotChangeAttr(t *testing.T) {
 }
 
 func TestOnPointerDownAttr(t *testing.T) {
-	got := string(blockquote.New().OnPointerDown("test").Render())
+	got := string(blockquote.New().OnPointerDown("test").RenderBytes())
 	want := `<blockquote onpointerdown="test"></blockquote>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -1139,7 +1139,7 @@ func TestOnPointerDownAttr(t *testing.T) {
 }
 
 func TestOnPointerUpAttr(t *testing.T) {
-	got := string(blockquote.New().OnPointerUp("test").Render())
+	got := string(blockquote.New().OnPointerUp("test").RenderBytes())
 	want := `<blockquote onpointerup="test"></blockquote>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -1147,7 +1147,7 @@ func TestOnPointerUpAttr(t *testing.T) {
 }
 
 func TestOnPointerMoveAttr(t *testing.T) {
-	got := string(blockquote.New().OnPointerMove("test").Render())
+	got := string(blockquote.New().OnPointerMove("test").RenderBytes())
 	want := `<blockquote onpointermove="test"></blockquote>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -1155,7 +1155,7 @@ func TestOnPointerMoveAttr(t *testing.T) {
 }
 
 func TestOnPointerEnterAttr(t *testing.T) {
-	got := string(blockquote.New().OnPointerEnter("test").Render())
+	got := string(blockquote.New().OnPointerEnter("test").RenderBytes())
 	want := `<blockquote onpointerenter="test"></blockquote>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -1163,7 +1163,7 @@ func TestOnPointerEnterAttr(t *testing.T) {
 }
 
 func TestOnPointerLeaveAttr(t *testing.T) {
-	got := string(blockquote.New().OnPointerLeave("test").Render())
+	got := string(blockquote.New().OnPointerLeave("test").RenderBytes())
 	want := `<blockquote onpointerleave="test"></blockquote>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -1171,7 +1171,7 @@ func TestOnPointerLeaveAttr(t *testing.T) {
 }
 
 func TestOnPointerOverAttr(t *testing.T) {
-	got := string(blockquote.New().OnPointerOver("test").Render())
+	got := string(blockquote.New().OnPointerOver("test").RenderBytes())
 	want := `<blockquote onpointerover="test"></blockquote>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -1179,7 +1179,7 @@ func TestOnPointerOverAttr(t *testing.T) {
 }
 
 func TestOnPointerOutAttr(t *testing.T) {
-	got := string(blockquote.New().OnPointerOut("test").Render())
+	got := string(blockquote.New().OnPointerOut("test").RenderBytes())
 	want := `<blockquote onpointerout="test"></blockquote>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -1187,7 +1187,7 @@ func TestOnPointerOutAttr(t *testing.T) {
 }
 
 func TestOnPointerCancelAttr(t *testing.T) {
-	got := string(blockquote.New().OnPointerCancel("test").Render())
+	got := string(blockquote.New().OnPointerCancel("test").RenderBytes())
 	want := `<blockquote onpointercancel="test"></blockquote>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -1195,7 +1195,7 @@ func TestOnPointerCancelAttr(t *testing.T) {
 }
 
 func TestOnGotPointerCaptureAttr(t *testing.T) {
-	got := string(blockquote.New().OnGotPointerCapture("test").Render())
+	got := string(blockquote.New().OnGotPointerCapture("test").RenderBytes())
 	want := `<blockquote ongotpointercapture="test"></blockquote>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -1203,7 +1203,7 @@ func TestOnGotPointerCaptureAttr(t *testing.T) {
 }
 
 func TestOnLostPointerCaptureAttr(t *testing.T) {
-	got := string(blockquote.New().OnLostPointerCapture("test").Render())
+	got := string(blockquote.New().OnLostPointerCapture("test").RenderBytes())
 	want := `<blockquote onlostpointercapture="test"></blockquote>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -1211,7 +1211,7 @@ func TestOnLostPointerCaptureAttr(t *testing.T) {
 }
 
 func TestOnTouchStartAttr(t *testing.T) {
-	got := string(blockquote.New().OnTouchStart("test").Render())
+	got := string(blockquote.New().OnTouchStart("test").RenderBytes())
 	want := `<blockquote ontouchstart="test"></blockquote>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -1219,7 +1219,7 @@ func TestOnTouchStartAttr(t *testing.T) {
 }
 
 func TestOnTouchEndAttr(t *testing.T) {
-	got := string(blockquote.New().OnTouchEnd("test").Render())
+	got := string(blockquote.New().OnTouchEnd("test").RenderBytes())
 	want := `<blockquote ontouchend="test"></blockquote>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -1227,7 +1227,7 @@ func TestOnTouchEndAttr(t *testing.T) {
 }
 
 func TestOnTouchMoveAttr(t *testing.T) {
-	got := string(blockquote.New().OnTouchMove("test").Render())
+	got := string(blockquote.New().OnTouchMove("test").RenderBytes())
 	want := `<blockquote ontouchmove="test"></blockquote>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -1235,7 +1235,7 @@ func TestOnTouchMoveAttr(t *testing.T) {
 }
 
 func TestOnTouchCancelAttr(t *testing.T) {
-	got := string(blockquote.New().OnTouchCancel("test").Render())
+	got := string(blockquote.New().OnTouchCancel("test").RenderBytes())
 	want := `<blockquote ontouchcancel="test"></blockquote>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -1243,7 +1243,7 @@ func TestOnTouchCancelAttr(t *testing.T) {
 }
 
 func TestOnSelectStartAttr(t *testing.T) {
-	got := string(blockquote.New().OnSelectStart("test").Render())
+	got := string(blockquote.New().OnSelectStart("test").RenderBytes())
 	want := `<blockquote onselectstart="test"></blockquote>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -1251,7 +1251,7 @@ func TestOnSelectStartAttr(t *testing.T) {
 }
 
 func TestOnSelectionChangeAttr(t *testing.T) {
-	got := string(blockquote.New().OnSelectionChange("test").Render())
+	got := string(blockquote.New().OnSelectionChange("test").RenderBytes())
 	want := `<blockquote onselectionchange="test"></blockquote>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -1259,7 +1259,7 @@ func TestOnSelectionChangeAttr(t *testing.T) {
 }
 
 func TestNewMulti(t *testing.T) {
-	got := string(blockquote.New(blockquote.New(), blockquote.New()).Render())
+	got := string(blockquote.New(blockquote.New(), blockquote.New()).RenderBytes())
 	want := `<blockquote><blockquote></blockquote><blockquote></blockquote></blockquote>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -1270,7 +1270,7 @@ func TestAdd(t *testing.T) {
 	element := blockquote.New().Add(blockquote.New(), blockquote.New())
 
 	// Test rendered output
-	got := string(element.Render())
+	got := string(element.RenderBytes())
 	want := `<blockquote><blockquote></blockquote><blockquote></blockquote></blockquote>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -1295,7 +1295,7 @@ func TestReplace(t *testing.T) {
 	element.Replace(blockquote.New())
 
 	// Test rendered output
-	got := string(element.Render())
+	got := string(element.RenderBytes())
 	want := `<blockquote><blockquote></blockquote></blockquote>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -1308,7 +1308,7 @@ func TestReplace(t *testing.T) {
 }
 
 func TestTextMethod(t *testing.T) {
-	got := string(blockquote.New().Text("hello").Render())
+	got := string(blockquote.New().Text("hello").RenderBytes())
 	want := `<blockquote>hello</blockquote>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -1316,7 +1316,7 @@ func TestTextMethod(t *testing.T) {
 }
 
 func TestTextfMethod(t *testing.T) {
-	got := string(blockquote.New().Textf("hello %s", "world").Render())
+	got := string(blockquote.New().Textf("hello %s", "world").RenderBytes())
 	want := `<blockquote>hello world</blockquote>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -1324,7 +1324,7 @@ func TestTextfMethod(t *testing.T) {
 }
 
 func TestStaticMethod(t *testing.T) {
-	got := string(blockquote.New().Static("static content").Render())
+	got := string(blockquote.New().Static("static content").RenderBytes())
 	want := `<blockquote>static content</blockquote>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -1332,7 +1332,7 @@ func TestStaticMethod(t *testing.T) {
 }
 
 func TestRawTextMethod(t *testing.T) {
-	got := string(blockquote.New().RawText("<em>bold</em>").Render())
+	got := string(blockquote.New().RawText("<em>bold</em>").RenderBytes())
 	want := `<blockquote><em>bold</em></blockquote>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -1340,7 +1340,7 @@ func TestRawTextMethod(t *testing.T) {
 }
 
 func TestRawTextfMethod(t *testing.T) {
-	got := string(blockquote.New().RawTextf("<%s>test</%s>", "span", "span").Render())
+	got := string(blockquote.New().RawTextf("<%s>test</%s>", "span", "span").RenderBytes())
 	want := `<blockquote><span>test</span></blockquote>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -1348,7 +1348,7 @@ func TestRawTextfMethod(t *testing.T) {
 }
 
 func TestTextChaining(t *testing.T) {
-	got := string(blockquote.New().Class("foo").Text("content").ID("bar").Render())
+	got := string(blockquote.New().Class("foo").Text("content").ID("bar").RenderBytes())
 	want := `<blockquote class="foo" id="bar">content</blockquote>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -1356,7 +1356,7 @@ func TestTextChaining(t *testing.T) {
 }
 
 func TestDynamicKey(t *testing.T) {
-	got := string(blockquote.New().Dynamic("mykey").Render())
+	got := string(blockquote.New().Dynamic("mykey").RenderBytes())
 	want := `<blockquote data-tether-key="mykey"></blockquote>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -1371,7 +1371,7 @@ func TestDynamicNoKey(t *testing.T) {
 	if el.DynamicKey() != "_" {
 		t.Errorf("DynamicKey() should be \"_\", got %q", el.DynamicKey())
 	}
-	got := string(el.Render())
+	got := string(el.RenderBytes())
 	want := `<blockquote></blockquote>`
 	if got != want {
 		t.Errorf("Dynamic() without key should not render data-tether-key: got %q, want %q", got, want)

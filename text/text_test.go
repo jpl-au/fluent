@@ -43,8 +43,8 @@ func TestNode(t *testing.T) {
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
 			// Test Render()
-			if string(tt.node.Render()) != tt.expected {
-				t.Errorf("Render() = %q, want %q", string(tt.node.Render()), tt.expected)
+			if string(tt.node.RenderBytes()) != tt.expected {
+				t.Errorf("Render() = %q, want %q", string(tt.node.RenderBytes()), tt.expected)
 			}
 
 			// Test RenderBuilder()

@@ -24,14 +24,14 @@ import (
 
 func TestNewCtor(t *testing.T) {
 	// Test empty element
-	got := string(ol.New().Render())
+	got := string(ol.New().RenderBytes())
 	want := `<ol></ol>`
 	if got != want {
 		t.Errorf("empty: got %q, want %q", got, want)
 	}
 
 	// Test nested element
-	got = string(ol.New(ol.New()).Render())
+	got = string(ol.New(ol.New()).RenderBytes())
 	want = `<ol><ol></ol></ol>`
 	if got != want {
 		t.Errorf("nested: got %q, want %q", got, want)
@@ -39,7 +39,7 @@ func TestNewCtor(t *testing.T) {
 }
 
 func TestDecimalCtor(t *testing.T) {
-	got := string(ol.Decimal(li.Text("one"), li.Text("two")).Render())
+	got := string(ol.Decimal(li.Text("one"), li.Text("two")).RenderBytes())
 	want := `<ol type="1"><li>one</li><li>two</li></ol>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -47,7 +47,7 @@ func TestDecimalCtor(t *testing.T) {
 }
 
 func TestLowerAlphaCtor(t *testing.T) {
-	got := string(ol.LowerAlpha(li.Text("one"), li.Text("two")).Render())
+	got := string(ol.LowerAlpha(li.Text("one"), li.Text("two")).RenderBytes())
 	want := `<ol type="a"><li>one</li><li>two</li></ol>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -55,7 +55,7 @@ func TestLowerAlphaCtor(t *testing.T) {
 }
 
 func TestUpperAlphaCtor(t *testing.T) {
-	got := string(ol.UpperAlpha(li.Text("one"), li.Text("two")).Render())
+	got := string(ol.UpperAlpha(li.Text("one"), li.Text("two")).RenderBytes())
 	want := `<ol type="A"><li>one</li><li>two</li></ol>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -63,7 +63,7 @@ func TestUpperAlphaCtor(t *testing.T) {
 }
 
 func TestLowerRomanCtor(t *testing.T) {
-	got := string(ol.LowerRoman(li.Text("one"), li.Text("two")).Render())
+	got := string(ol.LowerRoman(li.Text("one"), li.Text("two")).RenderBytes())
 	want := `<ol type="i"><li>one</li><li>two</li></ol>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -71,7 +71,7 @@ func TestLowerRomanCtor(t *testing.T) {
 }
 
 func TestUpperRomanCtor(t *testing.T) {
-	got := string(ol.UpperRoman(li.Text("one"), li.Text("two")).Render())
+	got := string(ol.UpperRoman(li.Text("one"), li.Text("two")).RenderBytes())
 	want := `<ol type="I"><li>one</li><li>two</li></ol>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -79,7 +79,7 @@ func TestUpperRomanCtor(t *testing.T) {
 }
 
 func TestItemsCtor(t *testing.T) {
-	got := string(ol.Items(li.Text("one"), li.Text("two")).Render())
+	got := string(ol.Items(li.Text("one"), li.Text("two")).RenderBytes())
 	want := `<ol><li>one</li><li>two</li></ol>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -87,7 +87,7 @@ func TestItemsCtor(t *testing.T) {
 }
 
 func TestReversedAttr(t *testing.T) {
-	got := string(ol.New().Reversed().Render())
+	got := string(ol.New().Reversed().RenderBytes())
 	want := `<ol reversed></ol>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -95,7 +95,7 @@ func TestReversedAttr(t *testing.T) {
 }
 
 func TestStartAttr(t *testing.T) {
-	got := string(ol.New().Start(42).Render())
+	got := string(ol.New().Start(42).RenderBytes())
 	want := `<ol start="42"></ol>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -103,7 +103,7 @@ func TestStartAttr(t *testing.T) {
 }
 
 func TestTypeAttr(t *testing.T) {
-	got := string(ol.New().Type(listtype.LowerAlpha).Render())
+	got := string(ol.New().Type(listtype.LowerAlpha).RenderBytes())
 	want := `<ol type="a"></ol>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -111,7 +111,7 @@ func TestTypeAttr(t *testing.T) {
 }
 
 func TestClassAttr(t *testing.T) {
-	got := string(ol.New().Class("test").Render())
+	got := string(ol.New().Class("test").RenderBytes())
 	want := `<ol class="test"></ol>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -120,7 +120,7 @@ func TestClassAttr(t *testing.T) {
 
 func TestClassMulti(t *testing.T) {
 	// Test multiple chained calls
-	got := string(ol.New().Class("one").Class("two").Class("three").Render())
+	got := string(ol.New().Class("one").Class("two").Class("three").RenderBytes())
 	want := `<ol class="one two three"></ol>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -128,7 +128,7 @@ func TestClassMulti(t *testing.T) {
 }
 
 func TestIDAttr(t *testing.T) {
-	got := string(ol.New().ID("test").Render())
+	got := string(ol.New().ID("test").RenderBytes())
 	want := `<ol id="test"></ol>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -136,7 +136,7 @@ func TestIDAttr(t *testing.T) {
 }
 
 func TestStyleAttr(t *testing.T) {
-	got := string(ol.New().Style("test").Render())
+	got := string(ol.New().Style("test").RenderBytes())
 	want := `<ol style="test"></ol>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -145,7 +145,7 @@ func TestStyleAttr(t *testing.T) {
 
 func TestStyleMulti(t *testing.T) {
 	// Test multiple chained calls
-	got := string(ol.New().Style("one").Style("two").Style("three").Render())
+	got := string(ol.New().Style("one").Style("two").Style("three").RenderBytes())
 	want := `<ol style="one; two; three"></ol>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -153,7 +153,7 @@ func TestStyleMulti(t *testing.T) {
 }
 
 func TestTitleAttr(t *testing.T) {
-	got := string(ol.New().Title("test").Render())
+	got := string(ol.New().Title("test").RenderBytes())
 	want := `<ol title="test"></ol>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -161,7 +161,7 @@ func TestTitleAttr(t *testing.T) {
 }
 
 func TestHiddenAttr(t *testing.T) {
-	got := string(ol.New().Hidden(hidden.True).Render())
+	got := string(ol.New().Hidden(hidden.True).RenderBytes())
 	want := `<ol hidden="true"></ol>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -169,7 +169,7 @@ func TestHiddenAttr(t *testing.T) {
 }
 
 func TestTabIndexAttr(t *testing.T) {
-	got := string(ol.New().TabIndex(42).Render())
+	got := string(ol.New().TabIndex(42).RenderBytes())
 	want := `<ol tabindex="42"></ol>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -177,7 +177,7 @@ func TestTabIndexAttr(t *testing.T) {
 }
 
 func TestRoleAttr(t *testing.T) {
-	got := string(ol.New().Role("test").Render())
+	got := string(ol.New().Role("test").RenderBytes())
 	want := `<ol role="test"></ol>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -185,7 +185,7 @@ func TestRoleAttr(t *testing.T) {
 }
 
 func TestLangAttr(t *testing.T) {
-	got := string(ol.New().Lang("test").Render())
+	got := string(ol.New().Lang("test").RenderBytes())
 	want := `<ol lang="test"></ol>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -193,7 +193,7 @@ func TestLangAttr(t *testing.T) {
 }
 
 func TestAccessKeyAttr(t *testing.T) {
-	got := string(ol.New().AccessKey("test").Render())
+	got := string(ol.New().AccessKey("test").RenderBytes())
 	want := `<ol accesskey="test"></ol>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -202,7 +202,7 @@ func TestAccessKeyAttr(t *testing.T) {
 
 func TestAccessKeyMulti(t *testing.T) {
 	// Test multiple chained calls
-	got := string(ol.New().AccessKey("one").AccessKey("two").AccessKey("three").Render())
+	got := string(ol.New().AccessKey("one").AccessKey("two").AccessKey("three").RenderBytes())
 	want := `<ol accesskey="one two three"></ol>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -210,7 +210,7 @@ func TestAccessKeyMulti(t *testing.T) {
 }
 
 func TestAnchorAttr(t *testing.T) {
-	got := string(ol.New().Anchor("test").Render())
+	got := string(ol.New().Anchor("test").RenderBytes())
 	want := `<ol anchor="test"></ol>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -218,7 +218,7 @@ func TestAnchorAttr(t *testing.T) {
 }
 
 func TestAriaLabelAttr(t *testing.T) {
-	got := string(ol.New().AriaLabel("test").Render())
+	got := string(ol.New().AriaLabel("test").RenderBytes())
 	want := `<ol aria-label="test"></ol>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -226,7 +226,7 @@ func TestAriaLabelAttr(t *testing.T) {
 }
 
 func TestSetAriaAttr(t *testing.T) {
-	got := string(ol.New().SetAria("label", "test-value").Render())
+	got := string(ol.New().SetAria("label", "test-value").RenderBytes())
 	want := `<ol aria-label="test-value"></ol>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -234,7 +234,7 @@ func TestSetAriaAttr(t *testing.T) {
 }
 
 func TestAutoCapitalizeAttr(t *testing.T) {
-	got := string(ol.New().AutoCapitalize(autocapitalize.Off).Render())
+	got := string(ol.New().AutoCapitalize(autocapitalize.Off).RenderBytes())
 	want := `<ol autocapitalize="off"></ol>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -242,7 +242,7 @@ func TestAutoCapitalizeAttr(t *testing.T) {
 }
 
 func TestAutoCorrectAttr(t *testing.T) {
-	got := string(ol.New().AutoCorrect(autocorrect.On).Render())
+	got := string(ol.New().AutoCorrect(autocorrect.On).RenderBytes())
 	want := `<ol autocorrect="on"></ol>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -250,7 +250,7 @@ func TestAutoCorrectAttr(t *testing.T) {
 }
 
 func TestAutoFocusAttr(t *testing.T) {
-	got := string(ol.New().AutoFocus().Render())
+	got := string(ol.New().AutoFocus().RenderBytes())
 	want := `<ol autofocus></ol>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -258,7 +258,7 @@ func TestAutoFocusAttr(t *testing.T) {
 }
 
 func TestContentEditableAttr(t *testing.T) {
-	got := string(ol.New().ContentEditable(contenteditable.True).Render())
+	got := string(ol.New().ContentEditable(contenteditable.True).RenderBytes())
 	want := `<ol contenteditable="true"></ol>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -266,7 +266,7 @@ func TestContentEditableAttr(t *testing.T) {
 }
 
 func TestSetDataAttr(t *testing.T) {
-	got := string(ol.New().SetData("user-id", "test-value").Render())
+	got := string(ol.New().SetData("user-id", "test-value").RenderBytes())
 	want := `<ol data-user-id="test-value"></ol>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -274,7 +274,7 @@ func TestSetDataAttr(t *testing.T) {
 }
 
 func TestDirAttr(t *testing.T) {
-	got := string(ol.New().Dir(dir.LeftToRight).Render())
+	got := string(ol.New().Dir(dir.LeftToRight).RenderBytes())
 	want := `<ol dir="ltr"></ol>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -282,7 +282,7 @@ func TestDirAttr(t *testing.T) {
 }
 
 func TestDraggableAttr(t *testing.T) {
-	got := string(ol.New().Draggable().Render())
+	got := string(ol.New().Draggable().RenderBytes())
 	want := `<ol draggable></ol>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -290,7 +290,7 @@ func TestDraggableAttr(t *testing.T) {
 }
 
 func TestEnterKeyHintAttr(t *testing.T) {
-	got := string(ol.New().EnterKeyHint(enterkeyhint.Enter).Render())
+	got := string(ol.New().EnterKeyHint(enterkeyhint.Enter).RenderBytes())
 	want := `<ol enterkeyhint="enter"></ol>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -298,7 +298,7 @@ func TestEnterKeyHintAttr(t *testing.T) {
 }
 
 func TestExportPartsAttr(t *testing.T) {
-	got := string(ol.New().ExportParts("test").Render())
+	got := string(ol.New().ExportParts("test").RenderBytes())
 	want := `<ol exportparts="test"></ol>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -306,7 +306,7 @@ func TestExportPartsAttr(t *testing.T) {
 }
 
 func TestInertAttr(t *testing.T) {
-	got := string(ol.New().Inert().Render())
+	got := string(ol.New().Inert().RenderBytes())
 	want := `<ol inert></ol>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -314,7 +314,7 @@ func TestInertAttr(t *testing.T) {
 }
 
 func TestInputModeAttr(t *testing.T) {
-	got := string(ol.New().InputMode(inputmode.None).Render())
+	got := string(ol.New().InputMode(inputmode.None).RenderBytes())
 	want := `<ol inputmode="none"></ol>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -322,7 +322,7 @@ func TestInputModeAttr(t *testing.T) {
 }
 
 func TestIsAttr(t *testing.T) {
-	got := string(ol.New().Is("test").Render())
+	got := string(ol.New().Is("test").RenderBytes())
 	want := `<ol is="test"></ol>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -330,7 +330,7 @@ func TestIsAttr(t *testing.T) {
 }
 
 func TestItemIdAttr(t *testing.T) {
-	got := string(ol.New().ItemId("test").Render())
+	got := string(ol.New().ItemId("test").RenderBytes())
 	want := `<ol itemid="test"></ol>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -338,7 +338,7 @@ func TestItemIdAttr(t *testing.T) {
 }
 
 func TestItemPropAttr(t *testing.T) {
-	got := string(ol.New().ItemProp("test").Render())
+	got := string(ol.New().ItemProp("test").RenderBytes())
 	want := `<ol itemprop="test"></ol>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -346,7 +346,7 @@ func TestItemPropAttr(t *testing.T) {
 }
 
 func TestItemRefAttr(t *testing.T) {
-	got := string(ol.New().ItemRef("test").Render())
+	got := string(ol.New().ItemRef("test").RenderBytes())
 	want := `<ol itemref="test"></ol>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -354,7 +354,7 @@ func TestItemRefAttr(t *testing.T) {
 }
 
 func TestItemScopeAttr(t *testing.T) {
-	got := string(ol.New().ItemScope().Render())
+	got := string(ol.New().ItemScope().RenderBytes())
 	want := `<ol itemscope></ol>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -362,7 +362,7 @@ func TestItemScopeAttr(t *testing.T) {
 }
 
 func TestItemTypeAttr(t *testing.T) {
-	got := string(ol.New().ItemType("test").Render())
+	got := string(ol.New().ItemType("test").RenderBytes())
 	want := `<ol itemtype="test"></ol>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -370,7 +370,7 @@ func TestItemTypeAttr(t *testing.T) {
 }
 
 func TestNonceAttr(t *testing.T) {
-	got := string(ol.New().Nonce("test").Render())
+	got := string(ol.New().Nonce("test").RenderBytes())
 	want := `<ol nonce="test"></ol>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -378,7 +378,7 @@ func TestNonceAttr(t *testing.T) {
 }
 
 func TestPartAttr(t *testing.T) {
-	got := string(ol.New().Part("test").Render())
+	got := string(ol.New().Part("test").RenderBytes())
 	want := `<ol part="test"></ol>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -387,7 +387,7 @@ func TestPartAttr(t *testing.T) {
 
 func TestPartMulti(t *testing.T) {
 	// Test multiple chained calls
-	got := string(ol.New().Part("one").Part("two").Part("three").Render())
+	got := string(ol.New().Part("one").Part("two").Part("three").RenderBytes())
 	want := `<ol part="one two three"></ol>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -395,7 +395,7 @@ func TestPartMulti(t *testing.T) {
 }
 
 func TestPopoverAttr(t *testing.T) {
-	got := string(ol.New().Popover(popover.Auto).Render())
+	got := string(ol.New().Popover(popover.Auto).RenderBytes())
 	want := `<ol popover="auto"></ol>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -403,7 +403,7 @@ func TestPopoverAttr(t *testing.T) {
 }
 
 func TestSlotAttr(t *testing.T) {
-	got := string(ol.New().Slot("test").Render())
+	got := string(ol.New().Slot("test").RenderBytes())
 	want := `<ol slot="test"></ol>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -411,7 +411,7 @@ func TestSlotAttr(t *testing.T) {
 }
 
 func TestSpellCheckAttr(t *testing.T) {
-	got := string(ol.New().SpellCheck(spellcheck.True).Render())
+	got := string(ol.New().SpellCheck(spellcheck.True).RenderBytes())
 	want := `<ol spellcheck="true"></ol>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -419,7 +419,7 @@ func TestSpellCheckAttr(t *testing.T) {
 }
 
 func TestTranslateAttr(t *testing.T) {
-	got := string(ol.New().Translate(translate.Yes).Render())
+	got := string(ol.New().Translate(translate.Yes).RenderBytes())
 	want := `<ol translate="yes"></ol>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -427,7 +427,7 @@ func TestTranslateAttr(t *testing.T) {
 }
 
 func TestVirtualKeyboardPolicyAttr(t *testing.T) {
-	got := string(ol.New().VirtualKeyboardPolicy(virtualkeyboardpolicy.Auto).Render())
+	got := string(ol.New().VirtualKeyboardPolicy(virtualkeyboardpolicy.Auto).RenderBytes())
 	want := `<ol virtualkeyboardpolicy="auto"></ol>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -435,7 +435,7 @@ func TestVirtualKeyboardPolicyAttr(t *testing.T) {
 }
 
 func TestWritingSuggestionsAttr(t *testing.T) {
-	got := string(ol.New().WritingSuggestions(writingsuggestions.True).Render())
+	got := string(ol.New().WritingSuggestions(writingsuggestions.True).RenderBytes())
 	want := `<ol writingsuggestions="true"></ol>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -443,7 +443,7 @@ func TestWritingSuggestionsAttr(t *testing.T) {
 }
 
 func TestOnClickAttr(t *testing.T) {
-	got := string(ol.New().OnClick("test").Render())
+	got := string(ol.New().OnClick("test").RenderBytes())
 	want := `<ol onclick="test"></ol>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -451,7 +451,7 @@ func TestOnClickAttr(t *testing.T) {
 }
 
 func TestOnChangeAttr(t *testing.T) {
-	got := string(ol.New().OnChange("test").Render())
+	got := string(ol.New().OnChange("test").RenderBytes())
 	want := `<ol onchange="test"></ol>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -459,7 +459,7 @@ func TestOnChangeAttr(t *testing.T) {
 }
 
 func TestOnInputAttr(t *testing.T) {
-	got := string(ol.New().OnInput("test").Render())
+	got := string(ol.New().OnInput("test").RenderBytes())
 	want := `<ol oninput="test"></ol>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -467,7 +467,7 @@ func TestOnInputAttr(t *testing.T) {
 }
 
 func TestOnFocusAttr(t *testing.T) {
-	got := string(ol.New().OnFocus("test").Render())
+	got := string(ol.New().OnFocus("test").RenderBytes())
 	want := `<ol onfocus="test"></ol>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -475,7 +475,7 @@ func TestOnFocusAttr(t *testing.T) {
 }
 
 func TestOnBlurAttr(t *testing.T) {
-	got := string(ol.New().OnBlur("test").Render())
+	got := string(ol.New().OnBlur("test").RenderBytes())
 	want := `<ol onblur="test"></ol>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -483,7 +483,7 @@ func TestOnBlurAttr(t *testing.T) {
 }
 
 func TestOnSubmitAttr(t *testing.T) {
-	got := string(ol.New().OnSubmit("test").Render())
+	got := string(ol.New().OnSubmit("test").RenderBytes())
 	want := `<ol onsubmit="test"></ol>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -491,7 +491,7 @@ func TestOnSubmitAttr(t *testing.T) {
 }
 
 func TestOnLoadAttr(t *testing.T) {
-	got := string(ol.New().OnLoad("test").Render())
+	got := string(ol.New().OnLoad("test").RenderBytes())
 	want := `<ol onload="test"></ol>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -499,7 +499,7 @@ func TestOnLoadAttr(t *testing.T) {
 }
 
 func TestOnErrorAttr(t *testing.T) {
-	got := string(ol.New().OnError("test").Render())
+	got := string(ol.New().OnError("test").RenderBytes())
 	want := `<ol onerror="test"></ol>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -507,7 +507,7 @@ func TestOnErrorAttr(t *testing.T) {
 }
 
 func TestSetEventAttr(t *testing.T) {
-	got := string(ol.New().SetEvent("onclick", "test-value").Render())
+	got := string(ol.New().SetEvent("onclick", "test-value").RenderBytes())
 	want := `<ol onclick="test-value"></ol>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -515,7 +515,7 @@ func TestSetEventAttr(t *testing.T) {
 }
 
 func TestOnAbortAttr(t *testing.T) {
-	got := string(ol.New().OnAbort("test").Render())
+	got := string(ol.New().OnAbort("test").RenderBytes())
 	want := `<ol onabort="test"></ol>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -523,7 +523,7 @@ func TestOnAbortAttr(t *testing.T) {
 }
 
 func TestOnAutoCompleteAttr(t *testing.T) {
-	got := string(ol.New().OnAutoComplete("test").Render())
+	got := string(ol.New().OnAutoComplete("test").RenderBytes())
 	want := `<ol onautocomplete="test"></ol>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -531,7 +531,7 @@ func TestOnAutoCompleteAttr(t *testing.T) {
 }
 
 func TestOnAutoCompleteErrorAttr(t *testing.T) {
-	got := string(ol.New().OnAutoCompleteError("test").Render())
+	got := string(ol.New().OnAutoCompleteError("test").RenderBytes())
 	want := `<ol onautocompleteerror="test"></ol>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -539,7 +539,7 @@ func TestOnAutoCompleteErrorAttr(t *testing.T) {
 }
 
 func TestOnCancelAttr(t *testing.T) {
-	got := string(ol.New().OnCancel("test").Render())
+	got := string(ol.New().OnCancel("test").RenderBytes())
 	want := `<ol oncancel="test"></ol>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -547,7 +547,7 @@ func TestOnCancelAttr(t *testing.T) {
 }
 
 func TestOnCanPlayAttr(t *testing.T) {
-	got := string(ol.New().OnCanPlay("test").Render())
+	got := string(ol.New().OnCanPlay("test").RenderBytes())
 	want := `<ol oncanplay="test"></ol>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -555,7 +555,7 @@ func TestOnCanPlayAttr(t *testing.T) {
 }
 
 func TestOnCanPlayThroughAttr(t *testing.T) {
-	got := string(ol.New().OnCanPlayThrough("test").Render())
+	got := string(ol.New().OnCanPlayThrough("test").RenderBytes())
 	want := `<ol oncanplaythrough="test"></ol>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -563,7 +563,7 @@ func TestOnCanPlayThroughAttr(t *testing.T) {
 }
 
 func TestOnCloseAttr(t *testing.T) {
-	got := string(ol.New().OnClose("test").Render())
+	got := string(ol.New().OnClose("test").RenderBytes())
 	want := `<ol onclose="test"></ol>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -571,7 +571,7 @@ func TestOnCloseAttr(t *testing.T) {
 }
 
 func TestOnContextMenuAttr(t *testing.T) {
-	got := string(ol.New().OnContextMenu("test").Render())
+	got := string(ol.New().OnContextMenu("test").RenderBytes())
 	want := `<ol oncontextmenu="test"></ol>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -579,7 +579,7 @@ func TestOnContextMenuAttr(t *testing.T) {
 }
 
 func TestOnCueChangeAttr(t *testing.T) {
-	got := string(ol.New().OnCueChange("test").Render())
+	got := string(ol.New().OnCueChange("test").RenderBytes())
 	want := `<ol oncuechange="test"></ol>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -587,7 +587,7 @@ func TestOnCueChangeAttr(t *testing.T) {
 }
 
 func TestOnDblClickAttr(t *testing.T) {
-	got := string(ol.New().OnDblClick("test").Render())
+	got := string(ol.New().OnDblClick("test").RenderBytes())
 	want := `<ol ondblclick="test"></ol>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -595,7 +595,7 @@ func TestOnDblClickAttr(t *testing.T) {
 }
 
 func TestOnDragAttr(t *testing.T) {
-	got := string(ol.New().OnDrag("test").Render())
+	got := string(ol.New().OnDrag("test").RenderBytes())
 	want := `<ol ondrag="test"></ol>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -603,7 +603,7 @@ func TestOnDragAttr(t *testing.T) {
 }
 
 func TestOnDragEndAttr(t *testing.T) {
-	got := string(ol.New().OnDragEnd("test").Render())
+	got := string(ol.New().OnDragEnd("test").RenderBytes())
 	want := `<ol ondragend="test"></ol>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -611,7 +611,7 @@ func TestOnDragEndAttr(t *testing.T) {
 }
 
 func TestOnDragEnterAttr(t *testing.T) {
-	got := string(ol.New().OnDragEnter("test").Render())
+	got := string(ol.New().OnDragEnter("test").RenderBytes())
 	want := `<ol ondragenter="test"></ol>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -619,7 +619,7 @@ func TestOnDragEnterAttr(t *testing.T) {
 }
 
 func TestOnDragLeaveAttr(t *testing.T) {
-	got := string(ol.New().OnDragLeave("test").Render())
+	got := string(ol.New().OnDragLeave("test").RenderBytes())
 	want := `<ol ondragleave="test"></ol>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -627,7 +627,7 @@ func TestOnDragLeaveAttr(t *testing.T) {
 }
 
 func TestOnDragOverAttr(t *testing.T) {
-	got := string(ol.New().OnDragOver("test").Render())
+	got := string(ol.New().OnDragOver("test").RenderBytes())
 	want := `<ol ondragover="test"></ol>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -635,7 +635,7 @@ func TestOnDragOverAttr(t *testing.T) {
 }
 
 func TestOnDragStartAttr(t *testing.T) {
-	got := string(ol.New().OnDragStart("test").Render())
+	got := string(ol.New().OnDragStart("test").RenderBytes())
 	want := `<ol ondragstart="test"></ol>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -643,7 +643,7 @@ func TestOnDragStartAttr(t *testing.T) {
 }
 
 func TestOnDropAttr(t *testing.T) {
-	got := string(ol.New().OnDrop("test").Render())
+	got := string(ol.New().OnDrop("test").RenderBytes())
 	want := `<ol ondrop="test"></ol>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -651,7 +651,7 @@ func TestOnDropAttr(t *testing.T) {
 }
 
 func TestOnDurationChangeAttr(t *testing.T) {
-	got := string(ol.New().OnDurationChange("test").Render())
+	got := string(ol.New().OnDurationChange("test").RenderBytes())
 	want := `<ol ondurationchange="test"></ol>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -659,7 +659,7 @@ func TestOnDurationChangeAttr(t *testing.T) {
 }
 
 func TestOnEmptiedAttr(t *testing.T) {
-	got := string(ol.New().OnEmptied("test").Render())
+	got := string(ol.New().OnEmptied("test").RenderBytes())
 	want := `<ol onemptied="test"></ol>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -667,7 +667,7 @@ func TestOnEmptiedAttr(t *testing.T) {
 }
 
 func TestOnEndedAttr(t *testing.T) {
-	got := string(ol.New().OnEnded("test").Render())
+	got := string(ol.New().OnEnded("test").RenderBytes())
 	want := `<ol onended="test"></ol>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -675,7 +675,7 @@ func TestOnEndedAttr(t *testing.T) {
 }
 
 func TestOnInvalidAttr(t *testing.T) {
-	got := string(ol.New().OnInvalid("test").Render())
+	got := string(ol.New().OnInvalid("test").RenderBytes())
 	want := `<ol oninvalid="test"></ol>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -683,7 +683,7 @@ func TestOnInvalidAttr(t *testing.T) {
 }
 
 func TestOnKeyDownAttr(t *testing.T) {
-	got := string(ol.New().OnKeyDown("test").Render())
+	got := string(ol.New().OnKeyDown("test").RenderBytes())
 	want := `<ol onkeydown="test"></ol>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -691,7 +691,7 @@ func TestOnKeyDownAttr(t *testing.T) {
 }
 
 func TestOnKeyPressAttr(t *testing.T) {
-	got := string(ol.New().OnKeyPress("test").Render())
+	got := string(ol.New().OnKeyPress("test").RenderBytes())
 	want := `<ol onkeypress="test"></ol>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -699,7 +699,7 @@ func TestOnKeyPressAttr(t *testing.T) {
 }
 
 func TestOnKeyUpAttr(t *testing.T) {
-	got := string(ol.New().OnKeyUp("test").Render())
+	got := string(ol.New().OnKeyUp("test").RenderBytes())
 	want := `<ol onkeyup="test"></ol>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -707,7 +707,7 @@ func TestOnKeyUpAttr(t *testing.T) {
 }
 
 func TestOnLoadedDataAttr(t *testing.T) {
-	got := string(ol.New().OnLoadedData("test").Render())
+	got := string(ol.New().OnLoadedData("test").RenderBytes())
 	want := `<ol onloadeddata="test"></ol>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -715,7 +715,7 @@ func TestOnLoadedDataAttr(t *testing.T) {
 }
 
 func TestOnLoadedMetadataAttr(t *testing.T) {
-	got := string(ol.New().OnLoadedMetadata("test").Render())
+	got := string(ol.New().OnLoadedMetadata("test").RenderBytes())
 	want := `<ol onloadedmetadata="test"></ol>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -723,7 +723,7 @@ func TestOnLoadedMetadataAttr(t *testing.T) {
 }
 
 func TestOnLoadStartAttr(t *testing.T) {
-	got := string(ol.New().OnLoadStart("test").Render())
+	got := string(ol.New().OnLoadStart("test").RenderBytes())
 	want := `<ol onloadstart="test"></ol>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -731,7 +731,7 @@ func TestOnLoadStartAttr(t *testing.T) {
 }
 
 func TestOnMouseDownAttr(t *testing.T) {
-	got := string(ol.New().OnMouseDown("test").Render())
+	got := string(ol.New().OnMouseDown("test").RenderBytes())
 	want := `<ol onmousedown="test"></ol>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -739,7 +739,7 @@ func TestOnMouseDownAttr(t *testing.T) {
 }
 
 func TestOnMouseEnterAttr(t *testing.T) {
-	got := string(ol.New().OnMouseEnter("test").Render())
+	got := string(ol.New().OnMouseEnter("test").RenderBytes())
 	want := `<ol onmouseenter="test"></ol>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -747,7 +747,7 @@ func TestOnMouseEnterAttr(t *testing.T) {
 }
 
 func TestOnMouseLeaveAttr(t *testing.T) {
-	got := string(ol.New().OnMouseLeave("test").Render())
+	got := string(ol.New().OnMouseLeave("test").RenderBytes())
 	want := `<ol onmouseleave="test"></ol>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -755,7 +755,7 @@ func TestOnMouseLeaveAttr(t *testing.T) {
 }
 
 func TestOnMouseMoveAttr(t *testing.T) {
-	got := string(ol.New().OnMouseMove("test").Render())
+	got := string(ol.New().OnMouseMove("test").RenderBytes())
 	want := `<ol onmousemove="test"></ol>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -763,7 +763,7 @@ func TestOnMouseMoveAttr(t *testing.T) {
 }
 
 func TestOnMouseOutAttr(t *testing.T) {
-	got := string(ol.New().OnMouseOut("test").Render())
+	got := string(ol.New().OnMouseOut("test").RenderBytes())
 	want := `<ol onmouseout="test"></ol>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -771,7 +771,7 @@ func TestOnMouseOutAttr(t *testing.T) {
 }
 
 func TestOnMouseOverAttr(t *testing.T) {
-	got := string(ol.New().OnMouseOver("test").Render())
+	got := string(ol.New().OnMouseOver("test").RenderBytes())
 	want := `<ol onmouseover="test"></ol>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -779,7 +779,7 @@ func TestOnMouseOverAttr(t *testing.T) {
 }
 
 func TestOnMouseUpAttr(t *testing.T) {
-	got := string(ol.New().OnMouseUp("test").Render())
+	got := string(ol.New().OnMouseUp("test").RenderBytes())
 	want := `<ol onmouseup="test"></ol>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -787,7 +787,7 @@ func TestOnMouseUpAttr(t *testing.T) {
 }
 
 func TestOnMouseWheelAttr(t *testing.T) {
-	got := string(ol.New().OnMouseWheel("test").Render())
+	got := string(ol.New().OnMouseWheel("test").RenderBytes())
 	want := `<ol onmousewheel="test"></ol>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -795,7 +795,7 @@ func TestOnMouseWheelAttr(t *testing.T) {
 }
 
 func TestOnPauseAttr(t *testing.T) {
-	got := string(ol.New().OnPause("test").Render())
+	got := string(ol.New().OnPause("test").RenderBytes())
 	want := `<ol onpause="test"></ol>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -803,7 +803,7 @@ func TestOnPauseAttr(t *testing.T) {
 }
 
 func TestOnPlayAttr(t *testing.T) {
-	got := string(ol.New().OnPlay("test").Render())
+	got := string(ol.New().OnPlay("test").RenderBytes())
 	want := `<ol onplay="test"></ol>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -811,7 +811,7 @@ func TestOnPlayAttr(t *testing.T) {
 }
 
 func TestOnPlayingAttr(t *testing.T) {
-	got := string(ol.New().OnPlaying("test").Render())
+	got := string(ol.New().OnPlaying("test").RenderBytes())
 	want := `<ol onplaying="test"></ol>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -819,7 +819,7 @@ func TestOnPlayingAttr(t *testing.T) {
 }
 
 func TestOnProgressAttr(t *testing.T) {
-	got := string(ol.New().OnProgress("test").Render())
+	got := string(ol.New().OnProgress("test").RenderBytes())
 	want := `<ol onprogress="test"></ol>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -827,7 +827,7 @@ func TestOnProgressAttr(t *testing.T) {
 }
 
 func TestOnRateChangeAttr(t *testing.T) {
-	got := string(ol.New().OnRateChange("test").Render())
+	got := string(ol.New().OnRateChange("test").RenderBytes())
 	want := `<ol onratechange="test"></ol>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -835,7 +835,7 @@ func TestOnRateChangeAttr(t *testing.T) {
 }
 
 func TestOnResetAttr(t *testing.T) {
-	got := string(ol.New().OnReset("test").Render())
+	got := string(ol.New().OnReset("test").RenderBytes())
 	want := `<ol onreset="test"></ol>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -843,7 +843,7 @@ func TestOnResetAttr(t *testing.T) {
 }
 
 func TestOnResizeAttr(t *testing.T) {
-	got := string(ol.New().OnResize("test").Render())
+	got := string(ol.New().OnResize("test").RenderBytes())
 	want := `<ol onresize="test"></ol>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -851,7 +851,7 @@ func TestOnResizeAttr(t *testing.T) {
 }
 
 func TestOnScrollAttr(t *testing.T) {
-	got := string(ol.New().OnScroll("test").Render())
+	got := string(ol.New().OnScroll("test").RenderBytes())
 	want := `<ol onscroll="test"></ol>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -859,7 +859,7 @@ func TestOnScrollAttr(t *testing.T) {
 }
 
 func TestOnSeekedAttr(t *testing.T) {
-	got := string(ol.New().OnSeeked("test").Render())
+	got := string(ol.New().OnSeeked("test").RenderBytes())
 	want := `<ol onseeked="test"></ol>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -867,7 +867,7 @@ func TestOnSeekedAttr(t *testing.T) {
 }
 
 func TestOnSeekingAttr(t *testing.T) {
-	got := string(ol.New().OnSeeking("test").Render())
+	got := string(ol.New().OnSeeking("test").RenderBytes())
 	want := `<ol onseeking="test"></ol>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -875,7 +875,7 @@ func TestOnSeekingAttr(t *testing.T) {
 }
 
 func TestOnSelectAttr(t *testing.T) {
-	got := string(ol.New().OnSelect("test").Render())
+	got := string(ol.New().OnSelect("test").RenderBytes())
 	want := `<ol onselect="test"></ol>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -883,7 +883,7 @@ func TestOnSelectAttr(t *testing.T) {
 }
 
 func TestOnShowAttr(t *testing.T) {
-	got := string(ol.New().OnShow("test").Render())
+	got := string(ol.New().OnShow("test").RenderBytes())
 	want := `<ol onshow="test"></ol>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -891,7 +891,7 @@ func TestOnShowAttr(t *testing.T) {
 }
 
 func TestOnSortAttr(t *testing.T) {
-	got := string(ol.New().OnSort("test").Render())
+	got := string(ol.New().OnSort("test").RenderBytes())
 	want := `<ol onsort="test"></ol>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -899,7 +899,7 @@ func TestOnSortAttr(t *testing.T) {
 }
 
 func TestOnStalledAttr(t *testing.T) {
-	got := string(ol.New().OnStalled("test").Render())
+	got := string(ol.New().OnStalled("test").RenderBytes())
 	want := `<ol onstalled="test"></ol>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -907,7 +907,7 @@ func TestOnStalledAttr(t *testing.T) {
 }
 
 func TestOnSuspendAttr(t *testing.T) {
-	got := string(ol.New().OnSuspend("test").Render())
+	got := string(ol.New().OnSuspend("test").RenderBytes())
 	want := `<ol onsuspend="test"></ol>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -915,7 +915,7 @@ func TestOnSuspendAttr(t *testing.T) {
 }
 
 func TestOnTimeUpdateAttr(t *testing.T) {
-	got := string(ol.New().OnTimeUpdate("test").Render())
+	got := string(ol.New().OnTimeUpdate("test").RenderBytes())
 	want := `<ol ontimeupdate="test"></ol>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -923,7 +923,7 @@ func TestOnTimeUpdateAttr(t *testing.T) {
 }
 
 func TestOnToggleAttr(t *testing.T) {
-	got := string(ol.New().OnToggle("test").Render())
+	got := string(ol.New().OnToggle("test").RenderBytes())
 	want := `<ol ontoggle="test"></ol>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -931,7 +931,7 @@ func TestOnToggleAttr(t *testing.T) {
 }
 
 func TestOnVolumeChangeAttr(t *testing.T) {
-	got := string(ol.New().OnVolumeChange("test").Render())
+	got := string(ol.New().OnVolumeChange("test").RenderBytes())
 	want := `<ol onvolumechange="test"></ol>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -939,7 +939,7 @@ func TestOnVolumeChangeAttr(t *testing.T) {
 }
 
 func TestOnWaitingAttr(t *testing.T) {
-	got := string(ol.New().OnWaiting("test").Render())
+	got := string(ol.New().OnWaiting("test").RenderBytes())
 	want := `<ol onwaiting="test"></ol>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -947,7 +947,7 @@ func TestOnWaitingAttr(t *testing.T) {
 }
 
 func TestOnAuxClickAttr(t *testing.T) {
-	got := string(ol.New().OnAuxClick("test").Render())
+	got := string(ol.New().OnAuxClick("test").RenderBytes())
 	want := `<ol onauxclick="test"></ol>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -955,7 +955,7 @@ func TestOnAuxClickAttr(t *testing.T) {
 }
 
 func TestOnWheelAttr(t *testing.T) {
-	got := string(ol.New().OnWheel("test").Render())
+	got := string(ol.New().OnWheel("test").RenderBytes())
 	want := `<ol onwheel="test"></ol>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -963,7 +963,7 @@ func TestOnWheelAttr(t *testing.T) {
 }
 
 func TestOnCopyAttr(t *testing.T) {
-	got := string(ol.New().OnCopy("test").Render())
+	got := string(ol.New().OnCopy("test").RenderBytes())
 	want := `<ol oncopy="test"></ol>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -971,7 +971,7 @@ func TestOnCopyAttr(t *testing.T) {
 }
 
 func TestOnCutAttr(t *testing.T) {
-	got := string(ol.New().OnCut("test").Render())
+	got := string(ol.New().OnCut("test").RenderBytes())
 	want := `<ol oncut="test"></ol>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -979,7 +979,7 @@ func TestOnCutAttr(t *testing.T) {
 }
 
 func TestOnPasteAttr(t *testing.T) {
-	got := string(ol.New().OnPaste("test").Render())
+	got := string(ol.New().OnPaste("test").RenderBytes())
 	want := `<ol onpaste="test"></ol>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -987,7 +987,7 @@ func TestOnPasteAttr(t *testing.T) {
 }
 
 func TestOnScrollEndAttr(t *testing.T) {
-	got := string(ol.New().OnScrollEnd("test").Render())
+	got := string(ol.New().OnScrollEnd("test").RenderBytes())
 	want := `<ol onscrollend="test"></ol>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -995,7 +995,7 @@ func TestOnScrollEndAttr(t *testing.T) {
 }
 
 func TestOnFormDataAttr(t *testing.T) {
-	got := string(ol.New().OnFormData("test").Render())
+	got := string(ol.New().OnFormData("test").RenderBytes())
 	want := `<ol onformdata="test"></ol>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -1003,7 +1003,7 @@ func TestOnFormDataAttr(t *testing.T) {
 }
 
 func TestOnAnimationCancelAttr(t *testing.T) {
-	got := string(ol.New().OnAnimationCancel("test").Render())
+	got := string(ol.New().OnAnimationCancel("test").RenderBytes())
 	want := `<ol onanimationcancel="test"></ol>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -1011,7 +1011,7 @@ func TestOnAnimationCancelAttr(t *testing.T) {
 }
 
 func TestOnAnimationEndAttr(t *testing.T) {
-	got := string(ol.New().OnAnimationEnd("test").Render())
+	got := string(ol.New().OnAnimationEnd("test").RenderBytes())
 	want := `<ol onanimationend="test"></ol>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -1019,7 +1019,7 @@ func TestOnAnimationEndAttr(t *testing.T) {
 }
 
 func TestOnAnimationIterationAttr(t *testing.T) {
-	got := string(ol.New().OnAnimationIteration("test").Render())
+	got := string(ol.New().OnAnimationIteration("test").RenderBytes())
 	want := `<ol onanimationiteration="test"></ol>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -1027,7 +1027,7 @@ func TestOnAnimationIterationAttr(t *testing.T) {
 }
 
 func TestOnAnimationStartAttr(t *testing.T) {
-	got := string(ol.New().OnAnimationStart("test").Render())
+	got := string(ol.New().OnAnimationStart("test").RenderBytes())
 	want := `<ol onanimationstart="test"></ol>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -1035,7 +1035,7 @@ func TestOnAnimationStartAttr(t *testing.T) {
 }
 
 func TestOnTransitionCancelAttr(t *testing.T) {
-	got := string(ol.New().OnTransitionCancel("test").Render())
+	got := string(ol.New().OnTransitionCancel("test").RenderBytes())
 	want := `<ol ontransitioncancel="test"></ol>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -1043,7 +1043,7 @@ func TestOnTransitionCancelAttr(t *testing.T) {
 }
 
 func TestOnTransitionEndAttr(t *testing.T) {
-	got := string(ol.New().OnTransitionEnd("test").Render())
+	got := string(ol.New().OnTransitionEnd("test").RenderBytes())
 	want := `<ol ontransitionend="test"></ol>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -1051,7 +1051,7 @@ func TestOnTransitionEndAttr(t *testing.T) {
 }
 
 func TestOnTransitionRunAttr(t *testing.T) {
-	got := string(ol.New().OnTransitionRun("test").Render())
+	got := string(ol.New().OnTransitionRun("test").RenderBytes())
 	want := `<ol ontransitionrun="test"></ol>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -1059,7 +1059,7 @@ func TestOnTransitionRunAttr(t *testing.T) {
 }
 
 func TestOnTransitionStartAttr(t *testing.T) {
-	got := string(ol.New().OnTransitionStart("test").Render())
+	got := string(ol.New().OnTransitionStart("test").RenderBytes())
 	want := `<ol ontransitionstart="test"></ol>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -1067,7 +1067,7 @@ func TestOnTransitionStartAttr(t *testing.T) {
 }
 
 func TestOnBeforeToggleAttr(t *testing.T) {
-	got := string(ol.New().OnBeforeToggle("test").Render())
+	got := string(ol.New().OnBeforeToggle("test").RenderBytes())
 	want := `<ol onbeforetoggle="test"></ol>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -1075,7 +1075,7 @@ func TestOnBeforeToggleAttr(t *testing.T) {
 }
 
 func TestOnBeforeInputAttr(t *testing.T) {
-	got := string(ol.New().OnBeforeInput("test").Render())
+	got := string(ol.New().OnBeforeInput("test").RenderBytes())
 	want := `<ol onbeforeinput="test"></ol>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -1083,7 +1083,7 @@ func TestOnBeforeInputAttr(t *testing.T) {
 }
 
 func TestOnBeforeMatchAttr(t *testing.T) {
-	got := string(ol.New().OnBeforeMatch("test").Render())
+	got := string(ol.New().OnBeforeMatch("test").RenderBytes())
 	want := `<ol onbeforematch="test"></ol>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -1091,7 +1091,7 @@ func TestOnBeforeMatchAttr(t *testing.T) {
 }
 
 func TestOnCommandAttr(t *testing.T) {
-	got := string(ol.New().OnCommand("test").Render())
+	got := string(ol.New().OnCommand("test").RenderBytes())
 	want := `<ol oncommand="test"></ol>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -1099,7 +1099,7 @@ func TestOnCommandAttr(t *testing.T) {
 }
 
 func TestOnContextLostAttr(t *testing.T) {
-	got := string(ol.New().OnContextLost("test").Render())
+	got := string(ol.New().OnContextLost("test").RenderBytes())
 	want := `<ol oncontextlost="test"></ol>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -1107,7 +1107,7 @@ func TestOnContextLostAttr(t *testing.T) {
 }
 
 func TestOnContextRestoredAttr(t *testing.T) {
-	got := string(ol.New().OnContextRestored("test").Render())
+	got := string(ol.New().OnContextRestored("test").RenderBytes())
 	want := `<ol oncontextrestored="test"></ol>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -1115,7 +1115,7 @@ func TestOnContextRestoredAttr(t *testing.T) {
 }
 
 func TestOnSecurityPolicyViolationAttr(t *testing.T) {
-	got := string(ol.New().OnSecurityPolicyViolation("test").Render())
+	got := string(ol.New().OnSecurityPolicyViolation("test").RenderBytes())
 	want := `<ol onsecuritypolicyviolation="test"></ol>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -1123,7 +1123,7 @@ func TestOnSecurityPolicyViolationAttr(t *testing.T) {
 }
 
 func TestOnSlotChangeAttr(t *testing.T) {
-	got := string(ol.New().OnSlotChange("test").Render())
+	got := string(ol.New().OnSlotChange("test").RenderBytes())
 	want := `<ol onslotchange="test"></ol>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -1131,7 +1131,7 @@ func TestOnSlotChangeAttr(t *testing.T) {
 }
 
 func TestOnPointerDownAttr(t *testing.T) {
-	got := string(ol.New().OnPointerDown("test").Render())
+	got := string(ol.New().OnPointerDown("test").RenderBytes())
 	want := `<ol onpointerdown="test"></ol>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -1139,7 +1139,7 @@ func TestOnPointerDownAttr(t *testing.T) {
 }
 
 func TestOnPointerUpAttr(t *testing.T) {
-	got := string(ol.New().OnPointerUp("test").Render())
+	got := string(ol.New().OnPointerUp("test").RenderBytes())
 	want := `<ol onpointerup="test"></ol>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -1147,7 +1147,7 @@ func TestOnPointerUpAttr(t *testing.T) {
 }
 
 func TestOnPointerMoveAttr(t *testing.T) {
-	got := string(ol.New().OnPointerMove("test").Render())
+	got := string(ol.New().OnPointerMove("test").RenderBytes())
 	want := `<ol onpointermove="test"></ol>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -1155,7 +1155,7 @@ func TestOnPointerMoveAttr(t *testing.T) {
 }
 
 func TestOnPointerEnterAttr(t *testing.T) {
-	got := string(ol.New().OnPointerEnter("test").Render())
+	got := string(ol.New().OnPointerEnter("test").RenderBytes())
 	want := `<ol onpointerenter="test"></ol>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -1163,7 +1163,7 @@ func TestOnPointerEnterAttr(t *testing.T) {
 }
 
 func TestOnPointerLeaveAttr(t *testing.T) {
-	got := string(ol.New().OnPointerLeave("test").Render())
+	got := string(ol.New().OnPointerLeave("test").RenderBytes())
 	want := `<ol onpointerleave="test"></ol>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -1171,7 +1171,7 @@ func TestOnPointerLeaveAttr(t *testing.T) {
 }
 
 func TestOnPointerOverAttr(t *testing.T) {
-	got := string(ol.New().OnPointerOver("test").Render())
+	got := string(ol.New().OnPointerOver("test").RenderBytes())
 	want := `<ol onpointerover="test"></ol>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -1179,7 +1179,7 @@ func TestOnPointerOverAttr(t *testing.T) {
 }
 
 func TestOnPointerOutAttr(t *testing.T) {
-	got := string(ol.New().OnPointerOut("test").Render())
+	got := string(ol.New().OnPointerOut("test").RenderBytes())
 	want := `<ol onpointerout="test"></ol>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -1187,7 +1187,7 @@ func TestOnPointerOutAttr(t *testing.T) {
 }
 
 func TestOnPointerCancelAttr(t *testing.T) {
-	got := string(ol.New().OnPointerCancel("test").Render())
+	got := string(ol.New().OnPointerCancel("test").RenderBytes())
 	want := `<ol onpointercancel="test"></ol>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -1195,7 +1195,7 @@ func TestOnPointerCancelAttr(t *testing.T) {
 }
 
 func TestOnGotPointerCaptureAttr(t *testing.T) {
-	got := string(ol.New().OnGotPointerCapture("test").Render())
+	got := string(ol.New().OnGotPointerCapture("test").RenderBytes())
 	want := `<ol ongotpointercapture="test"></ol>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -1203,7 +1203,7 @@ func TestOnGotPointerCaptureAttr(t *testing.T) {
 }
 
 func TestOnLostPointerCaptureAttr(t *testing.T) {
-	got := string(ol.New().OnLostPointerCapture("test").Render())
+	got := string(ol.New().OnLostPointerCapture("test").RenderBytes())
 	want := `<ol onlostpointercapture="test"></ol>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -1211,7 +1211,7 @@ func TestOnLostPointerCaptureAttr(t *testing.T) {
 }
 
 func TestOnTouchStartAttr(t *testing.T) {
-	got := string(ol.New().OnTouchStart("test").Render())
+	got := string(ol.New().OnTouchStart("test").RenderBytes())
 	want := `<ol ontouchstart="test"></ol>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -1219,7 +1219,7 @@ func TestOnTouchStartAttr(t *testing.T) {
 }
 
 func TestOnTouchEndAttr(t *testing.T) {
-	got := string(ol.New().OnTouchEnd("test").Render())
+	got := string(ol.New().OnTouchEnd("test").RenderBytes())
 	want := `<ol ontouchend="test"></ol>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -1227,7 +1227,7 @@ func TestOnTouchEndAttr(t *testing.T) {
 }
 
 func TestOnTouchMoveAttr(t *testing.T) {
-	got := string(ol.New().OnTouchMove("test").Render())
+	got := string(ol.New().OnTouchMove("test").RenderBytes())
 	want := `<ol ontouchmove="test"></ol>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -1235,7 +1235,7 @@ func TestOnTouchMoveAttr(t *testing.T) {
 }
 
 func TestOnTouchCancelAttr(t *testing.T) {
-	got := string(ol.New().OnTouchCancel("test").Render())
+	got := string(ol.New().OnTouchCancel("test").RenderBytes())
 	want := `<ol ontouchcancel="test"></ol>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -1243,7 +1243,7 @@ func TestOnTouchCancelAttr(t *testing.T) {
 }
 
 func TestOnSelectStartAttr(t *testing.T) {
-	got := string(ol.New().OnSelectStart("test").Render())
+	got := string(ol.New().OnSelectStart("test").RenderBytes())
 	want := `<ol onselectstart="test"></ol>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -1251,7 +1251,7 @@ func TestOnSelectStartAttr(t *testing.T) {
 }
 
 func TestOnSelectionChangeAttr(t *testing.T) {
-	got := string(ol.New().OnSelectionChange("test").Render())
+	got := string(ol.New().OnSelectionChange("test").RenderBytes())
 	want := `<ol onselectionchange="test"></ol>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -1259,7 +1259,7 @@ func TestOnSelectionChangeAttr(t *testing.T) {
 }
 
 func TestNewMulti(t *testing.T) {
-	got := string(ol.New(ol.New(), ol.New()).Render())
+	got := string(ol.New(ol.New(), ol.New()).RenderBytes())
 	want := `<ol><ol></ol><ol></ol></ol>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -1270,7 +1270,7 @@ func TestAdd(t *testing.T) {
 	element := ol.New().Add(ol.New(), ol.New())
 
 	// Test rendered output
-	got := string(element.Render())
+	got := string(element.RenderBytes())
 	want := `<ol><ol></ol><ol></ol></ol>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -1295,7 +1295,7 @@ func TestReplace(t *testing.T) {
 	element.Replace(ol.New())
 
 	// Test rendered output
-	got := string(element.Render())
+	got := string(element.RenderBytes())
 	want := `<ol><ol></ol></ol>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -1308,7 +1308,7 @@ func TestReplace(t *testing.T) {
 }
 
 func TestTextMethod(t *testing.T) {
-	got := string(ol.New().Text("hello").Render())
+	got := string(ol.New().Text("hello").RenderBytes())
 	want := `<ol>hello</ol>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -1316,7 +1316,7 @@ func TestTextMethod(t *testing.T) {
 }
 
 func TestTextfMethod(t *testing.T) {
-	got := string(ol.New().Textf("hello %s", "world").Render())
+	got := string(ol.New().Textf("hello %s", "world").RenderBytes())
 	want := `<ol>hello world</ol>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -1324,7 +1324,7 @@ func TestTextfMethod(t *testing.T) {
 }
 
 func TestStaticMethod(t *testing.T) {
-	got := string(ol.New().Static("static content").Render())
+	got := string(ol.New().Static("static content").RenderBytes())
 	want := `<ol>static content</ol>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -1332,7 +1332,7 @@ func TestStaticMethod(t *testing.T) {
 }
 
 func TestRawTextMethod(t *testing.T) {
-	got := string(ol.New().RawText("<em>bold</em>").Render())
+	got := string(ol.New().RawText("<em>bold</em>").RenderBytes())
 	want := `<ol><em>bold</em></ol>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -1340,7 +1340,7 @@ func TestRawTextMethod(t *testing.T) {
 }
 
 func TestRawTextfMethod(t *testing.T) {
-	got := string(ol.New().RawTextf("<%s>test</%s>", "span", "span").Render())
+	got := string(ol.New().RawTextf("<%s>test</%s>", "span", "span").RenderBytes())
 	want := `<ol><span>test</span></ol>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -1348,7 +1348,7 @@ func TestRawTextfMethod(t *testing.T) {
 }
 
 func TestTextChaining(t *testing.T) {
-	got := string(ol.New().Class("foo").Text("content").ID("bar").Render())
+	got := string(ol.New().Class("foo").Text("content").ID("bar").RenderBytes())
 	want := `<ol class="foo" id="bar">content</ol>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -1356,7 +1356,7 @@ func TestTextChaining(t *testing.T) {
 }
 
 func TestDynamicKey(t *testing.T) {
-	got := string(ol.New().Dynamic("mykey").Render())
+	got := string(ol.New().Dynamic("mykey").RenderBytes())
 	want := `<ol data-tether-key="mykey"></ol>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -1371,7 +1371,7 @@ func TestDynamicNoKey(t *testing.T) {
 	if el.DynamicKey() != "_" {
 		t.Errorf("DynamicKey() should be \"_\", got %q", el.DynamicKey())
 	}
-	got := string(el.Render())
+	got := string(el.RenderBytes())
 	want := `<ol></ol>`
 	if got != want {
 		t.Errorf("Dynamic() without key should not render data-tether-key: got %q, want %q", got, want)

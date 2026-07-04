@@ -23,14 +23,14 @@ import (
 
 func TestNewCtor(t *testing.T) {
 	// Test empty element
-	got := string(imagemap.New().Render())
+	got := string(imagemap.New().RenderBytes())
 	want := `<map></map>`
 	if got != want {
 		t.Errorf("empty: got %q, want %q", got, want)
 	}
 
 	// Test nested element
-	got = string(imagemap.New(imagemap.New()).Render())
+	got = string(imagemap.New(imagemap.New()).RenderBytes())
 	want = `<map><map></map></map>`
 	if got != want {
 		t.Errorf("nested: got %q, want %q", got, want)
@@ -38,7 +38,7 @@ func TestNewCtor(t *testing.T) {
 }
 
 func TestNamedCtor(t *testing.T) {
-	got := string(imagemap.Named("nav", area.Rect(0, 0, 100, 50, "/page1")).Render())
+	got := string(imagemap.Named("nav", area.Rect(0, 0, 100, 50, "/page1")).RenderBytes())
 	want := `<map name="nav"><area shape="rect" coords="0,0,100,50" href="/page1" /></map>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -46,7 +46,7 @@ func TestNamedCtor(t *testing.T) {
 }
 
 func TestTextCtor(t *testing.T) {
-	got := string(imagemap.Text("Navigation").Render())
+	got := string(imagemap.Text("Navigation").RenderBytes())
 	want := `<map>Navigation</map>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -54,7 +54,7 @@ func TestTextCtor(t *testing.T) {
 }
 
 func TestStaticCtor(t *testing.T) {
-	got := string(imagemap.Static("Navigation").Render())
+	got := string(imagemap.Static("Navigation").RenderBytes())
 	want := `<map>Navigation</map>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -62,7 +62,7 @@ func TestStaticCtor(t *testing.T) {
 }
 
 func TestRawTextCtor(t *testing.T) {
-	got := string(imagemap.RawText("<p>Navigation links</p>").Render())
+	got := string(imagemap.RawText("<p>Navigation links</p>").RenderBytes())
 	want := `<map><p>Navigation links</p></map>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -71,7 +71,7 @@ func TestRawTextCtor(t *testing.T) {
 
 func TestTextfCtor(t *testing.T) {
 	region := "Europe"
-	got := string(imagemap.Textf("%s map", region).Render())
+	got := string(imagemap.Textf("%s map", region).RenderBytes())
 	want := `<map>Europe map</map>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -80,7 +80,7 @@ func TestTextfCtor(t *testing.T) {
 
 func TestRawTextfCtor(t *testing.T) {
 	section := "main"
-	got := string(imagemap.RawTextf("<p>%s navigation</p>", section).Render())
+	got := string(imagemap.RawTextf("<p>%s navigation</p>", section).RenderBytes())
 	want := `<map><p>main navigation</p></map>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -88,7 +88,7 @@ func TestRawTextfCtor(t *testing.T) {
 }
 
 func TestNameAttr(t *testing.T) {
-	got := string(imagemap.New().Name("test").Render())
+	got := string(imagemap.New().Name("test").RenderBytes())
 	want := `<map name="test"></map>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -96,7 +96,7 @@ func TestNameAttr(t *testing.T) {
 }
 
 func TestClassAttr(t *testing.T) {
-	got := string(imagemap.New().Class("test").Render())
+	got := string(imagemap.New().Class("test").RenderBytes())
 	want := `<map class="test"></map>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -105,7 +105,7 @@ func TestClassAttr(t *testing.T) {
 
 func TestClassMulti(t *testing.T) {
 	// Test multiple chained calls
-	got := string(imagemap.New().Class("one").Class("two").Class("three").Render())
+	got := string(imagemap.New().Class("one").Class("two").Class("three").RenderBytes())
 	want := `<map class="one two three"></map>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -113,7 +113,7 @@ func TestClassMulti(t *testing.T) {
 }
 
 func TestIDAttr(t *testing.T) {
-	got := string(imagemap.New().ID("test").Render())
+	got := string(imagemap.New().ID("test").RenderBytes())
 	want := `<map id="test"></map>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -121,7 +121,7 @@ func TestIDAttr(t *testing.T) {
 }
 
 func TestStyleAttr(t *testing.T) {
-	got := string(imagemap.New().Style("test").Render())
+	got := string(imagemap.New().Style("test").RenderBytes())
 	want := `<map style="test"></map>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -130,7 +130,7 @@ func TestStyleAttr(t *testing.T) {
 
 func TestStyleMulti(t *testing.T) {
 	// Test multiple chained calls
-	got := string(imagemap.New().Style("one").Style("two").Style("three").Render())
+	got := string(imagemap.New().Style("one").Style("two").Style("three").RenderBytes())
 	want := `<map style="one; two; three"></map>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -138,7 +138,7 @@ func TestStyleMulti(t *testing.T) {
 }
 
 func TestTitleAttr(t *testing.T) {
-	got := string(imagemap.New().Title("test").Render())
+	got := string(imagemap.New().Title("test").RenderBytes())
 	want := `<map title="test"></map>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -146,7 +146,7 @@ func TestTitleAttr(t *testing.T) {
 }
 
 func TestHiddenAttr(t *testing.T) {
-	got := string(imagemap.New().Hidden(hidden.True).Render())
+	got := string(imagemap.New().Hidden(hidden.True).RenderBytes())
 	want := `<map hidden="true"></map>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -154,7 +154,7 @@ func TestHiddenAttr(t *testing.T) {
 }
 
 func TestTabIndexAttr(t *testing.T) {
-	got := string(imagemap.New().TabIndex(42).Render())
+	got := string(imagemap.New().TabIndex(42).RenderBytes())
 	want := `<map tabindex="42"></map>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -162,7 +162,7 @@ func TestTabIndexAttr(t *testing.T) {
 }
 
 func TestRoleAttr(t *testing.T) {
-	got := string(imagemap.New().Role("test").Render())
+	got := string(imagemap.New().Role("test").RenderBytes())
 	want := `<map role="test"></map>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -170,7 +170,7 @@ func TestRoleAttr(t *testing.T) {
 }
 
 func TestLangAttr(t *testing.T) {
-	got := string(imagemap.New().Lang("test").Render())
+	got := string(imagemap.New().Lang("test").RenderBytes())
 	want := `<map lang="test"></map>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -178,7 +178,7 @@ func TestLangAttr(t *testing.T) {
 }
 
 func TestAccessKeyAttr(t *testing.T) {
-	got := string(imagemap.New().AccessKey("test").Render())
+	got := string(imagemap.New().AccessKey("test").RenderBytes())
 	want := `<map accesskey="test"></map>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -187,7 +187,7 @@ func TestAccessKeyAttr(t *testing.T) {
 
 func TestAccessKeyMulti(t *testing.T) {
 	// Test multiple chained calls
-	got := string(imagemap.New().AccessKey("one").AccessKey("two").AccessKey("three").Render())
+	got := string(imagemap.New().AccessKey("one").AccessKey("two").AccessKey("three").RenderBytes())
 	want := `<map accesskey="one two three"></map>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -195,7 +195,7 @@ func TestAccessKeyMulti(t *testing.T) {
 }
 
 func TestAnchorAttr(t *testing.T) {
-	got := string(imagemap.New().Anchor("test").Render())
+	got := string(imagemap.New().Anchor("test").RenderBytes())
 	want := `<map anchor="test"></map>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -203,7 +203,7 @@ func TestAnchorAttr(t *testing.T) {
 }
 
 func TestAriaLabelAttr(t *testing.T) {
-	got := string(imagemap.New().AriaLabel("test").Render())
+	got := string(imagemap.New().AriaLabel("test").RenderBytes())
 	want := `<map aria-label="test"></map>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -211,7 +211,7 @@ func TestAriaLabelAttr(t *testing.T) {
 }
 
 func TestSetAriaAttr(t *testing.T) {
-	got := string(imagemap.New().SetAria("label", "test-value").Render())
+	got := string(imagemap.New().SetAria("label", "test-value").RenderBytes())
 	want := `<map aria-label="test-value"></map>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -219,7 +219,7 @@ func TestSetAriaAttr(t *testing.T) {
 }
 
 func TestAutoCapitalizeAttr(t *testing.T) {
-	got := string(imagemap.New().AutoCapitalize(autocapitalize.Off).Render())
+	got := string(imagemap.New().AutoCapitalize(autocapitalize.Off).RenderBytes())
 	want := `<map autocapitalize="off"></map>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -227,7 +227,7 @@ func TestAutoCapitalizeAttr(t *testing.T) {
 }
 
 func TestAutoCorrectAttr(t *testing.T) {
-	got := string(imagemap.New().AutoCorrect(autocorrect.On).Render())
+	got := string(imagemap.New().AutoCorrect(autocorrect.On).RenderBytes())
 	want := `<map autocorrect="on"></map>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -235,7 +235,7 @@ func TestAutoCorrectAttr(t *testing.T) {
 }
 
 func TestAutoFocusAttr(t *testing.T) {
-	got := string(imagemap.New().AutoFocus().Render())
+	got := string(imagemap.New().AutoFocus().RenderBytes())
 	want := `<map autofocus></map>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -243,7 +243,7 @@ func TestAutoFocusAttr(t *testing.T) {
 }
 
 func TestContentEditableAttr(t *testing.T) {
-	got := string(imagemap.New().ContentEditable(contenteditable.True).Render())
+	got := string(imagemap.New().ContentEditable(contenteditable.True).RenderBytes())
 	want := `<map contenteditable="true"></map>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -251,7 +251,7 @@ func TestContentEditableAttr(t *testing.T) {
 }
 
 func TestSetDataAttr(t *testing.T) {
-	got := string(imagemap.New().SetData("user-id", "test-value").Render())
+	got := string(imagemap.New().SetData("user-id", "test-value").RenderBytes())
 	want := `<map data-user-id="test-value"></map>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -259,7 +259,7 @@ func TestSetDataAttr(t *testing.T) {
 }
 
 func TestDirAttr(t *testing.T) {
-	got := string(imagemap.New().Dir(dir.LeftToRight).Render())
+	got := string(imagemap.New().Dir(dir.LeftToRight).RenderBytes())
 	want := `<map dir="ltr"></map>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -267,7 +267,7 @@ func TestDirAttr(t *testing.T) {
 }
 
 func TestDraggableAttr(t *testing.T) {
-	got := string(imagemap.New().Draggable().Render())
+	got := string(imagemap.New().Draggable().RenderBytes())
 	want := `<map draggable></map>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -275,7 +275,7 @@ func TestDraggableAttr(t *testing.T) {
 }
 
 func TestEnterKeyHintAttr(t *testing.T) {
-	got := string(imagemap.New().EnterKeyHint(enterkeyhint.Enter).Render())
+	got := string(imagemap.New().EnterKeyHint(enterkeyhint.Enter).RenderBytes())
 	want := `<map enterkeyhint="enter"></map>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -283,7 +283,7 @@ func TestEnterKeyHintAttr(t *testing.T) {
 }
 
 func TestExportPartsAttr(t *testing.T) {
-	got := string(imagemap.New().ExportParts("test").Render())
+	got := string(imagemap.New().ExportParts("test").RenderBytes())
 	want := `<map exportparts="test"></map>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -291,7 +291,7 @@ func TestExportPartsAttr(t *testing.T) {
 }
 
 func TestInertAttr(t *testing.T) {
-	got := string(imagemap.New().Inert().Render())
+	got := string(imagemap.New().Inert().RenderBytes())
 	want := `<map inert></map>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -299,7 +299,7 @@ func TestInertAttr(t *testing.T) {
 }
 
 func TestInputModeAttr(t *testing.T) {
-	got := string(imagemap.New().InputMode(inputmode.None).Render())
+	got := string(imagemap.New().InputMode(inputmode.None).RenderBytes())
 	want := `<map inputmode="none"></map>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -307,7 +307,7 @@ func TestInputModeAttr(t *testing.T) {
 }
 
 func TestIsAttr(t *testing.T) {
-	got := string(imagemap.New().Is("test").Render())
+	got := string(imagemap.New().Is("test").RenderBytes())
 	want := `<map is="test"></map>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -315,7 +315,7 @@ func TestIsAttr(t *testing.T) {
 }
 
 func TestItemIdAttr(t *testing.T) {
-	got := string(imagemap.New().ItemId("test").Render())
+	got := string(imagemap.New().ItemId("test").RenderBytes())
 	want := `<map itemid="test"></map>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -323,7 +323,7 @@ func TestItemIdAttr(t *testing.T) {
 }
 
 func TestItemPropAttr(t *testing.T) {
-	got := string(imagemap.New().ItemProp("test").Render())
+	got := string(imagemap.New().ItemProp("test").RenderBytes())
 	want := `<map itemprop="test"></map>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -331,7 +331,7 @@ func TestItemPropAttr(t *testing.T) {
 }
 
 func TestItemRefAttr(t *testing.T) {
-	got := string(imagemap.New().ItemRef("test").Render())
+	got := string(imagemap.New().ItemRef("test").RenderBytes())
 	want := `<map itemref="test"></map>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -339,7 +339,7 @@ func TestItemRefAttr(t *testing.T) {
 }
 
 func TestItemScopeAttr(t *testing.T) {
-	got := string(imagemap.New().ItemScope().Render())
+	got := string(imagemap.New().ItemScope().RenderBytes())
 	want := `<map itemscope></map>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -347,7 +347,7 @@ func TestItemScopeAttr(t *testing.T) {
 }
 
 func TestItemTypeAttr(t *testing.T) {
-	got := string(imagemap.New().ItemType("test").Render())
+	got := string(imagemap.New().ItemType("test").RenderBytes())
 	want := `<map itemtype="test"></map>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -355,7 +355,7 @@ func TestItemTypeAttr(t *testing.T) {
 }
 
 func TestNonceAttr(t *testing.T) {
-	got := string(imagemap.New().Nonce("test").Render())
+	got := string(imagemap.New().Nonce("test").RenderBytes())
 	want := `<map nonce="test"></map>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -363,7 +363,7 @@ func TestNonceAttr(t *testing.T) {
 }
 
 func TestPartAttr(t *testing.T) {
-	got := string(imagemap.New().Part("test").Render())
+	got := string(imagemap.New().Part("test").RenderBytes())
 	want := `<map part="test"></map>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -372,7 +372,7 @@ func TestPartAttr(t *testing.T) {
 
 func TestPartMulti(t *testing.T) {
 	// Test multiple chained calls
-	got := string(imagemap.New().Part("one").Part("two").Part("three").Render())
+	got := string(imagemap.New().Part("one").Part("two").Part("three").RenderBytes())
 	want := `<map part="one two three"></map>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -380,7 +380,7 @@ func TestPartMulti(t *testing.T) {
 }
 
 func TestPopoverAttr(t *testing.T) {
-	got := string(imagemap.New().Popover(popover.Auto).Render())
+	got := string(imagemap.New().Popover(popover.Auto).RenderBytes())
 	want := `<map popover="auto"></map>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -388,7 +388,7 @@ func TestPopoverAttr(t *testing.T) {
 }
 
 func TestSlotAttr(t *testing.T) {
-	got := string(imagemap.New().Slot("test").Render())
+	got := string(imagemap.New().Slot("test").RenderBytes())
 	want := `<map slot="test"></map>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -396,7 +396,7 @@ func TestSlotAttr(t *testing.T) {
 }
 
 func TestSpellCheckAttr(t *testing.T) {
-	got := string(imagemap.New().SpellCheck(spellcheck.True).Render())
+	got := string(imagemap.New().SpellCheck(spellcheck.True).RenderBytes())
 	want := `<map spellcheck="true"></map>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -404,7 +404,7 @@ func TestSpellCheckAttr(t *testing.T) {
 }
 
 func TestTranslateAttr(t *testing.T) {
-	got := string(imagemap.New().Translate(translate.Yes).Render())
+	got := string(imagemap.New().Translate(translate.Yes).RenderBytes())
 	want := `<map translate="yes"></map>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -412,7 +412,7 @@ func TestTranslateAttr(t *testing.T) {
 }
 
 func TestVirtualKeyboardPolicyAttr(t *testing.T) {
-	got := string(imagemap.New().VirtualKeyboardPolicy(virtualkeyboardpolicy.Auto).Render())
+	got := string(imagemap.New().VirtualKeyboardPolicy(virtualkeyboardpolicy.Auto).RenderBytes())
 	want := `<map virtualkeyboardpolicy="auto"></map>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -420,7 +420,7 @@ func TestVirtualKeyboardPolicyAttr(t *testing.T) {
 }
 
 func TestWritingSuggestionsAttr(t *testing.T) {
-	got := string(imagemap.New().WritingSuggestions(writingsuggestions.True).Render())
+	got := string(imagemap.New().WritingSuggestions(writingsuggestions.True).RenderBytes())
 	want := `<map writingsuggestions="true"></map>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -428,7 +428,7 @@ func TestWritingSuggestionsAttr(t *testing.T) {
 }
 
 func TestOnClickAttr(t *testing.T) {
-	got := string(imagemap.New().OnClick("test").Render())
+	got := string(imagemap.New().OnClick("test").RenderBytes())
 	want := `<map onclick="test"></map>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -436,7 +436,7 @@ func TestOnClickAttr(t *testing.T) {
 }
 
 func TestOnChangeAttr(t *testing.T) {
-	got := string(imagemap.New().OnChange("test").Render())
+	got := string(imagemap.New().OnChange("test").RenderBytes())
 	want := `<map onchange="test"></map>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -444,7 +444,7 @@ func TestOnChangeAttr(t *testing.T) {
 }
 
 func TestOnInputAttr(t *testing.T) {
-	got := string(imagemap.New().OnInput("test").Render())
+	got := string(imagemap.New().OnInput("test").RenderBytes())
 	want := `<map oninput="test"></map>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -452,7 +452,7 @@ func TestOnInputAttr(t *testing.T) {
 }
 
 func TestOnFocusAttr(t *testing.T) {
-	got := string(imagemap.New().OnFocus("test").Render())
+	got := string(imagemap.New().OnFocus("test").RenderBytes())
 	want := `<map onfocus="test"></map>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -460,7 +460,7 @@ func TestOnFocusAttr(t *testing.T) {
 }
 
 func TestOnBlurAttr(t *testing.T) {
-	got := string(imagemap.New().OnBlur("test").Render())
+	got := string(imagemap.New().OnBlur("test").RenderBytes())
 	want := `<map onblur="test"></map>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -468,7 +468,7 @@ func TestOnBlurAttr(t *testing.T) {
 }
 
 func TestOnSubmitAttr(t *testing.T) {
-	got := string(imagemap.New().OnSubmit("test").Render())
+	got := string(imagemap.New().OnSubmit("test").RenderBytes())
 	want := `<map onsubmit="test"></map>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -476,7 +476,7 @@ func TestOnSubmitAttr(t *testing.T) {
 }
 
 func TestOnLoadAttr(t *testing.T) {
-	got := string(imagemap.New().OnLoad("test").Render())
+	got := string(imagemap.New().OnLoad("test").RenderBytes())
 	want := `<map onload="test"></map>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -484,7 +484,7 @@ func TestOnLoadAttr(t *testing.T) {
 }
 
 func TestOnErrorAttr(t *testing.T) {
-	got := string(imagemap.New().OnError("test").Render())
+	got := string(imagemap.New().OnError("test").RenderBytes())
 	want := `<map onerror="test"></map>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -492,7 +492,7 @@ func TestOnErrorAttr(t *testing.T) {
 }
 
 func TestSetEventAttr(t *testing.T) {
-	got := string(imagemap.New().SetEvent("onclick", "test-value").Render())
+	got := string(imagemap.New().SetEvent("onclick", "test-value").RenderBytes())
 	want := `<map onclick="test-value"></map>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -500,7 +500,7 @@ func TestSetEventAttr(t *testing.T) {
 }
 
 func TestOnAbortAttr(t *testing.T) {
-	got := string(imagemap.New().OnAbort("test").Render())
+	got := string(imagemap.New().OnAbort("test").RenderBytes())
 	want := `<map onabort="test"></map>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -508,7 +508,7 @@ func TestOnAbortAttr(t *testing.T) {
 }
 
 func TestOnAutoCompleteAttr(t *testing.T) {
-	got := string(imagemap.New().OnAutoComplete("test").Render())
+	got := string(imagemap.New().OnAutoComplete("test").RenderBytes())
 	want := `<map onautocomplete="test"></map>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -516,7 +516,7 @@ func TestOnAutoCompleteAttr(t *testing.T) {
 }
 
 func TestOnAutoCompleteErrorAttr(t *testing.T) {
-	got := string(imagemap.New().OnAutoCompleteError("test").Render())
+	got := string(imagemap.New().OnAutoCompleteError("test").RenderBytes())
 	want := `<map onautocompleteerror="test"></map>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -524,7 +524,7 @@ func TestOnAutoCompleteErrorAttr(t *testing.T) {
 }
 
 func TestOnCancelAttr(t *testing.T) {
-	got := string(imagemap.New().OnCancel("test").Render())
+	got := string(imagemap.New().OnCancel("test").RenderBytes())
 	want := `<map oncancel="test"></map>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -532,7 +532,7 @@ func TestOnCancelAttr(t *testing.T) {
 }
 
 func TestOnCanPlayAttr(t *testing.T) {
-	got := string(imagemap.New().OnCanPlay("test").Render())
+	got := string(imagemap.New().OnCanPlay("test").RenderBytes())
 	want := `<map oncanplay="test"></map>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -540,7 +540,7 @@ func TestOnCanPlayAttr(t *testing.T) {
 }
 
 func TestOnCanPlayThroughAttr(t *testing.T) {
-	got := string(imagemap.New().OnCanPlayThrough("test").Render())
+	got := string(imagemap.New().OnCanPlayThrough("test").RenderBytes())
 	want := `<map oncanplaythrough="test"></map>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -548,7 +548,7 @@ func TestOnCanPlayThroughAttr(t *testing.T) {
 }
 
 func TestOnCloseAttr(t *testing.T) {
-	got := string(imagemap.New().OnClose("test").Render())
+	got := string(imagemap.New().OnClose("test").RenderBytes())
 	want := `<map onclose="test"></map>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -556,7 +556,7 @@ func TestOnCloseAttr(t *testing.T) {
 }
 
 func TestOnContextMenuAttr(t *testing.T) {
-	got := string(imagemap.New().OnContextMenu("test").Render())
+	got := string(imagemap.New().OnContextMenu("test").RenderBytes())
 	want := `<map oncontextmenu="test"></map>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -564,7 +564,7 @@ func TestOnContextMenuAttr(t *testing.T) {
 }
 
 func TestOnCueChangeAttr(t *testing.T) {
-	got := string(imagemap.New().OnCueChange("test").Render())
+	got := string(imagemap.New().OnCueChange("test").RenderBytes())
 	want := `<map oncuechange="test"></map>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -572,7 +572,7 @@ func TestOnCueChangeAttr(t *testing.T) {
 }
 
 func TestOnDblClickAttr(t *testing.T) {
-	got := string(imagemap.New().OnDblClick("test").Render())
+	got := string(imagemap.New().OnDblClick("test").RenderBytes())
 	want := `<map ondblclick="test"></map>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -580,7 +580,7 @@ func TestOnDblClickAttr(t *testing.T) {
 }
 
 func TestOnDragAttr(t *testing.T) {
-	got := string(imagemap.New().OnDrag("test").Render())
+	got := string(imagemap.New().OnDrag("test").RenderBytes())
 	want := `<map ondrag="test"></map>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -588,7 +588,7 @@ func TestOnDragAttr(t *testing.T) {
 }
 
 func TestOnDragEndAttr(t *testing.T) {
-	got := string(imagemap.New().OnDragEnd("test").Render())
+	got := string(imagemap.New().OnDragEnd("test").RenderBytes())
 	want := `<map ondragend="test"></map>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -596,7 +596,7 @@ func TestOnDragEndAttr(t *testing.T) {
 }
 
 func TestOnDragEnterAttr(t *testing.T) {
-	got := string(imagemap.New().OnDragEnter("test").Render())
+	got := string(imagemap.New().OnDragEnter("test").RenderBytes())
 	want := `<map ondragenter="test"></map>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -604,7 +604,7 @@ func TestOnDragEnterAttr(t *testing.T) {
 }
 
 func TestOnDragLeaveAttr(t *testing.T) {
-	got := string(imagemap.New().OnDragLeave("test").Render())
+	got := string(imagemap.New().OnDragLeave("test").RenderBytes())
 	want := `<map ondragleave="test"></map>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -612,7 +612,7 @@ func TestOnDragLeaveAttr(t *testing.T) {
 }
 
 func TestOnDragOverAttr(t *testing.T) {
-	got := string(imagemap.New().OnDragOver("test").Render())
+	got := string(imagemap.New().OnDragOver("test").RenderBytes())
 	want := `<map ondragover="test"></map>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -620,7 +620,7 @@ func TestOnDragOverAttr(t *testing.T) {
 }
 
 func TestOnDragStartAttr(t *testing.T) {
-	got := string(imagemap.New().OnDragStart("test").Render())
+	got := string(imagemap.New().OnDragStart("test").RenderBytes())
 	want := `<map ondragstart="test"></map>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -628,7 +628,7 @@ func TestOnDragStartAttr(t *testing.T) {
 }
 
 func TestOnDropAttr(t *testing.T) {
-	got := string(imagemap.New().OnDrop("test").Render())
+	got := string(imagemap.New().OnDrop("test").RenderBytes())
 	want := `<map ondrop="test"></map>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -636,7 +636,7 @@ func TestOnDropAttr(t *testing.T) {
 }
 
 func TestOnDurationChangeAttr(t *testing.T) {
-	got := string(imagemap.New().OnDurationChange("test").Render())
+	got := string(imagemap.New().OnDurationChange("test").RenderBytes())
 	want := `<map ondurationchange="test"></map>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -644,7 +644,7 @@ func TestOnDurationChangeAttr(t *testing.T) {
 }
 
 func TestOnEmptiedAttr(t *testing.T) {
-	got := string(imagemap.New().OnEmptied("test").Render())
+	got := string(imagemap.New().OnEmptied("test").RenderBytes())
 	want := `<map onemptied="test"></map>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -652,7 +652,7 @@ func TestOnEmptiedAttr(t *testing.T) {
 }
 
 func TestOnEndedAttr(t *testing.T) {
-	got := string(imagemap.New().OnEnded("test").Render())
+	got := string(imagemap.New().OnEnded("test").RenderBytes())
 	want := `<map onended="test"></map>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -660,7 +660,7 @@ func TestOnEndedAttr(t *testing.T) {
 }
 
 func TestOnInvalidAttr(t *testing.T) {
-	got := string(imagemap.New().OnInvalid("test").Render())
+	got := string(imagemap.New().OnInvalid("test").RenderBytes())
 	want := `<map oninvalid="test"></map>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -668,7 +668,7 @@ func TestOnInvalidAttr(t *testing.T) {
 }
 
 func TestOnKeyDownAttr(t *testing.T) {
-	got := string(imagemap.New().OnKeyDown("test").Render())
+	got := string(imagemap.New().OnKeyDown("test").RenderBytes())
 	want := `<map onkeydown="test"></map>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -676,7 +676,7 @@ func TestOnKeyDownAttr(t *testing.T) {
 }
 
 func TestOnKeyPressAttr(t *testing.T) {
-	got := string(imagemap.New().OnKeyPress("test").Render())
+	got := string(imagemap.New().OnKeyPress("test").RenderBytes())
 	want := `<map onkeypress="test"></map>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -684,7 +684,7 @@ func TestOnKeyPressAttr(t *testing.T) {
 }
 
 func TestOnKeyUpAttr(t *testing.T) {
-	got := string(imagemap.New().OnKeyUp("test").Render())
+	got := string(imagemap.New().OnKeyUp("test").RenderBytes())
 	want := `<map onkeyup="test"></map>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -692,7 +692,7 @@ func TestOnKeyUpAttr(t *testing.T) {
 }
 
 func TestOnLoadedDataAttr(t *testing.T) {
-	got := string(imagemap.New().OnLoadedData("test").Render())
+	got := string(imagemap.New().OnLoadedData("test").RenderBytes())
 	want := `<map onloadeddata="test"></map>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -700,7 +700,7 @@ func TestOnLoadedDataAttr(t *testing.T) {
 }
 
 func TestOnLoadedMetadataAttr(t *testing.T) {
-	got := string(imagemap.New().OnLoadedMetadata("test").Render())
+	got := string(imagemap.New().OnLoadedMetadata("test").RenderBytes())
 	want := `<map onloadedmetadata="test"></map>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -708,7 +708,7 @@ func TestOnLoadedMetadataAttr(t *testing.T) {
 }
 
 func TestOnLoadStartAttr(t *testing.T) {
-	got := string(imagemap.New().OnLoadStart("test").Render())
+	got := string(imagemap.New().OnLoadStart("test").RenderBytes())
 	want := `<map onloadstart="test"></map>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -716,7 +716,7 @@ func TestOnLoadStartAttr(t *testing.T) {
 }
 
 func TestOnMouseDownAttr(t *testing.T) {
-	got := string(imagemap.New().OnMouseDown("test").Render())
+	got := string(imagemap.New().OnMouseDown("test").RenderBytes())
 	want := `<map onmousedown="test"></map>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -724,7 +724,7 @@ func TestOnMouseDownAttr(t *testing.T) {
 }
 
 func TestOnMouseEnterAttr(t *testing.T) {
-	got := string(imagemap.New().OnMouseEnter("test").Render())
+	got := string(imagemap.New().OnMouseEnter("test").RenderBytes())
 	want := `<map onmouseenter="test"></map>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -732,7 +732,7 @@ func TestOnMouseEnterAttr(t *testing.T) {
 }
 
 func TestOnMouseLeaveAttr(t *testing.T) {
-	got := string(imagemap.New().OnMouseLeave("test").Render())
+	got := string(imagemap.New().OnMouseLeave("test").RenderBytes())
 	want := `<map onmouseleave="test"></map>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -740,7 +740,7 @@ func TestOnMouseLeaveAttr(t *testing.T) {
 }
 
 func TestOnMouseMoveAttr(t *testing.T) {
-	got := string(imagemap.New().OnMouseMove("test").Render())
+	got := string(imagemap.New().OnMouseMove("test").RenderBytes())
 	want := `<map onmousemove="test"></map>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -748,7 +748,7 @@ func TestOnMouseMoveAttr(t *testing.T) {
 }
 
 func TestOnMouseOutAttr(t *testing.T) {
-	got := string(imagemap.New().OnMouseOut("test").Render())
+	got := string(imagemap.New().OnMouseOut("test").RenderBytes())
 	want := `<map onmouseout="test"></map>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -756,7 +756,7 @@ func TestOnMouseOutAttr(t *testing.T) {
 }
 
 func TestOnMouseOverAttr(t *testing.T) {
-	got := string(imagemap.New().OnMouseOver("test").Render())
+	got := string(imagemap.New().OnMouseOver("test").RenderBytes())
 	want := `<map onmouseover="test"></map>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -764,7 +764,7 @@ func TestOnMouseOverAttr(t *testing.T) {
 }
 
 func TestOnMouseUpAttr(t *testing.T) {
-	got := string(imagemap.New().OnMouseUp("test").Render())
+	got := string(imagemap.New().OnMouseUp("test").RenderBytes())
 	want := `<map onmouseup="test"></map>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -772,7 +772,7 @@ func TestOnMouseUpAttr(t *testing.T) {
 }
 
 func TestOnMouseWheelAttr(t *testing.T) {
-	got := string(imagemap.New().OnMouseWheel("test").Render())
+	got := string(imagemap.New().OnMouseWheel("test").RenderBytes())
 	want := `<map onmousewheel="test"></map>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -780,7 +780,7 @@ func TestOnMouseWheelAttr(t *testing.T) {
 }
 
 func TestOnPauseAttr(t *testing.T) {
-	got := string(imagemap.New().OnPause("test").Render())
+	got := string(imagemap.New().OnPause("test").RenderBytes())
 	want := `<map onpause="test"></map>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -788,7 +788,7 @@ func TestOnPauseAttr(t *testing.T) {
 }
 
 func TestOnPlayAttr(t *testing.T) {
-	got := string(imagemap.New().OnPlay("test").Render())
+	got := string(imagemap.New().OnPlay("test").RenderBytes())
 	want := `<map onplay="test"></map>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -796,7 +796,7 @@ func TestOnPlayAttr(t *testing.T) {
 }
 
 func TestOnPlayingAttr(t *testing.T) {
-	got := string(imagemap.New().OnPlaying("test").Render())
+	got := string(imagemap.New().OnPlaying("test").RenderBytes())
 	want := `<map onplaying="test"></map>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -804,7 +804,7 @@ func TestOnPlayingAttr(t *testing.T) {
 }
 
 func TestOnProgressAttr(t *testing.T) {
-	got := string(imagemap.New().OnProgress("test").Render())
+	got := string(imagemap.New().OnProgress("test").RenderBytes())
 	want := `<map onprogress="test"></map>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -812,7 +812,7 @@ func TestOnProgressAttr(t *testing.T) {
 }
 
 func TestOnRateChangeAttr(t *testing.T) {
-	got := string(imagemap.New().OnRateChange("test").Render())
+	got := string(imagemap.New().OnRateChange("test").RenderBytes())
 	want := `<map onratechange="test"></map>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -820,7 +820,7 @@ func TestOnRateChangeAttr(t *testing.T) {
 }
 
 func TestOnResetAttr(t *testing.T) {
-	got := string(imagemap.New().OnReset("test").Render())
+	got := string(imagemap.New().OnReset("test").RenderBytes())
 	want := `<map onreset="test"></map>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -828,7 +828,7 @@ func TestOnResetAttr(t *testing.T) {
 }
 
 func TestOnResizeAttr(t *testing.T) {
-	got := string(imagemap.New().OnResize("test").Render())
+	got := string(imagemap.New().OnResize("test").RenderBytes())
 	want := `<map onresize="test"></map>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -836,7 +836,7 @@ func TestOnResizeAttr(t *testing.T) {
 }
 
 func TestOnScrollAttr(t *testing.T) {
-	got := string(imagemap.New().OnScroll("test").Render())
+	got := string(imagemap.New().OnScroll("test").RenderBytes())
 	want := `<map onscroll="test"></map>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -844,7 +844,7 @@ func TestOnScrollAttr(t *testing.T) {
 }
 
 func TestOnSeekedAttr(t *testing.T) {
-	got := string(imagemap.New().OnSeeked("test").Render())
+	got := string(imagemap.New().OnSeeked("test").RenderBytes())
 	want := `<map onseeked="test"></map>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -852,7 +852,7 @@ func TestOnSeekedAttr(t *testing.T) {
 }
 
 func TestOnSeekingAttr(t *testing.T) {
-	got := string(imagemap.New().OnSeeking("test").Render())
+	got := string(imagemap.New().OnSeeking("test").RenderBytes())
 	want := `<map onseeking="test"></map>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -860,7 +860,7 @@ func TestOnSeekingAttr(t *testing.T) {
 }
 
 func TestOnSelectAttr(t *testing.T) {
-	got := string(imagemap.New().OnSelect("test").Render())
+	got := string(imagemap.New().OnSelect("test").RenderBytes())
 	want := `<map onselect="test"></map>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -868,7 +868,7 @@ func TestOnSelectAttr(t *testing.T) {
 }
 
 func TestOnShowAttr(t *testing.T) {
-	got := string(imagemap.New().OnShow("test").Render())
+	got := string(imagemap.New().OnShow("test").RenderBytes())
 	want := `<map onshow="test"></map>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -876,7 +876,7 @@ func TestOnShowAttr(t *testing.T) {
 }
 
 func TestOnSortAttr(t *testing.T) {
-	got := string(imagemap.New().OnSort("test").Render())
+	got := string(imagemap.New().OnSort("test").RenderBytes())
 	want := `<map onsort="test"></map>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -884,7 +884,7 @@ func TestOnSortAttr(t *testing.T) {
 }
 
 func TestOnStalledAttr(t *testing.T) {
-	got := string(imagemap.New().OnStalled("test").Render())
+	got := string(imagemap.New().OnStalled("test").RenderBytes())
 	want := `<map onstalled="test"></map>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -892,7 +892,7 @@ func TestOnStalledAttr(t *testing.T) {
 }
 
 func TestOnSuspendAttr(t *testing.T) {
-	got := string(imagemap.New().OnSuspend("test").Render())
+	got := string(imagemap.New().OnSuspend("test").RenderBytes())
 	want := `<map onsuspend="test"></map>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -900,7 +900,7 @@ func TestOnSuspendAttr(t *testing.T) {
 }
 
 func TestOnTimeUpdateAttr(t *testing.T) {
-	got := string(imagemap.New().OnTimeUpdate("test").Render())
+	got := string(imagemap.New().OnTimeUpdate("test").RenderBytes())
 	want := `<map ontimeupdate="test"></map>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -908,7 +908,7 @@ func TestOnTimeUpdateAttr(t *testing.T) {
 }
 
 func TestOnToggleAttr(t *testing.T) {
-	got := string(imagemap.New().OnToggle("test").Render())
+	got := string(imagemap.New().OnToggle("test").RenderBytes())
 	want := `<map ontoggle="test"></map>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -916,7 +916,7 @@ func TestOnToggleAttr(t *testing.T) {
 }
 
 func TestOnVolumeChangeAttr(t *testing.T) {
-	got := string(imagemap.New().OnVolumeChange("test").Render())
+	got := string(imagemap.New().OnVolumeChange("test").RenderBytes())
 	want := `<map onvolumechange="test"></map>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -924,7 +924,7 @@ func TestOnVolumeChangeAttr(t *testing.T) {
 }
 
 func TestOnWaitingAttr(t *testing.T) {
-	got := string(imagemap.New().OnWaiting("test").Render())
+	got := string(imagemap.New().OnWaiting("test").RenderBytes())
 	want := `<map onwaiting="test"></map>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -932,7 +932,7 @@ func TestOnWaitingAttr(t *testing.T) {
 }
 
 func TestOnAuxClickAttr(t *testing.T) {
-	got := string(imagemap.New().OnAuxClick("test").Render())
+	got := string(imagemap.New().OnAuxClick("test").RenderBytes())
 	want := `<map onauxclick="test"></map>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -940,7 +940,7 @@ func TestOnAuxClickAttr(t *testing.T) {
 }
 
 func TestOnWheelAttr(t *testing.T) {
-	got := string(imagemap.New().OnWheel("test").Render())
+	got := string(imagemap.New().OnWheel("test").RenderBytes())
 	want := `<map onwheel="test"></map>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -948,7 +948,7 @@ func TestOnWheelAttr(t *testing.T) {
 }
 
 func TestOnCopyAttr(t *testing.T) {
-	got := string(imagemap.New().OnCopy("test").Render())
+	got := string(imagemap.New().OnCopy("test").RenderBytes())
 	want := `<map oncopy="test"></map>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -956,7 +956,7 @@ func TestOnCopyAttr(t *testing.T) {
 }
 
 func TestOnCutAttr(t *testing.T) {
-	got := string(imagemap.New().OnCut("test").Render())
+	got := string(imagemap.New().OnCut("test").RenderBytes())
 	want := `<map oncut="test"></map>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -964,7 +964,7 @@ func TestOnCutAttr(t *testing.T) {
 }
 
 func TestOnPasteAttr(t *testing.T) {
-	got := string(imagemap.New().OnPaste("test").Render())
+	got := string(imagemap.New().OnPaste("test").RenderBytes())
 	want := `<map onpaste="test"></map>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -972,7 +972,7 @@ func TestOnPasteAttr(t *testing.T) {
 }
 
 func TestOnScrollEndAttr(t *testing.T) {
-	got := string(imagemap.New().OnScrollEnd("test").Render())
+	got := string(imagemap.New().OnScrollEnd("test").RenderBytes())
 	want := `<map onscrollend="test"></map>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -980,7 +980,7 @@ func TestOnScrollEndAttr(t *testing.T) {
 }
 
 func TestOnFormDataAttr(t *testing.T) {
-	got := string(imagemap.New().OnFormData("test").Render())
+	got := string(imagemap.New().OnFormData("test").RenderBytes())
 	want := `<map onformdata="test"></map>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -988,7 +988,7 @@ func TestOnFormDataAttr(t *testing.T) {
 }
 
 func TestOnAnimationCancelAttr(t *testing.T) {
-	got := string(imagemap.New().OnAnimationCancel("test").Render())
+	got := string(imagemap.New().OnAnimationCancel("test").RenderBytes())
 	want := `<map onanimationcancel="test"></map>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -996,7 +996,7 @@ func TestOnAnimationCancelAttr(t *testing.T) {
 }
 
 func TestOnAnimationEndAttr(t *testing.T) {
-	got := string(imagemap.New().OnAnimationEnd("test").Render())
+	got := string(imagemap.New().OnAnimationEnd("test").RenderBytes())
 	want := `<map onanimationend="test"></map>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -1004,7 +1004,7 @@ func TestOnAnimationEndAttr(t *testing.T) {
 }
 
 func TestOnAnimationIterationAttr(t *testing.T) {
-	got := string(imagemap.New().OnAnimationIteration("test").Render())
+	got := string(imagemap.New().OnAnimationIteration("test").RenderBytes())
 	want := `<map onanimationiteration="test"></map>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -1012,7 +1012,7 @@ func TestOnAnimationIterationAttr(t *testing.T) {
 }
 
 func TestOnAnimationStartAttr(t *testing.T) {
-	got := string(imagemap.New().OnAnimationStart("test").Render())
+	got := string(imagemap.New().OnAnimationStart("test").RenderBytes())
 	want := `<map onanimationstart="test"></map>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -1020,7 +1020,7 @@ func TestOnAnimationStartAttr(t *testing.T) {
 }
 
 func TestOnTransitionCancelAttr(t *testing.T) {
-	got := string(imagemap.New().OnTransitionCancel("test").Render())
+	got := string(imagemap.New().OnTransitionCancel("test").RenderBytes())
 	want := `<map ontransitioncancel="test"></map>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -1028,7 +1028,7 @@ func TestOnTransitionCancelAttr(t *testing.T) {
 }
 
 func TestOnTransitionEndAttr(t *testing.T) {
-	got := string(imagemap.New().OnTransitionEnd("test").Render())
+	got := string(imagemap.New().OnTransitionEnd("test").RenderBytes())
 	want := `<map ontransitionend="test"></map>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -1036,7 +1036,7 @@ func TestOnTransitionEndAttr(t *testing.T) {
 }
 
 func TestOnTransitionRunAttr(t *testing.T) {
-	got := string(imagemap.New().OnTransitionRun("test").Render())
+	got := string(imagemap.New().OnTransitionRun("test").RenderBytes())
 	want := `<map ontransitionrun="test"></map>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -1044,7 +1044,7 @@ func TestOnTransitionRunAttr(t *testing.T) {
 }
 
 func TestOnTransitionStartAttr(t *testing.T) {
-	got := string(imagemap.New().OnTransitionStart("test").Render())
+	got := string(imagemap.New().OnTransitionStart("test").RenderBytes())
 	want := `<map ontransitionstart="test"></map>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -1052,7 +1052,7 @@ func TestOnTransitionStartAttr(t *testing.T) {
 }
 
 func TestOnBeforeToggleAttr(t *testing.T) {
-	got := string(imagemap.New().OnBeforeToggle("test").Render())
+	got := string(imagemap.New().OnBeforeToggle("test").RenderBytes())
 	want := `<map onbeforetoggle="test"></map>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -1060,7 +1060,7 @@ func TestOnBeforeToggleAttr(t *testing.T) {
 }
 
 func TestOnBeforeInputAttr(t *testing.T) {
-	got := string(imagemap.New().OnBeforeInput("test").Render())
+	got := string(imagemap.New().OnBeforeInput("test").RenderBytes())
 	want := `<map onbeforeinput="test"></map>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -1068,7 +1068,7 @@ func TestOnBeforeInputAttr(t *testing.T) {
 }
 
 func TestOnBeforeMatchAttr(t *testing.T) {
-	got := string(imagemap.New().OnBeforeMatch("test").Render())
+	got := string(imagemap.New().OnBeforeMatch("test").RenderBytes())
 	want := `<map onbeforematch="test"></map>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -1076,7 +1076,7 @@ func TestOnBeforeMatchAttr(t *testing.T) {
 }
 
 func TestOnCommandAttr(t *testing.T) {
-	got := string(imagemap.New().OnCommand("test").Render())
+	got := string(imagemap.New().OnCommand("test").RenderBytes())
 	want := `<map oncommand="test"></map>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -1084,7 +1084,7 @@ func TestOnCommandAttr(t *testing.T) {
 }
 
 func TestOnContextLostAttr(t *testing.T) {
-	got := string(imagemap.New().OnContextLost("test").Render())
+	got := string(imagemap.New().OnContextLost("test").RenderBytes())
 	want := `<map oncontextlost="test"></map>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -1092,7 +1092,7 @@ func TestOnContextLostAttr(t *testing.T) {
 }
 
 func TestOnContextRestoredAttr(t *testing.T) {
-	got := string(imagemap.New().OnContextRestored("test").Render())
+	got := string(imagemap.New().OnContextRestored("test").RenderBytes())
 	want := `<map oncontextrestored="test"></map>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -1100,7 +1100,7 @@ func TestOnContextRestoredAttr(t *testing.T) {
 }
 
 func TestOnSecurityPolicyViolationAttr(t *testing.T) {
-	got := string(imagemap.New().OnSecurityPolicyViolation("test").Render())
+	got := string(imagemap.New().OnSecurityPolicyViolation("test").RenderBytes())
 	want := `<map onsecuritypolicyviolation="test"></map>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -1108,7 +1108,7 @@ func TestOnSecurityPolicyViolationAttr(t *testing.T) {
 }
 
 func TestOnSlotChangeAttr(t *testing.T) {
-	got := string(imagemap.New().OnSlotChange("test").Render())
+	got := string(imagemap.New().OnSlotChange("test").RenderBytes())
 	want := `<map onslotchange="test"></map>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -1116,7 +1116,7 @@ func TestOnSlotChangeAttr(t *testing.T) {
 }
 
 func TestOnPointerDownAttr(t *testing.T) {
-	got := string(imagemap.New().OnPointerDown("test").Render())
+	got := string(imagemap.New().OnPointerDown("test").RenderBytes())
 	want := `<map onpointerdown="test"></map>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -1124,7 +1124,7 @@ func TestOnPointerDownAttr(t *testing.T) {
 }
 
 func TestOnPointerUpAttr(t *testing.T) {
-	got := string(imagemap.New().OnPointerUp("test").Render())
+	got := string(imagemap.New().OnPointerUp("test").RenderBytes())
 	want := `<map onpointerup="test"></map>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -1132,7 +1132,7 @@ func TestOnPointerUpAttr(t *testing.T) {
 }
 
 func TestOnPointerMoveAttr(t *testing.T) {
-	got := string(imagemap.New().OnPointerMove("test").Render())
+	got := string(imagemap.New().OnPointerMove("test").RenderBytes())
 	want := `<map onpointermove="test"></map>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -1140,7 +1140,7 @@ func TestOnPointerMoveAttr(t *testing.T) {
 }
 
 func TestOnPointerEnterAttr(t *testing.T) {
-	got := string(imagemap.New().OnPointerEnter("test").Render())
+	got := string(imagemap.New().OnPointerEnter("test").RenderBytes())
 	want := `<map onpointerenter="test"></map>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -1148,7 +1148,7 @@ func TestOnPointerEnterAttr(t *testing.T) {
 }
 
 func TestOnPointerLeaveAttr(t *testing.T) {
-	got := string(imagemap.New().OnPointerLeave("test").Render())
+	got := string(imagemap.New().OnPointerLeave("test").RenderBytes())
 	want := `<map onpointerleave="test"></map>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -1156,7 +1156,7 @@ func TestOnPointerLeaveAttr(t *testing.T) {
 }
 
 func TestOnPointerOverAttr(t *testing.T) {
-	got := string(imagemap.New().OnPointerOver("test").Render())
+	got := string(imagemap.New().OnPointerOver("test").RenderBytes())
 	want := `<map onpointerover="test"></map>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -1164,7 +1164,7 @@ func TestOnPointerOverAttr(t *testing.T) {
 }
 
 func TestOnPointerOutAttr(t *testing.T) {
-	got := string(imagemap.New().OnPointerOut("test").Render())
+	got := string(imagemap.New().OnPointerOut("test").RenderBytes())
 	want := `<map onpointerout="test"></map>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -1172,7 +1172,7 @@ func TestOnPointerOutAttr(t *testing.T) {
 }
 
 func TestOnPointerCancelAttr(t *testing.T) {
-	got := string(imagemap.New().OnPointerCancel("test").Render())
+	got := string(imagemap.New().OnPointerCancel("test").RenderBytes())
 	want := `<map onpointercancel="test"></map>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -1180,7 +1180,7 @@ func TestOnPointerCancelAttr(t *testing.T) {
 }
 
 func TestOnGotPointerCaptureAttr(t *testing.T) {
-	got := string(imagemap.New().OnGotPointerCapture("test").Render())
+	got := string(imagemap.New().OnGotPointerCapture("test").RenderBytes())
 	want := `<map ongotpointercapture="test"></map>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -1188,7 +1188,7 @@ func TestOnGotPointerCaptureAttr(t *testing.T) {
 }
 
 func TestOnLostPointerCaptureAttr(t *testing.T) {
-	got := string(imagemap.New().OnLostPointerCapture("test").Render())
+	got := string(imagemap.New().OnLostPointerCapture("test").RenderBytes())
 	want := `<map onlostpointercapture="test"></map>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -1196,7 +1196,7 @@ func TestOnLostPointerCaptureAttr(t *testing.T) {
 }
 
 func TestOnTouchStartAttr(t *testing.T) {
-	got := string(imagemap.New().OnTouchStart("test").Render())
+	got := string(imagemap.New().OnTouchStart("test").RenderBytes())
 	want := `<map ontouchstart="test"></map>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -1204,7 +1204,7 @@ func TestOnTouchStartAttr(t *testing.T) {
 }
 
 func TestOnTouchEndAttr(t *testing.T) {
-	got := string(imagemap.New().OnTouchEnd("test").Render())
+	got := string(imagemap.New().OnTouchEnd("test").RenderBytes())
 	want := `<map ontouchend="test"></map>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -1212,7 +1212,7 @@ func TestOnTouchEndAttr(t *testing.T) {
 }
 
 func TestOnTouchMoveAttr(t *testing.T) {
-	got := string(imagemap.New().OnTouchMove("test").Render())
+	got := string(imagemap.New().OnTouchMove("test").RenderBytes())
 	want := `<map ontouchmove="test"></map>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -1220,7 +1220,7 @@ func TestOnTouchMoveAttr(t *testing.T) {
 }
 
 func TestOnTouchCancelAttr(t *testing.T) {
-	got := string(imagemap.New().OnTouchCancel("test").Render())
+	got := string(imagemap.New().OnTouchCancel("test").RenderBytes())
 	want := `<map ontouchcancel="test"></map>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -1228,7 +1228,7 @@ func TestOnTouchCancelAttr(t *testing.T) {
 }
 
 func TestOnSelectStartAttr(t *testing.T) {
-	got := string(imagemap.New().OnSelectStart("test").Render())
+	got := string(imagemap.New().OnSelectStart("test").RenderBytes())
 	want := `<map onselectstart="test"></map>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -1236,7 +1236,7 @@ func TestOnSelectStartAttr(t *testing.T) {
 }
 
 func TestOnSelectionChangeAttr(t *testing.T) {
-	got := string(imagemap.New().OnSelectionChange("test").Render())
+	got := string(imagemap.New().OnSelectionChange("test").RenderBytes())
 	want := `<map onselectionchange="test"></map>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -1244,7 +1244,7 @@ func TestOnSelectionChangeAttr(t *testing.T) {
 }
 
 func TestNewMulti(t *testing.T) {
-	got := string(imagemap.New(imagemap.New(), imagemap.New()).Render())
+	got := string(imagemap.New(imagemap.New(), imagemap.New()).RenderBytes())
 	want := `<map><map></map><map></map></map>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -1255,7 +1255,7 @@ func TestAdd(t *testing.T) {
 	element := imagemap.New().Add(imagemap.New(), imagemap.New())
 
 	// Test rendered output
-	got := string(element.Render())
+	got := string(element.RenderBytes())
 	want := `<map><map></map><map></map></map>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -1280,7 +1280,7 @@ func TestReplace(t *testing.T) {
 	element.Replace(imagemap.New())
 
 	// Test rendered output
-	got := string(element.Render())
+	got := string(element.RenderBytes())
 	want := `<map><map></map></map>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -1293,7 +1293,7 @@ func TestReplace(t *testing.T) {
 }
 
 func TestTextMethod(t *testing.T) {
-	got := string(imagemap.New().Text("hello").Render())
+	got := string(imagemap.New().Text("hello").RenderBytes())
 	want := `<map>hello</map>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -1301,7 +1301,7 @@ func TestTextMethod(t *testing.T) {
 }
 
 func TestTextfMethod(t *testing.T) {
-	got := string(imagemap.New().Textf("hello %s", "world").Render())
+	got := string(imagemap.New().Textf("hello %s", "world").RenderBytes())
 	want := `<map>hello world</map>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -1309,7 +1309,7 @@ func TestTextfMethod(t *testing.T) {
 }
 
 func TestStaticMethod(t *testing.T) {
-	got := string(imagemap.New().Static("static content").Render())
+	got := string(imagemap.New().Static("static content").RenderBytes())
 	want := `<map>static content</map>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -1317,7 +1317,7 @@ func TestStaticMethod(t *testing.T) {
 }
 
 func TestRawTextMethod(t *testing.T) {
-	got := string(imagemap.New().RawText("<em>bold</em>").Render())
+	got := string(imagemap.New().RawText("<em>bold</em>").RenderBytes())
 	want := `<map><em>bold</em></map>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -1325,7 +1325,7 @@ func TestRawTextMethod(t *testing.T) {
 }
 
 func TestRawTextfMethod(t *testing.T) {
-	got := string(imagemap.New().RawTextf("<%s>test</%s>", "span", "span").Render())
+	got := string(imagemap.New().RawTextf("<%s>test</%s>", "span", "span").RenderBytes())
 	want := `<map><span>test</span></map>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -1333,7 +1333,7 @@ func TestRawTextfMethod(t *testing.T) {
 }
 
 func TestTextChaining(t *testing.T) {
-	got := string(imagemap.New().Class("foo").Text("content").ID("bar").Render())
+	got := string(imagemap.New().Class("foo").Text("content").ID("bar").RenderBytes())
 	want := `<map class="foo" id="bar">content</map>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -1341,7 +1341,7 @@ func TestTextChaining(t *testing.T) {
 }
 
 func TestDynamicKey(t *testing.T) {
-	got := string(imagemap.New().Dynamic("mykey").Render())
+	got := string(imagemap.New().Dynamic("mykey").RenderBytes())
 	want := `<map data-tether-key="mykey"></map>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -1356,7 +1356,7 @@ func TestDynamicNoKey(t *testing.T) {
 	if el.DynamicKey() != "_" {
 		t.Errorf("DynamicKey() should be \"_\", got %q", el.DynamicKey())
 	}
-	got := string(el.Render())
+	got := string(el.RenderBytes())
 	want := `<map></map>`
 	if got != want {
 		t.Errorf("Dynamic() without key should not render data-tether-key: got %q, want %q", got, want)

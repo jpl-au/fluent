@@ -22,14 +22,14 @@ import (
 
 func TestNewCtor(t *testing.T) {
 	// Test empty element
-	got := string(ruby.New().Render())
+	got := string(ruby.New().RenderBytes())
 	want := `<ruby></ruby>`
 	if got != want {
 		t.Errorf("empty: got %q, want %q", got, want)
 	}
 
 	// Test nested element
-	got = string(ruby.New(ruby.New()).Render())
+	got = string(ruby.New(ruby.New()).RenderBytes())
 	want = `<ruby><ruby></ruby></ruby>`
 	if got != want {
 		t.Errorf("nested: got %q, want %q", got, want)
@@ -37,7 +37,7 @@ func TestNewCtor(t *testing.T) {
 }
 
 func TestTextCtor(t *testing.T) {
-	got := string(ruby.Text("東京").Render())
+	got := string(ruby.Text("東京").RenderBytes())
 	want := `<ruby>東京</ruby>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -45,7 +45,7 @@ func TestTextCtor(t *testing.T) {
 }
 
 func TestStaticCtor(t *testing.T) {
-	got := string(ruby.Static("日本").Render())
+	got := string(ruby.Static("日本").RenderBytes())
 	want := `<ruby>日本</ruby>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -53,7 +53,7 @@ func TestStaticCtor(t *testing.T) {
 }
 
 func TestRawTextCtor(t *testing.T) {
-	got := string(ruby.RawText("漢<rt>かん</rt>").Render())
+	got := string(ruby.RawText("漢<rt>かん</rt>").RenderBytes())
 	want := `<ruby>漢<rt>かん</rt></ruby>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -62,7 +62,7 @@ func TestRawTextCtor(t *testing.T) {
 
 func TestTextfCtor(t *testing.T) {
 	kanji := "漢"
-	got := string(ruby.Textf("%s", kanji).Render())
+	got := string(ruby.Textf("%s", kanji).RenderBytes())
 	want := `<ruby>漢</ruby>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -72,7 +72,7 @@ func TestTextfCtor(t *testing.T) {
 func TestRawTextfCtor(t *testing.T) {
 	kanji := "漢"
 	reading := "かん"
-	got := string(ruby.RawTextf("%s<rt>%s</rt>", kanji, reading).Render())
+	got := string(ruby.RawTextf("%s<rt>%s</rt>", kanji, reading).RenderBytes())
 	want := `<ruby>漢<rt>かん</rt></ruby>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -80,7 +80,7 @@ func TestRawTextfCtor(t *testing.T) {
 }
 
 func TestClassAttr(t *testing.T) {
-	got := string(ruby.New().Class("test").Render())
+	got := string(ruby.New().Class("test").RenderBytes())
 	want := `<ruby class="test"></ruby>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -89,7 +89,7 @@ func TestClassAttr(t *testing.T) {
 
 func TestClassMulti(t *testing.T) {
 	// Test multiple chained calls
-	got := string(ruby.New().Class("one").Class("two").Class("three").Render())
+	got := string(ruby.New().Class("one").Class("two").Class("three").RenderBytes())
 	want := `<ruby class="one two three"></ruby>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -97,7 +97,7 @@ func TestClassMulti(t *testing.T) {
 }
 
 func TestIDAttr(t *testing.T) {
-	got := string(ruby.New().ID("test").Render())
+	got := string(ruby.New().ID("test").RenderBytes())
 	want := `<ruby id="test"></ruby>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -105,7 +105,7 @@ func TestIDAttr(t *testing.T) {
 }
 
 func TestStyleAttr(t *testing.T) {
-	got := string(ruby.New().Style("test").Render())
+	got := string(ruby.New().Style("test").RenderBytes())
 	want := `<ruby style="test"></ruby>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -114,7 +114,7 @@ func TestStyleAttr(t *testing.T) {
 
 func TestStyleMulti(t *testing.T) {
 	// Test multiple chained calls
-	got := string(ruby.New().Style("one").Style("two").Style("three").Render())
+	got := string(ruby.New().Style("one").Style("two").Style("three").RenderBytes())
 	want := `<ruby style="one; two; three"></ruby>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -122,7 +122,7 @@ func TestStyleMulti(t *testing.T) {
 }
 
 func TestTitleAttr(t *testing.T) {
-	got := string(ruby.New().Title("test").Render())
+	got := string(ruby.New().Title("test").RenderBytes())
 	want := `<ruby title="test"></ruby>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -130,7 +130,7 @@ func TestTitleAttr(t *testing.T) {
 }
 
 func TestHiddenAttr(t *testing.T) {
-	got := string(ruby.New().Hidden(hidden.True).Render())
+	got := string(ruby.New().Hidden(hidden.True).RenderBytes())
 	want := `<ruby hidden="true"></ruby>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -138,7 +138,7 @@ func TestHiddenAttr(t *testing.T) {
 }
 
 func TestTabIndexAttr(t *testing.T) {
-	got := string(ruby.New().TabIndex(42).Render())
+	got := string(ruby.New().TabIndex(42).RenderBytes())
 	want := `<ruby tabindex="42"></ruby>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -146,7 +146,7 @@ func TestTabIndexAttr(t *testing.T) {
 }
 
 func TestRoleAttr(t *testing.T) {
-	got := string(ruby.New().Role("test").Render())
+	got := string(ruby.New().Role("test").RenderBytes())
 	want := `<ruby role="test"></ruby>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -154,7 +154,7 @@ func TestRoleAttr(t *testing.T) {
 }
 
 func TestLangAttr(t *testing.T) {
-	got := string(ruby.New().Lang("test").Render())
+	got := string(ruby.New().Lang("test").RenderBytes())
 	want := `<ruby lang="test"></ruby>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -162,7 +162,7 @@ func TestLangAttr(t *testing.T) {
 }
 
 func TestAccessKeyAttr(t *testing.T) {
-	got := string(ruby.New().AccessKey("test").Render())
+	got := string(ruby.New().AccessKey("test").RenderBytes())
 	want := `<ruby accesskey="test"></ruby>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -171,7 +171,7 @@ func TestAccessKeyAttr(t *testing.T) {
 
 func TestAccessKeyMulti(t *testing.T) {
 	// Test multiple chained calls
-	got := string(ruby.New().AccessKey("one").AccessKey("two").AccessKey("three").Render())
+	got := string(ruby.New().AccessKey("one").AccessKey("two").AccessKey("three").RenderBytes())
 	want := `<ruby accesskey="one two three"></ruby>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -179,7 +179,7 @@ func TestAccessKeyMulti(t *testing.T) {
 }
 
 func TestAnchorAttr(t *testing.T) {
-	got := string(ruby.New().Anchor("test").Render())
+	got := string(ruby.New().Anchor("test").RenderBytes())
 	want := `<ruby anchor="test"></ruby>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -187,7 +187,7 @@ func TestAnchorAttr(t *testing.T) {
 }
 
 func TestAriaLabelAttr(t *testing.T) {
-	got := string(ruby.New().AriaLabel("test").Render())
+	got := string(ruby.New().AriaLabel("test").RenderBytes())
 	want := `<ruby aria-label="test"></ruby>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -195,7 +195,7 @@ func TestAriaLabelAttr(t *testing.T) {
 }
 
 func TestSetAriaAttr(t *testing.T) {
-	got := string(ruby.New().SetAria("label", "test-value").Render())
+	got := string(ruby.New().SetAria("label", "test-value").RenderBytes())
 	want := `<ruby aria-label="test-value"></ruby>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -203,7 +203,7 @@ func TestSetAriaAttr(t *testing.T) {
 }
 
 func TestAutoCapitalizeAttr(t *testing.T) {
-	got := string(ruby.New().AutoCapitalize(autocapitalize.Off).Render())
+	got := string(ruby.New().AutoCapitalize(autocapitalize.Off).RenderBytes())
 	want := `<ruby autocapitalize="off"></ruby>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -211,7 +211,7 @@ func TestAutoCapitalizeAttr(t *testing.T) {
 }
 
 func TestAutoCorrectAttr(t *testing.T) {
-	got := string(ruby.New().AutoCorrect(autocorrect.On).Render())
+	got := string(ruby.New().AutoCorrect(autocorrect.On).RenderBytes())
 	want := `<ruby autocorrect="on"></ruby>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -219,7 +219,7 @@ func TestAutoCorrectAttr(t *testing.T) {
 }
 
 func TestAutoFocusAttr(t *testing.T) {
-	got := string(ruby.New().AutoFocus().Render())
+	got := string(ruby.New().AutoFocus().RenderBytes())
 	want := `<ruby autofocus></ruby>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -227,7 +227,7 @@ func TestAutoFocusAttr(t *testing.T) {
 }
 
 func TestContentEditableAttr(t *testing.T) {
-	got := string(ruby.New().ContentEditable(contenteditable.True).Render())
+	got := string(ruby.New().ContentEditable(contenteditable.True).RenderBytes())
 	want := `<ruby contenteditable="true"></ruby>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -235,7 +235,7 @@ func TestContentEditableAttr(t *testing.T) {
 }
 
 func TestSetDataAttr(t *testing.T) {
-	got := string(ruby.New().SetData("user-id", "test-value").Render())
+	got := string(ruby.New().SetData("user-id", "test-value").RenderBytes())
 	want := `<ruby data-user-id="test-value"></ruby>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -243,7 +243,7 @@ func TestSetDataAttr(t *testing.T) {
 }
 
 func TestDirAttr(t *testing.T) {
-	got := string(ruby.New().Dir(dir.LeftToRight).Render())
+	got := string(ruby.New().Dir(dir.LeftToRight).RenderBytes())
 	want := `<ruby dir="ltr"></ruby>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -251,7 +251,7 @@ func TestDirAttr(t *testing.T) {
 }
 
 func TestDraggableAttr(t *testing.T) {
-	got := string(ruby.New().Draggable().Render())
+	got := string(ruby.New().Draggable().RenderBytes())
 	want := `<ruby draggable></ruby>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -259,7 +259,7 @@ func TestDraggableAttr(t *testing.T) {
 }
 
 func TestEnterKeyHintAttr(t *testing.T) {
-	got := string(ruby.New().EnterKeyHint(enterkeyhint.Enter).Render())
+	got := string(ruby.New().EnterKeyHint(enterkeyhint.Enter).RenderBytes())
 	want := `<ruby enterkeyhint="enter"></ruby>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -267,7 +267,7 @@ func TestEnterKeyHintAttr(t *testing.T) {
 }
 
 func TestExportPartsAttr(t *testing.T) {
-	got := string(ruby.New().ExportParts("test").Render())
+	got := string(ruby.New().ExportParts("test").RenderBytes())
 	want := `<ruby exportparts="test"></ruby>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -275,7 +275,7 @@ func TestExportPartsAttr(t *testing.T) {
 }
 
 func TestInertAttr(t *testing.T) {
-	got := string(ruby.New().Inert().Render())
+	got := string(ruby.New().Inert().RenderBytes())
 	want := `<ruby inert></ruby>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -283,7 +283,7 @@ func TestInertAttr(t *testing.T) {
 }
 
 func TestInputModeAttr(t *testing.T) {
-	got := string(ruby.New().InputMode(inputmode.None).Render())
+	got := string(ruby.New().InputMode(inputmode.None).RenderBytes())
 	want := `<ruby inputmode="none"></ruby>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -291,7 +291,7 @@ func TestInputModeAttr(t *testing.T) {
 }
 
 func TestIsAttr(t *testing.T) {
-	got := string(ruby.New().Is("test").Render())
+	got := string(ruby.New().Is("test").RenderBytes())
 	want := `<ruby is="test"></ruby>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -299,7 +299,7 @@ func TestIsAttr(t *testing.T) {
 }
 
 func TestItemIdAttr(t *testing.T) {
-	got := string(ruby.New().ItemId("test").Render())
+	got := string(ruby.New().ItemId("test").RenderBytes())
 	want := `<ruby itemid="test"></ruby>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -307,7 +307,7 @@ func TestItemIdAttr(t *testing.T) {
 }
 
 func TestItemPropAttr(t *testing.T) {
-	got := string(ruby.New().ItemProp("test").Render())
+	got := string(ruby.New().ItemProp("test").RenderBytes())
 	want := `<ruby itemprop="test"></ruby>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -315,7 +315,7 @@ func TestItemPropAttr(t *testing.T) {
 }
 
 func TestItemRefAttr(t *testing.T) {
-	got := string(ruby.New().ItemRef("test").Render())
+	got := string(ruby.New().ItemRef("test").RenderBytes())
 	want := `<ruby itemref="test"></ruby>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -323,7 +323,7 @@ func TestItemRefAttr(t *testing.T) {
 }
 
 func TestItemScopeAttr(t *testing.T) {
-	got := string(ruby.New().ItemScope().Render())
+	got := string(ruby.New().ItemScope().RenderBytes())
 	want := `<ruby itemscope></ruby>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -331,7 +331,7 @@ func TestItemScopeAttr(t *testing.T) {
 }
 
 func TestItemTypeAttr(t *testing.T) {
-	got := string(ruby.New().ItemType("test").Render())
+	got := string(ruby.New().ItemType("test").RenderBytes())
 	want := `<ruby itemtype="test"></ruby>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -339,7 +339,7 @@ func TestItemTypeAttr(t *testing.T) {
 }
 
 func TestNonceAttr(t *testing.T) {
-	got := string(ruby.New().Nonce("test").Render())
+	got := string(ruby.New().Nonce("test").RenderBytes())
 	want := `<ruby nonce="test"></ruby>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -347,7 +347,7 @@ func TestNonceAttr(t *testing.T) {
 }
 
 func TestPartAttr(t *testing.T) {
-	got := string(ruby.New().Part("test").Render())
+	got := string(ruby.New().Part("test").RenderBytes())
 	want := `<ruby part="test"></ruby>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -356,7 +356,7 @@ func TestPartAttr(t *testing.T) {
 
 func TestPartMulti(t *testing.T) {
 	// Test multiple chained calls
-	got := string(ruby.New().Part("one").Part("two").Part("three").Render())
+	got := string(ruby.New().Part("one").Part("two").Part("three").RenderBytes())
 	want := `<ruby part="one two three"></ruby>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -364,7 +364,7 @@ func TestPartMulti(t *testing.T) {
 }
 
 func TestPopoverAttr(t *testing.T) {
-	got := string(ruby.New().Popover(popover.Auto).Render())
+	got := string(ruby.New().Popover(popover.Auto).RenderBytes())
 	want := `<ruby popover="auto"></ruby>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -372,7 +372,7 @@ func TestPopoverAttr(t *testing.T) {
 }
 
 func TestSlotAttr(t *testing.T) {
-	got := string(ruby.New().Slot("test").Render())
+	got := string(ruby.New().Slot("test").RenderBytes())
 	want := `<ruby slot="test"></ruby>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -380,7 +380,7 @@ func TestSlotAttr(t *testing.T) {
 }
 
 func TestSpellCheckAttr(t *testing.T) {
-	got := string(ruby.New().SpellCheck(spellcheck.True).Render())
+	got := string(ruby.New().SpellCheck(spellcheck.True).RenderBytes())
 	want := `<ruby spellcheck="true"></ruby>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -388,7 +388,7 @@ func TestSpellCheckAttr(t *testing.T) {
 }
 
 func TestTranslateAttr(t *testing.T) {
-	got := string(ruby.New().Translate(translate.Yes).Render())
+	got := string(ruby.New().Translate(translate.Yes).RenderBytes())
 	want := `<ruby translate="yes"></ruby>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -396,7 +396,7 @@ func TestTranslateAttr(t *testing.T) {
 }
 
 func TestVirtualKeyboardPolicyAttr(t *testing.T) {
-	got := string(ruby.New().VirtualKeyboardPolicy(virtualkeyboardpolicy.Auto).Render())
+	got := string(ruby.New().VirtualKeyboardPolicy(virtualkeyboardpolicy.Auto).RenderBytes())
 	want := `<ruby virtualkeyboardpolicy="auto"></ruby>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -404,7 +404,7 @@ func TestVirtualKeyboardPolicyAttr(t *testing.T) {
 }
 
 func TestWritingSuggestionsAttr(t *testing.T) {
-	got := string(ruby.New().WritingSuggestions(writingsuggestions.True).Render())
+	got := string(ruby.New().WritingSuggestions(writingsuggestions.True).RenderBytes())
 	want := `<ruby writingsuggestions="true"></ruby>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -412,7 +412,7 @@ func TestWritingSuggestionsAttr(t *testing.T) {
 }
 
 func TestOnClickAttr(t *testing.T) {
-	got := string(ruby.New().OnClick("test").Render())
+	got := string(ruby.New().OnClick("test").RenderBytes())
 	want := `<ruby onclick="test"></ruby>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -420,7 +420,7 @@ func TestOnClickAttr(t *testing.T) {
 }
 
 func TestOnChangeAttr(t *testing.T) {
-	got := string(ruby.New().OnChange("test").Render())
+	got := string(ruby.New().OnChange("test").RenderBytes())
 	want := `<ruby onchange="test"></ruby>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -428,7 +428,7 @@ func TestOnChangeAttr(t *testing.T) {
 }
 
 func TestOnInputAttr(t *testing.T) {
-	got := string(ruby.New().OnInput("test").Render())
+	got := string(ruby.New().OnInput("test").RenderBytes())
 	want := `<ruby oninput="test"></ruby>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -436,7 +436,7 @@ func TestOnInputAttr(t *testing.T) {
 }
 
 func TestOnFocusAttr(t *testing.T) {
-	got := string(ruby.New().OnFocus("test").Render())
+	got := string(ruby.New().OnFocus("test").RenderBytes())
 	want := `<ruby onfocus="test"></ruby>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -444,7 +444,7 @@ func TestOnFocusAttr(t *testing.T) {
 }
 
 func TestOnBlurAttr(t *testing.T) {
-	got := string(ruby.New().OnBlur("test").Render())
+	got := string(ruby.New().OnBlur("test").RenderBytes())
 	want := `<ruby onblur="test"></ruby>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -452,7 +452,7 @@ func TestOnBlurAttr(t *testing.T) {
 }
 
 func TestOnSubmitAttr(t *testing.T) {
-	got := string(ruby.New().OnSubmit("test").Render())
+	got := string(ruby.New().OnSubmit("test").RenderBytes())
 	want := `<ruby onsubmit="test"></ruby>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -460,7 +460,7 @@ func TestOnSubmitAttr(t *testing.T) {
 }
 
 func TestOnLoadAttr(t *testing.T) {
-	got := string(ruby.New().OnLoad("test").Render())
+	got := string(ruby.New().OnLoad("test").RenderBytes())
 	want := `<ruby onload="test"></ruby>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -468,7 +468,7 @@ func TestOnLoadAttr(t *testing.T) {
 }
 
 func TestOnErrorAttr(t *testing.T) {
-	got := string(ruby.New().OnError("test").Render())
+	got := string(ruby.New().OnError("test").RenderBytes())
 	want := `<ruby onerror="test"></ruby>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -476,7 +476,7 @@ func TestOnErrorAttr(t *testing.T) {
 }
 
 func TestSetEventAttr(t *testing.T) {
-	got := string(ruby.New().SetEvent("onclick", "test-value").Render())
+	got := string(ruby.New().SetEvent("onclick", "test-value").RenderBytes())
 	want := `<ruby onclick="test-value"></ruby>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -484,7 +484,7 @@ func TestSetEventAttr(t *testing.T) {
 }
 
 func TestOnAbortAttr(t *testing.T) {
-	got := string(ruby.New().OnAbort("test").Render())
+	got := string(ruby.New().OnAbort("test").RenderBytes())
 	want := `<ruby onabort="test"></ruby>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -492,7 +492,7 @@ func TestOnAbortAttr(t *testing.T) {
 }
 
 func TestOnAutoCompleteAttr(t *testing.T) {
-	got := string(ruby.New().OnAutoComplete("test").Render())
+	got := string(ruby.New().OnAutoComplete("test").RenderBytes())
 	want := `<ruby onautocomplete="test"></ruby>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -500,7 +500,7 @@ func TestOnAutoCompleteAttr(t *testing.T) {
 }
 
 func TestOnAutoCompleteErrorAttr(t *testing.T) {
-	got := string(ruby.New().OnAutoCompleteError("test").Render())
+	got := string(ruby.New().OnAutoCompleteError("test").RenderBytes())
 	want := `<ruby onautocompleteerror="test"></ruby>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -508,7 +508,7 @@ func TestOnAutoCompleteErrorAttr(t *testing.T) {
 }
 
 func TestOnCancelAttr(t *testing.T) {
-	got := string(ruby.New().OnCancel("test").Render())
+	got := string(ruby.New().OnCancel("test").RenderBytes())
 	want := `<ruby oncancel="test"></ruby>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -516,7 +516,7 @@ func TestOnCancelAttr(t *testing.T) {
 }
 
 func TestOnCanPlayAttr(t *testing.T) {
-	got := string(ruby.New().OnCanPlay("test").Render())
+	got := string(ruby.New().OnCanPlay("test").RenderBytes())
 	want := `<ruby oncanplay="test"></ruby>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -524,7 +524,7 @@ func TestOnCanPlayAttr(t *testing.T) {
 }
 
 func TestOnCanPlayThroughAttr(t *testing.T) {
-	got := string(ruby.New().OnCanPlayThrough("test").Render())
+	got := string(ruby.New().OnCanPlayThrough("test").RenderBytes())
 	want := `<ruby oncanplaythrough="test"></ruby>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -532,7 +532,7 @@ func TestOnCanPlayThroughAttr(t *testing.T) {
 }
 
 func TestOnCloseAttr(t *testing.T) {
-	got := string(ruby.New().OnClose("test").Render())
+	got := string(ruby.New().OnClose("test").RenderBytes())
 	want := `<ruby onclose="test"></ruby>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -540,7 +540,7 @@ func TestOnCloseAttr(t *testing.T) {
 }
 
 func TestOnContextMenuAttr(t *testing.T) {
-	got := string(ruby.New().OnContextMenu("test").Render())
+	got := string(ruby.New().OnContextMenu("test").RenderBytes())
 	want := `<ruby oncontextmenu="test"></ruby>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -548,7 +548,7 @@ func TestOnContextMenuAttr(t *testing.T) {
 }
 
 func TestOnCueChangeAttr(t *testing.T) {
-	got := string(ruby.New().OnCueChange("test").Render())
+	got := string(ruby.New().OnCueChange("test").RenderBytes())
 	want := `<ruby oncuechange="test"></ruby>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -556,7 +556,7 @@ func TestOnCueChangeAttr(t *testing.T) {
 }
 
 func TestOnDblClickAttr(t *testing.T) {
-	got := string(ruby.New().OnDblClick("test").Render())
+	got := string(ruby.New().OnDblClick("test").RenderBytes())
 	want := `<ruby ondblclick="test"></ruby>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -564,7 +564,7 @@ func TestOnDblClickAttr(t *testing.T) {
 }
 
 func TestOnDragAttr(t *testing.T) {
-	got := string(ruby.New().OnDrag("test").Render())
+	got := string(ruby.New().OnDrag("test").RenderBytes())
 	want := `<ruby ondrag="test"></ruby>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -572,7 +572,7 @@ func TestOnDragAttr(t *testing.T) {
 }
 
 func TestOnDragEndAttr(t *testing.T) {
-	got := string(ruby.New().OnDragEnd("test").Render())
+	got := string(ruby.New().OnDragEnd("test").RenderBytes())
 	want := `<ruby ondragend="test"></ruby>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -580,7 +580,7 @@ func TestOnDragEndAttr(t *testing.T) {
 }
 
 func TestOnDragEnterAttr(t *testing.T) {
-	got := string(ruby.New().OnDragEnter("test").Render())
+	got := string(ruby.New().OnDragEnter("test").RenderBytes())
 	want := `<ruby ondragenter="test"></ruby>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -588,7 +588,7 @@ func TestOnDragEnterAttr(t *testing.T) {
 }
 
 func TestOnDragLeaveAttr(t *testing.T) {
-	got := string(ruby.New().OnDragLeave("test").Render())
+	got := string(ruby.New().OnDragLeave("test").RenderBytes())
 	want := `<ruby ondragleave="test"></ruby>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -596,7 +596,7 @@ func TestOnDragLeaveAttr(t *testing.T) {
 }
 
 func TestOnDragOverAttr(t *testing.T) {
-	got := string(ruby.New().OnDragOver("test").Render())
+	got := string(ruby.New().OnDragOver("test").RenderBytes())
 	want := `<ruby ondragover="test"></ruby>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -604,7 +604,7 @@ func TestOnDragOverAttr(t *testing.T) {
 }
 
 func TestOnDragStartAttr(t *testing.T) {
-	got := string(ruby.New().OnDragStart("test").Render())
+	got := string(ruby.New().OnDragStart("test").RenderBytes())
 	want := `<ruby ondragstart="test"></ruby>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -612,7 +612,7 @@ func TestOnDragStartAttr(t *testing.T) {
 }
 
 func TestOnDropAttr(t *testing.T) {
-	got := string(ruby.New().OnDrop("test").Render())
+	got := string(ruby.New().OnDrop("test").RenderBytes())
 	want := `<ruby ondrop="test"></ruby>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -620,7 +620,7 @@ func TestOnDropAttr(t *testing.T) {
 }
 
 func TestOnDurationChangeAttr(t *testing.T) {
-	got := string(ruby.New().OnDurationChange("test").Render())
+	got := string(ruby.New().OnDurationChange("test").RenderBytes())
 	want := `<ruby ondurationchange="test"></ruby>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -628,7 +628,7 @@ func TestOnDurationChangeAttr(t *testing.T) {
 }
 
 func TestOnEmptiedAttr(t *testing.T) {
-	got := string(ruby.New().OnEmptied("test").Render())
+	got := string(ruby.New().OnEmptied("test").RenderBytes())
 	want := `<ruby onemptied="test"></ruby>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -636,7 +636,7 @@ func TestOnEmptiedAttr(t *testing.T) {
 }
 
 func TestOnEndedAttr(t *testing.T) {
-	got := string(ruby.New().OnEnded("test").Render())
+	got := string(ruby.New().OnEnded("test").RenderBytes())
 	want := `<ruby onended="test"></ruby>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -644,7 +644,7 @@ func TestOnEndedAttr(t *testing.T) {
 }
 
 func TestOnInvalidAttr(t *testing.T) {
-	got := string(ruby.New().OnInvalid("test").Render())
+	got := string(ruby.New().OnInvalid("test").RenderBytes())
 	want := `<ruby oninvalid="test"></ruby>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -652,7 +652,7 @@ func TestOnInvalidAttr(t *testing.T) {
 }
 
 func TestOnKeyDownAttr(t *testing.T) {
-	got := string(ruby.New().OnKeyDown("test").Render())
+	got := string(ruby.New().OnKeyDown("test").RenderBytes())
 	want := `<ruby onkeydown="test"></ruby>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -660,7 +660,7 @@ func TestOnKeyDownAttr(t *testing.T) {
 }
 
 func TestOnKeyPressAttr(t *testing.T) {
-	got := string(ruby.New().OnKeyPress("test").Render())
+	got := string(ruby.New().OnKeyPress("test").RenderBytes())
 	want := `<ruby onkeypress="test"></ruby>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -668,7 +668,7 @@ func TestOnKeyPressAttr(t *testing.T) {
 }
 
 func TestOnKeyUpAttr(t *testing.T) {
-	got := string(ruby.New().OnKeyUp("test").Render())
+	got := string(ruby.New().OnKeyUp("test").RenderBytes())
 	want := `<ruby onkeyup="test"></ruby>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -676,7 +676,7 @@ func TestOnKeyUpAttr(t *testing.T) {
 }
 
 func TestOnLoadedDataAttr(t *testing.T) {
-	got := string(ruby.New().OnLoadedData("test").Render())
+	got := string(ruby.New().OnLoadedData("test").RenderBytes())
 	want := `<ruby onloadeddata="test"></ruby>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -684,7 +684,7 @@ func TestOnLoadedDataAttr(t *testing.T) {
 }
 
 func TestOnLoadedMetadataAttr(t *testing.T) {
-	got := string(ruby.New().OnLoadedMetadata("test").Render())
+	got := string(ruby.New().OnLoadedMetadata("test").RenderBytes())
 	want := `<ruby onloadedmetadata="test"></ruby>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -692,7 +692,7 @@ func TestOnLoadedMetadataAttr(t *testing.T) {
 }
 
 func TestOnLoadStartAttr(t *testing.T) {
-	got := string(ruby.New().OnLoadStart("test").Render())
+	got := string(ruby.New().OnLoadStart("test").RenderBytes())
 	want := `<ruby onloadstart="test"></ruby>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -700,7 +700,7 @@ func TestOnLoadStartAttr(t *testing.T) {
 }
 
 func TestOnMouseDownAttr(t *testing.T) {
-	got := string(ruby.New().OnMouseDown("test").Render())
+	got := string(ruby.New().OnMouseDown("test").RenderBytes())
 	want := `<ruby onmousedown="test"></ruby>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -708,7 +708,7 @@ func TestOnMouseDownAttr(t *testing.T) {
 }
 
 func TestOnMouseEnterAttr(t *testing.T) {
-	got := string(ruby.New().OnMouseEnter("test").Render())
+	got := string(ruby.New().OnMouseEnter("test").RenderBytes())
 	want := `<ruby onmouseenter="test"></ruby>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -716,7 +716,7 @@ func TestOnMouseEnterAttr(t *testing.T) {
 }
 
 func TestOnMouseLeaveAttr(t *testing.T) {
-	got := string(ruby.New().OnMouseLeave("test").Render())
+	got := string(ruby.New().OnMouseLeave("test").RenderBytes())
 	want := `<ruby onmouseleave="test"></ruby>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -724,7 +724,7 @@ func TestOnMouseLeaveAttr(t *testing.T) {
 }
 
 func TestOnMouseMoveAttr(t *testing.T) {
-	got := string(ruby.New().OnMouseMove("test").Render())
+	got := string(ruby.New().OnMouseMove("test").RenderBytes())
 	want := `<ruby onmousemove="test"></ruby>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -732,7 +732,7 @@ func TestOnMouseMoveAttr(t *testing.T) {
 }
 
 func TestOnMouseOutAttr(t *testing.T) {
-	got := string(ruby.New().OnMouseOut("test").Render())
+	got := string(ruby.New().OnMouseOut("test").RenderBytes())
 	want := `<ruby onmouseout="test"></ruby>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -740,7 +740,7 @@ func TestOnMouseOutAttr(t *testing.T) {
 }
 
 func TestOnMouseOverAttr(t *testing.T) {
-	got := string(ruby.New().OnMouseOver("test").Render())
+	got := string(ruby.New().OnMouseOver("test").RenderBytes())
 	want := `<ruby onmouseover="test"></ruby>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -748,7 +748,7 @@ func TestOnMouseOverAttr(t *testing.T) {
 }
 
 func TestOnMouseUpAttr(t *testing.T) {
-	got := string(ruby.New().OnMouseUp("test").Render())
+	got := string(ruby.New().OnMouseUp("test").RenderBytes())
 	want := `<ruby onmouseup="test"></ruby>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -756,7 +756,7 @@ func TestOnMouseUpAttr(t *testing.T) {
 }
 
 func TestOnMouseWheelAttr(t *testing.T) {
-	got := string(ruby.New().OnMouseWheel("test").Render())
+	got := string(ruby.New().OnMouseWheel("test").RenderBytes())
 	want := `<ruby onmousewheel="test"></ruby>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -764,7 +764,7 @@ func TestOnMouseWheelAttr(t *testing.T) {
 }
 
 func TestOnPauseAttr(t *testing.T) {
-	got := string(ruby.New().OnPause("test").Render())
+	got := string(ruby.New().OnPause("test").RenderBytes())
 	want := `<ruby onpause="test"></ruby>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -772,7 +772,7 @@ func TestOnPauseAttr(t *testing.T) {
 }
 
 func TestOnPlayAttr(t *testing.T) {
-	got := string(ruby.New().OnPlay("test").Render())
+	got := string(ruby.New().OnPlay("test").RenderBytes())
 	want := `<ruby onplay="test"></ruby>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -780,7 +780,7 @@ func TestOnPlayAttr(t *testing.T) {
 }
 
 func TestOnPlayingAttr(t *testing.T) {
-	got := string(ruby.New().OnPlaying("test").Render())
+	got := string(ruby.New().OnPlaying("test").RenderBytes())
 	want := `<ruby onplaying="test"></ruby>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -788,7 +788,7 @@ func TestOnPlayingAttr(t *testing.T) {
 }
 
 func TestOnProgressAttr(t *testing.T) {
-	got := string(ruby.New().OnProgress("test").Render())
+	got := string(ruby.New().OnProgress("test").RenderBytes())
 	want := `<ruby onprogress="test"></ruby>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -796,7 +796,7 @@ func TestOnProgressAttr(t *testing.T) {
 }
 
 func TestOnRateChangeAttr(t *testing.T) {
-	got := string(ruby.New().OnRateChange("test").Render())
+	got := string(ruby.New().OnRateChange("test").RenderBytes())
 	want := `<ruby onratechange="test"></ruby>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -804,7 +804,7 @@ func TestOnRateChangeAttr(t *testing.T) {
 }
 
 func TestOnResetAttr(t *testing.T) {
-	got := string(ruby.New().OnReset("test").Render())
+	got := string(ruby.New().OnReset("test").RenderBytes())
 	want := `<ruby onreset="test"></ruby>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -812,7 +812,7 @@ func TestOnResetAttr(t *testing.T) {
 }
 
 func TestOnResizeAttr(t *testing.T) {
-	got := string(ruby.New().OnResize("test").Render())
+	got := string(ruby.New().OnResize("test").RenderBytes())
 	want := `<ruby onresize="test"></ruby>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -820,7 +820,7 @@ func TestOnResizeAttr(t *testing.T) {
 }
 
 func TestOnScrollAttr(t *testing.T) {
-	got := string(ruby.New().OnScroll("test").Render())
+	got := string(ruby.New().OnScroll("test").RenderBytes())
 	want := `<ruby onscroll="test"></ruby>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -828,7 +828,7 @@ func TestOnScrollAttr(t *testing.T) {
 }
 
 func TestOnSeekedAttr(t *testing.T) {
-	got := string(ruby.New().OnSeeked("test").Render())
+	got := string(ruby.New().OnSeeked("test").RenderBytes())
 	want := `<ruby onseeked="test"></ruby>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -836,7 +836,7 @@ func TestOnSeekedAttr(t *testing.T) {
 }
 
 func TestOnSeekingAttr(t *testing.T) {
-	got := string(ruby.New().OnSeeking("test").Render())
+	got := string(ruby.New().OnSeeking("test").RenderBytes())
 	want := `<ruby onseeking="test"></ruby>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -844,7 +844,7 @@ func TestOnSeekingAttr(t *testing.T) {
 }
 
 func TestOnSelectAttr(t *testing.T) {
-	got := string(ruby.New().OnSelect("test").Render())
+	got := string(ruby.New().OnSelect("test").RenderBytes())
 	want := `<ruby onselect="test"></ruby>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -852,7 +852,7 @@ func TestOnSelectAttr(t *testing.T) {
 }
 
 func TestOnShowAttr(t *testing.T) {
-	got := string(ruby.New().OnShow("test").Render())
+	got := string(ruby.New().OnShow("test").RenderBytes())
 	want := `<ruby onshow="test"></ruby>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -860,7 +860,7 @@ func TestOnShowAttr(t *testing.T) {
 }
 
 func TestOnSortAttr(t *testing.T) {
-	got := string(ruby.New().OnSort("test").Render())
+	got := string(ruby.New().OnSort("test").RenderBytes())
 	want := `<ruby onsort="test"></ruby>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -868,7 +868,7 @@ func TestOnSortAttr(t *testing.T) {
 }
 
 func TestOnStalledAttr(t *testing.T) {
-	got := string(ruby.New().OnStalled("test").Render())
+	got := string(ruby.New().OnStalled("test").RenderBytes())
 	want := `<ruby onstalled="test"></ruby>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -876,7 +876,7 @@ func TestOnStalledAttr(t *testing.T) {
 }
 
 func TestOnSuspendAttr(t *testing.T) {
-	got := string(ruby.New().OnSuspend("test").Render())
+	got := string(ruby.New().OnSuspend("test").RenderBytes())
 	want := `<ruby onsuspend="test"></ruby>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -884,7 +884,7 @@ func TestOnSuspendAttr(t *testing.T) {
 }
 
 func TestOnTimeUpdateAttr(t *testing.T) {
-	got := string(ruby.New().OnTimeUpdate("test").Render())
+	got := string(ruby.New().OnTimeUpdate("test").RenderBytes())
 	want := `<ruby ontimeupdate="test"></ruby>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -892,7 +892,7 @@ func TestOnTimeUpdateAttr(t *testing.T) {
 }
 
 func TestOnToggleAttr(t *testing.T) {
-	got := string(ruby.New().OnToggle("test").Render())
+	got := string(ruby.New().OnToggle("test").RenderBytes())
 	want := `<ruby ontoggle="test"></ruby>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -900,7 +900,7 @@ func TestOnToggleAttr(t *testing.T) {
 }
 
 func TestOnVolumeChangeAttr(t *testing.T) {
-	got := string(ruby.New().OnVolumeChange("test").Render())
+	got := string(ruby.New().OnVolumeChange("test").RenderBytes())
 	want := `<ruby onvolumechange="test"></ruby>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -908,7 +908,7 @@ func TestOnVolumeChangeAttr(t *testing.T) {
 }
 
 func TestOnWaitingAttr(t *testing.T) {
-	got := string(ruby.New().OnWaiting("test").Render())
+	got := string(ruby.New().OnWaiting("test").RenderBytes())
 	want := `<ruby onwaiting="test"></ruby>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -916,7 +916,7 @@ func TestOnWaitingAttr(t *testing.T) {
 }
 
 func TestOnAuxClickAttr(t *testing.T) {
-	got := string(ruby.New().OnAuxClick("test").Render())
+	got := string(ruby.New().OnAuxClick("test").RenderBytes())
 	want := `<ruby onauxclick="test"></ruby>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -924,7 +924,7 @@ func TestOnAuxClickAttr(t *testing.T) {
 }
 
 func TestOnWheelAttr(t *testing.T) {
-	got := string(ruby.New().OnWheel("test").Render())
+	got := string(ruby.New().OnWheel("test").RenderBytes())
 	want := `<ruby onwheel="test"></ruby>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -932,7 +932,7 @@ func TestOnWheelAttr(t *testing.T) {
 }
 
 func TestOnCopyAttr(t *testing.T) {
-	got := string(ruby.New().OnCopy("test").Render())
+	got := string(ruby.New().OnCopy("test").RenderBytes())
 	want := `<ruby oncopy="test"></ruby>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -940,7 +940,7 @@ func TestOnCopyAttr(t *testing.T) {
 }
 
 func TestOnCutAttr(t *testing.T) {
-	got := string(ruby.New().OnCut("test").Render())
+	got := string(ruby.New().OnCut("test").RenderBytes())
 	want := `<ruby oncut="test"></ruby>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -948,7 +948,7 @@ func TestOnCutAttr(t *testing.T) {
 }
 
 func TestOnPasteAttr(t *testing.T) {
-	got := string(ruby.New().OnPaste("test").Render())
+	got := string(ruby.New().OnPaste("test").RenderBytes())
 	want := `<ruby onpaste="test"></ruby>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -956,7 +956,7 @@ func TestOnPasteAttr(t *testing.T) {
 }
 
 func TestOnScrollEndAttr(t *testing.T) {
-	got := string(ruby.New().OnScrollEnd("test").Render())
+	got := string(ruby.New().OnScrollEnd("test").RenderBytes())
 	want := `<ruby onscrollend="test"></ruby>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -964,7 +964,7 @@ func TestOnScrollEndAttr(t *testing.T) {
 }
 
 func TestOnFormDataAttr(t *testing.T) {
-	got := string(ruby.New().OnFormData("test").Render())
+	got := string(ruby.New().OnFormData("test").RenderBytes())
 	want := `<ruby onformdata="test"></ruby>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -972,7 +972,7 @@ func TestOnFormDataAttr(t *testing.T) {
 }
 
 func TestOnAnimationCancelAttr(t *testing.T) {
-	got := string(ruby.New().OnAnimationCancel("test").Render())
+	got := string(ruby.New().OnAnimationCancel("test").RenderBytes())
 	want := `<ruby onanimationcancel="test"></ruby>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -980,7 +980,7 @@ func TestOnAnimationCancelAttr(t *testing.T) {
 }
 
 func TestOnAnimationEndAttr(t *testing.T) {
-	got := string(ruby.New().OnAnimationEnd("test").Render())
+	got := string(ruby.New().OnAnimationEnd("test").RenderBytes())
 	want := `<ruby onanimationend="test"></ruby>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -988,7 +988,7 @@ func TestOnAnimationEndAttr(t *testing.T) {
 }
 
 func TestOnAnimationIterationAttr(t *testing.T) {
-	got := string(ruby.New().OnAnimationIteration("test").Render())
+	got := string(ruby.New().OnAnimationIteration("test").RenderBytes())
 	want := `<ruby onanimationiteration="test"></ruby>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -996,7 +996,7 @@ func TestOnAnimationIterationAttr(t *testing.T) {
 }
 
 func TestOnAnimationStartAttr(t *testing.T) {
-	got := string(ruby.New().OnAnimationStart("test").Render())
+	got := string(ruby.New().OnAnimationStart("test").RenderBytes())
 	want := `<ruby onanimationstart="test"></ruby>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -1004,7 +1004,7 @@ func TestOnAnimationStartAttr(t *testing.T) {
 }
 
 func TestOnTransitionCancelAttr(t *testing.T) {
-	got := string(ruby.New().OnTransitionCancel("test").Render())
+	got := string(ruby.New().OnTransitionCancel("test").RenderBytes())
 	want := `<ruby ontransitioncancel="test"></ruby>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -1012,7 +1012,7 @@ func TestOnTransitionCancelAttr(t *testing.T) {
 }
 
 func TestOnTransitionEndAttr(t *testing.T) {
-	got := string(ruby.New().OnTransitionEnd("test").Render())
+	got := string(ruby.New().OnTransitionEnd("test").RenderBytes())
 	want := `<ruby ontransitionend="test"></ruby>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -1020,7 +1020,7 @@ func TestOnTransitionEndAttr(t *testing.T) {
 }
 
 func TestOnTransitionRunAttr(t *testing.T) {
-	got := string(ruby.New().OnTransitionRun("test").Render())
+	got := string(ruby.New().OnTransitionRun("test").RenderBytes())
 	want := `<ruby ontransitionrun="test"></ruby>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -1028,7 +1028,7 @@ func TestOnTransitionRunAttr(t *testing.T) {
 }
 
 func TestOnTransitionStartAttr(t *testing.T) {
-	got := string(ruby.New().OnTransitionStart("test").Render())
+	got := string(ruby.New().OnTransitionStart("test").RenderBytes())
 	want := `<ruby ontransitionstart="test"></ruby>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -1036,7 +1036,7 @@ func TestOnTransitionStartAttr(t *testing.T) {
 }
 
 func TestOnBeforeToggleAttr(t *testing.T) {
-	got := string(ruby.New().OnBeforeToggle("test").Render())
+	got := string(ruby.New().OnBeforeToggle("test").RenderBytes())
 	want := `<ruby onbeforetoggle="test"></ruby>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -1044,7 +1044,7 @@ func TestOnBeforeToggleAttr(t *testing.T) {
 }
 
 func TestOnBeforeInputAttr(t *testing.T) {
-	got := string(ruby.New().OnBeforeInput("test").Render())
+	got := string(ruby.New().OnBeforeInput("test").RenderBytes())
 	want := `<ruby onbeforeinput="test"></ruby>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -1052,7 +1052,7 @@ func TestOnBeforeInputAttr(t *testing.T) {
 }
 
 func TestOnBeforeMatchAttr(t *testing.T) {
-	got := string(ruby.New().OnBeforeMatch("test").Render())
+	got := string(ruby.New().OnBeforeMatch("test").RenderBytes())
 	want := `<ruby onbeforematch="test"></ruby>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -1060,7 +1060,7 @@ func TestOnBeforeMatchAttr(t *testing.T) {
 }
 
 func TestOnCommandAttr(t *testing.T) {
-	got := string(ruby.New().OnCommand("test").Render())
+	got := string(ruby.New().OnCommand("test").RenderBytes())
 	want := `<ruby oncommand="test"></ruby>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -1068,7 +1068,7 @@ func TestOnCommandAttr(t *testing.T) {
 }
 
 func TestOnContextLostAttr(t *testing.T) {
-	got := string(ruby.New().OnContextLost("test").Render())
+	got := string(ruby.New().OnContextLost("test").RenderBytes())
 	want := `<ruby oncontextlost="test"></ruby>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -1076,7 +1076,7 @@ func TestOnContextLostAttr(t *testing.T) {
 }
 
 func TestOnContextRestoredAttr(t *testing.T) {
-	got := string(ruby.New().OnContextRestored("test").Render())
+	got := string(ruby.New().OnContextRestored("test").RenderBytes())
 	want := `<ruby oncontextrestored="test"></ruby>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -1084,7 +1084,7 @@ func TestOnContextRestoredAttr(t *testing.T) {
 }
 
 func TestOnSecurityPolicyViolationAttr(t *testing.T) {
-	got := string(ruby.New().OnSecurityPolicyViolation("test").Render())
+	got := string(ruby.New().OnSecurityPolicyViolation("test").RenderBytes())
 	want := `<ruby onsecuritypolicyviolation="test"></ruby>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -1092,7 +1092,7 @@ func TestOnSecurityPolicyViolationAttr(t *testing.T) {
 }
 
 func TestOnSlotChangeAttr(t *testing.T) {
-	got := string(ruby.New().OnSlotChange("test").Render())
+	got := string(ruby.New().OnSlotChange("test").RenderBytes())
 	want := `<ruby onslotchange="test"></ruby>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -1100,7 +1100,7 @@ func TestOnSlotChangeAttr(t *testing.T) {
 }
 
 func TestOnPointerDownAttr(t *testing.T) {
-	got := string(ruby.New().OnPointerDown("test").Render())
+	got := string(ruby.New().OnPointerDown("test").RenderBytes())
 	want := `<ruby onpointerdown="test"></ruby>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -1108,7 +1108,7 @@ func TestOnPointerDownAttr(t *testing.T) {
 }
 
 func TestOnPointerUpAttr(t *testing.T) {
-	got := string(ruby.New().OnPointerUp("test").Render())
+	got := string(ruby.New().OnPointerUp("test").RenderBytes())
 	want := `<ruby onpointerup="test"></ruby>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -1116,7 +1116,7 @@ func TestOnPointerUpAttr(t *testing.T) {
 }
 
 func TestOnPointerMoveAttr(t *testing.T) {
-	got := string(ruby.New().OnPointerMove("test").Render())
+	got := string(ruby.New().OnPointerMove("test").RenderBytes())
 	want := `<ruby onpointermove="test"></ruby>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -1124,7 +1124,7 @@ func TestOnPointerMoveAttr(t *testing.T) {
 }
 
 func TestOnPointerEnterAttr(t *testing.T) {
-	got := string(ruby.New().OnPointerEnter("test").Render())
+	got := string(ruby.New().OnPointerEnter("test").RenderBytes())
 	want := `<ruby onpointerenter="test"></ruby>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -1132,7 +1132,7 @@ func TestOnPointerEnterAttr(t *testing.T) {
 }
 
 func TestOnPointerLeaveAttr(t *testing.T) {
-	got := string(ruby.New().OnPointerLeave("test").Render())
+	got := string(ruby.New().OnPointerLeave("test").RenderBytes())
 	want := `<ruby onpointerleave="test"></ruby>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -1140,7 +1140,7 @@ func TestOnPointerLeaveAttr(t *testing.T) {
 }
 
 func TestOnPointerOverAttr(t *testing.T) {
-	got := string(ruby.New().OnPointerOver("test").Render())
+	got := string(ruby.New().OnPointerOver("test").RenderBytes())
 	want := `<ruby onpointerover="test"></ruby>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -1148,7 +1148,7 @@ func TestOnPointerOverAttr(t *testing.T) {
 }
 
 func TestOnPointerOutAttr(t *testing.T) {
-	got := string(ruby.New().OnPointerOut("test").Render())
+	got := string(ruby.New().OnPointerOut("test").RenderBytes())
 	want := `<ruby onpointerout="test"></ruby>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -1156,7 +1156,7 @@ func TestOnPointerOutAttr(t *testing.T) {
 }
 
 func TestOnPointerCancelAttr(t *testing.T) {
-	got := string(ruby.New().OnPointerCancel("test").Render())
+	got := string(ruby.New().OnPointerCancel("test").RenderBytes())
 	want := `<ruby onpointercancel="test"></ruby>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -1164,7 +1164,7 @@ func TestOnPointerCancelAttr(t *testing.T) {
 }
 
 func TestOnGotPointerCaptureAttr(t *testing.T) {
-	got := string(ruby.New().OnGotPointerCapture("test").Render())
+	got := string(ruby.New().OnGotPointerCapture("test").RenderBytes())
 	want := `<ruby ongotpointercapture="test"></ruby>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -1172,7 +1172,7 @@ func TestOnGotPointerCaptureAttr(t *testing.T) {
 }
 
 func TestOnLostPointerCaptureAttr(t *testing.T) {
-	got := string(ruby.New().OnLostPointerCapture("test").Render())
+	got := string(ruby.New().OnLostPointerCapture("test").RenderBytes())
 	want := `<ruby onlostpointercapture="test"></ruby>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -1180,7 +1180,7 @@ func TestOnLostPointerCaptureAttr(t *testing.T) {
 }
 
 func TestOnTouchStartAttr(t *testing.T) {
-	got := string(ruby.New().OnTouchStart("test").Render())
+	got := string(ruby.New().OnTouchStart("test").RenderBytes())
 	want := `<ruby ontouchstart="test"></ruby>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -1188,7 +1188,7 @@ func TestOnTouchStartAttr(t *testing.T) {
 }
 
 func TestOnTouchEndAttr(t *testing.T) {
-	got := string(ruby.New().OnTouchEnd("test").Render())
+	got := string(ruby.New().OnTouchEnd("test").RenderBytes())
 	want := `<ruby ontouchend="test"></ruby>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -1196,7 +1196,7 @@ func TestOnTouchEndAttr(t *testing.T) {
 }
 
 func TestOnTouchMoveAttr(t *testing.T) {
-	got := string(ruby.New().OnTouchMove("test").Render())
+	got := string(ruby.New().OnTouchMove("test").RenderBytes())
 	want := `<ruby ontouchmove="test"></ruby>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -1204,7 +1204,7 @@ func TestOnTouchMoveAttr(t *testing.T) {
 }
 
 func TestOnTouchCancelAttr(t *testing.T) {
-	got := string(ruby.New().OnTouchCancel("test").Render())
+	got := string(ruby.New().OnTouchCancel("test").RenderBytes())
 	want := `<ruby ontouchcancel="test"></ruby>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -1212,7 +1212,7 @@ func TestOnTouchCancelAttr(t *testing.T) {
 }
 
 func TestOnSelectStartAttr(t *testing.T) {
-	got := string(ruby.New().OnSelectStart("test").Render())
+	got := string(ruby.New().OnSelectStart("test").RenderBytes())
 	want := `<ruby onselectstart="test"></ruby>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -1220,7 +1220,7 @@ func TestOnSelectStartAttr(t *testing.T) {
 }
 
 func TestOnSelectionChangeAttr(t *testing.T) {
-	got := string(ruby.New().OnSelectionChange("test").Render())
+	got := string(ruby.New().OnSelectionChange("test").RenderBytes())
 	want := `<ruby onselectionchange="test"></ruby>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -1228,7 +1228,7 @@ func TestOnSelectionChangeAttr(t *testing.T) {
 }
 
 func TestNewMulti(t *testing.T) {
-	got := string(ruby.New(ruby.New(), ruby.New()).Render())
+	got := string(ruby.New(ruby.New(), ruby.New()).RenderBytes())
 	want := `<ruby><ruby></ruby><ruby></ruby></ruby>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -1239,7 +1239,7 @@ func TestAdd(t *testing.T) {
 	element := ruby.New().Add(ruby.New(), ruby.New())
 
 	// Test rendered output
-	got := string(element.Render())
+	got := string(element.RenderBytes())
 	want := `<ruby><ruby></ruby><ruby></ruby></ruby>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -1264,7 +1264,7 @@ func TestReplace(t *testing.T) {
 	element.Replace(ruby.New())
 
 	// Test rendered output
-	got := string(element.Render())
+	got := string(element.RenderBytes())
 	want := `<ruby><ruby></ruby></ruby>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -1277,7 +1277,7 @@ func TestReplace(t *testing.T) {
 }
 
 func TestTextMethod(t *testing.T) {
-	got := string(ruby.New().Text("hello").Render())
+	got := string(ruby.New().Text("hello").RenderBytes())
 	want := `<ruby>hello</ruby>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -1285,7 +1285,7 @@ func TestTextMethod(t *testing.T) {
 }
 
 func TestTextfMethod(t *testing.T) {
-	got := string(ruby.New().Textf("hello %s", "world").Render())
+	got := string(ruby.New().Textf("hello %s", "world").RenderBytes())
 	want := `<ruby>hello world</ruby>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -1293,7 +1293,7 @@ func TestTextfMethod(t *testing.T) {
 }
 
 func TestStaticMethod(t *testing.T) {
-	got := string(ruby.New().Static("static content").Render())
+	got := string(ruby.New().Static("static content").RenderBytes())
 	want := `<ruby>static content</ruby>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -1301,7 +1301,7 @@ func TestStaticMethod(t *testing.T) {
 }
 
 func TestRawTextMethod(t *testing.T) {
-	got := string(ruby.New().RawText("<em>bold</em>").Render())
+	got := string(ruby.New().RawText("<em>bold</em>").RenderBytes())
 	want := `<ruby><em>bold</em></ruby>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -1309,7 +1309,7 @@ func TestRawTextMethod(t *testing.T) {
 }
 
 func TestRawTextfMethod(t *testing.T) {
-	got := string(ruby.New().RawTextf("<%s>test</%s>", "span", "span").Render())
+	got := string(ruby.New().RawTextf("<%s>test</%s>", "span", "span").RenderBytes())
 	want := `<ruby><span>test</span></ruby>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -1317,7 +1317,7 @@ func TestRawTextfMethod(t *testing.T) {
 }
 
 func TestTextChaining(t *testing.T) {
-	got := string(ruby.New().Class("foo").Text("content").ID("bar").Render())
+	got := string(ruby.New().Class("foo").Text("content").ID("bar").RenderBytes())
 	want := `<ruby class="foo" id="bar">content</ruby>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -1325,7 +1325,7 @@ func TestTextChaining(t *testing.T) {
 }
 
 func TestDynamicKey(t *testing.T) {
-	got := string(ruby.New().Dynamic("mykey").Render())
+	got := string(ruby.New().Dynamic("mykey").RenderBytes())
 	want := `<ruby data-tether-key="mykey"></ruby>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -1340,7 +1340,7 @@ func TestDynamicNoKey(t *testing.T) {
 	if el.DynamicKey() != "_" {
 		t.Errorf("DynamicKey() should be \"_\", got %q", el.DynamicKey())
 	}
-	got := string(el.Render())
+	got := string(el.RenderBytes())
 	want := `<ruby></ruby>`
 	if got != want {
 		t.Errorf("Dynamic() without key should not render data-tether-key: got %q, want %q", got, want)
