@@ -137,7 +137,7 @@ func TestNestedTree(t *testing.T) {
 }
 func TestDynamicKey(t *testing.T) {
 	got := string(svg.Rect().Dynamic("k").RenderBytes())
-	if got != "<rect data-tether-key=\"k\" />" {
-		t.Errorf("got %q, want %q", got, "<rect data-tether-key=\"k\" />")
+	if got != "<rect data-fluent-key=\"k\" />" {
+		t.Errorf("got %q, want %q", got, "<rect data-fluent-key=\"k\" />")
 	}
 }

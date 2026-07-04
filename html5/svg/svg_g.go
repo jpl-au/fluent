@@ -19,6 +19,7 @@ type g struct {
 	bufferhint atomic.Int64
 	nodes      []node.Node
 	dynamic    string
+	memoise    any
 	attr       *[]node.Attribute
 	sa         *svgAttrs
 }
@@ -223,16 +224,13 @@ func (e *g) Replace(children ...Shape) *g {
 	return e
 }
 
-// Dynamic marks this element for reactive tracking by the Tether diff engine.
-// The key identifies this element across renders so the diff engine can detect
-// changes and send targeted patches. Keys must be unique within a render tree.
-// Calling without a key marks the element as dynamic without a tracking key.
-func (e *g) Dynamic(key ...string) *g {
-	if len(key) > 0 {
-		e.dynamic = key[0]
-	} else {
-		e.dynamic = "_"
-	}
+// Dynamic marks this element for reactive tracking by the diff engine.
+// The key is the element's stable identity across renders: the diff engine
+// matches on it to detect changes and send targeted patches, so it must be
+// unique within a render tree and must not change between renders. It is
+// emitted as the data-fluent-key attribute.
+func (e *g) Dynamic(key string) *g {
+	e.dynamic = key
 	return e
 }
 
@@ -245,6 +243,23 @@ func (e *g) IsDynamic() bool {
 // Returns an empty string if the element has not been marked as dynamic.
 func (e *g) DynamicKey() string {
 	return e.dynamic
+}
+
+// Memoise sets the cache version for this element's subtree. The diff
+// engine's memoisation layer (fluent-jit) skips rendering and diffing the
+// subtree when the version matches the previous render. Opposite lifecycle
+// to the Dynamic key: the key is stable identity, the version changes
+// whenever the content does. Plain rendering ignores it entirely.
+func (e *g) Memoise(version any) *g {
+	e.memoise = version
+	return e
+}
+
+// MemoiseKey returns the cache version set by Memoise, or nil when the
+// element is not memoised. Satisfies the memoisation interface consumed
+// by fluent-jit.
+func (e *g) MemoiseKey() any {
+	return e.memoise
 }
 
 // Node interface implementation
@@ -298,8 +313,8 @@ func (e *g) RenderBytes() []byte {
 // AttributeBuilder writes all attributes for the element to the buffer.
 func (e *g) AttributeBuilder(buf *bytes.Buffer) {
 
-	if e.dynamic != "" && e.dynamic != "_" {
-		buf.WriteString(` data-tether-key="`)
+	if e.dynamic != "" {
+		buf.WriteString(` data-fluent-key="`)
 		buf.WriteString(e.dynamic)
 		buf.Write(MarkupQuote)
 	}

@@ -1327,24 +1327,20 @@ func TestTextChaining(t *testing.T) {
 
 func TestDynamicKey(t *testing.T) {
 	got := string(small.New().Dynamic("mykey").RenderBytes())
-	want := `<small data-tether-key="mykey"></small>`
+	want := `<small data-fluent-key="mykey"></small>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
 	}
 }
 
-func TestDynamicNoKey(t *testing.T) {
-	el := small.New().Dynamic()
-	if !el.IsDynamic() {
-		t.Error("element should be dynamic after calling Dynamic()")
+func TestMemoiseKey(t *testing.T) {
+	el := small.New()
+	if el.MemoiseKey() != nil {
+		t.Error("new element should have no memoise version")
 	}
-	if el.DynamicKey() != "_" {
-		t.Errorf("DynamicKey() should be \"_\", got %q", el.DynamicKey())
-	}
-	got := string(el.RenderBytes())
-	want := `<small></small>`
-	if got != want {
-		t.Errorf("Dynamic() without key should not render data-tether-key: got %q, want %q", got, want)
+	el.Memoise(7)
+	if el.MemoiseKey() != 7 {
+		t.Errorf("MemoiseKey() = %v, want 7", el.MemoiseKey())
 	}
 }
 

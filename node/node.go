@@ -3,8 +3,9 @@
 // elements, text, conditionals, function wrappers, and memoised nodes.
 //
 // Tree-level helpers create nodes without importing an HTML element
-// package: [Func], [Funcs], [Condition], [When], [Unless], [Memoise],
-// and [Empty] (a node that renders nothing).
+// package: [Func], [Funcs], [Condition], [When], [Unless], and [Empty]
+// (a node that renders nothing). Memoisation nodes live in fluent-jit,
+// alongside the diff engine that consumes them.
 //
 // All node types that produce dynamic content support reactive tracking
 // via the [Dynamic] interface. Call .Dynamic(key) on elements, function
