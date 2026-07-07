@@ -77,7 +77,7 @@ func TestConcurrentConfiguration(t *testing.T) {
 	Enable()
 	defer func() {
 		SetThreshold(4 * 1024)
-		SetMaxPoolSize(256*1024, true)
+		SetMaxPoolSize(256 * 1024)
 	}()
 
 	done := make(chan struct{})
@@ -85,7 +85,7 @@ func TestConcurrentConfiguration(t *testing.T) {
 		defer close(done)
 		for i := range 1000 {
 			SetThreshold(1024 + i)
-			SetMaxPoolSize(128*1024+i, i%2 == 0)
+			SetMaxPoolSize(128*1024 + i)
 		}
 	}()
 

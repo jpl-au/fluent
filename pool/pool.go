@@ -24,9 +24,8 @@ import (
 // atomically because Get and Put read these on every render while the
 // setters may run at any time; plain variables would be a data race.
 var (
-	poolThreshold    atomic.Int64 // Threshold defines the pool (small, large) the builder is returned to.
-	maxPoolSize      atomic.Int64 // Maximum size to keep in pools - discard larger buffers.
-	discardOversized atomic.Bool  // Whether to discard oversized buffers (true by default).
+	poolThreshold atomic.Int64 // Threshold defines the pool (small, large) the builder is returned to.
+	maxPoolSize   atomic.Int64 // Maximum size to keep in pools - discard larger buffers.
 )
 
 // enabled controls whether sync.Pool optimisations are enabled globally.
@@ -44,7 +43,6 @@ func init() {
 	enabled.Store(true) // Enable pool by default
 	poolThreshold.Store(4 * 1024)
 	maxPoolSize.Store(256 * 1024)
-	discardOversized.Store(true)
 }
 
 // Labels for diagnostic output - identify which pool handled the operation.
@@ -128,7 +126,12 @@ func Put(buf *bytes.Buffer) {
 
 	cap := buf.Cap()
 
-	if cap > int(maxPoolSize.Load()) && discardOversized.Load() {
+	// Oversized buffers are always discarded rather than pooled, so one
+	// pathological render cannot pin its memory for the process lifetime
+	// (the sync.Pool pathology fixed the same way in fmt: golang/go
+	// issue 23199). Rebounding to a cap-sized buffer instead measured
+	// strictly worse on every workload - see benchmarks/pool-ab.
+	if cap > int(maxPoolSize.Load()) {
 		emitDiag("put", 0, buf.Len(), cap, discard)
 		return
 	}
@@ -157,13 +160,11 @@ func SetThreshold(size int) {
 }
 
 // SetMaxPoolSize configures the maximum buffer size in bytes to keep
-// in pools. Buffers larger than size are discarded when drop is true;
-// when drop is false they are still discarded today (the rebound path
-// is not implemented). Safe to call at any time, including while
-// renders are in flight.
-func SetMaxPoolSize(size int, drop bool) {
+// in pools. Buffers larger than size are discarded when returned, so
+// one pathological render cannot pin its memory in the pool. Safe to
+// call at any time, including while renders are in flight.
+func SetMaxPoolSize(size int) {
 	maxPoolSize.Store(int64(size))
-	discardOversized.Store(drop)
 }
 
 // Configuration getters
@@ -178,12 +179,6 @@ func Threshold() int {
 // will retain.
 func MaxPoolSize() int {
 	return int(maxPoolSize.Load())
-}
-
-// DiscardOversized reports whether buffers larger than [MaxPoolSize]
-// are discarded when returned to the pool.
-func DiscardOversized() bool {
-	return discardOversized.Load()
 }
 
 // SetDiagnostics enables pool diagnostics. When w is non-nil, every Get
