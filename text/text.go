@@ -155,8 +155,13 @@ func (tn *Node) DynamicKey() string {
 	return ""
 }
 
-// String returns the text content as a string.
-// This allows RawText to be used in contexts that require string values.
+// String returns the render-ready content: exactly the bytes this node
+// will emit when rendered. That means the escaped form for [Text] and
+// [Textf] nodes - escaping happens at construction, not at render - and
+// the verbatim input for [Static], [RawText] and [RawTextf] nodes.
+// Printing a Text node with %s therefore shows &lt; rather than the
+// original <. Intended for tests and debugging; use the Render methods
+// for output.
 func (tn *Node) String() string {
 	return tn.content
 }
