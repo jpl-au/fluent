@@ -59,6 +59,8 @@ type GlobalAttributes struct {
 // returns nothing on purpose: it cannot be chained, which keeps the
 // Fluent API the obvious default.
 func (ga *GlobalAttributes) SetAttribute(key string, value string) {
+	value = node.EscapeAttribute(value)
+
 	if ga.attr == nil {
 		slice := make([]node.Attribute, 0, 1)
 		ga.attr = &slice

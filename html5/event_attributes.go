@@ -35,6 +35,8 @@ type EventAttributes struct {
 // returns nothing on purpose: it cannot be chained, which keeps the
 // Fluent API the obvious default.
 func (ea *EventAttributes) SetAttribute(key string, value string) {
+	value = node.EscapeAttribute(value)
+
 	if ea.attr == nil {
 		slice := make([]node.Attribute, 0, 1)
 		ea.attr = &slice
