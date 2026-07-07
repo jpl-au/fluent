@@ -20,8 +20,13 @@ type Element interface {
 	// returns nothing on purpose - it cannot be chained, which keeps the
 	// Fluent API the obvious default.
 	//
-	// For ARIA attributes use SetAria(name, value); for data-* attributes
-	// use SetData(name, value). Both return the element for chaining.
+	// On concrete element types, prefer SetAria(name, value) and
+	// SetData(name, value) for ARIA and data-* attributes - they prefix
+	// the key and return the element for chaining. Those chainable
+	// methods cannot appear on this interface (their concrete return
+	// type cannot satisfy an interface method), so code holding an
+	// Element uses the package-level [SetAttribute], [SetData] and
+	// [SetAria] functions instead.
 	SetAttribute(key string, value string)
 
 	// RenderOpen writes the opening tag, including the element name and

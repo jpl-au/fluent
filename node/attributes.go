@@ -1,5 +1,37 @@
 package node
 
+// The package-level setters below serve code that works through the
+// [Element] interface - jit, tether, third-party extensions. The
+// chainable SetData and SetAria methods on concrete element types
+// cannot appear on the interface (their concrete return type cannot
+// satisfy an interface method), which used to force interface-typed
+// code to hand-build prefixed keys against the raw escape hatch.
+// These functions restore the semantic API - the io.WriteString
+// pattern - and route through [Element.SetAttribute], the single
+// implementation point every attribute write shares.
+
+// SetAttribute sets a custom attribute on an element reached through
+// the [Element] interface. It is the package-level twin of
+// [Element.SetAttribute], provided for symmetry with [SetData] and
+// [SetAria].
+func SetAttribute(e Element, key, value string) {
+	e.SetAttribute(key, value)
+}
+
+// SetData sets a data-* attribute on an element reached through the
+// [Element] interface, prefixing the key exactly as the concrete
+// SetData methods do: SetData(e, "id", v) sets data-id.
+func SetData(e Element, key, value string) {
+	e.SetAttribute("data-"+key, value)
+}
+
+// SetAria sets an aria-* attribute on an element reached through the
+// [Element] interface, prefixing the key exactly as the concrete
+// SetAria methods do: SetAria(e, "label", v) sets aria-label.
+func SetAria(e Element, key, value string) {
+	e.SetAttribute("aria-"+key, value)
+}
+
 // Attribute is a single HTML attribute pair held in an element's
 // generic attribute slice. Typed attributes live in dedicated struct
 // fields; this type backs the catch-all storage that
