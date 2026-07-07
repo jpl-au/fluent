@@ -69,6 +69,32 @@ func TestPoolDisabled(t *testing.T) {
 	Put(buf) // Should be no-op or safe
 }
 
+// TestConcurrentConfiguration reconfigures the pool while Get and Put
+// are running on other goroutines. It exists for the race detector: the
+// configuration values are read on every Get/Put, so storing them in
+// plain variables would fail this test under -race.
+func TestConcurrentConfiguration(t *testing.T) {
+	Enable()
+	defer func() {
+		SetThreshold(4 * 1024)
+		SetMaxPoolSize(256*1024, true)
+	}()
+
+	done := make(chan struct{})
+	go func() {
+		defer close(done)
+		for i := range 1000 {
+			SetThreshold(1024 + i)
+			SetMaxPoolSize(128*1024+i, i%2 == 0)
+		}
+	}()
+
+	for i := range 1000 {
+		Put(Get(i % (8 * 1024)))
+	}
+	<-done
+}
+
 func TestDiscardOversized(t *testing.T) {
 	Enable()
 	max := MaxPoolSize()

@@ -20,11 +20,13 @@ import (
 	"sync/atomic"
 )
 
-// Pool behaviour - configure via the exported setter functions.
+// Pool behaviour - configure via the exported setter functions. Held
+// atomically because Get and Put read these on every render while the
+// setters may run at any time; plain variables would be a data race.
 var (
-	poolThreshold    = 4 * 1024   // Threshold defines the pool (small, large) the builder is returned to.
-	maxPoolSize      = 256 * 1024 // Maximum size to keep in pools - discard larger buffers.
-	discardOversized = true       // Whether to discard oversized buffers (true by default).
+	poolThreshold    atomic.Int64 // Threshold defines the pool (small, large) the builder is returned to.
+	maxPoolSize      atomic.Int64 // Maximum size to keep in pools - discard larger buffers.
+	discardOversized atomic.Bool  // Whether to discard oversized buffers (true by default).
 )
 
 // enabled controls whether sync.Pool optimisations are enabled globally.
@@ -40,6 +42,9 @@ var (
 
 func init() {
 	enabled.Store(true) // Enable pool by default
+	poolThreshold.Store(4 * 1024)
+	maxPoolSize.Store(256 * 1024)
+	discardOversized.Store(true)
 }
 
 // Labels for diagnostic output - identify which pool handled the operation.
@@ -91,7 +96,7 @@ func Get(hint int) *bytes.Buffer {
 
 	var src *sync.Pool
 	var pool string
-	if hint < poolThreshold {
+	if hint < int(poolThreshold.Load()) {
 		src = &smallPool
 		pool = small
 	} else {
@@ -123,7 +128,7 @@ func Put(buf *bytes.Buffer) {
 
 	cap := buf.Cap()
 
-	if cap > maxPoolSize && discardOversized {
+	if cap > int(maxPoolSize.Load()) && discardOversized.Load() {
 		emitDiag("put", 0, buf.Len(), cap, discard)
 		return
 	}
@@ -132,7 +137,7 @@ func Put(buf *bytes.Buffer) {
 	length := buf.Len()
 	buf.Reset()
 
-	if cap < poolThreshold {
+	if cap < int(poolThreshold.Load()) {
 		emitDiag("put", 0, length, cap, small)
 		smallPool.Put(buf)
 	} else {
@@ -145,18 +150,20 @@ func Put(buf *bytes.Buffer) {
 
 // SetThreshold sets the size threshold in bytes between the small and
 // large pools. Buffers with capacity below the threshold are recycled
-// through the small pool; the rest go through the large pool.
+// through the small pool; the rest go through the large pool. Safe to
+// call at any time, including while renders are in flight.
 func SetThreshold(size int) {
-	poolThreshold = size
+	poolThreshold.Store(int64(size))
 }
 
 // SetMaxPoolSize configures the maximum buffer size in bytes to keep
 // in pools. Buffers larger than size are discarded when drop is true;
 // when drop is false they are still discarded today (the rebound path
-// is not implemented).
+// is not implemented). Safe to call at any time, including while
+// renders are in flight.
 func SetMaxPoolSize(size int, drop bool) {
-	maxPoolSize = size
-	discardOversized = drop
+	maxPoolSize.Store(int64(size))
+	discardOversized.Store(drop)
 }
 
 // Configuration getters
@@ -164,19 +171,19 @@ func SetMaxPoolSize(size int, drop bool) {
 // Threshold returns the size threshold in bytes between the small and
 // large pools.
 func Threshold() int {
-	return poolThreshold
+	return int(poolThreshold.Load())
 }
 
 // MaxPoolSize returns the maximum buffer size in bytes that the pool
 // will retain.
 func MaxPoolSize() int {
-	return maxPoolSize
+	return int(maxPoolSize.Load())
 }
 
 // DiscardOversized reports whether buffers larger than [MaxPoolSize]
 // are discarded when returned to the pool.
 func DiscardOversized() bool {
-	return discardOversized
+	return discardOversized.Load()
 }
 
 // SetDiagnostics enables pool diagnostics. When w is non-nil, every Get
