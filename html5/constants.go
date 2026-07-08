@@ -120,7 +120,6 @@ var (
 	TagSub        = []byte(`<sub`)
 	TagSummary    = []byte(`<summary`)
 	TagSup        = []byte(`<sup`)
-	TagSvg        = []byte(`<svg`)
 	TagTable      = []byte(`<table`)
 	TagTbody      = []byte(`<tbody`)
 	TagTd         = []byte(`<td`)
@@ -228,7 +227,6 @@ var (
 	TagSubClose        = []byte(`</sub>`)
 	TagSummaryClose    = []byte(`</summary>`)
 	TagSupClose        = []byte(`</sup>`)
-	TagSvgClose        = []byte(`</svg>`)
 	TagTableClose      = []byte(`</table>`)
 	TagTbodyClose      = []byte(`</tbody>`)
 	TagTdClose         = []byte(`</td>`)
@@ -252,25 +250,25 @@ var (
 // renderer can append the value and closing quote without further
 // allocation. Used by AttributeBuilder on every element.
 var (
-	AttrClass    = []byte(` class="`)
-	AttrID       = []byte(` id="`)
-	AttrStyle    = []byte(` style="`)
-	AttrTitle    = []byte(` title="`)
-	AttrHidden   = []byte(` hidden="`)
-	AttrTabIndex = []byte(` tabindex="`)
-	// Draggable is enumerated, not boolean: it must render
-	// draggable="true" or draggable="false" - the bare attribute is
-	// invalid and falls back to auto.
+	AttrClass           = []byte(` class="`)
+	AttrID              = []byte(` id="`)
+	AttrStyle           = []byte(` style="`)
+	AttrTitle           = []byte(` title="`)
+	AttrHidden          = []byte(` hidden="`)
+	AttrTabIndex        = []byte(` tabindex="`)
+	AttrRole            = []byte(` role="`)
+	AttrLang            = []byte(` lang="`)
+	AttrAccessKey       = []byte(` accesskey="`)
+	AttrAnchor          = []byte(` anchor="`)
+	AttrAriaLabel       = []byte(` aria-label="`)
+	AttrAutoCapitalize  = []byte(` autocapitalize="`)
+	AttrAutoCorrect     = []byte(` autocorrect="`)
+	AttrContentEditable = []byte(` contenteditable="`)
+	AttrDir             = []byte(` dir="`)
+	// An enumerated attribute indicating whether the element can be dragged, using the Drag and Drop API.
+	// Renders draggable="true" or draggable="false". The bare attribute is invalid HTML and falls back to
+	// auto, and draggable="false" is meaningful on links and images, which are draggable by default.
 	AttrDraggable                 = []byte(` draggable="`)
-	AttrRole                      = []byte(` role="`)
-	AttrLang                      = []byte(` lang="`)
-	AttrAccessKey                 = []byte(` accesskey="`)
-	AttrAnchor                    = []byte(` anchor="`)
-	AttrAriaLabel                 = []byte(` aria-label="`)
-	AttrAutoCapitalize            = []byte(` autocapitalize="`)
-	AttrAutoCorrect               = []byte(` autocorrect="`)
-	AttrContentEditable           = []byte(` contenteditable="`)
-	AttrDir                       = []byte(` dir="`)
 	AttrEnterKeyHint              = []byte(` enterkeyhint="`)
 	AttrExportParts               = []byte(` exportparts="`)
 	AttrInputMode                 = []byte(` inputmode="`)
@@ -480,8 +478,6 @@ var (
 	AttrData                      = []byte(` data="`)
 	AttrStart                     = []byte(` start="`)
 	AttrLabel                     = []byte(` label="`)
-	AttrViewBox                   = []byte(` viewbox="`)
-	AttrPreserveAspectRatio       = []byte(` preserveaspectratio="`)
 	AttrBorder                    = []byte(` border="`)
 	AttrCellPadding               = []byte(` cellpadding="`)
 	AttrCellSpacing               = []byte(` cellspacing="`)
