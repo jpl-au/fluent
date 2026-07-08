@@ -19,6 +19,7 @@ func TestRenderCircle(t *testing.T) {
 		t.Errorf("got %q, want %q", got, want)
 	}
 }
+
 func TestRenderDefs(t *testing.T) {
 	got := string(svg.Defs().Class("class").Fill("fill").StrokeWidth("stroke-width").StrokeLineCap(strokelinecap.Custom("stroke-linecap")).StrokeLineJoin(strokelinejoin.Custom("stroke-linejoin")).RenderBytes())
 	want := "<defs class=\"class\" fill=\"fill\" stroke-width=\"stroke-width\" stroke-linecap=\"stroke-linecap\" stroke-linejoin=\"stroke-linejoin\"></defs>"
@@ -26,6 +27,7 @@ func TestRenderDefs(t *testing.T) {
 		t.Errorf("got %q, want %q", got, want)
 	}
 }
+
 func TestRenderEllipse(t *testing.T) {
 	got := string(svg.Ellipse().Cx("cx").Cy("cy").Rx("rx").Ry("ry").Class("class").Fill("fill").StrokeWidth("stroke-width").StrokeLineCap(strokelinecap.Custom("stroke-linecap")).StrokeLineJoin(strokelinejoin.Custom("stroke-linejoin")).RenderBytes())
 	want := "<ellipse cx=\"cx\" cy=\"cy\" rx=\"rx\" ry=\"ry\" class=\"class\" fill=\"fill\" stroke-width=\"stroke-width\" stroke-linecap=\"stroke-linecap\" stroke-linejoin=\"stroke-linejoin\" />"
@@ -33,6 +35,7 @@ func TestRenderEllipse(t *testing.T) {
 		t.Errorf("got %q, want %q", got, want)
 	}
 }
+
 func TestRenderG(t *testing.T) {
 	got := string(svg.G().Class("class").Fill("fill").StrokeWidth("stroke-width").StrokeLineCap(strokelinecap.Custom("stroke-linecap")).StrokeLineJoin(strokelinejoin.Custom("stroke-linejoin")).RenderBytes())
 	want := "<g class=\"class\" fill=\"fill\" stroke-width=\"stroke-width\" stroke-linecap=\"stroke-linecap\" stroke-linejoin=\"stroke-linejoin\"></g>"
@@ -40,6 +43,7 @@ func TestRenderG(t *testing.T) {
 		t.Errorf("got %q, want %q", got, want)
 	}
 }
+
 func TestRenderLine(t *testing.T) {
 	got := string(svg.Line().X1("x1").Y1("y1").X2("x2").Y2("y2").Class("class").Fill("fill").StrokeWidth("stroke-width").StrokeLineCap(strokelinecap.Custom("stroke-linecap")).StrokeLineJoin(strokelinejoin.Custom("stroke-linejoin")).RenderBytes())
 	want := "<line x1=\"x1\" y1=\"y1\" x2=\"x2\" y2=\"y2\" class=\"class\" fill=\"fill\" stroke-width=\"stroke-width\" stroke-linecap=\"stroke-linecap\" stroke-linejoin=\"stroke-linejoin\" />"
@@ -47,6 +51,7 @@ func TestRenderLine(t *testing.T) {
 		t.Errorf("got %q, want %q", got, want)
 	}
 }
+
 func TestRenderLinearGradient(t *testing.T) {
 	got := string(svg.LinearGradient().X1("x1").Y1("y1").X2("x2").Y2("y2").GradientUnits(gradientunits.Custom("gradientUnits")).Class("class").Fill("fill").StrokeWidth("stroke-width").StrokeLineCap(strokelinecap.Custom("stroke-linecap")).StrokeLineJoin(strokelinejoin.Custom("stroke-linejoin")).RenderBytes())
 	want := "<linearGradient x1=\"x1\" y1=\"y1\" x2=\"x2\" y2=\"y2\" gradientUnits=\"gradientUnits\" class=\"class\" fill=\"fill\" stroke-width=\"stroke-width\" stroke-linecap=\"stroke-linecap\" stroke-linejoin=\"stroke-linejoin\"></linearGradient>"
@@ -54,6 +59,7 @@ func TestRenderLinearGradient(t *testing.T) {
 		t.Errorf("got %q, want %q", got, want)
 	}
 }
+
 func TestRenderPath(t *testing.T) {
 	got := string(svg.Path().D("d").Class("class").Fill("fill").StrokeWidth("stroke-width").StrokeLineCap(strokelinecap.Custom("stroke-linecap")).StrokeLineJoin(strokelinejoin.Custom("stroke-linejoin")).RenderBytes())
 	want := "<path d=\"d\" class=\"class\" fill=\"fill\" stroke-width=\"stroke-width\" stroke-linecap=\"stroke-linecap\" stroke-linejoin=\"stroke-linejoin\" />"
@@ -61,6 +67,7 @@ func TestRenderPath(t *testing.T) {
 		t.Errorf("got %q, want %q", got, want)
 	}
 }
+
 func TestRenderPolygon(t *testing.T) {
 	got := string(svg.Polygon().Points("points").Class("class").Fill("fill").StrokeWidth("stroke-width").StrokeLineCap(strokelinecap.Custom("stroke-linecap")).StrokeLineJoin(strokelinejoin.Custom("stroke-linejoin")).RenderBytes())
 	want := "<polygon points=\"points\" class=\"class\" fill=\"fill\" stroke-width=\"stroke-width\" stroke-linecap=\"stroke-linecap\" stroke-linejoin=\"stroke-linejoin\" />"
@@ -68,6 +75,7 @@ func TestRenderPolygon(t *testing.T) {
 		t.Errorf("got %q, want %q", got, want)
 	}
 }
+
 func TestRenderPolyline(t *testing.T) {
 	got := string(svg.Polyline().Points("points").Class("class").Fill("fill").StrokeWidth("stroke-width").StrokeLineCap(strokelinecap.Custom("stroke-linecap")).StrokeLineJoin(strokelinejoin.Custom("stroke-linejoin")).RenderBytes())
 	want := "<polyline points=\"points\" class=\"class\" fill=\"fill\" stroke-width=\"stroke-width\" stroke-linecap=\"stroke-linecap\" stroke-linejoin=\"stroke-linejoin\" />"
@@ -75,6 +83,7 @@ func TestRenderPolyline(t *testing.T) {
 		t.Errorf("got %q, want %q", got, want)
 	}
 }
+
 func TestRenderRadialGradient(t *testing.T) {
 	got := string(svg.RadialGradient().Cx("cx").Cy("cy").R("r").Fx("fx").Fy("fy").GradientUnits(gradientunits.Custom("gradientUnits")).Class("class").Fill("fill").StrokeWidth("stroke-width").StrokeLineCap(strokelinecap.Custom("stroke-linecap")).StrokeLineJoin(strokelinejoin.Custom("stroke-linejoin")).RenderBytes())
 	want := "<radialGradient cx=\"cx\" cy=\"cy\" r=\"r\" fx=\"fx\" fy=\"fy\" gradientUnits=\"gradientUnits\" class=\"class\" fill=\"fill\" stroke-width=\"stroke-width\" stroke-linecap=\"stroke-linecap\" stroke-linejoin=\"stroke-linejoin\"></radialGradient>"
@@ -82,6 +91,7 @@ func TestRenderRadialGradient(t *testing.T) {
 		t.Errorf("got %q, want %q", got, want)
 	}
 }
+
 func TestRenderRect(t *testing.T) {
 	got := string(svg.Rect().X("x").Y("y").Width("width").Height("height").Rx("rx").Ry("ry").Class("class").Fill("fill").StrokeWidth("stroke-width").StrokeLineCap(strokelinecap.Custom("stroke-linecap")).StrokeLineJoin(strokelinejoin.Custom("stroke-linejoin")).RenderBytes())
 	want := "<rect x=\"x\" y=\"y\" width=\"width\" height=\"height\" rx=\"rx\" ry=\"ry\" class=\"class\" fill=\"fill\" stroke-width=\"stroke-width\" stroke-linecap=\"stroke-linecap\" stroke-linejoin=\"stroke-linejoin\" />"
@@ -89,6 +99,7 @@ func TestRenderRect(t *testing.T) {
 		t.Errorf("got %q, want %q", got, want)
 	}
 }
+
 func TestRenderStop(t *testing.T) {
 	got := string(svg.Stop().Offset("offset").StopColor("stop-color").StopOpacity("stop-opacity").Class("class").Fill("fill").StrokeWidth("stroke-width").StrokeLineCap(strokelinecap.Custom("stroke-linecap")).StrokeLineJoin(strokelinejoin.Custom("stroke-linejoin")).RenderBytes())
 	want := "<stop offset=\"offset\" stop-color=\"stop-color\" stop-opacity=\"stop-opacity\" class=\"class\" fill=\"fill\" stroke-width=\"stroke-width\" stroke-linecap=\"stroke-linecap\" stroke-linejoin=\"stroke-linejoin\" />"
@@ -96,6 +107,7 @@ func TestRenderStop(t *testing.T) {
 		t.Errorf("got %q, want %q", got, want)
 	}
 }
+
 func TestRenderElement(t *testing.T) {
 	got := string(svg.New().Width("width").Height("height").ViewBox("viewBox").PreserveAspectRatio("preserveAspectRatio").Xmlns("xmlns").Class("class").Fill("fill").StrokeWidth("stroke-width").StrokeLineCap(strokelinecap.Custom("stroke-linecap")).StrokeLineJoin(strokelinejoin.Custom("stroke-linejoin")).RenderBytes())
 	want := "<svg width=\"width\" height=\"height\" viewBox=\"viewBox\" preserveAspectRatio=\"preserveAspectRatio\" xmlns=\"xmlns\" class=\"class\" fill=\"fill\" stroke-width=\"stroke-width\" stroke-linecap=\"stroke-linecap\" stroke-linejoin=\"stroke-linejoin\"></svg>"
@@ -103,6 +115,7 @@ func TestRenderElement(t *testing.T) {
 		t.Errorf("got %q, want %q", got, want)
 	}
 }
+
 func TestRenderText(t *testing.T) {
 	got := string(svg.Text("hello").X("x").Y("y").Dx("dx").Dy("dy").TextAnchor(textanchor.Custom("text-anchor")).Class("class").Fill("fill").StrokeWidth("stroke-width").StrokeLineCap(strokelinecap.Custom("stroke-linecap")).StrokeLineJoin(strokelinejoin.Custom("stroke-linejoin")).RenderBytes())
 	want := "<text x=\"x\" y=\"y\" dx=\"dx\" dy=\"dy\" text-anchor=\"text-anchor\" class=\"class\" fill=\"fill\" stroke-width=\"stroke-width\" stroke-linecap=\"stroke-linecap\" stroke-linejoin=\"stroke-linejoin\">hello</text>"
@@ -110,6 +123,7 @@ func TestRenderText(t *testing.T) {
 		t.Errorf("got %q, want %q", got, want)
 	}
 }
+
 func TestRenderTspan(t *testing.T) {
 	got := string(svg.TSpan("hello").X("x").Y("y").Dx("dx").Dy("dy").Class("class").Fill("fill").StrokeWidth("stroke-width").StrokeLineCap(strokelinecap.Custom("stroke-linecap")).StrokeLineJoin(strokelinejoin.Custom("stroke-linejoin")).RenderBytes())
 	want := "<tspan x=\"x\" y=\"y\" dx=\"dx\" dy=\"dy\" class=\"class\" fill=\"fill\" stroke-width=\"stroke-width\" stroke-linecap=\"stroke-linecap\" stroke-linejoin=\"stroke-linejoin\">hello</tspan>"
@@ -117,24 +131,33 @@ func TestRenderTspan(t *testing.T) {
 		t.Errorf("got %q, want %q", got, want)
 	}
 }
+
 func TestRootDefaultXmlns(t *testing.T) {
 	got := string(svg.New().RenderBytes())
 	if got != "<svg xmlns=\"http://www.w3.org/2000/svg\"></svg>" {
 		t.Errorf("got %q, want %q", got, "<svg xmlns=\"http://www.w3.org/2000/svg\"></svg>")
 	}
 }
+
 func TestRawEscapeHatch(t *testing.T) {
 	got := string(svg.G(svg.Raw("<path/>")).RenderBytes())
 	if got != "<g><path/></g>" {
 		t.Errorf("got %q, want %q", got, "<g><path/></g>")
 	}
 }
+
 func TestNestedTree(t *testing.T) {
-	got := string(svg.New(svg.Rect().X("0").Fill("var(--blue)"), svg.Defs(svg.LinearGradient(svg.Stop().Offset("0").StopColor("#fff")).ID("grad"))).ViewBox("0 0 10 10").RenderBytes())
+	got := string(svg.New(
+		svg.Rect().X("0").Fill("var(--blue)"),
+		svg.Defs(svg.LinearGradient(
+			svg.Stop().Offset("0").StopColor("#fff"),
+		).ID("grad")),
+	).ViewBox("0 0 10 10").RenderBytes())
 	if got != "<svg viewBox=\"0 0 10 10\" xmlns=\"http://www.w3.org/2000/svg\"><rect x=\"0\" fill=\"var(--blue)\" /><defs><linearGradient id=\"grad\"><stop offset=\"0\" stop-color=\"#fff\" /></linearGradient></defs></svg>" {
 		t.Errorf("got %q, want %q", got, "<svg viewBox=\"0 0 10 10\" xmlns=\"http://www.w3.org/2000/svg\"><rect x=\"0\" fill=\"var(--blue)\" /><defs><linearGradient id=\"grad\"><stop offset=\"0\" stop-color=\"#fff\" /></linearGradient></defs></svg>")
 	}
 }
+
 func TestDynamicKey(t *testing.T) {
 	got := string(svg.Rect().Dynamic("k").RenderBytes())
 	if got != "<rect data-fluent-key=\"k\" />" {
