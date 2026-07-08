@@ -469,20 +469,18 @@ Without a hint, renders still benefit from pooling - buffers are retrieved from 
 
 #### BufferHint (Optional)
 
-You can provide a `BufferHint()` to help determine which pool will be used when retrieving a bytes.Buffer and it will grow the bytes.Buffer to the appropriate hint. After `Render(w)`, the hint is updated to reflect the actual rendered size, which you can retrieve and reuse:
+You can provide a `BufferHint(n)` to help determine which pool will be used when retrieving a bytes.Buffer and it will grow the bytes.Buffer to the appropriate hint. It returns the element, so it chains like any other method. After `Render(w)`, the element records the actual rendered size, which you can read with `RenderedSize()` and reuse:
 
 ```go
 // First render - set a hint if you know approximate size
-page := html.New(...)
-page.BufferHint(8192)  // Hint at 8KB
+page := html.New(...).BufferHint(8192)  // Hint at 8KB
 page.Render(w)
 
 // Get the actual size for reuse on similar pages
-actualSize := page.BufferHint()  // e.g., 6543
+actualSize := page.RenderedSize()  // e.g., 6543
 
 // Use that hint for a new page with similar content
-anotherPage := html.New(...)
-anotherPage.BufferHint(actualSize)
+anotherPage := html.New(...).BufferHint(actualSize)
 anotherPage.Render(w)
 ```
 

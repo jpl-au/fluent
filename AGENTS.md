@@ -403,30 +403,29 @@ For reusable policies, hoist a `*security.Cleaner` at package scope (`security.R
 
 Every element has six constructors: `New`, `Text`, `Static`, `RawText`, `Textf`, `RawTextf`. **Pick the constructor that matches the element's primary content.** Only use `New()` when the element contains child nodes or has no content.
 
-**Rule: if the element's content is text, use the text constructor - not `New()` with a chained method.**
+**Rule: if the element's content is text, use the text constructor.**
 
 ```go
-// CORRECT - text constructor used because the element holds text
+// text constructor: the element's content is text
 h1.Text("Welcome")                        // <h1>Welcome</h1>
 p.Textf("Hello %s", name)                 // <p>Hello John</p>
 span.Static("Copyright 2024")             // <span>Copyright 2024</span>
 style.RawText("body { color: red; }")     // <style>body { color: red; }</style>
-svg.RawText(`<circle cx="5" r="3"/>`)     // <svg><circle cx="5" r="3"/></svg>
 
-// CORRECT - New() used because the element contains child nodes
+// New(): the element contains child nodes
 div.New(
     p.Text("Paragraph"),
     span.Text("Inline"),
 )
 
-// CORRECT - New() used because the element has no content
-div.New().Class("container")               // <div class="container"></div>
+// New(): svg is a typed shape container; its children are svg.Shape values
+svg.New(
+    svg.Rect().X("0").Width("40").Fill("var(--blue)"),
+    svg.Circle().Cx("60").R("50"),
+)                                          // the svg package is the shape vocabulary
 
-// WRONG - do not use New() then chain .Text() when a text constructor exists
-div.New().Text("Hello")                    // use div.Text("Hello")
-div.New().Class("foo").Text("Hello")       // use div.Text("Hello").Class("foo")
-style.New().RawText("body { color: red; }")// use style.RawText("body { color: red; }")
-svg.New().RawText(`<circle .../>`)         // use svg.RawText(`<circle .../>`)
+// New(): the element has no content, only attributes
+div.New().Class("container")               // <div class="container"></div>
 ```
 
 **When to use `New()`:**
@@ -806,7 +805,7 @@ func ProductList(products []Product) node.Node {
 
 - Use `Static()` for unchanging content (enables JIT optimisation)
 - Buffer pooling is enabled by default and handled automatically
-- Each element has a `BufferHint()` method for optional buffer size hints
+- Each element has a chainable `BufferHint(n)` method for optional buffer size hints, and `RenderedSize()` to read the size recorded after `Render(w)`
 - For high-throughput applications, [Fluent JIT](https://github.com/jpl-au/fluent-jit) provides additional optimisation (Compile, Tune, Flatten)
 
 ## Extending Fluent
