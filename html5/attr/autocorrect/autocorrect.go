@@ -6,6 +6,10 @@
 // automatically correct spelling and text input for improved user experience.
 package autocorrect
 
+import (
+	"github.com/jpl-au/fluent/node"
+)
+
 // AutoCorrect is a typed value for the HTML autocorrect attribute.
 //
 // Automatic text correction on mobile devices and browsers. Controls whether browsers
@@ -26,5 +30,5 @@ var (
 // Custom allows setting a custom AutoCorrect value for edge cases or future specifications.
 // Use this when the predefined constants don't cover your specific use case.
 func Custom(value string) AutoCorrect {
-	return AutoCorrect(value)
+	return AutoCorrect(node.EscapeAttribute(value))
 }

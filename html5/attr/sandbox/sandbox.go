@@ -6,6 +6,10 @@
 // limits potentially dangerous operations. Selective permissions can be granted via values.
 package sandbox
 
+import (
+	"github.com/jpl-au/fluent/node"
+)
+
 // Sandbox is a typed value for the HTML sandbox attribute.
 //
 // Security restrictions for embedded iframe content. Creates sandboxed environment that
@@ -74,5 +78,5 @@ var (
 // Custom allows setting a custom Sandbox value for edge cases or future specifications.
 // Use this when the predefined constants don't cover your specific use case.
 func Custom(value string) Sandbox {
-	return Sandbox(value)
+	return Sandbox(node.EscapeAttribute(value))
 }

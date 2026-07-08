@@ -39,18 +39,19 @@ func Path() *path {
 
 // D sets the d attribute.
 func (e *path) D(value string) *path {
-	e.d = value
+	e.d = node.EscapeAttribute(value)
 	return e
 }
 
 // ID sets the id attribute.
 func (e *path) ID(id string) *path {
-	e.svg().ID = id
+	e.svg().ID = node.EscapeAttribute(id)
 	return e
 }
 
 // Class appends to the space-separated class attribute.
 func (e *path) Class(class string) *path {
+	class = node.EscapeAttribute(class)
 	if e.svg().Class == "" {
 		e.svg().Class = class
 	} else {
@@ -61,25 +62,25 @@ func (e *path) Class(class string) *path {
 
 // Style sets the style attribute.
 func (e *path) Style(css string) *path {
-	e.svg().Style = css
+	e.svg().Style = node.EscapeAttribute(css)
 	return e
 }
 
 // Transform sets the transform attribute.
 func (e *path) Transform(transform string) *path {
-	e.svg().Transform = transform
+	e.svg().Transform = node.EscapeAttribute(transform)
 	return e
 }
 
 // TabIndex sets the tabindex attribute.
 func (e *path) TabIndex(index string) *path {
-	e.svg().TabIndex = index
+	e.svg().TabIndex = node.EscapeAttribute(index)
 	return e
 }
 
 // Role sets the role attribute.
 func (e *path) Role(role string) *path {
-	e.svg().Role = role
+	e.svg().Role = node.EscapeAttribute(role)
 	return e
 }
 
@@ -91,19 +92,19 @@ func (e *path) SetAria(key string, value string) *path {
 
 // Fill sets the fill attribute.
 func (e *path) Fill(fill string) *path {
-	e.svg().Fill = fill
+	e.svg().Fill = node.EscapeAttribute(fill)
 	return e
 }
 
 // Stroke sets the stroke attribute.
 func (e *path) Stroke(stroke string) *path {
-	e.svg().Stroke = stroke
+	e.svg().Stroke = node.EscapeAttribute(stroke)
 	return e
 }
 
 // StrokeWidth sets the stroke-width attribute.
 func (e *path) StrokeWidth(width string) *path {
-	e.svg().StrokeWidth = width
+	e.svg().StrokeWidth = node.EscapeAttribute(width)
 	return e
 }
 
@@ -121,82 +122,99 @@ func (e *path) StrokeLineJoin(join strokelinejoin.StrokeLineJoin) *path {
 
 // StrokeDashArray sets the stroke-dasharray attribute.
 func (e *path) StrokeDashArray(dashes string) *path {
-	e.svg().StrokeDashArray = dashes
+	e.svg().StrokeDashArray = node.EscapeAttribute(dashes)
 	return e
 }
 
 // Opacity sets the opacity attribute.
 func (e *path) Opacity(opacity string) *path {
-	e.svg().Opacity = opacity
+	e.svg().Opacity = node.EscapeAttribute(opacity)
 	return e
 }
 
 // FillOpacity sets the fill-opacity attribute.
 func (e *path) FillOpacity(opacity string) *path {
-	e.svg().FillOpacity = opacity
+	e.svg().FillOpacity = node.EscapeAttribute(opacity)
 	return e
 }
 
 // StrokeOpacity sets the stroke-opacity attribute.
 func (e *path) StrokeOpacity(opacity string) *path {
-	e.svg().StrokeOpacity = opacity
+	e.svg().StrokeOpacity = node.EscapeAttribute(opacity)
 	return e
 }
 
 // OnClick sets the onclick attribute.
 func (e *path) OnClick(handler string) *path {
-	e.svg().OnClick = handler
+	e.svg().OnClick = node.EscapeAttribute(handler)
 	return e
 }
 
 // OnMouseDown sets the onmousedown attribute.
 func (e *path) OnMouseDown(handler string) *path {
-	e.svg().OnMouseDown = handler
+	e.svg().OnMouseDown = node.EscapeAttribute(handler)
 	return e
 }
 
 // OnMouseUp sets the onmouseup attribute.
 func (e *path) OnMouseUp(handler string) *path {
-	e.svg().OnMouseUp = handler
+	e.svg().OnMouseUp = node.EscapeAttribute(handler)
 	return e
 }
 
 // OnMouseMove sets the onmousemove attribute.
 func (e *path) OnMouseMove(handler string) *path {
-	e.svg().OnMouseMove = handler
+	e.svg().OnMouseMove = node.EscapeAttribute(handler)
 	return e
 }
 
 // OnMouseOver sets the onmouseover attribute.
 func (e *path) OnMouseOver(handler string) *path {
-	e.svg().OnMouseOver = handler
+	e.svg().OnMouseOver = node.EscapeAttribute(handler)
 	return e
 }
 
 // OnMouseOut sets the onmouseout attribute.
 func (e *path) OnMouseOut(handler string) *path {
-	e.svg().OnMouseOut = handler
+	e.svg().OnMouseOut = node.EscapeAttribute(handler)
 	return e
 }
 
 // OnFocus sets the onfocus attribute.
 func (e *path) OnFocus(handler string) *path {
-	e.svg().OnFocus = handler
+	e.svg().OnFocus = node.EscapeAttribute(handler)
 	return e
 }
 
 // OnBlur sets the onblur attribute.
 func (e *path) OnBlur(handler string) *path {
-	e.svg().OnBlur = handler
+	e.svg().OnBlur = node.EscapeAttribute(handler)
 	return e
 }
 
-// SetAttribute sets a custom attribute on the element
+// SetAttribute sets a custom attribute on the element, escaping the value.
+// For a pre-trusted value that must render verbatim, use SetAttributeRaw.
 func (e *path) SetAttribute(key string, value string) {
+	value = node.EscapeAttribute(value)
 	if e.attr == nil {
 		e.attr = &[]node.Attribute{}
 	}
 	// Update existing attribute or add new one
+	for i, attr := range *e.attr {
+		if attr.Key == key {
+			(*e.attr)[i].Value = value
+			return
+		}
+	}
+	*e.attr = append(*e.attr, node.Attribute{Key: key, Value: value})
+}
+
+// SetAttributeRaw sets a custom attribute without escaping its value. Use only
+// with trusted values (mirrors RawText); prefer SetAttribute, which escapes.
+func (e *path) SetAttributeRaw(key string, value string) {
+	if e.attr == nil {
+		e.attr = &[]node.Attribute{}
+	}
 	for i, attr := range *e.attr {
 		if attr.Key == key {
 			(*e.attr)[i].Value = value
@@ -212,7 +230,7 @@ func (e *path) SetAttribute(key string, value string) {
 // unique within a render tree and must not change between renders. It is
 // emitted as the data-fluent-key attribute.
 func (e *path) Dynamic(key string) *path {
-	e.dynamic = key
+	e.dynamic = node.EscapeAttribute(key)
 	return e
 }
 

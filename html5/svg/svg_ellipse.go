@@ -42,36 +42,37 @@ func Ellipse() *ellipse {
 
 // Cx sets the cx attribute.
 func (e *ellipse) Cx(value string) *ellipse {
-	e.cx = value
+	e.cx = node.EscapeAttribute(value)
 	return e
 }
 
 // Cy sets the cy attribute.
 func (e *ellipse) Cy(value string) *ellipse {
-	e.cy = value
+	e.cy = node.EscapeAttribute(value)
 	return e
 }
 
 // Rx sets the rx attribute.
 func (e *ellipse) Rx(value string) *ellipse {
-	e.rx = value
+	e.rx = node.EscapeAttribute(value)
 	return e
 }
 
 // Ry sets the ry attribute.
 func (e *ellipse) Ry(value string) *ellipse {
-	e.ry = value
+	e.ry = node.EscapeAttribute(value)
 	return e
 }
 
 // ID sets the id attribute.
 func (e *ellipse) ID(id string) *ellipse {
-	e.svg().ID = id
+	e.svg().ID = node.EscapeAttribute(id)
 	return e
 }
 
 // Class appends to the space-separated class attribute.
 func (e *ellipse) Class(class string) *ellipse {
+	class = node.EscapeAttribute(class)
 	if e.svg().Class == "" {
 		e.svg().Class = class
 	} else {
@@ -82,25 +83,25 @@ func (e *ellipse) Class(class string) *ellipse {
 
 // Style sets the style attribute.
 func (e *ellipse) Style(css string) *ellipse {
-	e.svg().Style = css
+	e.svg().Style = node.EscapeAttribute(css)
 	return e
 }
 
 // Transform sets the transform attribute.
 func (e *ellipse) Transform(transform string) *ellipse {
-	e.svg().Transform = transform
+	e.svg().Transform = node.EscapeAttribute(transform)
 	return e
 }
 
 // TabIndex sets the tabindex attribute.
 func (e *ellipse) TabIndex(index string) *ellipse {
-	e.svg().TabIndex = index
+	e.svg().TabIndex = node.EscapeAttribute(index)
 	return e
 }
 
 // Role sets the role attribute.
 func (e *ellipse) Role(role string) *ellipse {
-	e.svg().Role = role
+	e.svg().Role = node.EscapeAttribute(role)
 	return e
 }
 
@@ -112,19 +113,19 @@ func (e *ellipse) SetAria(key string, value string) *ellipse {
 
 // Fill sets the fill attribute.
 func (e *ellipse) Fill(fill string) *ellipse {
-	e.svg().Fill = fill
+	e.svg().Fill = node.EscapeAttribute(fill)
 	return e
 }
 
 // Stroke sets the stroke attribute.
 func (e *ellipse) Stroke(stroke string) *ellipse {
-	e.svg().Stroke = stroke
+	e.svg().Stroke = node.EscapeAttribute(stroke)
 	return e
 }
 
 // StrokeWidth sets the stroke-width attribute.
 func (e *ellipse) StrokeWidth(width string) *ellipse {
-	e.svg().StrokeWidth = width
+	e.svg().StrokeWidth = node.EscapeAttribute(width)
 	return e
 }
 
@@ -142,82 +143,99 @@ func (e *ellipse) StrokeLineJoin(join strokelinejoin.StrokeLineJoin) *ellipse {
 
 // StrokeDashArray sets the stroke-dasharray attribute.
 func (e *ellipse) StrokeDashArray(dashes string) *ellipse {
-	e.svg().StrokeDashArray = dashes
+	e.svg().StrokeDashArray = node.EscapeAttribute(dashes)
 	return e
 }
 
 // Opacity sets the opacity attribute.
 func (e *ellipse) Opacity(opacity string) *ellipse {
-	e.svg().Opacity = opacity
+	e.svg().Opacity = node.EscapeAttribute(opacity)
 	return e
 }
 
 // FillOpacity sets the fill-opacity attribute.
 func (e *ellipse) FillOpacity(opacity string) *ellipse {
-	e.svg().FillOpacity = opacity
+	e.svg().FillOpacity = node.EscapeAttribute(opacity)
 	return e
 }
 
 // StrokeOpacity sets the stroke-opacity attribute.
 func (e *ellipse) StrokeOpacity(opacity string) *ellipse {
-	e.svg().StrokeOpacity = opacity
+	e.svg().StrokeOpacity = node.EscapeAttribute(opacity)
 	return e
 }
 
 // OnClick sets the onclick attribute.
 func (e *ellipse) OnClick(handler string) *ellipse {
-	e.svg().OnClick = handler
+	e.svg().OnClick = node.EscapeAttribute(handler)
 	return e
 }
 
 // OnMouseDown sets the onmousedown attribute.
 func (e *ellipse) OnMouseDown(handler string) *ellipse {
-	e.svg().OnMouseDown = handler
+	e.svg().OnMouseDown = node.EscapeAttribute(handler)
 	return e
 }
 
 // OnMouseUp sets the onmouseup attribute.
 func (e *ellipse) OnMouseUp(handler string) *ellipse {
-	e.svg().OnMouseUp = handler
+	e.svg().OnMouseUp = node.EscapeAttribute(handler)
 	return e
 }
 
 // OnMouseMove sets the onmousemove attribute.
 func (e *ellipse) OnMouseMove(handler string) *ellipse {
-	e.svg().OnMouseMove = handler
+	e.svg().OnMouseMove = node.EscapeAttribute(handler)
 	return e
 }
 
 // OnMouseOver sets the onmouseover attribute.
 func (e *ellipse) OnMouseOver(handler string) *ellipse {
-	e.svg().OnMouseOver = handler
+	e.svg().OnMouseOver = node.EscapeAttribute(handler)
 	return e
 }
 
 // OnMouseOut sets the onmouseout attribute.
 func (e *ellipse) OnMouseOut(handler string) *ellipse {
-	e.svg().OnMouseOut = handler
+	e.svg().OnMouseOut = node.EscapeAttribute(handler)
 	return e
 }
 
 // OnFocus sets the onfocus attribute.
 func (e *ellipse) OnFocus(handler string) *ellipse {
-	e.svg().OnFocus = handler
+	e.svg().OnFocus = node.EscapeAttribute(handler)
 	return e
 }
 
 // OnBlur sets the onblur attribute.
 func (e *ellipse) OnBlur(handler string) *ellipse {
-	e.svg().OnBlur = handler
+	e.svg().OnBlur = node.EscapeAttribute(handler)
 	return e
 }
 
-// SetAttribute sets a custom attribute on the element
+// SetAttribute sets a custom attribute on the element, escaping the value.
+// For a pre-trusted value that must render verbatim, use SetAttributeRaw.
 func (e *ellipse) SetAttribute(key string, value string) {
+	value = node.EscapeAttribute(value)
 	if e.attr == nil {
 		e.attr = &[]node.Attribute{}
 	}
 	// Update existing attribute or add new one
+	for i, attr := range *e.attr {
+		if attr.Key == key {
+			(*e.attr)[i].Value = value
+			return
+		}
+	}
+	*e.attr = append(*e.attr, node.Attribute{Key: key, Value: value})
+}
+
+// SetAttributeRaw sets a custom attribute without escaping its value. Use only
+// with trusted values (mirrors RawText); prefer SetAttribute, which escapes.
+func (e *ellipse) SetAttributeRaw(key string, value string) {
+	if e.attr == nil {
+		e.attr = &[]node.Attribute{}
+	}
 	for i, attr := range *e.attr {
 		if attr.Key == key {
 			(*e.attr)[i].Value = value
@@ -233,7 +251,7 @@ func (e *ellipse) SetAttribute(key string, value string) {
 // unique within a render tree and must not change between renders. It is
 // emitted as the data-fluent-key attribute.
 func (e *ellipse) Dynamic(key string) *ellipse {
-	e.dynamic = key
+	e.dynamic = node.EscapeAttribute(key)
 	return e
 }
 

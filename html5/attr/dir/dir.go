@@ -6,6 +6,10 @@
 // for different languages and writing systems, essential for internationalization.
 package dir
 
+import (
+	"github.com/jpl-au/fluent/node"
+)
+
 // Dir is a typed value for the HTML dir attribute.
 //
 // Text directionality for element content. Controls reading order and text alignment
@@ -30,5 +34,5 @@ var (
 // Custom allows setting a custom Dir value for edge cases or future specifications.
 // Use this when the predefined constants don't cover your specific use case.
 func Custom(value string) Dir {
-	return Dir(value)
+	return Dir(node.EscapeAttribute(value))
 }

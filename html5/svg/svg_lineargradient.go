@@ -52,25 +52,25 @@ func LinearGradient(children ...*stop) *linearGradient {
 
 // X1 sets the x1 attribute.
 func (e *linearGradient) X1(value string) *linearGradient {
-	e.x1 = value
+	e.x1 = node.EscapeAttribute(value)
 	return e
 }
 
 // Y1 sets the y1 attribute.
 func (e *linearGradient) Y1(value string) *linearGradient {
-	e.y1 = value
+	e.y1 = node.EscapeAttribute(value)
 	return e
 }
 
 // X2 sets the x2 attribute.
 func (e *linearGradient) X2(value string) *linearGradient {
-	e.x2 = value
+	e.x2 = node.EscapeAttribute(value)
 	return e
 }
 
 // Y2 sets the y2 attribute.
 func (e *linearGradient) Y2(value string) *linearGradient {
-	e.y2 = value
+	e.y2 = node.EscapeAttribute(value)
 	return e
 }
 
@@ -82,12 +82,13 @@ func (e *linearGradient) GradientUnits(value gradientunits.GradientUnits) *linea
 
 // ID sets the id attribute.
 func (e *linearGradient) ID(id string) *linearGradient {
-	e.svg().ID = id
+	e.svg().ID = node.EscapeAttribute(id)
 	return e
 }
 
 // Class appends to the space-separated class attribute.
 func (e *linearGradient) Class(class string) *linearGradient {
+	class = node.EscapeAttribute(class)
 	if e.svg().Class == "" {
 		e.svg().Class = class
 	} else {
@@ -98,25 +99,25 @@ func (e *linearGradient) Class(class string) *linearGradient {
 
 // Style sets the style attribute.
 func (e *linearGradient) Style(css string) *linearGradient {
-	e.svg().Style = css
+	e.svg().Style = node.EscapeAttribute(css)
 	return e
 }
 
 // Transform sets the transform attribute.
 func (e *linearGradient) Transform(transform string) *linearGradient {
-	e.svg().Transform = transform
+	e.svg().Transform = node.EscapeAttribute(transform)
 	return e
 }
 
 // TabIndex sets the tabindex attribute.
 func (e *linearGradient) TabIndex(index string) *linearGradient {
-	e.svg().TabIndex = index
+	e.svg().TabIndex = node.EscapeAttribute(index)
 	return e
 }
 
 // Role sets the role attribute.
 func (e *linearGradient) Role(role string) *linearGradient {
-	e.svg().Role = role
+	e.svg().Role = node.EscapeAttribute(role)
 	return e
 }
 
@@ -128,19 +129,19 @@ func (e *linearGradient) SetAria(key string, value string) *linearGradient {
 
 // Fill sets the fill attribute.
 func (e *linearGradient) Fill(fill string) *linearGradient {
-	e.svg().Fill = fill
+	e.svg().Fill = node.EscapeAttribute(fill)
 	return e
 }
 
 // Stroke sets the stroke attribute.
 func (e *linearGradient) Stroke(stroke string) *linearGradient {
-	e.svg().Stroke = stroke
+	e.svg().Stroke = node.EscapeAttribute(stroke)
 	return e
 }
 
 // StrokeWidth sets the stroke-width attribute.
 func (e *linearGradient) StrokeWidth(width string) *linearGradient {
-	e.svg().StrokeWidth = width
+	e.svg().StrokeWidth = node.EscapeAttribute(width)
 	return e
 }
 
@@ -158,82 +159,99 @@ func (e *linearGradient) StrokeLineJoin(join strokelinejoin.StrokeLineJoin) *lin
 
 // StrokeDashArray sets the stroke-dasharray attribute.
 func (e *linearGradient) StrokeDashArray(dashes string) *linearGradient {
-	e.svg().StrokeDashArray = dashes
+	e.svg().StrokeDashArray = node.EscapeAttribute(dashes)
 	return e
 }
 
 // Opacity sets the opacity attribute.
 func (e *linearGradient) Opacity(opacity string) *linearGradient {
-	e.svg().Opacity = opacity
+	e.svg().Opacity = node.EscapeAttribute(opacity)
 	return e
 }
 
 // FillOpacity sets the fill-opacity attribute.
 func (e *linearGradient) FillOpacity(opacity string) *linearGradient {
-	e.svg().FillOpacity = opacity
+	e.svg().FillOpacity = node.EscapeAttribute(opacity)
 	return e
 }
 
 // StrokeOpacity sets the stroke-opacity attribute.
 func (e *linearGradient) StrokeOpacity(opacity string) *linearGradient {
-	e.svg().StrokeOpacity = opacity
+	e.svg().StrokeOpacity = node.EscapeAttribute(opacity)
 	return e
 }
 
 // OnClick sets the onclick attribute.
 func (e *linearGradient) OnClick(handler string) *linearGradient {
-	e.svg().OnClick = handler
+	e.svg().OnClick = node.EscapeAttribute(handler)
 	return e
 }
 
 // OnMouseDown sets the onmousedown attribute.
 func (e *linearGradient) OnMouseDown(handler string) *linearGradient {
-	e.svg().OnMouseDown = handler
+	e.svg().OnMouseDown = node.EscapeAttribute(handler)
 	return e
 }
 
 // OnMouseUp sets the onmouseup attribute.
 func (e *linearGradient) OnMouseUp(handler string) *linearGradient {
-	e.svg().OnMouseUp = handler
+	e.svg().OnMouseUp = node.EscapeAttribute(handler)
 	return e
 }
 
 // OnMouseMove sets the onmousemove attribute.
 func (e *linearGradient) OnMouseMove(handler string) *linearGradient {
-	e.svg().OnMouseMove = handler
+	e.svg().OnMouseMove = node.EscapeAttribute(handler)
 	return e
 }
 
 // OnMouseOver sets the onmouseover attribute.
 func (e *linearGradient) OnMouseOver(handler string) *linearGradient {
-	e.svg().OnMouseOver = handler
+	e.svg().OnMouseOver = node.EscapeAttribute(handler)
 	return e
 }
 
 // OnMouseOut sets the onmouseout attribute.
 func (e *linearGradient) OnMouseOut(handler string) *linearGradient {
-	e.svg().OnMouseOut = handler
+	e.svg().OnMouseOut = node.EscapeAttribute(handler)
 	return e
 }
 
 // OnFocus sets the onfocus attribute.
 func (e *linearGradient) OnFocus(handler string) *linearGradient {
-	e.svg().OnFocus = handler
+	e.svg().OnFocus = node.EscapeAttribute(handler)
 	return e
 }
 
 // OnBlur sets the onblur attribute.
 func (e *linearGradient) OnBlur(handler string) *linearGradient {
-	e.svg().OnBlur = handler
+	e.svg().OnBlur = node.EscapeAttribute(handler)
 	return e
 }
 
-// SetAttribute sets a custom attribute on the element
+// SetAttribute sets a custom attribute on the element, escaping the value.
+// For a pre-trusted value that must render verbatim, use SetAttributeRaw.
 func (e *linearGradient) SetAttribute(key string, value string) {
+	value = node.EscapeAttribute(value)
 	if e.attr == nil {
 		e.attr = &[]node.Attribute{}
 	}
 	// Update existing attribute or add new one
+	for i, attr := range *e.attr {
+		if attr.Key == key {
+			(*e.attr)[i].Value = value
+			return
+		}
+	}
+	*e.attr = append(*e.attr, node.Attribute{Key: key, Value: value})
+}
+
+// SetAttributeRaw sets a custom attribute without escaping its value. Use only
+// with trusted values (mirrors RawText); prefer SetAttribute, which escapes.
+func (e *linearGradient) SetAttributeRaw(key string, value string) {
+	if e.attr == nil {
+		e.attr = &[]node.Attribute{}
+	}
 	for i, attr := range *e.attr {
 		if attr.Key == key {
 			(*e.attr)[i].Value = value
@@ -266,7 +284,7 @@ func (e *linearGradient) Replace(children ...*stop) *linearGradient {
 // unique within a render tree and must not change between renders. It is
 // emitted as the data-fluent-key attribute.
 func (e *linearGradient) Dynamic(key string) *linearGradient {
-	e.dynamic = key
+	e.dynamic = node.EscapeAttribute(key)
 	return e
 }
 

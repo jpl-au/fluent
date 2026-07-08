@@ -6,6 +6,10 @@
 // Multiple values can be specified to hide multiple controls.
 package controlslist
 
+import (
+	"github.com/jpl-au/fluent/node"
+)
+
 // ControlsList is a typed value for the HTML controlslist attribute.
 //
 // Controls which browser-native media controls to show or hide on video and audio elements.
@@ -30,5 +34,5 @@ var (
 // Custom allows setting a custom ControlsList value for edge cases or future specifications.
 // Use this when the predefined constants don't cover your specific use case.
 func Custom(value string) ControlsList {
-	return ControlsList(value)
+	return ControlsList(node.EscapeAttribute(value))
 }

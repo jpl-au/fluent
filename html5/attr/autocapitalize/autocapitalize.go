@@ -6,6 +6,10 @@
 // user experience by reducing manual capitalization for names, addresses, and titles.
 package autocapitalize
 
+import (
+	"github.com/jpl-au/fluent/node"
+)
+
 // AutoCapitalize is a typed value for the HTML autocapitalize attribute.
 //
 // Controls automatic text capitalization on virtual keyboards (mobile devices). Improves mobile
@@ -42,5 +46,5 @@ var (
 // Custom allows setting a custom AutoCapitalize value for edge cases or future specifications.
 // Use this when the predefined constants don't cover your specific use case.
 func Custom(value string) AutoCapitalize {
-	return AutoCapitalize(value)
+	return AutoCapitalize(node.EscapeAttribute(value))
 }

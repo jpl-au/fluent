@@ -53,42 +53,43 @@ func New(children ...Shape) *Element {
 
 // Width sets the width attribute.
 func (e *Element) Width(value string) *Element {
-	e.width = value
+	e.width = node.EscapeAttribute(value)
 	return e
 }
 
 // Height sets the height attribute.
 func (e *Element) Height(value string) *Element {
-	e.height = value
+	e.height = node.EscapeAttribute(value)
 	return e
 }
 
 // ViewBox sets the viewBox attribute.
 func (e *Element) ViewBox(value string) *Element {
-	e.viewBox = value
+	e.viewBox = node.EscapeAttribute(value)
 	return e
 }
 
 // PreserveAspectRatio sets the preserveAspectRatio attribute.
 func (e *Element) PreserveAspectRatio(value string) *Element {
-	e.preserveAspectRatio = value
+	e.preserveAspectRatio = node.EscapeAttribute(value)
 	return e
 }
 
 // Xmlns sets the xmlns attribute.
 func (e *Element) Xmlns(value string) *Element {
-	e.xmlns = value
+	e.xmlns = node.EscapeAttribute(value)
 	return e
 }
 
 // ID sets the id attribute.
 func (e *Element) ID(id string) *Element {
-	e.svg().ID = id
+	e.svg().ID = node.EscapeAttribute(id)
 	return e
 }
 
 // Class appends to the space-separated class attribute.
 func (e *Element) Class(class string) *Element {
+	class = node.EscapeAttribute(class)
 	if e.svg().Class == "" {
 		e.svg().Class = class
 	} else {
@@ -99,25 +100,25 @@ func (e *Element) Class(class string) *Element {
 
 // Style sets the style attribute.
 func (e *Element) Style(css string) *Element {
-	e.svg().Style = css
+	e.svg().Style = node.EscapeAttribute(css)
 	return e
 }
 
 // Transform sets the transform attribute.
 func (e *Element) Transform(transform string) *Element {
-	e.svg().Transform = transform
+	e.svg().Transform = node.EscapeAttribute(transform)
 	return e
 }
 
 // TabIndex sets the tabindex attribute.
 func (e *Element) TabIndex(index string) *Element {
-	e.svg().TabIndex = index
+	e.svg().TabIndex = node.EscapeAttribute(index)
 	return e
 }
 
 // Role sets the role attribute.
 func (e *Element) Role(role string) *Element {
-	e.svg().Role = role
+	e.svg().Role = node.EscapeAttribute(role)
 	return e
 }
 
@@ -129,19 +130,19 @@ func (e *Element) SetAria(key string, value string) *Element {
 
 // Fill sets the fill attribute.
 func (e *Element) Fill(fill string) *Element {
-	e.svg().Fill = fill
+	e.svg().Fill = node.EscapeAttribute(fill)
 	return e
 }
 
 // Stroke sets the stroke attribute.
 func (e *Element) Stroke(stroke string) *Element {
-	e.svg().Stroke = stroke
+	e.svg().Stroke = node.EscapeAttribute(stroke)
 	return e
 }
 
 // StrokeWidth sets the stroke-width attribute.
 func (e *Element) StrokeWidth(width string) *Element {
-	e.svg().StrokeWidth = width
+	e.svg().StrokeWidth = node.EscapeAttribute(width)
 	return e
 }
 
@@ -159,82 +160,99 @@ func (e *Element) StrokeLineJoin(join strokelinejoin.StrokeLineJoin) *Element {
 
 // StrokeDashArray sets the stroke-dasharray attribute.
 func (e *Element) StrokeDashArray(dashes string) *Element {
-	e.svg().StrokeDashArray = dashes
+	e.svg().StrokeDashArray = node.EscapeAttribute(dashes)
 	return e
 }
 
 // Opacity sets the opacity attribute.
 func (e *Element) Opacity(opacity string) *Element {
-	e.svg().Opacity = opacity
+	e.svg().Opacity = node.EscapeAttribute(opacity)
 	return e
 }
 
 // FillOpacity sets the fill-opacity attribute.
 func (e *Element) FillOpacity(opacity string) *Element {
-	e.svg().FillOpacity = opacity
+	e.svg().FillOpacity = node.EscapeAttribute(opacity)
 	return e
 }
 
 // StrokeOpacity sets the stroke-opacity attribute.
 func (e *Element) StrokeOpacity(opacity string) *Element {
-	e.svg().StrokeOpacity = opacity
+	e.svg().StrokeOpacity = node.EscapeAttribute(opacity)
 	return e
 }
 
 // OnClick sets the onclick attribute.
 func (e *Element) OnClick(handler string) *Element {
-	e.svg().OnClick = handler
+	e.svg().OnClick = node.EscapeAttribute(handler)
 	return e
 }
 
 // OnMouseDown sets the onmousedown attribute.
 func (e *Element) OnMouseDown(handler string) *Element {
-	e.svg().OnMouseDown = handler
+	e.svg().OnMouseDown = node.EscapeAttribute(handler)
 	return e
 }
 
 // OnMouseUp sets the onmouseup attribute.
 func (e *Element) OnMouseUp(handler string) *Element {
-	e.svg().OnMouseUp = handler
+	e.svg().OnMouseUp = node.EscapeAttribute(handler)
 	return e
 }
 
 // OnMouseMove sets the onmousemove attribute.
 func (e *Element) OnMouseMove(handler string) *Element {
-	e.svg().OnMouseMove = handler
+	e.svg().OnMouseMove = node.EscapeAttribute(handler)
 	return e
 }
 
 // OnMouseOver sets the onmouseover attribute.
 func (e *Element) OnMouseOver(handler string) *Element {
-	e.svg().OnMouseOver = handler
+	e.svg().OnMouseOver = node.EscapeAttribute(handler)
 	return e
 }
 
 // OnMouseOut sets the onmouseout attribute.
 func (e *Element) OnMouseOut(handler string) *Element {
-	e.svg().OnMouseOut = handler
+	e.svg().OnMouseOut = node.EscapeAttribute(handler)
 	return e
 }
 
 // OnFocus sets the onfocus attribute.
 func (e *Element) OnFocus(handler string) *Element {
-	e.svg().OnFocus = handler
+	e.svg().OnFocus = node.EscapeAttribute(handler)
 	return e
 }
 
 // OnBlur sets the onblur attribute.
 func (e *Element) OnBlur(handler string) *Element {
-	e.svg().OnBlur = handler
+	e.svg().OnBlur = node.EscapeAttribute(handler)
 	return e
 }
 
-// SetAttribute sets a custom attribute on the element
+// SetAttribute sets a custom attribute on the element, escaping the value.
+// For a pre-trusted value that must render verbatim, use SetAttributeRaw.
 func (e *Element) SetAttribute(key string, value string) {
+	value = node.EscapeAttribute(value)
 	if e.attr == nil {
 		e.attr = &[]node.Attribute{}
 	}
 	// Update existing attribute or add new one
+	for i, attr := range *e.attr {
+		if attr.Key == key {
+			(*e.attr)[i].Value = value
+			return
+		}
+	}
+	*e.attr = append(*e.attr, node.Attribute{Key: key, Value: value})
+}
+
+// SetAttributeRaw sets a custom attribute without escaping its value. Use only
+// with trusted values (mirrors RawText); prefer SetAttribute, which escapes.
+func (e *Element) SetAttributeRaw(key string, value string) {
+	if e.attr == nil {
+		e.attr = &[]node.Attribute{}
+	}
 	for i, attr := range *e.attr {
 		if attr.Key == key {
 			(*e.attr)[i].Value = value
@@ -267,7 +285,7 @@ func (e *Element) Replace(children ...Shape) *Element {
 // unique within a render tree and must not change between renders. It is
 // emitted as the data-fluent-key attribute.
 func (e *Element) Dynamic(key string) *Element {
-	e.dynamic = key
+	e.dynamic = node.EscapeAttribute(key)
 	return e
 }
 

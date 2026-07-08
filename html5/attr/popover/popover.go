@@ -6,6 +6,10 @@
 // are managed, dismissed, and interact with other page elements.
 package popover
 
+import (
+	"github.com/jpl-au/fluent/node"
+)
+
 // Popover is a typed value for the HTML popover attribute.
 //
 // Popover behavior for elements designated as popover content. Controls how popovers
@@ -26,5 +30,5 @@ var (
 // Custom allows setting a custom Popover value for edge cases or future specifications.
 // Use this when the predefined constants don't cover your specific use case.
 func Custom(value string) Popover {
-	return Popover(value)
+	return Popover(node.EscapeAttribute(value))
 }

@@ -6,6 +6,10 @@
 // loading to improve page performance by deferring non-critical resource loading.
 package loading
 
+import (
+	"github.com/jpl-au/fluent/node"
+)
+
 // Loading is a typed value for the HTML loading attribute.
 //
 // Controls when images and iframes are loaded relative to the viewport. Implements native lazy
@@ -26,5 +30,5 @@ var (
 // Custom allows setting a custom Loading value for edge cases or future specifications.
 // Use this when the predefined constants don't cover your specific use case.
 func Custom(value string) Loading {
-	return Loading(value)
+	return Loading(node.EscapeAttribute(value))
 }

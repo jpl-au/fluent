@@ -6,6 +6,10 @@
 // valid gradientUnits keywords compile.
 package gradientunits
 
+import (
+	"github.com/jpl-au/fluent/node"
+)
+
 // GradientUnits is a typed value for the SVG gradientUnits attribute.
 //
 // Coordinate system for a gradient's geometry attributes. A typed value so only
@@ -24,5 +28,5 @@ var (
 // Custom allows setting a custom GradientUnits value for edge cases or future specifications.
 // Use this when the predefined constants don't cover your specific use case.
 func Custom(value string) GradientUnits {
-	return GradientUnits(value)
+	return GradientUnits(node.EscapeAttribute(value))
 }

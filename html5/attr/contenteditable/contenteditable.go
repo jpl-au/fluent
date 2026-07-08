@@ -6,6 +6,10 @@
 // functionality and rich text editing capabilities within web pages.
 package contenteditable
 
+import (
+	"github.com/jpl-au/fluent/node"
+)
+
 // ContentEditable is a typed value for the HTML contenteditable attribute.
 //
 // Controls whether element content can be edited by the user. Enables in-place editing
@@ -30,5 +34,5 @@ var (
 // Custom allows setting a custom ContentEditable value for edge cases or future specifications.
 // Use this when the predefined constants don't cover your specific use case.
 func Custom(value string) ContentEditable {
-	return ContentEditable(value)
+	return ContentEditable(node.EscapeAttribute(value))
 }

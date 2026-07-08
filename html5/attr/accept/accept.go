@@ -6,6 +6,10 @@
 // and wildcards for file upload restrictions with proper guardrails and IntelliSense.
 package accept
 
+import (
+	"github.com/jpl-au/fluent/node"
+)
+
 // Accept is a typed value for the HTML accept attribute.
 //
 // File type constants for input accept attribute. Predefined MIME types, extensions,
@@ -166,5 +170,5 @@ var (
 // Custom allows setting a custom Accept value for edge cases or future specifications.
 // Use this when the predefined constants don't cover your specific use case.
 func Custom(value string) Accept {
-	return Accept(value)
+	return Accept(node.EscapeAttribute(value))
 }

@@ -6,6 +6,10 @@
 // and sent to the server, affecting file upload capability and data format.
 package enctype
 
+import (
+	"github.com/jpl-au/fluent/node"
+)
+
 // EncType is a typed value for the HTML enctype attribute.
 //
 // MIME type for form data encoding when method is POST. Controls how form data is packaged
@@ -30,5 +34,5 @@ var (
 // Custom allows setting a custom EncType value for edge cases or future specifications.
 // Use this when the predefined constants don't cover your specific use case.
 func Custom(value string) EncType {
-	return EncType(value)
+	return EncType(node.EscapeAttribute(value))
 }

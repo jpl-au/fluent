@@ -6,6 +6,10 @@
 // translation services should translate the element's text content.
 package translate
 
+import (
+	"github.com/jpl-au/fluent/node"
+)
+
 // Translate is a typed value for the HTML translate attribute.
 //
 // Translation behavior for element content and attributes. Controls whether automatic
@@ -26,5 +30,5 @@ var (
 // Custom allows setting a custom Translate value for edge cases or future specifications.
 // Use this when the predefined constants don't cover your specific use case.
 func Custom(value string) Translate {
-	return Translate(value)
+	return Translate(node.EscapeAttribute(value))
 }

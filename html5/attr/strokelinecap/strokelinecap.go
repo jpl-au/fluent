@@ -6,6 +6,10 @@
 // value so only valid stroke-linecap keywords compile.
 package strokelinecap
 
+import (
+	"github.com/jpl-au/fluent/node"
+)
+
 // StrokeLineCap is a typed value for the SVG stroke-linecap attribute.
 //
 // Shape used at the open ends of a stroked path, line, or polyline. A typed
@@ -27,5 +31,5 @@ var (
 // Custom allows setting a custom StrokeLineCap value for edge cases or future specifications.
 // Use this when the predefined constants don't cover your specific use case.
 func Custom(value string) StrokeLineCap {
-	return StrokeLineCap(value)
+	return StrokeLineCap(node.EscapeAttribute(value))
 }

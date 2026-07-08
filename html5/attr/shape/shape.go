@@ -6,6 +6,10 @@
 // interactive navigation and hotspot functionality in image maps.
 package shape
 
+import (
+	"github.com/jpl-au/fluent/node"
+)
+
 // Shape is a typed value for the HTML shape attribute.
 //
 // Geometric shape for image map areas. Defines clickable regions within images for
@@ -34,5 +38,5 @@ var (
 // Custom allows setting a custom Shape value for edge cases or future specifications.
 // Use this when the predefined constants don't cover your specific use case.
 func Custom(value string) Shape {
-	return Shape(value)
+	return Shape(node.EscapeAttribute(value))
 }

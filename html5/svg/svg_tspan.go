@@ -47,36 +47,37 @@ func TSpan(s string) *tspan {
 
 // X sets the x attribute.
 func (e *tspan) X(value string) *tspan {
-	e.x = value
+	e.x = node.EscapeAttribute(value)
 	return e
 }
 
 // Y sets the y attribute.
 func (e *tspan) Y(value string) *tspan {
-	e.y = value
+	e.y = node.EscapeAttribute(value)
 	return e
 }
 
 // Dx sets the dx attribute.
 func (e *tspan) Dx(value string) *tspan {
-	e.dx = value
+	e.dx = node.EscapeAttribute(value)
 	return e
 }
 
 // Dy sets the dy attribute.
 func (e *tspan) Dy(value string) *tspan {
-	e.dy = value
+	e.dy = node.EscapeAttribute(value)
 	return e
 }
 
 // ID sets the id attribute.
 func (e *tspan) ID(id string) *tspan {
-	e.svg().ID = id
+	e.svg().ID = node.EscapeAttribute(id)
 	return e
 }
 
 // Class appends to the space-separated class attribute.
 func (e *tspan) Class(class string) *tspan {
+	class = node.EscapeAttribute(class)
 	if e.svg().Class == "" {
 		e.svg().Class = class
 	} else {
@@ -87,25 +88,25 @@ func (e *tspan) Class(class string) *tspan {
 
 // Style sets the style attribute.
 func (e *tspan) Style(css string) *tspan {
-	e.svg().Style = css
+	e.svg().Style = node.EscapeAttribute(css)
 	return e
 }
 
 // Transform sets the transform attribute.
 func (e *tspan) Transform(transform string) *tspan {
-	e.svg().Transform = transform
+	e.svg().Transform = node.EscapeAttribute(transform)
 	return e
 }
 
 // TabIndex sets the tabindex attribute.
 func (e *tspan) TabIndex(index string) *tspan {
-	e.svg().TabIndex = index
+	e.svg().TabIndex = node.EscapeAttribute(index)
 	return e
 }
 
 // Role sets the role attribute.
 func (e *tspan) Role(role string) *tspan {
-	e.svg().Role = role
+	e.svg().Role = node.EscapeAttribute(role)
 	return e
 }
 
@@ -117,19 +118,19 @@ func (e *tspan) SetAria(key string, value string) *tspan {
 
 // Fill sets the fill attribute.
 func (e *tspan) Fill(fill string) *tspan {
-	e.svg().Fill = fill
+	e.svg().Fill = node.EscapeAttribute(fill)
 	return e
 }
 
 // Stroke sets the stroke attribute.
 func (e *tspan) Stroke(stroke string) *tspan {
-	e.svg().Stroke = stroke
+	e.svg().Stroke = node.EscapeAttribute(stroke)
 	return e
 }
 
 // StrokeWidth sets the stroke-width attribute.
 func (e *tspan) StrokeWidth(width string) *tspan {
-	e.svg().StrokeWidth = width
+	e.svg().StrokeWidth = node.EscapeAttribute(width)
 	return e
 }
 
@@ -147,82 +148,99 @@ func (e *tspan) StrokeLineJoin(join strokelinejoin.StrokeLineJoin) *tspan {
 
 // StrokeDashArray sets the stroke-dasharray attribute.
 func (e *tspan) StrokeDashArray(dashes string) *tspan {
-	e.svg().StrokeDashArray = dashes
+	e.svg().StrokeDashArray = node.EscapeAttribute(dashes)
 	return e
 }
 
 // Opacity sets the opacity attribute.
 func (e *tspan) Opacity(opacity string) *tspan {
-	e.svg().Opacity = opacity
+	e.svg().Opacity = node.EscapeAttribute(opacity)
 	return e
 }
 
 // FillOpacity sets the fill-opacity attribute.
 func (e *tspan) FillOpacity(opacity string) *tspan {
-	e.svg().FillOpacity = opacity
+	e.svg().FillOpacity = node.EscapeAttribute(opacity)
 	return e
 }
 
 // StrokeOpacity sets the stroke-opacity attribute.
 func (e *tspan) StrokeOpacity(opacity string) *tspan {
-	e.svg().StrokeOpacity = opacity
+	e.svg().StrokeOpacity = node.EscapeAttribute(opacity)
 	return e
 }
 
 // OnClick sets the onclick attribute.
 func (e *tspan) OnClick(handler string) *tspan {
-	e.svg().OnClick = handler
+	e.svg().OnClick = node.EscapeAttribute(handler)
 	return e
 }
 
 // OnMouseDown sets the onmousedown attribute.
 func (e *tspan) OnMouseDown(handler string) *tspan {
-	e.svg().OnMouseDown = handler
+	e.svg().OnMouseDown = node.EscapeAttribute(handler)
 	return e
 }
 
 // OnMouseUp sets the onmouseup attribute.
 func (e *tspan) OnMouseUp(handler string) *tspan {
-	e.svg().OnMouseUp = handler
+	e.svg().OnMouseUp = node.EscapeAttribute(handler)
 	return e
 }
 
 // OnMouseMove sets the onmousemove attribute.
 func (e *tspan) OnMouseMove(handler string) *tspan {
-	e.svg().OnMouseMove = handler
+	e.svg().OnMouseMove = node.EscapeAttribute(handler)
 	return e
 }
 
 // OnMouseOver sets the onmouseover attribute.
 func (e *tspan) OnMouseOver(handler string) *tspan {
-	e.svg().OnMouseOver = handler
+	e.svg().OnMouseOver = node.EscapeAttribute(handler)
 	return e
 }
 
 // OnMouseOut sets the onmouseout attribute.
 func (e *tspan) OnMouseOut(handler string) *tspan {
-	e.svg().OnMouseOut = handler
+	e.svg().OnMouseOut = node.EscapeAttribute(handler)
 	return e
 }
 
 // OnFocus sets the onfocus attribute.
 func (e *tspan) OnFocus(handler string) *tspan {
-	e.svg().OnFocus = handler
+	e.svg().OnFocus = node.EscapeAttribute(handler)
 	return e
 }
 
 // OnBlur sets the onblur attribute.
 func (e *tspan) OnBlur(handler string) *tspan {
-	e.svg().OnBlur = handler
+	e.svg().OnBlur = node.EscapeAttribute(handler)
 	return e
 }
 
-// SetAttribute sets a custom attribute on the element
+// SetAttribute sets a custom attribute on the element, escaping the value.
+// For a pre-trusted value that must render verbatim, use SetAttributeRaw.
 func (e *tspan) SetAttribute(key string, value string) {
+	value = node.EscapeAttribute(value)
 	if e.attr == nil {
 		e.attr = &[]node.Attribute{}
 	}
 	// Update existing attribute or add new one
+	for i, attr := range *e.attr {
+		if attr.Key == key {
+			(*e.attr)[i].Value = value
+			return
+		}
+	}
+	*e.attr = append(*e.attr, node.Attribute{Key: key, Value: value})
+}
+
+// SetAttributeRaw sets a custom attribute without escaping its value. Use only
+// with trusted values (mirrors RawText); prefer SetAttribute, which escapes.
+func (e *tspan) SetAttributeRaw(key string, value string) {
+	if e.attr == nil {
+		e.attr = &[]node.Attribute{}
+	}
 	for i, attr := range *e.attr {
 		if attr.Key == key {
 			(*e.attr)[i].Value = value
@@ -238,7 +256,7 @@ func (e *tspan) SetAttribute(key string, value string) {
 // unique within a render tree and must not change between renders. It is
 // emitted as the data-fluent-key attribute.
 func (e *tspan) Dynamic(key string) *tspan {
-	e.dynamic = key
+	e.dynamic = node.EscapeAttribute(key)
 	return e
 }
 

@@ -6,6 +6,10 @@
 // Standard character encodings for proper text processing and internationalization.
 package charset
 
+import (
+	"github.com/jpl-au/fluent/node"
+)
+
 // Charset is a typed value for the HTML charset attribute.
 //
 // Character encoding constants for accept-charset and meta charset attributes.
@@ -30,5 +34,5 @@ var (
 // Custom allows setting a custom Charset value for edge cases or future specifications.
 // Use this when the predefined constants don't cover your specific use case.
 func Custom(value string) Charset {
-	return Charset(value)
+	return Charset(node.EscapeAttribute(value))
 }

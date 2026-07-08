@@ -6,6 +6,10 @@
 // with associated popover elements for show/hide/toggle functionality.
 package popovertargetaction
 
+import (
+	"github.com/jpl-au/fluent/node"
+)
+
 // PopoverTargetAction is a typed value for the HTML popovertargetaction attribute.
 //
 // Action to perform on target popover element. Controls how button or input interacts
@@ -30,5 +34,5 @@ var (
 // Custom allows setting a custom PopoverTargetAction value for edge cases or future specifications.
 // Use this when the predefined constants don't cover your specific use case.
 func Custom(value string) PopoverTargetAction {
-	return PopoverTargetAction(value)
+	return PopoverTargetAction(node.EscapeAttribute(value))
 }

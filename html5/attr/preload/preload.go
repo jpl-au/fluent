@@ -6,6 +6,10 @@
 // content is downloaded in advance to balance startup speed with bandwidth usage.
 package preload
 
+import (
+	"github.com/jpl-au/fluent/node"
+)
+
 // Preload is a typed value for the HTML preload attribute.
 //
 // Media content preload behavior hint for optimal user experience. Controls how much media
@@ -30,5 +34,5 @@ var (
 // Custom allows setting a custom Preload value for edge cases or future specifications.
 // Use this when the predefined constants don't cover your specific use case.
 func Custom(value string) Preload {
-	return Preload(value)
+	return Preload(node.EscapeAttribute(value))
 }

@@ -6,6 +6,10 @@
 // Helps protect user privacy by limiting information shared about the referring page.
 package referrerpolicy
 
+import (
+	"github.com/jpl-au/fluent/node"
+)
+
 // ReferrerPolicy is a typed value for the HTML referrerpolicy attribute.
 //
 // Controls how much referrer information is sent when fetching resources or navigating to links.
@@ -50,5 +54,5 @@ var (
 // Custom allows setting a custom ReferrerPolicy value for edge cases or future specifications.
 // Use this when the predefined constants don't cover your specific use case.
 func Custom(value string) ReferrerPolicy {
-	return ReferrerPolicy(value)
+	return ReferrerPolicy(node.EscapeAttribute(value))
 }

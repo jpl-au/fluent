@@ -6,6 +6,10 @@
 // to use different HTTP methods, overriding the form's default method attribute.
 package formmethod
 
+import (
+	"github.com/jpl-au/fluent/node"
+)
+
 // FormMethod is a typed value for the HTML formmethod attribute.
 //
 // HTTP method override for individual submit inputs. Allows different submit buttons
@@ -26,5 +30,5 @@ var (
 // Custom allows setting a custom FormMethod value for edge cases or future specifications.
 // Use this when the predefined constants don't cover your specific use case.
 func Custom(value string) FormMethod {
-	return FormMethod(value)
+	return FormMethod(node.EscapeAttribute(value))
 }

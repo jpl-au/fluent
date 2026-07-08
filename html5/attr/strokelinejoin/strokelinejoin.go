@@ -6,6 +6,10 @@
 // only valid stroke-linejoin keywords compile.
 package strokelinejoin
 
+import (
+	"github.com/jpl-au/fluent/node"
+)
+
 // StrokeLineJoin is a typed value for the SVG stroke-linejoin attribute.
 //
 // Shape used at the corners where two stroked segments meet. A typed value so
@@ -27,5 +31,5 @@ var (
 // Custom allows setting a custom StrokeLineJoin value for edge cases or future specifications.
 // Use this when the predefined constants don't cover your specific use case.
 func Custom(value string) StrokeLineJoin {
-	return StrokeLineJoin(value)
+	return StrokeLineJoin(node.EscapeAttribute(value))
 }

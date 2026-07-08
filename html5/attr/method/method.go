@@ -6,6 +6,10 @@
 // and affects URL visibility, data size limits, and caching behavior.
 package method
 
+import (
+	"github.com/jpl-au/fluent/node"
+)
+
 // Method is a typed value for the HTML method attribute.
 //
 // HTTP method to use when submitting form data. Controls how form data is sent to the server
@@ -30,5 +34,5 @@ var (
 // Custom allows setting a custom Method value for edge cases or future specifications.
 // Use this when the predefined constants don't cover your specific use case.
 func Custom(value string) Method {
-	return Method(value)
+	return Method(node.EscapeAttribute(value))
 }

@@ -103,7 +103,7 @@ func TestThemeColorCtor(t *testing.T) {
 
 func TestCSPCtor(t *testing.T) {
 	got := string(meta.CSP("default-src 'self'; script-src 'self'").RenderBytes())
-	want := `<meta content="default-src 'self'; script-src 'self'" http-equiv="Content-Security-Policy" />`
+	want := `<meta content="default-src &#39;self&#39;; script-src &#39;self&#39;" http-equiv="Content-Security-Policy" />`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
 	}

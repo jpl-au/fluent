@@ -6,6 +6,10 @@
 // how users interact with the input and what data format is expected.
 package inputtype
 
+import (
+	"github.com/jpl-au/fluent/node"
+)
+
 // InputType is a typed value for the HTML inputtype attribute.
 //
 // Input control type determining appearance, behavior, and validation. Fundamentally changes
@@ -112,5 +116,5 @@ var (
 // Custom allows setting a custom InputType value for edge cases or future specifications.
 // Use this when the predefined constants don't cover your specific use case.
 func Custom(value string) InputType {
-	return InputType(value)
+	return InputType(node.EscapeAttribute(value))
 }

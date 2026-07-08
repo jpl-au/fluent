@@ -7,6 +7,10 @@
 // it to be discovered by find-in-page and fragment navigation.
 package hidden
 
+import (
+	"github.com/jpl-au/fluent/node"
+)
+
 // Hidden is a typed value for the HTML hidden attribute.
 //
 // Controls element visibility and findability. When set without a value the element
@@ -29,5 +33,5 @@ var (
 // Custom allows setting a custom Hidden value for edge cases or future specifications.
 // Use this when the predefined constants don't cover your specific use case.
 func Custom(value string) Hidden {
-	return Hidden(value)
+	return Hidden(node.EscapeAttribute(value))
 }

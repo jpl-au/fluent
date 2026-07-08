@@ -7,6 +7,10 @@
 // field tokens (standalone values) and optional modifier prefixes for context.
 package autocomplete
 
+import (
+	"github.com/jpl-au/fluent/node"
+)
+
 // AutoComplete is a typed value for the HTML autocomplete attribute.
 //
 // Browser autocomplete behaviour for form fields. Controls automatic value suggestions
@@ -248,7 +252,7 @@ var (
 // Custom allows setting a custom AutoComplete value for edge cases or future specifications.
 // Use this when the predefined constants don't cover your specific use case.
 func Custom(value string) AutoComplete {
-	return AutoComplete(value)
+	return AutoComplete(node.EscapeAttribute(value))
 }
 
 // Shipping Shipping context prefix for address and contact fields. Distinguishes

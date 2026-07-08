@@ -6,6 +6,10 @@
 // browsers provide spelling, grammar, and writing assistance features.
 package writingsuggestions
 
+import (
+	"github.com/jpl-au/fluent/node"
+)
+
 // WritingSuggestions is a typed value for the HTML writingsuggestions attribute.
 //
 // Browser writing suggestions and corrections for text input elements. Controls whether
@@ -26,5 +30,5 @@ var (
 // Custom allows setting a custom WritingSuggestions value for edge cases or future specifications.
 // Use this when the predefined constants don't cover your specific use case.
 func Custom(value string) WritingSuggestions {
-	return WritingSuggestions(value)
+	return WritingSuggestions(node.EscapeAttribute(value))
 }

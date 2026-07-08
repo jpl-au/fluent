@@ -6,6 +6,10 @@
 // value so only valid text-anchor keywords compile.
 package textanchor
 
+import (
+	"github.com/jpl-au/fluent/node"
+)
+
 // TextAnchor is a typed value for the SVG text-anchor attribute.
 //
 // Horizontal alignment of a text element relative to its x position. A typed
@@ -27,5 +31,5 @@ var (
 // Custom allows setting a custom TextAnchor value for edge cases or future specifications.
 // Use this when the predefined constants don't cover your specific use case.
 func Custom(value string) TextAnchor {
-	return TextAnchor(value)
+	return TextAnchor(node.EscapeAttribute(value))
 }

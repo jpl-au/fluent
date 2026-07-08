@@ -6,6 +6,10 @@
 // and media queries for common responsive image patterns and breakpoints.
 package sizes
 
+import (
+	"github.com/jpl-au/fluent/node"
+)
+
 // Size is a typed value for the HTML sizes attribute.
 //
 // Responsive image size constants for sizes attribute. Predefined size values
@@ -66,5 +70,5 @@ var (
 // Custom allows setting a custom Size value for edge cases or future specifications.
 // Use this when the predefined constants don't cover your specific use case.
 func Custom(value string) Size {
-	return Size(value)
+	return Size(node.EscapeAttribute(value))
 }

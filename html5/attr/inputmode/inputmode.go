@@ -6,6 +6,10 @@
 // which keyboard type to display based on expected input content and format.
 package inputmode
 
+import (
+	"github.com/jpl-au/fluent/node"
+)
+
 // InputMode is a typed value for the HTML inputmode attribute.
 //
 // Virtual keyboard configuration hint for optimal text input. Tells mobile devices
@@ -50,5 +54,5 @@ var (
 // Custom allows setting a custom InputMode value for edge cases or future specifications.
 // Use this when the predefined constants don't cover your specific use case.
 func Custom(value string) InputMode {
-	return InputMode(value)
+	return InputMode(node.EscapeAttribute(value))
 }

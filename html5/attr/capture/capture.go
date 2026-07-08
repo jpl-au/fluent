@@ -6,6 +6,10 @@
 // to use on mobile devices for direct media capture without file selection.
 package capture
 
+import (
+	"github.com/jpl-au/fluent/node"
+)
+
 // Capture is a typed value for the HTML capture attribute.
 //
 // Camera selection hint for file inputs accepting images or video. Specifies which camera
@@ -26,5 +30,5 @@ var (
 // Custom allows setting a custom Capture value for edge cases or future specifications.
 // Use this when the predefined constants don't cover your specific use case.
 func Custom(value string) Capture {
-	return Capture(value)
+	return Capture(node.EscapeAttribute(value))
 }

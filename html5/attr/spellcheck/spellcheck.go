@@ -6,6 +6,10 @@
 // highlight misspelled words and provide correction suggestions for text input.
 package spellcheck
 
+import (
+	"github.com/jpl-au/fluent/node"
+)
+
 // Spellcheck is a typed value for the HTML spellcheck attribute.
 //
 // Controls browser spell-checking and text correction features. Affects whether browsers
@@ -26,5 +30,5 @@ var (
 // Custom allows setting a custom Spellcheck value for edge cases or future specifications.
 // Use this when the predefined constants don't cover your specific use case.
 func Custom(value string) Spellcheck {
-	return Spellcheck(value)
+	return Spellcheck(node.EscapeAttribute(value))
 }

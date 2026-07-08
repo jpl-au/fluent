@@ -6,6 +6,10 @@
 // media queries for common breakpoints and device characteristics.
 package media
 
+import (
+	"github.com/jpl-au/fluent/node"
+)
+
 // Media is a typed value for the HTML media attribute.
 //
 // Media query constants for responsive design and device targeting. Predefined
@@ -94,5 +98,5 @@ var (
 // Custom allows setting a custom Media value for edge cases or future specifications.
 // Use this when the predefined constants don't cover your specific use case.
 func Custom(value string) Media {
-	return Media(value)
+	return Media(node.EscapeAttribute(value))
 }

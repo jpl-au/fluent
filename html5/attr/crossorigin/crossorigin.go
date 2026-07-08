@@ -6,6 +6,10 @@
 // credentials are sent with cross-origin requests and enables secure resource sharing.
 package crossorigin
 
+import (
+	"github.com/jpl-au/fluent/node"
+)
+
 // CrossOrigin is a typed value for the HTML crossorigin attribute.
 //
 // Cross-Origin Resource Sharing (CORS) configuration for external resources. Controls whether
@@ -26,5 +30,5 @@ var (
 // Custom allows setting a custom CrossOrigin value for edge cases or future specifications.
 // Use this when the predefined constants don't cover your specific use case.
 func Custom(value string) CrossOrigin {
-	return CrossOrigin(value)
+	return CrossOrigin(node.EscapeAttribute(value))
 }

@@ -6,6 +6,10 @@
 // experience by providing context-appropriate keyboard actions and visual cues.
 package enterkeyhint
 
+import (
+	"github.com/jpl-au/fluent/node"
+)
+
 // EnterKeyHint is a typed value for the HTML enterkeyhint attribute.
 //
 // Action label or icon hint for the enter key on virtual keyboards. Improves mobile user
@@ -46,5 +50,5 @@ var (
 // Custom allows setting a custom EnterKeyHint value for edge cases or future specifications.
 // Use this when the predefined constants don't cover your specific use case.
 func Custom(value string) EnterKeyHint {
-	return EnterKeyHint(value)
+	return EnterKeyHint(node.EscapeAttribute(value))
 }

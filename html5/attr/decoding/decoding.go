@@ -6,6 +6,10 @@
 // and painted to balance performance with user experience and page responsiveness.
 package decoding
 
+import (
+	"github.com/jpl-au/fluent/node"
+)
+
 // Decoding is a typed value for the HTML decoding attribute.
 //
 // Image decoding priority hint for browser optimization. Controls when images are processed
@@ -30,5 +34,5 @@ var (
 // Custom allows setting a custom Decoding value for edge cases or future specifications.
 // Use this when the predefined constants don't cover your specific use case.
 func Custom(value string) Decoding {
-	return Decoding(value)
+	return Decoding(node.EscapeAttribute(value))
 }

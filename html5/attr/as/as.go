@@ -6,6 +6,10 @@
 // for proper prioritization, parsing, and CSP application by the browser.
 package as
 
+import (
+	"github.com/jpl-au/fluent/node"
+)
+
 // As is a typed value for the HTML as attribute.
 //
 // Resource type hint for preload links. Required with rel="preload" to specify content type
@@ -70,5 +74,5 @@ var (
 // Custom allows setting a custom As value for edge cases or future specifications.
 // Use this when the predefined constants don't cover your specific use case.
 func Custom(value string) As {
-	return As(value)
+	return As(node.EscapeAttribute(value))
 }

@@ -6,6 +6,10 @@
 // and helps browsers optimize resource loading, security, and user experience.
 package rel
 
+import (
+	"github.com/jpl-au/fluent/node"
+)
+
 // Rel is a typed value for the HTML rel attribute.
 //
 // Link relationship between current document and linked resource. Defines semantic meaning
@@ -130,5 +134,5 @@ var (
 // Custom allows setting a custom Rel value for edge cases or future specifications.
 // Use this when the predefined constants don't cover your specific use case.
 func Custom(value string) Rel {
-	return Rel(value)
+	return Rel(node.EscapeAttribute(value))
 }

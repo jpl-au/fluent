@@ -6,6 +6,10 @@
 // should be blocked until the resource is loaded.
 package blocking
 
+import (
+	"github.com/jpl-au/fluent/node"
+)
+
 // Blocking is a typed value for the HTML blocking attribute.
 //
 // Controls blocking behavior for resource loading. Indicates that certain operations
@@ -23,5 +27,5 @@ var (
 // Custom allows setting a custom Blocking value for edge cases or future specifications.
 // Use this when the predefined constants don't cover your specific use case.
 func Custom(value string) Blocking {
-	return Blocking(value)
+	return Blocking(node.EscapeAttribute(value))
 }

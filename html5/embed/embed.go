@@ -81,7 +81,7 @@ func New() *Element {
 func PDF(src string, width int, height int) *Element {
 	return &Element{
 		embedType: "application/pdf",
-		src:       src,
+		src:       node.EscapeAttribute(src),
 		width:     width,
 		height:    height,
 	}
@@ -95,7 +95,7 @@ func PDF(src string, width int, height int) *Element {
 func Flash(src string, width int, height int) *Element {
 	return &Element{
 		embedType: "application/x-shockwave-flash",
-		src:       src,
+		src:       node.EscapeAttribute(src),
 		width:     width,
 		height:    height,
 	}
@@ -109,7 +109,7 @@ func Flash(src string, width int, height int) *Element {
 func Video(src string, width int, height int) *Element {
 	return &Element{
 		embedType: "video/mp4",
-		src:       src,
+		src:       node.EscapeAttribute(src),
 		width:     width,
 		height:    height,
 	}
@@ -123,7 +123,7 @@ func Video(src string, width int, height int) *Element {
 func Audio(src string, width int, height int) *Element {
 	return &Element{
 		embedType: "audio/mpeg",
-		src:       src,
+		src:       node.EscapeAttribute(src),
 		width:     width,
 		height:    height,
 	}
@@ -133,7 +133,7 @@ func Audio(src string, width int, height int) *Element {
 //
 // The URL of the resource being embedded. This specifies the address of the external content to be embedded in the document.
 func (e *Element) Src(url string) *Element {
-	e.src = url
+	e.src = node.EscapeAttribute(url)
 	return e
 }
 
@@ -141,7 +141,7 @@ func (e *Element) Src(url string) *Element {
 //
 // The MIME type to use to select the plug-in to instantiate. This helps the browser determine how to handle the embedded content.
 func (e *Element) Type(mime string) *Element {
-	e.embedType = mime
+	e.embedType = node.EscapeAttribute(mime)
 	return e
 }
 
@@ -168,6 +168,7 @@ func (e *Element) Height(height int) *Element {
 // flexible, reusable styling systems and enable complex element selection patterns. Essential for
 // component-based architectures and maintainable CSS.
 func (e *Element) Class(class string) *Element {
+	class = node.EscapeAttribute(class)
 	if e.class == "" {
 		e.class = class
 	} else {
@@ -183,7 +184,7 @@ func (e *Element) Class(class string) *Element {
 // ARIA relationships. IDs have higher CSS specificity than classes and should be used sparingly for truly
 // unique elements.
 func (e *Element) ID(id string) *Element {
-	e.id = id
+	e.id = node.EscapeAttribute(id)
 	return e
 }
 
@@ -194,6 +195,7 @@ func (e *Element) ID(id string) *Element {
 // and make maintenance difficult. Best used for programmatically generated styles, dynamic values, or critical
 // above-the-fold styling.
 func (e *Element) Style(css string) *Element {
+	css = node.EscapeAttribute(css)
 	if e.global().Style == "" {
 		e.global().Style = css
 	} else {
@@ -207,7 +209,7 @@ func (e *Element) Style(css string) *Element {
 // Contains a text representing advisory information related to the element it belongs to. Such information can
 // typically, but not necessarily, be presented to the user as a tooltip.
 func (e *Element) Title(text string) *Element {
-	e.global().Title = text
+	e.global().Title = node.EscapeAttribute(text)
 	return e
 }
 
@@ -244,7 +246,7 @@ func (e *Element) TabIndex(index int) *Element {
 // are added to HTML elements using role="role_type", where role_type is the name of a role in the ARIA
 // specification.
 func (e *Element) Role(role string) *Element {
-	e.global().Role = role
+	e.global().Role = node.EscapeAttribute(role)
 	return e
 }
 
@@ -253,7 +255,7 @@ func (e *Element) Role(role string) *Element {
 // Helps define the language of an element the language that non-editable elements are in, or the language that
 // editable elements should be written in by the user.
 func (e *Element) Lang(language string) *Element {
-	e.global().Lang = language
+	e.global().Lang = node.EscapeAttribute(language)
 	return e
 }
 
@@ -264,6 +266,7 @@ func (e *Element) Lang(language string) *Element {
 // Essential for accessibility and power-user workflows, but should be used thoughtfully to avoid conflicts with
 // browser/OS shortcuts.
 func (e *Element) AccessKey(key string) *Element {
+	key = node.EscapeAttribute(key)
 	if e.global().AccessKey == "" {
 		e.global().AccessKey = key
 	} else {
@@ -290,7 +293,7 @@ func (e *Element) Anchor(id string) *Element {
 // describe the element's purpose. Screen readers and other assistive technologies use this as the primary label
 // for the element.
 func (e *Element) AriaLabel(label string) *Element {
-	e.global().AriaLabel = label
+	e.global().AriaLabel = node.EscapeAttribute(label)
 	return e
 }
 
@@ -396,7 +399,7 @@ func (e *Element) EnterKeyHint(hint enterkeyhint.EnterKeyHint) *Element {
 //
 // Used to transitively export shadow parts from a nested shadow tree into a containing light tree.
 func (e *Element) ExportParts(parts string) *Element {
-	e.global().ExportParts = parts
+	e.global().ExportParts = node.EscapeAttribute(parts)
 	return e
 }
 
@@ -447,7 +450,7 @@ func (e *Element) ItemId(id string) *Element {
 // Used to add properties to an item. Every HTML element may have an itemprop attribute specified, where an
 // itemprop consists of a name and value pair.
 func (e *Element) ItemProp(properties string) *Element {
-	e.global().ItemProp = properties
+	e.global().ItemProp = node.EscapeAttribute(properties)
 	return e
 }
 
@@ -456,7 +459,7 @@ func (e *Element) ItemProp(properties string) *Element {
 // Properties that are not descendants of an element with the itemscope attribute can be associated with the item
 // using an itemref.
 func (e *Element) ItemRef(refs string) *Element {
-	e.global().ItemRef = refs
+	e.global().ItemRef = node.EscapeAttribute(refs)
 	return e
 }
 
@@ -498,6 +501,7 @@ func (e *Element) Nonce(value string) *Element {
 // A space-separated list of the part names of the element. Part names allows CSS to select and style specific
 // elements in a shadow tree via the ::part pseudo-element.
 func (e *Element) Part(names string) *Element {
+	names = node.EscapeAttribute(names)
 	if e.global().Part == "" {
 		e.global().Part = names
 	} else {
@@ -573,7 +577,7 @@ func (e *Element) WritingSuggestions(value writingsuggestions.WritingSuggestions
 // user interactions, triggering actions like navigation, form submission, modal opening, or any interactive behavior.
 // Available on virtually all elements, making it the primary event for user interface interactions.
 func (e *Element) OnClick(handler string) *Element {
-	e.event().OnClick = handler
+	e.event().OnClick = node.EscapeAttribute(handler)
 	return e
 }
 
@@ -584,7 +588,7 @@ func (e *Element) OnClick(handler string) *Element {
 // data processing, dependent field updates, and saving draft changes. Essential for form workflows and user input
 // handling.
 func (e *Element) OnChange(handler string) *Element {
-	e.event().OnChange = handler
+	e.event().OnChange = node.EscapeAttribute(handler)
 	return e
 }
 
@@ -594,7 +598,7 @@ func (e *Element) OnChange(handler string) *Element {
 // fires before the element loses focus. Used on <input>, <select>, and <textarea> for real-time validation,
 // auto-save, search suggestions, character counters, or live form updates. Perfect for responsive user interfaces.
 func (e *Element) OnInput(handler string) *Element {
-	e.event().OnInput = handler
+	e.event().OnInput = node.EscapeAttribute(handler)
 	return e
 }
 
@@ -604,7 +608,7 @@ func (e *Element) OnInput(handler string) *Element {
 // on form elements to show input helpers, highlight fields, display validation messages, auto-select content, or
 // trigger contextual UI changes. Essential for accessibility and guided user experiences.
 func (e *Element) OnFocus(handler string) *Element {
-	e.event().OnFocus = handler
+	e.event().OnFocus = node.EscapeAttribute(handler)
 	return e
 }
 
@@ -614,7 +618,7 @@ func (e *Element) OnFocus(handler string) *Element {
 // used on form inputs (<input>, <textarea>, <select>) to validate input, save drafts, hide dropdowns, or trigger
 // field-specific actions. Essential for form validation workflows and user experience enhancements.
 func (e *Element) OnBlur(handler string) *Element {
-	e.event().OnBlur = handler
+	e.event().OnBlur = node.EscapeAttribute(handler)
 	return e
 }
 
@@ -624,7 +628,7 @@ func (e *Element) OnBlur(handler string) *Element {
 // <form> elements and provides the last opportunity to validate data, prevent submission with preventDefault(), show
 // loading states, or perform custom submission handling like AJAX requests.
 func (e *Element) OnSubmit(handler string) *Element {
-	e.event().OnSubmit = handler
+	e.event().OnSubmit = node.EscapeAttribute(handler)
 	return e
 }
 
@@ -887,7 +891,7 @@ func (e *Element) OnInvalid(handler string) *Element {
 // (Ctrl, Alt, Shift), function keys, and arrows. Used for keyboard shortcuts, game controls, navigation,
 // preventing default key behavior, or implementing custom key handling. Fires repeatedly when key is held down.
 func (e *Element) OnKeyDown(handler string) *Element {
-	e.event().OnKeyDown = handler
+	e.event().OnKeyDown = node.EscapeAttribute(handler)
 	return e
 }
 
@@ -908,7 +912,7 @@ func (e *Element) OnKeyPress(handler string) *Element {
 // for ending keyboard shortcuts, stopping repeated actions, implementing key combinations, detecting when modifier
 // keys are released, or triggering actions that should occur after key input is complete.
 func (e *Element) OnKeyUp(handler string) *Element {
-	e.event().OnKeyUp = handler
+	e.event().OnKeyUp = node.EscapeAttribute(handler)
 	return e
 }
 
@@ -1608,12 +1612,29 @@ func (e *Element) OnSelectionChange(handler string) *Element {
 	return e
 }
 
-// SetAttribute sets a custom attribute on the element
+// SetAttribute sets a custom attribute on the element, escaping the value.
+// For a pre-trusted value that must render verbatim, use SetAttributeRaw.
 func (e *Element) SetAttribute(key string, value string) {
+	value = node.EscapeAttribute(value)
 	if e.attr == nil {
 		e.attr = &[]node.Attribute{}
 	}
 	// Update existing attribute or add new one
+	for i, attr := range *e.attr {
+		if attr.Key == key {
+			(*e.attr)[i].Value = value
+			return
+		}
+	}
+	*e.attr = append(*e.attr, node.Attribute{Key: key, Value: value})
+}
+
+// SetAttributeRaw sets a custom attribute without escaping its value. Use only
+// with trusted values (mirrors RawText); prefer SetAttribute, which escapes.
+func (e *Element) SetAttributeRaw(key string, value string) {
+	if e.attr == nil {
+		e.attr = &[]node.Attribute{}
+	}
 	for i, attr := range *e.attr {
 		if attr.Key == key {
 			(*e.attr)[i].Value = value
@@ -1629,7 +1650,7 @@ func (e *Element) SetAttribute(key string, value string) {
 // unique within a render tree and must not change between renders. It is
 // emitted as the data-fluent-key attribute.
 func (e *Element) Dynamic(key string) *Element {
-	e.dynamic = key
+	e.dynamic = node.EscapeAttribute(key)
 	return e
 }
 
