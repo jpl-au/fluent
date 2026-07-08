@@ -282,9 +282,9 @@ func (e *linearGradient) Replace(children ...*stop) *linearGradient {
 // The key is the element's stable identity across renders: the diff engine
 // matches on it to detect changes and send targeted patches, so it must be
 // unique within a render tree and must not change between renders. It is
-// emitted as the data-fluent-key attribute.
+// emitted, escaped, as the data-fluent-key attribute.
 func (e *linearGradient) Dynamic(key string) *linearGradient {
-	e.dynamic = node.EscapeAttribute(key)
+	e.dynamic = key
 	return e
 }
 
@@ -394,7 +394,7 @@ func (e *linearGradient) AttributeBuilder(buf *bytes.Buffer) {
 
 	if e.dynamic != "" {
 		buf.WriteString(` data-fluent-key="`)
-		buf.WriteString(e.dynamic)
+		buf.WriteString(node.EscapeAttribute(e.dynamic))
 		buf.Write(MarkupQuote)
 	}
 
