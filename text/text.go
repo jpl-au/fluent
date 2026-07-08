@@ -17,6 +17,14 @@
 // All non-[Static] nodes report IsDynamic() == true via the
 // node.Dynamic interface so the diff engine can track them across
 // renders.
+//
+// This package covers text *content*. The other injection surface,
+// attribute *values*, is escaped separately and automatically by the
+// generated setters via [node.EscapeAttribute] (with URL sinks
+// scheme-filtered via [node.FilterURL]); [node.SetAttributeRaw] is the
+// attribute mirror of [RawText]. Together they are one escaping system:
+// content and attributes are both safe by default, with a raw hatch on
+// each side for values you have already sanitised.
 package text
 
 import (

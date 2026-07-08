@@ -12,7 +12,7 @@ HTML5 components in Go using a Fluent API.
 
 **Type-safe nesting.** Typed constructors enforce correct HTML parent-child relationships at compile time. `ul.Items()` only accepts `*li.Element`, `tr.Cells()` only accepts `*td.Element` - the compiler catches nesting mistakes that would otherwise become silent bugs. `New()` remains available as the flexible escape hatch. [See Typed Constructors](#typed-constructors).
 
-**HTML escaping by default.** `Text()` and `Textf()` automatically escape `<`, `>`, `&`, and quotes. For untrusted HTML that needs to render *as* HTML (rendered markdown, rich-text input), reach for the opt-in [fluent-security](https://github.com/jpl-au/fluent-security) package, which wraps [bluemonday](https://github.com/microcosm-cc/bluemonday) and returns Fluent nodes directly.
+**HTML escaping by default.** `Text()` and `Textf()` automatically escape `<`, `>`, `&`, and quotes, and every attribute value is escaped (and URL sinks scheme-filtered) at set time too - see [Attribute escaping](#attribute-escaping). For untrusted HTML that needs to render *as* HTML (rendered markdown, rich-text input), reach for the opt-in [fluent-security](https://github.com/jpl-au/fluent-security) package, which wraps [bluemonday](https://github.com/microcosm-cc/bluemonday) and returns Fluent nodes directly.
 
 **Performance considered.** Buffer pooling and efficient rendering for high-throughput applications. Don't want to use `sync.Pool`? Just turn it off.
 
@@ -134,6 +134,50 @@ div.Textf("Hello %s, you have %d messages", user.Name, count)
 div.RawText("<em>Bold</em>")
 div.RawTextf("<span class=\"%s\">%s</span>", className, content)
 ```
+
+### Attribute escaping
+
+Text content is not the only injection surface - attribute *values* are too.
+Fluent escapes every attribute value automatically, at the moment you set it,
+so a value can never break out of its quotes and inject markup or an event
+handler. This is on by default and covers every path that stores a value:
+typed setters (`.Class()`, `.Title()`, `.Value()`, ...), `.SetAttribute()`,
+`.SetData()`, `.Dynamic()` keys, and enum `Custom(...)` values.
+
+```go
+// The value is escaped for you - the rendered attribute stays a single,
+// inert attribute no matter what the user typed.
+div.New().SetAttribute("data-note", userInput)
+```
+
+Because escaping is automatic, **do not pre-escape values yourself**. Calling
+`html.EscapeString` before a setter double-escapes the value: the browser
+decodes one layer on `getAttribute` and the caller sees stray `&amp;`/`&#34;`
+artefacts (and JSON stored in a data attribute stops parsing). Pass the raw
+value and let the setter escape it once.
+
+For a value you have already sanitised and trust verbatim, `SetAttributeRaw`
+is the per-value hatch - the attribute mirror of `RawText`:
+
+```go
+// Stored verbatim, no escaping. Use only for values you fully trust.
+el.SetAttributeRaw("data-html", trustedFragment)
+```
+
+**URL-typed attributes get a second layer.** Navigation and loading sinks
+(`href`, `src`, `action`, `formaction`, `<object>` `data`) are filtered
+against a scheme allowlist - `http`, `https`, `mailto`, `tel`, `sms`, and
+relative URLs pass; `javascript:`, `vbscript:`, and `data:` in a navigation
+sink are replaced with an inert sentinel (`node.UnsafeURL`) so a hostile URL
+cannot execute. Register `node.OnUnsafeURL` to observe rejections. Image and
+media sinks (`img`/`video` `src`, `srcset`, `poster`) are escaped but not
+filtered, so legitimate `data:image/...` URLs still render.
+
+The whole layer - escaping and URL filtering - is baked into the generated
+setters at generation time, so it costs nothing to branch on at runtime. A
+downstream user who regenerates Fluent for fully-trusted data can turn either
+half off with the [generator](https://github.com/jpl-au/fluent-generator)
+flags `--attribute-escaping=false` and `--url-filtering=false`.
 
 ### Reactive tracking
 
