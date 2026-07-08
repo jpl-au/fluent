@@ -29,6 +29,13 @@ type Element interface {
 	// [SetAria] functions instead.
 	SetAttribute(key string, value string)
 
+	// SetAttributeRaw sets a custom attribute WITHOUT escaping its value -
+	// the attribute-position twin of RawText. SetAttribute escapes; use
+	// SetAttributeRaw only for a value already known safe (a constant, or
+	// output from a trusted sanitiser). Like SetAttribute it returns
+	// nothing and cannot be chained.
+	SetAttributeRaw(key string, value string)
+
 	// RenderOpen writes the opening tag, including the element name and
 	// every attribute, into buf. JIT compilation caches this output
 	// separately from the children so static wrappers can be pre-rendered

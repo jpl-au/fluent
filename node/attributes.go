@@ -18,6 +18,14 @@ func SetAttribute(e Element, key, value string) {
 	e.SetAttribute(key, value)
 }
 
+// SetAttributeRaw sets a custom attribute on an element reached through
+// the [Element] interface without escaping the value. It is the
+// package-level twin of [Element.SetAttributeRaw]; prefer [SetAttribute]
+// unless the value is already trusted.
+func SetAttributeRaw(e Element, key, value string) {
+	e.SetAttributeRaw(key, value)
+}
+
 // SetData sets a data-* attribute on an element reached through the
 // [Element] interface, prefixing the key exactly as the concrete
 // SetData methods do: SetData(e, "id", v) sets data-id.
@@ -42,8 +50,10 @@ type Attribute struct {
 	// verbatim - callers are expected to pass a valid attribute name.
 	Key string
 
-	// Value is the attribute value as it appears in the rendered HTML.
-	// It is written verbatim and is not HTML-escaped, so callers that
-	// accept untrusted input must escape before storing.
+	// Value is the attribute value as it appears in the rendered HTML,
+	// written verbatim at render time. SetAttribute escapes before
+	// storing, so values placed through it are already safe; a caller
+	// building an Attribute literal directly, or using SetAttributeRaw,
+	// is responsible for escaping untrusted input itself.
 	Value string
 }
