@@ -81,7 +81,7 @@ func New() *Element {
 // Renders: <base href="/docs/" />
 func URL(href string) *Element {
 	return &Element{
-		href: node.EscapeAttribute(href),
+		href: node.EscapeAttribute(node.FilterURL(href)),
 	}
 }
 
@@ -91,7 +91,7 @@ func URL(href string) *Element {
 // be resolved against this base. Must be an absolute URL, though the path and subsequent components can vary.
 // Affects links, forms, images, scripts, stylesheets, and all other resources with relative paths.
 func (e *Element) Href(url string) *Element {
-	e.href = node.EscapeAttribute(url)
+	e.href = node.EscapeAttribute(node.FilterURL(url))
 	return e
 }
 

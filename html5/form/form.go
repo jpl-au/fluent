@@ -103,7 +103,7 @@ func Get(action string, nodes ...node.Node) *Element {
 	return &Element{
 		nodes:  nodes,
 		method: method.Get,
-		action: node.EscapeAttribute(action),
+		action: node.EscapeAttribute(node.FilterURL(action)),
 	}
 }
 
@@ -116,7 +116,7 @@ func Post(action string, nodes ...node.Node) *Element {
 	return &Element{
 		nodes:  nodes,
 		method: method.Post,
-		action: node.EscapeAttribute(action),
+		action: node.EscapeAttribute(node.FilterURL(action)),
 	}
 }
 
@@ -136,7 +136,7 @@ func Dialog(nodes ...node.Node) *Element {
 //
 // The URL to which the form data will be sent when the form is submitted.
 func (e *Element) Action(value string) *Element {
-	e.action = node.EscapeAttribute(value)
+	e.action = node.EscapeAttribute(node.FilterURL(value))
 	return e
 }
 

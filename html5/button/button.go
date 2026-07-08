@@ -212,7 +212,7 @@ func (e *Element) Form(id string) *Element {
 // The URL that processes the information submitted by the button. Overrides the action attribute of the
 // button's form owner. Does nothing if there is no form owner.
 func (e *Element) Formaction(url string) *Element {
-	e.SetAttribute("formaction", url)
+	e.SetAttribute("formaction", node.FilterURL(url))
 	return e
 }
 

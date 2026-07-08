@@ -457,7 +457,7 @@ func (e *Element) Form(formID string) *Element {
 //
 // Valid only for submit and image input types, this attribute specifies an alternative URL for form submission, overriding the form's action attribute. This allows different submit buttons to send form data to different endpoints, enabling scenarios like 'Save' vs 'Save and Continue' buttons or multiple processing paths from a single form.
 func (e *Element) FormAction(url string) *Element {
-	e.SetAttribute("formaction", url)
+	e.SetAttribute("formaction", node.FilterURL(url))
 	return e
 }
 

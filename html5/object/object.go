@@ -134,7 +134,7 @@ func RawTextf(format string, args ...any) *Element {
 func PDF(data string, nodes ...node.Node) *Element {
 	return &Element{
 		nodes:      nodes,
-		data:       node.EscapeAttribute(data),
+		data:       node.EscapeAttribute(node.FilterURL(data)),
 		objectType: "application/pdf",
 	}
 }
@@ -147,7 +147,7 @@ func PDF(data string, nodes ...node.Node) *Element {
 func Flash(data string, nodes ...node.Node) *Element {
 	return &Element{
 		nodes:      nodes,
-		data:       node.EscapeAttribute(data),
+		data:       node.EscapeAttribute(node.FilterURL(data)),
 		objectType: "application/x-shockwave-flash",
 	}
 }
@@ -160,7 +160,7 @@ func Flash(data string, nodes ...node.Node) *Element {
 func Video(data string, nodes ...node.Node) *Element {
 	return &Element{
 		nodes:      nodes,
-		data:       node.EscapeAttribute(data),
+		data:       node.EscapeAttribute(node.FilterURL(data)),
 		objectType: "video/mp4",
 	}
 }
@@ -173,7 +173,7 @@ func Video(data string, nodes ...node.Node) *Element {
 func Audio(data string, nodes ...node.Node) *Element {
 	return &Element{
 		nodes:      nodes,
-		data:       node.EscapeAttribute(data),
+		data:       node.EscapeAttribute(node.FilterURL(data)),
 		objectType: "audio/mpeg",
 	}
 }
@@ -182,7 +182,7 @@ func Audio(data string, nodes ...node.Node) *Element {
 //
 // Specifies the URL of the resource to be embedded by the object element
 func (e *Element) Data(url string) *Element {
-	e.data = node.EscapeAttribute(url)
+	e.data = node.EscapeAttribute(node.FilterURL(url))
 	return e
 }
 

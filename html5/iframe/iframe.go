@@ -139,7 +139,7 @@ func RawTextf(format string, args ...any) *Element {
 // Note: Iframe will only load when it enters or is near the viewport
 func Lazy(src string) *Element {
 	return &Element{
-		src:     node.EscapeAttribute(src),
+		src:     node.EscapeAttribute(node.FilterURL(src)),
 		loading: loading.Lazy,
 	}
 }
@@ -150,7 +150,7 @@ func Lazy(src string) *Element {
 // Note: Iframe loads immediately, regardless of viewport position
 func Eager(src string) *Element {
 	return &Element{
-		src:     node.EscapeAttribute(src),
+		src:     node.EscapeAttribute(node.FilterURL(src)),
 		loading: loading.Eager,
 	}
 }
@@ -159,7 +159,7 @@ func Eager(src string) *Element {
 //
 // The URL of the page to embed within the iframe. This creates a nested browsing context that loads and displays the specified document. The URL can be absolute (https://example.com) or relative (/page.html). The embedded page operates in its own browsing context with potential security restrictions applied via sandbox and other attributes.
 func (e *Element) Src(url string) *Element {
-	e.src = node.EscapeAttribute(url)
+	e.src = node.EscapeAttribute(node.FilterURL(url))
 	return e
 }
 

@@ -95,7 +95,7 @@ func Rect(x1 int, y1 int, x2 int, y2 int, href string) *Element {
 	return &Element{
 		shape:  shape.Rect,
 		coords: fmt.Sprintf("%d,%d,%d,%d", x1, y1, x2, y2),
-		href:   node.EscapeAttribute(href),
+		href:   node.EscapeAttribute(node.FilterURL(href)),
 	}
 }
 
@@ -107,7 +107,7 @@ func Circle(x int, y int, radius int, href string) *Element {
 	return &Element{
 		shape:  shape.Circle,
 		coords: fmt.Sprintf("%d,%d,%d", x, y, radius),
-		href:   node.EscapeAttribute(href),
+		href:   node.EscapeAttribute(node.FilterURL(href)),
 	}
 }
 
@@ -119,7 +119,7 @@ func Poly(coords string, href string) *Element {
 	return &Element{
 		shape:  shape.Poly,
 		coords: node.EscapeAttribute(coords),
-		href:   node.EscapeAttribute(href),
+		href:   node.EscapeAttribute(node.FilterURL(href)),
 	}
 }
 
@@ -130,7 +130,7 @@ func Poly(coords string, href string) *Element {
 func Default(href string) *Element {
 	return &Element{
 		shape: shape.Default,
-		href:  node.EscapeAttribute(href),
+		href:  node.EscapeAttribute(node.FilterURL(href)),
 	}
 }
 
@@ -160,7 +160,7 @@ func (e *Element) Coords(coordinates string) *Element {
 // The URL that the hyperlink points to when the area is clicked. Links are not restricted to HTTP-based URLs -
 // they can use any URL scheme supported by browsers. If omitted, the area does not represent a hyperlink.
 func (e *Element) Href(url string) *Element {
-	e.href = node.EscapeAttribute(url)
+	e.href = node.EscapeAttribute(node.FilterURL(url))
 	return e
 }
 

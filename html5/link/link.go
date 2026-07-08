@@ -99,7 +99,7 @@ func New() *Element {
 func Stylesheet(href string) *Element {
 	return &Element{
 		rel:  rel.Stylesheet,
-		href: node.EscapeAttribute(href),
+		href: node.EscapeAttribute(node.FilterURL(href)),
 	}
 }
 
@@ -109,7 +109,7 @@ func Stylesheet(href string) *Element {
 func Icon(href string) *Element {
 	return &Element{
 		rel:  rel.Icon,
-		href: node.EscapeAttribute(href),
+		href: node.EscapeAttribute(node.FilterURL(href)),
 	}
 }
 
@@ -119,7 +119,7 @@ func Icon(href string) *Element {
 func Preload(href string, as as.As) *Element {
 	return &Element{
 		rel:  rel.Preload,
-		href: node.EscapeAttribute(href),
+		href: node.EscapeAttribute(node.FilterURL(href)),
 		as:   as,
 	}
 }
@@ -132,7 +132,7 @@ func Preload(href string, as as.As) *Element {
 func Canonical(href string) *Element {
 	return &Element{
 		rel:  rel.Canonical,
-		href: node.EscapeAttribute(href),
+		href: node.EscapeAttribute(node.FilterURL(href)),
 	}
 }
 
@@ -144,7 +144,7 @@ func Canonical(href string) *Element {
 func Prefetch(href string) *Element {
 	return &Element{
 		rel:  rel.Prefetch,
-		href: node.EscapeAttribute(href),
+		href: node.EscapeAttribute(node.FilterURL(href)),
 	}
 }
 
@@ -179,7 +179,7 @@ func (e *Element) Rel(rel ...rel.Rel) *Element {
 //
 // Specifies the URL of the external resource being linked. This can be an absolute URL (https://example.com/style.css) or a relative path (/css/style.css). The resource type and handling is determined by the rel attribute. Essential for establishing the connection between the document and external resources like stylesheets, icons, fonts, and other assets.
 func (e *Element) Href(url string) *Element {
-	e.href = node.EscapeAttribute(url)
+	e.href = node.EscapeAttribute(node.FilterURL(url))
 	return e
 }
 

@@ -90,7 +90,7 @@ func New(nodes ...node.Node) *Element {
 func Link(href string, str string) *Element {
 	return &Element{
 		nodes: []node.Node{text.Text(str)},
-		href:  node.EscapeAttribute(href),
+		href:  node.EscapeAttribute(node.FilterURL(href)),
 	}
 }
 
@@ -218,7 +218,7 @@ func Base64Data(str string, mime string, data string) *Element {
 func Download(str string, href string, filename string) *Element {
 	e := &Element{
 		nodes: []node.Node{text.Text(str)},
-		href:  node.EscapeAttribute(href),
+		href:  node.EscapeAttribute(node.FilterURL(href)),
 	}
 	e.Download(filename)
 	return e
@@ -231,7 +231,7 @@ func Download(str string, href string, filename string) *Element {
 // data:, and custom protocol schemes. This is the core attribute that makes an anchor element functional
 // as a hyperlink. If omitted, the element represents a placeholder link.
 func (e *Element) Href(url string) *Element {
-	e.href = node.EscapeAttribute(url)
+	e.href = node.EscapeAttribute(node.FilterURL(url))
 	return e
 }
 

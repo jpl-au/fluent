@@ -145,7 +145,7 @@ func RawTextf(format string, args ...any) *Element {
 // Renders: <script src="/assets/js/app.js"></script>
 func Src(src string) *Element {
 	return &Element{
-		src: node.EscapeAttribute(src),
+		src: node.EscapeAttribute(node.FilterURL(src)),
 	}
 }
 
@@ -154,7 +154,7 @@ func Src(src string) *Element {
 // Renders: <script src="app.js" type="module"></script>
 func Module(src string) *Element {
 	return &Element{
-		src:        node.EscapeAttribute(src),
+		src:        node.EscapeAttribute(node.FilterURL(src)),
 		scriptType: "module",
 	}
 }
@@ -164,7 +164,7 @@ func Module(src string) *Element {
 // Renders: <script src="script.js" type="text/javascript"></script>
 func JavaScript(src string) *Element {
 	return &Element{
-		src:        node.EscapeAttribute(src),
+		src:        node.EscapeAttribute(node.FilterURL(src)),
 		scriptType: "text/javascript",
 	}
 }
@@ -183,7 +183,7 @@ func JSON(data string) *Element {
 //
 // Specifies the URL of an external script file to be loaded and executed
 func (e *Element) Src(url string) *Element {
-	e.src = node.EscapeAttribute(url)
+	e.src = node.EscapeAttribute(node.FilterURL(url))
 	return e
 }
 

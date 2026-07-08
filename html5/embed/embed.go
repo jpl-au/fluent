@@ -81,7 +81,7 @@ func New() *Element {
 func PDF(src string, width int, height int) *Element {
 	return &Element{
 		embedType: "application/pdf",
-		src:       node.EscapeAttribute(src),
+		src:       node.EscapeAttribute(node.FilterURL(src)),
 		width:     width,
 		height:    height,
 	}
@@ -95,7 +95,7 @@ func PDF(src string, width int, height int) *Element {
 func Flash(src string, width int, height int) *Element {
 	return &Element{
 		embedType: "application/x-shockwave-flash",
-		src:       node.EscapeAttribute(src),
+		src:       node.EscapeAttribute(node.FilterURL(src)),
 		width:     width,
 		height:    height,
 	}
@@ -109,7 +109,7 @@ func Flash(src string, width int, height int) *Element {
 func Video(src string, width int, height int) *Element {
 	return &Element{
 		embedType: "video/mp4",
-		src:       node.EscapeAttribute(src),
+		src:       node.EscapeAttribute(node.FilterURL(src)),
 		width:     width,
 		height:    height,
 	}
@@ -123,7 +123,7 @@ func Video(src string, width int, height int) *Element {
 func Audio(src string, width int, height int) *Element {
 	return &Element{
 		embedType: "audio/mpeg",
-		src:       node.EscapeAttribute(src),
+		src:       node.EscapeAttribute(node.FilterURL(src)),
 		width:     width,
 		height:    height,
 	}
@@ -133,7 +133,7 @@ func Audio(src string, width int, height int) *Element {
 //
 // The URL of the resource being embedded. This specifies the address of the external content to be embedded in the document.
 func (e *Element) Src(url string) *Element {
-	e.src = node.EscapeAttribute(url)
+	e.src = node.EscapeAttribute(node.FilterURL(url))
 	return e
 }
 
