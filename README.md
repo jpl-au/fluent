@@ -537,7 +537,7 @@ Buffers below the threshold (default 4KB) use the small pool; larger buffers use
 import "github.com/jpl-au/fluent/pool"
 
 pool.SetThreshold(4096)               // Small vs large pool threshold (default 4KB)
-pool.SetMaxPoolSize(262144, true)     // Max pooled size, discard oversized (default 256KB)
+pool.SetMaxPoolSize(262144)           // Max pooled size; oversized buffers are discarded (default 256KB)
 pool.SetEnabled(false)                // Disable pooling entirely
 ```
 
