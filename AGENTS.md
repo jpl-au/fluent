@@ -137,7 +137,6 @@ These do **not** exist: `node.StaticText`, `node.RawNode`, `node.TextNode`, `nod
 | `node.When(bool, node)` | Render when true |
 | `node.Unless(bool, node)` | Render when false |
 | `node.Empty()` | A node that renders nothing - the safe, explicit "render nothing" (prefer it over returning a nil, especially a typed nil pointer) |
-| `node.Memoise(key, func() node.Node)` | Memoised subtree - skipped by the Memoiser when the key matches the previous render |
 
 Text content is always a method on the element: `div.Text(...)`, `div.Static(...)`, `div.RawText(...)`.
 
@@ -699,24 +698,21 @@ type Dynamic interface {
 
 ### Reactive Tracking with .Dynamic()
 
-The `.Dynamic(key)` method on HTML elements marks them for reactive tracking by the [Tether](#ecosystem) diff engine. The key identifies the element across renders so the diff engine can detect changes and send targeted DOM patches.
+The `.Dynamic(key)` method on HTML elements marks them for reactive tracking by the [Fluent JIT](https://github.com/jpl-au/fluent-jit) diff engine. The key identifies the element across renders so the diff engine can detect changes and produce targeted patches.
 
 ```go
 // Mark an element for reactive tracking
 span.Textf("Count: %d", state.Count).Dynamic("count")
 
-// The key renders as a data-tether-key attribute
-// <span data-tether-key="count">Count: 42</span>
+// The key renders as a data-fluent-key attribute
+// <span data-fluent-key="count">Count: 42</span>
 
-// Keys must be unique within a render tree
+// Keys must be unique within a render tree, and are required
 p.Text(state.ErrorMsg).Dynamic("error-message")
 table.New(rows...).Dynamic("data-table")
-
-// Mark as dynamic without a tracking key (rare)
-div.New(children...).Dynamic()
 ```
 
-`.Dynamic()` is chainable and follows the same pattern as `.Class()`, `.SetData()`, etc. It is used by [Fluent JIT](https://github.com/jpl-au/fluent-jit) to identify which segments need re-evaluation and by [Tether](https://github.com/jpl-au/tether) for targeted DOM patching over WebSocket.
+`.Dynamic()` is chainable and follows the same pattern as `.Class()`, `.SetData()`, etc. It is used by [Fluent JIT](https://github.com/jpl-au/fluent-jit) to identify which segments need re-evaluation.
 
 Elements without `.Dynamic()` are not tracked - the diff engine only examines keyed nodes.
 
@@ -945,13 +941,11 @@ Fluent has companion packages that extend its capabilities. All are optional - F
 |---------|-------------|
 | [Fluent JIT](https://github.com/jpl-au/fluent-jit) | Performance optimisation. **Compile** pre-renders static portions and re-evaluates dynamic content. **Tune** provides adaptive buffer sizing. **Flatten** pre-renders fully static content to raw bytes. Also provides the **Diff** engine that compares renders by dynamic key and produces `[]Patch`. |
 | [Fluent HTMX](https://github.com/jpl-au/fluent-htmx) | HTMX integration. Accepts `node.Element` to set HTMX attributes (`hx-get`, `hx-post`, `hx-swap`, etc.) on any Fluent element. |
-| [Tether](https://github.com/jpl-au/tether) | Server-driven reactive UI. Manages sessions, WebSocket transport, and a client-side runtime that applies targeted DOM patches. Mark elements with `.Dynamic("key")` and Tether handles diffing, patching, and event handling. Uses the JIT diff engine internally. |
 
 **How the packages relate:**
 - **fluent** (this package) - core HTML generation, `node.Node`/`node.Element` interfaces, `.Dynamic()` method
 - **fluent-jit** - rendering optimisation, diff engine produces `[]Patch` from two tree states
-- **Tether** - connection lifecycle, calls `jit.Differ.Diff()` and sends patches over WebSocket
-- **fluent-htmx** - attribute wrapper for HTMX, independent of JIT and Tether
+- **fluent-htmx** - attribute wrapper for HTMX, independent of the JIT diff engine
 
 ## Dot Import (Convenience Alternative)
 

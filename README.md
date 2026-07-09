@@ -181,11 +181,11 @@ flags `--attribute-escaping=false` and `--url-filtering=false`.
 
 ### Reactive tracking
 
-Elements can be marked for reactive tracking with `.Dynamic("key")`, and subtrees can be memoised with `node.Memoise(key, func)`. These are used by [Fluent JIT](https://github.com/jpl-au/fluent-jit) for targeted diffing and by [Tether](https://github.com/jpl-au/tether) for live DOM patching. See the [Fluent JIT documentation](https://github.com/jpl-au/fluent-jit) for details.
+Elements can be marked for reactive tracking with `.Dynamic("key")`, a core feature, and subtrees can be memoised with `jit.Memoise(key, func)` from [Fluent JIT](https://github.com/jpl-au/fluent-jit). Reactive tracking is used by Fluent JIT for targeted diffing. See the [Fluent JIT documentation](https://github.com/jpl-au/fluent-jit) for details.
 
 ```go
-span.Textf("Count: %d", count).Dynamic("count")  // tracked by key
-node.Memoise(version, func() node.Node {           // skipped when key unchanged
+span.Textf("Count: %d", count).Dynamic("count")  // tracked by key (core)
+jit.Memoise(version, func() node.Node {            // skipped when key unchanged (fluent-jit)
     return expensiveRender()
 })
 ```
@@ -636,7 +636,6 @@ Fluent has companion packages that extend its capabilities:
 | [Fluent Security](https://github.com/jpl-au/fluent-security) | Opt-in security toolkit. Wraps [bluemonday](https://github.com/microcosm-cc/bluemonday) with Fluent-native helpers (`HTML`, `PlainText`) and a chainable `Cleaner` (`New`, `RichText`, `FromPolicy` + `Allow`/`AllowClasses`/`AllowAttr`) for sanitising untrusted HTML, plus `Nonce()` for Content-Security-Policy workflows with inline `<script>`/`<style>`. |
 | [Fluent JIT](https://github.com/jpl-au/fluent-jit) | Performance optimisation with three strategies: **Compile** (pre-render static portions), **Tune** (adaptive buffer sizing), **Flatten** (pre-render fully static content to raw bytes). Also provides the **Diff** engine for reactive updates. |
 | [Fluent HTMX](https://github.com/jpl-au/fluent-htmx) | HTMX integration. Accepts `node.Element` to set HTMX attributes (`hx-get`, `hx-post`, `hx-swap`, etc.) on any Fluent element. |
-| [Tether](https://github.com/jpl-au/tether) | Server-driven reactive UI. Manages sessions, WebSocket transport, and a client-side runtime that applies targeted DOM patches using the JIT diff engine. Mark elements with `.Dynamic("key")` and Tether handles the rest. |
 
 All companion packages are optional. Fluent works standalone for static HTML generation.
 
