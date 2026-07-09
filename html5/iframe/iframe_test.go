@@ -3,6 +3,7 @@
 package iframe_test
 
 import (
+	"bytes"
 	"testing"
 
 	"github.com/jpl-au/fluent/html5/attr/autocapitalize"
@@ -129,6 +130,14 @@ func TestLoadingAttr(t *testing.T) {
 	}
 }
 
+func TestLoadingCustom(t *testing.T) {
+	got := string(iframe.New().Loading(loading.Custom("custom-value")).RenderBytes())
+	want := `<iframe loading="custom-value"></iframe>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
 func TestAllowAttr(t *testing.T) {
 	got := string(iframe.New().Allow("test").RenderBytes())
 	want := `<iframe allow="test"></iframe>`
@@ -145,6 +154,14 @@ func TestAllowFullscreenAttr(t *testing.T) {
 	}
 }
 
+func TestAllowFullscreenFalse(t *testing.T) {
+	got := string(iframe.New().AllowFullscreen().AllowFullscreen(false).RenderBytes())
+	want := `<iframe></iframe>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
 func TestNameAttr(t *testing.T) {
 	got := string(iframe.New().Name("test").RenderBytes())
 	want := `<iframe name="test"></iframe>`
@@ -156,6 +173,14 @@ func TestNameAttr(t *testing.T) {
 func TestReferrerPolicyAttr(t *testing.T) {
 	got := string(iframe.New().ReferrerPolicy(referrerpolicy.NoReferrer).RenderBytes())
 	want := `<iframe referrerpolicy="no-referrer"></iframe>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
+func TestReferrerPolicyCustom(t *testing.T) {
+	got := string(iframe.New().ReferrerPolicy(referrerpolicy.Custom("custom-value")).RenderBytes())
+	want := `<iframe referrerpolicy="custom-value"></iframe>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
 	}
@@ -184,6 +209,14 @@ func TestSandboxMulti(t *testing.T) {
 	}
 }
 
+func TestSandboxCustom(t *testing.T) {
+	got := string(iframe.New().Sandbox(sandbox.Custom("custom-value")).RenderBytes())
+	want := `<iframe sandbox="custom-value"></iframe>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
 func TestSrcDocAttr(t *testing.T) {
 	got := string(iframe.New().SrcDoc("test").RenderBytes())
 	want := `<iframe srcdoc="test"></iframe>`
@@ -203,6 +236,14 @@ func TestCspAttr(t *testing.T) {
 func TestCredentiallessAttr(t *testing.T) {
 	got := string(iframe.New().Credentialless().RenderBytes())
 	want := `<iframe credentialless></iframe>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
+func TestCredentiallessFalse(t *testing.T) {
+	got := string(iframe.New().Credentialless().Credentialless(false).RenderBytes())
+	want := `<iframe></iframe>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
 	}
@@ -261,6 +302,14 @@ func TestTitleAttr(t *testing.T) {
 func TestHiddenAttr(t *testing.T) {
 	got := string(iframe.New().Hidden(hidden.True).RenderBytes())
 	want := `<iframe hidden="true"></iframe>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
+func TestHiddenCustom(t *testing.T) {
+	got := string(iframe.New().Hidden(hidden.Custom("custom-value")).RenderBytes())
+	want := `<iframe hidden="custom-value"></iframe>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
 	}
@@ -339,9 +388,25 @@ func TestAutoCapitalizeAttr(t *testing.T) {
 	}
 }
 
+func TestAutoCapitalizeCustom(t *testing.T) {
+	got := string(iframe.New().AutoCapitalize(autocapitalize.Custom("custom-value")).RenderBytes())
+	want := `<iframe autocapitalize="custom-value"></iframe>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
 func TestAutoCorrectAttr(t *testing.T) {
 	got := string(iframe.New().AutoCorrect(autocorrect.On).RenderBytes())
 	want := `<iframe autocorrect="on"></iframe>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
+func TestAutoCorrectCustom(t *testing.T) {
+	got := string(iframe.New().AutoCorrect(autocorrect.Custom("custom-value")).RenderBytes())
+	want := `<iframe autocorrect="custom-value"></iframe>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
 	}
@@ -355,9 +420,25 @@ func TestAutoFocusAttr(t *testing.T) {
 	}
 }
 
+func TestAutoFocusFalse(t *testing.T) {
+	got := string(iframe.New().AutoFocus().AutoFocus(false).RenderBytes())
+	want := `<iframe></iframe>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
 func TestContentEditableAttr(t *testing.T) {
 	got := string(iframe.New().ContentEditable(contenteditable.True).RenderBytes())
 	want := `<iframe contenteditable="true"></iframe>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
+func TestContentEditableCustom(t *testing.T) {
+	got := string(iframe.New().ContentEditable(contenteditable.Custom("custom-value")).RenderBytes())
+	want := `<iframe contenteditable="custom-value"></iframe>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
 	}
@@ -379,6 +460,14 @@ func TestDirAttr(t *testing.T) {
 	}
 }
 
+func TestDirCustom(t *testing.T) {
+	got := string(iframe.New().Dir(dir.Custom("custom-value")).RenderBytes())
+	want := `<iframe dir="custom-value"></iframe>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
 func TestDraggableAttr(t *testing.T) {
 	got := string(iframe.New().Draggable(true).RenderBytes())
 	want := `<iframe draggable="true"></iframe>`
@@ -390,6 +479,14 @@ func TestDraggableAttr(t *testing.T) {
 func TestEnterKeyHintAttr(t *testing.T) {
 	got := string(iframe.New().EnterKeyHint(enterkeyhint.Enter).RenderBytes())
 	want := `<iframe enterkeyhint="enter"></iframe>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
+func TestEnterKeyHintCustom(t *testing.T) {
+	got := string(iframe.New().EnterKeyHint(enterkeyhint.Custom("custom-value")).RenderBytes())
+	want := `<iframe enterkeyhint="custom-value"></iframe>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
 	}
@@ -411,9 +508,25 @@ func TestInertAttr(t *testing.T) {
 	}
 }
 
+func TestInertFalse(t *testing.T) {
+	got := string(iframe.New().Inert().Inert(false).RenderBytes())
+	want := `<iframe></iframe>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
 func TestInputModeAttr(t *testing.T) {
 	got := string(iframe.New().InputMode(inputmode.None).RenderBytes())
 	want := `<iframe inputmode="none"></iframe>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
+func TestInputModeCustom(t *testing.T) {
+	got := string(iframe.New().InputMode(inputmode.Custom("custom-value")).RenderBytes())
+	want := `<iframe inputmode="custom-value"></iframe>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
 	}
@@ -454,6 +567,14 @@ func TestItemRefAttr(t *testing.T) {
 func TestItemScopeAttr(t *testing.T) {
 	got := string(iframe.New().ItemScope().RenderBytes())
 	want := `<iframe itemscope></iframe>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
+func TestItemScopeFalse(t *testing.T) {
+	got := string(iframe.New().ItemScope().ItemScope(false).RenderBytes())
+	want := `<iframe></iframe>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
 	}
@@ -500,6 +621,14 @@ func TestPopoverAttr(t *testing.T) {
 	}
 }
 
+func TestPopoverCustom(t *testing.T) {
+	got := string(iframe.New().Popover(popover.Custom("custom-value")).RenderBytes())
+	want := `<iframe popover="custom-value"></iframe>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
 func TestSlotAttr(t *testing.T) {
 	got := string(iframe.New().Slot("test").RenderBytes())
 	want := `<iframe slot="test"></iframe>`
@@ -516,9 +645,25 @@ func TestSpellCheckAttr(t *testing.T) {
 	}
 }
 
+func TestSpellCheckCustom(t *testing.T) {
+	got := string(iframe.New().SpellCheck(spellcheck.Custom("custom-value")).RenderBytes())
+	want := `<iframe spellcheck="custom-value"></iframe>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
 func TestTranslateAttr(t *testing.T) {
 	got := string(iframe.New().Translate(translate.Yes).RenderBytes())
 	want := `<iframe translate="yes"></iframe>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
+func TestTranslateCustom(t *testing.T) {
+	got := string(iframe.New().Translate(translate.Custom("custom-value")).RenderBytes())
+	want := `<iframe translate="custom-value"></iframe>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
 	}
@@ -532,9 +677,25 @@ func TestVirtualKeyboardPolicyAttr(t *testing.T) {
 	}
 }
 
+func TestVirtualKeyboardPolicyCustom(t *testing.T) {
+	got := string(iframe.New().VirtualKeyboardPolicy(virtualkeyboardpolicy.Custom("custom-value")).RenderBytes())
+	want := `<iframe virtualkeyboardpolicy="custom-value"></iframe>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
 func TestWritingSuggestionsAttr(t *testing.T) {
 	got := string(iframe.New().WritingSuggestions(writingsuggestions.True).RenderBytes())
 	want := `<iframe writingsuggestions="true"></iframe>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
+func TestWritingSuggestionsCustom(t *testing.T) {
+	got := string(iframe.New().WritingSuggestions(writingsuggestions.Custom("custom-value")).RenderBytes())
+	want := `<iframe writingsuggestions="custom-value"></iframe>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
 	}
@@ -1479,5 +1640,63 @@ func TestNotDynamic(t *testing.T) {
 	}
 	if el.DynamicKey() != "" {
 		t.Errorf("DynamicKey() should be empty, got %q", el.DynamicKey())
+	}
+}
+
+func TestRenderMethodsMatch(t *testing.T) {
+	el := iframe.New()
+	el.SetAttribute("data-check", "render")
+	want := string(el.RenderBytes())
+
+	var buf bytes.Buffer
+	el.Render(&buf)
+	if buf.String() != want {
+		t.Errorf("Render: got %q, want %q", buf.String(), want)
+	}
+
+	buf.Reset()
+	n, err := el.WriteTo(&buf)
+	if err != nil {
+		t.Fatalf("WriteTo: %v", err)
+	}
+	if buf.String() != want {
+		t.Errorf("WriteTo: got %q, want %q", buf.String(), want)
+	}
+	if n != int64(len(want)) {
+		t.Errorf("WriteTo returned %d bytes, want %d", n, len(want))
+	}
+
+	buf.Reset()
+	el.RenderBuilder(&buf)
+	if buf.String() != want {
+		t.Errorf("RenderBuilder: got %q, want %q", buf.String(), want)
+	}
+
+	buf.Reset()
+	el.RenderOpen(&buf)
+	el.RenderClose(&buf)
+	if buf.String() != want {
+		t.Errorf("RenderOpen+RenderClose: got %q, want %q", buf.String(), want)
+	}
+}
+
+func TestSetAttributeEscapes(t *testing.T) {
+	el := iframe.New()
+	el.SetAttribute("data-sample", "\"><script>")
+	got := string(el.RenderBytes())
+	want := `<iframe data-sample="&#34;&gt;&lt;script&gt;"></iframe>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
+func TestSetAttributeRaw(t *testing.T) {
+	el := iframe.New()
+	// A pre-escaped entity must render verbatim; SetAttribute would double-escape it.
+	el.SetAttributeRaw("data-sample", "a&amp;b")
+	got := string(el.RenderBytes())
+	want := `<iframe data-sample="a&amp;b"></iframe>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
 	}
 }

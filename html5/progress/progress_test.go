@@ -3,6 +3,7 @@
 package progress_test
 
 import (
+	"bytes"
 	"testing"
 
 	"github.com/jpl-au/fluent/html5/attr/autocapitalize"
@@ -160,6 +161,14 @@ func TestHiddenAttr(t *testing.T) {
 	}
 }
 
+func TestHiddenCustom(t *testing.T) {
+	got := string(progress.New().Hidden(hidden.Custom("custom-value")).RenderBytes())
+	want := `<progress hidden="custom-value"></progress>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
 func TestTabIndexAttr(t *testing.T) {
 	got := string(progress.New().TabIndex(42).RenderBytes())
 	want := `<progress tabindex="42"></progress>`
@@ -233,9 +242,25 @@ func TestAutoCapitalizeAttr(t *testing.T) {
 	}
 }
 
+func TestAutoCapitalizeCustom(t *testing.T) {
+	got := string(progress.New().AutoCapitalize(autocapitalize.Custom("custom-value")).RenderBytes())
+	want := `<progress autocapitalize="custom-value"></progress>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
 func TestAutoCorrectAttr(t *testing.T) {
 	got := string(progress.New().AutoCorrect(autocorrect.On).RenderBytes())
 	want := `<progress autocorrect="on"></progress>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
+func TestAutoCorrectCustom(t *testing.T) {
+	got := string(progress.New().AutoCorrect(autocorrect.Custom("custom-value")).RenderBytes())
+	want := `<progress autocorrect="custom-value"></progress>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
 	}
@@ -249,9 +274,25 @@ func TestAutoFocusAttr(t *testing.T) {
 	}
 }
 
+func TestAutoFocusFalse(t *testing.T) {
+	got := string(progress.New().AutoFocus().AutoFocus(false).RenderBytes())
+	want := `<progress></progress>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
 func TestContentEditableAttr(t *testing.T) {
 	got := string(progress.New().ContentEditable(contenteditable.True).RenderBytes())
 	want := `<progress contenteditable="true"></progress>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
+func TestContentEditableCustom(t *testing.T) {
+	got := string(progress.New().ContentEditable(contenteditable.Custom("custom-value")).RenderBytes())
+	want := `<progress contenteditable="custom-value"></progress>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
 	}
@@ -273,6 +314,14 @@ func TestDirAttr(t *testing.T) {
 	}
 }
 
+func TestDirCustom(t *testing.T) {
+	got := string(progress.New().Dir(dir.Custom("custom-value")).RenderBytes())
+	want := `<progress dir="custom-value"></progress>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
 func TestDraggableAttr(t *testing.T) {
 	got := string(progress.New().Draggable(true).RenderBytes())
 	want := `<progress draggable="true"></progress>`
@@ -284,6 +333,14 @@ func TestDraggableAttr(t *testing.T) {
 func TestEnterKeyHintAttr(t *testing.T) {
 	got := string(progress.New().EnterKeyHint(enterkeyhint.Enter).RenderBytes())
 	want := `<progress enterkeyhint="enter"></progress>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
+func TestEnterKeyHintCustom(t *testing.T) {
+	got := string(progress.New().EnterKeyHint(enterkeyhint.Custom("custom-value")).RenderBytes())
+	want := `<progress enterkeyhint="custom-value"></progress>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
 	}
@@ -305,9 +362,25 @@ func TestInertAttr(t *testing.T) {
 	}
 }
 
+func TestInertFalse(t *testing.T) {
+	got := string(progress.New().Inert().Inert(false).RenderBytes())
+	want := `<progress></progress>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
 func TestInputModeAttr(t *testing.T) {
 	got := string(progress.New().InputMode(inputmode.None).RenderBytes())
 	want := `<progress inputmode="none"></progress>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
+func TestInputModeCustom(t *testing.T) {
+	got := string(progress.New().InputMode(inputmode.Custom("custom-value")).RenderBytes())
+	want := `<progress inputmode="custom-value"></progress>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
 	}
@@ -348,6 +421,14 @@ func TestItemRefAttr(t *testing.T) {
 func TestItemScopeAttr(t *testing.T) {
 	got := string(progress.New().ItemScope().RenderBytes())
 	want := `<progress itemscope></progress>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
+func TestItemScopeFalse(t *testing.T) {
+	got := string(progress.New().ItemScope().ItemScope(false).RenderBytes())
+	want := `<progress></progress>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
 	}
@@ -394,6 +475,14 @@ func TestPopoverAttr(t *testing.T) {
 	}
 }
 
+func TestPopoverCustom(t *testing.T) {
+	got := string(progress.New().Popover(popover.Custom("custom-value")).RenderBytes())
+	want := `<progress popover="custom-value"></progress>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
 func TestSlotAttr(t *testing.T) {
 	got := string(progress.New().Slot("test").RenderBytes())
 	want := `<progress slot="test"></progress>`
@@ -410,9 +499,25 @@ func TestSpellCheckAttr(t *testing.T) {
 	}
 }
 
+func TestSpellCheckCustom(t *testing.T) {
+	got := string(progress.New().SpellCheck(spellcheck.Custom("custom-value")).RenderBytes())
+	want := `<progress spellcheck="custom-value"></progress>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
 func TestTranslateAttr(t *testing.T) {
 	got := string(progress.New().Translate(translate.Yes).RenderBytes())
 	want := `<progress translate="yes"></progress>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
+func TestTranslateCustom(t *testing.T) {
+	got := string(progress.New().Translate(translate.Custom("custom-value")).RenderBytes())
+	want := `<progress translate="custom-value"></progress>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
 	}
@@ -426,9 +531,25 @@ func TestVirtualKeyboardPolicyAttr(t *testing.T) {
 	}
 }
 
+func TestVirtualKeyboardPolicyCustom(t *testing.T) {
+	got := string(progress.New().VirtualKeyboardPolicy(virtualkeyboardpolicy.Custom("custom-value")).RenderBytes())
+	want := `<progress virtualkeyboardpolicy="custom-value"></progress>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
 func TestWritingSuggestionsAttr(t *testing.T) {
 	got := string(progress.New().WritingSuggestions(writingsuggestions.True).RenderBytes())
 	want := `<progress writingsuggestions="true"></progress>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
+func TestWritingSuggestionsCustom(t *testing.T) {
+	got := string(progress.New().WritingSuggestions(writingsuggestions.Custom("custom-value")).RenderBytes())
+	want := `<progress writingsuggestions="custom-value"></progress>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
 	}
@@ -1373,5 +1494,63 @@ func TestNotDynamic(t *testing.T) {
 	}
 	if el.DynamicKey() != "" {
 		t.Errorf("DynamicKey() should be empty, got %q", el.DynamicKey())
+	}
+}
+
+func TestRenderMethodsMatch(t *testing.T) {
+	el := progress.New()
+	el.SetAttribute("data-check", "render")
+	want := string(el.RenderBytes())
+
+	var buf bytes.Buffer
+	el.Render(&buf)
+	if buf.String() != want {
+		t.Errorf("Render: got %q, want %q", buf.String(), want)
+	}
+
+	buf.Reset()
+	n, err := el.WriteTo(&buf)
+	if err != nil {
+		t.Fatalf("WriteTo: %v", err)
+	}
+	if buf.String() != want {
+		t.Errorf("WriteTo: got %q, want %q", buf.String(), want)
+	}
+	if n != int64(len(want)) {
+		t.Errorf("WriteTo returned %d bytes, want %d", n, len(want))
+	}
+
+	buf.Reset()
+	el.RenderBuilder(&buf)
+	if buf.String() != want {
+		t.Errorf("RenderBuilder: got %q, want %q", buf.String(), want)
+	}
+
+	buf.Reset()
+	el.RenderOpen(&buf)
+	el.RenderClose(&buf)
+	if buf.String() != want {
+		t.Errorf("RenderOpen+RenderClose: got %q, want %q", buf.String(), want)
+	}
+}
+
+func TestSetAttributeEscapes(t *testing.T) {
+	el := progress.New()
+	el.SetAttribute("data-sample", "\"><script>")
+	got := string(el.RenderBytes())
+	want := `<progress data-sample="&#34;&gt;&lt;script&gt;"></progress>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
+func TestSetAttributeRaw(t *testing.T) {
+	el := progress.New()
+	// A pre-escaped entity must render verbatim; SetAttribute would double-escape it.
+	el.SetAttributeRaw("data-sample", "a&amp;b")
+	got := string(el.RenderBytes())
+	want := `<progress data-sample="a&amp;b"></progress>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
 	}
 }

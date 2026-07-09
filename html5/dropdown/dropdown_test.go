@@ -3,6 +3,7 @@
 package dropdown_test
 
 import (
+	"bytes"
 	"testing"
 
 	"github.com/jpl-au/fluent/html5/attr/autocapitalize"
@@ -62,9 +63,25 @@ func TestAutoCompleteAttr(t *testing.T) {
 	}
 }
 
+func TestAutoCompleteCustom(t *testing.T) {
+	got := string(dropdown.New().AutoComplete(autocomplete.Custom("custom-value")).RenderBytes())
+	want := `<select autocomplete="custom-value"></select>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
 func TestDisabledAttr(t *testing.T) {
 	got := string(dropdown.New().Disabled().RenderBytes())
 	want := `<select disabled></select>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
+func TestDisabledFalse(t *testing.T) {
+	got := string(dropdown.New().Disabled().Disabled(false).RenderBytes())
+	want := `<select></select>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
 	}
@@ -86,9 +103,25 @@ func TestMultipleAttr(t *testing.T) {
 	}
 }
 
+func TestMultipleFalse(t *testing.T) {
+	got := string(dropdown.New().Multiple().Multiple(false).RenderBytes())
+	want := `<select></select>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
 func TestRequiredAttr(t *testing.T) {
 	got := string(dropdown.New().Required().RenderBytes())
 	want := `<select required></select>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
+func TestRequiredFalse(t *testing.T) {
+	got := string(dropdown.New().Required().Required(false).RenderBytes())
+	want := `<select></select>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
 	}
@@ -155,6 +188,14 @@ func TestTitleAttr(t *testing.T) {
 func TestHiddenAttr(t *testing.T) {
 	got := string(dropdown.New().Hidden(hidden.True).RenderBytes())
 	want := `<select hidden="true"></select>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
+func TestHiddenCustom(t *testing.T) {
+	got := string(dropdown.New().Hidden(hidden.Custom("custom-value")).RenderBytes())
+	want := `<select hidden="custom-value"></select>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
 	}
@@ -233,9 +274,25 @@ func TestAutoCapitalizeAttr(t *testing.T) {
 	}
 }
 
+func TestAutoCapitalizeCustom(t *testing.T) {
+	got := string(dropdown.New().AutoCapitalize(autocapitalize.Custom("custom-value")).RenderBytes())
+	want := `<select autocapitalize="custom-value"></select>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
 func TestAutoCorrectAttr(t *testing.T) {
 	got := string(dropdown.New().AutoCorrect(autocorrect.On).RenderBytes())
 	want := `<select autocorrect="on"></select>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
+func TestAutoCorrectCustom(t *testing.T) {
+	got := string(dropdown.New().AutoCorrect(autocorrect.Custom("custom-value")).RenderBytes())
+	want := `<select autocorrect="custom-value"></select>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
 	}
@@ -249,9 +306,25 @@ func TestAutoFocusAttr(t *testing.T) {
 	}
 }
 
+func TestAutoFocusFalse(t *testing.T) {
+	got := string(dropdown.New().AutoFocus().AutoFocus(false).RenderBytes())
+	want := `<select></select>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
 func TestContentEditableAttr(t *testing.T) {
 	got := string(dropdown.New().ContentEditable(contenteditable.True).RenderBytes())
 	want := `<select contenteditable="true"></select>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
+func TestContentEditableCustom(t *testing.T) {
+	got := string(dropdown.New().ContentEditable(contenteditable.Custom("custom-value")).RenderBytes())
+	want := `<select contenteditable="custom-value"></select>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
 	}
@@ -273,6 +346,14 @@ func TestDirAttr(t *testing.T) {
 	}
 }
 
+func TestDirCustom(t *testing.T) {
+	got := string(dropdown.New().Dir(dir.Custom("custom-value")).RenderBytes())
+	want := `<select dir="custom-value"></select>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
 func TestDraggableAttr(t *testing.T) {
 	got := string(dropdown.New().Draggable(true).RenderBytes())
 	want := `<select draggable="true"></select>`
@@ -284,6 +365,14 @@ func TestDraggableAttr(t *testing.T) {
 func TestEnterKeyHintAttr(t *testing.T) {
 	got := string(dropdown.New().EnterKeyHint(enterkeyhint.Enter).RenderBytes())
 	want := `<select enterkeyhint="enter"></select>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
+func TestEnterKeyHintCustom(t *testing.T) {
+	got := string(dropdown.New().EnterKeyHint(enterkeyhint.Custom("custom-value")).RenderBytes())
+	want := `<select enterkeyhint="custom-value"></select>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
 	}
@@ -305,9 +394,25 @@ func TestInertAttr(t *testing.T) {
 	}
 }
 
+func TestInertFalse(t *testing.T) {
+	got := string(dropdown.New().Inert().Inert(false).RenderBytes())
+	want := `<select></select>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
 func TestInputModeAttr(t *testing.T) {
 	got := string(dropdown.New().InputMode(inputmode.None).RenderBytes())
 	want := `<select inputmode="none"></select>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
+func TestInputModeCustom(t *testing.T) {
+	got := string(dropdown.New().InputMode(inputmode.Custom("custom-value")).RenderBytes())
+	want := `<select inputmode="custom-value"></select>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
 	}
@@ -348,6 +453,14 @@ func TestItemRefAttr(t *testing.T) {
 func TestItemScopeAttr(t *testing.T) {
 	got := string(dropdown.New().ItemScope().RenderBytes())
 	want := `<select itemscope></select>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
+func TestItemScopeFalse(t *testing.T) {
+	got := string(dropdown.New().ItemScope().ItemScope(false).RenderBytes())
+	want := `<select></select>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
 	}
@@ -394,6 +507,14 @@ func TestPopoverAttr(t *testing.T) {
 	}
 }
 
+func TestPopoverCustom(t *testing.T) {
+	got := string(dropdown.New().Popover(popover.Custom("custom-value")).RenderBytes())
+	want := `<select popover="custom-value"></select>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
 func TestSlotAttr(t *testing.T) {
 	got := string(dropdown.New().Slot("test").RenderBytes())
 	want := `<select slot="test"></select>`
@@ -410,9 +531,25 @@ func TestSpellCheckAttr(t *testing.T) {
 	}
 }
 
+func TestSpellCheckCustom(t *testing.T) {
+	got := string(dropdown.New().SpellCheck(spellcheck.Custom("custom-value")).RenderBytes())
+	want := `<select spellcheck="custom-value"></select>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
 func TestTranslateAttr(t *testing.T) {
 	got := string(dropdown.New().Translate(translate.Yes).RenderBytes())
 	want := `<select translate="yes"></select>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
+func TestTranslateCustom(t *testing.T) {
+	got := string(dropdown.New().Translate(translate.Custom("custom-value")).RenderBytes())
+	want := `<select translate="custom-value"></select>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
 	}
@@ -426,9 +563,25 @@ func TestVirtualKeyboardPolicyAttr(t *testing.T) {
 	}
 }
 
+func TestVirtualKeyboardPolicyCustom(t *testing.T) {
+	got := string(dropdown.New().VirtualKeyboardPolicy(virtualkeyboardpolicy.Custom("custom-value")).RenderBytes())
+	want := `<select virtualkeyboardpolicy="custom-value"></select>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
 func TestWritingSuggestionsAttr(t *testing.T) {
 	got := string(dropdown.New().WritingSuggestions(writingsuggestions.True).RenderBytes())
 	want := `<select writingsuggestions="true"></select>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
+func TestWritingSuggestionsCustom(t *testing.T) {
+	got := string(dropdown.New().WritingSuggestions(writingsuggestions.Custom("custom-value")).RenderBytes())
+	want := `<select writingsuggestions="custom-value"></select>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
 	}
@@ -1373,5 +1526,63 @@ func TestNotDynamic(t *testing.T) {
 	}
 	if el.DynamicKey() != "" {
 		t.Errorf("DynamicKey() should be empty, got %q", el.DynamicKey())
+	}
+}
+
+func TestRenderMethodsMatch(t *testing.T) {
+	el := dropdown.New()
+	el.SetAttribute("data-check", "render")
+	want := string(el.RenderBytes())
+
+	var buf bytes.Buffer
+	el.Render(&buf)
+	if buf.String() != want {
+		t.Errorf("Render: got %q, want %q", buf.String(), want)
+	}
+
+	buf.Reset()
+	n, err := el.WriteTo(&buf)
+	if err != nil {
+		t.Fatalf("WriteTo: %v", err)
+	}
+	if buf.String() != want {
+		t.Errorf("WriteTo: got %q, want %q", buf.String(), want)
+	}
+	if n != int64(len(want)) {
+		t.Errorf("WriteTo returned %d bytes, want %d", n, len(want))
+	}
+
+	buf.Reset()
+	el.RenderBuilder(&buf)
+	if buf.String() != want {
+		t.Errorf("RenderBuilder: got %q, want %q", buf.String(), want)
+	}
+
+	buf.Reset()
+	el.RenderOpen(&buf)
+	el.RenderClose(&buf)
+	if buf.String() != want {
+		t.Errorf("RenderOpen+RenderClose: got %q, want %q", buf.String(), want)
+	}
+}
+
+func TestSetAttributeEscapes(t *testing.T) {
+	el := dropdown.New()
+	el.SetAttribute("data-sample", "\"><script>")
+	got := string(el.RenderBytes())
+	want := `<select data-sample="&#34;&gt;&lt;script&gt;"></select>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
+func TestSetAttributeRaw(t *testing.T) {
+	el := dropdown.New()
+	// A pre-escaped entity must render verbatim; SetAttribute would double-escape it.
+	el.SetAttributeRaw("data-sample", "a&amp;b")
+	got := string(el.RenderBytes())
+	want := `<select data-sample="a&amp;b"></select>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
 	}
 }

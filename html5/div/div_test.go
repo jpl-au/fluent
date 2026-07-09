@@ -3,6 +3,7 @@
 package div_test
 
 import (
+	"bytes"
 	"testing"
 
 	"github.com/jpl-au/fluent/html5/attr/autocapitalize"
@@ -136,6 +137,14 @@ func TestHiddenAttr(t *testing.T) {
 	}
 }
 
+func TestHiddenCustom(t *testing.T) {
+	got := string(div.New().Hidden(hidden.Custom("custom-value")).RenderBytes())
+	want := `<div hidden="custom-value"></div>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
 func TestTabIndexAttr(t *testing.T) {
 	got := string(div.New().TabIndex(42).RenderBytes())
 	want := `<div tabindex="42"></div>`
@@ -209,9 +218,25 @@ func TestAutoCapitalizeAttr(t *testing.T) {
 	}
 }
 
+func TestAutoCapitalizeCustom(t *testing.T) {
+	got := string(div.New().AutoCapitalize(autocapitalize.Custom("custom-value")).RenderBytes())
+	want := `<div autocapitalize="custom-value"></div>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
 func TestAutoCorrectAttr(t *testing.T) {
 	got := string(div.New().AutoCorrect(autocorrect.On).RenderBytes())
 	want := `<div autocorrect="on"></div>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
+func TestAutoCorrectCustom(t *testing.T) {
+	got := string(div.New().AutoCorrect(autocorrect.Custom("custom-value")).RenderBytes())
+	want := `<div autocorrect="custom-value"></div>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
 	}
@@ -225,9 +250,25 @@ func TestAutoFocusAttr(t *testing.T) {
 	}
 }
 
+func TestAutoFocusFalse(t *testing.T) {
+	got := string(div.New().AutoFocus().AutoFocus(false).RenderBytes())
+	want := `<div></div>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
 func TestContentEditableAttr(t *testing.T) {
 	got := string(div.New().ContentEditable(contenteditable.True).RenderBytes())
 	want := `<div contenteditable="true"></div>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
+func TestContentEditableCustom(t *testing.T) {
+	got := string(div.New().ContentEditable(contenteditable.Custom("custom-value")).RenderBytes())
+	want := `<div contenteditable="custom-value"></div>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
 	}
@@ -249,6 +290,14 @@ func TestDirAttr(t *testing.T) {
 	}
 }
 
+func TestDirCustom(t *testing.T) {
+	got := string(div.New().Dir(dir.Custom("custom-value")).RenderBytes())
+	want := `<div dir="custom-value"></div>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
 func TestDraggableAttr(t *testing.T) {
 	got := string(div.New().Draggable(true).RenderBytes())
 	want := `<div draggable="true"></div>`
@@ -260,6 +309,14 @@ func TestDraggableAttr(t *testing.T) {
 func TestEnterKeyHintAttr(t *testing.T) {
 	got := string(div.New().EnterKeyHint(enterkeyhint.Enter).RenderBytes())
 	want := `<div enterkeyhint="enter"></div>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
+func TestEnterKeyHintCustom(t *testing.T) {
+	got := string(div.New().EnterKeyHint(enterkeyhint.Custom("custom-value")).RenderBytes())
+	want := `<div enterkeyhint="custom-value"></div>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
 	}
@@ -281,9 +338,25 @@ func TestInertAttr(t *testing.T) {
 	}
 }
 
+func TestInertFalse(t *testing.T) {
+	got := string(div.New().Inert().Inert(false).RenderBytes())
+	want := `<div></div>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
 func TestInputModeAttr(t *testing.T) {
 	got := string(div.New().InputMode(inputmode.None).RenderBytes())
 	want := `<div inputmode="none"></div>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
+func TestInputModeCustom(t *testing.T) {
+	got := string(div.New().InputMode(inputmode.Custom("custom-value")).RenderBytes())
+	want := `<div inputmode="custom-value"></div>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
 	}
@@ -324,6 +397,14 @@ func TestItemRefAttr(t *testing.T) {
 func TestItemScopeAttr(t *testing.T) {
 	got := string(div.New().ItemScope().RenderBytes())
 	want := `<div itemscope></div>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
+func TestItemScopeFalse(t *testing.T) {
+	got := string(div.New().ItemScope().ItemScope(false).RenderBytes())
+	want := `<div></div>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
 	}
@@ -370,6 +451,14 @@ func TestPopoverAttr(t *testing.T) {
 	}
 }
 
+func TestPopoverCustom(t *testing.T) {
+	got := string(div.New().Popover(popover.Custom("custom-value")).RenderBytes())
+	want := `<div popover="custom-value"></div>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
 func TestSlotAttr(t *testing.T) {
 	got := string(div.New().Slot("test").RenderBytes())
 	want := `<div slot="test"></div>`
@@ -386,9 +475,25 @@ func TestSpellCheckAttr(t *testing.T) {
 	}
 }
 
+func TestSpellCheckCustom(t *testing.T) {
+	got := string(div.New().SpellCheck(spellcheck.Custom("custom-value")).RenderBytes())
+	want := `<div spellcheck="custom-value"></div>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
 func TestTranslateAttr(t *testing.T) {
 	got := string(div.New().Translate(translate.Yes).RenderBytes())
 	want := `<div translate="yes"></div>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
+func TestTranslateCustom(t *testing.T) {
+	got := string(div.New().Translate(translate.Custom("custom-value")).RenderBytes())
+	want := `<div translate="custom-value"></div>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
 	}
@@ -402,9 +507,25 @@ func TestVirtualKeyboardPolicyAttr(t *testing.T) {
 	}
 }
 
+func TestVirtualKeyboardPolicyCustom(t *testing.T) {
+	got := string(div.New().VirtualKeyboardPolicy(virtualkeyboardpolicy.Custom("custom-value")).RenderBytes())
+	want := `<div virtualkeyboardpolicy="custom-value"></div>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
 func TestWritingSuggestionsAttr(t *testing.T) {
 	got := string(div.New().WritingSuggestions(writingsuggestions.True).RenderBytes())
 	want := `<div writingsuggestions="true"></div>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
+func TestWritingSuggestionsCustom(t *testing.T) {
+	got := string(div.New().WritingSuggestions(writingsuggestions.Custom("custom-value")).RenderBytes())
+	want := `<div writingsuggestions="custom-value"></div>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
 	}
@@ -1349,5 +1470,63 @@ func TestNotDynamic(t *testing.T) {
 	}
 	if el.DynamicKey() != "" {
 		t.Errorf("DynamicKey() should be empty, got %q", el.DynamicKey())
+	}
+}
+
+func TestRenderMethodsMatch(t *testing.T) {
+	el := div.New()
+	el.SetAttribute("data-check", "render")
+	want := string(el.RenderBytes())
+
+	var buf bytes.Buffer
+	el.Render(&buf)
+	if buf.String() != want {
+		t.Errorf("Render: got %q, want %q", buf.String(), want)
+	}
+
+	buf.Reset()
+	n, err := el.WriteTo(&buf)
+	if err != nil {
+		t.Fatalf("WriteTo: %v", err)
+	}
+	if buf.String() != want {
+		t.Errorf("WriteTo: got %q, want %q", buf.String(), want)
+	}
+	if n != int64(len(want)) {
+		t.Errorf("WriteTo returned %d bytes, want %d", n, len(want))
+	}
+
+	buf.Reset()
+	el.RenderBuilder(&buf)
+	if buf.String() != want {
+		t.Errorf("RenderBuilder: got %q, want %q", buf.String(), want)
+	}
+
+	buf.Reset()
+	el.RenderOpen(&buf)
+	el.RenderClose(&buf)
+	if buf.String() != want {
+		t.Errorf("RenderOpen+RenderClose: got %q, want %q", buf.String(), want)
+	}
+}
+
+func TestSetAttributeEscapes(t *testing.T) {
+	el := div.New()
+	el.SetAttribute("data-sample", "\"><script>")
+	got := string(el.RenderBytes())
+	want := `<div data-sample="&#34;&gt;&lt;script&gt;"></div>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
+func TestSetAttributeRaw(t *testing.T) {
+	el := div.New()
+	// A pre-escaped entity must render verbatim; SetAttribute would double-escape it.
+	el.SetAttributeRaw("data-sample", "a&amp;b")
+	got := string(el.RenderBytes())
+	want := `<div data-sample="a&amp;b"></div>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
 	}
 }

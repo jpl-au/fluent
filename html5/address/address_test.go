@@ -3,6 +3,7 @@
 package address_test
 
 import (
+	"bytes"
 	"testing"
 
 	"github.com/jpl-au/fluent/html5/address"
@@ -137,6 +138,14 @@ func TestHiddenAttr(t *testing.T) {
 	}
 }
 
+func TestHiddenCustom(t *testing.T) {
+	got := string(address.New().Hidden(hidden.Custom("custom-value")).RenderBytes())
+	want := `<address hidden="custom-value"></address>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
 func TestTabIndexAttr(t *testing.T) {
 	got := string(address.New().TabIndex(42).RenderBytes())
 	want := `<address tabindex="42"></address>`
@@ -210,9 +219,25 @@ func TestAutoCapitalizeAttr(t *testing.T) {
 	}
 }
 
+func TestAutoCapitalizeCustom(t *testing.T) {
+	got := string(address.New().AutoCapitalize(autocapitalize.Custom("custom-value")).RenderBytes())
+	want := `<address autocapitalize="custom-value"></address>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
 func TestAutoCorrectAttr(t *testing.T) {
 	got := string(address.New().AutoCorrect(autocorrect.On).RenderBytes())
 	want := `<address autocorrect="on"></address>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
+func TestAutoCorrectCustom(t *testing.T) {
+	got := string(address.New().AutoCorrect(autocorrect.Custom("custom-value")).RenderBytes())
+	want := `<address autocorrect="custom-value"></address>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
 	}
@@ -226,9 +251,25 @@ func TestAutoFocusAttr(t *testing.T) {
 	}
 }
 
+func TestAutoFocusFalse(t *testing.T) {
+	got := string(address.New().AutoFocus().AutoFocus(false).RenderBytes())
+	want := `<address></address>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
 func TestContentEditableAttr(t *testing.T) {
 	got := string(address.New().ContentEditable(contenteditable.True).RenderBytes())
 	want := `<address contenteditable="true"></address>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
+func TestContentEditableCustom(t *testing.T) {
+	got := string(address.New().ContentEditable(contenteditable.Custom("custom-value")).RenderBytes())
+	want := `<address contenteditable="custom-value"></address>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
 	}
@@ -250,6 +291,14 @@ func TestDirAttr(t *testing.T) {
 	}
 }
 
+func TestDirCustom(t *testing.T) {
+	got := string(address.New().Dir(dir.Custom("custom-value")).RenderBytes())
+	want := `<address dir="custom-value"></address>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
 func TestDraggableAttr(t *testing.T) {
 	got := string(address.New().Draggable(true).RenderBytes())
 	want := `<address draggable="true"></address>`
@@ -261,6 +310,14 @@ func TestDraggableAttr(t *testing.T) {
 func TestEnterKeyHintAttr(t *testing.T) {
 	got := string(address.New().EnterKeyHint(enterkeyhint.Enter).RenderBytes())
 	want := `<address enterkeyhint="enter"></address>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
+func TestEnterKeyHintCustom(t *testing.T) {
+	got := string(address.New().EnterKeyHint(enterkeyhint.Custom("custom-value")).RenderBytes())
+	want := `<address enterkeyhint="custom-value"></address>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
 	}
@@ -282,9 +339,25 @@ func TestInertAttr(t *testing.T) {
 	}
 }
 
+func TestInertFalse(t *testing.T) {
+	got := string(address.New().Inert().Inert(false).RenderBytes())
+	want := `<address></address>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
 func TestInputModeAttr(t *testing.T) {
 	got := string(address.New().InputMode(inputmode.None).RenderBytes())
 	want := `<address inputmode="none"></address>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
+func TestInputModeCustom(t *testing.T) {
+	got := string(address.New().InputMode(inputmode.Custom("custom-value")).RenderBytes())
+	want := `<address inputmode="custom-value"></address>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
 	}
@@ -325,6 +398,14 @@ func TestItemRefAttr(t *testing.T) {
 func TestItemScopeAttr(t *testing.T) {
 	got := string(address.New().ItemScope().RenderBytes())
 	want := `<address itemscope></address>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
+func TestItemScopeFalse(t *testing.T) {
+	got := string(address.New().ItemScope().ItemScope(false).RenderBytes())
+	want := `<address></address>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
 	}
@@ -371,6 +452,14 @@ func TestPopoverAttr(t *testing.T) {
 	}
 }
 
+func TestPopoverCustom(t *testing.T) {
+	got := string(address.New().Popover(popover.Custom("custom-value")).RenderBytes())
+	want := `<address popover="custom-value"></address>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
 func TestSlotAttr(t *testing.T) {
 	got := string(address.New().Slot("test").RenderBytes())
 	want := `<address slot="test"></address>`
@@ -387,9 +476,25 @@ func TestSpellCheckAttr(t *testing.T) {
 	}
 }
 
+func TestSpellCheckCustom(t *testing.T) {
+	got := string(address.New().SpellCheck(spellcheck.Custom("custom-value")).RenderBytes())
+	want := `<address spellcheck="custom-value"></address>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
 func TestTranslateAttr(t *testing.T) {
 	got := string(address.New().Translate(translate.Yes).RenderBytes())
 	want := `<address translate="yes"></address>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
+func TestTranslateCustom(t *testing.T) {
+	got := string(address.New().Translate(translate.Custom("custom-value")).RenderBytes())
+	want := `<address translate="custom-value"></address>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
 	}
@@ -403,9 +508,25 @@ func TestVirtualKeyboardPolicyAttr(t *testing.T) {
 	}
 }
 
+func TestVirtualKeyboardPolicyCustom(t *testing.T) {
+	got := string(address.New().VirtualKeyboardPolicy(virtualkeyboardpolicy.Custom("custom-value")).RenderBytes())
+	want := `<address virtualkeyboardpolicy="custom-value"></address>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
 func TestWritingSuggestionsAttr(t *testing.T) {
 	got := string(address.New().WritingSuggestions(writingsuggestions.True).RenderBytes())
 	want := `<address writingsuggestions="true"></address>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
+func TestWritingSuggestionsCustom(t *testing.T) {
+	got := string(address.New().WritingSuggestions(writingsuggestions.Custom("custom-value")).RenderBytes())
+	want := `<address writingsuggestions="custom-value"></address>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
 	}
@@ -1350,5 +1471,63 @@ func TestNotDynamic(t *testing.T) {
 	}
 	if el.DynamicKey() != "" {
 		t.Errorf("DynamicKey() should be empty, got %q", el.DynamicKey())
+	}
+}
+
+func TestRenderMethodsMatch(t *testing.T) {
+	el := address.New()
+	el.SetAttribute("data-check", "render")
+	want := string(el.RenderBytes())
+
+	var buf bytes.Buffer
+	el.Render(&buf)
+	if buf.String() != want {
+		t.Errorf("Render: got %q, want %q", buf.String(), want)
+	}
+
+	buf.Reset()
+	n, err := el.WriteTo(&buf)
+	if err != nil {
+		t.Fatalf("WriteTo: %v", err)
+	}
+	if buf.String() != want {
+		t.Errorf("WriteTo: got %q, want %q", buf.String(), want)
+	}
+	if n != int64(len(want)) {
+		t.Errorf("WriteTo returned %d bytes, want %d", n, len(want))
+	}
+
+	buf.Reset()
+	el.RenderBuilder(&buf)
+	if buf.String() != want {
+		t.Errorf("RenderBuilder: got %q, want %q", buf.String(), want)
+	}
+
+	buf.Reset()
+	el.RenderOpen(&buf)
+	el.RenderClose(&buf)
+	if buf.String() != want {
+		t.Errorf("RenderOpen+RenderClose: got %q, want %q", buf.String(), want)
+	}
+}
+
+func TestSetAttributeEscapes(t *testing.T) {
+	el := address.New()
+	el.SetAttribute("data-sample", "\"><script>")
+	got := string(el.RenderBytes())
+	want := `<address data-sample="&#34;&gt;&lt;script&gt;"></address>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
+func TestSetAttributeRaw(t *testing.T) {
+	el := address.New()
+	// A pre-escaped entity must render verbatim; SetAttribute would double-escape it.
+	el.SetAttributeRaw("data-sample", "a&amp;b")
+	got := string(el.RenderBytes())
+	want := `<address data-sample="a&amp;b"></address>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
 	}
 }

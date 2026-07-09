@@ -3,6 +3,7 @@
 package img_test
 
 import (
+	"bytes"
 	"testing"
 
 	"github.com/jpl-au/fluent/html5/attr/autocapitalize"
@@ -106,6 +107,14 @@ func TestLoadingAttr(t *testing.T) {
 	}
 }
 
+func TestLoadingCustom(t *testing.T) {
+	got := string(img.New().Loading(loading.Custom("custom-value")).RenderBytes())
+	want := `<img loading="custom-value" />`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
 func TestSizesAttr(t *testing.T) {
 	got := string(img.New().Sizes(sizes.FullWidth).RenderBytes())
 	want := `<img sizes="100vw" />`
@@ -129,6 +138,14 @@ func TestSizesMulti(t *testing.T) {
 	}
 }
 
+func TestSizesCustom(t *testing.T) {
+	got := string(img.New().Sizes(sizes.Custom("custom-value")).RenderBytes())
+	want := `<img sizes="custom-value" />`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
 func TestSrcsetAttr(t *testing.T) {
 	got := string(img.New().Srcset("test").RenderBytes())
 	want := `<img srcset="test" />`
@@ -145,9 +162,25 @@ func TestCrossOriginAttr(t *testing.T) {
 	}
 }
 
+func TestCrossOriginCustom(t *testing.T) {
+	got := string(img.New().CrossOrigin(crossorigin.Custom("custom-value")).RenderBytes())
+	want := `<img crossorigin="custom-value" />`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
 func TestDecodingAttr(t *testing.T) {
 	got := string(img.New().Decoding(decoding.Sync).RenderBytes())
 	want := `<img decoding="sync" />`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
+func TestDecodingCustom(t *testing.T) {
+	got := string(img.New().Decoding(decoding.Custom("custom-value")).RenderBytes())
+	want := `<img decoding="custom-value" />`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
 	}
@@ -161,6 +194,14 @@ func TestFetchPriorityAttr(t *testing.T) {
 	}
 }
 
+func TestFetchPriorityCustom(t *testing.T) {
+	got := string(img.New().FetchPriority(fetchpriority.Custom("custom-value")).RenderBytes())
+	want := `<img fetchpriority="custom-value" />`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
 func TestReferrerPolicyAttr(t *testing.T) {
 	got := string(img.New().ReferrerPolicy(referrerpolicy.NoReferrer).RenderBytes())
 	want := `<img referrerpolicy="no-referrer" />`
@@ -169,9 +210,25 @@ func TestReferrerPolicyAttr(t *testing.T) {
 	}
 }
 
+func TestReferrerPolicyCustom(t *testing.T) {
+	got := string(img.New().ReferrerPolicy(referrerpolicy.Custom("custom-value")).RenderBytes())
+	want := `<img referrerpolicy="custom-value" />`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
 func TestIsMapAttr(t *testing.T) {
 	got := string(img.New().IsMap().RenderBytes())
 	want := `<img ismap />`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
+func TestIsMapFalse(t *testing.T) {
+	got := string(img.New().IsMap().IsMap(false).RenderBytes())
+	want := `<img />`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
 	}
@@ -259,6 +316,14 @@ func TestHiddenAttr(t *testing.T) {
 	}
 }
 
+func TestHiddenCustom(t *testing.T) {
+	got := string(img.New().Hidden(hidden.Custom("custom-value")).RenderBytes())
+	want := `<img hidden="custom-value" />`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
 func TestTabIndexAttr(t *testing.T) {
 	got := string(img.New().TabIndex(42).RenderBytes())
 	want := `<img tabindex="42" />`
@@ -332,9 +397,25 @@ func TestAutoCapitalizeAttr(t *testing.T) {
 	}
 }
 
+func TestAutoCapitalizeCustom(t *testing.T) {
+	got := string(img.New().AutoCapitalize(autocapitalize.Custom("custom-value")).RenderBytes())
+	want := `<img autocapitalize="custom-value" />`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
 func TestAutoCorrectAttr(t *testing.T) {
 	got := string(img.New().AutoCorrect(autocorrect.On).RenderBytes())
 	want := `<img autocorrect="on" />`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
+func TestAutoCorrectCustom(t *testing.T) {
+	got := string(img.New().AutoCorrect(autocorrect.Custom("custom-value")).RenderBytes())
+	want := `<img autocorrect="custom-value" />`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
 	}
@@ -348,9 +429,25 @@ func TestAutoFocusAttr(t *testing.T) {
 	}
 }
 
+func TestAutoFocusFalse(t *testing.T) {
+	got := string(img.New().AutoFocus().AutoFocus(false).RenderBytes())
+	want := `<img />`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
 func TestContentEditableAttr(t *testing.T) {
 	got := string(img.New().ContentEditable(contenteditable.True).RenderBytes())
 	want := `<img contenteditable="true" />`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
+func TestContentEditableCustom(t *testing.T) {
+	got := string(img.New().ContentEditable(contenteditable.Custom("custom-value")).RenderBytes())
+	want := `<img contenteditable="custom-value" />`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
 	}
@@ -372,6 +469,14 @@ func TestDirAttr(t *testing.T) {
 	}
 }
 
+func TestDirCustom(t *testing.T) {
+	got := string(img.New().Dir(dir.Custom("custom-value")).RenderBytes())
+	want := `<img dir="custom-value" />`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
 func TestDraggableAttr(t *testing.T) {
 	got := string(img.New().Draggable(true).RenderBytes())
 	want := `<img draggable="true" />`
@@ -383,6 +488,14 @@ func TestDraggableAttr(t *testing.T) {
 func TestEnterKeyHintAttr(t *testing.T) {
 	got := string(img.New().EnterKeyHint(enterkeyhint.Enter).RenderBytes())
 	want := `<img enterkeyhint="enter" />`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
+func TestEnterKeyHintCustom(t *testing.T) {
+	got := string(img.New().EnterKeyHint(enterkeyhint.Custom("custom-value")).RenderBytes())
+	want := `<img enterkeyhint="custom-value" />`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
 	}
@@ -404,9 +517,25 @@ func TestInertAttr(t *testing.T) {
 	}
 }
 
+func TestInertFalse(t *testing.T) {
+	got := string(img.New().Inert().Inert(false).RenderBytes())
+	want := `<img />`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
 func TestInputModeAttr(t *testing.T) {
 	got := string(img.New().InputMode(inputmode.None).RenderBytes())
 	want := `<img inputmode="none" />`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
+func TestInputModeCustom(t *testing.T) {
+	got := string(img.New().InputMode(inputmode.Custom("custom-value")).RenderBytes())
+	want := `<img inputmode="custom-value" />`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
 	}
@@ -447,6 +576,14 @@ func TestItemRefAttr(t *testing.T) {
 func TestItemScopeAttr(t *testing.T) {
 	got := string(img.New().ItemScope().RenderBytes())
 	want := `<img itemscope />`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
+func TestItemScopeFalse(t *testing.T) {
+	got := string(img.New().ItemScope().ItemScope(false).RenderBytes())
+	want := `<img />`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
 	}
@@ -493,6 +630,14 @@ func TestPopoverAttr(t *testing.T) {
 	}
 }
 
+func TestPopoverCustom(t *testing.T) {
+	got := string(img.New().Popover(popover.Custom("custom-value")).RenderBytes())
+	want := `<img popover="custom-value" />`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
 func TestSlotAttr(t *testing.T) {
 	got := string(img.New().Slot("test").RenderBytes())
 	want := `<img slot="test" />`
@@ -509,9 +654,25 @@ func TestSpellCheckAttr(t *testing.T) {
 	}
 }
 
+func TestSpellCheckCustom(t *testing.T) {
+	got := string(img.New().SpellCheck(spellcheck.Custom("custom-value")).RenderBytes())
+	want := `<img spellcheck="custom-value" />`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
 func TestTranslateAttr(t *testing.T) {
 	got := string(img.New().Translate(translate.Yes).RenderBytes())
 	want := `<img translate="yes" />`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
+func TestTranslateCustom(t *testing.T) {
+	got := string(img.New().Translate(translate.Custom("custom-value")).RenderBytes())
+	want := `<img translate="custom-value" />`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
 	}
@@ -525,9 +686,25 @@ func TestVirtualKeyboardPolicyAttr(t *testing.T) {
 	}
 }
 
+func TestVirtualKeyboardPolicyCustom(t *testing.T) {
+	got := string(img.New().VirtualKeyboardPolicy(virtualkeyboardpolicy.Custom("custom-value")).RenderBytes())
+	want := `<img virtualkeyboardpolicy="custom-value" />`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
 func TestWritingSuggestionsAttr(t *testing.T) {
 	got := string(img.New().WritingSuggestions(writingsuggestions.True).RenderBytes())
 	want := `<img writingsuggestions="true" />`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
+func TestWritingSuggestionsCustom(t *testing.T) {
+	got := string(img.New().WritingSuggestions(writingsuggestions.Custom("custom-value")).RenderBytes())
+	want := `<img writingsuggestions="custom-value" />`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
 	}
@@ -1375,5 +1552,63 @@ func TestNotDynamic(t *testing.T) {
 	}
 	if el.DynamicKey() != "" {
 		t.Errorf("DynamicKey() should be empty, got %q", el.DynamicKey())
+	}
+}
+
+func TestRenderMethodsMatch(t *testing.T) {
+	el := img.New()
+	el.SetAttribute("data-check", "render")
+	want := string(el.RenderBytes())
+
+	var buf bytes.Buffer
+	el.Render(&buf)
+	if buf.String() != want {
+		t.Errorf("Render: got %q, want %q", buf.String(), want)
+	}
+
+	buf.Reset()
+	n, err := el.WriteTo(&buf)
+	if err != nil {
+		t.Fatalf("WriteTo: %v", err)
+	}
+	if buf.String() != want {
+		t.Errorf("WriteTo: got %q, want %q", buf.String(), want)
+	}
+	if n != int64(len(want)) {
+		t.Errorf("WriteTo returned %d bytes, want %d", n, len(want))
+	}
+
+	buf.Reset()
+	el.RenderBuilder(&buf)
+	if buf.String() != want {
+		t.Errorf("RenderBuilder: got %q, want %q", buf.String(), want)
+	}
+
+	buf.Reset()
+	el.RenderOpen(&buf)
+	el.RenderClose(&buf)
+	if buf.String() != want {
+		t.Errorf("RenderOpen+RenderClose: got %q, want %q", buf.String(), want)
+	}
+}
+
+func TestSetAttributeEscapes(t *testing.T) {
+	el := img.New()
+	el.SetAttribute("data-sample", "\"><script>")
+	got := string(el.RenderBytes())
+	want := `<img data-sample="&#34;&gt;&lt;script&gt;" />`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
+func TestSetAttributeRaw(t *testing.T) {
+	el := img.New()
+	// A pre-escaped entity must render verbatim; SetAttribute would double-escape it.
+	el.SetAttributeRaw("data-sample", "a&amp;b")
+	got := string(el.RenderBytes())
+	want := `<img data-sample="a&amp;b" />`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
 	}
 }

@@ -3,6 +3,7 @@
 package textarea_test
 
 import (
+	"bytes"
 	"testing"
 
 	"github.com/jpl-au/fluent/html5/attr/autocapitalize"
@@ -111,9 +112,25 @@ func TestAutoCompleteAttr(t *testing.T) {
 	}
 }
 
+func TestAutoCompleteCustom(t *testing.T) {
+	got := string(textarea.New().AutoComplete(autocomplete.Custom("custom-value")).RenderBytes())
+	want := `<textarea autocomplete="custom-value"></textarea>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
 func TestDisabledAttr(t *testing.T) {
 	got := string(textarea.New().Disabled().RenderBytes())
 	want := `<textarea disabled></textarea>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
+func TestDisabledFalse(t *testing.T) {
+	got := string(textarea.New().Disabled().Disabled(false).RenderBytes())
+	want := `<textarea></textarea>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
 	}
@@ -159,6 +176,14 @@ func TestReadOnlyAttr(t *testing.T) {
 	}
 }
 
+func TestReadOnlyFalse(t *testing.T) {
+	got := string(textarea.New().ReadOnly().ReadOnly(false).RenderBytes())
+	want := `<textarea></textarea>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
 func TestRequiredAttr(t *testing.T) {
 	got := string(textarea.New().Required().RenderBytes())
 	want := `<textarea required></textarea>`
@@ -167,9 +192,25 @@ func TestRequiredAttr(t *testing.T) {
 	}
 }
 
+func TestRequiredFalse(t *testing.T) {
+	got := string(textarea.New().Required().Required(false).RenderBytes())
+	want := `<textarea></textarea>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
 func TestSpellCheckAttr(t *testing.T) {
 	got := string(textarea.New().SpellCheck(spellcheck.True).RenderBytes())
 	want := `<textarea spellcheck="true"></textarea>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
+func TestSpellCheckCustom(t *testing.T) {
+	got := string(textarea.New().SpellCheck(spellcheck.Custom("custom-value")).RenderBytes())
+	want := `<textarea spellcheck="custom-value"></textarea>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
 	}
@@ -249,6 +290,14 @@ func TestHiddenAttr(t *testing.T) {
 	}
 }
 
+func TestHiddenCustom(t *testing.T) {
+	got := string(textarea.New().Hidden(hidden.Custom("custom-value")).RenderBytes())
+	want := `<textarea hidden="custom-value"></textarea>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
 func TestTabIndexAttr(t *testing.T) {
 	got := string(textarea.New().TabIndex(42).RenderBytes())
 	want := `<textarea tabindex="42"></textarea>`
@@ -322,9 +371,25 @@ func TestAutoCapitalizeAttr(t *testing.T) {
 	}
 }
 
+func TestAutoCapitalizeCustom(t *testing.T) {
+	got := string(textarea.New().AutoCapitalize(autocapitalize.Custom("custom-value")).RenderBytes())
+	want := `<textarea autocapitalize="custom-value"></textarea>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
 func TestAutoCorrectAttr(t *testing.T) {
 	got := string(textarea.New().AutoCorrect(autocorrect.On).RenderBytes())
 	want := `<textarea autocorrect="on"></textarea>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
+func TestAutoCorrectCustom(t *testing.T) {
+	got := string(textarea.New().AutoCorrect(autocorrect.Custom("custom-value")).RenderBytes())
+	want := `<textarea autocorrect="custom-value"></textarea>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
 	}
@@ -338,9 +403,25 @@ func TestAutoFocusAttr(t *testing.T) {
 	}
 }
 
+func TestAutoFocusFalse(t *testing.T) {
+	got := string(textarea.New().AutoFocus().AutoFocus(false).RenderBytes())
+	want := `<textarea></textarea>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
 func TestContentEditableAttr(t *testing.T) {
 	got := string(textarea.New().ContentEditable(contenteditable.True).RenderBytes())
 	want := `<textarea contenteditable="true"></textarea>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
+func TestContentEditableCustom(t *testing.T) {
+	got := string(textarea.New().ContentEditable(contenteditable.Custom("custom-value")).RenderBytes())
+	want := `<textarea contenteditable="custom-value"></textarea>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
 	}
@@ -362,6 +443,14 @@ func TestDirAttr(t *testing.T) {
 	}
 }
 
+func TestDirCustom(t *testing.T) {
+	got := string(textarea.New().Dir(dir.Custom("custom-value")).RenderBytes())
+	want := `<textarea dir="custom-value"></textarea>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
 func TestDraggableAttr(t *testing.T) {
 	got := string(textarea.New().Draggable(true).RenderBytes())
 	want := `<textarea draggable="true"></textarea>`
@@ -373,6 +462,14 @@ func TestDraggableAttr(t *testing.T) {
 func TestEnterKeyHintAttr(t *testing.T) {
 	got := string(textarea.New().EnterKeyHint(enterkeyhint.Enter).RenderBytes())
 	want := `<textarea enterkeyhint="enter"></textarea>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
+func TestEnterKeyHintCustom(t *testing.T) {
+	got := string(textarea.New().EnterKeyHint(enterkeyhint.Custom("custom-value")).RenderBytes())
+	want := `<textarea enterkeyhint="custom-value"></textarea>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
 	}
@@ -394,9 +491,25 @@ func TestInertAttr(t *testing.T) {
 	}
 }
 
+func TestInertFalse(t *testing.T) {
+	got := string(textarea.New().Inert().Inert(false).RenderBytes())
+	want := `<textarea></textarea>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
 func TestInputModeAttr(t *testing.T) {
 	got := string(textarea.New().InputMode(inputmode.None).RenderBytes())
 	want := `<textarea inputmode="none"></textarea>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
+func TestInputModeCustom(t *testing.T) {
+	got := string(textarea.New().InputMode(inputmode.Custom("custom-value")).RenderBytes())
+	want := `<textarea inputmode="custom-value"></textarea>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
 	}
@@ -437,6 +550,14 @@ func TestItemRefAttr(t *testing.T) {
 func TestItemScopeAttr(t *testing.T) {
 	got := string(textarea.New().ItemScope().RenderBytes())
 	want := `<textarea itemscope></textarea>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
+func TestItemScopeFalse(t *testing.T) {
+	got := string(textarea.New().ItemScope().ItemScope(false).RenderBytes())
+	want := `<textarea></textarea>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
 	}
@@ -483,6 +604,14 @@ func TestPopoverAttr(t *testing.T) {
 	}
 }
 
+func TestPopoverCustom(t *testing.T) {
+	got := string(textarea.New().Popover(popover.Custom("custom-value")).RenderBytes())
+	want := `<textarea popover="custom-value"></textarea>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
 func TestSlotAttr(t *testing.T) {
 	got := string(textarea.New().Slot("test").RenderBytes())
 	want := `<textarea slot="test"></textarea>`
@@ -499,6 +628,14 @@ func TestTranslateAttr(t *testing.T) {
 	}
 }
 
+func TestTranslateCustom(t *testing.T) {
+	got := string(textarea.New().Translate(translate.Custom("custom-value")).RenderBytes())
+	want := `<textarea translate="custom-value"></textarea>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
 func TestVirtualKeyboardPolicyAttr(t *testing.T) {
 	got := string(textarea.New().VirtualKeyboardPolicy(virtualkeyboardpolicy.Auto).RenderBytes())
 	want := `<textarea virtualkeyboardpolicy="auto"></textarea>`
@@ -507,9 +644,25 @@ func TestVirtualKeyboardPolicyAttr(t *testing.T) {
 	}
 }
 
+func TestVirtualKeyboardPolicyCustom(t *testing.T) {
+	got := string(textarea.New().VirtualKeyboardPolicy(virtualkeyboardpolicy.Custom("custom-value")).RenderBytes())
+	want := `<textarea virtualkeyboardpolicy="custom-value"></textarea>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
 func TestWritingSuggestionsAttr(t *testing.T) {
 	got := string(textarea.New().WritingSuggestions(writingsuggestions.True).RenderBytes())
 	want := `<textarea writingsuggestions="true"></textarea>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
+func TestWritingSuggestionsCustom(t *testing.T) {
+	got := string(textarea.New().WritingSuggestions(writingsuggestions.Custom("custom-value")).RenderBytes())
+	want := `<textarea writingsuggestions="custom-value"></textarea>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
 	}
@@ -1454,5 +1607,63 @@ func TestNotDynamic(t *testing.T) {
 	}
 	if el.DynamicKey() != "" {
 		t.Errorf("DynamicKey() should be empty, got %q", el.DynamicKey())
+	}
+}
+
+func TestRenderMethodsMatch(t *testing.T) {
+	el := textarea.New()
+	el.SetAttribute("data-check", "render")
+	want := string(el.RenderBytes())
+
+	var buf bytes.Buffer
+	el.Render(&buf)
+	if buf.String() != want {
+		t.Errorf("Render: got %q, want %q", buf.String(), want)
+	}
+
+	buf.Reset()
+	n, err := el.WriteTo(&buf)
+	if err != nil {
+		t.Fatalf("WriteTo: %v", err)
+	}
+	if buf.String() != want {
+		t.Errorf("WriteTo: got %q, want %q", buf.String(), want)
+	}
+	if n != int64(len(want)) {
+		t.Errorf("WriteTo returned %d bytes, want %d", n, len(want))
+	}
+
+	buf.Reset()
+	el.RenderBuilder(&buf)
+	if buf.String() != want {
+		t.Errorf("RenderBuilder: got %q, want %q", buf.String(), want)
+	}
+
+	buf.Reset()
+	el.RenderOpen(&buf)
+	el.RenderClose(&buf)
+	if buf.String() != want {
+		t.Errorf("RenderOpen+RenderClose: got %q, want %q", buf.String(), want)
+	}
+}
+
+func TestSetAttributeEscapes(t *testing.T) {
+	el := textarea.New()
+	el.SetAttribute("data-sample", "\"><script>")
+	got := string(el.RenderBytes())
+	want := `<textarea data-sample="&#34;&gt;&lt;script&gt;"></textarea>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
+func TestSetAttributeRaw(t *testing.T) {
+	el := textarea.New()
+	// A pre-escaped entity must render verbatim; SetAttribute would double-escape it.
+	el.SetAttributeRaw("data-sample", "a&amp;b")
+	got := string(el.RenderBytes())
+	want := `<textarea data-sample="a&amp;b"></textarea>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
 	}
 }

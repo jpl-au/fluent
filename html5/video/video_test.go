@@ -3,6 +3,7 @@
 package video_test
 
 import (
+	"bytes"
 	"testing"
 
 	"github.com/jpl-au/fluent/html5/attr/autocapitalize"
@@ -127,9 +128,25 @@ func TestAutoplayAttr(t *testing.T) {
 	}
 }
 
+func TestAutoplayFalse(t *testing.T) {
+	got := string(video.New().Autoplay().Autoplay(false).RenderBytes())
+	want := `<video></video>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
 func TestControlsAttr(t *testing.T) {
 	got := string(video.New().Controls().RenderBytes())
 	want := `<video controls></video>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
+func TestControlsFalse(t *testing.T) {
+	got := string(video.New().Controls().Controls(false).RenderBytes())
+	want := `<video></video>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
 	}
@@ -159,9 +176,25 @@ func TestLoopAttr(t *testing.T) {
 	}
 }
 
+func TestLoopFalse(t *testing.T) {
+	got := string(video.New().Loop().Loop(false).RenderBytes())
+	want := `<video></video>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
 func TestMutedAttr(t *testing.T) {
 	got := string(video.New().Muted().RenderBytes())
 	want := `<video muted></video>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
+func TestMutedFalse(t *testing.T) {
+	got := string(video.New().Muted().Muted(false).RenderBytes())
+	want := `<video></video>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
 	}
@@ -191,9 +224,25 @@ func TestLoadingAttr(t *testing.T) {
 	}
 }
 
+func TestLoadingCustom(t *testing.T) {
+	got := string(video.New().Loading(loading.Custom("custom-value")).RenderBytes())
+	want := `<video loading="custom-value"></video>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
 func TestCrossOriginAttr(t *testing.T) {
 	got := string(video.New().CrossOrigin(crossorigin.Anonymous).RenderBytes())
 	want := `<video crossorigin="anonymous"></video>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
+func TestCrossOriginCustom(t *testing.T) {
+	got := string(video.New().CrossOrigin(crossorigin.Custom("custom-value")).RenderBytes())
+	want := `<video crossorigin="custom-value"></video>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
 	}
@@ -222,9 +271,25 @@ func TestControlsListMulti(t *testing.T) {
 	}
 }
 
+func TestControlsListCustom(t *testing.T) {
+	got := string(video.New().ControlsList(controlslist.Custom("custom-value")).RenderBytes())
+	want := `<video controlslist="custom-value"></video>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
 func TestDisablePictureInPictureAttr(t *testing.T) {
 	got := string(video.New().DisablePictureInPicture().RenderBytes())
 	want := `<video disablepictureinpicture></video>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
+func TestDisablePictureInPictureFalse(t *testing.T) {
+	got := string(video.New().DisablePictureInPicture().DisablePictureInPicture(false).RenderBytes())
+	want := `<video></video>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
 	}
@@ -238,9 +303,25 @@ func TestDisableRemotePlaybackAttr(t *testing.T) {
 	}
 }
 
+func TestDisableRemotePlaybackFalse(t *testing.T) {
+	got := string(video.New().DisableRemotePlayback().DisableRemotePlayback(false).RenderBytes())
+	want := `<video></video>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
 func TestPlaysInlineAttr(t *testing.T) {
 	got := string(video.New().PlaysInline().RenderBytes())
 	want := `<video playsinline></video>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
+func TestPlaysInlineFalse(t *testing.T) {
+	got := string(video.New().PlaysInline().PlaysInline(false).RenderBytes())
+	want := `<video></video>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
 	}
@@ -299,6 +380,14 @@ func TestTitleAttr(t *testing.T) {
 func TestHiddenAttr(t *testing.T) {
 	got := string(video.New().Hidden(hidden.True).RenderBytes())
 	want := `<video hidden="true"></video>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
+func TestHiddenCustom(t *testing.T) {
+	got := string(video.New().Hidden(hidden.Custom("custom-value")).RenderBytes())
+	want := `<video hidden="custom-value"></video>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
 	}
@@ -377,9 +466,25 @@ func TestAutoCapitalizeAttr(t *testing.T) {
 	}
 }
 
+func TestAutoCapitalizeCustom(t *testing.T) {
+	got := string(video.New().AutoCapitalize(autocapitalize.Custom("custom-value")).RenderBytes())
+	want := `<video autocapitalize="custom-value"></video>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
 func TestAutoCorrectAttr(t *testing.T) {
 	got := string(video.New().AutoCorrect(autocorrect.On).RenderBytes())
 	want := `<video autocorrect="on"></video>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
+func TestAutoCorrectCustom(t *testing.T) {
+	got := string(video.New().AutoCorrect(autocorrect.Custom("custom-value")).RenderBytes())
+	want := `<video autocorrect="custom-value"></video>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
 	}
@@ -393,9 +498,25 @@ func TestAutoFocusAttr(t *testing.T) {
 	}
 }
 
+func TestAutoFocusFalse(t *testing.T) {
+	got := string(video.New().AutoFocus().AutoFocus(false).RenderBytes())
+	want := `<video></video>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
 func TestContentEditableAttr(t *testing.T) {
 	got := string(video.New().ContentEditable(contenteditable.True).RenderBytes())
 	want := `<video contenteditable="true"></video>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
+func TestContentEditableCustom(t *testing.T) {
+	got := string(video.New().ContentEditable(contenteditable.Custom("custom-value")).RenderBytes())
+	want := `<video contenteditable="custom-value"></video>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
 	}
@@ -417,6 +538,14 @@ func TestDirAttr(t *testing.T) {
 	}
 }
 
+func TestDirCustom(t *testing.T) {
+	got := string(video.New().Dir(dir.Custom("custom-value")).RenderBytes())
+	want := `<video dir="custom-value"></video>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
 func TestDraggableAttr(t *testing.T) {
 	got := string(video.New().Draggable(true).RenderBytes())
 	want := `<video draggable="true"></video>`
@@ -428,6 +557,14 @@ func TestDraggableAttr(t *testing.T) {
 func TestEnterKeyHintAttr(t *testing.T) {
 	got := string(video.New().EnterKeyHint(enterkeyhint.Enter).RenderBytes())
 	want := `<video enterkeyhint="enter"></video>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
+func TestEnterKeyHintCustom(t *testing.T) {
+	got := string(video.New().EnterKeyHint(enterkeyhint.Custom("custom-value")).RenderBytes())
+	want := `<video enterkeyhint="custom-value"></video>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
 	}
@@ -449,9 +586,25 @@ func TestInertAttr(t *testing.T) {
 	}
 }
 
+func TestInertFalse(t *testing.T) {
+	got := string(video.New().Inert().Inert(false).RenderBytes())
+	want := `<video></video>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
 func TestInputModeAttr(t *testing.T) {
 	got := string(video.New().InputMode(inputmode.None).RenderBytes())
 	want := `<video inputmode="none"></video>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
+func TestInputModeCustom(t *testing.T) {
+	got := string(video.New().InputMode(inputmode.Custom("custom-value")).RenderBytes())
+	want := `<video inputmode="custom-value"></video>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
 	}
@@ -492,6 +645,14 @@ func TestItemRefAttr(t *testing.T) {
 func TestItemScopeAttr(t *testing.T) {
 	got := string(video.New().ItemScope().RenderBytes())
 	want := `<video itemscope></video>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
+func TestItemScopeFalse(t *testing.T) {
+	got := string(video.New().ItemScope().ItemScope(false).RenderBytes())
+	want := `<video></video>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
 	}
@@ -538,6 +699,14 @@ func TestPopoverAttr(t *testing.T) {
 	}
 }
 
+func TestPopoverCustom(t *testing.T) {
+	got := string(video.New().Popover(popover.Custom("custom-value")).RenderBytes())
+	want := `<video popover="custom-value"></video>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
 func TestSlotAttr(t *testing.T) {
 	got := string(video.New().Slot("test").RenderBytes())
 	want := `<video slot="test"></video>`
@@ -554,9 +723,25 @@ func TestSpellCheckAttr(t *testing.T) {
 	}
 }
 
+func TestSpellCheckCustom(t *testing.T) {
+	got := string(video.New().SpellCheck(spellcheck.Custom("custom-value")).RenderBytes())
+	want := `<video spellcheck="custom-value"></video>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
 func TestTranslateAttr(t *testing.T) {
 	got := string(video.New().Translate(translate.Yes).RenderBytes())
 	want := `<video translate="yes"></video>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
+func TestTranslateCustom(t *testing.T) {
+	got := string(video.New().Translate(translate.Custom("custom-value")).RenderBytes())
+	want := `<video translate="custom-value"></video>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
 	}
@@ -570,9 +755,25 @@ func TestVirtualKeyboardPolicyAttr(t *testing.T) {
 	}
 }
 
+func TestVirtualKeyboardPolicyCustom(t *testing.T) {
+	got := string(video.New().VirtualKeyboardPolicy(virtualkeyboardpolicy.Custom("custom-value")).RenderBytes())
+	want := `<video virtualkeyboardpolicy="custom-value"></video>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
 func TestWritingSuggestionsAttr(t *testing.T) {
 	got := string(video.New().WritingSuggestions(writingsuggestions.True).RenderBytes())
 	want := `<video writingsuggestions="true"></video>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
+func TestWritingSuggestionsCustom(t *testing.T) {
+	got := string(video.New().WritingSuggestions(writingsuggestions.Custom("custom-value")).RenderBytes())
+	want := `<video writingsuggestions="custom-value"></video>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
 	}
@@ -1517,5 +1718,63 @@ func TestNotDynamic(t *testing.T) {
 	}
 	if el.DynamicKey() != "" {
 		t.Errorf("DynamicKey() should be empty, got %q", el.DynamicKey())
+	}
+}
+
+func TestRenderMethodsMatch(t *testing.T) {
+	el := video.New()
+	el.SetAttribute("data-check", "render")
+	want := string(el.RenderBytes())
+
+	var buf bytes.Buffer
+	el.Render(&buf)
+	if buf.String() != want {
+		t.Errorf("Render: got %q, want %q", buf.String(), want)
+	}
+
+	buf.Reset()
+	n, err := el.WriteTo(&buf)
+	if err != nil {
+		t.Fatalf("WriteTo: %v", err)
+	}
+	if buf.String() != want {
+		t.Errorf("WriteTo: got %q, want %q", buf.String(), want)
+	}
+	if n != int64(len(want)) {
+		t.Errorf("WriteTo returned %d bytes, want %d", n, len(want))
+	}
+
+	buf.Reset()
+	el.RenderBuilder(&buf)
+	if buf.String() != want {
+		t.Errorf("RenderBuilder: got %q, want %q", buf.String(), want)
+	}
+
+	buf.Reset()
+	el.RenderOpen(&buf)
+	el.RenderClose(&buf)
+	if buf.String() != want {
+		t.Errorf("RenderOpen+RenderClose: got %q, want %q", buf.String(), want)
+	}
+}
+
+func TestSetAttributeEscapes(t *testing.T) {
+	el := video.New()
+	el.SetAttribute("data-sample", "\"><script>")
+	got := string(el.RenderBytes())
+	want := `<video data-sample="&#34;&gt;&lt;script&gt;"></video>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
+func TestSetAttributeRaw(t *testing.T) {
+	el := video.New()
+	// A pre-escaped entity must render verbatim; SetAttribute would double-escape it.
+	el.SetAttributeRaw("data-sample", "a&amp;b")
+	got := string(el.RenderBytes())
+	want := `<video data-sample="a&amp;b"></video>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
 	}
 }

@@ -3,6 +3,7 @@
 package track_test
 
 import (
+	"bytes"
 	"testing"
 
 	"github.com/jpl-au/fluent/html5/attr/autocapitalize"
@@ -108,6 +109,14 @@ func TestDefaultAttr(t *testing.T) {
 	}
 }
 
+func TestDefaultFalse(t *testing.T) {
+	got := string(track.New().Default().Default(false).RenderBytes())
+	want := `<track />`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
 func TestClassAttr(t *testing.T) {
 	got := string(track.New().Class("test").RenderBytes())
 	want := `<track class="test" />`
@@ -161,6 +170,14 @@ func TestTitleAttr(t *testing.T) {
 func TestHiddenAttr(t *testing.T) {
 	got := string(track.New().Hidden(hidden.True).RenderBytes())
 	want := `<track hidden="true" />`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
+func TestHiddenCustom(t *testing.T) {
+	got := string(track.New().Hidden(hidden.Custom("custom-value")).RenderBytes())
+	want := `<track hidden="custom-value" />`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
 	}
@@ -239,9 +256,25 @@ func TestAutoCapitalizeAttr(t *testing.T) {
 	}
 }
 
+func TestAutoCapitalizeCustom(t *testing.T) {
+	got := string(track.New().AutoCapitalize(autocapitalize.Custom("custom-value")).RenderBytes())
+	want := `<track autocapitalize="custom-value" />`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
 func TestAutoCorrectAttr(t *testing.T) {
 	got := string(track.New().AutoCorrect(autocorrect.On).RenderBytes())
 	want := `<track autocorrect="on" />`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
+func TestAutoCorrectCustom(t *testing.T) {
+	got := string(track.New().AutoCorrect(autocorrect.Custom("custom-value")).RenderBytes())
+	want := `<track autocorrect="custom-value" />`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
 	}
@@ -255,9 +288,25 @@ func TestAutoFocusAttr(t *testing.T) {
 	}
 }
 
+func TestAutoFocusFalse(t *testing.T) {
+	got := string(track.New().AutoFocus().AutoFocus(false).RenderBytes())
+	want := `<track />`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
 func TestContentEditableAttr(t *testing.T) {
 	got := string(track.New().ContentEditable(contenteditable.True).RenderBytes())
 	want := `<track contenteditable="true" />`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
+func TestContentEditableCustom(t *testing.T) {
+	got := string(track.New().ContentEditable(contenteditable.Custom("custom-value")).RenderBytes())
+	want := `<track contenteditable="custom-value" />`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
 	}
@@ -279,6 +328,14 @@ func TestDirAttr(t *testing.T) {
 	}
 }
 
+func TestDirCustom(t *testing.T) {
+	got := string(track.New().Dir(dir.Custom("custom-value")).RenderBytes())
+	want := `<track dir="custom-value" />`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
 func TestDraggableAttr(t *testing.T) {
 	got := string(track.New().Draggable(true).RenderBytes())
 	want := `<track draggable="true" />`
@@ -290,6 +347,14 @@ func TestDraggableAttr(t *testing.T) {
 func TestEnterKeyHintAttr(t *testing.T) {
 	got := string(track.New().EnterKeyHint(enterkeyhint.Enter).RenderBytes())
 	want := `<track enterkeyhint="enter" />`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
+func TestEnterKeyHintCustom(t *testing.T) {
+	got := string(track.New().EnterKeyHint(enterkeyhint.Custom("custom-value")).RenderBytes())
+	want := `<track enterkeyhint="custom-value" />`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
 	}
@@ -311,9 +376,25 @@ func TestInertAttr(t *testing.T) {
 	}
 }
 
+func TestInertFalse(t *testing.T) {
+	got := string(track.New().Inert().Inert(false).RenderBytes())
+	want := `<track />`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
 func TestInputModeAttr(t *testing.T) {
 	got := string(track.New().InputMode(inputmode.None).RenderBytes())
 	want := `<track inputmode="none" />`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
+func TestInputModeCustom(t *testing.T) {
+	got := string(track.New().InputMode(inputmode.Custom("custom-value")).RenderBytes())
+	want := `<track inputmode="custom-value" />`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
 	}
@@ -354,6 +435,14 @@ func TestItemRefAttr(t *testing.T) {
 func TestItemScopeAttr(t *testing.T) {
 	got := string(track.New().ItemScope().RenderBytes())
 	want := `<track itemscope />`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
+func TestItemScopeFalse(t *testing.T) {
+	got := string(track.New().ItemScope().ItemScope(false).RenderBytes())
+	want := `<track />`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
 	}
@@ -400,6 +489,14 @@ func TestPopoverAttr(t *testing.T) {
 	}
 }
 
+func TestPopoverCustom(t *testing.T) {
+	got := string(track.New().Popover(popover.Custom("custom-value")).RenderBytes())
+	want := `<track popover="custom-value" />`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
 func TestSlotAttr(t *testing.T) {
 	got := string(track.New().Slot("test").RenderBytes())
 	want := `<track slot="test" />`
@@ -416,9 +513,25 @@ func TestSpellCheckAttr(t *testing.T) {
 	}
 }
 
+func TestSpellCheckCustom(t *testing.T) {
+	got := string(track.New().SpellCheck(spellcheck.Custom("custom-value")).RenderBytes())
+	want := `<track spellcheck="custom-value" />`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
 func TestTranslateAttr(t *testing.T) {
 	got := string(track.New().Translate(translate.Yes).RenderBytes())
 	want := `<track translate="yes" />`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
+func TestTranslateCustom(t *testing.T) {
+	got := string(track.New().Translate(translate.Custom("custom-value")).RenderBytes())
+	want := `<track translate="custom-value" />`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
 	}
@@ -432,9 +545,25 @@ func TestVirtualKeyboardPolicyAttr(t *testing.T) {
 	}
 }
 
+func TestVirtualKeyboardPolicyCustom(t *testing.T) {
+	got := string(track.New().VirtualKeyboardPolicy(virtualkeyboardpolicy.Custom("custom-value")).RenderBytes())
+	want := `<track virtualkeyboardpolicy="custom-value" />`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
 func TestWritingSuggestionsAttr(t *testing.T) {
 	got := string(track.New().WritingSuggestions(writingsuggestions.True).RenderBytes())
 	want := `<track writingsuggestions="true" />`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
+func TestWritingSuggestionsCustom(t *testing.T) {
+	got := string(track.New().WritingSuggestions(writingsuggestions.Custom("custom-value")).RenderBytes())
+	want := `<track writingsuggestions="custom-value" />`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
 	}
@@ -1282,5 +1411,63 @@ func TestNotDynamic(t *testing.T) {
 	}
 	if el.DynamicKey() != "" {
 		t.Errorf("DynamicKey() should be empty, got %q", el.DynamicKey())
+	}
+}
+
+func TestRenderMethodsMatch(t *testing.T) {
+	el := track.New()
+	el.SetAttribute("data-check", "render")
+	want := string(el.RenderBytes())
+
+	var buf bytes.Buffer
+	el.Render(&buf)
+	if buf.String() != want {
+		t.Errorf("Render: got %q, want %q", buf.String(), want)
+	}
+
+	buf.Reset()
+	n, err := el.WriteTo(&buf)
+	if err != nil {
+		t.Fatalf("WriteTo: %v", err)
+	}
+	if buf.String() != want {
+		t.Errorf("WriteTo: got %q, want %q", buf.String(), want)
+	}
+	if n != int64(len(want)) {
+		t.Errorf("WriteTo returned %d bytes, want %d", n, len(want))
+	}
+
+	buf.Reset()
+	el.RenderBuilder(&buf)
+	if buf.String() != want {
+		t.Errorf("RenderBuilder: got %q, want %q", buf.String(), want)
+	}
+
+	buf.Reset()
+	el.RenderOpen(&buf)
+	el.RenderClose(&buf)
+	if buf.String() != want {
+		t.Errorf("RenderOpen+RenderClose: got %q, want %q", buf.String(), want)
+	}
+}
+
+func TestSetAttributeEscapes(t *testing.T) {
+	el := track.New()
+	el.SetAttribute("data-sample", "\"><script>")
+	got := string(el.RenderBytes())
+	want := `<track data-sample="&#34;&gt;&lt;script&gt;" />`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
+func TestSetAttributeRaw(t *testing.T) {
+	el := track.New()
+	// A pre-escaped entity must render verbatim; SetAttribute would double-escape it.
+	el.SetAttributeRaw("data-sample", "a&amp;b")
+	got := string(el.RenderBytes())
+	want := `<track data-sample="a&amp;b" />`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
 	}
 }

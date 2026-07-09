@@ -3,6 +3,7 @@
 package audio_test
 
 import (
+	"bytes"
 	"testing"
 
 	"github.com/jpl-au/fluent/html5/attr/autocapitalize"
@@ -96,9 +97,25 @@ func TestAutoplayAttr(t *testing.T) {
 	}
 }
 
+func TestAutoplayFalse(t *testing.T) {
+	got := string(audio.New().Autoplay().Autoplay(false).RenderBytes())
+	want := `<audio></audio>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
 func TestControlsAttr(t *testing.T) {
 	got := string(audio.New().Controls().RenderBytes())
 	want := `<audio controls></audio>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
+func TestControlsFalse(t *testing.T) {
+	got := string(audio.New().Controls().Controls(false).RenderBytes())
+	want := `<audio></audio>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
 	}
@@ -112,9 +129,25 @@ func TestLoopAttr(t *testing.T) {
 	}
 }
 
+func TestLoopFalse(t *testing.T) {
+	got := string(audio.New().Loop().Loop(false).RenderBytes())
+	want := `<audio></audio>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
 func TestMutedAttr(t *testing.T) {
 	got := string(audio.New().Muted().RenderBytes())
 	want := `<audio muted></audio>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
+func TestMutedFalse(t *testing.T) {
+	got := string(audio.New().Muted().Muted(false).RenderBytes())
+	want := `<audio></audio>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
 	}
@@ -144,9 +177,25 @@ func TestCrossOriginAttr(t *testing.T) {
 	}
 }
 
+func TestCrossOriginCustom(t *testing.T) {
+	got := string(audio.New().CrossOrigin(crossorigin.Custom("custom-value")).RenderBytes())
+	want := `<audio crossorigin="custom-value"></audio>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
 func TestDisableRemotePlaybackAttr(t *testing.T) {
 	got := string(audio.New().DisableRemotePlayback().RenderBytes())
 	want := `<audio disableremoteplayback></audio>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
+func TestDisableRemotePlaybackFalse(t *testing.T) {
+	got := string(audio.New().DisableRemotePlayback().DisableRemotePlayback(false).RenderBytes())
+	want := `<audio></audio>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
 	}
@@ -160,9 +209,25 @@ func TestLoadingAttr(t *testing.T) {
 	}
 }
 
+func TestLoadingCustom(t *testing.T) {
+	got := string(audio.New().Loading(loading.Custom("custom-value")).RenderBytes())
+	want := `<audio loading="custom-value"></audio>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
 func TestPreloadAttr(t *testing.T) {
 	got := string(audio.New().Preload(preload.None).RenderBytes())
 	want := `<audio preload="none"></audio>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
+func TestPreloadCustom(t *testing.T) {
+	got := string(audio.New().Preload(preload.Custom("custom-value")).RenderBytes())
+	want := `<audio preload="custom-value"></audio>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
 	}
@@ -221,6 +286,14 @@ func TestTitleAttr(t *testing.T) {
 func TestHiddenAttr(t *testing.T) {
 	got := string(audio.New().Hidden(hidden.True).RenderBytes())
 	want := `<audio hidden="true"></audio>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
+func TestHiddenCustom(t *testing.T) {
+	got := string(audio.New().Hidden(hidden.Custom("custom-value")).RenderBytes())
+	want := `<audio hidden="custom-value"></audio>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
 	}
@@ -299,9 +372,25 @@ func TestAutoCapitalizeAttr(t *testing.T) {
 	}
 }
 
+func TestAutoCapitalizeCustom(t *testing.T) {
+	got := string(audio.New().AutoCapitalize(autocapitalize.Custom("custom-value")).RenderBytes())
+	want := `<audio autocapitalize="custom-value"></audio>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
 func TestAutoCorrectAttr(t *testing.T) {
 	got := string(audio.New().AutoCorrect(autocorrect.On).RenderBytes())
 	want := `<audio autocorrect="on"></audio>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
+func TestAutoCorrectCustom(t *testing.T) {
+	got := string(audio.New().AutoCorrect(autocorrect.Custom("custom-value")).RenderBytes())
+	want := `<audio autocorrect="custom-value"></audio>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
 	}
@@ -315,9 +404,25 @@ func TestAutoFocusAttr(t *testing.T) {
 	}
 }
 
+func TestAutoFocusFalse(t *testing.T) {
+	got := string(audio.New().AutoFocus().AutoFocus(false).RenderBytes())
+	want := `<audio></audio>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
 func TestContentEditableAttr(t *testing.T) {
 	got := string(audio.New().ContentEditable(contenteditable.True).RenderBytes())
 	want := `<audio contenteditable="true"></audio>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
+func TestContentEditableCustom(t *testing.T) {
+	got := string(audio.New().ContentEditable(contenteditable.Custom("custom-value")).RenderBytes())
+	want := `<audio contenteditable="custom-value"></audio>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
 	}
@@ -339,6 +444,14 @@ func TestDirAttr(t *testing.T) {
 	}
 }
 
+func TestDirCustom(t *testing.T) {
+	got := string(audio.New().Dir(dir.Custom("custom-value")).RenderBytes())
+	want := `<audio dir="custom-value"></audio>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
 func TestDraggableAttr(t *testing.T) {
 	got := string(audio.New().Draggable(true).RenderBytes())
 	want := `<audio draggable="true"></audio>`
@@ -350,6 +463,14 @@ func TestDraggableAttr(t *testing.T) {
 func TestEnterKeyHintAttr(t *testing.T) {
 	got := string(audio.New().EnterKeyHint(enterkeyhint.Enter).RenderBytes())
 	want := `<audio enterkeyhint="enter"></audio>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
+func TestEnterKeyHintCustom(t *testing.T) {
+	got := string(audio.New().EnterKeyHint(enterkeyhint.Custom("custom-value")).RenderBytes())
+	want := `<audio enterkeyhint="custom-value"></audio>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
 	}
@@ -371,9 +492,25 @@ func TestInertAttr(t *testing.T) {
 	}
 }
 
+func TestInertFalse(t *testing.T) {
+	got := string(audio.New().Inert().Inert(false).RenderBytes())
+	want := `<audio></audio>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
 func TestInputModeAttr(t *testing.T) {
 	got := string(audio.New().InputMode(inputmode.None).RenderBytes())
 	want := `<audio inputmode="none"></audio>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
+func TestInputModeCustom(t *testing.T) {
+	got := string(audio.New().InputMode(inputmode.Custom("custom-value")).RenderBytes())
+	want := `<audio inputmode="custom-value"></audio>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
 	}
@@ -414,6 +551,14 @@ func TestItemRefAttr(t *testing.T) {
 func TestItemScopeAttr(t *testing.T) {
 	got := string(audio.New().ItemScope().RenderBytes())
 	want := `<audio itemscope></audio>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
+func TestItemScopeFalse(t *testing.T) {
+	got := string(audio.New().ItemScope().ItemScope(false).RenderBytes())
+	want := `<audio></audio>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
 	}
@@ -460,6 +605,14 @@ func TestPopoverAttr(t *testing.T) {
 	}
 }
 
+func TestPopoverCustom(t *testing.T) {
+	got := string(audio.New().Popover(popover.Custom("custom-value")).RenderBytes())
+	want := `<audio popover="custom-value"></audio>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
 func TestSlotAttr(t *testing.T) {
 	got := string(audio.New().Slot("test").RenderBytes())
 	want := `<audio slot="test"></audio>`
@@ -476,9 +629,25 @@ func TestSpellCheckAttr(t *testing.T) {
 	}
 }
 
+func TestSpellCheckCustom(t *testing.T) {
+	got := string(audio.New().SpellCheck(spellcheck.Custom("custom-value")).RenderBytes())
+	want := `<audio spellcheck="custom-value"></audio>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
 func TestTranslateAttr(t *testing.T) {
 	got := string(audio.New().Translate(translate.Yes).RenderBytes())
 	want := `<audio translate="yes"></audio>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
+func TestTranslateCustom(t *testing.T) {
+	got := string(audio.New().Translate(translate.Custom("custom-value")).RenderBytes())
+	want := `<audio translate="custom-value"></audio>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
 	}
@@ -492,9 +661,25 @@ func TestVirtualKeyboardPolicyAttr(t *testing.T) {
 	}
 }
 
+func TestVirtualKeyboardPolicyCustom(t *testing.T) {
+	got := string(audio.New().VirtualKeyboardPolicy(virtualkeyboardpolicy.Custom("custom-value")).RenderBytes())
+	want := `<audio virtualkeyboardpolicy="custom-value"></audio>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
 func TestWritingSuggestionsAttr(t *testing.T) {
 	got := string(audio.New().WritingSuggestions(writingsuggestions.True).RenderBytes())
 	want := `<audio writingsuggestions="true"></audio>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
+func TestWritingSuggestionsCustom(t *testing.T) {
+	got := string(audio.New().WritingSuggestions(writingsuggestions.Custom("custom-value")).RenderBytes())
+	want := `<audio writingsuggestions="custom-value"></audio>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
 	}
@@ -1439,5 +1624,63 @@ func TestNotDynamic(t *testing.T) {
 	}
 	if el.DynamicKey() != "" {
 		t.Errorf("DynamicKey() should be empty, got %q", el.DynamicKey())
+	}
+}
+
+func TestRenderMethodsMatch(t *testing.T) {
+	el := audio.New()
+	el.SetAttribute("data-check", "render")
+	want := string(el.RenderBytes())
+
+	var buf bytes.Buffer
+	el.Render(&buf)
+	if buf.String() != want {
+		t.Errorf("Render: got %q, want %q", buf.String(), want)
+	}
+
+	buf.Reset()
+	n, err := el.WriteTo(&buf)
+	if err != nil {
+		t.Fatalf("WriteTo: %v", err)
+	}
+	if buf.String() != want {
+		t.Errorf("WriteTo: got %q, want %q", buf.String(), want)
+	}
+	if n != int64(len(want)) {
+		t.Errorf("WriteTo returned %d bytes, want %d", n, len(want))
+	}
+
+	buf.Reset()
+	el.RenderBuilder(&buf)
+	if buf.String() != want {
+		t.Errorf("RenderBuilder: got %q, want %q", buf.String(), want)
+	}
+
+	buf.Reset()
+	el.RenderOpen(&buf)
+	el.RenderClose(&buf)
+	if buf.String() != want {
+		t.Errorf("RenderOpen+RenderClose: got %q, want %q", buf.String(), want)
+	}
+}
+
+func TestSetAttributeEscapes(t *testing.T) {
+	el := audio.New()
+	el.SetAttribute("data-sample", "\"><script>")
+	got := string(el.RenderBytes())
+	want := `<audio data-sample="&#34;&gt;&lt;script&gt;"></audio>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
+func TestSetAttributeRaw(t *testing.T) {
+	el := audio.New()
+	// A pre-escaped entity must render verbatim; SetAttribute would double-escape it.
+	el.SetAttributeRaw("data-sample", "a&amp;b")
+	got := string(el.RenderBytes())
+	want := `<audio data-sample="a&amp;b"></audio>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
 	}
 }

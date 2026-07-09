@@ -3,6 +3,7 @@
 package fieldset_test
 
 import (
+	"bytes"
 	"testing"
 
 	"github.com/jpl-au/fluent/html5/attr/autocapitalize"
@@ -57,6 +58,14 @@ func TestDisabledCtor(t *testing.T) {
 func TestDisabledAttr(t *testing.T) {
 	got := string(fieldset.New().Disabled().RenderBytes())
 	want := `<fieldset disabled></fieldset>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
+func TestDisabledFalse(t *testing.T) {
+	got := string(fieldset.New().Disabled().Disabled(false).RenderBytes())
+	want := `<fieldset></fieldset>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
 	}
@@ -136,6 +145,14 @@ func TestHiddenAttr(t *testing.T) {
 	}
 }
 
+func TestHiddenCustom(t *testing.T) {
+	got := string(fieldset.New().Hidden(hidden.Custom("custom-value")).RenderBytes())
+	want := `<fieldset hidden="custom-value"></fieldset>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
 func TestTabIndexAttr(t *testing.T) {
 	got := string(fieldset.New().TabIndex(42).RenderBytes())
 	want := `<fieldset tabindex="42"></fieldset>`
@@ -209,9 +226,25 @@ func TestAutoCapitalizeAttr(t *testing.T) {
 	}
 }
 
+func TestAutoCapitalizeCustom(t *testing.T) {
+	got := string(fieldset.New().AutoCapitalize(autocapitalize.Custom("custom-value")).RenderBytes())
+	want := `<fieldset autocapitalize="custom-value"></fieldset>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
 func TestAutoCorrectAttr(t *testing.T) {
 	got := string(fieldset.New().AutoCorrect(autocorrect.On).RenderBytes())
 	want := `<fieldset autocorrect="on"></fieldset>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
+func TestAutoCorrectCustom(t *testing.T) {
+	got := string(fieldset.New().AutoCorrect(autocorrect.Custom("custom-value")).RenderBytes())
+	want := `<fieldset autocorrect="custom-value"></fieldset>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
 	}
@@ -225,9 +258,25 @@ func TestAutoFocusAttr(t *testing.T) {
 	}
 }
 
+func TestAutoFocusFalse(t *testing.T) {
+	got := string(fieldset.New().AutoFocus().AutoFocus(false).RenderBytes())
+	want := `<fieldset></fieldset>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
 func TestContentEditableAttr(t *testing.T) {
 	got := string(fieldset.New().ContentEditable(contenteditable.True).RenderBytes())
 	want := `<fieldset contenteditable="true"></fieldset>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
+func TestContentEditableCustom(t *testing.T) {
+	got := string(fieldset.New().ContentEditable(contenteditable.Custom("custom-value")).RenderBytes())
+	want := `<fieldset contenteditable="custom-value"></fieldset>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
 	}
@@ -249,6 +298,14 @@ func TestDirAttr(t *testing.T) {
 	}
 }
 
+func TestDirCustom(t *testing.T) {
+	got := string(fieldset.New().Dir(dir.Custom("custom-value")).RenderBytes())
+	want := `<fieldset dir="custom-value"></fieldset>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
 func TestDraggableAttr(t *testing.T) {
 	got := string(fieldset.New().Draggable(true).RenderBytes())
 	want := `<fieldset draggable="true"></fieldset>`
@@ -260,6 +317,14 @@ func TestDraggableAttr(t *testing.T) {
 func TestEnterKeyHintAttr(t *testing.T) {
 	got := string(fieldset.New().EnterKeyHint(enterkeyhint.Enter).RenderBytes())
 	want := `<fieldset enterkeyhint="enter"></fieldset>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
+func TestEnterKeyHintCustom(t *testing.T) {
+	got := string(fieldset.New().EnterKeyHint(enterkeyhint.Custom("custom-value")).RenderBytes())
+	want := `<fieldset enterkeyhint="custom-value"></fieldset>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
 	}
@@ -281,9 +346,25 @@ func TestInertAttr(t *testing.T) {
 	}
 }
 
+func TestInertFalse(t *testing.T) {
+	got := string(fieldset.New().Inert().Inert(false).RenderBytes())
+	want := `<fieldset></fieldset>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
 func TestInputModeAttr(t *testing.T) {
 	got := string(fieldset.New().InputMode(inputmode.None).RenderBytes())
 	want := `<fieldset inputmode="none"></fieldset>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
+func TestInputModeCustom(t *testing.T) {
+	got := string(fieldset.New().InputMode(inputmode.Custom("custom-value")).RenderBytes())
+	want := `<fieldset inputmode="custom-value"></fieldset>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
 	}
@@ -324,6 +405,14 @@ func TestItemRefAttr(t *testing.T) {
 func TestItemScopeAttr(t *testing.T) {
 	got := string(fieldset.New().ItemScope().RenderBytes())
 	want := `<fieldset itemscope></fieldset>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
+func TestItemScopeFalse(t *testing.T) {
+	got := string(fieldset.New().ItemScope().ItemScope(false).RenderBytes())
+	want := `<fieldset></fieldset>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
 	}
@@ -370,6 +459,14 @@ func TestPopoverAttr(t *testing.T) {
 	}
 }
 
+func TestPopoverCustom(t *testing.T) {
+	got := string(fieldset.New().Popover(popover.Custom("custom-value")).RenderBytes())
+	want := `<fieldset popover="custom-value"></fieldset>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
 func TestSlotAttr(t *testing.T) {
 	got := string(fieldset.New().Slot("test").RenderBytes())
 	want := `<fieldset slot="test"></fieldset>`
@@ -386,9 +483,25 @@ func TestSpellCheckAttr(t *testing.T) {
 	}
 }
 
+func TestSpellCheckCustom(t *testing.T) {
+	got := string(fieldset.New().SpellCheck(spellcheck.Custom("custom-value")).RenderBytes())
+	want := `<fieldset spellcheck="custom-value"></fieldset>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
 func TestTranslateAttr(t *testing.T) {
 	got := string(fieldset.New().Translate(translate.Yes).RenderBytes())
 	want := `<fieldset translate="yes"></fieldset>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
+func TestTranslateCustom(t *testing.T) {
+	got := string(fieldset.New().Translate(translate.Custom("custom-value")).RenderBytes())
+	want := `<fieldset translate="custom-value"></fieldset>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
 	}
@@ -402,9 +515,25 @@ func TestVirtualKeyboardPolicyAttr(t *testing.T) {
 	}
 }
 
+func TestVirtualKeyboardPolicyCustom(t *testing.T) {
+	got := string(fieldset.New().VirtualKeyboardPolicy(virtualkeyboardpolicy.Custom("custom-value")).RenderBytes())
+	want := `<fieldset virtualkeyboardpolicy="custom-value"></fieldset>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
 func TestWritingSuggestionsAttr(t *testing.T) {
 	got := string(fieldset.New().WritingSuggestions(writingsuggestions.True).RenderBytes())
 	want := `<fieldset writingsuggestions="true"></fieldset>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
+func TestWritingSuggestionsCustom(t *testing.T) {
+	got := string(fieldset.New().WritingSuggestions(writingsuggestions.Custom("custom-value")).RenderBytes())
+	want := `<fieldset writingsuggestions="custom-value"></fieldset>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
 	}
@@ -1349,5 +1478,63 @@ func TestNotDynamic(t *testing.T) {
 	}
 	if el.DynamicKey() != "" {
 		t.Errorf("DynamicKey() should be empty, got %q", el.DynamicKey())
+	}
+}
+
+func TestRenderMethodsMatch(t *testing.T) {
+	el := fieldset.New()
+	el.SetAttribute("data-check", "render")
+	want := string(el.RenderBytes())
+
+	var buf bytes.Buffer
+	el.Render(&buf)
+	if buf.String() != want {
+		t.Errorf("Render: got %q, want %q", buf.String(), want)
+	}
+
+	buf.Reset()
+	n, err := el.WriteTo(&buf)
+	if err != nil {
+		t.Fatalf("WriteTo: %v", err)
+	}
+	if buf.String() != want {
+		t.Errorf("WriteTo: got %q, want %q", buf.String(), want)
+	}
+	if n != int64(len(want)) {
+		t.Errorf("WriteTo returned %d bytes, want %d", n, len(want))
+	}
+
+	buf.Reset()
+	el.RenderBuilder(&buf)
+	if buf.String() != want {
+		t.Errorf("RenderBuilder: got %q, want %q", buf.String(), want)
+	}
+
+	buf.Reset()
+	el.RenderOpen(&buf)
+	el.RenderClose(&buf)
+	if buf.String() != want {
+		t.Errorf("RenderOpen+RenderClose: got %q, want %q", buf.String(), want)
+	}
+}
+
+func TestSetAttributeEscapes(t *testing.T) {
+	el := fieldset.New()
+	el.SetAttribute("data-sample", "\"><script>")
+	got := string(el.RenderBytes())
+	want := `<fieldset data-sample="&#34;&gt;&lt;script&gt;"></fieldset>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
+func TestSetAttributeRaw(t *testing.T) {
+	el := fieldset.New()
+	// A pre-escaped entity must render verbatim; SetAttribute would double-escape it.
+	el.SetAttributeRaw("data-sample", "a&amp;b")
+	got := string(el.RenderBytes())
+	want := `<fieldset data-sample="a&amp;b"></fieldset>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
 	}
 }

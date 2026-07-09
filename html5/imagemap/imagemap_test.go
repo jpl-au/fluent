@@ -3,6 +3,7 @@
 package imagemap_test
 
 import (
+	"bytes"
 	"testing"
 
 	"github.com/jpl-au/fluent/html5/area"
@@ -153,6 +154,14 @@ func TestHiddenAttr(t *testing.T) {
 	}
 }
 
+func TestHiddenCustom(t *testing.T) {
+	got := string(imagemap.New().Hidden(hidden.Custom("custom-value")).RenderBytes())
+	want := `<map hidden="custom-value"></map>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
 func TestTabIndexAttr(t *testing.T) {
 	got := string(imagemap.New().TabIndex(42).RenderBytes())
 	want := `<map tabindex="42"></map>`
@@ -226,9 +235,25 @@ func TestAutoCapitalizeAttr(t *testing.T) {
 	}
 }
 
+func TestAutoCapitalizeCustom(t *testing.T) {
+	got := string(imagemap.New().AutoCapitalize(autocapitalize.Custom("custom-value")).RenderBytes())
+	want := `<map autocapitalize="custom-value"></map>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
 func TestAutoCorrectAttr(t *testing.T) {
 	got := string(imagemap.New().AutoCorrect(autocorrect.On).RenderBytes())
 	want := `<map autocorrect="on"></map>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
+func TestAutoCorrectCustom(t *testing.T) {
+	got := string(imagemap.New().AutoCorrect(autocorrect.Custom("custom-value")).RenderBytes())
+	want := `<map autocorrect="custom-value"></map>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
 	}
@@ -242,9 +267,25 @@ func TestAutoFocusAttr(t *testing.T) {
 	}
 }
 
+func TestAutoFocusFalse(t *testing.T) {
+	got := string(imagemap.New().AutoFocus().AutoFocus(false).RenderBytes())
+	want := `<map></map>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
 func TestContentEditableAttr(t *testing.T) {
 	got := string(imagemap.New().ContentEditable(contenteditable.True).RenderBytes())
 	want := `<map contenteditable="true"></map>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
+func TestContentEditableCustom(t *testing.T) {
+	got := string(imagemap.New().ContentEditable(contenteditable.Custom("custom-value")).RenderBytes())
+	want := `<map contenteditable="custom-value"></map>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
 	}
@@ -266,6 +307,14 @@ func TestDirAttr(t *testing.T) {
 	}
 }
 
+func TestDirCustom(t *testing.T) {
+	got := string(imagemap.New().Dir(dir.Custom("custom-value")).RenderBytes())
+	want := `<map dir="custom-value"></map>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
 func TestDraggableAttr(t *testing.T) {
 	got := string(imagemap.New().Draggable(true).RenderBytes())
 	want := `<map draggable="true"></map>`
@@ -277,6 +326,14 @@ func TestDraggableAttr(t *testing.T) {
 func TestEnterKeyHintAttr(t *testing.T) {
 	got := string(imagemap.New().EnterKeyHint(enterkeyhint.Enter).RenderBytes())
 	want := `<map enterkeyhint="enter"></map>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
+func TestEnterKeyHintCustom(t *testing.T) {
+	got := string(imagemap.New().EnterKeyHint(enterkeyhint.Custom("custom-value")).RenderBytes())
+	want := `<map enterkeyhint="custom-value"></map>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
 	}
@@ -298,9 +355,25 @@ func TestInertAttr(t *testing.T) {
 	}
 }
 
+func TestInertFalse(t *testing.T) {
+	got := string(imagemap.New().Inert().Inert(false).RenderBytes())
+	want := `<map></map>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
 func TestInputModeAttr(t *testing.T) {
 	got := string(imagemap.New().InputMode(inputmode.None).RenderBytes())
 	want := `<map inputmode="none"></map>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
+func TestInputModeCustom(t *testing.T) {
+	got := string(imagemap.New().InputMode(inputmode.Custom("custom-value")).RenderBytes())
+	want := `<map inputmode="custom-value"></map>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
 	}
@@ -341,6 +414,14 @@ func TestItemRefAttr(t *testing.T) {
 func TestItemScopeAttr(t *testing.T) {
 	got := string(imagemap.New().ItemScope().RenderBytes())
 	want := `<map itemscope></map>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
+func TestItemScopeFalse(t *testing.T) {
+	got := string(imagemap.New().ItemScope().ItemScope(false).RenderBytes())
+	want := `<map></map>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
 	}
@@ -387,6 +468,14 @@ func TestPopoverAttr(t *testing.T) {
 	}
 }
 
+func TestPopoverCustom(t *testing.T) {
+	got := string(imagemap.New().Popover(popover.Custom("custom-value")).RenderBytes())
+	want := `<map popover="custom-value"></map>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
 func TestSlotAttr(t *testing.T) {
 	got := string(imagemap.New().Slot("test").RenderBytes())
 	want := `<map slot="test"></map>`
@@ -403,9 +492,25 @@ func TestSpellCheckAttr(t *testing.T) {
 	}
 }
 
+func TestSpellCheckCustom(t *testing.T) {
+	got := string(imagemap.New().SpellCheck(spellcheck.Custom("custom-value")).RenderBytes())
+	want := `<map spellcheck="custom-value"></map>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
 func TestTranslateAttr(t *testing.T) {
 	got := string(imagemap.New().Translate(translate.Yes).RenderBytes())
 	want := `<map translate="yes"></map>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
+func TestTranslateCustom(t *testing.T) {
+	got := string(imagemap.New().Translate(translate.Custom("custom-value")).RenderBytes())
+	want := `<map translate="custom-value"></map>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
 	}
@@ -419,9 +524,25 @@ func TestVirtualKeyboardPolicyAttr(t *testing.T) {
 	}
 }
 
+func TestVirtualKeyboardPolicyCustom(t *testing.T) {
+	got := string(imagemap.New().VirtualKeyboardPolicy(virtualkeyboardpolicy.Custom("custom-value")).RenderBytes())
+	want := `<map virtualkeyboardpolicy="custom-value"></map>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
 func TestWritingSuggestionsAttr(t *testing.T) {
 	got := string(imagemap.New().WritingSuggestions(writingsuggestions.True).RenderBytes())
 	want := `<map writingsuggestions="true"></map>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
+func TestWritingSuggestionsCustom(t *testing.T) {
+	got := string(imagemap.New().WritingSuggestions(writingsuggestions.Custom("custom-value")).RenderBytes())
+	want := `<map writingsuggestions="custom-value"></map>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
 	}
@@ -1366,5 +1487,63 @@ func TestNotDynamic(t *testing.T) {
 	}
 	if el.DynamicKey() != "" {
 		t.Errorf("DynamicKey() should be empty, got %q", el.DynamicKey())
+	}
+}
+
+func TestRenderMethodsMatch(t *testing.T) {
+	el := imagemap.New()
+	el.SetAttribute("data-check", "render")
+	want := string(el.RenderBytes())
+
+	var buf bytes.Buffer
+	el.Render(&buf)
+	if buf.String() != want {
+		t.Errorf("Render: got %q, want %q", buf.String(), want)
+	}
+
+	buf.Reset()
+	n, err := el.WriteTo(&buf)
+	if err != nil {
+		t.Fatalf("WriteTo: %v", err)
+	}
+	if buf.String() != want {
+		t.Errorf("WriteTo: got %q, want %q", buf.String(), want)
+	}
+	if n != int64(len(want)) {
+		t.Errorf("WriteTo returned %d bytes, want %d", n, len(want))
+	}
+
+	buf.Reset()
+	el.RenderBuilder(&buf)
+	if buf.String() != want {
+		t.Errorf("RenderBuilder: got %q, want %q", buf.String(), want)
+	}
+
+	buf.Reset()
+	el.RenderOpen(&buf)
+	el.RenderClose(&buf)
+	if buf.String() != want {
+		t.Errorf("RenderOpen+RenderClose: got %q, want %q", buf.String(), want)
+	}
+}
+
+func TestSetAttributeEscapes(t *testing.T) {
+	el := imagemap.New()
+	el.SetAttribute("data-sample", "\"><script>")
+	got := string(el.RenderBytes())
+	want := `<map data-sample="&#34;&gt;&lt;script&gt;"></map>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
+func TestSetAttributeRaw(t *testing.T) {
+	el := imagemap.New()
+	// A pre-escaped entity must render verbatim; SetAttribute would double-escape it.
+	el.SetAttributeRaw("data-sample", "a&amp;b")
+	got := string(el.RenderBytes())
+	want := `<map data-sample="a&amp;b"></map>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
 	}
 }

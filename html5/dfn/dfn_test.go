@@ -3,6 +3,7 @@
 package dfn_test
 
 import (
+	"bytes"
 	"testing"
 
 	"github.com/jpl-au/fluent/html5/attr/autocapitalize"
@@ -145,6 +146,14 @@ func TestHiddenAttr(t *testing.T) {
 	}
 }
 
+func TestHiddenCustom(t *testing.T) {
+	got := string(dfn.New().Hidden(hidden.Custom("custom-value")).RenderBytes())
+	want := `<dfn hidden="custom-value"></dfn>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
 func TestTabIndexAttr(t *testing.T) {
 	got := string(dfn.New().TabIndex(42).RenderBytes())
 	want := `<dfn tabindex="42"></dfn>`
@@ -218,9 +227,25 @@ func TestAutoCapitalizeAttr(t *testing.T) {
 	}
 }
 
+func TestAutoCapitalizeCustom(t *testing.T) {
+	got := string(dfn.New().AutoCapitalize(autocapitalize.Custom("custom-value")).RenderBytes())
+	want := `<dfn autocapitalize="custom-value"></dfn>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
 func TestAutoCorrectAttr(t *testing.T) {
 	got := string(dfn.New().AutoCorrect(autocorrect.On).RenderBytes())
 	want := `<dfn autocorrect="on"></dfn>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
+func TestAutoCorrectCustom(t *testing.T) {
+	got := string(dfn.New().AutoCorrect(autocorrect.Custom("custom-value")).RenderBytes())
+	want := `<dfn autocorrect="custom-value"></dfn>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
 	}
@@ -234,9 +259,25 @@ func TestAutoFocusAttr(t *testing.T) {
 	}
 }
 
+func TestAutoFocusFalse(t *testing.T) {
+	got := string(dfn.New().AutoFocus().AutoFocus(false).RenderBytes())
+	want := `<dfn></dfn>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
 func TestContentEditableAttr(t *testing.T) {
 	got := string(dfn.New().ContentEditable(contenteditable.True).RenderBytes())
 	want := `<dfn contenteditable="true"></dfn>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
+func TestContentEditableCustom(t *testing.T) {
+	got := string(dfn.New().ContentEditable(contenteditable.Custom("custom-value")).RenderBytes())
+	want := `<dfn contenteditable="custom-value"></dfn>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
 	}
@@ -258,6 +299,14 @@ func TestDirAttr(t *testing.T) {
 	}
 }
 
+func TestDirCustom(t *testing.T) {
+	got := string(dfn.New().Dir(dir.Custom("custom-value")).RenderBytes())
+	want := `<dfn dir="custom-value"></dfn>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
 func TestDraggableAttr(t *testing.T) {
 	got := string(dfn.New().Draggable(true).RenderBytes())
 	want := `<dfn draggable="true"></dfn>`
@@ -269,6 +318,14 @@ func TestDraggableAttr(t *testing.T) {
 func TestEnterKeyHintAttr(t *testing.T) {
 	got := string(dfn.New().EnterKeyHint(enterkeyhint.Enter).RenderBytes())
 	want := `<dfn enterkeyhint="enter"></dfn>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
+func TestEnterKeyHintCustom(t *testing.T) {
+	got := string(dfn.New().EnterKeyHint(enterkeyhint.Custom("custom-value")).RenderBytes())
+	want := `<dfn enterkeyhint="custom-value"></dfn>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
 	}
@@ -290,9 +347,25 @@ func TestInertAttr(t *testing.T) {
 	}
 }
 
+func TestInertFalse(t *testing.T) {
+	got := string(dfn.New().Inert().Inert(false).RenderBytes())
+	want := `<dfn></dfn>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
 func TestInputModeAttr(t *testing.T) {
 	got := string(dfn.New().InputMode(inputmode.None).RenderBytes())
 	want := `<dfn inputmode="none"></dfn>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
+func TestInputModeCustom(t *testing.T) {
+	got := string(dfn.New().InputMode(inputmode.Custom("custom-value")).RenderBytes())
+	want := `<dfn inputmode="custom-value"></dfn>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
 	}
@@ -333,6 +406,14 @@ func TestItemRefAttr(t *testing.T) {
 func TestItemScopeAttr(t *testing.T) {
 	got := string(dfn.New().ItemScope().RenderBytes())
 	want := `<dfn itemscope></dfn>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
+func TestItemScopeFalse(t *testing.T) {
+	got := string(dfn.New().ItemScope().ItemScope(false).RenderBytes())
+	want := `<dfn></dfn>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
 	}
@@ -379,6 +460,14 @@ func TestPopoverAttr(t *testing.T) {
 	}
 }
 
+func TestPopoverCustom(t *testing.T) {
+	got := string(dfn.New().Popover(popover.Custom("custom-value")).RenderBytes())
+	want := `<dfn popover="custom-value"></dfn>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
 func TestSlotAttr(t *testing.T) {
 	got := string(dfn.New().Slot("test").RenderBytes())
 	want := `<dfn slot="test"></dfn>`
@@ -395,9 +484,25 @@ func TestSpellCheckAttr(t *testing.T) {
 	}
 }
 
+func TestSpellCheckCustom(t *testing.T) {
+	got := string(dfn.New().SpellCheck(spellcheck.Custom("custom-value")).RenderBytes())
+	want := `<dfn spellcheck="custom-value"></dfn>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
 func TestTranslateAttr(t *testing.T) {
 	got := string(dfn.New().Translate(translate.Yes).RenderBytes())
 	want := `<dfn translate="yes"></dfn>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
+func TestTranslateCustom(t *testing.T) {
+	got := string(dfn.New().Translate(translate.Custom("custom-value")).RenderBytes())
+	want := `<dfn translate="custom-value"></dfn>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
 	}
@@ -411,9 +516,25 @@ func TestVirtualKeyboardPolicyAttr(t *testing.T) {
 	}
 }
 
+func TestVirtualKeyboardPolicyCustom(t *testing.T) {
+	got := string(dfn.New().VirtualKeyboardPolicy(virtualkeyboardpolicy.Custom("custom-value")).RenderBytes())
+	want := `<dfn virtualkeyboardpolicy="custom-value"></dfn>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
 func TestWritingSuggestionsAttr(t *testing.T) {
 	got := string(dfn.New().WritingSuggestions(writingsuggestions.True).RenderBytes())
 	want := `<dfn writingsuggestions="true"></dfn>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
+func TestWritingSuggestionsCustom(t *testing.T) {
+	got := string(dfn.New().WritingSuggestions(writingsuggestions.Custom("custom-value")).RenderBytes())
+	want := `<dfn writingsuggestions="custom-value"></dfn>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
 	}
@@ -1358,5 +1479,63 @@ func TestNotDynamic(t *testing.T) {
 	}
 	if el.DynamicKey() != "" {
 		t.Errorf("DynamicKey() should be empty, got %q", el.DynamicKey())
+	}
+}
+
+func TestRenderMethodsMatch(t *testing.T) {
+	el := dfn.New()
+	el.SetAttribute("data-check", "render")
+	want := string(el.RenderBytes())
+
+	var buf bytes.Buffer
+	el.Render(&buf)
+	if buf.String() != want {
+		t.Errorf("Render: got %q, want %q", buf.String(), want)
+	}
+
+	buf.Reset()
+	n, err := el.WriteTo(&buf)
+	if err != nil {
+		t.Fatalf("WriteTo: %v", err)
+	}
+	if buf.String() != want {
+		t.Errorf("WriteTo: got %q, want %q", buf.String(), want)
+	}
+	if n != int64(len(want)) {
+		t.Errorf("WriteTo returned %d bytes, want %d", n, len(want))
+	}
+
+	buf.Reset()
+	el.RenderBuilder(&buf)
+	if buf.String() != want {
+		t.Errorf("RenderBuilder: got %q, want %q", buf.String(), want)
+	}
+
+	buf.Reset()
+	el.RenderOpen(&buf)
+	el.RenderClose(&buf)
+	if buf.String() != want {
+		t.Errorf("RenderOpen+RenderClose: got %q, want %q", buf.String(), want)
+	}
+}
+
+func TestSetAttributeEscapes(t *testing.T) {
+	el := dfn.New()
+	el.SetAttribute("data-sample", "\"><script>")
+	got := string(el.RenderBytes())
+	want := `<dfn data-sample="&#34;&gt;&lt;script&gt;"></dfn>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
+func TestSetAttributeRaw(t *testing.T) {
+	el := dfn.New()
+	// A pre-escaped entity must render verbatim; SetAttribute would double-escape it.
+	el.SetAttributeRaw("data-sample", "a&amp;b")
+	got := string(el.RenderBytes())
+	want := `<dfn data-sample="a&amp;b"></dfn>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
 	}
 }

@@ -3,6 +3,7 @@
 package svg_test
 
 import (
+	"bytes"
 	"testing"
 
 	"github.com/jpl-au/fluent/html5/attr/gradientunits"
@@ -162,5 +163,61 @@ func TestDynamicKey(t *testing.T) {
 	got := string(svg.Rect().Dynamic("k").RenderBytes())
 	if got != "<rect data-fluent-key=\"k\" />" {
 		t.Errorf("got %q, want %q", got, "<rect data-fluent-key=\"k\" />")
+	}
+}
+
+func TestSetAttributeEscapes(t *testing.T) {
+	el := svg.New()
+	el.SetAttribute("data-sample", "\"><script>")
+	got := string(el.RenderBytes())
+	want := `<svg xmlns="http://www.w3.org/2000/svg" data-sample="&#34;&gt;&lt;script&gt;"></svg>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
+func TestSetAttributeRaw(t *testing.T) {
+	el := svg.New()
+	el.SetAttributeRaw("data-sample", "a&amp;b")
+	got := string(el.RenderBytes())
+	want := `<svg xmlns="http://www.w3.org/2000/svg" data-sample="a&amp;b"></svg>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
+func TestRenderMethodsMatch(t *testing.T) {
+	el := svg.New()
+	want := string(el.RenderBytes())
+
+	var buf bytes.Buffer
+	el.Render(&buf)
+	if buf.String() != want {
+		t.Errorf("Render: got %q, want %q", buf.String(), want)
+	}
+
+	buf.Reset()
+	n, err := el.WriteTo(&buf)
+	if err != nil {
+		t.Fatalf("WriteTo: %v", err)
+	}
+	if buf.String() != want {
+		t.Errorf("WriteTo: got %q, want %q", buf.String(), want)
+	}
+	if n != int64(len(want)) {
+		t.Errorf("WriteTo returned %d bytes, want %d", n, len(want))
+	}
+
+	buf.Reset()
+	el.RenderBuilder(&buf)
+	if buf.String() != want {
+		t.Errorf("RenderBuilder: got %q, want %q", buf.String(), want)
+	}
+
+	buf.Reset()
+	el.RenderOpen(&buf)
+	el.RenderClose(&buf)
+	if buf.String() != want {
+		t.Errorf("RenderOpen+RenderClose: got %q, want %q", buf.String(), want)
 	}
 }

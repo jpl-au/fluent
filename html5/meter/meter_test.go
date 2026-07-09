@@ -3,6 +3,7 @@
 package meter_test
 
 import (
+	"bytes"
 	"testing"
 
 	"github.com/jpl-au/fluent/html5/attr/autocapitalize"
@@ -194,6 +195,14 @@ func TestHiddenAttr(t *testing.T) {
 	}
 }
 
+func TestHiddenCustom(t *testing.T) {
+	got := string(meter.New().Hidden(hidden.Custom("custom-value")).RenderBytes())
+	want := `<meter hidden="custom-value"></meter>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
 func TestTabIndexAttr(t *testing.T) {
 	got := string(meter.New().TabIndex(42).RenderBytes())
 	want := `<meter tabindex="42"></meter>`
@@ -267,9 +276,25 @@ func TestAutoCapitalizeAttr(t *testing.T) {
 	}
 }
 
+func TestAutoCapitalizeCustom(t *testing.T) {
+	got := string(meter.New().AutoCapitalize(autocapitalize.Custom("custom-value")).RenderBytes())
+	want := `<meter autocapitalize="custom-value"></meter>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
 func TestAutoCorrectAttr(t *testing.T) {
 	got := string(meter.New().AutoCorrect(autocorrect.On).RenderBytes())
 	want := `<meter autocorrect="on"></meter>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
+func TestAutoCorrectCustom(t *testing.T) {
+	got := string(meter.New().AutoCorrect(autocorrect.Custom("custom-value")).RenderBytes())
+	want := `<meter autocorrect="custom-value"></meter>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
 	}
@@ -283,9 +308,25 @@ func TestAutoFocusAttr(t *testing.T) {
 	}
 }
 
+func TestAutoFocusFalse(t *testing.T) {
+	got := string(meter.New().AutoFocus().AutoFocus(false).RenderBytes())
+	want := `<meter></meter>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
 func TestContentEditableAttr(t *testing.T) {
 	got := string(meter.New().ContentEditable(contenteditable.True).RenderBytes())
 	want := `<meter contenteditable="true"></meter>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
+func TestContentEditableCustom(t *testing.T) {
+	got := string(meter.New().ContentEditable(contenteditable.Custom("custom-value")).RenderBytes())
+	want := `<meter contenteditable="custom-value"></meter>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
 	}
@@ -307,6 +348,14 @@ func TestDirAttr(t *testing.T) {
 	}
 }
 
+func TestDirCustom(t *testing.T) {
+	got := string(meter.New().Dir(dir.Custom("custom-value")).RenderBytes())
+	want := `<meter dir="custom-value"></meter>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
 func TestDraggableAttr(t *testing.T) {
 	got := string(meter.New().Draggable(true).RenderBytes())
 	want := `<meter draggable="true"></meter>`
@@ -318,6 +367,14 @@ func TestDraggableAttr(t *testing.T) {
 func TestEnterKeyHintAttr(t *testing.T) {
 	got := string(meter.New().EnterKeyHint(enterkeyhint.Enter).RenderBytes())
 	want := `<meter enterkeyhint="enter"></meter>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
+func TestEnterKeyHintCustom(t *testing.T) {
+	got := string(meter.New().EnterKeyHint(enterkeyhint.Custom("custom-value")).RenderBytes())
+	want := `<meter enterkeyhint="custom-value"></meter>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
 	}
@@ -339,9 +396,25 @@ func TestInertAttr(t *testing.T) {
 	}
 }
 
+func TestInertFalse(t *testing.T) {
+	got := string(meter.New().Inert().Inert(false).RenderBytes())
+	want := `<meter></meter>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
 func TestInputModeAttr(t *testing.T) {
 	got := string(meter.New().InputMode(inputmode.None).RenderBytes())
 	want := `<meter inputmode="none"></meter>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
+func TestInputModeCustom(t *testing.T) {
+	got := string(meter.New().InputMode(inputmode.Custom("custom-value")).RenderBytes())
+	want := `<meter inputmode="custom-value"></meter>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
 	}
@@ -382,6 +455,14 @@ func TestItemRefAttr(t *testing.T) {
 func TestItemScopeAttr(t *testing.T) {
 	got := string(meter.New().ItemScope().RenderBytes())
 	want := `<meter itemscope></meter>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
+func TestItemScopeFalse(t *testing.T) {
+	got := string(meter.New().ItemScope().ItemScope(false).RenderBytes())
+	want := `<meter></meter>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
 	}
@@ -428,6 +509,14 @@ func TestPopoverAttr(t *testing.T) {
 	}
 }
 
+func TestPopoverCustom(t *testing.T) {
+	got := string(meter.New().Popover(popover.Custom("custom-value")).RenderBytes())
+	want := `<meter popover="custom-value"></meter>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
 func TestSlotAttr(t *testing.T) {
 	got := string(meter.New().Slot("test").RenderBytes())
 	want := `<meter slot="test"></meter>`
@@ -444,9 +533,25 @@ func TestSpellCheckAttr(t *testing.T) {
 	}
 }
 
+func TestSpellCheckCustom(t *testing.T) {
+	got := string(meter.New().SpellCheck(spellcheck.Custom("custom-value")).RenderBytes())
+	want := `<meter spellcheck="custom-value"></meter>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
 func TestTranslateAttr(t *testing.T) {
 	got := string(meter.New().Translate(translate.Yes).RenderBytes())
 	want := `<meter translate="yes"></meter>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
+func TestTranslateCustom(t *testing.T) {
+	got := string(meter.New().Translate(translate.Custom("custom-value")).RenderBytes())
+	want := `<meter translate="custom-value"></meter>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
 	}
@@ -460,9 +565,25 @@ func TestVirtualKeyboardPolicyAttr(t *testing.T) {
 	}
 }
 
+func TestVirtualKeyboardPolicyCustom(t *testing.T) {
+	got := string(meter.New().VirtualKeyboardPolicy(virtualkeyboardpolicy.Custom("custom-value")).RenderBytes())
+	want := `<meter virtualkeyboardpolicy="custom-value"></meter>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
 func TestWritingSuggestionsAttr(t *testing.T) {
 	got := string(meter.New().WritingSuggestions(writingsuggestions.True).RenderBytes())
 	want := `<meter writingsuggestions="true"></meter>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
+func TestWritingSuggestionsCustom(t *testing.T) {
+	got := string(meter.New().WritingSuggestions(writingsuggestions.Custom("custom-value")).RenderBytes())
+	want := `<meter writingsuggestions="custom-value"></meter>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
 	}
@@ -1407,5 +1528,63 @@ func TestNotDynamic(t *testing.T) {
 	}
 	if el.DynamicKey() != "" {
 		t.Errorf("DynamicKey() should be empty, got %q", el.DynamicKey())
+	}
+}
+
+func TestRenderMethodsMatch(t *testing.T) {
+	el := meter.New()
+	el.SetAttribute("data-check", "render")
+	want := string(el.RenderBytes())
+
+	var buf bytes.Buffer
+	el.Render(&buf)
+	if buf.String() != want {
+		t.Errorf("Render: got %q, want %q", buf.String(), want)
+	}
+
+	buf.Reset()
+	n, err := el.WriteTo(&buf)
+	if err != nil {
+		t.Fatalf("WriteTo: %v", err)
+	}
+	if buf.String() != want {
+		t.Errorf("WriteTo: got %q, want %q", buf.String(), want)
+	}
+	if n != int64(len(want)) {
+		t.Errorf("WriteTo returned %d bytes, want %d", n, len(want))
+	}
+
+	buf.Reset()
+	el.RenderBuilder(&buf)
+	if buf.String() != want {
+		t.Errorf("RenderBuilder: got %q, want %q", buf.String(), want)
+	}
+
+	buf.Reset()
+	el.RenderOpen(&buf)
+	el.RenderClose(&buf)
+	if buf.String() != want {
+		t.Errorf("RenderOpen+RenderClose: got %q, want %q", buf.String(), want)
+	}
+}
+
+func TestSetAttributeEscapes(t *testing.T) {
+	el := meter.New()
+	el.SetAttribute("data-sample", "\"><script>")
+	got := string(el.RenderBytes())
+	want := `<meter data-sample="&#34;&gt;&lt;script&gt;"></meter>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
+func TestSetAttributeRaw(t *testing.T) {
+	el := meter.New()
+	// A pre-escaped entity must render verbatim; SetAttribute would double-escape it.
+	el.SetAttributeRaw("data-sample", "a&amp;b")
+	got := string(el.RenderBytes())
+	want := `<meter data-sample="a&amp;b"></meter>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
 	}
 }

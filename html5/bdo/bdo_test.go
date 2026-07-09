@@ -3,6 +3,7 @@
 package bdo_test
 
 import (
+	"bytes"
 	"testing"
 
 	"github.com/jpl-au/fluent/html5/attr/autocapitalize"
@@ -84,6 +85,14 @@ func TestDirAttr(t *testing.T) {
 	}
 }
 
+func TestDirCustom(t *testing.T) {
+	got := string(bdo.New().Dir(dir.Custom("custom-value")).RenderBytes())
+	want := `<bdo dir="custom-value"></bdo>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
 func TestClassAttr(t *testing.T) {
 	got := string(bdo.New().Class("test").RenderBytes())
 	want := `<bdo class="test"></bdo>`
@@ -137,6 +146,14 @@ func TestTitleAttr(t *testing.T) {
 func TestHiddenAttr(t *testing.T) {
 	got := string(bdo.New().Hidden(hidden.True).RenderBytes())
 	want := `<bdo hidden="true"></bdo>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
+func TestHiddenCustom(t *testing.T) {
+	got := string(bdo.New().Hidden(hidden.Custom("custom-value")).RenderBytes())
+	want := `<bdo hidden="custom-value"></bdo>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
 	}
@@ -215,9 +232,25 @@ func TestAutoCapitalizeAttr(t *testing.T) {
 	}
 }
 
+func TestAutoCapitalizeCustom(t *testing.T) {
+	got := string(bdo.New().AutoCapitalize(autocapitalize.Custom("custom-value")).RenderBytes())
+	want := `<bdo autocapitalize="custom-value"></bdo>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
 func TestAutoCorrectAttr(t *testing.T) {
 	got := string(bdo.New().AutoCorrect(autocorrect.On).RenderBytes())
 	want := `<bdo autocorrect="on"></bdo>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
+func TestAutoCorrectCustom(t *testing.T) {
+	got := string(bdo.New().AutoCorrect(autocorrect.Custom("custom-value")).RenderBytes())
+	want := `<bdo autocorrect="custom-value"></bdo>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
 	}
@@ -231,9 +264,25 @@ func TestAutoFocusAttr(t *testing.T) {
 	}
 }
 
+func TestAutoFocusFalse(t *testing.T) {
+	got := string(bdo.New().AutoFocus().AutoFocus(false).RenderBytes())
+	want := `<bdo></bdo>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
 func TestContentEditableAttr(t *testing.T) {
 	got := string(bdo.New().ContentEditable(contenteditable.True).RenderBytes())
 	want := `<bdo contenteditable="true"></bdo>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
+func TestContentEditableCustom(t *testing.T) {
+	got := string(bdo.New().ContentEditable(contenteditable.Custom("custom-value")).RenderBytes())
+	want := `<bdo contenteditable="custom-value"></bdo>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
 	}
@@ -263,6 +312,14 @@ func TestEnterKeyHintAttr(t *testing.T) {
 	}
 }
 
+func TestEnterKeyHintCustom(t *testing.T) {
+	got := string(bdo.New().EnterKeyHint(enterkeyhint.Custom("custom-value")).RenderBytes())
+	want := `<bdo enterkeyhint="custom-value"></bdo>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
 func TestExportPartsAttr(t *testing.T) {
 	got := string(bdo.New().ExportParts("test").RenderBytes())
 	want := `<bdo exportparts="test"></bdo>`
@@ -279,9 +336,25 @@ func TestInertAttr(t *testing.T) {
 	}
 }
 
+func TestInertFalse(t *testing.T) {
+	got := string(bdo.New().Inert().Inert(false).RenderBytes())
+	want := `<bdo></bdo>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
 func TestInputModeAttr(t *testing.T) {
 	got := string(bdo.New().InputMode(inputmode.None).RenderBytes())
 	want := `<bdo inputmode="none"></bdo>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
+func TestInputModeCustom(t *testing.T) {
+	got := string(bdo.New().InputMode(inputmode.Custom("custom-value")).RenderBytes())
+	want := `<bdo inputmode="custom-value"></bdo>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
 	}
@@ -322,6 +395,14 @@ func TestItemRefAttr(t *testing.T) {
 func TestItemScopeAttr(t *testing.T) {
 	got := string(bdo.New().ItemScope().RenderBytes())
 	want := `<bdo itemscope></bdo>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
+func TestItemScopeFalse(t *testing.T) {
+	got := string(bdo.New().ItemScope().ItemScope(false).RenderBytes())
+	want := `<bdo></bdo>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
 	}
@@ -368,6 +449,14 @@ func TestPopoverAttr(t *testing.T) {
 	}
 }
 
+func TestPopoverCustom(t *testing.T) {
+	got := string(bdo.New().Popover(popover.Custom("custom-value")).RenderBytes())
+	want := `<bdo popover="custom-value"></bdo>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
 func TestSlotAttr(t *testing.T) {
 	got := string(bdo.New().Slot("test").RenderBytes())
 	want := `<bdo slot="test"></bdo>`
@@ -384,9 +473,25 @@ func TestSpellCheckAttr(t *testing.T) {
 	}
 }
 
+func TestSpellCheckCustom(t *testing.T) {
+	got := string(bdo.New().SpellCheck(spellcheck.Custom("custom-value")).RenderBytes())
+	want := `<bdo spellcheck="custom-value"></bdo>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
 func TestTranslateAttr(t *testing.T) {
 	got := string(bdo.New().Translate(translate.Yes).RenderBytes())
 	want := `<bdo translate="yes"></bdo>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
+func TestTranslateCustom(t *testing.T) {
+	got := string(bdo.New().Translate(translate.Custom("custom-value")).RenderBytes())
+	want := `<bdo translate="custom-value"></bdo>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
 	}
@@ -400,9 +505,25 @@ func TestVirtualKeyboardPolicyAttr(t *testing.T) {
 	}
 }
 
+func TestVirtualKeyboardPolicyCustom(t *testing.T) {
+	got := string(bdo.New().VirtualKeyboardPolicy(virtualkeyboardpolicy.Custom("custom-value")).RenderBytes())
+	want := `<bdo virtualkeyboardpolicy="custom-value"></bdo>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
 func TestWritingSuggestionsAttr(t *testing.T) {
 	got := string(bdo.New().WritingSuggestions(writingsuggestions.True).RenderBytes())
 	want := `<bdo writingsuggestions="true"></bdo>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
+func TestWritingSuggestionsCustom(t *testing.T) {
+	got := string(bdo.New().WritingSuggestions(writingsuggestions.Custom("custom-value")).RenderBytes())
+	want := `<bdo writingsuggestions="custom-value"></bdo>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
 	}
@@ -1347,5 +1468,63 @@ func TestNotDynamic(t *testing.T) {
 	}
 	if el.DynamicKey() != "" {
 		t.Errorf("DynamicKey() should be empty, got %q", el.DynamicKey())
+	}
+}
+
+func TestRenderMethodsMatch(t *testing.T) {
+	el := bdo.New()
+	el.SetAttribute("data-check", "render")
+	want := string(el.RenderBytes())
+
+	var buf bytes.Buffer
+	el.Render(&buf)
+	if buf.String() != want {
+		t.Errorf("Render: got %q, want %q", buf.String(), want)
+	}
+
+	buf.Reset()
+	n, err := el.WriteTo(&buf)
+	if err != nil {
+		t.Fatalf("WriteTo: %v", err)
+	}
+	if buf.String() != want {
+		t.Errorf("WriteTo: got %q, want %q", buf.String(), want)
+	}
+	if n != int64(len(want)) {
+		t.Errorf("WriteTo returned %d bytes, want %d", n, len(want))
+	}
+
+	buf.Reset()
+	el.RenderBuilder(&buf)
+	if buf.String() != want {
+		t.Errorf("RenderBuilder: got %q, want %q", buf.String(), want)
+	}
+
+	buf.Reset()
+	el.RenderOpen(&buf)
+	el.RenderClose(&buf)
+	if buf.String() != want {
+		t.Errorf("RenderOpen+RenderClose: got %q, want %q", buf.String(), want)
+	}
+}
+
+func TestSetAttributeEscapes(t *testing.T) {
+	el := bdo.New()
+	el.SetAttribute("data-sample", "\"><script>")
+	got := string(el.RenderBytes())
+	want := `<bdo data-sample="&#34;&gt;&lt;script&gt;"></bdo>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
+func TestSetAttributeRaw(t *testing.T) {
+	el := bdo.New()
+	// A pre-escaped entity must render verbatim; SetAttribute would double-escape it.
+	el.SetAttributeRaw("data-sample", "a&amp;b")
+	got := string(el.RenderBytes())
+	want := `<bdo data-sample="a&amp;b"></bdo>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
 	}
 }
