@@ -1,12 +1,39 @@
 package node
 
-import "strings"
+import (
+	"strings"
+	"sync/atomic"
+)
 
 // UnsafeURL is the value substituted for a URL whose scheme is not allowed.
 // It is a fragment-only reference: inert for navigation and script, harmless
 // in layout, and greppable in rendered output. It mirrors the mechanics of
 // html/template's ZgotmplZ sentinel.
 const UnsafeURL = "#fluent-unsafe-url"
+
+// unsafeURLObserver holds the optional observer registered via OnUnsafeURL.
+// It is read on the URL-setting path, so an atomic pointer keeps clean URLs
+// lock-free (they never load it) and the rejection path a single atomic load.
+var unsafeURLObserver atomic.Pointer[func(rejected string)]
+
+// OnUnsafeURL registers fn to be called whenever [FilterURL] rejects a URL,
+// passing the original (rejected) string. It is an observation hook for
+// logging or metrics - security monitoring wants to know when a hostile URL
+// was filtered - and it cannot change the outcome: the rejected URL is always
+// replaced with [UnsafeURL] regardless. Pass nil to clear a previous observer.
+//
+// The observer runs synchronously on the goroutine that set the attribute, and
+// only on the rejection path (a clean URL never calls it, so escaping-clean
+// renders pay nothing). Registration is safe for concurrent use; because it is
+// observe-only, it carries none of the mutable-policy risk of a runtime safety
+// toggle.
+func OnUnsafeURL(fn func(rejected string)) {
+	if fn == nil {
+		unsafeURLObserver.Store(nil)
+		return
+	}
+	unsafeURLObserver.Store(&fn)
+}
 
 // FilterURL guards URL-valued attributes on sinks that navigate or load
 // (href, src, action, ...). It returns s unchanged when the URL is safe, and
@@ -59,6 +86,9 @@ func FilterURL(s string) string {
 		strings.EqualFold(scheme, "sms"):
 		return s
 	default:
+		if obs := unsafeURLObserver.Load(); obs != nil {
+			(*obs)(s)
+		}
 		return UnsafeURL
 	}
 }

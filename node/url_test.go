@@ -69,3 +69,33 @@ func BenchmarkFilterURLReject(b *testing.B) {
 		sinkStr = FilterURL(u)
 	}
 }
+
+func TestOnUnsafeURL(t *testing.T) {
+	// The observer is process-global; always clear it so it cannot leak
+	// into other tests or the benchmarks.
+	defer OnUnsafeURL(nil)
+
+	var got []string
+	OnUnsafeURL(func(rejected string) { got = append(got, rejected) })
+
+	// A clean URL must not fire the observer.
+	if FilterURL("https://example.com/x"); len(got) != 0 {
+		t.Fatalf("clean URL fired the observer: %v", got)
+	}
+
+	// A rejected URL fires with the ORIGINAL string, not the sentinel.
+	const hostile = "javascript:alert(1)"
+	if out := FilterURL(hostile); out != UnsafeURL {
+		t.Fatalf("expected sentinel, got %q", out)
+	}
+	if len(got) != 1 || got[0] != hostile {
+		t.Fatalf("observer got %v, want [%q]", got, hostile)
+	}
+
+	// Clearing with nil stops observation.
+	OnUnsafeURL(nil)
+	FilterURL("vbscript:msgbox(1)")
+	if len(got) != 1 {
+		t.Fatalf("observer fired after being cleared: %v", got)
+	}
+}
