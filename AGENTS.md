@@ -296,7 +296,9 @@ The `node.Node` interface is Fluent's foundation. Every renderable piece impleme
 
 ```go
 type Node interface {
-    Render(w ...io.Writer) []byte
+    Render(w io.Writer)                // fire-and-forget; write errors discarded
+    WriteTo(w io.Writer) (int64, error) // write and observe the error
+    RenderBytes() []byte               // render to a new []byte
     RenderBuilder(*bytes.Buffer)
     Nodes() []Node
 }
@@ -840,13 +842,22 @@ func (f *EmailField) Class(class string) *EmailField {
     return f
 }
 
-func (f *EmailField) Render(w ...io.Writer) []byte {
+// Render, WriteTo and RenderBytes are the three node.Node render entry
+// points; each is a thin wrapper over RenderBuilder (mirroring text.Node).
+func (f *EmailField) Render(w io.Writer) {
+    _, _ = f.WriteTo(w)
+}
+
+func (f *EmailField) WriteTo(w io.Writer) (int64, error) {
     var buf bytes.Buffer
     f.RenderBuilder(&buf)
-    if len(w) > 0 && w[0] != nil {
-        w[0].Write(buf.Bytes())
-        return nil
-    }
+    n, err := w.Write(buf.Bytes())
+    return int64(n), err
+}
+
+func (f *EmailField) RenderBytes() []byte {
+    var buf bytes.Buffer
+    f.RenderBuilder(&buf)
     return buf.Bytes()
 }
 

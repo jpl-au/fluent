@@ -430,7 +430,7 @@ Fluent is organised into several packages:
 
 | Package | Description |
 |---------|-------------|
-| `node` | Core `Node` interface for all renderable types: `Render()`, `RenderBuilder()`, `Nodes()`. The `Element` interface extends `Node` with `SetAttribute()`, `RenderOpen()`, `RenderClose()` for HTML elements |
+| `node` | Core `Node` interface for all renderable types: `Render(w)`, `WriteTo(w)`, `RenderBytes()`, `RenderBuilder()`, `Nodes()`. The `Element` interface extends `Node` with `SetAttribute()`, `SetAttributeRaw()`, `RenderOpen()`, `RenderClose()` for HTML elements |
 | `html5/*` | HTML5 elements, one package per element (e.g., `div`, `span`, `input`). Each provides `New()`, `Text()`, `Static()` constructors |
 | `html5/attr/*` | Type-safe attribute constants (e.g., `inputtype.Email`, `autocomplete.Off`, `rel.Stylesheet`) |
 | `text` | Text node implementations for `Static()`, `Text()`, `RawText()` and their formatted variants |
@@ -458,14 +458,17 @@ Returning concrete types (like `*div.Element`) allows method chaining after the 
 
 ### Rendering
 
-All nodes implement `node.Node`. Call `Render()` to get `[]byte`, or pass an `io.Writer` to write directly:
+All nodes implement `node.Node`. The usual path is `Render(w)` - write straight to an `io.Writer` such as an `http.ResponseWriter`. Reach for `WriteTo(w)` when you need the write error, or `RenderBytes()` when you actually need a `[]byte`:
 
 ```go
-// Get bytes
-html := page.Render()
-
-// Write to response
+// Write to a writer (the common case; write errors discarded)
 page.Render(w)
+
+// Same, but observe the byte count and any write error
+n, err := page.WriteTo(w)
+
+// Allocate and return the bytes (tests, caching, string building)
+html := page.RenderBytes()
 ```
 
 For building complex trees efficiently, `RenderBuilder(*bytes.Buffer)` writes directly to a shared buffer.
