@@ -996,6 +996,6 @@ func render() node.Node {
 
 The package-based approach (`div.New()`, `p.Text()`) is the primary API. Specialised constructors like `meta.UTF8()` still require direct package import.
 
-## Profile-Guided Optimization (PGO)
+## Profile-Guided Optimisation (PGO)
 
 Applications using Fluent benefit from [PGO](https://go.dev/doc/pgo) (Go 1.21+). Collect a CPU profile from production, place it as `default.pgo` in the main package, and `go build` applies it automatically. Expect 10-20% speed improvements across the rendering pipeline with no code changes. Allocations are unaffected - PGO improves inlining decisions only. Collect fresh profiles periodically as code evolves.

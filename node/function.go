@@ -37,9 +37,9 @@ type FunctionComponent struct {
 // walker calling Nodes) evaluates it again. Write functions that are
 // cheap, deterministic and side-effect free - in particular, ranging
 // over a map produces a different order on every evaluation; sort the
-// keys first. The jit engines and tether guarantee exactly one
-// evaluation per render as an optimisation, but code must stay
-// correct without that guarantee.
+// keys first. The jit engines guarantee exactly one evaluation per
+// render as an optimisation, but code must stay correct without that
+// guarantee.
 func Func(fn func() Node) *FunctionComponent {
 	return &FunctionComponent{
 		fn: fn,

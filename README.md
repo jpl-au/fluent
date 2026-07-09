@@ -2,17 +2,17 @@
 
 HTML5 components in Go using a Fluent API.
 
-**Quick links:** [Why Fluent?](#why-fluent) · [Install](#install) · [Quick Start](#quick-start) · [Flint (linter & element info)](#flint) · [Reserved Keywords](#reserved-keywords) · [Static vs Dynamic Content](#static-vs-dynamic-content) · [Typed Constructors](#typed-constructors) · [Conditional Rendering](#conditional-rendering) · [Functional Processing](#functional-processing) · [Building Components](#building-components) · [Type-Safe Attributes](#type-safe-attributes) · [Architecture](#architecture) · [Performance](#performance) · [Generator](#generator) · [Ecosystem](#ecosystem) · [PGO](#profile-guided-optimization-pgo)
+**Quick links:** [Why Fluent?](#why-fluent) · [Install](#install) · [Quick Start](#quick-start) · [Flint (linter & element info)](#flint) · [Reserved Keywords](#reserved-keywords) · [Static vs Dynamic Content](#static-vs-dynamic-content) · [Typed Constructors](#typed-constructors) · [Conditional Rendering](#conditional-rendering) · [Functional Processing](#functional-processing) · [Building Components](#building-components) · [Type-Safe Attributes](#type-safe-attributes) · [Architecture](#architecture) · [Performance](#performance) · [Generator](#generator) · [Ecosystem](#ecosystem) · [PGO](#profile-guided-optimisation-pgo)
 
 ## Why Fluent?
 
-**No template language to learn.** Write HTML using Go code. Get IDE auto-completion, type checking, and refactoring support for free. [AGENTS.md](AGENTS.md) makes it trivial for AI agents to do the hard work for you.
+**No template language to learn.** Write HTML using Go code. Get IDE auto-completion, type checking, and refactoring support for free.
 
 **Built for developers.** Thoughtful around the developer experience: attributes use native Go types - set a `width` with an `int`, a `volume` with a `float64`. Fluent handles the conversion. Type-safe constants for enumerated values catch typos like `type="emial"`.
 
 **Type-safe nesting.** Typed constructors enforce correct HTML parent-child relationships at compile time. `ul.Items()` only accepts `*li.Element`, `tr.Cells()` only accepts `*td.Element` - the compiler catches nesting mistakes that would otherwise become silent bugs. `New()` remains available as the flexible escape hatch. [See Typed Constructors](#typed-constructors).
 
-**HTML escaping by default.** `Text()` and `Textf()` automatically escape `<`, `>`, `&`, and quotes, and every attribute value is escaped (and URL sinks scheme-filtered) at set time too - see [Attribute escaping](#attribute-escaping). For untrusted HTML that needs to render *as* HTML (rendered markdown, rich-text input), reach for the opt-in [fluent-security](https://github.com/jpl-au/fluent-security) package, which wraps [bluemonday](https://github.com/microcosm-cc/bluemonday) and returns Fluent nodes directly.
+**HTML escaping by default.** `Text()` and `Textf()` automatically escape `<`, `>`, `&`, and quotes, and every attribute value is escaped (and URL sinks scheme-filtered) at set time too - see [Attribute escaping](#attribute-escaping). For untrusted HTML that needs to render as HTML (rendered markdown, rich-text input), reach for the opt-in [fluent-security](https://github.com/jpl-au/fluent-security) package, which wraps [bluemonday](https://github.com/microcosm-cc/bluemonday) and returns Fluent nodes directly.
 
 **Performance considered.** Buffer pooling and efficient rendering for high-throughput applications. Don't want to use `sync.Pool`? Just turn it off.
 
@@ -150,7 +150,7 @@ typed setters (`.Class()`, `.Title()`, `.Value()`, ...), `.SetAttribute()`,
 div.New().SetAttribute("data-note", userInput)
 ```
 
-Because escaping is automatic, **do not pre-escape values yourself**. Calling
+Because escaping is automatic, do not pre-escape values yourself. Calling
 `html.EscapeString` before a setter double-escapes the value: the browser
 decodes one layer on `getAttribute` and the caller sees stray `&amp;`/`&#34;`
 artefacts (and JSON stored in a data attribute stops parsing). Pass the raw
@@ -611,9 +611,9 @@ I have also worked with [Templ](https://github.com/a-h/templ) and while it's gre
 
 During the creation of Fluent I ran several benchmarks against gocomponents, gostar, hb and even templ. In comparison with the non-compiled (i.e.: not templ) solutions, Fluent seems to have better CPU and memory profiles, with significantly lower allocations due to the buffer pooling strategy. The Fluent JIT package further optimises the performance characteristics. I decided against publishing the results as benchmarking can be subjective, and the results vary depending on how and what you are measuring. I welcome the opportunity for others to create their own benchmarks and share them.
 
-## Profile-Guided Optimization (PGO)
+## Profile-Guided Optimisation (PGO)
 
-Go supports [Profile-Guided Optimization](https://go.dev/doc/pgo) from version 1.21+. PGO uses a CPU profile from your running application to make more aggressive inlining and optimisation decisions at compile time. Benchmarks show **10-20% speed improvements** with no code changes.
+Go supports [Profile-Guided Optimisation](https://go.dev/doc/pgo) from version 1.21+. PGO uses a CPU profile from your running application to make more aggressive inlining and optimisation decisions at compile time. Benchmarks show **10-20% speed improvements** with no code changes.
 
 To enable PGO in your application:
 

@@ -1,9 +1,8 @@
 package node
 
 // Dynamic represents nodes that contain dynamic content requiring
-// re-evaluation on each render. The fluent-jit diff engine and Tether's
-// reactive UI use this interface to identify trackable nodes in the
-// render tree.
+// re-evaluation on each render. The fluent-jit diff engine uses this
+// interface to identify trackable nodes in the render tree.
 //
 // IsDynamic reports whether the node produces different output across
 // renders. DynamicKey returns the developer-assigned key used by the

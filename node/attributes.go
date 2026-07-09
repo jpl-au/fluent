@@ -1,7 +1,7 @@
 package node
 
 // The package-level setters below serve code that works through the
-// [Element] interface - jit, tether, third-party extensions. The
+// [Element] interface - jit and third-party extensions. The
 // chainable SetData and SetAria methods on concrete element types
 // cannot appear on the interface (their concrete return type cannot
 // satisfy an interface method), which used to force interface-typed
