@@ -306,12 +306,13 @@ type Node interface {
 
 `Nodes()` returns the children that will actually be rendered. For conditionals this is only the active branch; for function components this is the evaluated function output. Tree walkers (including the Differ's snapshot collector) depend on `Nodes()` matching the rendered output.
 
-HTML elements also implement `node.Element`, which extends `Node` with `SetAttribute()`, `RenderOpen()`, and `RenderClose()`. Text nodes, function components, and conditionals are **not** elements - they don't have attributes or tags.
+HTML elements also implement `node.Element`, which extends `Node` with `SetAttribute()`, `SetAttributeRaw()`, `RenderOpen()`, and `RenderClose()`. Text nodes, function components, and conditionals are **not** elements - they don't have attributes or tags.
 
 ```go
 type Element interface {
     Node
-    SetAttribute(key string, value string)
+    SetAttribute(key string, value string)    // value is HTML-escaped at set time
+    SetAttributeRaw(key string, value string) // value stored verbatim (trusted values only)
     RenderOpen(buf *bytes.Buffer)
     RenderClose(buf *bytes.Buffer)
 }
@@ -586,6 +587,15 @@ div.New().SetAttribute("custom-attr", "value")    // Custom
 - Standard HTML attributes (use the typed method instead)
 - ARIA attributes (use `SetAria()` instead)
 - Data attributes (use `SetData()` instead)
+
+### Attribute Escaping and URL Filtering
+
+Attribute values are secured automatically - you do not escape them yourself:
+
+- **Every attribute value is HTML-escaped at set time** - typed methods (`.Class()`, `.Title()`, ...), `SetAttribute()`, `SetData()`, `SetAria()`, `.Dynamic()` keys, and enum `Custom()` values all pass through `node.EscapeAttribute`. A value can never break out of its quotes.
+- **URL navigation sinks are scheme-filtered.** `href`, `src`, `action`, `formaction`, and `<object>` `data` are checked against an allowlist (`http`, `https`, `mailto`, `tel`, `sms`, and relative URLs). An off-allowlist scheme (`javascript:`, `vbscript:`, `data:` in a nav sink) is replaced with the inert `node.UnsafeURL` sentinel. Register `node.OnUnsafeURL(fn)` to observe rejections. Image/media sinks (`img`/`video` `src`, `srcset`, `poster`) are escaped but not filtered, so `data:image/...` still renders.
+- **Do not pre-escape.** Calling `html.EscapeString` before a setter double-escapes; pass the raw value and let the setter escape it once.
+- **`SetAttributeRaw(key, value)`** is the per-value trusted-value hatch (the attribute mirror of `RawText`): it stores the value verbatim, without escaping. Use only for values you fully trust.
 
 ### Type-Safe Constants
 
