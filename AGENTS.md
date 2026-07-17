@@ -94,12 +94,12 @@ Fluent uses `[]byte`-based types for enumerated HTML attribute values. The metho
 // WRONG - does not compile
 img.New().Loading("eager")              // cannot use "eager" (untyped string constant) as loading.Loading
 img.New().Loading("lazy")               // same error
-input.New().InputType("email")          // cannot use "email" as inputtype.InputType
+input.New().Type("email")               // cannot use "email" as inputtype.InputType
 
 // RIGHT - use the typed constant
 img.New().Loading(loading.Eager)        // import "github.com/jpl-au/fluent/html5/attr/loading"
 img.New().Loading(loading.Lazy)
-input.New().InputType(inputtype.Email)   // import "github.com/jpl-au/fluent/html5/attr/inputtype"
+input.New().Type(inputtype.Email)        // import "github.com/jpl-au/fluent/html5/attr/inputtype"
 ```
 
 Every attribute package also has a `Custom()` escape hatch for values not yet covered:
@@ -503,10 +503,10 @@ Every standard HTML attribute has a dedicated, chainable method on its element. 
 |---------|---------|
 | `a` | `.Href()`, `.Download()`, `.HrefLang()`, `.Ping()`, `.ReferrerPolicy()`, `.Rel()`, `.Target()`, `.Type()` |
 | `img` | `.Src()`, `.Alt()`, `.Width()`, `.Height()`, `.Loading()`, `.Decoding()`, `.Sizes()` |
-| `input` | `.Name()`, `.Value()`, `.Placeholder()`, `.InputType()`, `.AutoComplete()`, `.Disabled()`, `.Required()`, `.ReadOnly()`, `.Multiple()`, `.Checked()`, `.MaxLength()`, `.Accept()`, `.Capture()` |
-| `form` | `.Action()`, `.Method()`, `.Enctype()`, `.Target()` |
+| `input` | `.Name()`, `.Value()`, `.Placeholder()`, `.Type()`, `.AutoComplete()`, `.Disabled()`, `.Required()`, `.ReadOnly()`, `.Multiple()`, `.Checked()`, `.MaxLength()`, `.Accept()`, `.Capture()` |
+| `form` | `.Action()`, `.Method()`, `.EncType()`, `.Target()` |
 | `link` | `.Href()`, `.Rel()`, `.As()`, `.CrossOrigin()`, `.FetchPriority()`, `.Media()` |
-| `button` | `.Disabled()`, `.FormAction()`, `.FormMethod()`, `.PopoverTarget()`, `.PopoverTargetAction()` |
+| `button` | `.Disabled()`, `.Formaction()`, `.Formmethod()`, `.PopOverTarget()`, `.Popovertargetaction()` |
 | `script` | `.Src()`, `.Async()`, `.Defer()`, `.Type()`, `.CrossOrigin()`, `.Integrity()` |
 
 If a standard HTML attribute has a method on the element, use that method. Do not use `SetAttribute()` for standard attributes.
@@ -603,10 +603,10 @@ Fluent uses typed constants for attributes with enumerated values. Methods accep
 
 ```go
 // Typed constant - compile error on typo
-input.New().InputType(inputtype.Email)
+input.New().Type(inputtype.Email)
 
 // Escape hatch for edge cases
-input.New().InputType(inputtype.Custom("future-type"))
+input.New().Type(inputtype.Custom("future-type"))
 ```
 
 Each attribute package provides a `Custom()` function for values not yet covered by predefined constants.
@@ -710,23 +710,7 @@ type Dynamic interface {
 
 ### Reactive Tracking with .Dynamic()
 
-The `.Dynamic(key)` method on HTML elements marks them for reactive tracking by the [Fluent JIT](https://github.com/jpl-au/fluent-jit) diff engine. The key identifies the element across renders so the diff engine can detect changes and produce targeted patches.
-
-```go
-// Mark an element for reactive tracking
-span.Textf("Count: %d", state.Count).Dynamic("count")
-
-// The key renders as a data-fluent-key attribute
-// <span data-fluent-key="count">Count: 42</span>
-
-// Keys must be unique within a render tree, and are required
-p.Text(state.ErrorMsg).Dynamic("error-message")
-table.New(rows...).Dynamic("data-table")
-```
-
-`.Dynamic()` is chainable and follows the same pattern as `.Class()`, `.SetData()`, etc. It is used by [Fluent JIT](https://github.com/jpl-au/fluent-jit) to identify which segments need re-evaluation.
-
-Elements without `.Dynamic()` are not tracked - the diff engine only examines keyed nodes.
+`.Dynamic(key)` marks an element for tracking by an external render engine such as [Fluent JIT](https://github.com/jpl-au/fluent-jit). Fluent's part is mechanical: it stores the key and renders it as a `data-fluent-key` attribute, nothing more. The method is chainable like `.Class()` and `.SetData()`. Elements also carry `.Memoise(version)` and `.MemoiseKey()` version hooks for the same engines. Plain rendering ignores all three, so they cost nothing unless an engine consumes them; usage and semantics are documented by the engine.
 
 ## Component Pattern
 
@@ -765,10 +749,10 @@ All element packages export their concrete type as `Element`: `*div.Element`, `*
 ### Layout with Dynamic Content
 
 ```go
-func Layout(title string, content node.Node) node.Node {
+func Layout(pageTitle string, content node.Node) node.Node {
     return html.New(
         head.New(
-            title.Text(title),
+            title.Text(pageTitle),
             link.New().Rel(rel.Stylesheet).Href("/app.css"),
         ),
         body.New(
@@ -905,11 +889,11 @@ Import path pattern: `github.com/jpl-au/fluent/html5/attr/<package>`
 ```go
 // WRONG - does not compile
 img.New().Loading("lazy")                   // cannot use "lazy" (string) as loading.Loading
-input.New().InputType("email")              // cannot use "email" (string) as inputtype.InputType
+input.New().Type("email")                   // cannot use "email" (string) as inputtype.InputType
 
 // RIGHT - use the typed constant
 img.New().Loading(loading.Lazy)             // import "github.com/jpl-au/fluent/html5/attr/loading"
-input.New().InputType(inputtype.Email)      // import "github.com/jpl-au/fluent/html5/attr/inputtype"
+input.New().Type(inputtype.Email)           // import "github.com/jpl-au/fluent/html5/attr/inputtype"
 link.New().Rel(rel.Stylesheet)              // import "github.com/jpl-au/fluent/html5/attr/rel"
 ```
 
@@ -960,12 +944,12 @@ Fluent has companion packages that extend its capabilities. All are optional - F
 
 | Package | Description |
 |---------|-------------|
-| [Fluent JIT](https://github.com/jpl-au/fluent-jit) | Performance optimisation. **Compile** pre-renders static portions and re-evaluates dynamic content. **Tune** provides adaptive buffer sizing. **Flatten** pre-renders fully static content to raw bytes. Also provides the **Diff** engine that compares renders by dynamic key and produces `[]Patch`. |
+| [Fluent JIT](https://github.com/jpl-au/fluent-jit) | Performance optimisation. **Compile** pre-renders static portions and re-evaluates dynamic content. **Tune** provides adaptive buffer sizing. **Flatten** pre-renders fully static content to raw bytes. Also provides two diff engines for live updates: the **Differ** (targeted patches by dynamic key) and the **Memoiser** (skips subtrees by version). |
 | [Fluent HTMX](https://github.com/jpl-au/fluent-htmx) | HTMX integration. Accepts `node.Element` to set HTMX attributes (`hx-get`, `hx-post`, `hx-swap`, etc.) on any Fluent element. |
 
 **How the packages relate:**
-- **fluent** (this package) - core HTML generation, `node.Node`/`node.Element` interfaces, `.Dynamic()` method
-- **fluent-jit** - rendering optimisation, diff engine produces `[]Patch` from two tree states
+- **fluent** (this package) - core HTML generation, `node.Node`/`node.Element` interfaces, `.Dynamic()`/`.Memoise()` hook methods
+- **fluent-jit** - rendering optimisation; its diff engines (Differ, Memoiser) produce `[]Patch` from two tree states
 - **fluent-htmx** - attribute wrapper for HTMX, independent of the JIT diff engine
 
 ## Dot Import (Convenience Alternative)

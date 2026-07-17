@@ -181,14 +181,15 @@ flags `--attribute-escaping=false` and `--url-filtering=false`.
 
 ### Reactive tracking
 
-Elements can be marked for reactive tracking with `.Dynamic("key")`, a core feature, and subtrees can be memoised with `jit.Memoise(key, func)` from [Fluent JIT](https://github.com/jpl-au/fluent-jit). Reactive tracking is used by Fluent JIT for targeted diffing. See the [Fluent JIT documentation](https://github.com/jpl-au/fluent-jit) for details.
+Every element carries chainable hook methods - `.Dynamic("key")`, `.Memoise(version)`, `.MemoiseKey()` - for external render engines such as [Fluent JIT](https://github.com/jpl-au/fluent-jit). Fluent's part is mechanical: a `.Dynamic` key renders as a `data-fluent-key` attribute, nothing more. Plain rendering ignores all three, so they cost nothing unless an engine consumes them; usage and semantics are documented by the engine.
 
 ```go
-span.Textf("Count: %d", count).Dynamic("count")  // tracked by key (core)
-jit.Memoise(version, func() node.Node {            // skipped when key unchanged (fluent-jit)
-    return expensiveRender()
-})
+span.Textf("Count: %d", count).Dynamic("count")
 ```
+
+The semantics - targeted patches, subtree skipping, cross-session caching - are documented by the consuming engine; see the [Fluent JIT documentation](https://github.com/jpl-au/fluent-jit).
+
+### Convenience constructors
 
 Many elements have convenience constructors for common use cases:
 
@@ -199,9 +200,9 @@ form.Post("/login", ...)   // <form action="/login" method="post">
 
 // Input types - all return *element for chaining
 input.Email("email")             // <input type="email" name="email" />
-input.Password("password")       // <input type="password" name="password"/>
+input.Password("password")       // <input type="password" name="password" />
 input.Checkbox("agree", "yes")   // <input type="checkbox" name="agree" value="yes" />
-input.Submit("Submit")           // <input type="submit"value="Submit"  />
+input.Submit("Submit")           // <input type="submit" value="Submit" />
 
 // Chain additional attributes as needed
 input.Email("email").
@@ -406,7 +407,7 @@ page.Render(w)
 
 Fluent provides type-safe constants for attributes with enumerated values. I wanted the IDE to do the heavy lifting. When you type `inputtype.`, your editor shows you every valid option - no more checking MDN to remember if it's `datetime-local` or `datetimeLocal`.
 
-Methods like `InputType()` accept typed constants, not strings - so `input.New().InputType("emial")` won't compile. Each attribute package also provides a `Custom()` function for edge cases or future HTML specifications not yet covered.
+Methods like `Type()` accept typed constants, not strings - so `input.New().Type("emial")` won't compile. Each attribute package also provides a `Custom()` function for edge cases or future HTML specifications not yet covered.
 
 ```go
 import (
@@ -416,12 +417,12 @@ import (
 )
 
 input.New().
-    InputType(inputtype.Email).       // Typed constant, not a string
+    Type(inputtype.Email).            // Typed constant, not a string
     AutoComplete(autocomplete.Email). // IDE shows all valid options
     Required()
 
 // For edge cases or future specs
-input.New().InputType(inputtype.Custom("future-type"))
+input.New().Type(inputtype.Custom("future-type"))
 ```
 
 ## Architecture
@@ -441,7 +442,7 @@ Fluent is organised into several packages:
 
 The `node.Node` interface is the foundation of Fluent. Every renderable piece of content implements it: HTML elements, text nodes, conditionals (`node.Condition`), and function wrappers (`node.Func`). This unified interface enables arbitrary composition - any `node.Node` can be a child of any element.
 
-HTML elements also implement `node.Element`, which extends `Node` with `SetAttribute()`, `RenderOpen()`, and `RenderClose()`. Text nodes, function components, and conditionals are not elements - they don't have attributes or tags.
+HTML elements also implement `node.Element`, which extends `Node` with `SetAttribute()`, `SetAttributeRaw()`, `RenderOpen()`, and `RenderClose()`. Text nodes, function components, and conditionals are not elements - they don't have attributes or tags.
 
 When in doubt about return types for your components, `node.Node` is always safe:
 
@@ -538,7 +539,7 @@ import "github.com/jpl-au/fluent/pool"
 
 pool.SetThreshold(4096)               // Small vs large pool threshold (default 4KB)
 pool.SetMaxPoolSize(262144)           // Max pooled size; oversized buffers are discarded (default 256KB)
-pool.SetEnabled(false)                // Disable pooling entirely
+pool.Disable()                        // Disable pooling entirely (pool.Enable() turns it back on)
 ```
 
 For detailed mechanics and tuning guidance, see [AGENTS.md](AGENTS.md).
@@ -550,6 +551,8 @@ The base Fluent API performs well out of the box with automatic buffer pooling. 
 - **Compile** - Pre-render static portions, re-evaluate dynamic content via path navigation
 - **Tune** - Adaptive buffer sizing that learns optimal sizes over time
 - **Flatten** - Pre-render fully static content to raw bytes
+
+For live updates, the same package provides the Differ and Memoiser diff engines, which consume the [reactive tracking](#reactive-tracking) hooks.
 
 Build and test without JIT first - premature optimisation is the root of all evil.
 
@@ -637,7 +640,7 @@ Fluent has companion packages that extend its capabilities:
 |---------|-------------|
 | [Flint](https://github.com/jpl-au/flint) | Linter and introspection CLI for Fluent. Catches hallucinated APIs, unsafe `Static()`/`RawText()`, missed typed constructors, and raw strings where typed constants are required. `flint -info <element>` prints the full registry entry for any element. |
 | [Fluent Security](https://github.com/jpl-au/fluent-security) | Opt-in security toolkit. Wraps [bluemonday](https://github.com/microcosm-cc/bluemonday) with Fluent-native helpers (`HTML`, `PlainText`) and a chainable `Cleaner` (`New`, `RichText`, `FromPolicy` + `Allow`/`AllowClasses`/`AllowAttr`) for sanitising untrusted HTML, plus `Nonce()` for Content-Security-Policy workflows with inline `<script>`/`<style>`. |
-| [Fluent JIT](https://github.com/jpl-au/fluent-jit) | Performance optimisation with three strategies: **Compile** (pre-render static portions), **Tune** (adaptive buffer sizing), **Flatten** (pre-render fully static content to raw bytes). Also provides the **Diff** engine for reactive updates. |
+| [Fluent JIT](https://github.com/jpl-au/fluent-jit) | Performance optimisation with three strategies: **Compile** (pre-render static portions), **Tune** (adaptive buffer sizing), **Flatten** (pre-render fully static content to raw bytes). Also provides two diff engines for live updates: the **Differ** (targeted patches) and the **Memoiser** (subtree skipping by version). |
 | [Fluent HTMX](https://github.com/jpl-au/fluent-htmx) | HTMX integration. Accepts `node.Element` to set HTMX attributes (`hx-get`, `hx-post`, `hx-swap`, etc.) on any Fluent element. |
 
 All companion packages are optional. Fluent works standalone for static HTML generation.
