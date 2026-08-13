@@ -142,10 +142,8 @@ func CSS(css string) *Element {
 
 // Type sets the type attribute.
 //
-// Specifies the MIME type of the style sheet content. Browsers assume text/css by default so this
-// attribute is unnecessary for CSS stylesheets.
-//
-// Deprecated: Browsers assume text/css by default. Only provide if using a non-CSS styling language.
+// Specifies the MIME type of the style sheet content. The attribute remains conforming, but browsers assume
+// text/css by default so it is unnecessary for CSS stylesheets. Only provide it for a non-CSS styling language.
 func (e *Element) Type(mime string) *Element {
 	e.mime = node.EscapeAttribute(mime)
 	return e

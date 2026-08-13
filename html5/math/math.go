@@ -135,9 +135,10 @@ func (e *Element) Display(value string) *Element {
 // MathVariant sets the mathvariant attribute.
 //
 // Specifies the logical class of the identifier, which varies in typography. Some of the values overlap with
-// the CSS font-style, font-weight, and font-family properties.
+// the CSS font-style, font-weight, and font-family properties. MathML Core dropped every value except normal
+// on mi, so use CSS for the rest.
 //
-// Deprecated: Use CSS font-style, font-weight, and font-family instead.
+// Deprecated: Use CSS font-style, font-weight, and font-family instead. MathML Core keeps only the value normal on mi, where it cancels the automatic italic.
 func (e *Element) MathVariant(variant string) *Element {
 	e.mathVariant = node.EscapeAttribute(variant)
 	return e

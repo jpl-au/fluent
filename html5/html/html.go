@@ -201,9 +201,10 @@ func (e *Element) Xmlns(namespace string) *Element {
 
 // Manifest sets the manifest attribute.
 //
-// Specifies the URI of a resource manifest for the application.
+// Specifies the URI of an application cache manifest. Application cache was removed from the standard and
+// replaced by service workers for offline resources and the web app manifest for installation metadata.
 //
-// Deprecated: Use a web app manifest link element instead.
+// Deprecated: Use service workers for offline caching, or a web app manifest link element for application metadata.
 func (e *Element) Manifest(url string) *Element {
 	e.SetAttribute("manifest", url)
 	return e
