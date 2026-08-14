@@ -235,7 +235,7 @@ optgroup.Labelled("Oceania", option.Option("au", "Australia"))
 // Cross-package constructors - create child elements for you
 details.Summary("Click to expand", p.Text("Hidden content"))
 fieldset.Legend("Address", input.Text("street", ""))
-figure.Caption("An elephant", img.New().Src("elephant.jpg"))
+figure.Caption("An elephant", img.Src("elephant.jpg"))
 dl.Pair("Name", "Alice")
 
 // New() is always available as the untyped escape hatch
@@ -250,7 +250,7 @@ table.New(caption.Text("Title"), thead.New(...), tbody.New(...))
 // Both branches
 node.Condition(user.IsLoggedIn).
     True(p.Text("Welcome back!")).
-    False(a.New().Href("/login").Text("Sign in"))
+    False(a.Link("/login", "Sign in"))
 ```
 
 For single-branch conditions, `When()` and `Unless()` provide concise shorthand:
@@ -260,7 +260,7 @@ For single-branch conditions, `When()` and `Unless()` provide concise shorthand:
 node.When(user.IsAdmin, span.Static("Admin"))
 
 // Render only when condition is false
-node.Unless(user.IsLoggedIn, a.New().Href("/login").Text("Sign in"))
+node.Unless(user.IsLoggedIn, a.Link("/login", "Sign in"))
 ```
 
 `When()` and `Unless()` return nodes, so they slot directly into the children of a parent element. This is how you add conditional content inside a larger tree without duplicating the surrounding subtree. Remember that `.Text(...)` on an element is sugar for appending a `text.Text(...)` child - when you need a text node to appear conditionally, build it as a child via the `text` package:
@@ -285,7 +285,7 @@ node.Condition(user.IsLoggedIn).
             True(span.Static("Admin Dashboard")).
             False(span.Static("User Dashboard")),
     ).
-    False(a.New().Href("/login").Text("Sign in"))
+    False(a.Link("/login", "Sign in"))
 ```
 
 For multiple branches, `node.Func()` is cleaner:
@@ -293,7 +293,7 @@ For multiple branches, `node.Func()` is cleaner:
 ```go
 node.Func(func() node.Node {
     if !user.IsLoggedIn {
-        return a.New().Href("/login").Text("Sign in")
+        return a.Link("/login", "Sign in")
     }
     if user.IsAdmin {
         return span.Static("Admin Dashboard")
@@ -387,7 +387,7 @@ Card("Welcome", "Hello!").ID("welcome-card").Class("highlighted")
 ```go
 func UserGreeting(user User) node.Node {
     return div.New(
-        img.New().Src(user.Avatar).Alt(user.Name),
+        img.Image(user.Avatar, user.Name),
         h3.Text(user.Name),
         node.Condition(user.IsAdmin).
             True(span.Static("Admin")).

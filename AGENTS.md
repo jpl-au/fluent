@@ -457,7 +457,7 @@ All non-self-closing elements also have these as **chainable methods** for addin
 
 ```go
 // Method form - adding text alongside child nodes
-div.New(img.New().Src("photo.jpg")).Text("Caption")
+div.New(img.Src("photo.jpg")).Text("Caption")
 
 // Multiple text nodes via method chaining
 p.Text("Line 1").Text(" Line 2")
@@ -522,7 +522,7 @@ input.Email("email").Required()
 // Inline condition - attribute present only when true
 input.New().Checked(slices.Contains(selected, c.ID))
 button.Text("Save").Disabled(!form.Valid)
-script.New().Src("/app.js").Async(isProduction)
+script.Src("/app.js").Async(isProduction)
 textarea.New().ReadOnly(user.IsGuest)
 ```
 
@@ -641,7 +641,7 @@ Shorthand forms:
 
 ```go
 node.When(user.IsAdmin, span.Static("Admin"))                        // Render when true
-node.Unless(user.IsLoggedIn, a.New().Href("/login").Text("Sign in")) // Render when false
+node.Unless(user.IsLoggedIn, a.Link("/login", "Sign in")) // Render when false
 ```
 
 For multiple branches, `node.Func()` is cleaner than deeply nested conditions:
@@ -649,7 +649,7 @@ For multiple branches, `node.Func()` is cleaner than deeply nested conditions:
 ```go
 node.Func(func() node.Node {
     if !user.IsLoggedIn {
-        return a.New().Href("/login").Text("Sign in")
+        return a.Link("/login", "Sign in")
     }
     if user.IsAdmin {
         return span.Static("Admin Dashboard")
