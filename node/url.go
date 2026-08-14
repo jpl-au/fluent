@@ -71,7 +71,7 @@ func FilterURL(s string) string {
 	// A '/', '?' or '#' before the colon means the colon sits inside a path,
 	// query or fragment, not a scheme - so this is a relative URL that merely
 	// contains a colon (e.g. "?redirect=a:b", "#t:30"), which is safe.
-	for i := 0; i < colon; i++ {
+	for i := range colon {
 		switch t[i] {
 		case '/', '?', '#':
 			return s

@@ -47,6 +47,21 @@ func Funcs(fn func() []Node) *FuncsComponent {
 // per element of a slice. It removes the boilerplate of allocating the result
 // slice and looping, so templates can inline the transformation.
 //
+// Map is for readability, not speed. Because it wraps [Funcs], the loop is
+// deferred to render time inside a closure, and the component plus that
+// closure cost a fixed three allocations more than building the slice
+// yourself and passing it to the constructor:
+//
+//	rows := make([]node.Node, 0, len(items))
+//	for _, it := range items {
+//	    rows = append(rows, row(it))
+//	}
+//	return div.New(rows...)
+//
+// That overhead is constant rather than per element, so it is negligible for
+// a large list and proportionally significant for a short one. Reach for the
+// explicit slice on a hot path with few children.
+//
 // Usage:
 //
 //	node.Map(categories, func(c domain.Category) node.Node {
