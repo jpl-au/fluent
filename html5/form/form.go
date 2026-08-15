@@ -99,6 +99,11 @@ func New(nodes ...node.Node) *Element {
 // in the URL.
 // Example: form.Get("/search", input.Text("q", ""))
 // Renders: <form action="/search" method="get"><input name="q" type="text" /></form>
+//
+// Fluent filters this URL at render time: http, https, mailto, tel, sms and relative URLs
+// render as given; any other scheme (javascript:, data:, file:, a custom protocol) renders as the
+// inert node.UnsafeURL sentinel instead. For a trusted off-allowlist value use SetAttribute
+// (escaped but unfiltered) or SetAttributeRaw; register node.OnUnsafeURL to observe rejections.
 func Get(action string, nodes ...node.Node) *Element {
 	return &Element{
 		nodes:  nodes,
@@ -112,6 +117,11 @@ func Get(action string, nodes ...node.Node) *Element {
 // creating records).
 // Example: form.Post("/login", input.Email("email"), input.Password("password"))
 // Renders: <form action="/login" method="post"><input name="email" type="email" /><input name="password" type="password" /></form>
+//
+// Fluent filters this URL at render time: http, https, mailto, tel, sms and relative URLs
+// render as given; any other scheme (javascript:, data:, file:, a custom protocol) renders as the
+// inert node.UnsafeURL sentinel instead. For a trusted off-allowlist value use SetAttribute
+// (escaped but unfiltered) or SetAttributeRaw; register node.OnUnsafeURL to observe rejections.
 func Post(action string, nodes ...node.Node) *Element {
 	return &Element{
 		nodes:  nodes,
@@ -135,6 +145,11 @@ func Dialog(nodes ...node.Node) *Element {
 // Action sets the action attribute.
 //
 // The URL to which the form data will be sent when the form is submitted.
+//
+// Fluent filters this URL at render time: http, https, mailto, tel, sms and relative URLs
+// render as given; any other scheme (javascript:, data:, file:, a custom protocol) renders as the
+// inert node.UnsafeURL sentinel instead. For a trusted off-allowlist value use SetAttribute
+// (escaped but unfiltered) or SetAttributeRaw; register node.OnUnsafeURL to observe rejections.
 func (e *Element) Action(value string) *Element {
 	e.action = node.EscapeAttribute(node.FilterURL(value))
 	return e

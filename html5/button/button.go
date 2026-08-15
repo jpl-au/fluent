@@ -211,6 +211,11 @@ func (e *Element) Form(id string) *Element {
 //
 // The URL that processes the information submitted by the button. Overrides the action attribute of the
 // button's form owner. Does nothing if there is no form owner.
+//
+// Fluent filters this URL at render time: http, https, mailto, tel, sms and relative URLs
+// render as given; any other scheme (javascript:, data:, file:, a custom protocol) renders as the
+// inert node.UnsafeURL sentinel instead. For a trusted off-allowlist value use SetAttribute
+// (escaped but unfiltered) or SetAttributeRaw; register node.OnUnsafeURL to observe rejections.
 func (e *Element) Formaction(url string) *Element {
 	e.SetAttribute("formaction", node.FilterURL(url))
 	return e

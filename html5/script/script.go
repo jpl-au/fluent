@@ -143,6 +143,11 @@ func RawTextf(format string, args ...any) *Element {
 // Src creates a script element that loads an external script file
 // Example: script.Src("/assets/js/app.js")
 // Renders: <script src="/assets/js/app.js"></script>
+//
+// Fluent filters this URL at render time: http, https, mailto, tel, sms and relative URLs
+// render as given; any other scheme (javascript:, data:, file:, a custom protocol) renders as the
+// inert node.UnsafeURL sentinel instead. For a trusted off-allowlist value use SetAttribute
+// (escaped but unfiltered) or SetAttributeRaw; register node.OnUnsafeURL to observe rejections.
 func Src(src string) *Element {
 	return &Element{
 		src: node.EscapeAttribute(node.FilterURL(src)),
@@ -152,6 +157,11 @@ func Src(src string) *Element {
 // Module creates a new script element with type="module" for ES6 modules
 // Example: script.Module("app.js")
 // Renders: <script src="app.js" type="module"></script>
+//
+// Fluent filters this URL at render time: http, https, mailto, tel, sms and relative URLs
+// render as given; any other scheme (javascript:, data:, file:, a custom protocol) renders as the
+// inert node.UnsafeURL sentinel instead. For a trusted off-allowlist value use SetAttribute
+// (escaped but unfiltered) or SetAttributeRaw; register node.OnUnsafeURL to observe rejections.
 func Module(src string) *Element {
 	return &Element{
 		src:        node.EscapeAttribute(node.FilterURL(src)),
@@ -162,6 +172,11 @@ func Module(src string) *Element {
 // JavaScript creates a script element explicitly with JavaScript type
 // Example: script.JavaScript("script.js")
 // Renders: <script src="script.js" type="text/javascript"></script>
+//
+// Fluent filters this URL at render time: http, https, mailto, tel, sms and relative URLs
+// render as given; any other scheme (javascript:, data:, file:, a custom protocol) renders as the
+// inert node.UnsafeURL sentinel instead. For a trusted off-allowlist value use SetAttribute
+// (escaped but unfiltered) or SetAttributeRaw; register node.OnUnsafeURL to observe rejections.
 func JavaScript(src string) *Element {
 	return &Element{
 		src:        node.EscapeAttribute(node.FilterURL(src)),
@@ -181,7 +196,12 @@ func JSON(data string) *Element {
 
 // Src sets the src attribute.
 //
-// Specifies the URL of an external script file to be loaded and executed
+// # Specifies the URL of an external script file to be loaded and executed
+//
+// Fluent filters this URL at render time: http, https, mailto, tel, sms and relative URLs
+// render as given; any other scheme (javascript:, data:, file:, a custom protocol) renders as the
+// inert node.UnsafeURL sentinel instead. For a trusted off-allowlist value use SetAttribute
+// (escaped but unfiltered) or SetAttributeRaw; register node.OnUnsafeURL to observe rejections.
 func (e *Element) Src(url string) *Element {
 	e.src = node.EscapeAttribute(node.FilterURL(url))
 	return e

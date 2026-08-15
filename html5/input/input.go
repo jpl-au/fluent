@@ -456,6 +456,11 @@ func (e *Element) Form(formID string) *Element {
 // FormAction sets the formaction attribute.
 //
 // Valid only for submit and image input types, this attribute specifies an alternative URL for form submission, overriding the form's action attribute. This allows different submit buttons to send form data to different endpoints, enabling scenarios like 'Save' vs 'Save and Continue' buttons or multiple processing paths from a single form.
+//
+// Fluent filters this URL at render time: http, https, mailto, tel, sms and relative URLs
+// render as given; any other scheme (javascript:, data:, file:, a custom protocol) renders as the
+// inert node.UnsafeURL sentinel instead. For a trusted off-allowlist value use SetAttribute
+// (escaped but unfiltered) or SetAttributeRaw; register node.OnUnsafeURL to observe rejections.
 func (e *Element) FormAction(url string) *Element {
 	e.SetAttribute("formaction", node.FilterURL(url))
 	return e

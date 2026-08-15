@@ -78,6 +78,11 @@ func New() *Element {
 // PDF creates an embed element for PDF documents
 // Example: embed.PDF("document.pdf", 800, 600)
 // Renders: <embed src="document.pdf" type="application/pdf" width="800" height="600" />
+//
+// Fluent filters this URL at render time: http, https, mailto, tel, sms and relative URLs
+// render as given; any other scheme (javascript:, data:, file:, a custom protocol) renders as the
+// inert node.UnsafeURL sentinel instead. For a trusted off-allowlist value use SetAttribute
+// (escaped but unfiltered) or SetAttributeRaw; register node.OnUnsafeURL to observe rejections.
 func PDF(src string, width int, height int) *Element {
 	return &Element{
 		embedType: "application/pdf",
@@ -90,6 +95,11 @@ func PDF(src string, width int, height int) *Element {
 // Flash creates an embed element for Flash content (legacy)
 // Example: embed.Flash("animation.swf", 640, 480)
 // Renders: <embed src="animation.swf" type="application/x-shockwave-flash" width="640" height="480" />
+//
+// Fluent filters this URL at render time: http, https, mailto, tel, sms and relative URLs
+// render as given; any other scheme (javascript:, data:, file:, a custom protocol) renders as the
+// inert node.UnsafeURL sentinel instead. For a trusted off-allowlist value use SetAttribute
+// (escaped but unfiltered) or SetAttributeRaw; register node.OnUnsafeURL to observe rejections.
 //
 // Deprecated: Flash is no longer supported by browsers.
 func Flash(src string, width int, height int) *Element {
@@ -105,6 +115,11 @@ func Flash(src string, width int, height int) *Element {
 // Example: embed.Video("movie.mp4", 640, 480)
 // Renders: <embed src="movie.mp4" type="video/mp4" width="640" height="480" />
 //
+// Fluent filters this URL at render time: http, https, mailto, tel, sms and relative URLs
+// render as given; any other scheme (javascript:, data:, file:, a custom protocol) renders as the
+// inert node.UnsafeURL sentinel instead. For a trusted off-allowlist value use SetAttribute
+// (escaped but unfiltered) or SetAttributeRaw; register node.OnUnsafeURL to observe rejections.
+//
 // Deprecated: Use the video element instead.
 func Video(src string, width int, height int) *Element {
 	return &Element{
@@ -119,6 +134,11 @@ func Video(src string, width int, height int) *Element {
 // Example: embed.Audio("song.mp3", 320, 50)
 // Renders: <embed src="song.mp3" type="audio/mpeg" width="320" height="50" />
 //
+// Fluent filters this URL at render time: http, https, mailto, tel, sms and relative URLs
+// render as given; any other scheme (javascript:, data:, file:, a custom protocol) renders as the
+// inert node.UnsafeURL sentinel instead. For a trusted off-allowlist value use SetAttribute
+// (escaped but unfiltered) or SetAttributeRaw; register node.OnUnsafeURL to observe rejections.
+//
 // Deprecated: Use the audio element instead.
 func Audio(src string, width int, height int) *Element {
 	return &Element{
@@ -132,6 +152,11 @@ func Audio(src string, width int, height int) *Element {
 // Src sets the src attribute.
 //
 // The URL of the resource being embedded. This specifies the address of the external content to be embedded in the document.
+//
+// Fluent filters this URL at render time: http, https, mailto, tel, sms and relative URLs
+// render as given; any other scheme (javascript:, data:, file:, a custom protocol) renders as the
+// inert node.UnsafeURL sentinel instead. For a trusted off-allowlist value use SetAttribute
+// (escaped but unfiltered) or SetAttributeRaw; register node.OnUnsafeURL to observe rejections.
 func (e *Element) Src(url string) *Element {
 	e.src = node.EscapeAttribute(node.FilterURL(url))
 	return e

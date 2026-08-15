@@ -96,6 +96,11 @@ func New() *Element {
 // Stylesheet creates a new link element for a CSS stylesheet.
 // Example: link.Stylesheet("/styles.css")
 // Renders: <link rel="stylesheet" href="/styles.css" />
+//
+// Fluent filters this URL at render time: http, https, mailto, tel, sms and relative URLs
+// render as given; any other scheme (javascript:, data:, file:, a custom protocol) renders as the
+// inert node.UnsafeURL sentinel instead. For a trusted off-allowlist value use SetAttribute
+// (escaped but unfiltered) or SetAttributeRaw; register node.OnUnsafeURL to observe rejections.
 func Stylesheet(href string) *Element {
 	return &Element{
 		rel:  rel.Stylesheet,
@@ -106,6 +111,11 @@ func Stylesheet(href string) *Element {
 // Icon creates a new link element for a site icon (favicon).
 // Example: link.Icon("/favicon.ico")
 // Renders: <link rel="icon" href="/favicon.ico" />
+//
+// Fluent filters this URL at render time: http, https, mailto, tel, sms and relative URLs
+// render as given; any other scheme (javascript:, data:, file:, a custom protocol) renders as the
+// inert node.UnsafeURL sentinel instead. For a trusted off-allowlist value use SetAttribute
+// (escaped but unfiltered) or SetAttributeRaw; register node.OnUnsafeURL to observe rejections.
 func Icon(href string) *Element {
 	return &Element{
 		rel:  rel.Icon,
@@ -116,6 +126,11 @@ func Icon(href string) *Element {
 // Preload creates a new link element for preloading resources to improve performance.
 // Example: link.Preload("/font.woff2", as.Font)
 // Renders: <link rel="preload" href="/font.woff2" as="font" />
+//
+// Fluent filters this URL at render time: http, https, mailto, tel, sms and relative URLs
+// render as given; any other scheme (javascript:, data:, file:, a custom protocol) renders as the
+// inert node.UnsafeURL sentinel instead. For a trusted off-allowlist value use SetAttribute
+// (escaped but unfiltered) or SetAttributeRaw; register node.OnUnsafeURL to observe rejections.
 func Preload(href string, as as.As) *Element {
 	return &Element{
 		rel:  rel.Preload,
@@ -129,6 +144,11 @@ func Preload(href string, as as.As) *Element {
 // URLs. Search engines use this to consolidate ranking signals.
 // Example: link.Canonical("https://example.com/page")
 // Renders: <link rel="canonical" href="https://example.com/page" />
+//
+// Fluent filters this URL at render time: http, https, mailto, tel, sms and relative URLs
+// render as given; any other scheme (javascript:, data:, file:, a custom protocol) renders as the
+// inert node.UnsafeURL sentinel instead. For a trusted off-allowlist value use SetAttribute
+// (escaped but unfiltered) or SetAttributeRaw; register node.OnUnsafeURL to observe rejections.
 func Canonical(href string) *Element {
 	return &Element{
 		rel:  rel.Canonical,
@@ -141,6 +161,11 @@ func Canonical(href string) *Element {
 // low priority during idle time and cached for future use.
 // Example: link.Prefetch("/next-page")
 // Renders: <link rel="prefetch" href="/next-page" />
+//
+// Fluent filters this URL at render time: http, https, mailto, tel, sms and relative URLs
+// render as given; any other scheme (javascript:, data:, file:, a custom protocol) renders as the
+// inert node.UnsafeURL sentinel instead. For a trusted off-allowlist value use SetAttribute
+// (escaped but unfiltered) or SetAttributeRaw; register node.OnUnsafeURL to observe rejections.
 func Prefetch(href string) *Element {
 	return &Element{
 		rel:  rel.Prefetch,
@@ -178,6 +203,11 @@ func (e *Element) Rel(rel ...rel.Rel) *Element {
 // Href sets the href attribute.
 //
 // Specifies the URL of the external resource being linked. This can be an absolute URL (https://example.com/style.css) or a relative path (/css/style.css). The resource type and handling is determined by the rel attribute. Essential for establishing the connection between the document and external resources like stylesheets, icons, fonts, and other assets.
+//
+// Fluent filters this URL at render time: http, https, mailto, tel, sms and relative URLs
+// render as given; any other scheme (javascript:, data:, file:, a custom protocol) renders as the
+// inert node.UnsafeURL sentinel instead. For a trusted off-allowlist value use SetAttribute
+// (escaped but unfiltered) or SetAttributeRaw; register node.OnUnsafeURL to observe rejections.
 func (e *Element) Href(url string) *Element {
 	e.href = node.EscapeAttribute(node.FilterURL(url))
 	return e

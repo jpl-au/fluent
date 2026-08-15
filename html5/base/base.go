@@ -79,6 +79,11 @@ func New() *Element {
 // URL creates a base element with the specified base URL.
 // Example: base.URL("/docs/")
 // Renders: <base href="/docs/" />
+//
+// Fluent filters this URL at render time: http, https, mailto, tel, sms and relative URLs
+// render as given; any other scheme (javascript:, data:, file:, a custom protocol) renders as the
+// inert node.UnsafeURL sentinel instead. For a trusted off-allowlist value use SetAttribute
+// (escaped but unfiltered) or SetAttributeRaw; register node.OnUnsafeURL to observe rejections.
 func URL(href string) *Element {
 	return &Element{
 		href: node.EscapeAttribute(node.FilterURL(href)),
@@ -90,6 +95,11 @@ func URL(href string) *Element {
 // The base URL to be used throughout the document for relative URLs. All relative URLs in the document will
 // be resolved against this base. Must be an absolute URL, though the path and subsequent components can vary.
 // Affects links, forms, images, scripts, stylesheets, and all other resources with relative paths.
+//
+// Fluent filters this URL at render time: http, https, mailto, tel, sms and relative URLs
+// render as given; any other scheme (javascript:, data:, file:, a custom protocol) renders as the
+// inert node.UnsafeURL sentinel instead. For a trusted off-allowlist value use SetAttribute
+// (escaped but unfiltered) or SetAttributeRaw; register node.OnUnsafeURL to observe rejections.
 func (e *Element) Href(url string) *Element {
 	e.href = node.EscapeAttribute(node.FilterURL(url))
 	return e

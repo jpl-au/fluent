@@ -137,6 +137,11 @@ func RawTextf(format string, args ...any) *Element {
 // Example: iframe.Lazy("/page.html")
 // Renders: <iframe src="/page.html" loading="lazy"></iframe>
 // Note: Iframe will only load when it enters or is near the viewport
+//
+// Fluent filters this URL at render time: http, https, mailto, tel, sms and relative URLs
+// render as given; any other scheme (javascript:, data:, file:, a custom protocol) renders as the
+// inert node.UnsafeURL sentinel instead. For a trusted off-allowlist value use SetAttribute
+// (escaped but unfiltered) or SetAttributeRaw; register node.OnUnsafeURL to observe rejections.
 func Lazy(src string) *Element {
 	return &Element{
 		src:     node.EscapeAttribute(node.FilterURL(src)),
@@ -148,6 +153,11 @@ func Lazy(src string) *Element {
 // Example: iframe.Eager("/critical-content.html")
 // Renders: <iframe src="/critical-content.html" loading="eager"></iframe>
 // Note: Iframe loads immediately, regardless of viewport position
+//
+// Fluent filters this URL at render time: http, https, mailto, tel, sms and relative URLs
+// render as given; any other scheme (javascript:, data:, file:, a custom protocol) renders as the
+// inert node.UnsafeURL sentinel instead. For a trusted off-allowlist value use SetAttribute
+// (escaped but unfiltered) or SetAttributeRaw; register node.OnUnsafeURL to observe rejections.
 func Eager(src string) *Element {
 	return &Element{
 		src:     node.EscapeAttribute(node.FilterURL(src)),
@@ -158,6 +168,11 @@ func Eager(src string) *Element {
 // Src sets the src attribute.
 //
 // The URL of the page to embed within the iframe. This creates a nested browsing context that loads and displays the specified document. The URL can be absolute (https://example.com) or relative (/page.html). The embedded page operates in its own browsing context with potential security restrictions applied via sandbox and other attributes.
+//
+// Fluent filters this URL at render time: http, https, mailto, tel, sms and relative URLs
+// render as given; any other scheme (javascript:, data:, file:, a custom protocol) renders as the
+// inert node.UnsafeURL sentinel instead. For a trusted off-allowlist value use SetAttribute
+// (escaped but unfiltered) or SetAttributeRaw; register node.OnUnsafeURL to observe rejections.
 func (e *Element) Src(url string) *Element {
 	e.src = node.EscapeAttribute(node.FilterURL(url))
 	return e

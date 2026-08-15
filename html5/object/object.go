@@ -131,6 +131,11 @@ func RawTextf(format string, args ...any) *Element {
 // PDF creates an object element for PDF documents
 // Example: object.PDF("/document.pdf")
 // Renders: <object data="/document.pdf" type="application/pdf"></object>
+//
+// Fluent filters this URL at render time: http, https, mailto, tel, sms and relative URLs
+// render as given; any other scheme (javascript:, data:, file:, a custom protocol) renders as the
+// inert node.UnsafeURL sentinel instead. For a trusted off-allowlist value use SetAttribute
+// (escaped but unfiltered) or SetAttributeRaw; register node.OnUnsafeURL to observe rejections.
 func PDF(data string, nodes ...node.Node) *Element {
 	return &Element{
 		nodes:      nodes,
@@ -142,6 +147,11 @@ func PDF(data string, nodes ...node.Node) *Element {
 // Flash creates an object element for Flash content (legacy)
 // Example: object.Flash("/animation.swf")
 // Renders: <object data="/animation.swf" type="application/x-shockwave-flash"></object>
+//
+// Fluent filters this URL at render time: http, https, mailto, tel, sms and relative URLs
+// render as given; any other scheme (javascript:, data:, file:, a custom protocol) renders as the
+// inert node.UnsafeURL sentinel instead. For a trusted off-allowlist value use SetAttribute
+// (escaped but unfiltered) or SetAttributeRaw; register node.OnUnsafeURL to observe rejections.
 //
 // Deprecated: Flash is no longer supported by browsers.
 func Flash(data string, nodes ...node.Node) *Element {
@@ -156,6 +166,11 @@ func Flash(data string, nodes ...node.Node) *Element {
 // Example: object.Video("/video.mp4")
 // Renders: <object data="/video.mp4" type="video/mp4"></object>
 //
+// Fluent filters this URL at render time: http, https, mailto, tel, sms and relative URLs
+// render as given; any other scheme (javascript:, data:, file:, a custom protocol) renders as the
+// inert node.UnsafeURL sentinel instead. For a trusted off-allowlist value use SetAttribute
+// (escaped but unfiltered) or SetAttributeRaw; register node.OnUnsafeURL to observe rejections.
+//
 // Deprecated: Use the video element instead.
 func Video(data string, nodes ...node.Node) *Element {
 	return &Element{
@@ -169,6 +184,11 @@ func Video(data string, nodes ...node.Node) *Element {
 // Example: object.Audio("/audio.mp3")
 // Renders: <object data="/audio.mp3" type="audio/mpeg"></object>
 //
+// Fluent filters this URL at render time: http, https, mailto, tel, sms and relative URLs
+// render as given; any other scheme (javascript:, data:, file:, a custom protocol) renders as the
+// inert node.UnsafeURL sentinel instead. For a trusted off-allowlist value use SetAttribute
+// (escaped but unfiltered) or SetAttributeRaw; register node.OnUnsafeURL to observe rejections.
+//
 // Deprecated: Use the audio element instead.
 func Audio(data string, nodes ...node.Node) *Element {
 	return &Element{
@@ -180,7 +200,12 @@ func Audio(data string, nodes ...node.Node) *Element {
 
 // Data sets the data attribute.
 //
-// Specifies the URL of the resource to be embedded by the object element
+// # Specifies the URL of the resource to be embedded by the object element
+//
+// Fluent filters this URL at render time: http, https, mailto, tel, sms and relative URLs
+// render as given; any other scheme (javascript:, data:, file:, a custom protocol) renders as the
+// inert node.UnsafeURL sentinel instead. For a trusted off-allowlist value use SetAttribute
+// (escaped but unfiltered) or SetAttributeRaw; register node.OnUnsafeURL to observe rejections.
 func (e *Element) Data(url string) *Element {
 	e.data = node.EscapeAttribute(node.FilterURL(url))
 	return e

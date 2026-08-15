@@ -91,6 +91,11 @@ func New() *Element {
 // regions. The coordinates represent the top-left (x1,y1) and bottom-right (x2,y2) corners of the rectangle.
 // Example: area.Rect(34, 44, 270, 350, "https://example.com")
 // Renders: <area shape="rect" coords="34,44,270,350" href="https://example.com" />
+//
+// Fluent filters this URL at render time: http, https, mailto, tel, sms and relative URLs
+// render as given; any other scheme (javascript:, data:, file:, a custom protocol) renders as the
+// inert node.UnsafeURL sentinel instead. For a trusted off-allowlist value use SetAttribute
+// (escaped but unfiltered) or SetAttributeRaw; register node.OnUnsafeURL to observe rejections.
 func Rect(x1 int, y1 int, x2 int, y2 int, href string) *Element {
 	return &Element{
 		shape:  shape.Rect,
@@ -103,6 +108,11 @@ func Rect(x1 int, y1 int, x2 int, y2 int, href string) *Element {
 // clickable regions. The coordinates represent the centre (x,y) and radius of the circle.
 // Example: area.Circle(130, 136, 60, "/products")
 // Renders: <area shape="circle" coords="130,136,60" href="/products" />
+//
+// Fluent filters this URL at render time: http, https, mailto, tel, sms and relative URLs
+// render as given; any other scheme (javascript:, data:, file:, a custom protocol) renders as the
+// inert node.UnsafeURL sentinel instead. For a trusted off-allowlist value use SetAttribute
+// (escaped but unfiltered) or SetAttributeRaw; register node.OnUnsafeURL to observe rejections.
 func Circle(x int, y int, radius int, href string) *Element {
 	return &Element{
 		shape:  shape.Circle,
@@ -115,6 +125,11 @@ func Circle(x int, y int, radius int, href string) *Element {
 // coordinate pairs. Coordinates are comma-separated x,y pairs that define the polygon vertices.
 // Example: area.Poly("74,0,113,29,98,72,52,72,38,29", "/contact")
 // Renders: <area shape="poly" coords="74,0,113,29,98,72,52,72,38,29" href="/contact" />
+//
+// Fluent filters this URL at render time: http, https, mailto, tel, sms and relative URLs
+// render as given; any other scheme (javascript:, data:, file:, a custom protocol) renders as the
+// inert node.UnsafeURL sentinel instead. For a trusted off-allowlist value use SetAttribute
+// (escaped but unfiltered) or SetAttributeRaw; register node.OnUnsafeURL to observe rejections.
 func Poly(coords string, href string) *Element {
 	return &Element{
 		shape:  shape.Poly,
@@ -127,6 +142,11 @@ func Poly(coords string, href string) *Element {
 // default shape covers the entire image and is typically used last in the area list.
 // Example: area.Default("https://example.com")
 // Renders: <area shape="default" href="https://example.com" />
+//
+// Fluent filters this URL at render time: http, https, mailto, tel, sms and relative URLs
+// render as given; any other scheme (javascript:, data:, file:, a custom protocol) renders as the
+// inert node.UnsafeURL sentinel instead. For a trusted off-allowlist value use SetAttribute
+// (escaped but unfiltered) or SetAttributeRaw; register node.OnUnsafeURL to observe rejections.
 func Default(href string) *Element {
 	return &Element{
 		shape: shape.Default,
@@ -157,8 +177,13 @@ func (e *Element) Coords(coordinates string) *Element {
 
 // Href sets the href attribute.
 //
-// The URL that the hyperlink points to when the area is clicked. Links are not restricted to HTTP-based URLs -
-// they can use any URL scheme supported by browsers. If omitted, the area does not represent a hyperlink.
+// The URL that the hyperlink points to when the area is clicked. If omitted, the area does not
+// represent a hyperlink.
+//
+// Fluent filters this URL at render time: http, https, mailto, tel, sms and relative URLs
+// render as given; any other scheme (javascript:, data:, file:, a custom protocol) renders as the
+// inert node.UnsafeURL sentinel instead. For a trusted off-allowlist value use SetAttribute
+// (escaped but unfiltered) or SetAttributeRaw; register node.OnUnsafeURL to observe rejections.
 func (e *Element) Href(url string) *Element {
 	e.href = node.EscapeAttribute(node.FilterURL(url))
 	return e

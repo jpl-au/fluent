@@ -87,6 +87,11 @@ func New(nodes ...node.Node) *Element {
 // Link creates a new anchor element with href and text content
 // Example: a.Link("https://example.com", "Click here")
 // Renders: <a href="https://example.com">Click here</a>
+//
+// Fluent filters this URL at render time: http, https, mailto, tel, sms and relative URLs
+// render as given; any other scheme (javascript:, data:, file:, a custom protocol) renders as the
+// inert node.UnsafeURL sentinel instead. For a trusted off-allowlist value use SetAttribute
+// (escaped but unfiltered) or SetAttributeRaw; register node.OnUnsafeURL to observe rejections.
 func Link(href string, str string) *Element {
 	return &Element{
 		nodes: []node.Node{text.Text(str)},
@@ -215,6 +220,11 @@ func Base64Data(str string, mime string, data string) *Element {
 // it. Uses text.Text which HTML-escapes the link text.
 // Example: a.Download("Get the report", "/files/report.pdf", "report.pdf")
 // Renders: <a href="/files/report.pdf" download="report.pdf">Get the report</a>
+//
+// Fluent filters this URL at render time: http, https, mailto, tel, sms and relative URLs
+// render as given; any other scheme (javascript:, data:, file:, a custom protocol) renders as the
+// inert node.UnsafeURL sentinel instead. For a trusted off-allowlist value use SetAttribute
+// (escaped but unfiltered) or SetAttributeRaw; register node.OnUnsafeURL to observe rejections.
 func Download(str string, href string, filename string) *Element {
 	e := &Element{
 		nodes: []node.Node{text.Text(str)},
@@ -226,10 +236,14 @@ func Download(str string, href string, filename string) *Element {
 
 // Href sets the href attribute.
 //
-// The URL that the hyperlink points to when the anchor is activated. Links are not restricted to
-// HTTP-based URLs - they can use any URL scheme supported by browsers including mailto:, tel:, file:,
-// data:, and custom protocol schemes. This is the core attribute that makes an anchor element functional
-// as a hyperlink. If omitted, the element represents a placeholder link.
+// The URL that the hyperlink points to when the anchor is activated. This is the core attribute
+// that makes an anchor element functional as a hyperlink. If omitted, the element represents a
+// placeholder link.
+//
+// Fluent filters this URL at render time: http, https, mailto, tel, sms and relative URLs
+// render as given; any other scheme (javascript:, data:, file:, a custom protocol) renders as the
+// inert node.UnsafeURL sentinel instead. For a trusted off-allowlist value use SetAttribute
+// (escaped but unfiltered) or SetAttributeRaw; register node.OnUnsafeURL to observe rejections.
 func (e *Element) Href(url string) *Element {
 	e.href = node.EscapeAttribute(node.FilterURL(url))
 	return e
