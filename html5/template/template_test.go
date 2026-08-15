@@ -14,10 +14,13 @@ import (
 	"github.com/jpl-au/fluent/html5/attr/hidden"
 	"github.com/jpl-au/fluent/html5/attr/inputmode"
 	"github.com/jpl-au/fluent/html5/attr/popover"
+	"github.com/jpl-au/fluent/html5/attr/shadowrootmode"
+	"github.com/jpl-au/fluent/html5/attr/shadowrootslotassignment"
 	"github.com/jpl-au/fluent/html5/attr/spellcheck"
 	"github.com/jpl-au/fluent/html5/attr/translate"
 	"github.com/jpl-au/fluent/html5/attr/virtualkeyboardpolicy"
 	"github.com/jpl-au/fluent/html5/attr/writingsuggestions"
+	"github.com/jpl-au/fluent/html5/slot"
 	"github.com/jpl-au/fluent/html5/template"
 )
 
@@ -37,9 +40,41 @@ func TestNewCtor(t *testing.T) {
 	}
 }
 
+func TestShadowRootCtor(t *testing.T) {
+	got := string(template.ShadowRoot(shadowrootmode.Open, slot.New()).RenderBytes())
+	want := `<template shadowrootmode="open"><slot></slot></template>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
+func TestShadowRootOpenCtor(t *testing.T) {
+	got := string(template.ShadowRootOpen(slot.New()).RenderBytes())
+	want := `<template shadowrootmode="open"><slot></slot></template>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
+func TestShadowRootClosedCtor(t *testing.T) {
+	got := string(template.ShadowRootClosed(slot.New()).RenderBytes())
+	want := `<template shadowrootmode="closed"><slot></slot></template>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
 func TestShadowRootModeAttr(t *testing.T) {
-	got := string(template.New().ShadowRootMode("test").RenderBytes())
-	want := `<template shadowrootmode="test"></template>`
+	got := string(template.New().ShadowRootMode(shadowrootmode.Open).RenderBytes())
+	want := `<template shadowrootmode="open"></template>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
+func TestShadowRootModeCustom(t *testing.T) {
+	got := string(template.New().ShadowRootMode(shadowrootmode.Custom("custom-value")).RenderBytes())
+	want := `<template shadowrootmode="custom-value"></template>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
 	}
@@ -88,6 +123,22 @@ func TestShadowRootSerializableAttr(t *testing.T) {
 func TestShadowRootSerializableFalse(t *testing.T) {
 	got := string(template.New().ShadowRootSerializable().ShadowRootSerializable(false).RenderBytes())
 	want := `<template></template>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
+func TestShadowRootSlotAssignmentAttr(t *testing.T) {
+	got := string(template.New().ShadowRootSlotAssignment(shadowrootslotassignment.Named).RenderBytes())
+	want := `<template shadowrootslotassignment="named"></template>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
+func TestShadowRootSlotAssignmentCustom(t *testing.T) {
+	got := string(template.New().ShadowRootSlotAssignment(shadowrootslotassignment.Custom("custom-value")).RenderBytes())
+	want := `<template shadowrootslotassignment="custom-value"></template>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
 	}

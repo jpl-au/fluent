@@ -50,9 +50,9 @@ type Element struct {
 	attr       *[]node.Attribute
 	ea         *html5.EventAttributes
 	ga         *html5.GlobalAttributes
+	height     *int
 	tabindex   *int
-	height     int
-	width      int
+	width      *int
 	autofocus  bool
 	inert      bool
 	itemscope  bool
@@ -231,7 +231,7 @@ func (e *Element) Form(formID string) *Element {
 //
 // The height of the displayed resource in CSS pixels
 func (e *Element) Height(pixels int) *Element {
-	e.height = pixels
+	e.height = &pixels
 	return e
 }
 
@@ -257,7 +257,7 @@ func (e *Element) UseMap(mapName string) *Element {
 //
 // The width of the displayed resource in CSS pixels
 func (e *Element) Width(pixels int) *Element {
-	e.width = pixels
+	e.width = &pixels
 	return e
 }
 
@@ -1889,9 +1889,9 @@ func (e *Element) AttributeBuilder(buf *bytes.Buffer) {
 		buf.WriteString(e.form)
 		buf.Write(html5.MarkupQuote)
 	}
-	if e.height != 0 {
+	if e.height != nil {
 		buf.Write(html5.AttrHeight)
-		buf.Write(strconv.AppendInt(nil, int64(e.height), 10))
+		buf.Write(strconv.AppendInt(nil, int64(*e.height), 10))
 		buf.Write(html5.MarkupQuote)
 	}
 	if e.name != "" {
@@ -1904,9 +1904,9 @@ func (e *Element) AttributeBuilder(buf *bytes.Buffer) {
 		buf.WriteString(e.useMap)
 		buf.Write(html5.MarkupQuote)
 	}
-	if e.width != 0 {
+	if e.width != nil {
 		buf.Write(html5.AttrWidth)
-		buf.Write(strconv.AppendInt(nil, int64(e.width), 10))
+		buf.Write(strconv.AppendInt(nil, int64(*e.width), 10))
 		buf.Write(html5.MarkupQuote)
 	}
 	if e.class != "" {

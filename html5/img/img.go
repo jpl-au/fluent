@@ -48,7 +48,6 @@ type Element struct {
 	loading        loading.Loading
 	referrerpolicy referrerpolicy.ReferrerPolicy
 	sizes          sizes.Size
-	alt            string
 	class          string
 	draggable      string
 	dynamic        string
@@ -56,13 +55,15 @@ type Element struct {
 	memoise        any
 	src            string
 	usemap         string
+	alt            *string
 	attr           *[]node.Attribute
 	ea             *html5.EventAttributes
 	ga             *html5.GlobalAttributes
+	height         *int
 	tabindex       *int
-	height         int
-	width          int
+	width          *int
 	autofocus      bool
+	controls       bool
 	inert          bool
 	ismap          bool
 	itemscope      bool
@@ -105,9 +106,10 @@ func Src(src string) *Element {
 // Example: img.Image("photo.jpg", "A beautiful sunset")
 // Renders: <img src="photo.jpg" alt="A beautiful sunset" />
 func Image(src string, alt string) *Element {
+	altVal := node.EscapeAttribute(alt)
 	return &Element{
 		src: node.EscapeAttribute(src),
-		alt: node.EscapeAttribute(alt),
+		alt: &altVal,
 	}
 }
 
@@ -116,10 +118,11 @@ func Image(src string, alt string) *Element {
 // Renders: <img src="photo.jpg" alt="A sunset" loading="lazy" />
 // Note: Image will only load when it enters or is near the viewport
 func Lazy(src string, alt string) *Element {
+	altVal := node.EscapeAttribute(alt)
 	return &Element{
 		loading: loading.Lazy,
 		src:     node.EscapeAttribute(src),
-		alt:     node.EscapeAttribute(alt),
+		alt:     &altVal,
 	}
 }
 
@@ -128,10 +131,11 @@ func Lazy(src string, alt string) *Element {
 // Renders: <img src="logo.png" alt="Company Logo" loading="eager" />
 // Note: Image loads immediately, regardless of viewport position
 func Eager(src string, alt string) *Element {
+	altVal := node.EscapeAttribute(alt)
 	return &Element{
 		loading: loading.Eager,
 		src:     node.EscapeAttribute(src),
-		alt:     node.EscapeAttribute(alt),
+		alt:     &altVal,
 	}
 }
 
@@ -147,7 +151,8 @@ func (e *Element) Src(url string) *Element {
 //
 // Provides alternative text that describes the image content for accessibility and when images cannot be displayed. This text is read by screen readers, shown when images fail to load, and used by search engines. The alt text should be descriptive and meaningful - describe what the image shows and its purpose in context. For decorative images with no informational value, use an empty alt="" to indicate they should be ignored by assistive technology.
 func (e *Element) Alt(text string) *Element {
-	e.alt = node.EscapeAttribute(text)
+	v := node.EscapeAttribute(text)
+	e.alt = &v
 	return e
 }
 
@@ -155,7 +160,7 @@ func (e *Element) Alt(text string) *Element {
 //
 // The intrinsic width of the image in pixels, helping browsers allocate the correct space before the image loads to prevent layout shifts. This should match the actual pixel width of the image file. Modern responsive design typically uses CSS for sizing, but this attribute provides semantic information about the image's native dimensions. Improves performance by enabling better layout calculation.
 func (e *Element) Width(pixels int) *Element {
-	e.width = pixels
+	e.width = &pixels
 	return e
 }
 
@@ -163,7 +168,7 @@ func (e *Element) Width(pixels int) *Element {
 //
 // The intrinsic height of the image in pixels, working with the width attribute to define the image's aspect ratio before it loads. This prevents cumulative layout shift (CLS) by reserving the appropriate space. Should match the actual pixel height of the image file. Combined with width, enables browsers to calculate and maintain proper aspect ratios during responsive scaling.
 func (e *Element) Height(pixels int) *Element {
-	e.height = pixels
+	e.height = &pixels
 	return e
 }
 
@@ -245,6 +250,23 @@ func (e *Element) FetchPriority(priority fetchpriority.FetchPriority) *Element {
 // strict-origin, strict-origin-when-cross-origin, unsafe-url
 func (e *Element) ReferrerPolicy(policy referrerpolicy.ReferrerPolicy) *Element {
 	e.referrerpolicy = policy
+	return e
+}
+
+// Controls sets the controls attribute.
+//
+// Allows the browser to expose an interactive user interface over the image, such as a control for fullscreen
+// viewing. Which controls appear is implementation-defined and can be platform-specific. Setting it makes the
+// image interactive content, as usemap does, so it must not be placed inside a link or button. Browsers do not
+// expose animation controls for animated images while that remains unresolved in the specification.
+//
+// Calling without an argument sets the attribute. Pass a bool to control presence conditionally.
+func (e *Element) Controls(conds ...bool) *Element {
+	if len(conds) > 0 {
+		e.controls = conds[0]
+	} else {
+		e.controls = true
+	}
 	return e
 }
 
@@ -1871,19 +1893,19 @@ func (e *Element) AttributeBuilder(buf *bytes.Buffer) {
 		buf.WriteString(e.src)
 		buf.Write(html5.MarkupQuote)
 	}
-	if e.alt != "" {
+	if e.alt != nil {
 		buf.Write(html5.AttrAlt)
-		buf.WriteString(e.alt)
+		buf.WriteString(*e.alt)
 		buf.Write(html5.MarkupQuote)
 	}
-	if e.width != 0 {
+	if e.width != nil {
 		buf.Write(html5.AttrWidth)
-		buf.Write(strconv.AppendInt(nil, int64(e.width), 10))
+		buf.Write(strconv.AppendInt(nil, int64(*e.width), 10))
 		buf.Write(html5.MarkupQuote)
 	}
-	if e.height != 0 {
+	if e.height != nil {
 		buf.Write(html5.AttrHeight)
-		buf.Write(strconv.AppendInt(nil, int64(e.height), 10))
+		buf.Write(strconv.AppendInt(nil, int64(*e.height), 10))
 		buf.Write(html5.MarkupQuote)
 	}
 	if len(e.loading) > 0 {
@@ -1923,6 +1945,9 @@ func (e *Element) AttributeBuilder(buf *bytes.Buffer) {
 		buf.Write(html5.AttrUseMap)
 		buf.WriteString(e.usemap)
 		buf.Write(html5.MarkupQuote)
+	}
+	if e.controls {
+		buf.Write(html5.AttrControls)
 	}
 	if e.class != "" {
 		buf.Write(html5.AttrClass)

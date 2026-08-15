@@ -24,6 +24,8 @@ import (
 	"github.com/jpl-au/fluent/html5/attr/hidden"
 	"github.com/jpl-au/fluent/html5/attr/inputmode"
 	"github.com/jpl-au/fluent/html5/attr/popover"
+	"github.com/jpl-au/fluent/html5/attr/shadowrootmode"
+	"github.com/jpl-au/fluent/html5/attr/shadowrootslotassignment"
 	"github.com/jpl-au/fluent/html5/attr/spellcheck"
 	"github.com/jpl-au/fluent/html5/attr/translate"
 	"github.com/jpl-au/fluent/html5/attr/virtualkeyboardpolicy"
@@ -37,6 +39,8 @@ type Element struct {
 	bufferhint               atomic.Int64
 	hidden                   hidden.Hidden
 	nodes                    []node.Node
+	shadowrootmode           shadowrootmode.ShadowRootMode
+	shadowrootslotassignment shadowrootslotassignment.ShadowRootSlotAssignment
 	class                    string
 	draggable                string
 	dynamic                  string
@@ -80,13 +84,49 @@ func New(nodes ...node.Node) *Element {
 	}
 }
 
+// ShadowRoot creates a template element that declares a shadow root on its parent.
+// The template is replaced by its content inside a shadow root attached to the parent
+// element, so the shadow tree arrives with the document and needs no script to build.
+// Example: template.ShadowRoot(shadowrootmode.Open, slot.New())
+// Renders: <template shadowrootmode="open"><slot></slot></template>
+func ShadowRoot(mode shadowrootmode.ShadowRootMode, nodes ...node.Node) *Element {
+	return &Element{
+		nodes:          nodes,
+		shadowrootmode: mode,
+	}
+}
+
+// ShadowRootOpen creates a declarative shadow root whose tree is reachable from script
+// as Element.shadowRoot. This is the common case: use it unless you specifically need
+// the shadow root hidden from script.
+// Example: template.ShadowRootOpen(slot.New())
+// Renders: <template shadowrootmode="open"><slot></slot></template>
+func ShadowRootOpen(nodes ...node.Node) *Element {
+	return &Element{
+		nodes:          nodes,
+		shadowrootmode: shadowrootmode.Open,
+	}
+}
+
+// ShadowRootClosed creates a declarative shadow root that is not reachable from script:
+// Element.shadowRoot returns null. Nothing outside the component can reach into the
+// shadow tree by that route.
+// Example: template.ShadowRootClosed(slot.New())
+// Renders: <template shadowrootmode="closed"><slot></slot></template>
+func ShadowRootClosed(nodes ...node.Node) *Element {
+	return &Element{
+		nodes:          nodes,
+		shadowrootmode: shadowrootmode.Closed,
+	}
+}
+
 // ShadowRootMode sets the shadowrootmode attribute.
 //
 // Creates a declarative shadow root on the parent element. The value specifies the encapsulation
 // mode of the shadow tree. When present, the template is replaced by its content inside a shadow root.
 // Possible values: open (shadow root accessible via Element.shadowRoot), closed (not accessible).
-func (e *Element) ShadowRootMode(mode string) *Element {
-	e.SetAttribute("shadowrootmode", mode)
+func (e *Element) ShadowRootMode(mode shadowrootmode.ShadowRootMode) *Element {
+	e.shadowrootmode = mode
 	return e
 }
 
@@ -132,6 +172,16 @@ func (e *Element) ShadowRootSerializable(conds ...bool) *Element {
 	} else {
 		e.shadowrootserializable = true
 	}
+	return e
+}
+
+// ShadowRootSlotAssignment sets the shadowrootslotassignment attribute.
+//
+// Sets how the declarative shadow root assigns nodes to slots.
+// Possible values: named (nodes are assigned by matching the slot attribute, the default when the attribute
+// is absent), manual (nodes are assigned only by calling HTMLSlotElement.assign()).
+func (e *Element) ShadowRootSlotAssignment(assignment shadowrootslotassignment.ShadowRootSlotAssignment) *Element {
+	e.shadowrootslotassignment = assignment
 	return e
 }
 
@@ -1748,6 +1798,16 @@ func (e *Element) RenderBytes() []byte {
 
 // AttributeBuilder writes all attributes for the element to the buffer.
 func (e *Element) AttributeBuilder(buf *bytes.Buffer) {
+	if len(e.shadowrootmode) > 0 {
+		buf.Write(html5.AttrShadowRootMode)
+		buf.Write(e.shadowrootmode)
+		buf.Write(html5.MarkupQuote)
+	}
+	if len(e.shadowrootslotassignment) > 0 {
+		buf.Write(html5.AttrShadowRootSlotAssignment)
+		buf.Write(e.shadowrootslotassignment)
+		buf.Write(html5.MarkupQuote)
+	}
 	if e.shadowrootclonable {
 		buf.Write(html5.AttrShadowRootClonable)
 	}

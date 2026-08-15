@@ -50,11 +50,11 @@ type Element struct {
 	name         string
 	placeholder  string
 	attr         *[]node.Attribute
+	cols         *int
 	ea           *html5.EventAttributes
 	ga           *html5.GlobalAttributes
+	rows         *int
 	tabindex     *int
-	cols         int
-	rows         int
 	autofocus    bool
 	disabled     bool
 	inert        bool
@@ -151,7 +151,7 @@ func (e *Element) Name(name string) *Element {
 // CSS allow it. A larger value provides more space for longer text input, while smaller values conserve
 // screen space. Common values range from 3-10 lines depending on the expected content length.
 func (e *Element) Rows(rows int) *Element {
-	e.rows = rows
+	e.rows = &rows
 	return e
 }
 
@@ -163,7 +163,7 @@ func (e *Element) Rows(rows int) *Element {
 // size. Modern responsive design often uses CSS for sizing, but this attribute provides semantic information
 // about expected content width.
 func (e *Element) Cols(cols int) *Element {
-	e.cols = cols
+	e.cols = &cols
 	return e
 }
 
@@ -1914,14 +1914,14 @@ func (e *Element) AttributeBuilder(buf *bytes.Buffer) {
 		buf.WriteString(e.name)
 		buf.Write(html5.MarkupQuote)
 	}
-	if e.rows != 0 {
+	if e.rows != nil {
 		buf.Write(html5.AttrRows)
-		buf.Write(strconv.AppendInt(nil, int64(e.rows), 10))
+		buf.Write(strconv.AppendInt(nil, int64(*e.rows), 10))
 		buf.Write(html5.MarkupQuote)
 	}
-	if e.cols != 0 {
+	if e.cols != nil {
 		buf.Write(html5.AttrCols)
-		buf.Write(strconv.AppendInt(nil, int64(e.cols), 10))
+		buf.Write(strconv.AppendInt(nil, int64(*e.cols), 10))
 		buf.Write(html5.MarkupQuote)
 	}
 	if e.disabled {

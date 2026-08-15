@@ -44,13 +44,13 @@ type Element struct {
 	attr       *[]node.Attribute
 	ea         *html5.EventAttributes
 	ga         *html5.GlobalAttributes
+	high       *float64
+	low        *float64
+	max        *float64
+	min        *float64
+	optimum    *float64
 	tabindex   *int
-	high       float64
-	low        float64
-	max        float64
-	min        float64
-	optimum    float64
-	value      float64
+	value      *float64
 	autofocus  bool
 	inert      bool
 	itemscope  bool
@@ -132,8 +132,8 @@ func RawTextf(format string, args ...any) *Element {
 func ValueMax(value float64, max float64, nodes ...node.Node) *Element {
 	return &Element{
 		nodes: nodes,
-		value: value,
-		max:   max,
+		value: &value,
+		max:   &max,
 	}
 }
 
@@ -144,7 +144,7 @@ func ValueMax(value float64, max float64, nodes ...node.Node) *Element {
 // measurement being displayed by the meter, such as disk usage, task completion, or any scalar quantity
 // within a known range.
 func (e *Element) Value(value float64) *Element {
-	e.value = value
+	e.value = &value
 	return e
 }
 
@@ -155,7 +155,7 @@ func (e *Element) Value(value float64) *Element {
 // (max attribute) if both are specified. Essential for defining the scale and context of the measurement
 // being displayed.
 func (e *Element) Min(min float64) *Element {
-	e.min = min
+	e.min = &min
 	return e
 }
 
@@ -166,7 +166,7 @@ func (e *Element) Min(min float64) *Element {
 // attribute) if both are specified. Critical for establishing the full scale of the measurement and
 // enabling proper visual representation of the current value.
 func (e *Element) Max(max float64) *Element {
-	e.max = max
+	e.max = &max
 	return e
 }
 
@@ -177,7 +177,7 @@ func (e *Element) Max(max float64) *Element {
 // (typically different colors) to indicate when values are in the low range. Must be greater than min (if
 // specified) and less than high and max values.
 func (e *Element) Low(low float64) *Element {
-	e.low = low
+	e.low = &low
 	return e
 }
 
@@ -188,7 +188,7 @@ func (e *Element) Low(low float64) *Element {
 // indicate when values are in the high range. Must be less than max (if specified) and greater than low
 // and min values. Essential for visual indication of measurement ranges.
 func (e *Element) High(high float64) *Element {
-	e.high = high
+	e.high = &high
 	return e
 }
 
@@ -200,7 +200,7 @@ func (e *Element) High(high float64) *Element {
 // low and high thresholds affects how browsers style the meter to convey whether the current measurement is
 // desirable or not.
 func (e *Element) Optimum(optimum float64) *Element {
-	e.optimum = optimum
+	e.optimum = &optimum
 	return e
 }
 
@@ -1817,34 +1817,34 @@ func (e *Element) RenderBytes() []byte {
 
 // AttributeBuilder writes all attributes for the element to the buffer.
 func (e *Element) AttributeBuilder(buf *bytes.Buffer) {
-	if e.value != 0 {
+	if e.value != nil {
 		buf.Write(html5.AttrValue)
-		buf.Write(strconv.AppendFloat(nil, float64(e.value), 'f', -1, 64))
+		buf.Write(strconv.AppendFloat(nil, float64(*e.value), 'f', -1, 64))
 		buf.Write(html5.MarkupQuote)
 	}
-	if e.min != 0 {
+	if e.min != nil {
 		buf.Write(html5.AttrMin)
-		buf.Write(strconv.AppendFloat(nil, float64(e.min), 'f', -1, 64))
+		buf.Write(strconv.AppendFloat(nil, float64(*e.min), 'f', -1, 64))
 		buf.Write(html5.MarkupQuote)
 	}
-	if e.max != 0 {
+	if e.max != nil {
 		buf.Write(html5.AttrMax)
-		buf.Write(strconv.AppendFloat(nil, float64(e.max), 'f', -1, 64))
+		buf.Write(strconv.AppendFloat(nil, float64(*e.max), 'f', -1, 64))
 		buf.Write(html5.MarkupQuote)
 	}
-	if e.low != 0 {
+	if e.low != nil {
 		buf.Write(html5.AttrLow)
-		buf.Write(strconv.AppendFloat(nil, float64(e.low), 'f', -1, 64))
+		buf.Write(strconv.AppendFloat(nil, float64(*e.low), 'f', -1, 64))
 		buf.Write(html5.MarkupQuote)
 	}
-	if e.high != 0 {
+	if e.high != nil {
 		buf.Write(html5.AttrHigh)
-		buf.Write(strconv.AppendFloat(nil, float64(e.high), 'f', -1, 64))
+		buf.Write(strconv.AppendFloat(nil, float64(*e.high), 'f', -1, 64))
 		buf.Write(html5.MarkupQuote)
 	}
-	if e.optimum != 0 {
+	if e.optimum != nil {
 		buf.Write(html5.AttrOptimum)
-		buf.Write(strconv.AppendFloat(nil, float64(e.optimum), 'f', -1, 64))
+		buf.Write(strconv.AppendFloat(nil, float64(*e.optimum), 'f', -1, 64))
 		buf.Write(html5.MarkupQuote)
 	}
 	if e.class != "" {

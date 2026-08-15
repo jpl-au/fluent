@@ -43,11 +43,11 @@ type Element struct {
 	id         string
 	label      string
 	memoise    any
-	value      string
 	attr       *[]node.Attribute
 	ea         *html5.EventAttributes
 	ga         *html5.GlobalAttributes
 	tabindex   *int
+	value      *string
 	autofocus  bool
 	disabled   bool
 	inert      bool
@@ -84,9 +84,10 @@ func New(nodes ...node.Node) *Element {
 // Example: option.Option("us", "United States")
 // Renders: <option value="us">United States</option>
 func Option(value string, str string) *Element {
+	valueVal := node.EscapeAttribute(value)
 	return &Element{
 		nodes: []node.Node{text.Text(str)},
-		value: node.EscapeAttribute(value),
+		value: &valueVal,
 	}
 }
 
@@ -95,10 +96,11 @@ func Option(value string, str string) *Element {
 // Example: option.Selected("gb", "United Kingdom")
 // Renders: <option value="gb" selected>United Kingdom</option>
 func Selected(value string, str string) *Element {
+	valueVal := node.EscapeAttribute(value)
 	return &Element{
 		nodes:    []node.Node{text.Text(str)},
 		selected: true,
-		value:    node.EscapeAttribute(value),
+		value:    &valueVal,
 	}
 }
 
@@ -151,7 +153,8 @@ func RawTextf(format string, args ...any) *Element {
 //
 // Specifies the value that will be submitted to the server when this option is selected
 func (e *Element) Value(value string) *Element {
-	e.value = node.EscapeAttribute(value)
+	v := node.EscapeAttribute(value)
+	e.value = &v
 	return e
 }
 
@@ -1804,9 +1807,9 @@ func (e *Element) RenderBytes() []byte {
 
 // AttributeBuilder writes all attributes for the element to the buffer.
 func (e *Element) AttributeBuilder(buf *bytes.Buffer) {
-	if e.value != "" {
+	if e.value != nil {
 		buf.Write(html5.AttrValue)
-		buf.WriteString(e.value)
+		buf.WriteString(*e.value)
 		buf.Write(html5.MarkupQuote)
 	}
 	if e.disabled {

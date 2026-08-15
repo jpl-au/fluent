@@ -45,7 +45,6 @@ type Element struct {
 	rel            rel.Rel
 	shape          shape.Shape
 	target         target.Target
-	alt            string
 	areaType       string
 	class          string
 	coords         string
@@ -55,6 +54,7 @@ type Element struct {
 	id             string
 	memoise        any
 	ping           string
+	alt            *string
 	attr           *[]node.Attribute
 	ea             *html5.EventAttributes
 	ga             *html5.GlobalAttributes
@@ -194,7 +194,8 @@ func (e *Element) Href(url string) *Element {
 // Alternative text for the area when the image cannot be displayed. This text should describe the purpose of the
 // link. Required if the href attribute is present to ensure accessibility.
 func (e *Element) Alt(text string) *Element {
-	e.alt = node.EscapeAttribute(text)
+	v := node.EscapeAttribute(text)
+	e.alt = &v
 	return e
 }
 
@@ -204,6 +205,17 @@ func (e *Element) Alt(text string) *Element {
 // Use this attribute only if the href attribute is present.
 func (e *Element) Download(filename string) *Element {
 	e.SetAttribute("download", filename)
+	return e
+}
+
+// HrefLang sets the hreflang attribute.
+//
+// Provides a hint about the human language of the destination resource. It has no built-in effect on link
+// behaviour, but is valuable to accessibility tools, search engines, and content management systems. Values
+// must be valid BCP 47 language tags (e.g. 'en', 'en-US', 'fr-CA', 'zh-Hans'). Use this attribute only if
+// the href attribute is present.
+func (e *Element) HrefLang(language string) *Element {
+	e.SetAttribute("hreflang", language)
 	return e
 }
 
@@ -271,6 +283,17 @@ func (e *Element) Rel(rel ...rel.Rel) *Element {
 // values: _self (same browsing context), _blank (new tab/window), _parent (parent context), _top (topmost context).
 func (e *Element) Target(target target.Target) *Element {
 	e.target = target
+	return e
+}
+
+// Type sets the type attribute.
+//
+// Provides a hint about the MIME type of the destination resource. It does not affect navigation behaviour,
+// but is useful to applications, accessibility tools, and custom JavaScript handling. The value should be a
+// valid MIME type such as 'application/pdf', 'text/html', or 'image/jpeg'. Use this attribute only if the
+// href attribute is present.
+func (e *Element) Type(mime string) *Element {
+	e.SetAttribute("type", mime)
 	return e
 }
 
@@ -1870,9 +1893,9 @@ func (e *Element) AttributeBuilder(buf *bytes.Buffer) {
 		buf.WriteString(e.href)
 		buf.Write(html5.MarkupQuote)
 	}
-	if e.alt != "" {
+	if e.alt != nil {
 		buf.Write(html5.AttrAlt)
-		buf.WriteString(e.alt)
+		buf.WriteString(*e.alt)
 		buf.Write(html5.MarkupQuote)
 	}
 	if len(e.rel) > 0 {

@@ -54,9 +54,9 @@ type Element struct {
 	attr                    *[]node.Attribute
 	ea                      *html5.EventAttributes
 	ga                      *html5.GlobalAttributes
+	height                  *int
 	tabindex                *int
-	height                  int
-	width                   int
+	width                   *int
 	autofocus               bool
 	autoplay                bool
 	controls                bool
@@ -227,7 +227,7 @@ func (e *Element) Controls(conds ...bool) *Element {
 // prevent layout shifts during loading. Modern responsive design typically uses CSS for sizing, but these
 // attributes provide semantic information about the video's intended display dimensions and aspect ratio.
 func (e *Element) Height(pixels int) *Element {
-	e.height = pixels
+	e.height = &pixels
 	return e
 }
 
@@ -238,7 +238,7 @@ func (e *Element) Height(pixels int) *Element {
 // of the video player. While CSS can override these values for responsive design, the attributes help browsers
 // calculate proper layout and prevent content shifting during video loading.
 func (e *Element) Width(pixels int) *Element {
-	e.width = pixels
+	e.width = &pixels
 	return e
 }
 
@@ -2012,14 +2012,14 @@ func (e *Element) AttributeBuilder(buf *bytes.Buffer) {
 	if e.controls {
 		buf.Write(html5.AttrControls)
 	}
-	if e.height != 0 {
+	if e.height != nil {
 		buf.Write(html5.AttrHeight)
-		buf.Write(strconv.AppendInt(nil, int64(e.height), 10))
+		buf.Write(strconv.AppendInt(nil, int64(*e.height), 10))
 		buf.Write(html5.MarkupQuote)
 	}
-	if e.width != 0 {
+	if e.width != nil {
 		buf.Write(html5.AttrWidth)
-		buf.Write(strconv.AppendInt(nil, int64(e.width), 10))
+		buf.Write(strconv.AppendInt(nil, int64(*e.width), 10))
 		buf.Write(html5.MarkupQuote)
 	}
 	if e.loop {

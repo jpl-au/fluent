@@ -47,9 +47,9 @@ type Element struct {
 	attr       *[]node.Attribute
 	ea         *html5.EventAttributes
 	ga         *html5.GlobalAttributes
+	max        *float64
 	tabindex   *int
-	max        float64
-	value      float64
+	value      *float64
 	autofocus  bool
 	inert      bool
 	itemscope  bool
@@ -131,8 +131,8 @@ func RawTextf(format string, args ...any) *Element {
 func ValueMax(value float64, max float64, nodes ...node.Node) *Element {
 	return &Element{
 		nodes: nodes,
-		value: value,
-		max:   max,
+		value: &value,
+		max:   &max,
 	}
 }
 
@@ -142,7 +142,7 @@ func ValueMax(value float64, max float64, nodes ...node.Node) *Element {
 // the max value. When combined with max, this determines the percentage complete displayed by the progress
 // bar. If omitted, the progress element is indeterminate, showing ongoing activity without specific progress.
 func (e *Element) Value(value float64) *Element {
-	e.value = value
+	e.value = &value
 	return e
 }
 
@@ -152,7 +152,7 @@ func (e *Element) Value(value float64) *Element {
 // number. Defaults to 1.0 if not specified. Works with the value attribute to calculate and display the
 // completion percentage. For example, value="75" max="100" shows 75% complete.
 func (e *Element) Max(max float64) *Element {
-	e.max = max
+	e.max = &max
 	return e
 }
 
@@ -1769,14 +1769,14 @@ func (e *Element) RenderBytes() []byte {
 
 // AttributeBuilder writes all attributes for the element to the buffer.
 func (e *Element) AttributeBuilder(buf *bytes.Buffer) {
-	if e.value != 0 {
+	if e.value != nil {
 		buf.Write(html5.AttrValue)
-		buf.Write(strconv.AppendFloat(nil, float64(e.value), 'f', -1, 64))
+		buf.Write(strconv.AppendFloat(nil, float64(*e.value), 'f', -1, 64))
 		buf.Write(html5.MarkupQuote)
 	}
-	if e.max != 0 {
+	if e.max != nil {
 		buf.Write(html5.AttrMax)
-		buf.Write(strconv.AppendFloat(nil, float64(e.max), 'f', -1, 64))
+		buf.Write(strconv.AppendFloat(nil, float64(*e.max), 'f', -1, 64))
 		buf.Write(html5.MarkupQuote)
 	}
 	if e.class != "" {

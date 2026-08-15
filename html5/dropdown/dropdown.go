@@ -49,8 +49,8 @@ type Element struct {
 	attr         *[]node.Attribute
 	ea           *html5.EventAttributes
 	ga           *html5.GlobalAttributes
+	size         *int
 	tabindex     *int
-	size         int
 	autofocus    bool
 	disabled     bool
 	inert        bool
@@ -188,7 +188,7 @@ func (e *Element) Required(conds ...bool) *Element {
 // presentation and user interaction model - larger sizes make options immediately visible while size="1"
 // (default) shows options only when activated. Useful for creating visible multi-option lists.
 func (e *Element) Size(size int) *Element {
-	e.size = size
+	e.size = &size
 	return e
 }
 
@@ -1829,9 +1829,9 @@ func (e *Element) AttributeBuilder(buf *bytes.Buffer) {
 	if e.multiple {
 		buf.Write(html5.AttrMultiple)
 	}
-	if e.size != 0 {
+	if e.size != nil {
 		buf.Write(html5.AttrSize)
-		buf.Write(strconv.AppendInt(nil, int64(e.size), 10))
+		buf.Write(strconv.AppendInt(nil, int64(*e.size), 10))
 		buf.Write(html5.MarkupQuote)
 	}
 	if e.class != "" {

@@ -113,6 +113,14 @@ func TestDownloadAttr(t *testing.T) {
 	}
 }
 
+func TestHrefLangAttr(t *testing.T) {
+	got := string(area.New().HrefLang("test").RenderBytes())
+	want := `<area hreflang="test" />`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
 func TestPingAttr(t *testing.T) {
 	got := string(area.New().Ping("test").RenderBytes())
 	want := `<area ping="test" />`
@@ -194,6 +202,14 @@ func TestTargetAttr(t *testing.T) {
 func TestTargetCustom(t *testing.T) {
 	got := string(area.New().Target(target.Custom("custom-value")).RenderBytes())
 	want := `<area target="custom-value" />`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
+func TestTypeAttr(t *testing.T) {
+	got := string(area.New().Type("test").RenderBytes())
+	want := `<area type="test" />`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
 	}

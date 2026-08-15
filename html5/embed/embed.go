@@ -44,9 +44,9 @@ type Element struct {
 	attr       *[]node.Attribute
 	ea         *html5.EventAttributes
 	ga         *html5.GlobalAttributes
+	height     *int
 	tabindex   *int
-	height     int
-	width      int
+	width      *int
 	autofocus  bool
 	inert      bool
 	itemscope  bool
@@ -87,8 +87,8 @@ func PDF(src string, width int, height int) *Element {
 	return &Element{
 		embedType: "application/pdf",
 		src:       node.EscapeAttribute(node.FilterURL(src)),
-		width:     width,
-		height:    height,
+		width:     &width,
+		height:    &height,
 	}
 }
 
@@ -106,8 +106,8 @@ func Flash(src string, width int, height int) *Element {
 	return &Element{
 		embedType: "application/x-shockwave-flash",
 		src:       node.EscapeAttribute(node.FilterURL(src)),
-		width:     width,
-		height:    height,
+		width:     &width,
+		height:    &height,
 	}
 }
 
@@ -125,8 +125,8 @@ func Video(src string, width int, height int) *Element {
 	return &Element{
 		embedType: "video/mp4",
 		src:       node.EscapeAttribute(node.FilterURL(src)),
-		width:     width,
-		height:    height,
+		width:     &width,
+		height:    &height,
 	}
 }
 
@@ -144,8 +144,8 @@ func Audio(src string, width int, height int) *Element {
 	return &Element{
 		embedType: "audio/mpeg",
 		src:       node.EscapeAttribute(node.FilterURL(src)),
-		width:     width,
-		height:    height,
+		width:     &width,
+		height:    &height,
 	}
 }
 
@@ -174,7 +174,7 @@ func (e *Element) Type(mime string) *Element {
 //
 // The displayed width of the resource, in CSS pixels. This must be an absolute value; percentages are not allowed.
 func (e *Element) Width(width int) *Element {
-	e.width = width
+	e.width = &width
 	return e
 }
 
@@ -182,7 +182,7 @@ func (e *Element) Width(width int) *Element {
 //
 // The displayed height of the resource, in CSS pixels. This must be an absolute value; percentages are not allowed.
 func (e *Element) Height(height int) *Element {
-	e.height = height
+	e.height = &height
 	return e
 }
 
@@ -1767,14 +1767,14 @@ func (e *Element) AttributeBuilder(buf *bytes.Buffer) {
 		buf.WriteString(e.embedType)
 		buf.Write(html5.MarkupQuote)
 	}
-	if e.width != 0 {
+	if e.width != nil {
 		buf.Write(html5.AttrWidth)
-		buf.Write(strconv.AppendInt(nil, int64(e.width), 10))
+		buf.Write(strconv.AppendInt(nil, int64(*e.width), 10))
 		buf.Write(html5.MarkupQuote)
 	}
-	if e.height != 0 {
+	if e.height != nil {
 		buf.Write(html5.AttrHeight)
-		buf.Write(strconv.AppendInt(nil, int64(e.height), 10))
+		buf.Write(strconv.AppendInt(nil, int64(*e.height), 10))
 		buf.Write(html5.MarkupQuote)
 	}
 	if e.class != "" {

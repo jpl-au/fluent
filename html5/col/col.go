@@ -43,8 +43,8 @@ type Element struct {
 	attr       *[]node.Attribute
 	ea         *html5.EventAttributes
 	ga         *html5.GlobalAttributes
+	span       *int
 	tabindex   *int
-	span       int
 	autofocus  bool
 	inert      bool
 	itemscope  bool
@@ -78,7 +78,7 @@ func New() *Element {
 // Renders: <col span="3" />
 func Span(span int) *Element {
 	return &Element{
-		span: span,
+		span: &span,
 	}
 }
 
@@ -88,7 +88,7 @@ func Span(span int) *Element {
 // greater than zero. If not present, its default value is 1. This attribute allows a single <col> element
 // to apply styling or behavior to multiple consecutive columns in a table.
 func (e *Element) Span(value int) *Element {
-	e.span = value
+	e.span = &value
 	return e
 }
 
@@ -1663,9 +1663,9 @@ func (e *Element) RenderBytes() []byte {
 
 // AttributeBuilder writes all attributes for the element to the buffer.
 func (e *Element) AttributeBuilder(buf *bytes.Buffer) {
-	if e.span != 0 {
+	if e.span != nil {
 		buf.Write(html5.AttrSpan)
-		buf.Write(strconv.AppendInt(nil, int64(e.span), 10))
+		buf.Write(strconv.AppendInt(nil, int64(*e.span), 10))
 		buf.Write(html5.MarkupQuote)
 	}
 	if e.class != "" {

@@ -488,6 +488,7 @@ var (
 	AttrRowSpan                   = []byte(` rowspan="`)
 	AttrHeaders                   = []byte(` headers="`)
 	AttrShadowRootMode            = []byte(` shadowrootmode="`)
+	AttrShadowRootSlotAssignment  = []byte(` shadowrootslotassignment="`)
 	AttrRows                      = []byte(` rows="`)
 	AttrCols                      = []byte(` cols="`)
 	AttrWrap                      = []byte(` wrap="`)

@@ -218,6 +218,22 @@ func TestReferrerPolicyCustom(t *testing.T) {
 	}
 }
 
+func TestControlsAttr(t *testing.T) {
+	got := string(img.New().Controls().RenderBytes())
+	want := `<img controls />`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
+func TestControlsFalse(t *testing.T) {
+	got := string(img.New().Controls().Controls(false).RenderBytes())
+	want := `<img />`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
 func TestIsMapAttr(t *testing.T) {
 	got := string(img.New().IsMap().RenderBytes())
 	want := `<img ismap />`

@@ -47,9 +47,9 @@ type Element struct {
 	attr       *[]node.Attribute
 	ea         *html5.EventAttributes
 	ga         *html5.GlobalAttributes
+	height     *int
 	tabindex   *int
-	height     int
-	width      int
+	width      *int
 	autofocus  bool
 	inert      bool
 	itemscope  bool
@@ -86,7 +86,7 @@ func New(nodes ...node.Node) *Element {
 // drawing surface. Defaults to 150 pixels if not specified. Important: This is different from CSS height -
 // this attribute sets the canvas's internal resolution, while CSS height scales the display size.
 func (e *Element) Height(height int) *Element {
-	e.height = height
+	e.height = &height
 	return e
 }
 
@@ -96,7 +96,7 @@ func (e *Element) Height(height int) *Element {
 // drawing surface. Defaults to 300 pixels if not specified. Important: This is different from CSS width -
 // this attribute sets the canvas's internal resolution, while CSS width scales the display size.
 func (e *Element) Width(width int) *Element {
-	e.width = width
+	e.width = &width
 	return e
 }
 
@@ -1713,14 +1713,14 @@ func (e *Element) RenderBytes() []byte {
 
 // AttributeBuilder writes all attributes for the element to the buffer.
 func (e *Element) AttributeBuilder(buf *bytes.Buffer) {
-	if e.height != 0 {
+	if e.height != nil {
 		buf.Write(html5.AttrHeight)
-		buf.Write(strconv.AppendInt(nil, int64(e.height), 10))
+		buf.Write(strconv.AppendInt(nil, int64(*e.height), 10))
 		buf.Write(html5.MarkupQuote)
 	}
-	if e.width != 0 {
+	if e.width != nil {
 		buf.Write(html5.AttrWidth)
-		buf.Write(strconv.AppendInt(nil, int64(e.width), 10))
+		buf.Write(strconv.AppendInt(nil, int64(*e.width), 10))
 		buf.Write(html5.MarkupQuote)
 	}
 	if e.class != "" {

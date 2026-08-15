@@ -43,11 +43,11 @@ type Element struct {
 	id         string
 	memoise    any
 	attr       *[]node.Attribute
+	colSpan    *int
 	ea         *html5.EventAttributes
 	ga         *html5.GlobalAttributes
 	rowSpan    *int
 	tabindex   *int
-	colSpan    int
 	autofocus  bool
 	inert      bool
 	itemscope  bool
@@ -130,7 +130,7 @@ func RawTextf(format string, args ...any) *Element {
 // occupies one column, while higher values create merged cells that span multiple columns. Essential for
 // creating complex table layouts with merged cells and irregular column structures.
 func (e *Element) ColSpan(span int) *Element {
-	e.colSpan = span
+	e.colSpan = &span
 	return e
 }
 
@@ -1770,9 +1770,9 @@ func (e *Element) RenderBytes() []byte {
 
 // AttributeBuilder writes all attributes for the element to the buffer.
 func (e *Element) AttributeBuilder(buf *bytes.Buffer) {
-	if e.colSpan != 0 {
+	if e.colSpan != nil {
 		buf.Write(html5.AttrColSpan)
-		buf.Write(strconv.AppendInt(nil, int64(e.colSpan), 10))
+		buf.Write(strconv.AppendInt(nil, int64(*e.colSpan), 10))
 		buf.Write(html5.MarkupQuote)
 	}
 	if e.rowSpan != nil {

@@ -48,9 +48,9 @@ type Element struct {
 	attr       *[]node.Attribute
 	ea         *html5.EventAttributes
 	ga         *html5.GlobalAttributes
+	height     *int
 	tabindex   *int
-	height     int
-	width      int
+	width      *int
 	autofocus  bool
 	inert      bool
 	itemscope  bool
@@ -239,7 +239,7 @@ func (e *Element) Media(mediaQuery string) *Element {
 // enables browsers to reserve the appropriate space before the image loads, improving page performance and
 // user experience by reducing cumulative layout shift (CLS).
 func (e *Element) Width(pixels int) *Element {
-	e.width = pixels
+	e.width = &pixels
 	return e
 }
 
@@ -250,7 +250,7 @@ func (e *Element) Width(pixels int) *Element {
 // space before the image loads. This prevents layout shifts and improves page performance by allowing
 // browsers to render stable layouts even while images are still loading.
 func (e *Element) Height(pixels int) *Element {
-	e.height = pixels
+	e.height = &pixels
 	return e
 }
 
@@ -1850,14 +1850,14 @@ func (e *Element) AttributeBuilder(buf *bytes.Buffer) {
 		buf.WriteString(e.media)
 		buf.Write(html5.MarkupQuote)
 	}
-	if e.width != 0 {
+	if e.width != nil {
 		buf.Write(html5.AttrWidth)
-		buf.Write(strconv.AppendInt(nil, int64(e.width), 10))
+		buf.Write(strconv.AppendInt(nil, int64(*e.width), 10))
 		buf.Write(html5.MarkupQuote)
 	}
-	if e.height != 0 {
+	if e.height != nil {
 		buf.Write(html5.AttrHeight)
-		buf.Write(strconv.AppendInt(nil, int64(e.height), 10))
+		buf.Write(strconv.AppendInt(nil, int64(*e.height), 10))
 		buf.Write(html5.MarkupQuote)
 	}
 	if e.class != "" {
