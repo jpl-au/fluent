@@ -110,8 +110,8 @@ func TestTypeAttr(t *testing.T) {
 	}
 }
 
-func TestSrcsetAttr(t *testing.T) {
-	got := string(source.New().Srcset("test").RenderBytes())
+func TestSrcSetAttr(t *testing.T) {
+	got := string(source.New().SrcSet("test").RenderBytes())
 	want := `<source srcset="test" />`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -464,8 +464,8 @@ func TestIsAttr(t *testing.T) {
 	}
 }
 
-func TestItemIdAttr(t *testing.T) {
-	got := string(source.New().ItemId("test").RenderBytes())
+func TestItemIDAttr(t *testing.T) {
+	got := string(source.New().ItemID("test").RenderBytes())
 	want := `<source itemid="test" />`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)

@@ -118,8 +118,8 @@ func TestRefreshCtor(t *testing.T) {
 	}
 }
 
-func TestHttpEquivCtor(t *testing.T) {
-	got := string(meta.HttpEquiv("X-UA-Compatible", "IE=edge").RenderBytes())
+func TestHTTPEquivCtor(t *testing.T) {
+	got := string(meta.HTTPEquiv("X-UA-Compatible", "IE=edge").RenderBytes())
 	want := `<meta content="IE=edge" http-equiv="X-UA-Compatible" />`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -158,8 +158,8 @@ func TestCharsetCustom(t *testing.T) {
 	}
 }
 
-func TestHttpEquivAttr(t *testing.T) {
-	got := string(meta.New().HttpEquiv("test").RenderBytes())
+func TestHTTPEquivAttr(t *testing.T) {
+	got := string(meta.New().HTTPEquiv("test").RenderBytes())
 	want := `<meta http-equiv="test" />`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -481,8 +481,8 @@ func TestIsAttr(t *testing.T) {
 	}
 }
 
-func TestItemIdAttr(t *testing.T) {
-	got := string(meta.New().ItemId("test").RenderBytes())
+func TestItemIDAttr(t *testing.T) {
+	got := string(meta.New().ItemID("test").RenderBytes())
 	want := `<meta itemid="test" />`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)

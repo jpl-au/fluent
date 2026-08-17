@@ -387,8 +387,8 @@ func TestIsAttr(t *testing.T) {
 	}
 }
 
-func TestItemIdAttr(t *testing.T) {
-	got := string(imagemap.New().ItemId("test").RenderBytes())
+func TestItemIDAttr(t *testing.T) {
+	got := string(imagemap.New().ItemID("test").RenderBytes())
 	want := `<map itemid="test"></map>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)

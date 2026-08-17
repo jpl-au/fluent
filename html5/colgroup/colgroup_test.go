@@ -353,8 +353,8 @@ func TestIsAttr(t *testing.T) {
 	}
 }
 
-func TestItemIdAttr(t *testing.T) {
-	got := string(colgroup.New().ItemId("test").RenderBytes())
+func TestItemIDAttr(t *testing.T) {
+	got := string(colgroup.New().ItemID("test").RenderBytes())
 	want := `<colgroup itemid="test"></colgroup>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)

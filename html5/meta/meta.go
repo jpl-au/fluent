@@ -194,11 +194,11 @@ func Refresh(seconds int, url string) *Element {
 	}
 }
 
-// HttpEquiv creates a meta element with an http-equiv directive and content value.
+// HTTPEquiv creates a meta element with an http-equiv directive and content value.
 // Covers directives not wrapped by dedicated constructors like CSP or Refresh.
-// Example: meta.HttpEquiv("X-UA-Compatible", "IE=edge")
+// Example: meta.HTTPEquiv("X-UA-Compatible", "IE=edge")
 // Renders: <meta content="IE=edge" http-equiv="X-UA-Compatible" />
-func HttpEquiv(directive string, content string) *Element {
+func HTTPEquiv(directive string, content string) *Element {
 	return &Element{
 		httpEquiv: node.EscapeAttribute(directive),
 		content:   node.EscapeAttribute(content),
@@ -229,10 +229,10 @@ func (e *Element) Charset(charset charset.Charset) *Element {
 	return e
 }
 
-// HttpEquiv sets the http-equiv attribute.
+// HTTPEquiv sets the http-equiv attribute.
 //
 // Defines HTTP header-equivalent directives that affect how the document is processed or displayed. This attribute allows HTML documents to specify certain HTTP header behaviors directly in the markup. Common values include 'refresh' for automatic page refreshing, 'content-type' for MIME type specification, 'X-UA-Compatible' for Internet Explorer compatibility modes, and 'Content-Security-Policy' for security policies.
-func (e *Element) HttpEquiv(directive string) *Element {
+func (e *Element) HTTPEquiv(directive string) *Element {
 	e.httpEquiv = node.EscapeAttribute(directive)
 	return e
 }
@@ -541,10 +541,10 @@ func (e *Element) Is(element string) *Element {
 	return e
 }
 
-// ItemId sets the itemid attribute.
+// ItemID sets the itemid attribute.
 //
 // The unique, global identifier of an item. This attribute is part of the WHATWG HTML Microdata feature.
-func (e *Element) ItemId(id string) *Element {
+func (e *Element) ItemID(id string) *Element {
 	e.SetAttribute("itemid", id)
 	return e
 }
@@ -1852,7 +1852,7 @@ func (e *Element) AttributeBuilder(buf *bytes.Buffer) {
 		buf.Write(html5.MarkupQuote)
 	}
 	if e.httpEquiv != "" {
-		buf.Write(html5.AttrHttpEquiv)
+		buf.Write(html5.AttrHTTPEquiv)
 		buf.WriteString(e.httpEquiv)
 		buf.Write(html5.MarkupQuote)
 	}

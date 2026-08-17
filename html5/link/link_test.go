@@ -282,8 +282,8 @@ func TestBlockingCustom(t *testing.T) {
 	}
 }
 
-func TestImageSrcsetAttr(t *testing.T) {
-	got := string(link.New().ImageSrcset("test").RenderBytes())
+func TestImageSrcSetAttr(t *testing.T) {
+	got := string(link.New().ImageSrcSet("test").RenderBytes())
 	want := `<link imagesrcset="test" />`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -589,8 +589,8 @@ func TestIsAttr(t *testing.T) {
 	}
 }
 
-func TestItemIdAttr(t *testing.T) {
-	got := string(link.New().ItemId("test").RenderBytes())
+func TestItemIDAttr(t *testing.T) {
+	got := string(link.New().ItemID("test").RenderBytes())
 	want := `<link itemid="test" />`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)

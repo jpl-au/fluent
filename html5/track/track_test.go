@@ -93,8 +93,8 @@ func TestLabelAttr(t *testing.T) {
 	}
 }
 
-func TestSrclangAttr(t *testing.T) {
-	got := string(track.New().Srclang("test").RenderBytes())
+func TestSrcLangAttr(t *testing.T) {
+	got := string(track.New().SrcLang("test").RenderBytes())
 	want := `<track srclang="test" />`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -408,8 +408,8 @@ func TestIsAttr(t *testing.T) {
 	}
 }
 
-func TestItemIdAttr(t *testing.T) {
-	got := string(track.New().ItemId("test").RenderBytes())
+func TestItemIDAttr(t *testing.T) {
+	got := string(track.New().ItemID("test").RenderBytes())
 	want := `<track itemid="test" />`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)

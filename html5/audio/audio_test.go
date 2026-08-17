@@ -548,8 +548,8 @@ func TestIsAttr(t *testing.T) {
 	}
 }
 
-func TestItemIdAttr(t *testing.T) {
-	got := string(audio.New().ItemId("test").RenderBytes())
+func TestItemIDAttr(t *testing.T) {
+	got := string(audio.New().ItemID("test").RenderBytes())
 	want := `<audio itemid="test"></audio>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)

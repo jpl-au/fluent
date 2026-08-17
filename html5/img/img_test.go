@@ -146,8 +146,8 @@ func TestSizesCustom(t *testing.T) {
 	}
 }
 
-func TestSrcsetAttr(t *testing.T) {
-	got := string(img.New().Srcset("test").RenderBytes())
+func TestSrcSetAttr(t *testing.T) {
+	got := string(img.New().SrcSet("test").RenderBytes())
 	want := `<img srcset="test" />`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -565,8 +565,8 @@ func TestIsAttr(t *testing.T) {
 	}
 }
 
-func TestItemIdAttr(t *testing.T) {
-	got := string(img.New().ItemId("test").RenderBytes())
+func TestItemIDAttr(t *testing.T) {
+	got := string(img.New().ItemID("test").RenderBytes())
 	want := `<img itemid="test" />`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)

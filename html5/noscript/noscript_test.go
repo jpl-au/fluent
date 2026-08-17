@@ -370,8 +370,8 @@ func TestIsAttr(t *testing.T) {
 	}
 }
 
-func TestItemIdAttr(t *testing.T) {
-	got := string(noscript.New().ItemId("test").RenderBytes())
+func TestItemIDAttr(t *testing.T) {
+	got := string(noscript.New().ItemID("test").RenderBytes())
 	want := `<noscript itemid="test"></noscript>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)

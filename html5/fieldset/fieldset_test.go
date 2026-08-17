@@ -378,8 +378,8 @@ func TestIsAttr(t *testing.T) {
 	}
 }
 
-func TestItemIdAttr(t *testing.T) {
-	got := string(fieldset.New().ItemId("test").RenderBytes())
+func TestItemIDAttr(t *testing.T) {
+	got := string(fieldset.New().ItemID("test").RenderBytes())
 	want := `<fieldset itemid="test"></fieldset>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)

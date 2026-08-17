@@ -175,11 +175,11 @@ func (e *Element) Command(action string) *Element {
 	return e
 }
 
-// Commandfor sets the commandfor attribute.
+// CommandFor sets the commandfor attribute.
 //
 // Turns a <button> element into a command button, controlling the given interactive element; takes the ID
 // of the element to control as its value.
-func (e *Element) Commandfor(id string) *Element {
+func (e *Element) CommandFor(id string) *Element {
 	e.SetAttribute("commandfor", id)
 	return e
 }
@@ -583,10 +583,10 @@ func (e *Element) Is(element string) *Element {
 	return e
 }
 
-// ItemId sets the itemid attribute.
+// ItemID sets the itemid attribute.
 //
 // The unique, global identifier of an item. This attribute is part of the WHATWG HTML Microdata feature.
-func (e *Element) ItemId(id string) *Element {
+func (e *Element) ItemID(id string) *Element {
 	e.SetAttribute("itemid", id)
 	return e
 }

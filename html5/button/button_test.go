@@ -115,8 +115,8 @@ func TestCommandAttr(t *testing.T) {
 	}
 }
 
-func TestCommandforAttr(t *testing.T) {
-	got := string(button.New().Commandfor("test").RenderBytes())
+func TestCommandForAttr(t *testing.T) {
+	got := string(button.New().CommandFor("test").RenderBytes())
 	want := `<button commandfor="test"></button>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -558,8 +558,8 @@ func TestIsAttr(t *testing.T) {
 	}
 }
 
-func TestItemIdAttr(t *testing.T) {
-	got := string(button.New().ItemId("test").RenderBytes())
+func TestItemIDAttr(t *testing.T) {
+	got := string(button.New().ItemID("test").RenderBytes())
 	want := `<button itemid="test"></button>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)

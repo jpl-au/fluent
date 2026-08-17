@@ -371,8 +371,8 @@ func TestIsAttr(t *testing.T) {
 	}
 }
 
-func TestItemIdAttr(t *testing.T) {
-	got := string(hgroup.New().ItemId("test").RenderBytes())
+func TestItemIDAttr(t *testing.T) {
+	got := string(hgroup.New().ItemID("test").RenderBytes())
 	want := `<hgroup itemid="test"></hgroup>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)

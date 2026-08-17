@@ -403,8 +403,8 @@ func TestIsAttr(t *testing.T) {
 	}
 }
 
-func TestItemIdAttr(t *testing.T) {
-	got := string(dialog.New().ItemId("test").RenderBytes())
+func TestItemIDAttr(t *testing.T) {
+	got := string(dialog.New().ItemID("test").RenderBytes())
 	want := `<dialog itemid="test"></dialog>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)

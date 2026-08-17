@@ -402,8 +402,8 @@ func TestIsAttr(t *testing.T) {
 	}
 }
 
-func TestItemIdAttr(t *testing.T) {
-	got := string(blockquote.New().ItemId("test").RenderBytes())
+func TestItemIDAttr(t *testing.T) {
+	got := string(blockquote.New().ItemID("test").RenderBytes())
 	want := `<blockquote itemid="test"></blockquote>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)

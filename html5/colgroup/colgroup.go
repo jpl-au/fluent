@@ -389,10 +389,10 @@ func (e *Element) Is(element string) *Element {
 	return e
 }
 
-// ItemId sets the itemid attribute.
+// ItemID sets the itemid attribute.
 //
 // The unique, global identifier of an item. This attribute is part of the WHATWG HTML Microdata feature.
-func (e *Element) ItemId(id string) *Element {
+func (e *Element) ItemID(id string) *Element {
 	e.SetAttribute("itemid", id)
 	return e
 }

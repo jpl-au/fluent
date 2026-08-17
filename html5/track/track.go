@@ -160,13 +160,13 @@ func (e *Element) Label(text string) *Element {
 	return e
 }
 
-// Srclang sets the srclang attribute.
+// SrcLang sets the srclang attribute.
 //
 // Specifies the language of the track text data using a valid BCP 47 language tag (e.g., 'en', 'en-US',
 // 'fr-CA'). This attribute is mandatory when the kind attribute is set to 'subtitles' and helps browsers and
 // assistive technologies understand the track's language. The language tag enables proper text rendering,
 // accessibility features, and automatic track selection based on user preferences.
-func (e *Element) Srclang(languageCode string) *Element {
+func (e *Element) SrcLang(languageCode string) *Element {
 	e.srclang = node.EscapeAttribute(languageCode)
 	return e
 }
@@ -462,10 +462,10 @@ func (e *Element) Is(element string) *Element {
 	return e
 }
 
-// ItemId sets the itemid attribute.
+// ItemID sets the itemid attribute.
 //
 // The unique, global identifier of an item. This attribute is part of the WHATWG HTML Microdata feature.
-func (e *Element) ItemId(id string) *Element {
+func (e *Element) ItemID(id string) *Element {
 	e.SetAttribute("itemid", id)
 	return e
 }
@@ -1773,7 +1773,7 @@ func (e *Element) AttributeBuilder(buf *bytes.Buffer) {
 		buf.Write(html5.MarkupQuote)
 	}
 	if e.srclang != "" {
-		buf.Write(html5.AttrSrclang)
+		buf.Write(html5.AttrSrcLang)
 		buf.WriteString(e.srclang)
 		buf.Write(html5.MarkupQuote)
 	}

@@ -426,8 +426,8 @@ func TestIsAttr(t *testing.T) {
 	}
 }
 
-func TestItemIdAttr(t *testing.T) {
-	got := string(dropdown.New().ItemId("test").RenderBytes())
+func TestItemIDAttr(t *testing.T) {
+	got := string(dropdown.New().ItemID("test").RenderBytes())
 	want := `<select itemid="test"></select>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)

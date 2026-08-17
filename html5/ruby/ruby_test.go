@@ -371,8 +371,8 @@ func TestIsAttr(t *testing.T) {
 	}
 }
 
-func TestItemIdAttr(t *testing.T) {
-	got := string(ruby.New().ItemId("test").RenderBytes())
+func TestItemIDAttr(t *testing.T) {
+	got := string(ruby.New().ItemID("test").RenderBytes())
 	want := `<ruby itemid="test"></ruby>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)

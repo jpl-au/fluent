@@ -418,8 +418,8 @@ func TestIsAttr(t *testing.T) {
 	}
 }
 
-func TestItemIdAttr(t *testing.T) {
-	got := string(ol.New().ItemId("test").RenderBytes())
+func TestItemIDAttr(t *testing.T) {
+	got := string(ol.New().ItemID("test").RenderBytes())
 	want := `<ol itemid="test"></ol>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)

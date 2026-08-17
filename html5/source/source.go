@@ -181,13 +181,13 @@ func (e *Element) Type(mime string) *Element {
 	return e
 }
 
-// Srcset sets the srcset attribute.
+// SrcSet sets the srcset attribute.
 //
 // Defines multiple image sources with different resolutions or formats that the browser can choose from,
 // separated by commas. Each entry can include pixel density descriptors (like '2x') or width descriptors
 // (like '480w'). Only used when the <source> element is a direct child of a <picture> element. Enables
 // responsive images and modern format delivery. Example: 'image-480w.webp 480w, image-800w.webp 800w'.
-func (e *Element) Srcset(sources string) *Element {
+func (e *Element) SrcSet(sources string) *Element {
 	e.srcset = node.EscapeAttribute(sources)
 	return e
 }
@@ -530,10 +530,10 @@ func (e *Element) Is(element string) *Element {
 	return e
 }
 
-// ItemId sets the itemid attribute.
+// ItemID sets the itemid attribute.
 //
 // The unique, global identifier of an item. This attribute is part of the WHATWG HTML Microdata feature.
-func (e *Element) ItemId(id string) *Element {
+func (e *Element) ItemID(id string) *Element {
 	e.SetAttribute("itemid", id)
 	return e
 }
@@ -1836,7 +1836,7 @@ func (e *Element) AttributeBuilder(buf *bytes.Buffer) {
 		buf.Write(html5.MarkupQuote)
 	}
 	if e.srcset != "" {
-		buf.Write(html5.AttrSrcset)
+		buf.Write(html5.AttrSrcSet)
 		buf.WriteString(e.srcset)
 		buf.Write(html5.MarkupQuote)
 	}

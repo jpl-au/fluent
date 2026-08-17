@@ -340,11 +340,11 @@ func (e *Element) Blocking(blocking blocking.Blocking) *Element {
 	return e
 }
 
-// ImageSrcset sets the imagesrcset attribute.
+// ImageSrcSet sets the imagesrcset attribute.
 //
 // For rel="preload" and as="image" only. Specifies image sources for responsive preloading.
 // Uses same syntax as img srcset attribute.
-func (e *Element) ImageSrcset(srcset string) *Element {
+func (e *Element) ImageSrcSet(srcset string) *Element {
 	e.imagesrcset = node.EscapeAttribute(srcset)
 	return e
 }
@@ -634,10 +634,10 @@ func (e *Element) Is(element string) *Element {
 	return e
 }
 
-// ItemId sets the itemid attribute.
+// ItemID sets the itemid attribute.
 //
 // The unique, global identifier of an item. This attribute is part of the WHATWG HTML Microdata feature.
-func (e *Element) ItemId(id string) *Element {
+func (e *Element) ItemID(id string) *Element {
 	e.SetAttribute("itemid", id)
 	return e
 }
@@ -1978,7 +1978,7 @@ func (e *Element) AttributeBuilder(buf *bytes.Buffer) {
 		buf.Write(html5.MarkupQuote)
 	}
 	if e.imagesrcset != "" {
-		buf.Write(html5.AttrImageSrcset)
+		buf.Write(html5.AttrImageSrcSet)
 		buf.WriteString(e.imagesrcset)
 		buf.Write(html5.MarkupQuote)
 	}

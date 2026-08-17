@@ -207,10 +207,10 @@ func (e *Element) Sizes(sizes ...sizes.Size) *Element {
 	return e
 }
 
-// Srcset sets the srcset attribute.
+// SrcSet sets the srcset attribute.
 //
 // Defines multiple image sources with different resolutions or formats, allowing the browser to choose the most appropriate one based on device capabilities and conditions. This enables responsive images and modern format delivery (WebP, AVIF). Format: 'image-480w.jpg 480w, image-800w.jpg 800w' or 'image.webp, image.jpg'. Works with the sizes attribute to optimize image delivery across different devices and network conditions.
-func (e *Element) Srcset(sources string) *Element {
+func (e *Element) SrcSet(sources string) *Element {
 	e.SetAttribute("srcset", sources)
 	return e
 }
@@ -593,10 +593,10 @@ func (e *Element) Is(element string) *Element {
 	return e
 }
 
-// ItemId sets the itemid attribute.
+// ItemID sets the itemid attribute.
 //
 // The unique, global identifier of an item. This attribute is part of the WHATWG HTML Microdata feature.
-func (e *Element) ItemId(id string) *Element {
+func (e *Element) ItemID(id string) *Element {
 	e.SetAttribute("itemid", id)
 	return e
 }
