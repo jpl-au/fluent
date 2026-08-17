@@ -17,6 +17,7 @@ import (
 	"github.com/jpl-au/fluent/html5/attr/inputmode"
 	"github.com/jpl-au/fluent/html5/attr/loading"
 	"github.com/jpl-au/fluent/html5/attr/popover"
+	"github.com/jpl-au/fluent/html5/attr/preload"
 	"github.com/jpl-au/fluent/html5/attr/spellcheck"
 	"github.com/jpl-au/fluent/html5/attr/translate"
 	"github.com/jpl-au/fluent/html5/attr/virtualkeyboardpolicy"
@@ -209,8 +210,16 @@ func TestPosterAttr(t *testing.T) {
 }
 
 func TestPreloadAttr(t *testing.T) {
-	got := string(video.New().Preload("test").RenderBytes())
-	want := `<video preload="test"></video>`
+	got := string(video.New().Preload(preload.None).RenderBytes())
+	want := `<video preload="none"></video>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
+func TestPreloadCustom(t *testing.T) {
+	got := string(video.New().Preload(preload.Custom("custom-value")).RenderBytes())
+	want := `<video preload="custom-value"></video>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
 	}

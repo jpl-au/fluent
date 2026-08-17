@@ -81,8 +81,8 @@ func TestRawTextfCtor(t *testing.T) {
 }
 
 func TestValueAttr(t *testing.T) {
-	got := string(li.New().Value("test").RenderBytes())
-	want := `<li value="test"></li>`
+	got := string(li.New().Value(42).RenderBytes())
+	want := `<li value="42"></li>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
 	}

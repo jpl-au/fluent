@@ -25,6 +25,10 @@ var (
 	// Post Use HTTP POST method for form submission. Data is sent in request body and not
 	// visible in URL. Required for sensitive data, file uploads, and data modification.
 	Post = FormMethod("post")
+
+	// Dialog Close the containing dialog and submit the form data. Special method for forms
+	// inside dialog elements that closes the dialog when submitted.
+	Dialog = FormMethod("dialog")
 )
 
 // Custom allows setting a custom FormMethod value for edge cases or future specifications.

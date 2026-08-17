@@ -283,12 +283,12 @@ func (e *Element) SrcDoc(html string) *Element {
 	return e
 }
 
-// Csp sets the csp attribute.
+// CSP sets the csp attribute.
 //
 // Specifies a Content Security Policy to enforce on the embedded resource. The policy is applied to the
 // iframe's content regardless of the Content-Security-Policy header sent by the embedded page. Provides
 // an additional layer of security control from the embedding page.
-func (e *Element) Csp(policy string) *Element {
+func (e *Element) CSP(policy string) *Element {
 	e.SetAttribute("csp", policy)
 	return e
 }

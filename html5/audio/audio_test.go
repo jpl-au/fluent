@@ -9,6 +9,7 @@ import (
 	"github.com/jpl-au/fluent/html5/attr/autocapitalize"
 	"github.com/jpl-au/fluent/html5/attr/autocorrect"
 	"github.com/jpl-au/fluent/html5/attr/contenteditable"
+	"github.com/jpl-au/fluent/html5/attr/controlslist"
 	"github.com/jpl-au/fluent/html5/attr/crossorigin"
 	"github.com/jpl-au/fluent/html5/attr/dir"
 	"github.com/jpl-au/fluent/html5/attr/enterkeyhint"
@@ -162,8 +163,31 @@ func TestSrcAttr(t *testing.T) {
 }
 
 func TestControlsListAttr(t *testing.T) {
-	got := string(audio.New().ControlsList("test").RenderBytes())
-	want := `<audio controlslist="test"></audio>`
+	got := string(audio.New().ControlsList(controlslist.NoDownload).RenderBytes())
+	want := `<audio controlslist="nodownload"></audio>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
+func TestControlsListMulti(t *testing.T) {
+	got := string(audio.New().ControlsList(controlslist.NoDownload, controlslist.NoFullscreen, controlslist.NoRemotePlayback).RenderBytes())
+	want := `<audio controlslist="nodownload nofullscreen noremoteplayback"></audio>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+
+	// Test multiple chained calls
+	got = string(audio.New().ControlsList(controlslist.NoDownload).ControlsList(controlslist.NoFullscreen).ControlsList(controlslist.NoRemotePlayback).RenderBytes())
+	want = `<audio controlslist="nodownload nofullscreen noremoteplayback"></audio>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
+func TestControlsListCustom(t *testing.T) {
+	got := string(audio.New().ControlsList(controlslist.Custom("custom-value")).RenderBytes())
+	want := `<audio controlslist="custom-value"></audio>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
 	}

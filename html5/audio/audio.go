@@ -21,6 +21,7 @@ import (
 	"github.com/jpl-au/fluent/html5/attr/autocapitalize"
 	"github.com/jpl-au/fluent/html5/attr/autocorrect"
 	"github.com/jpl-au/fluent/html5/attr/contenteditable"
+	"github.com/jpl-au/fluent/html5/attr/controlslist"
 	"github.com/jpl-au/fluent/html5/attr/crossorigin"
 	"github.com/jpl-au/fluent/html5/attr/dir"
 	"github.com/jpl-au/fluent/html5/attr/enterkeyhint"
@@ -40,13 +41,13 @@ import (
 // Element represents the <audio> HTML element.
 type Element struct {
 	bufferhint            atomic.Int64
+	controlslist          controlslist.ControlsList
 	crossorigin           crossorigin.CrossOrigin
 	hidden                hidden.Hidden
 	loading               loading.Loading
 	nodes                 []node.Node
 	preload               preload.Preload
 	class                 string
-	controlsList          string
 	draggable             string
 	dynamic               string
 	id                    string
@@ -214,9 +215,29 @@ func (e *Element) Src(url string) *Element {
 
 // ControlsList sets the controlslist attribute.
 //
-// Customizes which controls are displayed when the browser shows its built-in audio controls.
-func (e *Element) ControlsList(list string) *Element {
-	e.controlsList = node.EscapeAttribute(list)
+// Specifies which browser-native controls to hide from the default audio player interface. Multiple values
+// can be combined to hide multiple controls. Useful for customising the player experience.
+// Possible values: nodownload, nofullscreen, noremoteplayback
+func (e *Element) ControlsList(options ...controlslist.ControlsList) *Element {
+	if len(options) == 0 {
+		return e
+	}
+	if len(e.controlslist) == 0 {
+		for i, item := range options {
+			if i > 0 {
+				e.controlslist = append(e.controlslist, " "...)
+			}
+			e.controlslist = append(e.controlslist, item...)
+		}
+	} else {
+		e.controlslist = append(e.controlslist, " "...)
+		for i, item := range options {
+			if i > 0 {
+				e.controlslist = append(e.controlslist, " "...)
+			}
+			e.controlslist = append(e.controlslist, item...)
+		}
+	}
 	return e
 }
 
@@ -1900,9 +1921,9 @@ func (e *Element) AttributeBuilder(buf *bytes.Buffer) {
 	if e.muted {
 		buf.Write(html5.AttrMuted)
 	}
-	if e.controlsList != "" {
+	if len(e.controlslist) > 0 {
 		buf.Write(html5.AttrControlsList)
-		buf.WriteString(e.controlsList)
+		buf.Write(e.controlslist)
 		buf.Write(html5.MarkupQuote)
 	}
 	if len(e.crossorigin) > 0 {

@@ -27,6 +27,7 @@ import (
 	"github.com/jpl-au/fluent/html5/attr/inputmode"
 	"github.com/jpl-au/fluent/html5/attr/loading"
 	"github.com/jpl-au/fluent/html5/attr/popover"
+	"github.com/jpl-au/fluent/html5/attr/preload"
 	"github.com/jpl-au/fluent/html5/attr/spellcheck"
 	"github.com/jpl-au/fluent/html5/attr/translate"
 	"github.com/jpl-au/fluent/html5/attr/virtualkeyboardpolicy"
@@ -43,13 +44,13 @@ type Element struct {
 	hidden                  hidden.Hidden
 	loading                 loading.Loading
 	nodes                   []node.Node
+	preload                 preload.Preload
 	class                   string
 	draggable               string
 	dynamic                 string
 	id                      string
 	memoise                 any
 	poster                  string
-	preload                 string
 	src                     string
 	attr                    *[]node.Attribute
 	ea                      *html5.EventAttributes
@@ -155,7 +156,7 @@ func Src(src string, nodes ...node.Node) *Element {
 func PreloadAuto(nodes ...node.Node) *Element {
 	return &Element{
 		nodes:   nodes,
-		preload: "auto",
+		preload: preload.Auto,
 	}
 }
 
@@ -165,7 +166,7 @@ func PreloadAuto(nodes ...node.Node) *Element {
 func PreloadMetadata(nodes ...node.Node) *Element {
 	return &Element{
 		nodes:   nodes,
-		preload: "metadata",
+		preload: preload.Metadata,
 	}
 }
 
@@ -175,7 +176,7 @@ func PreloadMetadata(nodes ...node.Node) *Element {
 func PreloadNone(nodes ...node.Node) *Element {
 	return &Element{
 		nodes:   nodes,
-		preload: "none",
+		preload: preload.None,
 	}
 }
 
@@ -290,8 +291,8 @@ func (e *Element) Poster(url string) *Element {
 // may ignore this hint based on user preferences or network conditions.
 // Possible values: none (don't preload anything), metadata (preload only video metadata like duration and
 // dimensions), auto (preload the entire video if feasible)
-func (e *Element) Preload(value string) *Element {
-	e.preload = node.EscapeAttribute(value)
+func (e *Element) Preload(value preload.Preload) *Element {
+	e.preload = value
 	return e
 }
 
@@ -2033,9 +2034,9 @@ func (e *Element) AttributeBuilder(buf *bytes.Buffer) {
 		buf.WriteString(e.poster)
 		buf.Write(html5.MarkupQuote)
 	}
-	if e.preload != "" {
+	if len(e.preload) > 0 {
 		buf.Write(html5.AttrPreload)
-		buf.WriteString(e.preload)
+		buf.Write(e.preload)
 		buf.Write(html5.MarkupQuote)
 	}
 	if len(e.crossorigin) > 0 {

@@ -225,8 +225,8 @@ func TestSrcDocAttr(t *testing.T) {
 	}
 }
 
-func TestCspAttr(t *testing.T) {
-	got := string(iframe.New().Csp("test").RenderBytes())
+func TestCSPAttr(t *testing.T) {
+	got := string(iframe.New().CSP("test").RenderBytes())
 	want := `<iframe csp="test"></iframe>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)

@@ -46,11 +46,11 @@ type Element struct {
 	dynamic    string
 	id         string
 	memoise    any
-	value      string
 	attr       *[]node.Attribute
 	ea         *html5.EventAttributes
 	ga         *html5.GlobalAttributes
 	tabindex   *int
+	value      *int
 	autofocus  bool
 	inert      bool
 	itemscope  bool
@@ -129,9 +129,10 @@ func RawTextf(format string, args ...any) *Element {
 // Value sets the value attribute.
 //
 // This integer attribute indicates the current ordinal value of the list item as defined by the <ol>
-// element. Only meaningful inside <ol> elements
-func (e *Element) Value(number string) *Element {
-	e.value = node.EscapeAttribute(number)
+// element. Only meaningful inside <ol> elements. Zero and negative ordinals are conforming and render
+// as given.
+func (e *Element) Value(number int) *Element {
+	e.value = &number
 	return e
 }
 
@@ -1758,9 +1759,9 @@ func (e *Element) RenderBytes() []byte {
 
 // AttributeBuilder writes all attributes for the element to the buffer.
 func (e *Element) AttributeBuilder(buf *bytes.Buffer) {
-	if e.value != "" {
+	if e.value != nil {
 		buf.Write(html5.AttrValue)
-		buf.WriteString(e.value)
+		buf.Write(strconv.AppendInt(nil, int64(*e.value), 10))
 		buf.Write(html5.MarkupQuote)
 	}
 	if len(e.listtype) > 0 {

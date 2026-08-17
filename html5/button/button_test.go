@@ -12,9 +12,9 @@ import (
 	"github.com/jpl-au/fluent/html5/attr/dir"
 	"github.com/jpl-au/fluent/html5/attr/enctype"
 	"github.com/jpl-au/fluent/html5/attr/enterkeyhint"
+	"github.com/jpl-au/fluent/html5/attr/formmethod"
 	"github.com/jpl-au/fluent/html5/attr/hidden"
 	"github.com/jpl-au/fluent/html5/attr/inputmode"
-	"github.com/jpl-au/fluent/html5/attr/method"
 	"github.com/jpl-au/fluent/html5/attr/popover"
 	"github.com/jpl-au/fluent/html5/attr/popovertargetaction"
 	"github.com/jpl-au/fluent/html5/attr/spellcheck"
@@ -147,72 +147,72 @@ func TestFormAttr(t *testing.T) {
 	}
 }
 
-func TestFormactionAttr(t *testing.T) {
-	got := string(button.New().Formaction("test").RenderBytes())
+func TestFormActionAttr(t *testing.T) {
+	got := string(button.New().FormAction("test").RenderBytes())
 	want := `<button formaction="test"></button>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
 	}
 }
 
-func TestFormenctypeAttr(t *testing.T) {
-	got := string(button.New().Formenctype(enctype.UrlEncoded).RenderBytes())
+func TestFormEncTypeAttr(t *testing.T) {
+	got := string(button.New().FormEncType(enctype.UrlEncoded).RenderBytes())
 	want := `<button formenctype="application/x-www-form-urlencoded"></button>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
 	}
 }
 
-func TestFormenctypeCustom(t *testing.T) {
-	got := string(button.New().Formenctype(enctype.Custom("custom-value")).RenderBytes())
+func TestFormEncTypeCustom(t *testing.T) {
+	got := string(button.New().FormEncType(enctype.Custom("custom-value")).RenderBytes())
 	want := `<button formenctype="custom-value"></button>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
 	}
 }
 
-func TestFormmethodAttr(t *testing.T) {
-	got := string(button.New().Formmethod(method.Get).RenderBytes())
+func TestFormMethodAttr(t *testing.T) {
+	got := string(button.New().FormMethod(formmethod.Get).RenderBytes())
 	want := `<button formmethod="get"></button>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
 	}
 }
 
-func TestFormmethodCustom(t *testing.T) {
-	got := string(button.New().Formmethod(method.Custom("custom-value")).RenderBytes())
+func TestFormMethodCustom(t *testing.T) {
+	got := string(button.New().FormMethod(formmethod.Custom("custom-value")).RenderBytes())
 	want := `<button formmethod="custom-value"></button>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
 	}
 }
 
-func TestFormnovalidateAttr(t *testing.T) {
-	got := string(button.New().Formnovalidate().RenderBytes())
+func TestFormNoValidateAttr(t *testing.T) {
+	got := string(button.New().FormNoValidate().RenderBytes())
 	want := `<button formnovalidate></button>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
 	}
 }
 
-func TestFormnovalidateFalse(t *testing.T) {
-	got := string(button.New().Formnovalidate().Formnovalidate(false).RenderBytes())
+func TestFormNoValidateFalse(t *testing.T) {
+	got := string(button.New().FormNoValidate().FormNoValidate(false).RenderBytes())
 	want := `<button></button>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
 	}
 }
 
-func TestFormtargetAttr(t *testing.T) {
-	got := string(button.New().Formtarget(target.Self).RenderBytes())
+func TestFormTargetAttr(t *testing.T) {
+	got := string(button.New().FormTarget(target.Self).RenderBytes())
 	want := `<button formtarget="_self"></button>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
 	}
 }
 
-func TestFormtargetCustom(t *testing.T) {
-	got := string(button.New().Formtarget(target.Custom("custom-value")).RenderBytes())
+func TestFormTargetCustom(t *testing.T) {
+	got := string(button.New().FormTarget(target.Custom("custom-value")).RenderBytes())
 	want := `<button formtarget="custom-value"></button>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -227,24 +227,24 @@ func TestNameAttr(t *testing.T) {
 	}
 }
 
-func TestPopOverTargetAttr(t *testing.T) {
-	got := string(button.New().PopOverTarget("test").RenderBytes())
+func TestPopoverTargetAttr(t *testing.T) {
+	got := string(button.New().PopoverTarget("test").RenderBytes())
 	want := `<button popovertarget="test"></button>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
 	}
 }
 
-func TestPopovertargetactionAttr(t *testing.T) {
-	got := string(button.New().Popovertargetaction(popovertargetaction.Toggle).RenderBytes())
+func TestPopoverTargetActionAttr(t *testing.T) {
+	got := string(button.New().PopoverTargetAction(popovertargetaction.Toggle).RenderBytes())
 	want := `<button popovertargetaction="toggle"></button>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
 	}
 }
 
-func TestPopovertargetactionCustom(t *testing.T) {
-	got := string(button.New().Popovertargetaction(popovertargetaction.Custom("custom-value")).RenderBytes())
+func TestPopoverTargetActionCustom(t *testing.T) {
+	got := string(button.New().PopoverTargetAction(popovertargetaction.Custom("custom-value")).RenderBytes())
 	want := `<button popovertargetaction="custom-value"></button>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)

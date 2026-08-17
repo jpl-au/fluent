@@ -23,9 +23,9 @@ import (
 	"github.com/jpl-au/fluent/html5/attr/dir"
 	"github.com/jpl-au/fluent/html5/attr/enctype"
 	"github.com/jpl-au/fluent/html5/attr/enterkeyhint"
+	"github.com/jpl-au/fluent/html5/attr/formmethod"
 	"github.com/jpl-au/fluent/html5/attr/hidden"
 	"github.com/jpl-au/fluent/html5/attr/inputmode"
-	"github.com/jpl-au/fluent/html5/attr/method"
 	"github.com/jpl-au/fluent/html5/attr/popover"
 	"github.com/jpl-au/fluent/html5/attr/popovertargetaction"
 	"github.com/jpl-au/fluent/html5/attr/spellcheck"
@@ -42,7 +42,7 @@ type Element struct {
 	bufferhint          atomic.Int64
 	enctype             enctype.EncType
 	hidden              hidden.Hidden
-	method              method.Method
+	method              formmethod.FormMethod
 	nodes               []node.Node
 	popovertargetaction popovertargetaction.PopoverTargetAction
 	target              target.Target
@@ -207,7 +207,7 @@ func (e *Element) Form(id string) *Element {
 	return e
 }
 
-// Formaction sets the formaction attribute.
+// FormAction sets the formaction attribute.
 //
 // The URL that processes the information submitted by the button. Overrides the action attribute of the
 // button's form owner. Does nothing if there is no form owner.
@@ -216,36 +216,36 @@ func (e *Element) Form(id string) *Element {
 // render as given; any other scheme (javascript:, data:, file:, a custom protocol) renders as the
 // inert node.UnsafeURL sentinel instead. For a trusted off-allowlist value use SetAttribute
 // (escaped but unfiltered) or SetAttributeRaw; register node.OnUnsafeURL to observe rejections.
-func (e *Element) Formaction(url string) *Element {
+func (e *Element) FormAction(url string) *Element {
 	e.SetAttribute("formaction", node.FilterURL(url))
 	return e
 }
 
-// Formenctype sets the formenctype attribute.
+// FormEncType sets the formenctype attribute.
 //
 // If the button is a submit button, specifies how to encode the form data that is submitted.
 // Possible values: application/x-www-form-urlencoded, multipart/form-data, text/plain.
-func (e *Element) Formenctype(enctype enctype.EncType) *Element {
+func (e *Element) FormEncType(enctype enctype.EncType) *Element {
 	e.enctype = enctype
 	return e
 }
 
-// Formmethod sets the formmethod attribute.
+// FormMethod sets the formmethod attribute.
 //
 // If the button is a submit button, this attribute specifies the HTTP method used to submit the form.
 // Possible values: post, get, dialog.
-func (e *Element) Formmethod(method method.Method) *Element {
+func (e *Element) FormMethod(method formmethod.FormMethod) *Element {
 	e.method = method
 	return e
 }
 
-// Formnovalidate sets the formnovalidate attribute.
+// FormNoValidate sets the formnovalidate attribute.
 //
 // If the button is a submit button, this Boolean attribute specifies that the form is not to be validated
 // when it is submitted.
 //
 // Calling without an argument sets the attribute. Pass a bool to control presence conditionally.
-func (e *Element) Formnovalidate(conds ...bool) *Element {
+func (e *Element) FormNoValidate(conds ...bool) *Element {
 	if len(conds) > 0 {
 		e.formnovalidate = conds[0]
 	} else {
@@ -254,12 +254,12 @@ func (e *Element) Formnovalidate(conds ...bool) *Element {
 	return e
 }
 
-// Formtarget sets the formtarget attribute.
+// FormTarget sets the formtarget attribute.
 //
 // If the button is a submit button, this attribute is an author-defined name or standardized,
 // underscore-prefixed keyword indicating where to display the response from submitting the form.
 // Possible values: _self, _blank, _parent, _top.
-func (e *Element) Formtarget(target target.Target) *Element {
+func (e *Element) FormTarget(target target.Target) *Element {
 	e.target = target
 	return e
 }
@@ -272,20 +272,20 @@ func (e *Element) Name(name string) *Element {
 	return e
 }
 
-// PopOverTarget sets the popovertarget attribute.
+// PopoverTarget sets the popovertarget attribute.
 //
 // Turns a <button> element into a popover control button; takes the ID of the popover element to control
 // as its value.
-func (e *Element) PopOverTarget(id string) *Element {
+func (e *Element) PopoverTarget(id string) *Element {
 	e.SetAttribute("popovertarget", id)
 	return e
 }
 
-// Popovertargetaction sets the popovertargetaction attribute.
+// PopoverTargetAction sets the popovertargetaction attribute.
 //
 // Specifies the action to be performed on a popover element being controlled by a control <button>.
 // Possible values: hide, show, toggle.
-func (e *Element) Popovertargetaction(action popovertargetaction.PopoverTargetAction) *Element {
+func (e *Element) PopoverTargetAction(action popovertargetaction.PopoverTargetAction) *Element {
 	e.popovertargetaction = action
 	return e
 }
@@ -1939,25 +1939,25 @@ func (e *Element) AttributeBuilder(buf *bytes.Buffer) {
 		buf.Write(html5.MarkupQuote)
 	}
 	if e.formnovalidate {
-		buf.Write(html5.AttrFormnovalidate)
+		buf.Write(html5.AttrFormNoValidate)
 	}
 	if len(e.enctype) > 0 {
-		buf.Write(html5.AttrFormenctype)
+		buf.Write(html5.AttrFormEncType)
 		buf.Write(e.enctype)
 		buf.Write(html5.MarkupQuote)
 	}
 	if len(e.method) > 0 {
-		buf.Write(html5.AttrFormmethod)
+		buf.Write(html5.AttrFormMethod)
 		buf.Write(e.method)
 		buf.Write(html5.MarkupQuote)
 	}
 	if len(e.popovertargetaction) > 0 {
-		buf.Write(html5.AttrPopovertargetaction)
+		buf.Write(html5.AttrPopoverTargetAction)
 		buf.Write(e.popovertargetaction)
 		buf.Write(html5.MarkupQuote)
 	}
 	if len(e.target) > 0 {
-		buf.Write(html5.AttrFormtarget)
+		buf.Write(html5.AttrFormTarget)
 		buf.Write(e.target)
 		buf.Write(html5.MarkupQuote)
 	}
