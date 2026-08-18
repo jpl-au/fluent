@@ -1562,3 +1562,31 @@ func TestSetAttributeRaw(t *testing.T) {
 		t.Errorf("got %q, want %q", got, want)
 	}
 }
+
+func TestNewCiteNoBreakout(t *testing.T) {
+	got := blockquote.NewCite("\"><script>").RenderBytes()
+	if bytes.Contains(got, []byte("\"><script>")) {
+		t.Errorf("hostile value reached the output unescaped: %s", got)
+	}
+}
+
+func TestTextNoBreakout(t *testing.T) {
+	got := blockquote.Text("\"><script>").RenderBytes()
+	if bytes.Contains(got, []byte("\"><script>")) {
+		t.Errorf("hostile value reached the output unescaped: %s", got)
+	}
+}
+
+func TestTextfNoBreakout(t *testing.T) {
+	got := blockquote.Textf("\"><script>").RenderBytes()
+	if bytes.Contains(got, []byte("\"><script>")) {
+		t.Errorf("hostile value reached the output unescaped: %s", got)
+	}
+}
+
+func TestTextCiteNoBreakout(t *testing.T) {
+	got := blockquote.TextCite("\"><script>", "\"><script>").RenderBytes()
+	if bytes.Contains(got, []byte("\"><script>")) {
+		t.Errorf("hostile value reached the output unescaped: %s", got)
+	}
+}

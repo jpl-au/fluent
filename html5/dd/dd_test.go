@@ -1528,3 +1528,17 @@ func TestSetAttributeRaw(t *testing.T) {
 		t.Errorf("got %q, want %q", got, want)
 	}
 }
+
+func TestTextNoBreakout(t *testing.T) {
+	got := dd.Text("\"><script>").RenderBytes()
+	if bytes.Contains(got, []byte("\"><script>")) {
+		t.Errorf("hostile value reached the output unescaped: %s", got)
+	}
+}
+
+func TestTextfNoBreakout(t *testing.T) {
+	got := dd.Textf("\"><script>").RenderBytes()
+	if bytes.Contains(got, []byte("\"><script>")) {
+		t.Errorf("hostile value reached the output unescaped: %s", got)
+	}
+}

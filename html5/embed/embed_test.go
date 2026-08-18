@@ -1447,3 +1447,31 @@ func TestSetAttributeRaw(t *testing.T) {
 		t.Errorf("got %q, want %q", got, want)
 	}
 }
+
+func TestPDFNoBreakout(t *testing.T) {
+	got := embed.PDF("\"><script>", 0, 0).RenderBytes()
+	if bytes.Contains(got, []byte("\"><script>")) {
+		t.Errorf("hostile value reached the output unescaped: %s", got)
+	}
+}
+
+func TestFlashNoBreakout(t *testing.T) {
+	got := embed.Flash("\"><script>", 0, 0).RenderBytes()
+	if bytes.Contains(got, []byte("\"><script>")) {
+		t.Errorf("hostile value reached the output unescaped: %s", got)
+	}
+}
+
+func TestVideoNoBreakout(t *testing.T) {
+	got := embed.Video("\"><script>", 0, 0).RenderBytes()
+	if bytes.Contains(got, []byte("\"><script>")) {
+		t.Errorf("hostile value reached the output unescaped: %s", got)
+	}
+}
+
+func TestAudioNoBreakout(t *testing.T) {
+	got := embed.Audio("\"><script>", 0, 0).RenderBytes()
+	if bytes.Contains(got, []byte("\"><script>")) {
+		t.Errorf("hostile value reached the output unescaped: %s", got)
+	}
+}

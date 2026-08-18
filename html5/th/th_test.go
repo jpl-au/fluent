@@ -1603,3 +1603,45 @@ func TestSetAttributeRaw(t *testing.T) {
 		t.Errorf("got %q, want %q", got, want)
 	}
 }
+
+func TestTextNoBreakout(t *testing.T) {
+	got := th.Text("\"><script>").RenderBytes()
+	if bytes.Contains(got, []byte("\"><script>")) {
+		t.Errorf("hostile value reached the output unescaped: %s", got)
+	}
+}
+
+func TestTextfNoBreakout(t *testing.T) {
+	got := th.Textf("\"><script>").RenderBytes()
+	if bytes.Contains(got, []byte("\"><script>")) {
+		t.Errorf("hostile value reached the output unescaped: %s", got)
+	}
+}
+
+func TestColNoBreakout(t *testing.T) {
+	got := th.Col("\"><script>").RenderBytes()
+	if bytes.Contains(got, []byte("\"><script>")) {
+		t.Errorf("hostile value reached the output unescaped: %s", got)
+	}
+}
+
+func TestRowNoBreakout(t *testing.T) {
+	got := th.Row("\"><script>").RenderBytes()
+	if bytes.Contains(got, []byte("\"><script>")) {
+		t.Errorf("hostile value reached the output unescaped: %s", got)
+	}
+}
+
+func TestColGroupNoBreakout(t *testing.T) {
+	got := th.ColGroup("\"><script>").RenderBytes()
+	if bytes.Contains(got, []byte("\"><script>")) {
+		t.Errorf("hostile value reached the output unescaped: %s", got)
+	}
+}
+
+func TestRowGroupNoBreakout(t *testing.T) {
+	got := th.RowGroup("\"><script>").RenderBytes()
+	if bytes.Contains(got, []byte("\"><script>")) {
+		t.Errorf("hostile value reached the output unescaped: %s", got)
+	}
+}

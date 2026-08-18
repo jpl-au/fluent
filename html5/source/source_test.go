@@ -1527,3 +1527,59 @@ func TestSetAttributeRaw(t *testing.T) {
 		t.Errorf("got %q, want %q", got, want)
 	}
 }
+
+func TestVideoMP4NoBreakout(t *testing.T) {
+	got := source.VideoMP4("\"><script>").RenderBytes()
+	if bytes.Contains(got, []byte("\"><script>")) {
+		t.Errorf("hostile value reached the output unescaped: %s", got)
+	}
+}
+
+func TestVideoWebMNoBreakout(t *testing.T) {
+	got := source.VideoWebM("\"><script>").RenderBytes()
+	if bytes.Contains(got, []byte("\"><script>")) {
+		t.Errorf("hostile value reached the output unescaped: %s", got)
+	}
+}
+
+func TestVideoOggNoBreakout(t *testing.T) {
+	got := source.VideoOgg("\"><script>").RenderBytes()
+	if bytes.Contains(got, []byte("\"><script>")) {
+		t.Errorf("hostile value reached the output unescaped: %s", got)
+	}
+}
+
+func TestAudioMP3NoBreakout(t *testing.T) {
+	got := source.AudioMP3("\"><script>").RenderBytes()
+	if bytes.Contains(got, []byte("\"><script>")) {
+		t.Errorf("hostile value reached the output unescaped: %s", got)
+	}
+}
+
+func TestAudioOggNoBreakout(t *testing.T) {
+	got := source.AudioOgg("\"><script>").RenderBytes()
+	if bytes.Contains(got, []byte("\"><script>")) {
+		t.Errorf("hostile value reached the output unescaped: %s", got)
+	}
+}
+
+func TestAudioWavNoBreakout(t *testing.T) {
+	got := source.AudioWav("\"><script>").RenderBytes()
+	if bytes.Contains(got, []byte("\"><script>")) {
+		t.Errorf("hostile value reached the output unescaped: %s", got)
+	}
+}
+
+func TestImageWebPNoBreakout(t *testing.T) {
+	got := source.ImageWebP("\"><script>").RenderBytes()
+	if bytes.Contains(got, []byte("\"><script>")) {
+		t.Errorf("hostile value reached the output unescaped: %s", got)
+	}
+}
+
+func TestImageAVIFNoBreakout(t *testing.T) {
+	got := source.ImageAVIF("\"><script>").RenderBytes()
+	if bytes.Contains(got, []byte("\"><script>")) {
+		t.Errorf("hostile value reached the output unescaped: %s", got)
+	}
+}

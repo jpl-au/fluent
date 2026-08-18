@@ -200,7 +200,7 @@ func FTP(url string, str string) *Element {
 func DataURL(str string, mime string, data string) *Element {
 	return &Element{
 		nodes: []node.Node{text.Text(str)},
-		href:  fmt.Sprintf("data:%v,%v", mime, data),
+		href:  fmt.Sprintf("data:%v,%v", node.EscapeAttribute(mime), node.EscapeAttribute(data)),
 	}
 }
 
@@ -210,7 +210,7 @@ func DataURL(str string, mime string, data string) *Element {
 func Base64Data(str string, mime string, data string) *Element {
 	return &Element{
 		nodes: []node.Node{text.Text(str)},
-		href:  fmt.Sprintf("data:%v;base64,%v", mime, data),
+		href:  fmt.Sprintf("data:%v;base64,%v", node.EscapeAttribute(mime), node.EscapeAttribute(data)),
 	}
 }
 

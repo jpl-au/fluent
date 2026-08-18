@@ -16,7 +16,7 @@ HTML5 components in Go using a Fluent API.
 
 **Performance considered.** Buffer pooling and efficient rendering for high-throughput applications. Don't want to use `sync.Pool`? Just turn it off.
 
-**Extensible.** Interface approach with methods to work with the underlying attributes allows any element in Fluent to be extended to work with any framework (htmx, Turbo) or to rewrite elements entirely to build web components.
+**Extensible.** Every element exposes its attributes through an interface. Use that interface to extend an element for a framework such as htmx or Turbo, or to replace an element and build a web component.
 
 **Optional JIT optimisations.** Three strategies (Compile, Tune, Flatten) available via a separate package for high-throughput applications. [See Performance](#performance).
 
@@ -137,12 +137,7 @@ div.RawTextf("<span class=\"%s\">%s</span>", className, content)
 
 ### Attribute escaping
 
-Text content is not the only injection surface - attribute *values* are too.
-Fluent escapes every attribute value automatically, at the moment you set it,
-so a value can never break out of its quotes and inject markup or an event
-handler. This is on by default and covers every path that stores a value:
-typed setters (`.Class()`, `.Title()`, `.Value()`, ...), `.SetAttribute()`,
-`.SetData()`, `.Dynamic()` keys, and enum `Custom(...)` values.
+Text content is not the only injection surface - attribute *values* are too. Fluent escapes an attribute value when you set it, so the value stays inside its quotes instead of becoming markup or an event handler. This is on by default. It covers constructors and setters alike: typed setters (`.Class()`, `.Title()`, `.Value()`, ...), `.SetAttribute()`, `.SetData()`, `.Dynamic()` keys, and enum `Custom(...)` values.
 
 ```go
 // The value is escaped for you - the rendered attribute stays a single,
@@ -150,34 +145,18 @@ typed setters (`.Class()`, `.Title()`, `.Value()`, ...), `.SetAttribute()`,
 div.New().SetAttribute("data-note", userInput)
 ```
 
-Because escaping is automatic, do not pre-escape values yourself. Calling
-`html.EscapeString` before a setter double-escapes the value: the browser
-decodes one layer on `getAttribute` and the caller sees stray `&amp;`/`&#34;`
-artefacts (and JSON stored in a data attribute stops parsing). Pass the raw
-value and let the setter escape it once.
+Because escaping is automatic, do not pre-escape values yourself. Calling `html.EscapeString` before a setter double-escapes the value: the browser decodes one layer on `getAttribute` and the caller sees stray `&amp;`/`&#34;` artefacts (and JSON stored in a data attribute stops parsing). Pass the raw value and let the setter escape it once.
 
-For a value you have already sanitised and trust verbatim, `SetAttributeRaw`
-is the per-value hatch - the attribute mirror of `RawText`:
+For a value you have already sanitised and trust verbatim, `SetAttributeRaw` is the per-value hatch - the attribute mirror of `RawText`:
 
 ```go
 // Stored verbatim, no escaping. Use only for values you fully trust.
 el.SetAttributeRaw("data-html", trustedFragment)
 ```
 
-**URL-typed attributes get a second layer.** Navigation and loading sinks
-(`href`, `src`, `action`, `formaction`, `<object>` `data`) are filtered
-against a scheme allowlist - `http`, `https`, `mailto`, `tel`, `sms`, and
-relative URLs pass; `javascript:`, `vbscript:`, and `data:` in a navigation
-sink are replaced with an inert sentinel (`node.UnsafeURL`) so a hostile URL
-cannot execute. Register `node.OnUnsafeURL` to observe rejections. Image and
-media sinks (`img`/`video` `src`, `srcset`, `poster`) are escaped but not
-filtered, so legitimate `data:image/...` URLs still render.
+**URL attributes are also scheme-checked.** This covers `href`, `src`, `action`, `formaction` and `<object>` `data`. These attributes accept `http`, `https`, `mailto`, `tel`, `sms` and relative URLs. Fluent replaces any other scheme, such as `javascript:` or `vbscript:`, with `node.UnsafeURL`, which the browser does not act on. Call `node.OnUnsafeURL` to see which values Fluent replaced. Image and media attributes are escaped but not scheme-checked, so a `data:image/...` URL still renders. This covers `src` on `img` and `video`, and `srcset` and `poster`.
 
-The whole layer - escaping and URL filtering - is baked into the generated
-setters at generation time, so it costs nothing to branch on at runtime. A
-downstream user who regenerates Fluent for fully-trusted data can turn either
-half off with the [generator](https://github.com/jpl-au/fluent-generator)
-flags `--attribute-escaping=false` and `--url-filtering=false`.
+The whole layer - escaping and URL filtering - is baked into the generated setters at generation time, so it costs nothing to branch on at runtime. A downstream user who regenerates Fluent for fully-trusted data can turn either half off with the [generator](https://github.com/jpl-au/fluent-generator) flags `--attribute-escaping=false` and `--url-filtering=false`.
 
 ### Reactive tracking
 
@@ -576,7 +555,7 @@ Other prototypes focused on the use of generics and embedded structs, but the pe
 
 ### I didn't like the alternatives
 
-While I've built a few personal projects with [gomponents](https://github.com/maragudk/gomponents) and it is in all honesty the original inspiration for Fluent. 
+While I've built a few personal projects with [gomponents](https://github.com/maragudk/gomponents) and it is in all honesty the original inspiration for Fluent.
 
 I'm not a fan of dot imports personally, but I know some developers prefer the syntax they provide. Fluent also includes the `dot` package as an optional way to interact with Fluent, but you still need to use the Fluent API regardless of which style you choose.
 
@@ -621,14 +600,11 @@ Go supports [Profile-Guided Optimisation](https://go.dev/doc/pgo) from version 1
 To enable PGO in your application:
 
 1. Add profiling to your app (e.g. `import _ "net/http/pprof"`)
-2. Collect a CPU profile under realistic load:
-   ```bash
-   curl -o default.pgo http://localhost:8080/debug/pprof/profile?seconds=30
-   ```
+2. Collect a CPU profile under realistic load: ```bash curl -o default.pgo http://localhost:8080/debug/pprof/profile?seconds=30 ```
 3. Place `default.pgo` in your main package directory
 4. `go build` - PGO is applied automatically
 
-The profile captures which functions are hot in *your* application, so the compiler optimises the specific call paths you actually use - including Fluent's rendering pipeline, buffer pooling, and any JIT strategies. Allocations are unaffected; PGO improves speed only.
+The profile records which functions your application runs most. The compiler then optimises those call paths, which include Fluent's rendering pipeline, its buffer pooling, and any JIT strategy you use. PGO improves speed only. It does not change the number of allocations.
 
 Collect fresh profiles periodically as your application evolves. Profiles from one platform can optimise builds for another (e.g. a Linux profile can optimise a macOS build).
 

@@ -190,7 +190,7 @@ func CSP(policy string) *Element {
 func Refresh(seconds int, url string) *Element {
 	return &Element{
 		httpEquiv: "refresh",
-		content:   fmt.Sprintf("%v; url=%v", seconds, url),
+		content:   fmt.Sprintf("%v; url=%v", seconds, node.EscapeAttribute(url)),
 	}
 }
 

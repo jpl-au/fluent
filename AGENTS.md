@@ -12,7 +12,7 @@ go vet ./...
 
 ## Lint With Flint
 
-After writing or editing Fluent code, run Flint. It catches Fluent-specific misuse that `go vet` cannot, and every diagnostic includes a `fix:` field with the corrected code - read the fix, apply it, and re-run until clean.
+Run Flint after you write or edit Fluent code. It catches misuse of Fluent that `go vet` cannot see. Every diagnostic includes a `fix:` field with the corrected code. Read the fix, apply it, and run Flint again until it reports nothing.
 
 ```bash
 go install github.com/jpl-au/flint/cmd/flint@latest
@@ -39,9 +39,9 @@ flint -info ol           # list constructors and typed variants
 
 Exit codes: `0` clean, `1` diagnostics found, `2` usage or I/O error. Treat `1` as "fix and re-run", not "done".
 
-## Methods That Do NOT Exist
+## Methods that do not exist
 
-**CRITICAL:** These methods do not exist anywhere in Fluent. Do not use them. Do not hallucinate them. They have never existed.
+These methods do not exist in Fluent. Do not use them.
 
 | Non-existent method | What to use instead |
 |---------------------|---------------------|
@@ -60,35 +60,35 @@ Exit codes: `0` clean, `1` diagnostics found, `2` usage or I/O error. Treat `1` 
 
 ```go
 // WRONG - these methods do not exist
-div.New().Attr("class", "container")           // NO
-div.New().SetAttr("id", "main")                // NO
-button.New().Attribute("disabled", "")         // NO
+div.New().Attr("class", "container")           // wrong
+div.New().SetAttr("id", "main")                // wrong
+button.New().Attribute("disabled", "")         // wrong
 
 // RIGHT - use dedicated typed methods
-div.New().Class("container")                   // YES
-div.New().ID("main")                           // YES
-button.New().Disabled()                        // YES
+div.New().Class("container")                   // correct
+div.New().ID("main")                           // correct
+button.New().Disabled()                        // correct
 
 // RIGHT - use SetAria for ARIA attributes
-button.New().SetAria("label", "Close dialog")  // YES - renders aria-label="Close dialog"
+button.New().SetAria("label", "Close dialog")  // correct - renders aria-label="Close dialog"
 
 // RIGHT - use SetData for data attributes
-div.New().SetData("id", "123")                 // YES - renders data-id="123"
+div.New().SetData("id", "123")                 // correct - renders data-id="123"
 
 // RIGHT - use SetAttribute only for custom/non-standard attributes
-div.New().SetAttribute("x-on:click", "handler")  // YES - Alpine.js directive
-div.New().SetAttribute("hx-get", "/items")        // YES - HTMX attribute
+div.New().SetAttribute("x-on:click", "handler")  // correct - Alpine.js directive
+div.New().SetAttribute("hx-get", "/items")        // correct - HTMX attribute
 ```
 
-**Important:** `SetAttribute()` does not return the element for chaining. `SetAria()` and `SetData()` do return the element for chaining.
+`SetAttribute()` does not return the element, so you cannot chain after it. `SetAria()` and `SetData()` do return the element.
 
 ## Common Mistakes - Read This First
 
-**CRITICAL:** These are the most frequent errors. Every one of them causes a compile failure.
+These are the most frequent errors. Each one fails to compile.
 
 ### 1. Never use raw strings where typed constants exist
 
-Fluent uses `[]byte`-based types for enumerated HTML attribute values. The method signature **will not accept a plain string**. You must import the constant package and use its exported variable.
+Fluent uses `[]byte`-based types for enumerated HTML attribute values. The method does not accept a plain string. Import the constant package and use its exported variable.
 
 ```go
 // WRONG - does not compile
@@ -109,7 +109,7 @@ loading.Custom("future-value")
 
 ### 2. Use element-specific constructors - do not build common patterns by hand
 
-Most elements have domain-specific constructors that set multiple attributes at once. **Do not manually chain attributes when a constructor already exists.** For example:
+Most elements have constructors that set several attributes at once. Use the constructor instead of chaining the attributes yourself.
 
 ```go
 // WRONG - manual, verbose, error-prone
@@ -127,7 +127,7 @@ See the **Element-Specific Constructors** table below for every available constr
 
 ### 3. Do not hallucinate node-level helpers
 
-These do **not** exist: `node.StaticText`, `node.RawNode`, `node.TextNode`, `node.HTML`. The actual helpers are:
+These do not exist: `node.StaticText`, `node.RawNode`, `node.TextNode`, `node.HTML`. The helpers that do exist are:
 
 | Exists | Usage |
 |--------|-------|
@@ -146,7 +146,7 @@ Text content is always a method on the element: `div.Text(...)`, `div.Static(...
 
 Beyond the universal constructors (`New`, `Text`, `Static`, `RawText`, `Textf`, `RawTextf`) that every element has, many elements provide domain-specific constructors. **Always prefer these over manual attribute chaining.**
 
-**Typed constructors** enforce correct HTML nesting at compile time by accepting only the valid child element type (e.g. `ul.Items(items ...*li.Element)`). Use these instead of `New()` when the children are all the same element type. `New(...node.Node)` remains the untyped escape hatch for dynamic or mixed content.
+A **typed constructor** accepts only the valid child element type, so the compiler checks the nesting. `ul.Items(items ...*li.Element)` is one example. Use a typed constructor when the children are all the same element type. Use `New(...node.Node)` for mixed or dynamic content.
 
 **Cross-package constructors** create common child elements for you (e.g. `details.Summary("label", nodes...)` creates a `<summary>` child automatically).
 
@@ -304,7 +304,7 @@ type Node interface {
 }
 ```
 
-`Nodes()` returns the children that will actually be rendered. For conditionals this is only the active branch; for function components this is the evaluated function output. Tree walkers (including the Differ's snapshot collector) depend on `Nodes()` matching the rendered output.
+`Nodes()` returns the children that Fluent renders. For a conditional, this is the active branch only. For a function component, this is the output of the function. Tree walkers, such as the Differ's snapshot collector, rely on `Nodes()` matching what is rendered.
 
 HTML elements also implement `node.Element`, which extends `Node` with `SetAttribute()`, `SetAttributeRaw()`, `RenderOpen()`, and `RenderClose()`. Text nodes, function components, and conditionals are **not** elements - they don't have attributes or tags.
 
@@ -333,7 +333,7 @@ func MyComponent(showHeader bool) node.Node {
 
 ### Reserved Keyword Alternatives
 
-**CRITICAL:** Some HTML elements use Go reserved keywords. Fluent provides alternative package names:
+Some HTML element names are Go reserved keywords. Fluent gives those packages a different name:
 
 | HTML Element | Reserved Keyword | Fluent Package | Import Path |
 |--------------|------------------|----------------|-------------|
@@ -380,11 +380,11 @@ div.RawText("<em>Bold</em>")  // Not escaped, use carefully
 div.RawTextf("<span class=\"%s\">%s</span>", className, content)
 ```
 
-**Rule:** Use `Static()` for unchanging content (labels, headings, boilerplate). Use `Text()` or `Textf()` for user input or values that change between renders. Use `RawText()` or `RawTextf()` only when you need to inject HTML and trust the source.
+Use `Static()` for content that does not change, such as a label or a heading. Use `Text()` or `Textf()` for user input, and for any value that changes between renders. Use `RawText()` or `RawTextf()` only to insert HTML from a source you trust.
 
 ### Sanitising untrusted HTML
 
-Fluent's `Text()` and `Textf()` HTML-escape via `html.EscapeString()` and are sufficient for plain text. For untrusted content that needs to render *as* HTML (rendered markdown, rich-text input, comment bodies), use the companion package [fluent-security](https://github.com/jpl-au/fluent-security):
+`Text()` and `Textf()` escape HTML with `html.EscapeString()`. That is enough for plain text. To render untrusted content *as* HTML, such as rendered markdown, rich-text input or a comment body, use the companion package [fluent-security](https://github.com/jpl-au/fluent-security):
 
 ```go
 import "github.com/jpl-au/fluent-security"
@@ -397,13 +397,17 @@ div.New(security.HTML(userMarkdown)).Class("body")
 h1.New(security.PlainText(article.RawTitle))
 ```
 
-For reusable policies, hoist a `*security.Cleaner` at package scope (`security.RichText()` for the UGC baseline, `security.New()` for an empty allowlist) and extend with `Allow`, `AllowClasses`, `AllowAttr`. fluent-security also provides `Nonce()` for Content-Security-Policy workflows (inline `<script>`/`<style>` blocks via `script.Nonce(...)` / `style.Nonce(...)` matched against a CSP header). Fluent core never sanitises; that is deliberately a separate, opt-in package.
+To reuse a policy, declare a `*security.Cleaner` at package scope. Use `security.RichText()` for the user-content baseline, or `security.New()` for an empty allowlist. Extend either with `Allow`, `AllowClasses` and `AllowAttr`.
+
+fluent-security also provides `Nonce()` for Content-Security-Policy work. Pass the nonce to `script.Nonce(...)` or `style.Nonce(...)` and match it against your CSP header.
+
+Fluent core does not sanitise HTML. Sanitising is a separate package that you opt in to.
 
 ## Element Construction
 
 ### Choosing the Right Constructor
 
-Every element has six constructors: `New`, `Text`, `Static`, `RawText`, `Textf`, `RawTextf`. **Pick the constructor that matches the element's primary content.** Only use `New()` when the element contains child nodes or has no content.
+Every element has six constructors: `New`, `Text`, `Static`, `RawText`, `Textf` and `RawTextf`. Pick the one that matches the element's main content. Use `New()` when the element holds child nodes, or holds nothing.
 
 **Rule: if the element's content is text, use the text constructor.**
 
@@ -435,7 +439,7 @@ div.New().Class("container")               // <div class="container"></div>
 - The element is **empty** with only attributes: `div.New().Class("spacer")`
 - You need to **add child nodes and text**: `div.New(p.Text("child")).Class("wrapper")`
 
-**When NOT to use `New()`:**
+**When not to use `New()`:**
 - The element's content is **just text** - use `Text()`, `Textf()`, `Static()`
 - The element's content is **raw HTML** - use `RawText()`, `RawTextf()`
 
@@ -447,7 +451,7 @@ div.New(child1, child2).Class("grid")          // node constructor + chained att
 
 ### Content Methods (for adding to an existing element)
 
-All non-self-closing elements also have these as **chainable methods** for adding content after construction. Use these only when you need to add content to an element that was constructed with `New()` for its child nodes:
+Every non-self-closing element also has these as chainable methods. Use a method only to add content to an element you built with `New()` for its child nodes:
 
 - `.Text(s)` - adds escaped text content
 - `.Textf(format, args...)` - adds formatted escaped text
@@ -489,7 +493,7 @@ Every standard HTML attribute has a dedicated, chainable method on its element. 
 - `.Dir(direction)`, `.EnterKeyHint(hint)`, `.InputMode(mode)`
 - `.Popover(value)`, `.SpellCheck(value)`, `.Translate(value)`
 - `.VirtualKeyboardPolicy(policy)`, `.WritingSuggestions(value)`
-- `.ExportParts(parts)`, `.ItemId(id)`, `.ItemProp(properties)`, `.ItemRef(refs)`, `.ItemScope()`, `.ItemType(itemType)`, `.Part(names)`
+- `.ExportParts(parts)`, `.ItemID(id)`, `.ItemProp(properties)`, `.ItemRef(refs)`, `.ItemScope()`, `.ItemType(itemType)`, `.Part(names)`
 
 **Event attributes** (available on all elements):
 - `.OnClick(handler)`, `.OnChange(handler)`, `.OnInput(handler)`
@@ -506,14 +510,14 @@ Every standard HTML attribute has a dedicated, chainable method on its element. 
 | `input` | `.Name()`, `.Value()`, `.Placeholder()`, `.Type()`, `.AutoComplete()`, `.Disabled()`, `.Required()`, `.ReadOnly()`, `.Multiple()`, `.Checked()`, `.MaxLength()`, `.Accept()`, `.Capture()` |
 | `form` | `.Action()`, `.Method()`, `.EncType()`, `.Target()` |
 | `link` | `.Href()`, `.Rel()`, `.As()`, `.CrossOrigin()`, `.FetchPriority()`, `.Media()` |
-| `button` | `.Disabled()`, `.Formaction()`, `.Formmethod()`, `.PopOverTarget()`, `.Popovertargetaction()` |
+| `button` | `.Disabled()`, `.FormAction()`, `.FormMethod()`, `.PopoverTarget()`, `.PopoverTargetAction()` |
 | `script` | `.Src()`, `.Async()`, `.Defer()`, `.Type()`, `.CrossOrigin()`, `.Integrity()` |
 
 If a standard HTML attribute has a method on the element, use that method. Do not use `SetAttribute()` for standard attributes.
 
 ### Boolean Attributes
 
-Boolean HTML attribute methods accept an optional `bool`. Called with no arguments they set the attribute. Called with a single `bool` they set it only when the condition is true - no subtree duplication, no intermediate variable, no break in the chain.
+A boolean HTML attribute method takes an optional `bool`. With no argument, the method sets the attribute. With one `bool`, the method sets the attribute only when the value is true. Use this form for a conditional attribute instead of building the element twice.
 
 ```go
 // No argument - attribute always present
@@ -575,7 +579,7 @@ button.New().SetData("action", "submit").SetData("confirm", "true")
 
 ### SetAttribute - Custom/Non-Standard Only
 
-`SetAttribute(key, value)` sets arbitrary attributes. **Does NOT return the element** (it satisfies the `node.Element` interface). Use only for custom or non-standard attributes.
+`SetAttribute(key, value)` sets an arbitrary attribute. It does not return the element (it satisfies the `node.Element` interface). Use only for custom or non-standard attributes.
 
 ```go
 div.New().SetAttribute("x-on:click", "handler")  // Alpine.js
@@ -590,12 +594,13 @@ div.New().SetAttribute("custom-attr", "value")    // Custom
 
 ### Attribute Escaping and URL Filtering
 
-Attribute values are secured automatically - you do not escape them yourself:
+Fluent escapes attribute values for you. Do not escape them yourself.
 
-- **Every attribute value is HTML-escaped at set time** - typed methods (`.Class()`, `.Title()`, ...), `SetAttribute()`, `SetData()`, `SetAria()`, `.Dynamic()` keys, and enum `Custom()` values all pass through `node.EscapeAttribute`. A value can never break out of its quotes.
-- **URL navigation sinks are scheme-filtered.** `href`, `src`, `action`, `formaction`, and `<object>` `data` are checked against an allowlist (`http`, `https`, `mailto`, `tel`, `sms`, and relative URLs). An off-allowlist scheme (`javascript:`, `vbscript:`, `data:` in a nav sink) is replaced with the inert `node.UnsafeURL` sentinel. Register `node.OnUnsafeURL(fn)` to observe rejections. Image/media sinks (`img`/`video` `src`, `srcset`, `poster`) are escaped but not filtered, so `data:image/...` still renders.
-- **Do not pre-escape.** Calling `html.EscapeString` before a setter double-escapes; pass the raw value and let the setter escape it once.
-- **`SetAttributeRaw(key, value)`** is the per-value trusted-value hatch (the attribute mirror of `RawText`): it stores the value verbatim, without escaping. Use only for values you fully trust.
+- **Constructors and setters escape the value.** This applies to typed methods such as `.Class()` and `.Title()`, and to `SetAttribute()`, `SetData()`, `SetAria()`, `.Dynamic()` keys and enum `Custom()` values.
+- **Do not escape a value before you pass it.** `html.EscapeString` before a setter escapes the value twice. Pass the value as you received it.
+- **`SetAttributeRaw(key, value)` does not escape.** It stores the value as given. Use it only for a value you trust. It is the attribute equivalent of `RawText`.
+- **Some URL attributes accept a fixed set of schemes.** `href`, `src`, `action`, `formaction` and `<object>` `data` accept `http`, `https`, `mailto`, `tel`, `sms` and relative URLs. Fluent replaces any other scheme, such as `javascript:`, with `node.UnsafeURL`. Call `node.OnUnsafeURL(fn)` to see which values Fluent replaced.
+- **Image and media URLs are escaped but not scheme-checked.** This covers `src` on `img` and `video`, and `srcset` and `poster`. A `data:image/...` URL still works.
 
 ### Type-Safe Constants
 
@@ -710,7 +715,9 @@ type Dynamic interface {
 
 ### Reactive Tracking with .Dynamic()
 
-`.Dynamic(key)` marks an element for tracking by an external render engine such as [Fluent JIT](https://github.com/jpl-au/fluent-jit). Fluent's part is mechanical: it stores the key and renders it as a `data-fluent-key` attribute, nothing more. The method is chainable like `.Class()` and `.SetData()`. Elements also carry `.Memoise(version)` and `.MemoiseKey()` version hooks for the same engines. Plain rendering ignores all three, so they cost nothing unless an engine consumes them; usage and semantics are documented by the engine.
+`.Dynamic(key)` marks an element for an external render engine, such as [Fluent JIT](https://github.com/jpl-au/fluent-jit). Fluent stores the key and renders it as a `data-fluent-key` attribute. It does nothing else with it. The method is chainable, like `.Class()` and `.SetData()`.
+
+Elements also carry `.Memoise(version)` and `.MemoiseKey()` for the same engines. Plain rendering ignores all three methods. Read the engine's own documentation for how to use them.
 
 ## Component Pattern
 
@@ -882,7 +889,7 @@ func (f *EmailField) Nodes() []node.Node {
 
 ## Typed Attributes Reference
 
-**CRITICAL:** Methods that accept typed constants will **NOT** accept raw strings - this is a compile error, not a runtime error. You must import the constant package and use its exported variable. Every package also provides `Custom(string)` for edge cases.
+A method that takes a typed constant does not accept a raw string. Import the constant package and use its exported variable. Each package also provides `Custom(string)` for a value it does not cover.
 
 Import path pattern: `github.com/jpl-au/fluent/html5/attr/<package>`
 
