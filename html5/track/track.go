@@ -328,6 +328,10 @@ func (e *Element) AriaLabel(label string) *Element {
 // assistive technologies. ARIA attributes describe element roles, properties, and states that help screen
 // readers and other accessibility tools understand and interact with dynamic web content. Essential for creating
 // accessible web applications.
+//
+// The prefixed key is written to the rendered output verbatim. It is code, not data: pass a fixed,
+// developer-controlled key. Never build the key from user input - a key containing a space, quote,
+// "=", "/" or ">" changes the markup structure. The value is escaped; the key is not.
 func (e *Element) SetAria(key string, value string) *Element {
 	e.SetAttribute("aria-"+key, value)
 	return e
@@ -387,6 +391,10 @@ func (e *Element) ContentEditable(value contenteditable.ContentEditable) *Elemen
 // between the HTML and its DOM representation that may be used by scripts. All such custom data are available
 // via the HTMLElement interface of the element the attribute is set on. The HTMLElement.dataset property gives
 // access to them.
+//
+// The prefixed key is written to the rendered output verbatim. It is code, not data: pass a fixed,
+// developer-controlled key. Never build the key from user input - a key containing a space, quote,
+// "=", "/" or ">" changes the markup structure. The value is escaped; the key is not.
 func (e *Element) SetData(key string, value string) *Element {
 	e.SetAttribute("data-"+key, value)
 	return e
@@ -681,6 +689,10 @@ func (e *Element) OnError(handler string) *Element {
 // SetEvent sets a custom event handler attribute on the element. Prefer the typed On*() methods where they exist.
 //
 // Generic method to add an event using SetEvent(key, value)
+//
+// The key is written to the rendered output verbatim. It is code, not data: pass a fixed,
+// developer-controlled key. Never build the key from user input - a key containing a space, quote,
+// "=", "/" or ">" changes the markup structure. The value is escaped; the key is not.
 func (e *Element) SetEvent(key string, value string) *Element {
 	e.SetAttribute(key, value)
 	return e
@@ -1639,6 +1651,11 @@ func (e *Element) OnSelectionChange(handler string) *Element {
 
 // SetAttribute sets a custom attribute on the element, escaping the value.
 // For a pre-trusted value that must render verbatim, use SetAttributeRaw.
+//
+// The key is written to the rendered output verbatim. It is code, not
+// data: pass a fixed, developer-controlled key. Never build the key from
+// user input - a key containing a space, quote, "=", "/" or ">" changes
+// the markup structure. The value is escaped; the key is not.
 func (e *Element) SetAttribute(key string, value string) {
 	value = node.EscapeAttribute(value)
 	if e.attr == nil {
@@ -1656,6 +1673,7 @@ func (e *Element) SetAttribute(key string, value string) {
 
 // SetAttributeRaw sets a custom attribute without escaping its value. Use only
 // with trusted values (mirrors RawText); prefer SetAttribute, which escapes.
+// The key is written verbatim, as on SetAttribute; here the value is too.
 func (e *Element) SetAttributeRaw(key string, value string) {
 	if e.attr == nil {
 		e.attr = &[]node.Attribute{}

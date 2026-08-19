@@ -34,6 +34,11 @@ type EventAttributes struct {
 // existing value rather than appending a duplicate. The method
 // returns nothing on purpose: it cannot be chained, which keeps the
 // Fluent API the obvious default.
+//
+// The key is written to the rendered output verbatim. It is code, not
+// data: pass a fixed, developer-controlled key. Never build the key from
+// user input - a key containing a space, quote, "=", "/" or ">" changes
+// the markup structure. The value is escaped; the key is not.
 func (ea *EventAttributes) SetAttribute(key string, value string) {
 	value = node.EscapeAttribute(value)
 

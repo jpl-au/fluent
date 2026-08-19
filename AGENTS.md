@@ -58,6 +58,8 @@ These methods do not exist in Fluent. Do not use them.
 3. **SetData(key, value)** - For data attributes. Automatically adds the `data-` prefix.
 4. **SetAttribute(key, value)** - Only for truly custom or non-standard attributes (e.g. Alpine.js directives, HTMX attributes).
 
+In every key-value setter the key is written to the rendered output verbatim. The key is code, not data: pass a fixed, developer-controlled key, and never build it from user input. A key containing a space, quote, `=`, `/` or `>` changes the markup structure. The value is escaped; the key is not.
+
 ```go
 // WRONG - these methods do not exist
 div.New().Attr("class", "container")           // wrong

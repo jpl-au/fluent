@@ -106,6 +106,10 @@ func (e *ellipse) Role(role string) *ellipse {
 }
 
 // SetAria sets an aria-* attribute. The key is prefixed with "aria-".
+//
+// The prefixed key is written to the rendered output verbatim. It is code, not data: pass a fixed,
+// developer-controlled key. Never build the key from user input - a key containing a space, quote,
+// "=", "/" or ">" changes the markup structure. The value is escaped; the key is not.
 func (e *ellipse) SetAria(key string, value string) *ellipse {
 	e.SetAttribute("aria-"+key, value)
 	return e
@@ -215,6 +219,11 @@ func (e *ellipse) OnBlur(handler string) *ellipse {
 
 // SetAttribute sets a custom attribute on the element, escaping the value.
 // For a pre-trusted value that must render verbatim, use SetAttributeRaw.
+//
+// The key is written to the rendered output verbatim. It is code, not
+// data: pass a fixed, developer-controlled key. Never build the key from
+// user input - a key containing a space, quote, "=", "/" or ">" changes
+// the markup structure. The value is escaped; the key is not.
 func (e *ellipse) SetAttribute(key string, value string) {
 	value = node.EscapeAttribute(value)
 	if e.attr == nil {
@@ -232,6 +241,7 @@ func (e *ellipse) SetAttribute(key string, value string) {
 
 // SetAttributeRaw sets a custom attribute without escaping its value. Use only
 // with trusted values (mirrors RawText); prefer SetAttribute, which escapes.
+// The key is written verbatim, as on SetAttribute; here the value is too.
 func (e *ellipse) SetAttributeRaw(key string, value string) {
 	if e.attr == nil {
 		e.attr = &[]node.Attribute{}
