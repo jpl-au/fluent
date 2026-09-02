@@ -37,8 +37,10 @@ import (
 // Element represents the <q> HTML element.
 type Element struct {
 	bufferhint atomic.Int64
+	first      [1]node.Node
 	hidden     hidden.Hidden
 	nodes      []node.Node
+	txt        text.Node
 	cite       string
 	class      string
 	draggable  string
@@ -83,45 +85,60 @@ func New(nodes ...node.Node) *Element {
 // Example: q.Text("To be or not to be")
 // Renders: <q>To be or not to be</q>
 func Text(content string) *Element {
-	return &Element{
-		nodes: []node.Node{text.Text(content)},
+	e := &Element{
+		txt: *text.Text(content),
 	}
+	e.first[0] = &e.txt
+	e.nodes = e.first[:]
+	return e
 }
 
 // Static creates a new q element with static text content. Uses text.Static which is not HTML-escaped and is JIT-optimisable.
 // Example: q.Static("Knowledge is power")
 // Renders: <q>Knowledge is power</q>
 func Static(content string) *Element {
-	return &Element{
-		nodes: []node.Node{text.Static(content)},
+	e := &Element{
+		txt: *text.Static(content),
 	}
+	e.first[0] = &e.txt
+	e.nodes = e.first[:]
+	return e
 }
 
 // RawText creates a new q element with raw text content. Uses text.RawText which is not HTML-escaped.
 // Example: q.RawText("<em>Important</em> quote")
 // Renders: <q><em>Important</em> quote</q>
 func RawText(content string) *Element {
-	return &Element{
-		nodes: []node.Node{text.RawText(content)},
+	e := &Element{
+		txt: *text.RawText(content),
 	}
+	e.first[0] = &e.txt
+	e.nodes = e.first[:]
+	return e
 }
 
 // Textf creates a new q element with formatted text content. Uses text.Textf which HTML-escapes the output.
 // Example: q.Textf("%s said it best", author)
 // Renders: <q>Orwell said it best</q>
 func Textf(format string, args ...any) *Element {
-	return &Element{
-		nodes: []node.Node{text.Textf(format, args...)},
+	e := &Element{
+		txt: *text.Text(fmt.Sprintf(format, args...)),
 	}
+	e.first[0] = &e.txt
+	e.nodes = e.first[:]
+	return e
 }
 
 // RawTextf creates a new q element with formatted raw text content. Uses text.RawTextf which is not HTML-escaped.
 // Example: q.RawTextf("<em>%s</em> said it best", author)
 // Renders: <q><em>Orwell</em> said it best</q>
 func RawTextf(format string, args ...any) *Element {
-	return &Element{
-		nodes: []node.Node{text.RawTextf(format, args...)},
+	e := &Element{
+		txt: *text.RawText(fmt.Sprintf(format, args...)),
 	}
+	e.first[0] = &e.txt
+	e.nodes = e.first[:]
+	return e
 }
 
 // Cited creates a q element with text content and a citation URL. Uses
@@ -129,10 +146,13 @@ func RawTextf(format string, args ...any) *Element {
 // Example: q.Cited("To be or not to be", "https://example.com/hamlet")
 // Renders: <q cite="https://example.com/hamlet">To be or not to be</q>
 func Cited(str string, cite string) *Element {
-	return &Element{
-		nodes: []node.Node{text.Text(str)},
-		cite:  node.EscapeAttribute(cite),
+	e := &Element{
+		txt:  *text.Text(str),
+		cite: node.EscapeAttribute(cite),
 	}
+	e.first[0] = &e.txt
+	e.nodes = e.first[:]
+	return e
 }
 
 // Cite sets the cite attribute.

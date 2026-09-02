@@ -38,9 +38,11 @@ import (
 type Element struct {
 	autocomplete autocomplete.AutoComplete
 	bufferhint   atomic.Int64
+	first        [1]node.Node
 	hidden       hidden.Hidden
 	nodes        []node.Node
 	spellcheck   spellcheck.Spellcheck
+	txt          text.Node
 	class        string
 	dirname      string
 	draggable    string
@@ -92,45 +94,60 @@ func New(nodes ...node.Node) *Element {
 // Example: textarea.Text("Enter your comment...")
 // Renders: <textarea>Enter your comment...</textarea>
 func Text(content string) *Element {
-	return &Element{
-		nodes: []node.Node{text.Text(content)},
+	e := &Element{
+		txt: *text.Text(content),
 	}
+	e.first[0] = &e.txt
+	e.nodes = e.first[:]
+	return e
 }
 
 // Static creates a new textarea element with static default text content. Uses text.Static which is not HTML-escaped and is JIT-optimisable.
 // Example: textarea.Static("Default value")
 // Renders: <textarea>Default value</textarea>
 func Static(content string) *Element {
-	return &Element{
-		nodes: []node.Node{text.Static(content)},
+	e := &Element{
+		txt: *text.Static(content),
 	}
+	e.first[0] = &e.txt
+	e.nodes = e.first[:]
+	return e
 }
 
 // RawText creates a new textarea element with raw default text content. Uses text.RawText which is not HTML-escaped.
 // Example: textarea.RawText("Line 1, Line 2")
 // Renders: <textarea>Line 1, Line 2</textarea>
 func RawText(content string) *Element {
-	return &Element{
-		nodes: []node.Node{text.RawText(content)},
+	e := &Element{
+		txt: *text.RawText(content),
 	}
+	e.first[0] = &e.txt
+	e.nodes = e.first[:]
+	return e
 }
 
 // Textf creates a new textarea element with formatted default text content. Uses text.Textf which HTML-escapes the output.
 // Example: textarea.Textf("Dear %s,", name)
 // Renders: <textarea>Dear Mary,</textarea>
 func Textf(format string, args ...any) *Element {
-	return &Element{
-		nodes: []node.Node{text.Textf(format, args...)},
+	e := &Element{
+		txt: *text.Text(fmt.Sprintf(format, args...)),
 	}
+	e.first[0] = &e.txt
+	e.nodes = e.first[:]
+	return e
 }
 
 // RawTextf creates a new textarea element with formatted raw default text content. Uses text.RawTextf which is not HTML-escaped.
 // Example: textarea.RawTextf("<b>%s</b>", ipsum)
 // Renders: <textarea><b>ipsum dolor sit amet</b></textarea>
 func RawTextf(format string, args ...any) *Element {
-	return &Element{
-		nodes: []node.Node{text.RawTextf(format, args...)},
+	e := &Element{
+		txt: *text.RawText(fmt.Sprintf(format, args...)),
 	}
+	e.first[0] = &e.txt
+	e.nodes = e.first[:]
+	return e
 }
 
 // Name sets the name attribute.

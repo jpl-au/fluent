@@ -34,8 +34,10 @@ import (
 // Element represents the <legend> HTML element.
 type Element struct {
 	bufferhint atomic.Int64
+	first      [1]node.Node
 	hidden     hidden.Hidden
 	nodes      []node.Node
+	txt        text.Node
 	class      string
 	draggable  string
 	dynamic    string
@@ -79,45 +81,60 @@ func New(nodes ...node.Node) *Element {
 // Example: legend.Text("Personal Information")
 // Renders: <legend>Personal Information</legend>
 func Text(str string) *Element {
-	return &Element{
-		nodes: []node.Node{text.Text(str)},
+	e := &Element{
+		txt: *text.Text(str),
 	}
+	e.first[0] = &e.txt
+	e.nodes = e.first[:]
+	return e
 }
 
 // Static creates a new legend element with static text content. Uses text.Static which is not HTML-escaped and is JIT-optimisable.
 // Example: legend.Static("Account Settings")
 // Renders: <legend>Account Settings</legend>
 func Static(str string) *Element {
-	return &Element{
-		nodes: []node.Node{text.Static(str)},
+	e := &Element{
+		txt: *text.Static(str),
 	}
+	e.first[0] = &e.txt
+	e.nodes = e.first[:]
+	return e
 }
 
 // RawText creates a new legend element with raw text content. Uses text.RawText which is not HTML-escaped.
 // Example: legend.RawText("<span class=\"required\">*</span> Personal Information")
 // Renders: <legend><span class="required">*</span> Personal Information</legend>
 func RawText(str string) *Element {
-	return &Element{
-		nodes: []node.Node{text.RawText(str)},
+	e := &Element{
+		txt: *text.RawText(str),
 	}
+	e.first[0] = &e.txt
+	e.nodes = e.first[:]
+	return e
 }
 
 // Textf creates a new legend element with formatted text content. Uses text.Textf which HTML-escapes the output.
 // Example: legend.Textf("Step %d: %s", step, "Details")
 // Renders: <legend>Step 1: Details</legend>
 func Textf(format string, args ...any) *Element {
-	return &Element{
-		nodes: []node.Node{text.Textf(format, args...)},
+	e := &Element{
+		txt: *text.Text(fmt.Sprintf(format, args...)),
 	}
+	e.first[0] = &e.txt
+	e.nodes = e.first[:]
+	return e
 }
 
 // RawTextf creates a new legend element with formatted raw text content. Uses text.RawTextf which is not HTML-escaped.
 // Example: legend.RawTextf("<span class=\"step\">%d</span> %s", step, "Details")
 // Renders: <legend><span class="step">1</span> Details</legend>
 func RawTextf(format string, args ...any) *Element {
-	return &Element{
-		nodes: []node.Node{text.RawTextf(format, args...)},
+	e := &Element{
+		txt: *text.RawText(fmt.Sprintf(format, args...)),
 	}
+	e.first[0] = &e.txt
+	e.nodes = e.first[:]
+	return e
 }
 
 // Class sets the class attribute.

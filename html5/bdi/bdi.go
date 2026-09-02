@@ -37,8 +37,10 @@ import (
 // Element represents the <bdi> HTML element.
 type Element struct {
 	bufferhint atomic.Int64
+	first      [1]node.Node
 	hidden     hidden.Hidden
 	nodes      []node.Node
+	txt        text.Node
 	class      string
 	draggable  string
 	dynamic    string
@@ -82,45 +84,60 @@ func New(nodes ...node.Node) *Element {
 // Example: bdi.Text("אילנה")
 // Renders: <bdi>אילנה</bdi>
 func Text(str string) *Element {
-	return &Element{
-		nodes: []node.Node{text.Text(str)},
+	e := &Element{
+		txt: *text.Text(str),
 	}
+	e.first[0] = &e.txt
+	e.nodes = e.first[:]
+	return e
 }
 
 // Static creates a new bdi element with static text content.
 // Example: bdi.Static("User123")
 // Renders: <bdi>User123</bdi>
 func Static(str string) *Element {
-	return &Element{
-		nodes: []node.Node{text.Static(str)},
+	e := &Element{
+		txt: *text.Static(str),
 	}
+	e.first[0] = &e.txt
+	e.nodes = e.first[:]
+	return e
 }
 
 // RawText creates a new bdi element with raw text content as unescaped HTML.
 // Example: bdi.RawText("<span>User</span>")
 // Renders: <bdi><span>User</span></bdi>
 func RawText(str string) *Element {
-	return &Element{
-		nodes: []node.Node{text.RawText(str)},
+	e := &Element{
+		txt: *text.RawText(str),
 	}
+	e.first[0] = &e.txt
+	e.nodes = e.first[:]
+	return e
 }
 
 // Textf creates a new bdi element with formatted text content using text.Textf.
 // Example: bdi.Textf("User: %s", "username")
 // Renders: <bdi>User: username</bdi>
 func Textf(format string, args ...any) *Element {
-	return &Element{
-		nodes: []node.Node{text.Textf(format, args...)},
+	e := &Element{
+		txt: *text.Text(fmt.Sprintf(format, args...)),
 	}
+	e.first[0] = &e.txt
+	e.nodes = e.first[:]
+	return e
 }
 
 // RawTextf creates a new bdi element with formatted raw text content as unescaped HTML using text.RawTextf.
 // Example: bdi.RawTextf("<strong>%s</strong>", "User")
 // Renders: <bdi><strong>User</strong></bdi>
 func RawTextf(format string, args ...any) *Element {
-	return &Element{
-		nodes: []node.Node{text.RawTextf(format, args...)},
+	e := &Element{
+		txt: *text.RawText(fmt.Sprintf(format, args...)),
 	}
+	e.first[0] = &e.txt
+	e.nodes = e.first[:]
+	return e
 }
 
 // Class sets the class attribute.

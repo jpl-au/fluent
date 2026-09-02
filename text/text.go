@@ -99,10 +99,7 @@ func RawText(str string) *Node {
 //
 //	text.Textf("Hello, %s!", "<world>") // Renders as: Hello, &lt;world&gt;!
 func Textf(format string, a ...any) *Node {
-	return &Node{
-		content: html.EscapeString(fmt.Sprintf(format, a...)),
-		dynamic: true,
-	}
+	return Text(fmt.Sprintf(format, a...))
 }
 
 // RawTextf creates a formatted text component without HTML escaping.
@@ -112,10 +109,7 @@ func Textf(format string, a ...any) *Node {
 //
 //	text.RawTextf("<a href='%s'>%s</a>", "/home", "Home") // Renders as: <a href='/home'>Home</a>
 func RawTextf(format string, a ...any) *Node {
-	return &Node{
-		content: fmt.Sprintf(format, a...),
-		dynamic: true,
-	}
+	return RawText(fmt.Sprintf(format, a...))
 }
 
 // RenderBuilder writes the text content directly to the provided buffer.

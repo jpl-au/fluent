@@ -34,8 +34,10 @@ import (
 // Element represents the <time> HTML element.
 type Element struct {
 	bufferhint atomic.Int64
+	first      [1]node.Node
 	hidden     hidden.Hidden
 	nodes      []node.Node
+	txt        text.Node
 	class      string
 	datetime   string
 	draggable  string
@@ -80,45 +82,60 @@ func New(nodes ...node.Node) *Element {
 // Example: time.Text("25 December 2023")
 // Renders: <time>25 December 2023</time>
 func Text(content string) *Element {
-	return &Element{
-		nodes: []node.Node{text.Text(content)},
+	e := &Element{
+		txt: *text.Text(content),
 	}
+	e.first[0] = &e.txt
+	e.nodes = e.first[:]
+	return e
 }
 
 // Static creates a new time element with static text content. Uses text.Static which is not HTML-escaped and is JIT-optimisable.
 // Example: time.Static("Today")
 // Renders: <time>Today</time>
 func Static(content string) *Element {
-	return &Element{
-		nodes: []node.Node{text.Static(content)},
+	e := &Element{
+		txt: *text.Static(content),
 	}
+	e.first[0] = &e.txt
+	e.nodes = e.first[:]
+	return e
 }
 
 // RawText creates a new time element with raw text content. Uses text.RawText which is not HTML-escaped.
 // Example: time.RawText("<abbr>Dec</abbr> 25")
 // Renders: <time><abbr>Dec</abbr> 25</time>
 func RawText(content string) *Element {
-	return &Element{
-		nodes: []node.Node{text.RawText(content)},
+	e := &Element{
+		txt: *text.RawText(content),
 	}
+	e.first[0] = &e.txt
+	e.nodes = e.first[:]
+	return e
 }
 
 // Textf creates a new time element with formatted text content. Uses text.Textf which HTML-escapes the output.
 // Example: time.Textf("%d %s %d", day, month, year)
 // Renders: <time>15 January 2024</time>
 func Textf(format string, args ...any) *Element {
-	return &Element{
-		nodes: []node.Node{text.Textf(format, args...)},
+	e := &Element{
+		txt: *text.Text(fmt.Sprintf(format, args...)),
 	}
+	e.first[0] = &e.txt
+	e.nodes = e.first[:]
+	return e
 }
 
 // RawTextf creates a new time element with formatted raw text content. Uses text.RawTextf which is not HTML-escaped.
 // Example: time.RawTextf("<abbr>%s</abbr> %d", monthAbbr, day)
 // Renders: <time><abbr>Jan</abbr> 15</time>
 func RawTextf(format string, args ...any) *Element {
-	return &Element{
-		nodes: []node.Node{text.RawTextf(format, args...)},
+	e := &Element{
+		txt: *text.RawText(fmt.Sprintf(format, args...)),
 	}
+	e.first[0] = &e.txt
+	e.nodes = e.first[:]
+	return e
 }
 
 // DateTime creates a time element with a machine-readable datetime and human-readable
@@ -126,10 +143,13 @@ func RawTextf(format string, args ...any) *Element {
 // Example: time.DateTime("2023-12-25", "Christmas Day")
 // Renders: <time datetime="2023-12-25">Christmas Day</time>
 func DateTime(datetime string, content string) *Element {
-	return &Element{
-		nodes:    []node.Node{text.Text(content)},
+	e := &Element{
+		txt:      *text.Text(content),
 		datetime: node.EscapeAttribute(datetime),
 	}
+	e.first[0] = &e.txt
+	e.nodes = e.first[:]
+	return e
 }
 
 // DateTime sets the datetime attribute.

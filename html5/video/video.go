@@ -41,10 +41,12 @@ type Element struct {
 	bufferhint              atomic.Int64
 	controlslist            controlslist.ControlsList
 	crossorigin             crossorigin.CrossOrigin
+	first                   [1]node.Node
 	hidden                  hidden.Hidden
 	loading                 loading.Loading
 	nodes                   []node.Node
 	preload                 preload.Preload
+	txt                     text.Node
 	class                   string
 	draggable               string
 	dynamic                 string
@@ -99,45 +101,60 @@ func New(nodes ...node.Node) *Element {
 // Example: video.Text("Your browser does not support video.")
 // Renders: <video>Your browser does not support video.</video>
 func Text(content string) *Element {
-	return &Element{
-		nodes: []node.Node{text.Text(content)},
+	e := &Element{
+		txt: *text.Text(content),
 	}
+	e.first[0] = &e.txt
+	e.nodes = e.first[:]
+	return e
 }
 
 // Static creates a new video element with static fallback text content. Uses text.Static which is not HTML-escaped and is JIT-optimisable.
 // Example: video.Static("Video not supported.")
 // Renders: <video>Video not supported.</video>
 func Static(content string) *Element {
-	return &Element{
-		nodes: []node.Node{text.Static(content)},
+	e := &Element{
+		txt: *text.Static(content),
 	}
+	e.first[0] = &e.txt
+	e.nodes = e.first[:]
+	return e
 }
 
 // RawText creates a new video element with raw fallback text content. Uses text.RawText which is not HTML-escaped.
 // Example: video.RawText("<p>Your browser does not support video.</p>")
 // Renders: <video><p>Your browser does not support video.</p></video>
 func RawText(content string) *Element {
-	return &Element{
-		nodes: []node.Node{text.RawText(content)},
+	e := &Element{
+		txt: *text.RawText(content),
 	}
+	e.first[0] = &e.txt
+	e.nodes = e.first[:]
+	return e
 }
 
 // Textf creates a new video element with formatted fallback text content. Uses text.Textf which HTML-escapes the output.
 // Example: video.Textf("Cannot play %s", "movie.mp4")
 // Renders: <video>Cannot play movie.mp4</video>
 func Textf(format string, args ...any) *Element {
-	return &Element{
-		nodes: []node.Node{text.Textf(format, args...)},
+	e := &Element{
+		txt: *text.Text(fmt.Sprintf(format, args...)),
 	}
+	e.first[0] = &e.txt
+	e.nodes = e.first[:]
+	return e
 }
 
 // RawTextf creates a new video element with formatted raw fallback text content. Uses text.RawTextf which is not HTML-escaped.
 // Example: video.RawTextf("<p>Cannot play <strong>%s</strong></p>", "movie.mp4")
 // Renders: <video><p>Cannot play <strong>movie.mp4</strong></p></video>
 func RawTextf(format string, args ...any) *Element {
-	return &Element{
-		nodes: []node.Node{text.RawTextf(format, args...)},
+	e := &Element{
+		txt: *text.RawText(fmt.Sprintf(format, args...)),
 	}
+	e.first[0] = &e.txt
+	e.nodes = e.first[:]
+	return e
 }
 
 // Src creates a new video element with src attribute and optional child nodes

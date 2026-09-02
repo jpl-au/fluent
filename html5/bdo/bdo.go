@@ -38,8 +38,10 @@ import (
 type Element struct {
 	bufferhint atomic.Int64
 	dir        dir.Dir
+	first      [1]node.Node
 	hidden     hidden.Hidden
 	nodes      []node.Node
+	txt        text.Node
 	class      string
 	draggable  string
 	dynamic    string
@@ -83,45 +85,60 @@ func New(nodes ...node.Node) *Element {
 // Example: bdo.Text("Hello World").Dir(dir.RightToLeft)
 // Renders: <bdo dir="rtl">Hello World</bdo>
 func Text(str string) *Element {
-	return &Element{
-		nodes: []node.Node{text.Text(str)},
+	e := &Element{
+		txt: *text.Text(str),
 	}
+	e.first[0] = &e.txt
+	e.nodes = e.first[:]
+	return e
 }
 
 // Static creates a new bdo element with static text content.
 // Example: bdo.Static("ABC").Dir(dir.LeftToRight)
 // Renders: <bdo dir="ltr">ABC</bdo>
 func Static(str string) *Element {
-	return &Element{
-		nodes: []node.Node{text.Static(str)},
+	e := &Element{
+		txt: *text.Static(str),
 	}
+	e.first[0] = &e.txt
+	e.nodes = e.first[:]
+	return e
 }
 
 // RawText creates a new bdo element with raw text content as unescaped HTML.
 // Example: bdo.RawText("<em>Text</em>").Dir(dir.RightToLeft)
 // Renders: <bdo dir="rtl"><em>Text</em></bdo>
 func RawText(str string) *Element {
-	return &Element{
-		nodes: []node.Node{text.RawText(str)},
+	e := &Element{
+		txt: *text.RawText(str),
 	}
+	e.first[0] = &e.txt
+	e.nodes = e.first[:]
+	return e
 }
 
 // Textf creates a new bdo element with formatted text content using text.Textf.
 // Example: bdo.Textf("Hello %s", "World").Dir(dir.RightToLeft)
 // Renders: <bdo dir="rtl">Hello World</bdo>
 func Textf(format string, args ...any) *Element {
-	return &Element{
-		nodes: []node.Node{text.Textf(format, args...)},
+	e := &Element{
+		txt: *text.Text(fmt.Sprintf(format, args...)),
 	}
+	e.first[0] = &e.txt
+	e.nodes = e.first[:]
+	return e
 }
 
 // RawTextf creates a new bdo element with formatted raw text content as unescaped HTML using text.RawTextf.
 // Example: bdo.RawTextf("<strong>%s</strong>", "Text").Dir(dir.RightToLeft)
 // Renders: <bdo dir="rtl"><strong>Text</strong></bdo>
 func RawTextf(format string, args ...any) *Element {
-	return &Element{
-		nodes: []node.Node{text.RawTextf(format, args...)},
+	e := &Element{
+		txt: *text.RawText(fmt.Sprintf(format, args...)),
 	}
+	e.first[0] = &e.txt
+	e.nodes = e.first[:]
+	return e
 }
 
 // Dir sets the dir attribute.

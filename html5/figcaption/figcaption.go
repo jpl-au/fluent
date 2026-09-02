@@ -37,8 +37,10 @@ import (
 // Element represents the <figcaption> HTML element.
 type Element struct {
 	bufferhint atomic.Int64
+	first      [1]node.Node
 	hidden     hidden.Hidden
 	nodes      []node.Node
+	txt        text.Node
 	class      string
 	draggable  string
 	dynamic    string
@@ -82,45 +84,60 @@ func New(nodes ...node.Node) *Element {
 // Example: figcaption.Text("An elephant at sunset")
 // Renders: <figcaption>An elephant at sunset</figcaption>
 func Text(str string) *Element {
-	return &Element{
-		nodes: []node.Node{text.Text(str)},
+	e := &Element{
+		txt: *text.Text(str),
 	}
+	e.first[0] = &e.txt
+	e.nodes = e.first[:]
+	return e
 }
 
 // Static creates a new figcaption element with static text content. Uses text.Static which is not HTML-escaped and is JIT-optimisable.
 // Example: figcaption.Static("Figure 1: Architecture diagram")
 // Renders: <figcaption>Figure 1: Architecture diagram</figcaption>
 func Static(str string) *Element {
-	return &Element{
-		nodes: []node.Node{text.Static(str)},
+	e := &Element{
+		txt: *text.Static(str),
 	}
+	e.first[0] = &e.txt
+	e.nodes = e.first[:]
+	return e
 }
 
 // RawText creates a new figcaption element with raw text content. Uses text.RawText which is not HTML-escaped.
 // Example: figcaption.RawText("Photo by <cite>Jane Doe</cite>")
 // Renders: <figcaption>Photo by <cite>Jane Doe</cite></figcaption>
 func RawText(str string) *Element {
-	return &Element{
-		nodes: []node.Node{text.RawText(str)},
+	e := &Element{
+		txt: *text.RawText(str),
 	}
+	e.first[0] = &e.txt
+	e.nodes = e.first[:]
+	return e
 }
 
 // Textf creates a new figcaption element with formatted text content. Uses text.Textf which HTML-escapes the output.
 // Example: figcaption.Textf("Figure %d: %s", num, "Architecture")
 // Renders: <figcaption>Figure 1: Architecture</figcaption>
 func Textf(format string, args ...any) *Element {
-	return &Element{
-		nodes: []node.Node{text.Textf(format, args...)},
+	e := &Element{
+		txt: *text.Text(fmt.Sprintf(format, args...)),
 	}
+	e.first[0] = &e.txt
+	e.nodes = e.first[:]
+	return e
 }
 
 // RawTextf creates a new figcaption element with formatted raw text content. Uses text.RawTextf which is not HTML-escaped.
 // Example: figcaption.RawTextf("Photo by <cite>%s</cite>", photographer)
 // Renders: <figcaption>Photo by <cite>Ansel Adams</cite></figcaption>
 func RawTextf(format string, args ...any) *Element {
-	return &Element{
-		nodes: []node.Node{text.RawTextf(format, args...)},
+	e := &Element{
+		txt: *text.RawText(fmt.Sprintf(format, args...)),
 	}
+	e.first[0] = &e.txt
+	e.nodes = e.first[:]
+	return e
 }
 
 // Class sets the class attribute.

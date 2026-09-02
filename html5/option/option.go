@@ -35,8 +35,10 @@ import (
 // Element represents the <option> HTML element.
 type Element struct {
 	bufferhint atomic.Int64
+	first      [1]node.Node
 	hidden     hidden.Hidden
 	nodes      []node.Node
+	txt        text.Node
 	class      string
 	draggable  string
 	dynamic    string
@@ -85,10 +87,13 @@ func New(nodes ...node.Node) *Element {
 // Renders: <option value="us">United States</option>
 func Option(value string, str string) *Element {
 	valueVal := node.EscapeAttribute(value)
-	return &Element{
-		nodes: []node.Node{text.Text(str)},
+	e := &Element{
+		txt:   *text.Text(str),
 		value: &valueVal,
 	}
+	e.first[0] = &e.txt
+	e.nodes = e.first[:]
+	return e
 }
 
 // Selected creates a pre-selected option element with a value and display text.
@@ -97,56 +102,74 @@ func Option(value string, str string) *Element {
 // Renders: <option value="gb" selected>United Kingdom</option>
 func Selected(value string, str string) *Element {
 	valueVal := node.EscapeAttribute(value)
-	return &Element{
-		nodes:    []node.Node{text.Text(str)},
+	e := &Element{
+		txt:      *text.Text(str),
 		selected: true,
 		value:    &valueVal,
 	}
+	e.first[0] = &e.txt
+	e.nodes = e.first[:]
+	return e
 }
 
 // Text creates a new option element with text content. Uses text.Text which HTML-escapes the output.
 // Example: option.Text("Choose an option...")
 // Renders: <option>Choose an option...</option>
 func Text(content string) *Element {
-	return &Element{
-		nodes: []node.Node{text.Text(content)},
+	e := &Element{
+		txt: *text.Text(content),
 	}
+	e.first[0] = &e.txt
+	e.nodes = e.first[:]
+	return e
 }
 
 // Static creates a new option element with static text content. Uses text.Static which is not HTML-escaped and is JIT-optimisable.
 // Example: option.Static("None")
 // Renders: <option>None</option>
 func Static(content string) *Element {
-	return &Element{
-		nodes: []node.Node{text.Static(content)},
+	e := &Element{
+		txt: *text.Static(content),
 	}
+	e.first[0] = &e.txt
+	e.nodes = e.first[:]
+	return e
 }
 
 // RawText creates a new option element with raw text content. Uses text.RawText which is not HTML-escaped.
 // Example: option.RawText("Option <em>one</em>")
 // Renders: <option>Option <em>one</em></option>
 func RawText(content string) *Element {
-	return &Element{
-		nodes: []node.Node{text.RawText(content)},
+	e := &Element{
+		txt: *text.RawText(content),
 	}
+	e.first[0] = &e.txt
+	e.nodes = e.first[:]
+	return e
 }
 
 // Textf creates a new option element with formatted text content. Uses text.Textf which HTML-escapes the output.
 // Example: option.Textf("Option %d", n)
 // Renders: <option>Option 3</option>
 func Textf(format string, args ...any) *Element {
-	return &Element{
-		nodes: []node.Node{text.Textf(format, args...)},
+	e := &Element{
+		txt: *text.Text(fmt.Sprintf(format, args...)),
 	}
+	e.first[0] = &e.txt
+	e.nodes = e.first[:]
+	return e
 }
 
 // RawTextf creates a new option element with formatted raw text content. Uses text.RawTextf which is not HTML-escaped.
 // Example: option.RawTextf("<em>%s</em>", label)
 // Renders: <option><em>Name</em></option>
 func RawTextf(format string, args ...any) *Element {
-	return &Element{
-		nodes: []node.Node{text.RawTextf(format, args...)},
+	e := &Element{
+		txt: *text.RawText(fmt.Sprintf(format, args...)),
 	}
+	e.first[0] = &e.txt
+	e.nodes = e.first[:]
+	return e
 }
 
 // Value sets the value attribute.

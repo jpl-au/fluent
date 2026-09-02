@@ -36,8 +36,10 @@ import (
 // Element represents the <u> HTML element.
 type Element struct {
 	bufferhint atomic.Int64
+	first      [1]node.Node
 	hidden     hidden.Hidden
 	nodes      []node.Node
+	txt        text.Node
 	class      string
 	draggable  string
 	dynamic    string
@@ -80,45 +82,60 @@ func New(nodes ...node.Node) *Element {
 // Example: u.Text("misspelled word")
 // Renders: <u>misspelled word</u>
 func Text(content string) *Element {
-	return &Element{
-		nodes: []node.Node{text.Text(content)},
+	e := &Element{
+		txt: *text.Text(content),
 	}
+	e.first[0] = &e.txt
+	e.nodes = e.first[:]
+	return e
 }
 
 // Static creates a new u element with static text content. Uses text.Static which is not HTML-escaped and is JIT-optimisable.
 // Example: u.Static("proper noun")
 // Renders: <u>proper noun</u>
 func Static(content string) *Element {
-	return &Element{
-		nodes: []node.Node{text.Static(content)},
+	e := &Element{
+		txt: *text.Static(content),
 	}
+	e.first[0] = &e.txt
+	e.nodes = e.first[:]
+	return e
 }
 
 // RawText creates a new u element with raw text content. Uses text.RawText which is not HTML-escaped.
 // Example: u.RawText("<em>annotated</em> text")
 // Renders: <u><em>annotated</em> text</u>
 func RawText(content string) *Element {
-	return &Element{
-		nodes: []node.Node{text.RawText(content)},
+	e := &Element{
+		txt: *text.RawText(content),
 	}
+	e.first[0] = &e.txt
+	e.nodes = e.first[:]
+	return e
 }
 
 // Textf creates a new u element with formatted text content. Uses text.Textf which HTML-escapes the output.
 // Example: u.Textf("%s", word)
 // Renders: <u>emphasis</u>
 func Textf(format string, args ...any) *Element {
-	return &Element{
-		nodes: []node.Node{text.Textf(format, args...)},
+	e := &Element{
+		txt: *text.Text(fmt.Sprintf(format, args...)),
 	}
+	e.first[0] = &e.txt
+	e.nodes = e.first[:]
+	return e
 }
 
 // RawTextf creates a new u element with formatted raw text content. Uses text.RawTextf which is not HTML-escaped.
 // Example: u.RawTextf("<em>%s</em>", word)
 // Renders: <u><em>emphasis</em></u>
 func RawTextf(format string, args ...any) *Element {
-	return &Element{
-		nodes: []node.Node{text.RawTextf(format, args...)},
+	e := &Element{
+		txt: *text.RawText(fmt.Sprintf(format, args...)),
 	}
+	e.first[0] = &e.txt
+	e.nodes = e.first[:]
+	return e
 }
 
 // Class sets the class attribute.

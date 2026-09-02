@@ -37,8 +37,10 @@ import (
 // Element represents the <progress> HTML element.
 type Element struct {
 	bufferhint atomic.Int64
+	first      [1]node.Node
 	hidden     hidden.Hidden
 	nodes      []node.Node
+	txt        text.Node
 	class      string
 	draggable  string
 	dynamic    string
@@ -84,45 +86,60 @@ func New(nodes ...node.Node) *Element {
 // Example: progress.Text("50% complete")
 // Renders: <progress>50% complete</progress>
 func Text(content string) *Element {
-	return &Element{
-		nodes: []node.Node{text.Text(content)},
+	e := &Element{
+		txt: *text.Text(content),
 	}
+	e.first[0] = &e.txt
+	e.nodes = e.first[:]
+	return e
 }
 
 // Static creates a new progress element with static fallback text content. Uses text.Static which is not HTML-escaped and is JIT-optimisable.
 // Example: progress.Static("Loading...")
 // Renders: <progress>Loading...</progress>
 func Static(content string) *Element {
-	return &Element{
-		nodes: []node.Node{text.Static(content)},
+	e := &Element{
+		txt: *text.Static(content),
 	}
+	e.first[0] = &e.txt
+	e.nodes = e.first[:]
+	return e
 }
 
 // RawText creates a new progress element with raw fallback text content. Uses text.RawText which is not HTML-escaped.
 // Example: progress.RawText("<span>50%</span>")
 // Renders: <progress><span>50%</span></progress>
 func RawText(content string) *Element {
-	return &Element{
-		nodes: []node.Node{text.RawText(content)},
+	e := &Element{
+		txt: *text.RawText(content),
 	}
+	e.first[0] = &e.txt
+	e.nodes = e.first[:]
+	return e
 }
 
 // Textf creates a new progress element with formatted fallback text content. Uses text.Textf which HTML-escapes the output.
 // Example: progress.Textf("%d%% complete", pct)
 // Renders: <progress>75% complete</progress>
 func Textf(format string, args ...any) *Element {
-	return &Element{
-		nodes: []node.Node{text.Textf(format, args...)},
+	e := &Element{
+		txt: *text.Text(fmt.Sprintf(format, args...)),
 	}
+	e.first[0] = &e.txt
+	e.nodes = e.first[:]
+	return e
 }
 
 // RawTextf creates a new progress element with formatted raw fallback text content. Uses text.RawTextf which is not HTML-escaped.
 // Example: progress.RawTextf("<strong>%d%%</strong>", pct)
 // Renders: <progress><strong>75%</strong></progress>
 func RawTextf(format string, args ...any) *Element {
-	return &Element{
-		nodes: []node.Node{text.RawTextf(format, args...)},
+	e := &Element{
+		txt: *text.RawText(fmt.Sprintf(format, args...)),
 	}
+	e.first[0] = &e.txt
+	e.nodes = e.first[:]
+	return e
 }
 
 // ValueMax creates a new progress element with value and max attributes set.

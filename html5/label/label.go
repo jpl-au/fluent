@@ -37,8 +37,10 @@ import (
 // Element represents the <label> HTML element.
 type Element struct {
 	bufferhint atomic.Int64
+	first      [1]node.Node
 	hidden     hidden.Hidden
 	nodes      []node.Node
+	txt        text.Node
 	class      string
 	draggable  string
 	dynamic    string
@@ -95,55 +97,73 @@ func NewLabel(forID string, nodes ...node.Node) *Element {
 // Example: label.For("email", "Email Address")
 // Renders: <label for="email">Email Address</label>
 func For(forID string, str string) *Element {
-	return &Element{
-		nodes: []node.Node{text.Text(str)},
+	e := &Element{
+		txt:   *text.Text(str),
 		forID: node.EscapeAttribute(forID),
 	}
+	e.first[0] = &e.txt
+	e.nodes = e.first[:]
+	return e
 }
 
 // Text creates a new label element with text content. Uses text.Text which HTML-escapes the output.
 // Example: label.Text("Email Address")
 // Renders: <label>Email Address</label>
 func Text(str string) *Element {
-	return &Element{
-		nodes: []node.Node{text.Text(str)},
+	e := &Element{
+		txt: *text.Text(str),
 	}
+	e.first[0] = &e.txt
+	e.nodes = e.first[:]
+	return e
 }
 
 // Static creates a new label element with static text content. Uses text.Static which is not HTML-escaped and is JIT-optimisable.
 // Example: label.Static("Password")
 // Renders: <label>Password</label>
 func Static(str string) *Element {
-	return &Element{
-		nodes: []node.Node{text.Static(str)},
+	e := &Element{
+		txt: *text.Static(str),
 	}
+	e.first[0] = &e.txt
+	e.nodes = e.first[:]
+	return e
 }
 
 // RawText creates a new label element with raw text content. Uses text.RawText which is not HTML-escaped.
 // Example: label.RawText("Email <abbr>Addr.</abbr>")
 // Renders: <label>Email <abbr>Addr.</abbr></label>
 func RawText(str string) *Element {
-	return &Element{
-		nodes: []node.Node{text.RawText(str)},
+	e := &Element{
+		txt: *text.RawText(str),
 	}
+	e.first[0] = &e.txt
+	e.nodes = e.first[:]
+	return e
 }
 
 // Textf creates a new label element with formatted text content. Uses text.Textf which HTML-escapes the output.
 // Example: label.Textf("Enter %s", field)
 // Renders: <label>Enter Email</label>
 func Textf(format string, args ...any) *Element {
-	return &Element{
-		nodes: []node.Node{text.Textf(format, args...)},
+	e := &Element{
+		txt: *text.Text(fmt.Sprintf(format, args...)),
 	}
+	e.first[0] = &e.txt
+	e.nodes = e.first[:]
+	return e
 }
 
 // RawTextf creates a new label element with formatted raw text content. Uses text.RawTextf which is not HTML-escaped.
 // Example: label.RawTextf("<strong>%s</strong>", field)
 // Renders: <label><strong>Email</strong></label>
 func RawTextf(format string, args ...any) *Element {
-	return &Element{
-		nodes: []node.Node{text.RawTextf(format, args...)},
+	e := &Element{
+		txt: *text.RawText(fmt.Sprintf(format, args...)),
 	}
+	e.first[0] = &e.txt
+	e.nodes = e.first[:]
+	return e
 }
 
 // For sets the for attribute.

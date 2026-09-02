@@ -35,8 +35,10 @@ import (
 // Element represents the <object> HTML element.
 type Element struct {
 	bufferhint atomic.Int64
+	first      [1]node.Node
 	hidden     hidden.Hidden
 	nodes      []node.Node
+	txt        text.Node
 	class      string
 	data       string
 	draggable  string
@@ -87,45 +89,60 @@ func New(nodes ...node.Node) *Element {
 // Example: object.Text("Your browser does not support embedded objects.")
 // Renders: <object>Your browser does not support embedded objects.</object>
 func Text(content string) *Element {
-	return &Element{
-		nodes: []node.Node{text.Text(content)},
+	e := &Element{
+		txt: *text.Text(content),
 	}
+	e.first[0] = &e.txt
+	e.nodes = e.first[:]
+	return e
 }
 
 // Static creates a new object element with static fallback text content. Uses text.Static which is not HTML-escaped and is JIT-optimisable.
 // Example: object.Static("Loading content...")
 // Renders: <object>Loading content...</object>
 func Static(content string) *Element {
-	return &Element{
-		nodes: []node.Node{text.Static(content)},
+	e := &Element{
+		txt: *text.Static(content),
 	}
+	e.first[0] = &e.txt
+	e.nodes = e.first[:]
+	return e
 }
 
 // RawText creates a new object element with raw fallback text content. Uses text.RawText which is not HTML-escaped.
 // Example: object.RawText("<p>Fallback content</p>")
 // Renders: <object><p>Fallback content</p></object>
 func RawText(content string) *Element {
-	return &Element{
-		nodes: []node.Node{text.RawText(content)},
+	e := &Element{
+		txt: *text.RawText(content),
 	}
+	e.first[0] = &e.txt
+	e.nodes = e.first[:]
+	return e
 }
 
 // Textf creates a new object element with formatted fallback text content. Uses text.Textf which HTML-escapes the output.
 // Example: object.Textf("Cannot display %s", file)
 // Renders: <object>Cannot display report.pdf</object>
 func Textf(format string, args ...any) *Element {
-	return &Element{
-		nodes: []node.Node{text.Textf(format, args...)},
+	e := &Element{
+		txt: *text.Text(fmt.Sprintf(format, args...)),
 	}
+	e.first[0] = &e.txt
+	e.nodes = e.first[:]
+	return e
 }
 
 // RawTextf creates a new object element with formatted raw fallback text content. Uses text.RawTextf which is not HTML-escaped.
 // Example: object.RawTextf("<p>Cannot display <strong>%s</strong></p>", file)
 // Renders: <object><p>Cannot display <strong>report.pdf</strong></p></object>
 func RawTextf(format string, args ...any) *Element {
-	return &Element{
-		nodes: []node.Node{text.RawTextf(format, args...)},
+	e := &Element{
+		txt: *text.RawText(fmt.Sprintf(format, args...)),
 	}
+	e.first[0] = &e.txt
+	e.nodes = e.first[:]
+	return e
 }
 
 // PDF creates an object element for PDF documents

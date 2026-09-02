@@ -37,8 +37,10 @@ import (
 type Element struct {
 	blocking   blocking.Blocking
 	bufferhint atomic.Int64
+	first      [1]node.Node
 	hidden     hidden.Hidden
 	nodes      []node.Node
+	txt        text.Node
 	class      string
 	draggable  string
 	dynamic    string
@@ -85,9 +87,12 @@ func New(nodes ...node.Node) *Element {
 // Example: style.Text("body { margin: 0; }")
 // Renders: <style>body { margin: 0; }</style>
 func Text(content string) *Element {
-	return &Element{
-		nodes: []node.Node{text.Text(content)},
+	e := &Element{
+		txt: *text.Text(content),
 	}
+	e.first[0] = &e.txt
+	e.nodes = e.first[:]
+	return e
 }
 
 // Static creates a new style element with static CSS content. Uses text.Static which is not HTML-escaped and is
@@ -95,9 +100,12 @@ func Text(content string) *Element {
 // Example: style.Static("body { margin: 0; }")
 // Renders: <style>body { margin: 0; }</style>
 func Static(content string) *Element {
-	return &Element{
-		nodes: []node.Node{text.Static(content)},
+	e := &Element{
+		txt: *text.Static(content),
 	}
+	e.first[0] = &e.txt
+	e.nodes = e.first[:]
+	return e
 }
 
 // RawText creates a new style element with raw CSS content. Uses text.RawText which is not HTML-escaped.
@@ -105,9 +113,12 @@ func Static(content string) *Element {
 // Example: style.RawText("body { margin: 0; }")
 // Renders: <style>body { margin: 0; }</style>
 func RawText(content string) *Element {
-	return &Element{
-		nodes: []node.Node{text.RawText(content)},
+	e := &Element{
+		txt: *text.RawText(content),
 	}
+	e.first[0] = &e.txt
+	e.nodes = e.first[:]
+	return e
 }
 
 // Textf creates a new style element with formatted text content. Uses text.Textf which HTML-escapes the output.
@@ -115,9 +126,12 @@ func RawText(content string) *Element {
 // Example: style.Textf("%s { margin: %dpx; }", selector, margin)
 // Renders: <style>body { margin: 8px; }</style>
 func Textf(format string, args ...any) *Element {
-	return &Element{
-		nodes: []node.Node{text.Textf(format, args...)},
+	e := &Element{
+		txt: *text.Text(fmt.Sprintf(format, args...)),
 	}
+	e.first[0] = &e.txt
+	e.nodes = e.first[:]
+	return e
 }
 
 // RawTextf creates a new style element with formatted raw CSS content. Uses text.RawTextf which is not HTML-escaped.
@@ -125,19 +139,25 @@ func Textf(format string, args ...any) *Element {
 // Example: style.RawTextf(".%s { color: %s; }", className, colour)
 // Renders: <style>.highlight { color: red; }</style>
 func RawTextf(format string, args ...any) *Element {
-	return &Element{
-		nodes: []node.Node{text.RawTextf(format, args...)},
+	e := &Element{
+		txt: *text.RawText(fmt.Sprintf(format, args...)),
 	}
+	e.first[0] = &e.txt
+	e.nodes = e.first[:]
+	return e
 }
 
 // CSS creates a style element with CSS type explicitly set.
 // Example: style.CSS("body { margin: 0; padding: 0; }")
 // Renders: <style type="text/css">body { margin: 0; padding: 0; }</style>
 func CSS(css string) *Element {
-	return &Element{
-		nodes: []node.Node{text.RawText(css)},
-		mime:  "text/css",
+	e := &Element{
+		txt:  *text.RawText(css),
+		mime: "text/css",
 	}
+	e.first[0] = &e.txt
+	e.nodes = e.first[:]
+	return e
 }
 
 // Type sets the type attribute.

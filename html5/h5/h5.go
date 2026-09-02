@@ -35,8 +35,10 @@ import (
 // Element represents the <h5> HTML element.
 type Element struct {
 	bufferhint atomic.Int64
+	first      [1]node.Node
 	hidden     hidden.Hidden
 	nodes      []node.Node
+	txt        text.Node
 	class      string
 	draggable  string
 	dynamic    string
@@ -80,45 +82,60 @@ func New(nodes ...node.Node) *Element {
 // Example: h5.Text("Section Title")
 // Renders: <h5>Section Title</h5>
 func Text(str string) *Element {
-	return &Element{
-		nodes: []node.Node{text.Text(str)},
+	e := &Element{
+		txt: *text.Text(str),
 	}
+	e.first[0] = &e.txt
+	e.nodes = e.first[:]
+	return e
 }
 
 // Static creates a new h5 element with static text content. Uses text.Static which is not HTML-escaped and is JIT-optimisable.
 // Example: h5.Static("Features")
 // Renders: <h5>Features</h5>
 func Static(str string) *Element {
-	return &Element{
-		nodes: []node.Node{text.Static(str)},
+	e := &Element{
+		txt: *text.Static(str),
 	}
+	e.first[0] = &e.txt
+	e.nodes = e.first[:]
+	return e
 }
 
 // RawText creates a new h5 element with raw text content. Uses text.RawText which is not HTML-escaped.
 // Example: h5.RawText("<em>Minor</em> Sub-point")
 // Renders: <h5><em>Minor</em> Sub-point</h5>
 func RawText(str string) *Element {
-	return &Element{
-		nodes: []node.Node{text.RawText(str)},
+	e := &Element{
+		txt: *text.RawText(str),
 	}
+	e.first[0] = &e.txt
+	e.nodes = e.first[:]
+	return e
 }
 
 // Textf creates a new h5 element with formatted text content. Uses text.Textf which HTML-escapes the output.
 // Example: h5.Textf("Chapter %d", num)
 // Renders: <h5>Chapter 1</h5>
 func Textf(format string, args ...any) *Element {
-	return &Element{
-		nodes: []node.Node{text.Textf(format, args...)},
+	e := &Element{
+		txt: *text.Text(fmt.Sprintf(format, args...)),
 	}
+	e.first[0] = &e.txt
+	e.nodes = e.first[:]
+	return e
 }
 
 // RawTextf creates a new h5 element with formatted raw text content. Uses text.RawTextf which is not HTML-escaped.
 // Example: h5.RawTextf("<small>%s</small>", subtitle)
 // Renders: <h5><small>A deeper look</small></h5>
 func RawTextf(format string, args ...any) *Element {
-	return &Element{
-		nodes: []node.Node{text.RawTextf(format, args...)},
+	e := &Element{
+		txt: *text.RawText(fmt.Sprintf(format, args...)),
 	}
+	e.first[0] = &e.txt
+	e.nodes = e.first[:]
+	return e
 }
 
 // Class sets the class attribute.
