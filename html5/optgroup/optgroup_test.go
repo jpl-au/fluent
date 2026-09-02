@@ -46,6 +46,30 @@ func TestOptionsCtor(t *testing.T) {
 	}
 }
 
+func TestOptionsOfCtor(t *testing.T) {
+	got := string(optgroup.OptionsOf([]int{1, 2}, func(int) *option.Element { return option.New() }).RenderBytes())
+	want := `<optgroup><option></option><option></option></optgroup>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
+func TestOptionsOfNilSkipped(t *testing.T) {
+	got := string(optgroup.OptionsOf([]int{1, 2}, func(int) *option.Element { return nil }).RenderBytes())
+	want := `<optgroup></optgroup>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
+func TestOptionsFuncCtor(t *testing.T) {
+	got := string(optgroup.OptionsFunc(func() []*option.Element { return []*option.Element{option.New(), option.New()} }).RenderBytes())
+	want := `<optgroup><option></option><option></option></optgroup>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
 func TestLabelledCtor(t *testing.T) {
 	got := string(optgroup.Labelled("Colours", option.Option("red", "Red"), option.Option("blue", "Blue")).RenderBytes())
 	want := `<optgroup label="Colours"><option value="red">Red</option><option value="blue">Blue</option></optgroup>`

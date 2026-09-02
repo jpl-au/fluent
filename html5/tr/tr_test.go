@@ -47,9 +47,57 @@ func TestCellsCtor(t *testing.T) {
 	}
 }
 
+func TestCellsOfCtor(t *testing.T) {
+	got := string(tr.CellsOf([]int{1, 2}, func(int) *td.Element { return td.New() }).RenderBytes())
+	want := `<tr><td></td><td></td></tr>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
+func TestCellsOfNilSkipped(t *testing.T) {
+	got := string(tr.CellsOf([]int{1, 2}, func(int) *td.Element { return nil }).RenderBytes())
+	want := `<tr></tr>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
+func TestCellsFuncCtor(t *testing.T) {
+	got := string(tr.CellsFunc(func() []*td.Element { return []*td.Element{td.New(), td.New()} }).RenderBytes())
+	want := `<tr><td></td><td></td></tr>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
 func TestHeadersCtor(t *testing.T) {
 	got := string(tr.Headers(th.Col("Name"), th.Col("Age")).RenderBytes())
 	want := `<tr><th scope="col">Name</th><th scope="col">Age</th></tr>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
+func TestHeadersOfCtor(t *testing.T) {
+	got := string(tr.HeadersOf([]int{1, 2}, func(int) *th.Element { return th.New() }).RenderBytes())
+	want := `<tr><th></th><th></th></tr>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
+func TestHeadersOfNilSkipped(t *testing.T) {
+	got := string(tr.HeadersOf([]int{1, 2}, func(int) *th.Element { return nil }).RenderBytes())
+	want := `<tr></tr>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
+func TestHeadersFuncCtor(t *testing.T) {
+	got := string(tr.HeadersFunc(func() []*th.Element { return []*th.Element{th.New(), th.New()} }).RenderBytes())
+	want := `<tr><th></th><th></th></tr>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
 	}

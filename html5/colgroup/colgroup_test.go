@@ -48,7 +48,31 @@ func TestSpanCtor(t *testing.T) {
 
 func TestColsCtor(t *testing.T) {
 	got := string(colgroup.Cols(col.New(), col.Span(2)).RenderBytes())
-	want := `<colgroup><col /><col span="2" /></colgroup>`
+	want := `<colgroup><col><col span="2"></colgroup>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
+func TestColsOfCtor(t *testing.T) {
+	got := string(colgroup.ColsOf([]int{1, 2}, func(int) *col.Element { return col.New() }).RenderBytes())
+	want := `<colgroup><col><col></colgroup>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
+func TestColsOfNilSkipped(t *testing.T) {
+	got := string(colgroup.ColsOf([]int{1, 2}, func(int) *col.Element { return nil }).RenderBytes())
+	want := `<colgroup></colgroup>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
+func TestColsFuncCtor(t *testing.T) {
+	got := string(colgroup.ColsFunc(func() []*col.Element { return []*col.Element{col.New(), col.New()} }).RenderBytes())
+	want := `<colgroup><col><col></colgroup>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
 	}

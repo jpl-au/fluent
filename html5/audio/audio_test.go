@@ -52,7 +52,7 @@ func TestFallbackCtor(t *testing.T) {
 
 func TestSourcesCtor(t *testing.T) {
 	got := string(audio.Sources(source.AudioMP3("/music/song.mp3"), source.AudioOgg("/music/song.ogg")).RenderBytes())
-	want := `<audio><source src="/music/song.mp3" type="audio/mpeg" /><source src="/music/song.ogg" type="audio/ogg" /></audio>`
+	want := `<audio><source src="/music/song.mp3" type="audio/mpeg"><source src="/music/song.ogg" type="audio/ogg"></audio>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
 	}

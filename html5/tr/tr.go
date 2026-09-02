@@ -90,6 +90,43 @@ func Cells(cells ...*td.Element) *Element {
 	}
 }
 
+// CellsOf creates a new <tr> element from a slice of data and a mapper that returns one td element per item, enforcing correct nesting at compile time.
+// The mapper runs at render time inside a deferred function component - see node.Funcs for the contract.
+// A nil result from the mapper is skipped, so the mapper can drop an item; use CellsFunc when the list is reordered or computed.
+// Example: tr.CellsOf([]int{1, 2}, func(int) *td.Element { return td.New() })
+// Renders: <tr><td></td><td></td></tr>
+func CellsOf[T any](items []T, fn func(T) *td.Element) *Element {
+	return &Element{
+		nodes: []node.Node{node.Funcs(func() []node.Node {
+			out := make([]node.Node, 0, len(items))
+			for _, v := range items {
+				if el := fn(v); el != nil {
+					out = append(out, el)
+				}
+			}
+			return out
+		})},
+	}
+}
+
+// CellsFunc creates a new <tr> element from a function that returns td elements, enforcing correct nesting at compile time.
+// The function runs at render time inside a deferred function component - see node.Funcs for the contract.
+// Use it when the child list is reordered or computed. Return only non-nil elements.
+// Example: tr.CellsFunc(func() []*td.Element { return []*td.Element{td.New(), td.New()} })
+// Renders: <tr><td></td><td></td></tr>
+func CellsFunc(fn func() []*td.Element) *Element {
+	return &Element{
+		nodes: []node.Node{node.Funcs(func() []node.Node {
+			items := fn()
+			out := make([]node.Node, len(items))
+			for i, v := range items {
+				out[i] = v
+			}
+			return out
+		})},
+	}
+}
+
 // Headers creates a table row from th header cells, enforcing correct nesting at compile time.
 // Example: tr.Headers(th.Col("Name"), th.Col("Age"))
 // Renders: <tr><th scope="col">Name</th><th scope="col">Age</th></tr>
@@ -100,6 +137,43 @@ func Headers(cells ...*th.Element) *Element {
 	}
 	return &Element{
 		nodes: nodes,
+	}
+}
+
+// HeadersOf creates a new <tr> element from a slice of data and a mapper that returns one th element per item, enforcing correct nesting at compile time.
+// The mapper runs at render time inside a deferred function component - see node.Funcs for the contract.
+// A nil result from the mapper is skipped, so the mapper can drop an item; use HeadersFunc when the list is reordered or computed.
+// Example: tr.HeadersOf([]int{1, 2}, func(int) *th.Element { return th.New() })
+// Renders: <tr><th></th><th></th></tr>
+func HeadersOf[T any](items []T, fn func(T) *th.Element) *Element {
+	return &Element{
+		nodes: []node.Node{node.Funcs(func() []node.Node {
+			out := make([]node.Node, 0, len(items))
+			for _, v := range items {
+				if el := fn(v); el != nil {
+					out = append(out, el)
+				}
+			}
+			return out
+		})},
+	}
+}
+
+// HeadersFunc creates a new <tr> element from a function that returns th elements, enforcing correct nesting at compile time.
+// The function runs at render time inside a deferred function component - see node.Funcs for the contract.
+// Use it when the child list is reordered or computed. Return only non-nil elements.
+// Example: tr.HeadersFunc(func() []*th.Element { return []*th.Element{th.New(), th.New()} })
+// Renders: <tr><th></th><th></th></tr>
+func HeadersFunc(fn func() []*th.Element) *Element {
+	return &Element{
+		nodes: []node.Node{node.Funcs(func() []node.Node {
+			items := fn()
+			out := make([]node.Node, len(items))
+			for i, v := range items {
+				out[i] = v
+			}
+			return out
+		})},
 	}
 }
 

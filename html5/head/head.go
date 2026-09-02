@@ -69,7 +69,7 @@ func (e *Element) event() *html5.EventAttributes {
 
 // New creates a new head element with the given child nodes (metadata content).
 // Example: head.New(title.New(text.Text("My Page")), meta.Charset("UTF-8"))
-// Renders: <head><title>My Page</title><meta charset="UTF-8" /></head>
+// Renders: <head><title>My Page</title><meta charset="UTF-8"></head>
 func New(nodes ...node.Node) *Element {
 	return &Element{
 		nodes: nodes,

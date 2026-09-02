@@ -71,14 +71,14 @@ func (e *Element) event() *html5.EventAttributes {
 
 // New creates a new base element without any initial attributes.
 // Example: base.New().Href("/docs/")
-// Renders: <base href="/docs/" />
+// Renders: <base href="/docs/">
 func New() *Element {
 	return &Element{}
 }
 
 // URL creates a base element with the specified base URL.
 // Example: base.URL("/docs/")
-// Renders: <base href="/docs/" />
+// Renders: <base href="/docs/">
 //
 // Fluent filters this URL at render time: http, https, mailto, tel, sms and relative URLs
 // render as given; any other scheme (javascript:, data:, file:, a custom protocol) renders as the
@@ -1779,22 +1779,21 @@ func (e *Element) AttributeBuilder(buf *bytes.Buffer) {
 func (e *Element) RenderBuilder(buf *bytes.Buffer) {
 	buf.Write(html5.TagBase)
 	e.AttributeBuilder(buf)
-	buf.Write(html5.MarkupSelfCloseTag)
+	buf.Write(html5.MarkupCloseTag)
 }
 
 // RenderOpen writes the opening tag and attributes to the buffer.
 func (e *Element) RenderOpen(buf *bytes.Buffer) {
 	buf.Write(html5.TagBase)
 	e.AttributeBuilder(buf)
-	buf.Write(html5.MarkupSelfCloseTag)
+	buf.Write(html5.MarkupCloseTag)
 }
 
-// RenderClose writes the closing tag to the buffer.
+// RenderClose writes nothing. A void element has no closing tag.
 func (e *Element) RenderClose(buf *bytes.Buffer) {
-	// Self-closing element - no closing tag
 }
 
-// Nodes returns nil for self-closing elements which cannot have children.
+// Nodes returns nil. A void element cannot hold children.
 func (e *Element) Nodes() []node.Node {
 	return nil
 }

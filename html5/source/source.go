@@ -74,14 +74,14 @@ func (e *Element) event() *html5.EventAttributes {
 
 // New creates a new source element without any initial attributes.
 // Example: source.New().Src("image.webp").Type("image/webp")
-// Renders: <source src="image.webp" type="image/webp" />
+// Renders: <source src="image.webp" type="image/webp">
 func New() *Element {
 	return &Element{}
 }
 
 // VideoMP4 creates a video source element with MP4 type
 // Example: source.VideoMP4("movie.mp4")
-// Renders: <source src="movie.mp4" type="video/mp4" />
+// Renders: <source src="movie.mp4" type="video/mp4">
 func VideoMP4(src string) *Element {
 	return &Element{
 		src:  node.EscapeAttribute(src),
@@ -91,7 +91,7 @@ func VideoMP4(src string) *Element {
 
 // VideoWebM creates a video source element with WebM type
 // Example: source.VideoWebM("movie.webm")
-// Renders: <source src="movie.webm" type="video/webm" />
+// Renders: <source src="movie.webm" type="video/webm">
 func VideoWebM(src string) *Element {
 	return &Element{
 		src:  node.EscapeAttribute(src),
@@ -101,7 +101,7 @@ func VideoWebM(src string) *Element {
 
 // VideoOgg creates a video source element with Ogg type
 // Example: source.VideoOgg("movie.ogv")
-// Renders: <source src="movie.ogv" type="video/ogg" />
+// Renders: <source src="movie.ogv" type="video/ogg">
 func VideoOgg(src string) *Element {
 	return &Element{
 		src:  node.EscapeAttribute(src),
@@ -111,7 +111,7 @@ func VideoOgg(src string) *Element {
 
 // AudioMP3 creates an audio source element with MP3 type
 // Example: source.AudioMP3("song.mp3")
-// Renders: <source src="song.mp3" type="audio/mpeg" />
+// Renders: <source src="song.mp3" type="audio/mpeg">
 func AudioMP3(src string) *Element {
 	return &Element{
 		src:  node.EscapeAttribute(src),
@@ -121,7 +121,7 @@ func AudioMP3(src string) *Element {
 
 // AudioOgg creates an audio source element with Ogg type
 // Example: source.AudioOgg("song.ogg")
-// Renders: <source src="song.ogg" type="audio/ogg" />
+// Renders: <source src="song.ogg" type="audio/ogg">
 func AudioOgg(src string) *Element {
 	return &Element{
 		src:  node.EscapeAttribute(src),
@@ -131,7 +131,7 @@ func AudioOgg(src string) *Element {
 
 // AudioWav creates an audio source element with WAV type
 // Example: source.AudioWav("sound.wav")
-// Renders: <source src="sound.wav" type="audio/wav" />
+// Renders: <source src="sound.wav" type="audio/wav">
 func AudioWav(src string) *Element {
 	return &Element{
 		src:  node.EscapeAttribute(src),
@@ -141,7 +141,7 @@ func AudioWav(src string) *Element {
 
 // ImageWebP creates an image source element with WebP type (for use in picture elements)
 // Example: source.ImageWebP("image.webp")
-// Renders: <source type="image/webp" srcset="image.webp" />
+// Renders: <source type="image/webp" srcset="image.webp">
 func ImageWebP(srcset string) *Element {
 	return &Element{
 		mime:   "image/webp",
@@ -151,7 +151,7 @@ func ImageWebP(srcset string) *Element {
 
 // ImageAVIF creates an image source element with AVIF type (for use in picture elements)
 // Example: source.ImageAVIF("image.avif")
-// Renders: <source type="image/avif" srcset="image.avif" />
+// Renders: <source type="image/avif" srcset="image.avif">
 func ImageAVIF(srcset string) *Element {
 	return &Element{
 		mime:   "image/avif",
@@ -1943,22 +1943,21 @@ func (e *Element) AttributeBuilder(buf *bytes.Buffer) {
 func (e *Element) RenderBuilder(buf *bytes.Buffer) {
 	buf.Write(html5.TagSource)
 	e.AttributeBuilder(buf)
-	buf.Write(html5.MarkupSelfCloseTag)
+	buf.Write(html5.MarkupCloseTag)
 }
 
 // RenderOpen writes the opening tag and attributes to the buffer.
 func (e *Element) RenderOpen(buf *bytes.Buffer) {
 	buf.Write(html5.TagSource)
 	e.AttributeBuilder(buf)
-	buf.Write(html5.MarkupSelfCloseTag)
+	buf.Write(html5.MarkupCloseTag)
 }
 
-// RenderClose writes the closing tag to the buffer.
+// RenderClose writes nothing. A void element has no closing tag.
 func (e *Element) RenderClose(buf *bytes.Buffer) {
-	// Self-closing element - no closing tag
 }
 
-// Nodes returns nil for self-closing elements which cannot have children.
+// Nodes returns nil. A void element cannot hold children.
 func (e *Element) Nodes() []node.Node {
 	return nil
 }

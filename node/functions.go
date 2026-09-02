@@ -49,7 +49,7 @@ func Funcs(fn func() []Node) *FuncsComponent {
 //
 // Map is for readability, not speed. Because it wraps [Funcs], the loop is
 // deferred to render time inside a closure, and the component plus that
-// closure cost a fixed three allocations more than building the slice
+// closure cost a fixed few allocations more than building the slice
 // yourself and passing it to the constructor:
 //
 //	rows := make([]node.Node, 0, len(items))

@@ -11,11 +11,23 @@ package html5
 // element (.Class, .Href, .Checked, ...) or, for custom keys,
 // node.Element.SetAttribute - not these constants.
 var (
-	MarkupDoctype      = []byte(`<!DOCTYPE html>`)
-	MarkupSpace        = []byte(` `)
-	MarkupQuote        = []byte(`"`)
-	MarkupEquals       = []byte(`=`)
-	MarkupCloseTag     = []byte(`>`)
+	MarkupDoctype = []byte(`<!DOCTYPE html>`)
+	MarkupSpace   = []byte(` `)
+	MarkupQuote   = []byte(`"`)
+	MarkupEquals  = []byte(`=`)
+	// MarkupCloseTag ends a start tag. Every element uses it, including a void
+	// element such as <br>, whose start tag is all it has.
+	MarkupCloseTag = []byte(`>`)
+	// MarkupSelfCloseTag ends a start tag with a solidus. A default build never
+	// writes it: the HTML syntax spec gives the solidus no effect on a void
+	// element, so fluent emits <br> rather than <br />. It is retained because
+	// `go run . --void-self-closing` regenerates every void element package
+	// against it, for a downstream regenerator who needs output that also
+	// parses as XHTML. Do not remove it as dead.
+	//
+	// The svg package holds its own copy and always writes it. An SVG element is
+	// a foreign element, where the solidus does mark the start tag as
+	// self-closing, so there it carries meaning rather than being decorative.
 	MarkupSelfCloseTag = []byte(` />`)
 )
 

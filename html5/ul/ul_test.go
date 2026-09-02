@@ -46,6 +46,30 @@ func TestItemsCtor(t *testing.T) {
 	}
 }
 
+func TestItemsOfCtor(t *testing.T) {
+	got := string(ul.ItemsOf([]int{1, 2}, func(int) *li.Element { return li.New() }).RenderBytes())
+	want := `<ul><li></li><li></li></ul>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
+func TestItemsOfNilSkipped(t *testing.T) {
+	got := string(ul.ItemsOf([]int{1, 2}, func(int) *li.Element { return nil }).RenderBytes())
+	want := `<ul></ul>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
+func TestItemsFuncCtor(t *testing.T) {
+	got := string(ul.ItemsFunc(func() []*li.Element { return []*li.Element{li.New(), li.New()} }).RenderBytes())
+	want := `<ul><li></li><li></li></ul>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
 func TestTypeAttr(t *testing.T) {
 	got := string(ul.New().Type("test").RenderBytes())
 	want := `<ul type="test"></ul>`

@@ -400,12 +400,11 @@ func (e *ellipse) RenderOpen(buf *bytes.Buffer) {
 	buf.Write(MarkupSelfCloseTag)
 }
 
-// RenderClose writes the closing tag to the buffer.
+// RenderClose writes nothing. A self-closing SVG element has no closing tag.
 func (e *ellipse) RenderClose(buf *bytes.Buffer) {
-	// Self-closing element - no closing tag
 }
 
-// Nodes returns nil for self-closing elements which cannot have children.
+// Nodes returns nil. A self-closing SVG element holds no children.
 func (e *ellipse) Nodes() []node.Node {
 	return nil
 }

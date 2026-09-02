@@ -88,14 +88,14 @@ func (e *Element) event() *html5.EventAttributes {
 
 // New creates a new link element without any initial attributes.
 // Example: link.New()
-// Renders: <link />
+// Renders: <link>
 func New() *Element {
 	return &Element{}
 }
 
 // Stylesheet creates a new link element for a CSS stylesheet.
 // Example: link.Stylesheet("/styles.css")
-// Renders: <link rel="stylesheet" href="/styles.css" />
+// Renders: <link rel="stylesheet" href="/styles.css">
 //
 // Fluent filters this URL at render time: http, https, mailto, tel, sms and relative URLs
 // render as given; any other scheme (javascript:, data:, file:, a custom protocol) renders as the
@@ -110,7 +110,7 @@ func Stylesheet(href string) *Element {
 
 // Icon creates a new link element for a site icon (favicon).
 // Example: link.Icon("/favicon.ico")
-// Renders: <link rel="icon" href="/favicon.ico" />
+// Renders: <link rel="icon" href="/favicon.ico">
 //
 // Fluent filters this URL at render time: http, https, mailto, tel, sms and relative URLs
 // render as given; any other scheme (javascript:, data:, file:, a custom protocol) renders as the
@@ -125,7 +125,7 @@ func Icon(href string) *Element {
 
 // Preload creates a new link element for preloading resources to improve performance.
 // Example: link.Preload("/font.woff2", as.Font)
-// Renders: <link rel="preload" href="/font.woff2" as="font" />
+// Renders: <link rel="preload" href="/font.woff2" as="font">
 //
 // Fluent filters this URL at render time: http, https, mailto, tel, sms and relative URLs
 // render as given; any other scheme (javascript:, data:, file:, a custom protocol) renders as the
@@ -143,7 +143,7 @@ func Preload(href string, as as.As) *Element {
 // Important for SEO when the same content is accessible at multiple
 // URLs. Search engines use this to consolidate ranking signals.
 // Example: link.Canonical("https://example.com/page")
-// Renders: <link rel="canonical" href="https://example.com/page" />
+// Renders: <link rel="canonical" href="https://example.com/page">
 //
 // Fluent filters this URL at render time: http, https, mailto, tel, sms and relative URLs
 // render as given; any other scheme (javascript:, data:, file:, a custom protocol) renders as the
@@ -160,7 +160,7 @@ func Canonical(href string) *Element {
 // the user is likely to navigate to next. The resource is fetched at
 // low priority during idle time and cached for future use.
 // Example: link.Prefetch("/next-page")
-// Renders: <link rel="prefetch" href="/next-page" />
+// Renders: <link rel="prefetch" href="/next-page">
 //
 // Fluent filters this URL at render time: http, https, mailto, tel, sms and relative URLs
 // render as given; any other scheme (javascript:, data:, file:, a custom protocol) renders as the
@@ -2075,22 +2075,21 @@ func (e *Element) AttributeBuilder(buf *bytes.Buffer) {
 func (e *Element) RenderBuilder(buf *bytes.Buffer) {
 	buf.Write(html5.TagLink)
 	e.AttributeBuilder(buf)
-	buf.Write(html5.MarkupSelfCloseTag)
+	buf.Write(html5.MarkupCloseTag)
 }
 
 // RenderOpen writes the opening tag and attributes to the buffer.
 func (e *Element) RenderOpen(buf *bytes.Buffer) {
 	buf.Write(html5.TagLink)
 	e.AttributeBuilder(buf)
-	buf.Write(html5.MarkupSelfCloseTag)
+	buf.Write(html5.MarkupCloseTag)
 }
 
-// RenderClose writes the closing tag to the buffer.
+// RenderClose writes nothing. A void element has no closing tag.
 func (e *Element) RenderClose(buf *bytes.Buffer) {
-	// Self-closing element - no closing tag
 }
 
-// Nodes returns nil for self-closing elements which cannot have children.
+// Nodes returns nil. A void element cannot hold children.
 func (e *Element) Nodes() []node.Node {
 	return nil
 }

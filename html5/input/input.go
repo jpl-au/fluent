@@ -97,14 +97,14 @@ func (e *Element) event() *html5.EventAttributes {
 
 // New creates a new input element without any initial attributes.
 // Example: input.New().Type(inputtype.Text).Name("username")
-// Renders: <input name="username" type="text" />
+// Renders: <input name="username" type="text">
 func New() *Element {
 	return &Element{}
 }
 
 // Text creates a text input field for single-line text entry.
 // Example: input.Text("title", "Mr")
-// Renders: <input name="title" value="Mr" type="text" />
+// Renders: <input name="title" value="Mr" type="text">
 func Text(name string, value string) *Element {
 	return &Element{
 		inputType: inputtype.Text,
@@ -115,7 +115,7 @@ func Text(name string, value string) *Element {
 
 // Password creates a password input field that obscures entered characters.
 // Example: input.Password("password")
-// Renders: <input name="password" type="password" />
+// Renders: <input name="password" type="password">
 func Password(name string) *Element {
 	return &Element{
 		inputType: inputtype.Password,
@@ -125,7 +125,7 @@ func Password(name string) *Element {
 
 // Email creates an email input field with automatic email validation.
 // Example: input.Email("email")
-// Renders: <input name="email" type="email" />
+// Renders: <input name="email" type="email">
 func Email(name string) *Element {
 	return &Element{
 		inputType: inputtype.Email,
@@ -135,7 +135,7 @@ func Email(name string) *Element {
 
 // Search creates a search input field optimised for search queries.
 // Example: input.Search("query")
-// Renders: <input name="query" type="search" />
+// Renders: <input name="query" type="search">
 func Search(name string) *Element {
 	return &Element{
 		inputType: inputtype.Search,
@@ -145,7 +145,7 @@ func Search(name string) *Element {
 
 // Tel creates a telephone number input field.
 // Example: input.Tel("phone")
-// Renders: <input name="phone" type="tel" />
+// Renders: <input name="phone" type="tel">
 func Tel(name string) *Element {
 	return &Element{
 		inputType: inputtype.Tel,
@@ -155,7 +155,7 @@ func Tel(name string) *Element {
 
 // URL creates a URL input field with URL validation.
 // Example: input.URL("website")
-// Renders: <input name="website" type="url" />
+// Renders: <input name="website" type="url">
 func URL(name string) *Element {
 	return &Element{
 		inputType: inputtype.Url,
@@ -165,7 +165,7 @@ func URL(name string) *Element {
 
 // Number creates a numeric input field with spinner controls.
 // Example: input.Number("quantity")
-// Renders: <input name="quantity" type="number" />
+// Renders: <input name="quantity" type="number">
 func Number(name string) *Element {
 	return &Element{
 		inputType: inputtype.Number,
@@ -175,7 +175,7 @@ func Number(name string) *Element {
 
 // Range creates a range slider input for selecting numeric values.
 // Example: input.Range("volume")
-// Renders: <input name="volume" type="range" />
+// Renders: <input name="volume" type="range">
 func Range(name string) *Element {
 	return &Element{
 		inputType: inputtype.Range,
@@ -185,7 +185,7 @@ func Range(name string) *Element {
 
 // Date creates a date picker input field.
 // Example: input.Date("birthday")
-// Renders: <input name="birthday" type="date" />
+// Renders: <input name="birthday" type="date">
 func Date(name string) *Element {
 	return &Element{
 		inputType: inputtype.Date,
@@ -195,7 +195,7 @@ func Date(name string) *Element {
 
 // Time creates a time picker input field.
 // Example: input.Time("appointment")
-// Renders: <input name="appointment" type="time" />
+// Renders: <input name="appointment" type="time">
 func Time(name string) *Element {
 	return &Element{
 		inputType: inputtype.Time,
@@ -205,7 +205,7 @@ func Time(name string) *Element {
 
 // DateTimeLocal creates a local date and time picker input field.
 // Example: input.DateTimeLocal("meeting")
-// Renders: <input name="meeting" type="datetime-local" />
+// Renders: <input name="meeting" type="datetime-local">
 func DateTimeLocal(name string) *Element {
 	return &Element{
 		inputType: inputtype.DatetimeLocal,
@@ -215,7 +215,7 @@ func DateTimeLocal(name string) *Element {
 
 // Month creates a month picker input field.
 // Example: input.Month("expiry")
-// Renders: <input name="expiry" type="month" />
+// Renders: <input name="expiry" type="month">
 func Month(name string) *Element {
 	return &Element{
 		inputType: inputtype.Month,
@@ -225,7 +225,7 @@ func Month(name string) *Element {
 
 // Week creates a week picker input field.
 // Example: input.Week("schedule")
-// Renders: <input name="schedule" type="week" />
+// Renders: <input name="schedule" type="week">
 func Week(name string) *Element {
 	return &Element{
 		inputType: inputtype.Week,
@@ -235,7 +235,7 @@ func Week(name string) *Element {
 
 // Checkbox creates a checkbox input for boolean or multi-select options.
 // Example: input.Checkbox("agree", "yes")
-// Renders: <input name="agree" value="yes" type="checkbox" />
+// Renders: <input name="agree" value="yes" type="checkbox">
 func Checkbox(name string, value string) *Element {
 	return &Element{
 		inputType: inputtype.Checkbox,
@@ -246,7 +246,7 @@ func Checkbox(name string, value string) *Element {
 
 // Radio creates a radio button input for exclusive selection within a group.
 // Example: input.Radio("gender", "male")
-// Renders: <input name="gender" value="male" type="radio" />
+// Renders: <input name="gender" value="male" type="radio">
 func Radio(name string, value string) *Element {
 	return &Element{
 		inputType: inputtype.Radio,
@@ -257,7 +257,7 @@ func Radio(name string, value string) *Element {
 
 // File creates a file upload input for selecting local files.
 // Example: input.File("avatar")
-// Renders: <input name="avatar" type="file" />
+// Renders: <input name="avatar" type="file">
 func File(name string) *Element {
 	return &Element{
 		inputType: inputtype.File,
@@ -267,7 +267,7 @@ func File(name string) *Element {
 
 // Submit creates a submit button input for form submission.
 // Example: input.Submit("Submit Form")
-// Renders: <input value="Submit Form" type="submit" />
+// Renders: <input value="Submit Form" type="submit">
 func Submit(value string) *Element {
 	return &Element{
 		inputType: inputtype.Submit,
@@ -277,7 +277,7 @@ func Submit(value string) *Element {
 
 // Button creates a button input with no default behaviour.
 // Example: input.Button("Click Me")
-// Renders: <input value="Click Me" type="button" />
+// Renders: <input value="Click Me" type="button">
 func Button(value string) *Element {
 	return &Element{
 		inputType: inputtype.Button,
@@ -287,7 +287,7 @@ func Button(value string) *Element {
 
 // Reset creates a reset button input that clears form values.
 // Example: input.Reset("Clear Form")
-// Renders: <input value="Clear Form" type="reset" />
+// Renders: <input value="Clear Form" type="reset">
 func Reset(value string) *Element {
 	return &Element{
 		inputType: inputtype.Reset,
@@ -297,7 +297,7 @@ func Reset(value string) *Element {
 
 // Hidden creates a hidden input field not visible to users.
 // Example: input.Hidden("csrf_token", "abc123")
-// Renders: <input name="csrf_token" value="abc123" type="hidden" />
+// Renders: <input name="csrf_token" value="abc123" type="hidden">
 func Hidden(name string, value string) *Element {
 	return &Element{
 		inputType: inputtype.Hidden,
@@ -308,7 +308,7 @@ func Hidden(name string, value string) *Element {
 
 // Color creates a colour picker input field.
 // Example: input.Color("theme")
-// Renders: <input name="theme" type="color" />
+// Renders: <input name="theme" type="color">
 func Color(name string) *Element {
 	return &Element{
 		inputType: inputtype.Color,
@@ -318,7 +318,7 @@ func Color(name string) *Element {
 
 // Image creates an image submit button with graphical representation.
 // Example: input.Image("submit", "/images/submit.png")
-// Renders: <input name="submit" type="image" src="/images/submit.png" />
+// Renders: <input name="submit" type="image" src="/images/submit.png">
 func Image(name string, src string) *Element {
 	return &Element{
 		inputType: inputtype.Image,
@@ -2414,22 +2414,21 @@ func (e *Element) AttributeBuilder(buf *bytes.Buffer) {
 func (e *Element) RenderBuilder(buf *bytes.Buffer) {
 	buf.Write(html5.TagInput)
 	e.AttributeBuilder(buf)
-	buf.Write(html5.MarkupSelfCloseTag)
+	buf.Write(html5.MarkupCloseTag)
 }
 
 // RenderOpen writes the opening tag and attributes to the buffer.
 func (e *Element) RenderOpen(buf *bytes.Buffer) {
 	buf.Write(html5.TagInput)
 	e.AttributeBuilder(buf)
-	buf.Write(html5.MarkupSelfCloseTag)
+	buf.Write(html5.MarkupCloseTag)
 }
 
-// RenderClose writes the closing tag to the buffer.
+// RenderClose writes nothing. A void element has no closing tag.
 func (e *Element) RenderClose(buf *bytes.Buffer) {
-	// Self-closing element - no closing tag
 }
 
-// Nodes returns nil for self-closing elements which cannot have children.
+// Nodes returns nil. A void element cannot hold children.
 func (e *Element) Nodes() []node.Node {
 	return nil
 }

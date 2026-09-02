@@ -103,7 +103,7 @@ func Fallback(fallback string) *Element {
 
 // Sources creates a new audio element with multiple <source> child elements.
 // Example: audio.Sources(source.AudioMP3("/music/song.mp3"), source.AudioOgg("/music/song.ogg"))
-// Renders: <audio><source src="/music/song.mp3" type="audio/mpeg" /><source src="/music/song.ogg" type="audio/ogg" /></audio>
+// Renders: <audio><source src="/music/song.mp3" type="audio/mpeg"><source src="/music/song.ogg" type="audio/ogg"></audio>
 func Sources(sources ...node.Node) *Element {
 	return &Element{
 		nodes: sources,

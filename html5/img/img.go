@@ -87,14 +87,14 @@ func (e *Element) event() *html5.EventAttributes {
 
 // New creates a new img element without any initial attributes.
 // Example: img.New().Src("photo.jpg").Alt("A beautiful sunset")
-// Renders: <img src="photo.jpg" alt="A beautiful sunset" />
+// Renders: <img src="photo.jpg" alt="A beautiful sunset">
 func New() *Element {
 	return &Element{}
 }
 
 // Src creates an img element with the specified source.
 // Example: img.Src("photo.jpg")
-// Renders: <img src="photo.jpg" />
+// Renders: <img src="photo.jpg">
 // Note: Consider using Image() for accessibility
 func Src(src string) *Element {
 	return &Element{
@@ -104,7 +104,7 @@ func Src(src string) *Element {
 
 // Image creates an img element with source and alt text for accessibility.
 // Example: img.Image("photo.jpg", "A beautiful sunset")
-// Renders: <img src="photo.jpg" alt="A beautiful sunset" />
+// Renders: <img src="photo.jpg" alt="A beautiful sunset">
 func Image(src string, alt string) *Element {
 	altVal := node.EscapeAttribute(alt)
 	return &Element{
@@ -115,7 +115,7 @@ func Image(src string, alt string) *Element {
 
 // Lazy creates an img element with lazy loading enabled for improved performance.
 // Example: img.Lazy("photo.jpg", "A sunset")
-// Renders: <img src="photo.jpg" alt="A sunset" loading="lazy" />
+// Renders: <img src="photo.jpg" alt="A sunset" loading="lazy">
 // Note: Image will only load when it enters or is near the viewport
 func Lazy(src string, alt string) *Element {
 	altVal := node.EscapeAttribute(alt)
@@ -128,7 +128,7 @@ func Lazy(src string, alt string) *Element {
 
 // Eager creates an img element with eager loading for immediate display.
 // Example: img.Eager("logo.png", "Company Logo")
-// Renders: <img src="logo.png" alt="Company Logo" loading="eager" />
+// Renders: <img src="logo.png" alt="Company Logo" loading="eager">
 // Note: Image loads immediately, regardless of viewport position
 func Eager(src string, alt string) *Element {
 	altVal := node.EscapeAttribute(alt)
@@ -2032,22 +2032,21 @@ func (e *Element) AttributeBuilder(buf *bytes.Buffer) {
 func (e *Element) RenderBuilder(buf *bytes.Buffer) {
 	buf.Write(html5.TagImg)
 	e.AttributeBuilder(buf)
-	buf.Write(html5.MarkupSelfCloseTag)
+	buf.Write(html5.MarkupCloseTag)
 }
 
 // RenderOpen writes the opening tag and attributes to the buffer.
 func (e *Element) RenderOpen(buf *bytes.Buffer) {
 	buf.Write(html5.TagImg)
 	e.AttributeBuilder(buf)
-	buf.Write(html5.MarkupSelfCloseTag)
+	buf.Write(html5.MarkupCloseTag)
 }
 
-// RenderClose writes the closing tag to the buffer.
+// RenderClose writes nothing. A void element has no closing tag.
 func (e *Element) RenderClose(buf *bytes.Buffer) {
-	// Self-closing element - no closing tag
 }
 
-// Nodes returns nil for self-closing elements which cannot have children.
+// Nodes returns nil. A void element cannot hold children.
 func (e *Element) Nodes() []node.Node {
 	return nil
 }

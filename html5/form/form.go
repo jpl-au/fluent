@@ -87,7 +87,7 @@ func (e *Element) event() *html5.EventAttributes {
 
 // New creates a new form element with child nodes.
 // Example: form.New(input.Text("name", ""), button.Submit("Send"))
-// Renders: <form><input name="name" type="text" /><button type="submit">Send</button></form>
+// Renders: <form><input name="name" type="text"><button type="submit">Send</button></form>
 func New(nodes ...node.Node) *Element {
 	return &Element{
 		nodes: nodes,
@@ -98,7 +98,7 @@ func New(nodes ...node.Node) *Element {
 // search forms and other idempotent queries where the data appears
 // in the URL.
 // Example: form.Get("/search", input.Text("q", ""))
-// Renders: <form action="/search" method="get"><input name="q" type="text" /></form>
+// Renders: <form action="/search" method="get"><input name="q" type="text"></form>
 //
 // Fluent filters this URL at render time: http, https, mailto, tel, sms and relative URLs
 // render as given; any other scheme (javascript:, data:, file:, a custom protocol) renders as the
@@ -116,7 +116,7 @@ func Get(action string, nodes ...node.Node) *Element {
 // forms that modify data on the server (login, registration,
 // creating records).
 // Example: form.Post("/login", input.Email("email"), input.Password("password"))
-// Renders: <form action="/login" method="post"><input name="email" type="email" /><input name="password" type="password" /></form>
+// Renders: <form action="/login" method="post"><input name="email" type="email"><input name="password" type="password"></form>
 //
 // Fluent filters this URL at render time: http, https, mailto, tel, sms and relative URLs
 // render as given; any other scheme (javascript:, data:, file:, a custom protocol) renders as the

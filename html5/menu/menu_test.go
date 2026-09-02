@@ -46,6 +46,30 @@ func TestItemsCtor(t *testing.T) {
 	}
 }
 
+func TestItemsOfCtor(t *testing.T) {
+	got := string(menu.ItemsOf([]int{1, 2}, func(int) *li.Element { return li.New() }).RenderBytes())
+	want := `<menu><li></li><li></li></menu>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
+func TestItemsOfNilSkipped(t *testing.T) {
+	got := string(menu.ItemsOf([]int{1, 2}, func(int) *li.Element { return nil }).RenderBytes())
+	want := `<menu></menu>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
+func TestItemsFuncCtor(t *testing.T) {
+	got := string(menu.ItemsFunc(func() []*li.Element { return []*li.Element{li.New(), li.New()} }).RenderBytes())
+	want := `<menu><li></li><li></li></menu>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
 func TestClassAttr(t *testing.T) {
 	got := string(menu.New().Class("test").RenderBytes())
 	want := `<menu class="test"></menu>`

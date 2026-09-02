@@ -70,14 +70,14 @@ func (e *Element) event() *html5.EventAttributes {
 
 // New creates a new track element without any initial attributes.
 // Example: track.New()
-// Renders: <track />
+// Renders: <track>
 func New() *Element {
 	return &Element{}
 }
 
 // Subtitles creates a track element for subtitles (translations for foreign language content)
 // Example: track.Subtitles("english.vtt")
-// Renders: <track src="english.vtt" kind="subtitles" />
+// Renders: <track src="english.vtt" kind="subtitles">
 func Subtitles(src string) *Element {
 	return &Element{
 		src:  node.EscapeAttribute(src),
@@ -87,7 +87,7 @@ func Subtitles(src string) *Element {
 
 // Captions creates a track element for captions (transcriptions including sound effects for deaf/hard-of-hearing users)
 // Example: track.Captions("closed-captions.vtt")
-// Renders: <track src="closed-captions.vtt" kind="captions" />
+// Renders: <track src="closed-captions.vtt" kind="captions">
 func Captions(src string) *Element {
 	return &Element{
 		src:  node.EscapeAttribute(src),
@@ -97,7 +97,7 @@ func Captions(src string) *Element {
 
 // Descriptions creates a track element for audio descriptions (for visually impaired users)
 // Example: track.Descriptions("audio-descriptions.vtt")
-// Renders: <track src="audio-descriptions.vtt" kind="descriptions" />
+// Renders: <track src="audio-descriptions.vtt" kind="descriptions">
 func Descriptions(src string) *Element {
 	return &Element{
 		src:  node.EscapeAttribute(src),
@@ -107,7 +107,7 @@ func Descriptions(src string) *Element {
 
 // Chapters creates a track element for chapters (navigation cues)
 // Example: track.Chapters("chapter-markers.vtt")
-// Renders: <track src="chapter-markers.vtt" kind="chapters" />
+// Renders: <track src="chapter-markers.vtt" kind="chapters">
 func Chapters(src string) *Element {
 	return &Element{
 		src:  node.EscapeAttribute(src),
@@ -117,7 +117,7 @@ func Chapters(src string) *Element {
 
 // Metadata creates a track element for metadata (not displayed to users, used by scripts)
 // Example: track.Metadata("analytics-data.vtt")
-// Renders: <track src="analytics-data.vtt" kind="metadata" />
+// Renders: <track src="analytics-data.vtt" kind="metadata">
 func Metadata(src string) *Element {
 	return &Element{
 		src:  node.EscapeAttribute(src),
@@ -1863,22 +1863,21 @@ func (e *Element) AttributeBuilder(buf *bytes.Buffer) {
 func (e *Element) RenderBuilder(buf *bytes.Buffer) {
 	buf.Write(html5.TagTrack)
 	e.AttributeBuilder(buf)
-	buf.Write(html5.MarkupSelfCloseTag)
+	buf.Write(html5.MarkupCloseTag)
 }
 
 // RenderOpen writes the opening tag and attributes to the buffer.
 func (e *Element) RenderOpen(buf *bytes.Buffer) {
 	buf.Write(html5.TagTrack)
 	e.AttributeBuilder(buf)
-	buf.Write(html5.MarkupSelfCloseTag)
+	buf.Write(html5.MarkupCloseTag)
 }
 
-// RenderClose writes the closing tag to the buffer.
+// RenderClose writes nothing. A void element has no closing tag.
 func (e *Element) RenderClose(buf *bytes.Buffer) {
-	// Self-closing element - no closing tag
 }
 
-// Nodes returns nil for self-closing elements which cannot have children.
+// Nodes returns nil. A void element cannot hold children.
 func (e *Element) Nodes() []node.Node {
 	return nil
 }

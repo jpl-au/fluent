@@ -46,6 +46,30 @@ func TestOptionsCtor(t *testing.T) {
 	}
 }
 
+func TestOptionsOfCtor(t *testing.T) {
+	got := string(datalist.OptionsOf([]int{1, 2}, func(int) *option.Element { return option.New() }).RenderBytes())
+	want := `<datalist><option></option><option></option></datalist>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
+func TestOptionsOfNilSkipped(t *testing.T) {
+	got := string(datalist.OptionsOf([]int{1, 2}, func(int) *option.Element { return nil }).RenderBytes())
+	want := `<datalist></datalist>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
+func TestOptionsFuncCtor(t *testing.T) {
+	got := string(datalist.OptionsFunc(func() []*option.Element { return []*option.Element{option.New(), option.New()} }).RenderBytes())
+	want := `<datalist><option></option><option></option></datalist>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
 func TestClassAttr(t *testing.T) {
 	got := string(datalist.New().Class("test").RenderBytes())
 	want := `<datalist class="test"></datalist>`

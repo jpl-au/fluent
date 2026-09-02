@@ -76,14 +76,14 @@ func (e *Element) event() *html5.EventAttributes {
 
 // New creates a new meta element without any initial attributes.
 // Example: meta.New()
-// Renders: <meta />
+// Renders: <meta>
 func New() *Element {
 	return &Element{}
 }
 
 // Charset creates a new meta element declaring character encoding.
 // Example: meta.Charset(charset.Custom("custom"))
-// Renders: <meta charset="custom" />
+// Renders: <meta charset="custom">
 func Charset(charset charset.Charset) *Element {
 	return &Element{
 		charset: charset,
@@ -92,7 +92,7 @@ func Charset(charset charset.Charset) *Element {
 
 // UTF8 creates a UTF-8 charset meta element (recommended encoding).
 // Example: meta.UTF8()
-// Renders: <meta charset="UTF-8" />
+// Renders: <meta charset="UTF-8">
 func UTF8() *Element {
 	return &Element{
 		charset: charset.UTF8,
@@ -101,7 +101,7 @@ func UTF8() *Element {
 
 // Viewport creates a new meta element for viewport configuration on mobile devices.
 // Example: meta.Viewport("width=device-width, initial-scale=1.0")
-// Renders: <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+// Renders: <meta name="viewport" content="width=device-width, initial-scale=1.0">
 func Viewport(content string) *Element {
 	return &Element{
 		name:    "viewport",
@@ -111,7 +111,7 @@ func Viewport(content string) *Element {
 
 // OG creates a new meta element for Open Graph protocol properties (social media sharing).
 // Example: meta.OG("title", "My Page Title")
-// Renders: <meta content="My Page Title" property="og:title" />
+// Renders: <meta content="My Page Title" property="og:title">
 func OG(property string, content string) *Element {
 	return &Element{
 		property: "og:" + node.EscapeAttribute(property),
@@ -121,7 +121,7 @@ func OG(property string, content string) *Element {
 
 // Description creates a meta description element for SEO and search engine snippets.
 // Example: meta.Description("Page description")
-// Renders: <meta name="description" content="Page description" />
+// Renders: <meta name="description" content="Page description">
 func Description(content string) *Element {
 	return &Element{
 		name:    "description",
@@ -131,7 +131,7 @@ func Description(content string) *Element {
 
 // Keywords creates a meta keywords element (largely deprecated for SEO).
 // Example: meta.Keywords("html, css, javascript")
-// Renders: <meta name="keywords" content="html, css, javascript" />
+// Renders: <meta name="keywords" content="html, css, javascript">
 func Keywords(content string) *Element {
 	return &Element{
 		name:    "keywords",
@@ -141,7 +141,7 @@ func Keywords(content string) *Element {
 
 // Author creates a meta author element to identify the document's author.
 // Example: meta.Author("John Doe")
-// Renders: <meta name="author" content="John Doe" />
+// Renders: <meta name="author" content="John Doe">
 func Author(content string) *Element {
 	return &Element{
 		name:    "author",
@@ -151,7 +151,7 @@ func Author(content string) *Element {
 
 // Robots creates a meta robots element to control search engine crawling and indexing.
 // Example: meta.Robots("index, follow")
-// Renders: <meta name="robots" content="index, follow" />
+// Renders: <meta name="robots" content="index, follow">
 func Robots(content string) *Element {
 	return &Element{
 		name:    "robots",
@@ -164,7 +164,7 @@ func Robots(content string) *Element {
 // and other UI chrome. Combine with the Media attribute for dark
 // mode support.
 // Example: meta.ThemeColor("#1a1a2e")
-// Renders: <meta name="theme-color" content="#1a1a2e" />
+// Renders: <meta name="theme-color" content="#1a1a2e">
 func ThemeColor(color string) *Element {
 	return &Element{
 		name:    "theme-color",
@@ -176,7 +176,7 @@ func ThemeColor(color string) *Element {
 // document. Restricts which resources the browser is allowed to load,
 // helping prevent XSS and data injection attacks.
 // Example: meta.CSP("default-src 'self'; script-src 'self'")
-// Renders: <meta content="default-src &#39;self&#39;; script-src &#39;self&#39;" http-equiv="Content-Security-Policy" />
+// Renders: <meta content="default-src &#39;self&#39;; script-src &#39;self&#39;" http-equiv="Content-Security-Policy">
 func CSP(policy string) *Element {
 	return &Element{
 		httpEquiv: "Content-Security-Policy",
@@ -186,7 +186,7 @@ func CSP(policy string) *Element {
 
 // Refresh creates a meta refresh element that automatically redirects after specified seconds.
 // Example: meta.Refresh(5, "/new-page")
-// Renders: <meta content="5; url=/new-page" http-equiv="refresh" />
+// Renders: <meta content="5; url=/new-page" http-equiv="refresh">
 func Refresh(seconds int, url string) *Element {
 	return &Element{
 		httpEquiv: "refresh",
@@ -197,7 +197,7 @@ func Refresh(seconds int, url string) *Element {
 // HTTPEquiv creates a meta element with an http-equiv directive and content value.
 // Covers directives not wrapped by dedicated constructors like CSP or Refresh.
 // Example: meta.HTTPEquiv("X-UA-Compatible", "IE=edge")
-// Renders: <meta content="IE=edge" http-equiv="X-UA-Compatible" />
+// Renders: <meta content="IE=edge" http-equiv="X-UA-Compatible">
 func HTTPEquiv(directive string, content string) *Element {
 	return &Element{
 		httpEquiv: node.EscapeAttribute(directive),
@@ -1949,22 +1949,21 @@ func (e *Element) AttributeBuilder(buf *bytes.Buffer) {
 func (e *Element) RenderBuilder(buf *bytes.Buffer) {
 	buf.Write(html5.TagMeta)
 	e.AttributeBuilder(buf)
-	buf.Write(html5.MarkupSelfCloseTag)
+	buf.Write(html5.MarkupCloseTag)
 }
 
 // RenderOpen writes the opening tag and attributes to the buffer.
 func (e *Element) RenderOpen(buf *bytes.Buffer) {
 	buf.Write(html5.TagMeta)
 	e.AttributeBuilder(buf)
-	buf.Write(html5.MarkupSelfCloseTag)
+	buf.Write(html5.MarkupCloseTag)
 }
 
-// RenderClose writes the closing tag to the buffer.
+// RenderClose writes nothing. A void element has no closing tag.
 func (e *Element) RenderClose(buf *bytes.Buffer) {
-	// Self-closing element - no closing tag
 }
 
-// Nodes returns nil for self-closing elements which cannot have children.
+// Nodes returns nil. A void element cannot hold children.
 func (e *Element) Nodes() []node.Node {
 	return nil
 }

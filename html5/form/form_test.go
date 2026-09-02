@@ -47,7 +47,7 @@ func TestNewCtor(t *testing.T) {
 
 func TestGetCtor(t *testing.T) {
 	got := string(form.Get("/search", input.Text("q", "")).RenderBytes())
-	want := `<form action="/search" method="get"><input name="q" type="text" /></form>`
+	want := `<form action="/search" method="get"><input name="q" type="text"></form>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
 	}
@@ -55,7 +55,7 @@ func TestGetCtor(t *testing.T) {
 
 func TestPostCtor(t *testing.T) {
 	got := string(form.Post("/login", input.Email("email"), input.Password("password")).RenderBytes())
-	want := `<form action="/login" method="post"><input name="email" type="email" /><input name="password" type="password" /></form>`
+	want := `<form action="/login" method="post"><input name="email" type="email"><input name="password" type="password"></form>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
 	}

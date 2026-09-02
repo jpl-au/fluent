@@ -68,14 +68,14 @@ func (e *Element) event() *html5.EventAttributes {
 
 // New creates a new col element without any initial attributes.
 // Example: col.New()
-// Renders: <col />
+// Renders: <col>
 func New() *Element {
 	return &Element{}
 }
 
 // Span creates a col element that spans the given number of columns.
 // Example: col.Span(3)
-// Renders: <col span="3" />
+// Renders: <col span="3">
 func Span(span int) *Element {
 	return &Element{
 		span: &span,
@@ -1751,22 +1751,21 @@ func (e *Element) AttributeBuilder(buf *bytes.Buffer) {
 func (e *Element) RenderBuilder(buf *bytes.Buffer) {
 	buf.Write(html5.TagCol)
 	e.AttributeBuilder(buf)
-	buf.Write(html5.MarkupSelfCloseTag)
+	buf.Write(html5.MarkupCloseTag)
 }
 
 // RenderOpen writes the opening tag and attributes to the buffer.
 func (e *Element) RenderOpen(buf *bytes.Buffer) {
 	buf.Write(html5.TagCol)
 	e.AttributeBuilder(buf)
-	buf.Write(html5.MarkupSelfCloseTag)
+	buf.Write(html5.MarkupCloseTag)
 }
 
-// RenderClose writes the closing tag to the buffer.
+// RenderClose writes nothing. A void element has no closing tag.
 func (e *Element) RenderClose(buf *bytes.Buffer) {
-	// Self-closing element - no closing tag
 }
 
-// Nodes returns nil for self-closing elements which cannot have children.
+// Nodes returns nil. A void element cannot hold children.
 func (e *Element) Nodes() []node.Node {
 	return nil
 }

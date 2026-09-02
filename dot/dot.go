@@ -151,7 +151,7 @@ func Address(nodes ...node.Node) *address.Element {
 
 // Area creates a new area element without any initial attributes.
 // Example: Area()
-// Renders: <area />
+// Renders: <area>
 func Area() *area.Element {
 	return area.New()
 }
@@ -186,7 +186,7 @@ func B(nodes ...node.Node) *b.Element {
 
 // Base creates a new base element without any initial attributes.
 // Example: Base().Href("/docs/")
-// Renders: <base href="/docs/" />
+// Renders: <base href="/docs/">
 func Base() *base.Element {
 	return base.New()
 }
@@ -221,7 +221,7 @@ func Body(nodes ...node.Node) *body.Element {
 
 // Br creates a new br element without any initial attributes.
 // Example: Br()
-// Renders: <br />
+// Renders: <br>
 func Br() *br.Element {
 	return br.New()
 }
@@ -263,14 +263,14 @@ func Code(nodes ...node.Node) *code.Element {
 
 // Col creates a new col element without any initial attributes.
 // Example: Col()
-// Renders: <col />
+// Renders: <col>
 func Col() *col.Element {
 	return col.New()
 }
 
 // Colgroup creates a new colgroup element with the given child nodes (typically <col> elements).
 // Example: Colgroup(col.New(), col.Span(2))
-// Renders: <colgroup><col /><col span="2" /></colgroup>
+// Renders: <colgroup><col><col span="2"></colgroup>
 func Colgroup(nodes ...node.Node) *colgroup.Element {
 	return colgroup.New(nodes...)
 }
@@ -361,14 +361,14 @@ func Em(nodes ...node.Node) *em.Element {
 
 // Embed creates a new embed element without any initial attributes.
 // Example: Embed()
-// Renders: <embed />
+// Renders: <embed>
 func Embed() *embed.Element {
 	return embed.New()
 }
 
 // Fieldset creates a new fieldset element with child nodes.
 // Example: Fieldset(legend.Text("Personal details"), input.Text("name", ""))
-// Renders: <fieldset><legend>Personal details</legend><input name="name" type="text" /></fieldset>
+// Renders: <fieldset><legend>Personal details</legend><input name="name" type="text"></fieldset>
 func Fieldset(nodes ...node.Node) *fieldset.Element {
 	return fieldset.New(nodes...)
 }
@@ -382,7 +382,7 @@ func Figcaption(nodes ...node.Node) *figcaption.Element {
 
 // Figure creates a new figure element with the given child nodes.
 // Example: Figure(img.New().Src("elephant.jpg"), figcaption.New(text.Text("An elephant at sunset")))
-// Renders: <figure><img src="elephant.jpg" /><figcaption>An elephant at sunset</figcaption></figure>
+// Renders: <figure><img src="elephant.jpg"><figcaption>An elephant at sunset</figcaption></figure>
 func Figure(nodes ...node.Node) *figure.Element {
 	return figure.New(nodes...)
 }
@@ -396,7 +396,7 @@ func Footer(nodes ...node.Node) *footer.Element {
 
 // Form creates a new form element with child nodes.
 // Example: Form(input.Text("name", ""), button.Submit("Send"))
-// Renders: <form><input name="name" type="text" /><button type="submit">Send</button></form>
+// Renders: <form><input name="name" type="text"><button type="submit">Send</button></form>
 func Form(nodes ...node.Node) *form.Element {
 	return form.New(nodes...)
 }
@@ -445,7 +445,7 @@ func H6(nodes ...node.Node) *h6.Element {
 
 // Head creates a new head element with the given child nodes (metadata content).
 // Example: Head(title.New(text.Text("My Page")), meta.Charset("UTF-8"))
-// Renders: <head><title>My Page</title><meta charset="UTF-8" /></head>
+// Renders: <head><title>My Page</title><meta charset="UTF-8"></head>
 func Head(nodes ...node.Node) *head.Element {
 	return head.New(nodes...)
 }
@@ -466,7 +466,7 @@ func Hgroup(nodes ...node.Node) *hgroup.Element {
 
 // Hr creates a new hr element without any initial attributes.
 // Example: Hr()
-// Renders: <hr />
+// Renders: <hr>
 func Hr() *hr.Element {
 	return hr.New()
 }
@@ -494,21 +494,21 @@ func Iframe(nodes ...node.Node) *iframe.Element {
 
 // Imagemap creates a new map element with optional child nodes (typically area elements).
 // Example: Imagemap(area.Rect(0, 0, 100, 50, "/page1"))
-// Renders: <map><area shape="rect" coords="0,0,100,50" href="/page1" /></map>
+// Renders: <map><area shape="rect" coords="0,0,100,50" href="/page1"></map>
 func Imagemap(nodes ...node.Node) *imagemap.Element {
 	return imagemap.New(nodes...)
 }
 
 // Img creates a new img element without any initial attributes.
 // Example: Img().Src("photo.jpg").Alt("A beautiful sunset")
-// Renders: <img src="photo.jpg" alt="A beautiful sunset" />
+// Renders: <img src="photo.jpg" alt="A beautiful sunset">
 func Img() *img.Element {
 	return img.New()
 }
 
 // Input creates a new input element without any initial attributes.
 // Example: Input().Type(inputtype.Text).Name("username")
-// Renders: <input name="username" type="text" />
+// Renders: <input name="username" type="text">
 func Input() *input.Element {
 	return input.New()
 }
@@ -550,7 +550,7 @@ func Li(nodes ...node.Node) *li.Element {
 
 // Link creates a new link element without any initial attributes.
 // Example: Link()
-// Renders: <link />
+// Renders: <link>
 func Link() *link.Element {
 	return link.New()
 }
@@ -578,7 +578,7 @@ func Menu(nodes ...node.Node) *menu.Element {
 
 // Meta creates a new meta element without any initial attributes.
 // Example: Meta()
-// Renders: <meta />
+// Renders: <meta>
 func Meta() *meta.Element {
 	return meta.New()
 }
@@ -754,7 +754,7 @@ func Small(nodes ...node.Node) *small.Element {
 
 // Source creates a new source element without any initial attributes.
 // Example: Source().Src("image.webp").Type("image/webp")
-// Renders: <source src="image.webp" type="image/webp" />
+// Renders: <source src="image.webp" type="image/webp">
 func Source() *source.Element {
 	return source.New()
 }
@@ -888,7 +888,7 @@ func Tr(nodes ...node.Node) *tr.Element {
 
 // Track creates a new track element without any initial attributes.
 // Example: Track()
-// Renders: <track />
+// Renders: <track>
 func Track() *track.Element {
 	return track.New()
 }
@@ -922,7 +922,7 @@ func Video(nodes ...node.Node) *video.Element {
 
 // Wbr creates a new wbr element without any initial attributes.
 // Example: Wbr()
-// Renders: <wbr />
+// Renders: <wbr>
 func Wbr() *wbr.Element {
 	return wbr.New()
 }

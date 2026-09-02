@@ -91,6 +91,43 @@ func Options(options ...*option.Element) *Element {
 	}
 }
 
+// OptionsOf creates a new <optgroup> element from a slice of data and a mapper that returns one option element per item, enforcing correct nesting at compile time.
+// The mapper runs at render time inside a deferred function component - see node.Funcs for the contract.
+// A nil result from the mapper is skipped, so the mapper can drop an item; use OptionsFunc when the list is reordered or computed.
+// Example: optgroup.OptionsOf([]int{1, 2}, func(int) *option.Element { return option.New() })
+// Renders: <optgroup><option></option><option></option></optgroup>
+func OptionsOf[T any](items []T, fn func(T) *option.Element) *Element {
+	return &Element{
+		nodes: []node.Node{node.Funcs(func() []node.Node {
+			out := make([]node.Node, 0, len(items))
+			for _, v := range items {
+				if el := fn(v); el != nil {
+					out = append(out, el)
+				}
+			}
+			return out
+		})},
+	}
+}
+
+// OptionsFunc creates a new <optgroup> element from a function that returns option elements, enforcing correct nesting at compile time.
+// The function runs at render time inside a deferred function component - see node.Funcs for the contract.
+// Use it when the child list is reordered or computed. Return only non-nil elements.
+// Example: optgroup.OptionsFunc(func() []*option.Element { return []*option.Element{option.New(), option.New()} })
+// Renders: <optgroup><option></option><option></option></optgroup>
+func OptionsFunc(fn func() []*option.Element) *Element {
+	return &Element{
+		nodes: []node.Node{node.Funcs(func() []node.Node {
+			items := fn()
+			out := make([]node.Node, len(items))
+			for i, v := range items {
+				out[i] = v
+			}
+			return out
+		})},
+	}
+}
+
 // Labelled creates a labelled optgroup from option elements, enforcing correct nesting at compile time.
 // Example: optgroup.Labelled("Colours", option.Option("red", "Red"), option.Option("blue", "Blue"))
 // Renders: <optgroup label="Colours"><option value="red">Red</option><option value="blue">Blue</option></optgroup>

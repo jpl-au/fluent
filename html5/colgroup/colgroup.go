@@ -70,7 +70,7 @@ func (e *Element) event() *html5.EventAttributes {
 
 // New creates a new colgroup element with the given child nodes (typically <col> elements).
 // Example: colgroup.New(col.New(), col.Span(2))
-// Renders: <colgroup><col /><col span="2" /></colgroup>
+// Renders: <colgroup><col><col span="2"></colgroup>
 func New(nodes ...node.Node) *Element {
 	return &Element{
 		nodes: nodes,
@@ -90,7 +90,7 @@ func Span(span int) *Element {
 
 // Cols creates a colgroup from col elements, enforcing correct nesting at compile time.
 // Example: colgroup.Cols(col.New(), col.Span(2))
-// Renders: <colgroup><col /><col span="2" /></colgroup>
+// Renders: <colgroup><col><col span="2"></colgroup>
 func Cols(cols ...*col.Element) *Element {
 	nodes := make([]node.Node, len(cols))
 	for i, v := range cols {
@@ -98,6 +98,43 @@ func Cols(cols ...*col.Element) *Element {
 	}
 	return &Element{
 		nodes: nodes,
+	}
+}
+
+// ColsOf creates a new <colgroup> element from a slice of data and a mapper that returns one col element per item, enforcing correct nesting at compile time.
+// The mapper runs at render time inside a deferred function component - see node.Funcs for the contract.
+// A nil result from the mapper is skipped, so the mapper can drop an item; use ColsFunc when the list is reordered or computed.
+// Example: colgroup.ColsOf([]int{1, 2}, func(int) *col.Element { return col.New() })
+// Renders: <colgroup><col><col></colgroup>
+func ColsOf[T any](items []T, fn func(T) *col.Element) *Element {
+	return &Element{
+		nodes: []node.Node{node.Funcs(func() []node.Node {
+			out := make([]node.Node, 0, len(items))
+			for _, v := range items {
+				if el := fn(v); el != nil {
+					out = append(out, el)
+				}
+			}
+			return out
+		})},
+	}
+}
+
+// ColsFunc creates a new <colgroup> element from a function that returns col elements, enforcing correct nesting at compile time.
+// The function runs at render time inside a deferred function component - see node.Funcs for the contract.
+// Use it when the child list is reordered or computed. Return only non-nil elements.
+// Example: colgroup.ColsFunc(func() []*col.Element { return []*col.Element{col.New(), col.New()} })
+// Renders: <colgroup><col><col></colgroup>
+func ColsFunc(fn func() []*col.Element) *Element {
+	return &Element{
+		nodes: []node.Node{node.Funcs(func() []node.Node {
+			items := fn()
+			out := make([]node.Node, len(items))
+			for i, v := range items {
+				out[i] = v
+			}
+			return out
+		})},
 	}
 }
 

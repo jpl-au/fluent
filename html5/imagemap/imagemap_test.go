@@ -40,7 +40,7 @@ func TestNewCtor(t *testing.T) {
 
 func TestNamedCtor(t *testing.T) {
 	got := string(imagemap.Named("nav", area.Rect(0, 0, 100, 50, "/page1")).RenderBytes())
-	want := `<map name="nav"><area shape="rect" coords="0,0,100,50" href="/page1" /></map>`
+	want := `<map name="nav"><area shape="rect" coords="0,0,100,50" href="/page1"></map>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
 	}

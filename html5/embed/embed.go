@@ -70,14 +70,14 @@ func (e *Element) event() *html5.EventAttributes {
 
 // New creates a new embed element without any initial attributes.
 // Example: embed.New()
-// Renders: <embed />
+// Renders: <embed>
 func New() *Element {
 	return &Element{}
 }
 
 // PDF creates an embed element for PDF documents
 // Example: embed.PDF("document.pdf", 800, 600)
-// Renders: <embed src="document.pdf" type="application/pdf" width="800" height="600" />
+// Renders: <embed src="document.pdf" type="application/pdf" width="800" height="600">
 //
 // Fluent filters this URL at render time: http, https, mailto, tel, sms and relative URLs
 // render as given; any other scheme (javascript:, data:, file:, a custom protocol) renders as the
@@ -94,7 +94,7 @@ func PDF(src string, width int, height int) *Element {
 
 // Flash creates an embed element for Flash content (legacy)
 // Example: embed.Flash("animation.swf", 640, 480)
-// Renders: <embed src="animation.swf" type="application/x-shockwave-flash" width="640" height="480" />
+// Renders: <embed src="animation.swf" type="application/x-shockwave-flash" width="640" height="480">
 //
 // Fluent filters this URL at render time: http, https, mailto, tel, sms and relative URLs
 // render as given; any other scheme (javascript:, data:, file:, a custom protocol) renders as the
@@ -113,7 +113,7 @@ func Flash(src string, width int, height int) *Element {
 
 // Video creates an embed element for video content
 // Example: embed.Video("movie.mp4", 640, 480)
-// Renders: <embed src="movie.mp4" type="video/mp4" width="640" height="480" />
+// Renders: <embed src="movie.mp4" type="video/mp4" width="640" height="480">
 //
 // Fluent filters this URL at render time: http, https, mailto, tel, sms and relative URLs
 // render as given; any other scheme (javascript:, data:, file:, a custom protocol) renders as the
@@ -132,7 +132,7 @@ func Video(src string, width int, height int) *Element {
 
 // Audio creates an embed element for audio content
 // Example: embed.Audio("song.mp3", 320, 50)
-// Renders: <embed src="song.mp3" type="audio/mpeg" width="320" height="50" />
+// Renders: <embed src="song.mp3" type="audio/mpeg" width="320" height="50">
 //
 // Fluent filters this URL at render time: http, https, mailto, tel, sms and relative URLs
 // render as given; any other scheme (javascript:, data:, file:, a custom protocol) renders as the
@@ -1860,22 +1860,21 @@ func (e *Element) AttributeBuilder(buf *bytes.Buffer) {
 func (e *Element) RenderBuilder(buf *bytes.Buffer) {
 	buf.Write(html5.TagEmbed)
 	e.AttributeBuilder(buf)
-	buf.Write(html5.MarkupSelfCloseTag)
+	buf.Write(html5.MarkupCloseTag)
 }
 
 // RenderOpen writes the opening tag and attributes to the buffer.
 func (e *Element) RenderOpen(buf *bytes.Buffer) {
 	buf.Write(html5.TagEmbed)
 	e.AttributeBuilder(buf)
-	buf.Write(html5.MarkupSelfCloseTag)
+	buf.Write(html5.MarkupCloseTag)
 }
 
-// RenderClose writes the closing tag to the buffer.
+// RenderClose writes nothing. A void element has no closing tag.
 func (e *Element) RenderClose(buf *bytes.Buffer) {
-	// Self-closing element - no closing tag
 }
 
-// Nodes returns nil for self-closing elements which cannot have children.
+// Nodes returns nil. A void element cannot hold children.
 func (e *Element) Nodes() []node.Node {
 	return nil
 }

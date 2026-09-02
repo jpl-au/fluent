@@ -87,6 +87,30 @@ func TestItemsCtor(t *testing.T) {
 	}
 }
 
+func TestItemsOfCtor(t *testing.T) {
+	got := string(ol.ItemsOf([]int{1, 2}, func(int) *li.Element { return li.New() }).RenderBytes())
+	want := `<ol><li></li><li></li></ol>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
+func TestItemsOfNilSkipped(t *testing.T) {
+	got := string(ol.ItemsOf([]int{1, 2}, func(int) *li.Element { return nil }).RenderBytes())
+	want := `<ol></ol>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
+func TestItemsFuncCtor(t *testing.T) {
+	got := string(ol.ItemsFunc(func() []*li.Element { return []*li.Element{li.New(), li.New()} }).RenderBytes())
+	want := `<ol><li></li><li></li></ol>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
 func TestReversedAttr(t *testing.T) {
 	got := string(ol.New().Reversed().RenderBytes())
 	want := `<ol reversed></ol>`

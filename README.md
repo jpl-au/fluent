@@ -16,7 +16,7 @@ HTML5 components in Go using a Fluent API.
 
 **Performance considered.** Buffer pooling and efficient rendering for high-throughput applications. Don't want to use `sync.Pool`? Just turn it off.
 
-**Extensible.** Every element exposes its attributes through an interface. Use that interface to extend an element for a framework such as htmx or Turbo, or to replace an element and build a web component.
+**Extensible.** Every element exposes its attributes through an interface. Use that interface to extend an element for a framework such as htmx, Datastar or Turbo. The same interface lets you replace an element and build a web component.
 
 **Optional JIT optimisations.** Three strategies (Compile, Tune, Flatten) available via a separate package for high-throughput applications. [See Performance](#performance).
 
@@ -68,39 +68,16 @@ func main() {
 
 ## Flint
 
-[Flint](https://github.com/jpl-au/flint) is the companion linter and introspection CLI for Fluent. It catches mistakes before they compile, and doubles as a command-line reference for every Fluent element.
+[Flint](https://github.com/jpl-au/flint) is the companion linter and element reference for Fluent. It checks Fluent calls against a registry generated from the same specs as the packages, and every diagnostic carries a `fix:` line with the correction.
 
 ```bash
 go install github.com/jpl-au/flint/cmd/flint@latest
+flint ./...              # lint
+flint -info input        # an element's constructors, methods and attribute mappings
+flint -info inputtype    # the values a typed method accepts
 ```
 
-Lint your code:
-
-```bash
-flint ./...              # check all Go files recursively
-flint ./views            # check a specific directory
-flint views/home.go      # check a single file
-```
-
-Look up an element's full API - constructors, typed methods, valid children, attribute mappings, and the typed constants each method accepts:
-
-```bash
-flint -info div          # everything about <div>
-flint -info input        # everything about <input> (including every typed constant)
-flint -info ol           # list constructors and typed variants
-```
-
-### What Flint catches
-
-- **Hallucinated APIs.** Every function, method, and type reference is validated against a generated Fluent registry. Catches `node.Fragment()`, `.Href()` on the wrong element, `inputtype.Telephone` (does not exist), and similar.
-- **Typed constant enforcement.** Flags raw strings passed to methods that require typed constants. `input.New().Type("email")` is flagged with a fix pointing at `inputtype.Email`.
-- **Unsafe `Static()` and `RawText()`.** `Static()` requires a string literal so the JIT can pre-render it. `RawText()` does not HTML-escape, so dynamic values risk XSS. Both are flagged when called with a variable.
-- **`New().Method()` redundancy.** Suggests the direct constructor: `div.New().Text("x")` should be `div.Text("x")`.
-- **Typed constructor opportunities.** Suggests `ul.Items(...)` over `ul.New(li...)`, `tr.Cells(...)` over `tr.New(td...)`, and similar type-safe alternatives when children are uniform.
-- **`SetAttribute()` misuse.** Flags chaining after `SetAttribute()` (it returns void) and flags usage where a typed method exists (`.Class()` instead of `.SetAttribute("class", ...)`).
-- **Reserved keyword imports.** Points to the correct Fluent package for HTML elements that collide with Go keywords (`select` → `dropdown`, `main` → `primary`, `var` → `variable`).
-
-Every diagnostic includes a `fix:` field with the corrected code. That makes Flint especially valuable alongside AI-generated code - the agent can read the fix and self-correct without human intervention.
+An element named after a Go reserved word resolves from its HTML name, so `flint -info select` lands on `dropdown`. The full list of checks is in the [Flint README](https://github.com/jpl-au/flint#what-it-checks).
 
 ## Reserved Keywords
 
@@ -114,13 +91,13 @@ Some HTML elements conflict with Go reserved keywords. I chose names that still 
 
 ## Documentation for AI agents
 
-- `AGENTS.md` - Comprehensive guide to help AI agents work with Fluent (but it is also useful for humans who want a deeper dive into Fluent too)
+- `AGENTS.md` - a guide for AI agents working with Fluent. It also serves as a detailed reference for developers.
 
 ## Static vs Dynamic Content
 
 `Static()`, `Text()`, `Textf()`, `RawText()` and `RawTextf()` are both element constructors and methods. This was largely a requirement for the developer experience when using dot imports (which are optional).
 
-The `Static()` constructor/method exists for use with [Fluent JIT](#performance) as a signal that this element is static. You should not use a variable in `Static()` as the JIT compiler will only render this node once (the first run) and subsequent calls will ignore changes. An alternative was to mark the node as dynamic, but I thought the developer experience would be hindered.
+The `Static()` constructor/method exists for use with [Fluent JIT](#performance) as a signal that this element is static. You should not use a variable in `Static()` as the JIT compiler will only render this node once (the first run) and subsequent calls will ignore changes. An alternative was to mark the node as dynamic, but I thought the developer experience would be hindered. Nothing fails at runtime when you get this wrong. The content goes stale, so Flint's `static` check flags a `Static()` call given anything other than a string literal.
 
 ```go
 // Static - content known at definition time (see Performance section)
@@ -156,7 +133,7 @@ el.SetAttributeRaw("data-html", trustedFragment)
 
 **URL attributes are also scheme-checked.** This covers `href`, `src`, `action`, `formaction` and `<object>` `data`. These attributes accept `http`, `https`, `mailto`, `tel`, `sms` and relative URLs. Fluent replaces any other scheme, such as `javascript:` or `vbscript:`, with `node.UnsafeURL`, which the browser does not act on. Call `node.OnUnsafeURL` to see which values Fluent replaced. Image and media attributes are escaped but not scheme-checked, so a `data:image/...` URL still renders. This covers `src` on `img` and `video`, and `srcset` and `poster`.
 
-The whole layer - escaping and URL filtering - is baked into the generated setters at generation time, so it costs nothing to branch on at runtime. A downstream user who regenerates Fluent for fully-trusted data can turn either half off with the [generator](https://github.com/jpl-au/fluent-generator) flags `--attribute-escaping=false` and `--url-filtering=false`.
+The whole layer - escaping and URL filtering - is baked into the generated setters at generation time, so it costs nothing to branch on at runtime.
 
 ### Reactive tracking
 
@@ -178,10 +155,10 @@ form.Get("/search", ...)   // <form action="/search" method="get">
 form.Post("/login", ...)   // <form action="/login" method="post">
 
 // Input types - all return *element for chaining
-input.Email("email")             // <input type="email" name="email" />
-input.Password("password")       // <input type="password" name="password" />
-input.Checkbox("agree", "yes")   // <input type="checkbox" name="agree" value="yes" />
-input.Submit("Submit")           // <input type="submit" value="Submit" />
+input.Email("email")             // <input type="email" name="email">
+input.Password("password")       // <input type="password" name="password">
+input.Checkbox("agree", "yes")   // <input type="checkbox" name="agree" value="yes">
+input.Submit("Submit")           // <input type="submit" value="Submit">
 
 // Chain additional attributes as needed
 input.Email("email").
@@ -220,6 +197,30 @@ dl.Pair("Name", "Alice")
 // New() is always available as the untyped escape hatch
 table.New(caption.Text("Title"), thead.New(...), tbody.New(...))
 ```
+
+Most elements carry their own construction helpers beyond the ones shown here, both typed constructors like these and the convenience constructors above. Run `flint -info <element> ctors` to see what any element offers before building it by hand.
+
+### Lists that come from data
+
+When the children come from a slice, each collection constructor (`Items`, `Rows`, `Cells`, `Headers`, `Options`, `Cols`) has two deferred siblings that keep the compile-time check. Styled variants such as `ol.Decimal` do not:
+
+```go
+// ItemsOf maps a slice. The mapper returns the child element type,
+// so the compiler still rejects a wrong child. A nil result skips the item.
+ul.ItemsOf(products, func(p Product) *li.Element {
+    return li.Text(p.Name)
+})
+
+// ItemsFunc takes a function, for logic that reorders or computes the list.
+ul.ItemsFunc(func() []*li.Element { ... })
+
+// The same pair on every collection constructor
+table.RowsOf(people, rowFor)      // fn func(T) *tr.Element
+tr.CellsOf(values, cellFor)       // fn func(T) *td.Element
+dropdown.OptionsOf(countries, at) // fn func(T) *option.Element
+```
+
+Both forms run their function at render time.
 
 ## Conditional Rendering
 
@@ -289,13 +290,15 @@ For logic more complex than a simple condition - database lookups, error handlin
 node.Func(func() node.Node {
     count, err := db.GetUnreadCount(userID)
     if err != nil || count == 0 {
-        return nil
+        return node.Empty()
     }
     return div.Textf("You have %d unread messages", count).Class("notification")
 })
 ```
 
-For the common case of one node per slice element, `node.Map` removes the allocation and loop boilerplate:
+`node.Empty()` returns a node that renders nothing. Use it wherever a `node.Node` is expected and there is nothing to render: a `node.Func` body, a conditional branch, or a children slice. An untyped `nil` also renders nothing, because the render loops skip nil children, but a typed nil pointer does not. A function declared to return `*div.Element` that returns `nil` hands the render loop a non-nil interface holding a nil pointer, which panics. `node.Empty()` avoids that.
+
+For the common case of one node per slice element, `node.Map` removes the loop boilerplate:
 
 ```go
 node.Map(products, func(p Product) node.Node {
@@ -305,6 +308,8 @@ node.Map(products, func(p Product) node.Node {
     )
 })
 ```
+
+`Map` is for readability, not speed. It wraps `node.Funcs`, so the loop runs at render time inside a closure, and that closure and the component it returns are both extra allocations. The overhead is fixed rather than per element, so it is negligible on a long list and proportionally significant on a short one. Build the slice by hand on a hot path with few children.
 
 Boolean attribute methods (`.Checked`, `.Disabled`, `.Required`, `.ReadOnly`, `.Multiple`, `.Selected`, `.Async`, `.Defer`, `.Open`, and friends) accept an optional `bool`: call them with no arguments to set the attribute, or pass a condition to set it only when the condition is true. This keeps conditionals inline inside the mapped element, with no subtree duplication:
 
@@ -340,7 +345,37 @@ node.Funcs(func() []node.Node {
 
 ## Building Components
 
-There's no special component system to learn - building your own components is handled through Go functions. You get all the benefits of Go's type system, testing, and refactoring tools. Components are just functions that return `node.Node` or a concrete element type:
+There's no special component system to learn - building your own components is handled through Go functions. You get all the benefits of Go's type system, testing, and refactoring tools. Components are just functions that return `node.Node` or a concrete element type.
+
+Where a component draws something your application already has a type for, take that type. The component then decides how the record is drawn, including what an empty list looks like, and the caller passes what it loaded:
+
+```go
+func UserGreeting(user User) node.Node {
+    return div.New(
+        img.Image(user.Avatar, user.Name),
+        h3.Text(user.Name),
+        // One branch: nothing renders when the condition is false.
+        node.When(user.IsAdmin, span.Static("Admin")),
+        // Two branches: something renders either way.
+        node.Condition(user.Online).
+            True(span.Static("Online")).
+            False(span.Static("Offline")),
+    ).Class("user-greeting")
+}
+
+func UserList(users []User) node.Node {
+    if len(users) == 0 {
+        return p.Static("Nobody here yet.").Class("empty")
+    }
+    return ul.ItemsOf(users, func(u User) *li.Element {
+        return li.New(UserGreeting(u))
+    }).Class("users")
+}
+```
+
+`UserList` owns the empty case, so no caller writes `if len(users) == 0`. A condition about the shape of the data belongs in the component, or it is repeated at every call site.
+
+Take scalar parameters where the inputs are unrelated values your application has no type for:
 
 ```go
 // Return node.Node for flexibility - can return different element types
@@ -363,21 +398,12 @@ func Card(heading string, content string) *div.Element {
 Card("Welcome", "Hello!").ID("welcome-card").Class("highlighted")
 ```
 
-```go
-func UserGreeting(user User) node.Node {
-    return div.New(
-        img.Image(user.Avatar, user.Name),
-        h3.Text(user.Name),
-        node.Condition(user.IsAdmin).
-            True(span.Static("Admin")).
-            False(nil),
-    ).Class("user-greeting")
-}
+Use them like any other element:
 
-// Use them like any other element
+```go
 page := div.New(
     Card("Welcome", "Thanks for signing up!"),
-    UserGreeting(currentUser),
+    UserList(users),
 )
 page.Render(w)
 ```
@@ -419,7 +445,7 @@ Fluent is organised into several packages:
 
 ### Everything is a Node
 
-The `node.Node` interface is the foundation of Fluent. Every renderable piece of content implements it: HTML elements, text nodes, conditionals (`node.Condition`), and function wrappers (`node.Func`). This unified interface enables arbitrary composition - any `node.Node` can be a child of any element.
+The `node.Node` interface is the foundation of Fluent. Every renderable piece of content implements it: HTML elements, text nodes, conditionals (`node.Condition`), function wrappers (`node.Func`), and the empty node (`node.Empty`). This unified interface enables arbitrary composition - any `node.Node` can be a child of any element.
 
 HTML elements also implement `node.Element`, which extends `Node` with `SetAttribute()`, `SetAttributeRaw()`, `RenderOpen()`, and `RenderClose()`. Text nodes, function components, and conditionals are not elements - they don't have attributes or tags.
 
@@ -430,11 +456,11 @@ func MyComponent(showHeader bool) node.Node {
     if showHeader {
         return header.New(h1.Text("Welcome"))
     }
-    return nil  // nil nodes are safely skipped during rendering
+    return node.Empty()  // renders nothing
 }
 ```
 
-Returning concrete types (like `*div.Element`) allows method chaining after the call, but `node.Node` provides maximum flexibility when your component might return different element types or nil.
+Returning concrete types (like `*div.Element`) allows method chaining after the call, but `node.Node` provides maximum flexibility when your component might return different element types or nothing at all. A `nil` return also renders nothing. Prefer `node.Empty()`, which is a real node and cannot become a nil pointer inside the interface.
 
 ### Rendering
 
@@ -472,8 +498,6 @@ Fluent uses `[]byte` variables for common patterns which removes the need for st
 ## Is it stable?
 
 I've been using Fluent in production for building HTML since July 2025, which has helped me iron out many of the bugs and issues prior to releasing it to the public. In all fairness, I have not put it through its paces nor started using any of the JIT optimisation features (that whole premature optimisation == root of all evil concept).
-
-I have put it through my own benchmarking against other Go packages (Templ, Gomponents, hb) and I have been ecstatic about its performance, but as benchmarking can be quite subjective depending on how you benchmark. I've decided to not put those results up here. It would be interesting for anyone interested to write some benchmarks and publish the results.
 
 ## Advanced
 
@@ -533,7 +557,7 @@ The base Fluent API performs well out of the box with automatic buffer pooling. 
 
 For live updates, the same package provides the Differ and Memoiser diff engines, which consume the [reactive tracking](#reactive-tracking) hooks.
 
-Build and test without JIT first - premature optimisation is the root of all evil.
+Build and test without JIT first.
 
 ## Generator
 
@@ -559,7 +583,7 @@ While I've built a few personal projects with [gomponents](https://github.com/ma
 
 I'm not a fan of dot imports personally, but I know some developers prefer the syntax they provide. Fluent also includes the `dot` package as an optional way to interact with Fluent, but you still need to use the Fluent API regardless of which style you choose.
 
-I also did not enjoy functions as arguments vs. the fluent API approach. It just felt awkward to me that I need to remember the function-as-attributes required to work with gomponents vs. letting the IDE give me the list of attributes (and the saftey in knowing I cannot add the wrong attribute to the wrong element unless I choose to specifically override it - which Fluent allows).
+I also did not enjoy functions as arguments vs. the fluent API approach. It just felt awkward to me that I need to remember the function-as-attributes required to work with gomponents vs. letting the IDE give me the list of attributes (and the safety in knowing I cannot add the wrong attribute to the wrong element unless I choose to specifically override it - which Fluent allows).
 
 ```go
 func Card(title, text string) Node {
@@ -585,28 +609,19 @@ I know Fluent's approach leads to a more verbose import declaration area, but `g
 
 Another framework I looked into quite a while into the development of Fluent is [hb](https://github.com/dracory/hb) - and it is in many ways practically similar in syntax to Fluent. As I'd already started with Fluent, it gave me an alternate framework to work against in my internal benchmarking. I also don't think it is great that you have to import all extensions (htmx, Alpine, Swal, ...) as I always prefer an opt-in approach that tries to keep your code lean.
 
-Perhaps the most similar framework to Fluent is [gostar](https://github.com/puregarlic/gostar) - which also uses a fluent API style with method chaining, a generator, and follows the HTML5 spec.
+Perhaps the most similar framework to Fluent is [gostar](https://github.com/delaneyj/gostar) - which also uses a fluent API style with method chaining, a generator, and follows the HTML5 spec.
 
 I have also worked with [Templ](https://github.com/a-h/templ) and while it's great, the pre-compile step just feels awkward to me, and ultimately led me to search for alternatives.
 
 ### Benchmark Performance
 
-During the creation of Fluent I ran several benchmarks against gocomponents, gostar, hb and even templ. In comparison with the non-compiled (i.e.: not templ) solutions, Fluent seems to have better CPU and memory profiles, with significantly lower allocations due to the buffer pooling strategy. The Fluent JIT package further optimises the performance characteristics. I decided against publishing the results as benchmarking can be subjective, and the results vary depending on how and what you are measuring. I welcome the opportunity for others to create their own benchmarks and share them.
+During the creation of Fluent I ran several benchmarks against gomponents, gostar, hb and even templ. In comparison with the non-compiled (i.e.: not templ) solutions, Fluent seems to have better CPU and memory profiles, with significantly lower allocations due to the buffer pooling strategy. The Fluent JIT package further optimises the performance characteristics. I decided against publishing the results as benchmarking can be subjective, and the results vary depending on how and what you are measuring. I welcome the opportunity for others to create their own benchmarks and share them.
 
 ## Profile-Guided Optimisation (PGO)
 
-Go supports [Profile-Guided Optimisation](https://go.dev/doc/pgo) from version 1.21+. PGO uses a CPU profile from your running application to make more aggressive inlining and optimisation decisions at compile time. Benchmarks show **10-20% speed improvements** with no code changes.
+Go supports [Profile-Guided Optimisation](https://go.dev/doc/pgo) from version 1.21+. PGO uses a CPU profile from your running application to make more aggressive inlining and optimisation decisions at compile time, with no code changes.
 
-To enable PGO in your application:
-
-1. Add profiling to your app (e.g. `import _ "net/http/pprof"`)
-2. Collect a CPU profile under realistic load: ```bash curl -o default.pgo http://localhost:8080/debug/pprof/profile?seconds=30 ```
-3. Place `default.pgo` in your main package directory
-4. `go build` - PGO is applied automatically
-
-The profile records which functions your application runs most. The compiler then optimises those call paths, which include Fluent's rendering pipeline, its buffer pooling, and any JIT strategy you use. PGO improves speed only. It does not change the number of allocations.
-
-Collect fresh profiles periodically as your application evolves. Profiles from one platform can optimise builds for another (e.g. a Linux profile can optimise a macOS build).
+The profile records which functions your application runs most. The compiler then optimises those call paths, which include Fluent's rendering pipeline, its buffer pooling, and any JIT strategy you use. PGO improves speed only. It does not change the number of allocations. Collect fresh profiles periodically as your application evolves.
 
 ## Ecosystem
 
@@ -618,6 +633,8 @@ Fluent has companion packages that extend its capabilities:
 | [Fluent Security](https://github.com/jpl-au/fluent-security) | Opt-in security toolkit. Wraps [bluemonday](https://github.com/microcosm-cc/bluemonday) with Fluent-native helpers (`HTML`, `PlainText`) and a chainable `Cleaner` (`New`, `RichText`, `FromPolicy` + `Allow`/`AllowClasses`/`AllowAttr`) for sanitising untrusted HTML, plus `Nonce()` for Content-Security-Policy workflows with inline `<script>`/`<style>`. |
 | [Fluent JIT](https://github.com/jpl-au/fluent-jit) | Performance optimisation with three strategies: **Compile** (pre-render static portions), **Tune** (adaptive buffer sizing), **Flatten** (pre-render fully static content to raw bytes). Also provides two diff engines for live updates: the **Differ** (targeted patches) and the **Memoiser** (subtree skipping by version). |
 | [Fluent HTMX](https://github.com/jpl-au/fluent-htmx) | HTMX integration. Accepts `node.Element` to set HTMX attributes (`hx-get`, `hx-post`, `hx-swap`, etc.) on any Fluent element. |
+| [Fluent Datastar](https://github.com/jpl-au/fluent-datastar) | [Datastar](https://data-star.dev) integration, targeting Datastar v1.0.2. Wrap any `node.Element` with `datastar.New()` to add `data-*` attributes through method chaining. Includes a server-side SSE generator for patching elements and signals. Covers the free, open-source attributes; the Pro attributes are not implemented. |
+| [Tether](https://github.com/jpl-au/tether) | Reactive server-driven UI. Connects Fluent node trees to the browser over WebSocket, with an SSE fallback, and sends only targeted patches when state changes, so the client morphs the DOM in place and keeps input focus, scroll position, and form state. Three update modes: server rendering, signals, and client directives. The API is not yet stable. |
 
 All companion packages are optional. Fluent works standalone for static HTML generation.
 

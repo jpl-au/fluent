@@ -89,6 +89,43 @@ func Items(items ...*li.Element) *Element {
 	}
 }
 
+// ItemsOf creates a new <ul> element from a slice of data and a mapper that returns one li element per item, enforcing correct nesting at compile time.
+// The mapper runs at render time inside a deferred function component - see node.Funcs for the contract.
+// A nil result from the mapper is skipped, so the mapper can drop an item; use ItemsFunc when the list is reordered or computed.
+// Example: ul.ItemsOf([]int{1, 2}, func(int) *li.Element { return li.New() })
+// Renders: <ul><li></li><li></li></ul>
+func ItemsOf[T any](items []T, fn func(T) *li.Element) *Element {
+	return &Element{
+		nodes: []node.Node{node.Funcs(func() []node.Node {
+			out := make([]node.Node, 0, len(items))
+			for _, v := range items {
+				if el := fn(v); el != nil {
+					out = append(out, el)
+				}
+			}
+			return out
+		})},
+	}
+}
+
+// ItemsFunc creates a new <ul> element from a function that returns li elements, enforcing correct nesting at compile time.
+// The function runs at render time inside a deferred function component - see node.Funcs for the contract.
+// Use it when the child list is reordered or computed. Return only non-nil elements.
+// Example: ul.ItemsFunc(func() []*li.Element { return []*li.Element{li.New(), li.New()} })
+// Renders: <ul><li></li><li></li></ul>
+func ItemsFunc(fn func() []*li.Element) *Element {
+	return &Element{
+		nodes: []node.Node{node.Funcs(func() []node.Node {
+			items := fn()
+			out := make([]node.Node, len(items))
+			for i, v := range items {
+				out[i] = v
+			}
+			return out
+		})},
+	}
+}
+
 // Type sets the type attribute.
 //
 // Sets the bullet style for list item markers in the unordered list. This legacy HTML attribute has been

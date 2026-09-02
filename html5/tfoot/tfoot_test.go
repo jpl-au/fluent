@@ -47,6 +47,30 @@ func TestRowsCtor(t *testing.T) {
 	}
 }
 
+func TestRowsOfCtor(t *testing.T) {
+	got := string(tfoot.RowsOf([]int{1, 2}, func(int) *tr.Element { return tr.New() }).RenderBytes())
+	want := `<tfoot><tr></tr><tr></tr></tfoot>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
+func TestRowsOfNilSkipped(t *testing.T) {
+	got := string(tfoot.RowsOf([]int{1, 2}, func(int) *tr.Element { return nil }).RenderBytes())
+	want := `<tfoot></tfoot>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
+func TestRowsFuncCtor(t *testing.T) {
+	got := string(tfoot.RowsFunc(func() []*tr.Element { return []*tr.Element{tr.New(), tr.New()} }).RenderBytes())
+	want := `<tfoot><tr></tr><tr></tr></tfoot>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
 func TestClassAttr(t *testing.T) {
 	got := string(tfoot.New().Class("test").RenderBytes())
 	want := `<tfoot class="test"></tfoot>`

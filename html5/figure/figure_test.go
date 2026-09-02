@@ -40,7 +40,7 @@ func TestNewCtor(t *testing.T) {
 
 func TestCaptionCtor(t *testing.T) {
 	got := string(figure.Caption("An elephant", img.New().Src("elephant.jpg")).RenderBytes())
-	want := `<figure><figcaption>An elephant</figcaption><img src="elephant.jpg" /></figure>`
+	want := `<figure><figcaption>An elephant</figcaption><img src="elephant.jpg"></figure>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
 	}

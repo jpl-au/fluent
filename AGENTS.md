@@ -29,12 +29,31 @@ What Flint flags:
 - **`SetAttribute()` misuse.** Flags chaining after `SetAttribute()` (it returns void), and flags usage where a typed method exists (`.Class()` instead of `.SetAttribute("class", ...)`).
 - **Reserved keyword imports.** `select` → `dropdown`, `main` → `primary`, `var` → `variable`.
 
-Use `-info` to look up an element's full API before writing against it - constructors, methods, typed parameters, and the constants each method accepts:
+### Look the element up
+
+Every constructor, method, typed parameter and constant in Fluent lives in a registry generated from the same specs as the packages, so the registry cannot drift from the code. Read it with `-info` before writing against an element. This file does not carry a constructor or constant reference, because `-info` answers both on demand and stays correct.
 
 ```bash
-flint -info div          # everything about <div>
-flint -info input        # every typed constant for every method
-flint -info ol           # list constructors and typed variants
+flint -info div                 # everything about <div>
+flint -info input ctors attrs   # just constructors and attribute mappings
+flint -info ol typed            # typed constructors only
+```
+
+Sections: `types`, `constructors`/`ctors`, `typed-constructors`/`typed`, `methods`, `attributes`/`attrs`, `vars`, `elements`.
+
+A method that takes a typed constant prints the package holding its values, as `Type  (enum: inputtype)`. The output names the package, not the values. Query that package the same way to read them:
+
+```bash
+flint -info inputtype    # Vars: Button, Checkbox, Color, Date, Email, ...
+flint -info loading      # Vars: Eager, Lazy
+```
+
+An element named after a Go reserved word resolves from its HTML name, so a wrong guess still lands on the right package:
+
+```bash
+flint -info select       # Element: dropdown (renders <select>; "select" is a Go reserved word)
+flint -info main         # Element: primary (renders <main>; "main" is a Go reserved word)
+flint -info var          # Element: variable (renders <var>; "var" is a Go reserved word)
 ```
 
 Exit codes: `0` clean, `1` diagnostics found, `2` usage or I/O error. Treat `1` as "fix and re-run", not "done".
@@ -51,7 +70,7 @@ These methods do not exist in Fluent. Do not use them.
 | `.Attrs()` | No bulk attribute setter exists - set each attribute individually |
 | `.WithAttr()` | Use the dedicated typed method or `.SetAttribute()` |
 
-**The correct approach to setting attributes has three levels:**
+**The correct approach to setting attributes has four levels:**
 
 1. **Dedicated typed methods (use first)** - Every standard HTML attribute has a chainable method. For example: `.Class()`, `.ID()`, `.Href()`, `.Src()`, `.Alt()`, `.Title()`, `.Disabled()`, `.Required()`, `.Placeholder()`, `.Name()`, `.Value()`, `.Type()`, etc.
 2. **SetAria(key, value)** - For ARIA attributes. Automatically adds the `aria-` prefix.
@@ -61,30 +80,30 @@ These methods do not exist in Fluent. Do not use them.
 In every key-value setter the key is written to the rendered output verbatim. The key is code, not data: pass a fixed, developer-controlled key, and never build it from user input. A key containing a space, quote, `=`, `/` or `>` changes the markup structure. The value is escaped; the key is not.
 
 ```go
-// WRONG - these methods do not exist
+// These methods do not exist in Fluent, so none of these lines compile.
 div.New().Attr("class", "container")           // wrong
 div.New().SetAttr("id", "main")                // wrong
 button.New().Attribute("disabled", "")         // wrong
 
-// RIGHT - use dedicated typed methods
+// Use the dedicated typed method for a standard attribute.
 div.New().Class("container")                   // correct
 div.New().ID("main")                           // correct
 button.New().Disabled()                        // correct
 
-// RIGHT - use SetAria for ARIA attributes
+// Use SetAria for ARIA attributes.
 button.New().SetAria("label", "Close dialog")  // correct - renders aria-label="Close dialog"
 
-// RIGHT - use SetData for data attributes
+// Use SetData for data attributes.
 div.New().SetData("id", "123")                 // correct - renders data-id="123"
 
-// RIGHT - use SetAttribute only for custom/non-standard attributes
+// Use SetAttribute only for custom or non-standard attributes.
 div.New().SetAttribute("x-on:click", "handler")  // correct - Alpine.js directive
 div.New().SetAttribute("hx-get", "/items")        // correct - HTMX attribute
 ```
 
 `SetAttribute()` does not return the element, so you cannot chain after it. `SetAria()` and `SetData()` do return the element.
 
-## Common Mistakes - Read This First
+## Common Mistakes
 
 These are the most frequent errors. Each one fails to compile.
 
@@ -93,12 +112,12 @@ These are the most frequent errors. Each one fails to compile.
 Fluent uses `[]byte`-based types for enumerated HTML attribute values. The method does not accept a plain string. Import the constant package and use its exported variable.
 
 ```go
-// WRONG - does not compile
+// A raw string does not compile here.
 img.New().Loading("eager")              // cannot use "eager" (untyped string constant) as loading.Loading
 img.New().Loading("lazy")               // same error
 input.New().Type("email")               // cannot use "email" as inputtype.InputType
 
-// RIGHT - use the typed constant
+// Use the typed constant instead.
 img.New().Loading(loading.Eager)        // import "github.com/jpl-au/fluent/html5/attr/loading"
 img.New().Loading(loading.Lazy)
 input.New().Type(inputtype.Email)        // import "github.com/jpl-au/fluent/html5/attr/inputtype"
@@ -109,23 +128,45 @@ Every attribute package also has a `Custom()` escape hatch for values not yet co
 loading.Custom("future-value")
 ```
 
+Import path pattern: `github.com/jpl-au/fluent/html5/attr/<package>`. Run `flint -info <package>` to read the values a package holds, as in `flint -info loading`.
+
 ### 2. Use element-specific constructors - do not build common patterns by hand
 
 Most elements have constructors that set several attributes at once. Use the constructor instead of chaining the attributes yourself.
 
 ```go
-// WRONG - manual, verbose, error-prone
+// Building these by hand is manual, verbose and error-prone.
 meta.New().SetAttribute("charset", "UTF-8")                    // SetAttribute returns void, not chainable
 meta.New().SetAttribute("name", "viewport")                    // also wrong approach entirely
 img.New().Src("photo.jpg").Alt("Sunset").Loading(loading.Lazy) // works but unnecessary
 
-// RIGHT - use the constructor
-meta.UTF8()                          // <meta charset="UTF-8" />
-meta.Viewport("width=device-width") // <meta name="viewport" content="width=device-width" />
-img.Lazy("photo.jpg", "Sunset")     // <img src="photo.jpg" alt="Sunset" loading="lazy" />
+// Use the constructor that already does it.
+meta.UTF8()                          // <meta charset="UTF-8">
+meta.Viewport("width=device-width") // <meta name="viewport" content="width=device-width">
+img.Lazy("photo.jpg", "Sunset")     // <img src="photo.jpg" alt="Sunset" loading="lazy">
 ```
 
-See the **Element-Specific Constructors** table below for every available constructor.
+Beyond the universal constructors (`New`, `Text`, `Static`, `RawText`, `Textf`, `RawTextf`) that every element has, many elements provide domain-specific constructors. Always prefer these over manual attribute chaining.
+
+A **typed constructor** accepts only the valid child element type, so the compiler checks the nesting. Use one whenever the children are all the same element type. `New(...node.Node)` also compiles there, because `New` accepts any child, so the nesting check is lost.
+
+```go
+// New accepts any child, so nothing here catches a <div> put inside a <ul>.
+ul.New(li.Text("one"), li.Text("two"))
+tr.New(td.Text("Alice"), td.Text("30"))
+table.New(tr.Cells(td.Text("Alice")))
+
+// These reject a child of the wrong type at compile time.
+ul.Items(li.Text("one"), li.Text("two"))
+tr.Cells(td.Text("Alice"), td.Text("30"))
+table.Rows(tr.Cells(td.Text("Alice")))
+```
+
+Keep `New(...node.Node)` for mixed or dynamic content, where the children genuinely have no single element type.
+
+**Cross-package constructors** create common child elements for you. `details.Summary("label", nodes...)` creates a `<summary>` child automatically.
+
+Run `flint -info <element> ctors` to read what an element provides.
 
 ### 3. Do not hallucinate node-level helpers
 
@@ -142,151 +183,13 @@ These do not exist: `node.StaticText`, `node.RawNode`, `node.TextNode`, `node.HT
 
 Text content is always a method on the element: `div.Text(...)`, `div.Static(...)`, `div.RawText(...)`.
 
----
+### 4. Do not build a typed list through node.Map
 
-## Element-Specific Constructors
+`node.Map` and `node.Funcs` return `node.Node`, so `ul.New(node.Map(...))` compiles and then accepts any child. Use the deferred typed constructor and declare the mapper to return the child element type. Each collection constructor has one: `ItemsOf` beside `Items`, `RowsOf` beside `Rows`, `CellsOf` and `HeadersOf` beside `Cells` and `Headers`, `OptionsOf` beside `Options`, and `ColsOf` beside `Cols`.
 
-Beyond the universal constructors (`New`, `Text`, `Static`, `RawText`, `Textf`, `RawTextf`) that every element has, many elements provide domain-specific constructors. **Always prefer these over manual attribute chaining.**
-
-A **typed constructor** accepts only the valid child element type, so the compiler checks the nesting. `ul.Items(items ...*li.Element)` is one example. Use a typed constructor when the children are all the same element type. Use `New(...node.Node)` for mixed or dynamic content.
-
-**Cross-package constructors** create common child elements for you (e.g. `details.Summary("label", nodes...)` creates a `<summary>` child automatically).
-
-| Package | Constructor | Description |
-|---------|-------------|-------------|
-| **a** | `Link(href, text)` | Anchor with href and link text |
-| | `MailTo(email, text)` | `mailto:` link |
-| | `JumpTo(anchor, text)` | Fragment/anchor link (`#anchor`) |
-| | `Tel(number, text)` | `tel:` link |
-| | `SMS(number, text)` | `sms:` link |
-| | `FTP(url, text)` | `ftp:` link |
-| | `DataURL(text, mime, data)` | Data URI link |
-| | `Base64Data(text, mime, data)` | Base64 data URI link |
-| **abbr** | `Titled(abbreviation, title)` | Abbreviation with title attribute |
-| **area** | `Rect(x1, y1, x2, y2, href)` | Rectangular image map area |
-| | `Circle(x, y, radius, href)` | Circular image map area |
-| | `Poly(coords, href)` | Polygonal image map area |
-| | `Default(href)` | Default image map area |
-| **audio** | `Fallback(text)` | Audio with fallback text |
-| | `Sources(nodes...)` | Audio with source elements |
-| | `PreloadAuto(nodes...)` | Audio with preload=auto |
-| | `PreloadMetadata(nodes...)` | Audio with preload=metadata |
-| | `PreloadNone(nodes...)` | Audio with preload=none |
-| **base** | `URL(href)` | Base URL for the document |
-| **blockquote** | `NewCite(cite, nodes...)` | Blockquote with citation URL |
-| | `TextCite(cite, text)` | Blockquote with citation and text |
-| | `RawTextCite(cite, text)` | Blockquote with citation and raw HTML |
-| **button** | `Submit(text)` | Submit button |
-| | `Reset(text)` | Reset button |
-| | `Button(text)` | Generic button (type=button) |
-| **colgroup** | `Cols(cols...*col.Element)` | Type-safe column group from col elements |
-| **data** | `Data(value, text)` | Data element with value |
-| **datalist** | `Options(options...*option.Element)` | Type-safe datalist from option elements |
-| **details** | `Summary(label, nodes...)` | Details with summary label and content |
-| **dl** | `Pair(term, desc)` | Description list with dt/dd pair |
-| **dropdown** | `Options(options...*option.Element)` | Type-safe select from option elements |
-| **embed** | `PDF(src, w, h)` | Embedded PDF |
-| | `Flash(src, w, h)` | Embedded Flash |
-| | `Video(src, w, h)` | Embedded video |
-| | `Audio(src, w, h)` | Embedded audio |
-| **fieldset** | `Legend(caption, nodes...)` | Fieldset with legend and form controls |
-| **figure** | `Caption(caption, nodes...)` | Figure with figcaption and content |
-| **form** | `Get(action, nodes...)` | GET form |
-| | `Post(action, nodes...)` | POST form |
-| **html** | `Fragment(nodes...)` | HTML fragment without DOCTYPE |
-| | `FragmentText(text)` | Fragment with text |
-| | `FragmentStatic(text)` | Fragment with static text |
-| | `FragmentRawText(text)` | Fragment with raw HTML |
-| **iframe** | `Lazy(src)` | Iframe with loading=lazy |
-| | `Eager(src)` | Iframe with loading=eager |
-| **img** | `Src(src)` | Image with src only |
-| | `Image(src, alt)` | Image with src and alt |
-| | `Lazy(src, alt)` | Image with loading=lazy |
-| | `Eager(src, alt)` | Image with loading=eager |
-| **input** | `Password(name)` | Password input |
-| | `Email(name)` | Email input |
-| | `Search(name)` | Search input |
-| | `Tel(name)` | Telephone input |
-| | `URL(name)` | URL input |
-| | `Number(name)` | Number input |
-| | `Range(name)` | Range slider |
-| | `Date(name)` | Date picker |
-| | `Time(name)` | Time picker |
-| | `DateTimeLocal(name)` | Datetime-local input |
-| | `Month(name)` | Month picker |
-| | `Week(name)` | Week picker |
-| | `Checkbox(name, value)` | Checkbox |
-| | `Radio(name, value)` | Radio button |
-| | `File(name)` | File upload |
-| | `Submit(value)` | Submit input |
-| | `Button(value)` | Button input |
-| | `Reset(value)` | Reset input |
-| | `Hidden(name, value)` | Hidden input |
-| | `Color(name)` | Colour picker |
-| | `Image(name, src)` | Image input |
-| **label** | `NewLabel(forID, nodes...)` | Label with for attribute and children |
-| | `For(forID, text)` | Label with for attribute and text |
-| **link** | `Stylesheet(href)` | CSS stylesheet link |
-| | `Icon(href)` | Favicon link |
-| | `Preload(href, as)` | Preload resource hint |
-| **menu** | `Items(items...*li.Element)` | Type-safe menu from li elements |
-| **meta** | `UTF8()` | `<meta charset="UTF-8" />` |
-| | `Charset(charset)` | Meta with custom charset |
-| | `Viewport(content)` | Viewport meta |
-| | `Description(content)` | Meta description |
-| | `Keywords(content)` | Meta keywords |
-| | `Author(content)` | Meta author |
-| | `Robots(content)` | Meta robots |
-| | `OG(property, content)` | Open Graph meta |
-| | `Refresh(seconds, url)` | Auto-refresh/redirect |
-| **meter** | `ValueMax(value, max, nodes...)` | Meter with value and max |
-| **object** | `PDF(data, nodes...)` | PDF object |
-| | `Flash(data, nodes...)` | Flash object |
-| | `Video(data, nodes...)` | Video object |
-| | `Audio(data, nodes...)` | Audio object |
-| **ol** | `Items(items...*li.Element)` | Type-safe ordered list from li elements |
-| | `Decimal(items...*li.Element)` | Decimal numbered list (1, 2, 3) |
-| | `LowerAlpha(items...*li.Element)` | Lowercase letter list (a, b, c) |
-| | `UpperAlpha(items...*li.Element)` | Uppercase letter list (A, B, C) |
-| | `LowerRoman(items...*li.Element)` | Lowercase Roman numeral list (i, ii, iii) |
-| | `UpperRoman(items...*li.Element)` | Uppercase Roman numeral list (I, II, III) |
-| **optgroup** | `Options(options...*option.Element)` | Type-safe option group |
-| | `Labelled(label, options...*option.Element)` | Labelled option group |
-| **option** | `Option(value, text)` | Select option with value |
-| **progress** | `ValueMax(value, max, nodes...)` | Progress bar with value and max |
-| **script** | `Module(src)` | ES module script |
-| | `JavaScript(src)` | JavaScript src |
-| | `JSON(data)` | Inline JSON (type=application/json) |
-| **source** | `VideoMP4(src)` | MP4 video source |
-| | `VideoWebM(src)` | WebM video source |
-| | `VideoOgg(src)` | Ogg video source |
-| | `AudioMP3(src)` | MP3 audio source |
-| | `AudioOgg(src)` | Ogg audio source |
-| | `AudioWav(src)` | WAV audio source |
-| | `ImageWebP(srcset)` | WebP image source |
-| | `ImageAVIF(srcset)` | AVIF image source |
-| **style** | `CSS(css)` | Style element with CSS content |
-| **table** | `Rows(rows...*tr.Element)` | Type-safe simple table from tr elements |
-| **tbody** | `Rows(rows...*tr.Element)` | Type-safe tbody from tr elements |
-| **tfoot** | `Rows(rows...*tr.Element)` | Type-safe tfoot from tr elements |
-| **th** | `Col(content)` | Column header (scope=col) |
-| | `Row(content)` | Row header (scope=row) |
-| | `ColGroup(content)` | Column group header |
-| | `RowGroup(content)` | Row group header |
-| **thead** | `Rows(rows...*tr.Element)` | Type-safe thead from tr elements |
-| **time** | `DateTime(datetime, content)` | Time with datetime attribute |
-| **tr** | `Cells(cells...*td.Element)` | Type-safe data row from td elements |
-| | `Headers(cells...*th.Element)` | Type-safe header row from th elements |
-| **track** | `Subtitles(src)` | Subtitle track |
-| | `Captions(src)` | Caption track |
-| | `Descriptions(src)` | Description track |
-| | `Chapters(src)` | Chapter track |
-| | `Metadata(src)` | Metadata track |
-| **ul** | `Items(items...*li.Element)` | Type-safe unordered list from li elements |
-| **video** | `Src(src, nodes...)` | Video with src |
-| | `PreloadAuto(nodes...)` | Video with preload=auto |
-| | `PreloadMetadata(nodes...)` | Video with preload=metadata |
-| | `PreloadNone(nodes...)` | Video with preload=none |
+```go
+ul.ItemsOf(products, func(p Product) *li.Element { ... })
+```
 
 ---
 
@@ -344,12 +247,12 @@ Some HTML element names are Go reserved keywords. Fluent gives those packages a 
 | `<var>`      | `var`            | `variable`     | `github.com/jpl-au/fluent/html5/variable` |
 
 ```go
-// CORRECT
+// Use the Fluent package name.
 dropdown.New(...)  // Renders <select>...</select>
 primary.New(...)   // Renders <main>...</main>
 variable.New(...)  // Renders <var>...</var>
 
-// WRONG - these packages do not exist
+// These packages do not exist, so these imports fail.
 import "github.com/jpl-au/fluent/html5/select"
 import "github.com/jpl-au/fluent/html5/main"
 import "github.com/jpl-au/fluent/html5/var"
@@ -484,38 +387,16 @@ container.Replace(span.Text("New content"))
 
 ### Typed Attribute Methods (Primary API)
 
-Every standard HTML attribute has a dedicated, chainable method on its element. Always use these first.
+Every standard HTML attribute has a dedicated, chainable method on its element. Always use these first. If a standard HTML attribute has a method on the element, use that method and do not reach for `SetAttribute()`.
 
-**Global attributes** (available on all elements):
-- `.Class(class)`, `.ID(id)`, `.Style(css)`, `.Title(text)`
-- `.Role(role)`, `.Lang(language)`, `.AccessKey(key)`, `.AriaLabel(label)`
-- `.Hidden()`, `.TabIndex(index)`, `.AutoFocus()`, `.Draggable()`, `.Inert()`
-- `.Nonce(value)`, `.Slot(name)`, `.Is(element)`
-- `.AutoCapitalize(value)`, `.AutoCorrect(value)`, `.ContentEditable(value)`
-- `.Dir(direction)`, `.EnterKeyHint(hint)`, `.InputMode(mode)`
-- `.Popover(value)`, `.SpellCheck(value)`, `.Translate(value)`
-- `.VirtualKeyboardPolicy(policy)`, `.WritingSuggestions(value)`
-- `.ExportParts(parts)`, `.ItemID(id)`, `.ItemProp(properties)`, `.ItemRef(refs)`, `.ItemScope()`, `.ItemType(itemType)`, `.Part(names)`
+Three sets of methods sit on every element: the global attributes such as `.Class()`, `.ID()` and `.Style()`; the event attributes such as `.OnClick()` and `.OnSubmit()`, with `.SetEvent(key, value)` for a custom one; and the element's own attributes, such as `.Href()` on `a` or `.Src()` on `img`.
 
-**Event attributes** (available on all elements):
-- `.OnClick(handler)`, `.OnChange(handler)`, `.OnInput(handler)`
-- `.OnFocus(handler)`, `.OnBlur(handler)`, `.OnSubmit(handler)`
-- `.OnLoad(handler)`, `.OnError(handler)`, `.OnKeyDown(handler)`, `.OnKeyUp(handler)`
-- `.SetEvent(key, value)` - for custom event attributes
+Read the list rather than recalling it:
 
-**Element-specific attributes** - each element has its own methods. Examples:
-
-| Element | Methods |
-|---------|---------|
-| `a` | `.Href()`, `.Download()`, `.HrefLang()`, `.Ping()`, `.ReferrerPolicy()`, `.Rel()`, `.Target()`, `.Type()` |
-| `img` | `.Src()`, `.Alt()`, `.Width()`, `.Height()`, `.Loading()`, `.Decoding()`, `.Sizes()` |
-| `input` | `.Name()`, `.Value()`, `.Placeholder()`, `.Type()`, `.AutoComplete()`, `.Disabled()`, `.Required()`, `.ReadOnly()`, `.Multiple()`, `.Checked()`, `.MaxLength()`, `.Accept()`, `.Capture()` |
-| `form` | `.Action()`, `.Method()`, `.EncType()`, `.Target()` |
-| `link` | `.Href()`, `.Rel()`, `.As()`, `.CrossOrigin()`, `.FetchPriority()`, `.Media()` |
-| `button` | `.Disabled()`, `.FormAction()`, `.FormMethod()`, `.PopoverTarget()`, `.PopoverTargetAction()` |
-| `script` | `.Src()`, `.Async()`, `.Defer()`, `.Type()`, `.CrossOrigin()`, `.Integrity()` |
-
-If a standard HTML attribute has a method on the element, use that method. Do not use `SetAttribute()` for standard attributes.
+```bash
+flint -info a methods    # every method on <a>
+flint -info a attrs      # HTML attribute name -> method name
+```
 
 ### Boolean Attributes
 
@@ -532,19 +413,7 @@ script.Src("/app.js").Async(isProduction)
 textarea.New().ReadOnly(user.IsGuest)
 ```
 
-This pattern is consistent across every boolean attribute in Fluent:
-
-| Element | Methods |
-|---------|---------|
-| `input` | `.Checked()`, `.Disabled()`, `.Required()`, `.ReadOnly()`, `.Multiple()`, `.AutoFocus()` |
-| `button` | `.Disabled()`, `.AutoFocus()` |
-| `form` | `.NoValidate()`, `.AutoFocus()` |
-| `textarea` | `.Disabled()`, `.ReadOnly()`, `.Required()`, `.AutoFocus()` |
-| `dropdown` (`<select>`) | `.Disabled()`, `.Multiple()`, `.Required()`, `.AutoFocus()` |
-| `option` | `.Disabled()`, `.Selected()`, `.AutoFocus()` |
-| `script` | `.Async()`, `.Defer()`, `.AutoFocus()` |
-| `details`, `dialog` | `.Open()`, `.AutoFocus()` |
-| `audio`, `video` | `.Controls()`, `.Loop()`, `.Muted()`, (`video` adds `.PlaysInline()`), `.AutoFocus()` |
+The pattern is consistent across every boolean attribute in Fluent, so it holds for whichever one `flint -info <element> methods` shows you.
 
 `.Hidden()` is the exception: it accepts a typed `hidden.Hidden` value (to support the `until-found` state), not a `bool`.
 
@@ -721,7 +590,74 @@ type Dynamic interface {
 
 Elements also carry `.Memoise(version)` and `.MemoiseKey()` for the same engines. Plain rendering ignores all three methods. Read the engine's own documentation for how to use them.
 
-## Component Pattern
+## Components
+
+A component is a Go function returning `node.Node` or a concrete element type. There is no component system to learn.
+
+### Take the record
+
+Where a component draws something the application already has a type for, take that type. The component then decides how the record is drawn, including what an empty list looks like, and the caller passes what it loaded.
+
+```go
+type Product struct {
+    ID    string
+    Name  string
+    Price float64
+}
+
+// One record, always present. Returns *li.Element so a typed constructor
+// can check the nesting.
+func Row(p Product) *li.Element {
+    return li.New(
+        span.Text(p.Name),
+        span.Textf("$%.2f", p.Price),
+    ).Class("product-row")
+}
+
+// Many records. The component owns the empty case.
+func List(products []Product) node.Node {
+    if len(products) == 0 {
+        return div.Text("No products yet.").Class("empty")
+    }
+    return ul.ItemsOf(products, Row).Class("products")
+}
+```
+
+`List(products)` renders the list or the empty message, so the caller writes no condition.
+
+```go
+// The caller is deciding what an empty list looks like. That is the
+// component's job.
+if len(products) == 0 {
+    return div.Text("No products yet.")
+}
+return ProductList(products)
+```
+
+A condition written at the call site is repeated at every other call site, and the copies stop agreeing.
+
+### Lists from data
+
+Each collection constructor (`Items`, `Rows`, `Cells`, `Headers`, `Options`, `Cols`) has two deferred siblings. Styled variants such as `ol.Decimal` and `optgroup.Labelled` do not. Use the one that matches what you hold:
+
+| You have | Use | Example |
+|----------|-----|---------|
+| the elements themselves | `Items` | `ul.Items(a, b, c)` |
+| data and a mapper | `ItemsOf` | `ul.ItemsOf(products, Row)` |
+| logic that reorders or computes the list | `ItemsFunc` | `ul.ItemsFunc(build)` |
+
+The same three exist as `Rows` on `table`, `tbody`, `thead` and `tfoot`, `Cells` and `Headers` on `tr`, `Options` on `dropdown`, `datalist` and `optgroup`, and `Cols` on `colgroup`. Run `flint -info <element> ctors` to read them.
+
+`ItemsOf` and `ItemsFunc` run their function at render time. The mapper passed to `ul.ItemsOf` returns `*li.Element`, so the compiler rejects any other child type. A mapper can return nil to skip an item.
+
+```go
+ul.ItemsOf(products, func(p Product) *li.Element {
+    if p.Hidden {
+        return nil
+    }
+    return Row(p)
+})
+```
 
 ### Return Types: Interface vs Concrete
 
@@ -752,8 +688,6 @@ func Card(title, content string) *div.Element {
 All element packages export their concrete type as `Element`: `*div.Element`, `*a.Element`, `*input.Element`, etc.
 
 **Rule of thumb:** If the component always returns the same element type and callers might want to customise it, return the concrete type. If it's a complete unit or may return different types, return `node.Node`.
-
-## Common Patterns
 
 ### Layout with Dynamic Content
 
@@ -787,35 +721,19 @@ func Button(text string, isPrimary bool) node.Node {
 }
 ```
 
-### List Rendering
-
-```go
-func ProductList(products []Product) node.Node {
-    items := make([]*li.Element, len(products))
-    for i, p := range products {
-        items[i] = li.New(
-            h3.Text(p.Name),
-            span.Textf("$%.2f", p.Price),
-        )
-    }
-    return ul.Items(items...)
-}
-```
-
 ## Performance
 
-- Use `Static()` for unchanging content (enables JIT optimisation)
 - Buffer pooling is enabled by default and handled automatically
 - Each element has a chainable `BufferHint(n)` method for optional buffer size hints, and `RenderedSize()` to read the size recorded after `Render(w)`
 - For high-throughput applications, [Fluent JIT](https://github.com/jpl-au/fluent-jit) provides additional optimisation (Compile, Tune, Flatten)
 
 ## Extending Fluent
 
-Implement `node.Node` for composite components, or `node.Element` for custom HTML elements that need attributes and open/close tags.
+Implement `node.Node` for a component that composes elements internally, or `node.Element` for a custom HTML element that needs attributes and open/close tags. Both are rare: a component is normally a plain function, as under [Components](#components).
 
-### Composite Component Example
+### Implementing node.Node Directly
 
-A composite component composes elements internally. It satisfies `node.Node` (not `node.Element`) because it doesn't have its own tag or attributes.
+Most components are plain functions returning `node.Node`, as under [Components](#components) above. Implement the interface by hand only when callers need to configure the component by chaining, the way they chain onto an element. The type composes elements internally and satisfies `node.Node` (not `node.Element`) because it doesn't have its own tag or attributes.
 
 ```go
 type EmailField struct {
@@ -889,64 +807,6 @@ func (f *EmailField) Nodes() []node.Node {
 }
 ```
 
-## Typed Attributes Reference
-
-A method that takes a typed constant does not accept a raw string. Import the constant package and use its exported variable. Each package also provides `Custom(string)` for a value it does not cover.
-
-Import path pattern: `github.com/jpl-au/fluent/html5/attr/<package>`
-
-```go
-// WRONG - does not compile
-img.New().Loading("lazy")                   // cannot use "lazy" (string) as loading.Loading
-input.New().Type("email")                   // cannot use "email" (string) as inputtype.InputType
-
-// RIGHT - use the typed constant
-img.New().Loading(loading.Lazy)             // import "github.com/jpl-au/fluent/html5/attr/loading"
-input.New().Type(inputtype.Email)           // import "github.com/jpl-au/fluent/html5/attr/inputtype"
-link.New().Rel(rel.Stylesheet)              // import "github.com/jpl-au/fluent/html5/attr/rel"
-```
-
-### Complete Constant Reference
-
-| Package | Type | Values |
-|---------|------|--------|
-| `accept` | `Accept` | `ImageWildcard`, `VideoWildcard`, `AudioWildcard`, `ImageJPEG`, `ImagePNG`, `ImageGIF`, `ImageWebP`, `ImageSVG`, `MimePDF`, `MimeMSWord`, `MimeWordDOCX`, `TextPlain`, `TextCSV`, `JPG`, `JPEG`, `PNG`, `GIF`, `WebP`, `SVG`, `PDF`, `DOC`, `DOCX`, `TXT`, `CSV`, `XML`, `VideoMP4`, `VideoWebM`, `AudioMP3`, `AudioWAV` |
-| `as` | `As` | `Audio`, `Document`, `Embed`, `Fetch`, `Font`, `Image`, `Object`, `Script`, `Style`, `Track`, `Video`, `Worker` |
-| `autocapitalize` | `AutoCapitalize` | `Off`, `None`, `On`, `Sentences`, `Words`, `Characters` |
-| `autocomplete` | `AutoComplete` | `On`, `Off`, `Name`, `Email`, `CurrentPassword`, `NewPassword`, `Username`, `AddressLine1`, `AddressLine2`, `Country`, `PostalCode`, `Tel`, `Url` |
-| `autocorrect` | `AutoCorrect` | `On`, `Off` |
-| `blocking` | `Blocking` | `Render` |
-| `capture` | `Capture` | `User`, `Environment` |
-| `charset` | `Charset` | `UTF8`, `ISO88591`, `Windows1252` |
-| `contenteditable` | `ContentEditable` | `True`, `False`, `PlaintextOnly` |
-| `controlslist` | `ControlsList` | `NoDownload`, `NoFullscreen`, `NoRemotePlayback` |
-| `crossorigin` | `CrossOrigin` | `Anonymous`, `UseCredentials` |
-| `decoding` | `Decoding` | `Sync`, `Async`, `Auto` |
-| `dir` | `Dir` | `LeftToRight`, `RightToLeft`, `Auto` |
-| `enctype` | `EncType` | `UrlEncoded`, `MultipartFormData`, `TextPlain` |
-| `enterkeyhint` | `EnterKeyHint` | `Enter`, `Done`, `Go`, `Next`, `Previous`, `Search`, `Send` |
-| `fetchpriority` | `FetchPriority` | `High`, `Low`, `Auto` |
-| `formmethod` | `FormMethod` | `Get`, `Post` |
-| `inputmode` | `InputMode` | `None`, `Text`, `Tel`, `Url`, `Email`, `Numeric`, `Decimal`, `Search` |
-| `inputtype` | `InputType` | `Text`, `Password`, `Email`, `Search`, `Tel`, `Url`, `Number`, `Range`, `Date`, `Time`, `DatetimeLocal`, `Month`, `Week`, `Checkbox`, `Radio`, `File`, `Submit`, `Button`, `Reset`, `Hidden`, `Color`, `Image` |
-| `listtype` | `ListType` | `LowerAlpha`, `UpperAlpha`, `LowerRoman`, `UpperRoman`, `Decimal` |
-| `loading` | `Loading` | `Eager`, `Lazy` |
-| `media` | `Media` | `Screen`, `Print`, `All`, `Speech`, `Mobile`, `Tablet`, `Desktop`, `SmallMobile`, `LargeMobile`, `SmallTablet`, `LargeTablet`, `LargeDesktop`, `Portrait`, `Landscape`, `Retina`, `HighDPI` |
-| `method` | `Method` | `Get`, `Post`, `Dialog` |
-| `popover` | `Popover` | `Auto`, `Manual` |
-| `popovertargetaction` | `PopoverTargetAction` | `Toggle`, `Show`, `Hide` |
-| `preload` | `Preload` | `None`, `Metadata`, `Auto` |
-| `referrerpolicy` | `ReferrerPolicy` | `NoReferrer`, `NoReferrerWhenDowngrade`, `Origin`, `OriginWhenCrossOrigin`, `SameOrigin`, `StrictOrigin`, `StrictOriginWhenCrossOrigin`, `UnsafeUrl` |
-| `rel` | `Rel` | `Stylesheet`, `Icon`, `Preload`, `Prefetch`, `DnsPrefetch`, `Preconnect`, `Canonical`, `Alternate`, `Prev`, `Next`, `Help`, `License`, `Manifest`, `ModulePreload`, `AppleTouchIcon` |
-| `sandbox` | `Sandbox` | `AllowDownloads`, `AllowForms`, `AllowModals`, `AllowOrientationLock`, `AllowPointerLock`, `AllowPopups`, `AllowPopupsToEscapeSandbox`, `AllowPresentation`, `AllowSameOrigin`, `AllowScripts`, `AllowStorageAccessByUserActivation`, `AllowTopNavigation`, `AllowTopNavigationByUserActivation` |
-| `shape` | `Shape` | `Rect`, `Circle`, `Poly`, `Default` |
-| `sizes` | `Size` | `FullWidth`, `HalfWidth`, `ThirdWidth`, `QuarterWidth`, `Small`, `Medium`, `Large`, `ExtraLarge`, `MobileFullTabletHalf`, `MobileFullDesktopThird`, `ResponsiveHero`, `ResponsiveContent` |
-| `spellcheck` | `Spellcheck` | `True`, `False` |
-| `target` | `Target` | `Self`, `Blank`, `Parent`, `Top` |
-| `translate` | `Translate` | `Yes`, `No` |
-| `virtualkeyboardpolicy` | `VirtualKeyboardPolicy` | `Auto`, `Manual` |
-| `writingsuggestions` | `WritingSuggestions` | `True`, `False` |
-
 ## Ecosystem
 
 Fluent has companion packages that extend its capabilities. All are optional - Fluent works standalone for static HTML generation.
@@ -963,7 +823,9 @@ Fluent has companion packages that extend its capabilities. All are optional - F
 
 ## Dot Import (Convenience Alternative)
 
-For cleaner syntax without package prefixes:
+The `dot` package drops the package prefixes, so `div.New()` becomes `Div()` and `p.Text("x")` becomes `P().Text("x")`.
+
+Match the file you are editing. Use dot imports only where the surrounding file already does, and use the package-based API everywhere else. It is the primary API, and mixing the two styles across a codebase is worse than either one on its own. Specialised constructors such as `meta.UTF8()` need their own package import in both styles.
 
 ```go
 import (
@@ -987,8 +849,6 @@ func render() node.Node {
 }
 ```
 
-The package-based approach (`div.New()`, `p.Text()`) is the primary API. Specialised constructors like `meta.UTF8()` still require direct package import.
-
 ## Profile-Guided Optimisation (PGO)
 
-Applications using Fluent benefit from [PGO](https://go.dev/doc/pgo) (Go 1.21+). Collect a CPU profile from production, place it as `default.pgo` in the main package, and `go build` applies it automatically. Expect 10-20% speed improvements across the rendering pipeline with no code changes. Allocations are unaffected - PGO improves inlining decisions only. Collect fresh profiles periodically as code evolves.
+Applications using Fluent benefit from [PGO](https://go.dev/doc/pgo) (Go 1.21+). It speeds up the rendering pipeline with no code changes. Allocations are unaffected - PGO improves inlining decisions only. Read the Go documentation for how to collect and apply a profile.

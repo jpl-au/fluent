@@ -69,7 +69,7 @@ func (e *Element) event() *html5.EventAttributes {
 
 // New creates a new map element with optional child nodes (typically area elements).
 // Example: imagemap.New(area.Rect(0, 0, 100, 50, "/page1"))
-// Renders: <map><area shape="rect" coords="0,0,100,50" href="/page1" /></map>
+// Renders: <map><area shape="rect" coords="0,0,100,50" href="/page1"></map>
 func New(nodes ...node.Node) *Element {
 	return &Element{
 		nodes: nodes,
@@ -80,7 +80,7 @@ func New(nodes ...node.Node) *Element {
 // required and must match the usemap attribute on the associated img
 // element (prefixed with #).
 // Example: imagemap.Named("nav", area.Rect(0, 0, 100, 50, "/page1"))
-// Renders: <map name="nav"><area shape="rect" coords="0,0,100,50" href="/page1" /></map>
+// Renders: <map name="nav"><area shape="rect" coords="0,0,100,50" href="/page1"></map>
 func Named(name string, nodes ...node.Node) *Element {
 	return &Element{
 		nodes: nodes,

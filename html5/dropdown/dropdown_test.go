@@ -47,6 +47,30 @@ func TestOptionsCtor(t *testing.T) {
 	}
 }
 
+func TestOptionsOfCtor(t *testing.T) {
+	got := string(dropdown.OptionsOf([]int{1, 2}, func(int) *option.Element { return option.New() }).RenderBytes())
+	want := `<select><option></option><option></option></select>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
+func TestOptionsOfNilSkipped(t *testing.T) {
+	got := string(dropdown.OptionsOf([]int{1, 2}, func(int) *option.Element { return nil }).RenderBytes())
+	want := `<select></select>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
+func TestOptionsFuncCtor(t *testing.T) {
+	got := string(dropdown.OptionsFunc(func() []*option.Element { return []*option.Element{option.New(), option.New()} }).RenderBytes())
+	want := `<select><option></option><option></option></select>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
 func TestNameAttr(t *testing.T) {
 	got := string(dropdown.New().Name("test").RenderBytes())
 	want := `<select name="test"></select>`
