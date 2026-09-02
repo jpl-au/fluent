@@ -1512,10 +1512,27 @@ func TestTextChaining(t *testing.T) {
 
 func TestDynamicKey(t *testing.T) {
 	got := string(html.New().Dynamic("mykey").RenderBytes())
-	want := `<!DOCTYPE html><html data-fluent-key="mykey"></html>`
+	want := `<!DOCTYPE html><html id="mykey"></html>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
 	}
+}
+
+func TestDynamicKeyMatchesID(t *testing.T) {
+	got := string(html.New().ID("mykey").Dynamic("mykey").RenderBytes())
+	want := `<!DOCTYPE html><html id="mykey"></html>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
+func TestDynamicKeyConflictsWithID(t *testing.T) {
+	defer func() {
+		if recover() == nil {
+			t.Error("ID and a different Dynamic key should panic at render")
+		}
+	}()
+	html.New().ID("other").Dynamic("mykey").RenderBytes()
 }
 
 func TestMemoiseKey(t *testing.T) {

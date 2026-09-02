@@ -1479,10 +1479,27 @@ func TestTextChaining(t *testing.T) {
 
 func TestDynamicKey(t *testing.T) {
 	got := string(dialog.New().Dynamic("mykey").RenderBytes())
-	want := `<dialog data-fluent-key="mykey"></dialog>`
+	want := `<dialog id="mykey"></dialog>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
 	}
+}
+
+func TestDynamicKeyMatchesID(t *testing.T) {
+	got := string(dialog.New().ID("mykey").Dynamic("mykey").RenderBytes())
+	want := `<dialog id="mykey"></dialog>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
+func TestDynamicKeyConflictsWithID(t *testing.T) {
+	defer func() {
+		if recover() == nil {
+			t.Error("ID and a different Dynamic key should panic at render")
+		}
+	}()
+	dialog.New().ID("other").Dynamic("mykey").RenderBytes()
 }
 
 func TestMemoiseKey(t *testing.T) {

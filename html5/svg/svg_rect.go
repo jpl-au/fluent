@@ -273,8 +273,10 @@ func (e *rect) SetAttributeRaw(key string, value string) {
 // Dynamic marks this element for reactive tracking by the diff engine.
 // The key is the element's stable identity across renders: the diff engine
 // matches on it to detect changes and send targeted patches, so it must be
-// unique within a render tree and must not change between renders. It is
-// emitted, escaped, as the data-fluent-key attribute.
+// unique within a render tree and must not change between renders. It
+// renders, escaped, as the element's id attribute, so the key is also the
+// DOM identity a patch consumer looks up and a morpher matches on. Setting
+// ID to a different value on the same element panics at render.
 func (e *rect) Dynamic(key string) *rect {
 	e.dynamic = key
 	return e
@@ -390,9 +392,14 @@ func (e *rect) AttributeBuilder(buf *bytes.Buffer) {
 	}
 
 	if e.dynamic != "" {
-		buf.WriteString(` data-fluent-key="`)
-		buf.WriteString(node.EscapeAttribute(e.dynamic))
-		buf.Write(MarkupQuote)
+		key := node.EscapeAttribute(e.dynamic)
+		if e.svg().ID == "" {
+			buf.Write(AttrID)
+			buf.WriteString(key)
+			buf.Write(MarkupQuote)
+		} else if e.svg().ID != key {
+			panic("fluent: ID " + e.svg().ID + " conflicts with Dynamic key " + e.dynamic + " - a Dynamic key renders as the element's id, so set one or the other")
+		}
 	}
 
 	if e.attr != nil {

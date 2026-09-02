@@ -586,7 +586,7 @@ type Dynamic interface {
 
 ### Reactive Tracking with .Dynamic()
 
-`.Dynamic(key)` marks an element for an external render engine, such as [Fluent JIT](https://github.com/jpl-au/fluent-jit). Fluent stores the key and renders it as a `data-fluent-key` attribute. It does nothing else with it. The method is chainable, like `.Class()` and `.SetData()`.
+`.Dynamic(key)` marks an element for an external render engine, such as [Fluent JIT](https://github.com/jpl-au/fluent-jit). Fluent stores the key and renders it as the element's `id` attribute, so the diff identity and the DOM identity are the same attribute. It does nothing else with it. An explicit `.ID()` on the same element must equal the key; a different value panics at render. The method is chainable, like `.Class()` and `.SetData()`.
 
 Elements also carry `.Memoise(version)` and `.MemoiseKey()` for the same engines. Plain rendering ignores all three methods. Read the engine's own documentation for how to use them.
 

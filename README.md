@@ -137,7 +137,7 @@ The whole layer - escaping and URL filtering - is baked into the generated sette
 
 ### Reactive tracking
 
-Every element carries chainable hook methods - `.Dynamic("key")`, `.Memoise(version)`, `.MemoiseKey()` - for external render engines such as [Fluent JIT](https://github.com/jpl-au/fluent-jit). Fluent's part is mechanical: a `.Dynamic` key renders as a `data-fluent-key` attribute, nothing more. Plain rendering ignores all three, so they cost nothing unless an engine consumes them; usage and semantics are documented by the engine.
+Every element carries chainable hook methods - `.Dynamic("key")`, `.Memoise(version)`, `.MemoiseKey()` - for external render engines such as [Fluent JIT](https://github.com/jpl-au/fluent-jit). Fluent's part is mechanical: a `.Dynamic` key renders as the element's `id` attribute, nothing more (an explicit `.ID()` that differs from the key panics at render). Plain rendering ignores all three, so they cost nothing unless an engine consumes them; usage and semantics are documented by the engine.
 
 ```go
 span.Textf("Count: %d", count).Dynamic("count")

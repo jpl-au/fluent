@@ -1420,10 +1420,27 @@ func TestTextChaining(t *testing.T) {
 
 func TestDynamicKey(t *testing.T) {
 	got := string(canvas.New().Dynamic("mykey").RenderBytes())
-	want := `<canvas data-fluent-key="mykey"></canvas>`
+	want := `<canvas id="mykey"></canvas>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
 	}
+}
+
+func TestDynamicKeyMatchesID(t *testing.T) {
+	got := string(canvas.New().ID("mykey").Dynamic("mykey").RenderBytes())
+	want := `<canvas id="mykey"></canvas>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
+func TestDynamicKeyConflictsWithID(t *testing.T) {
+	defer func() {
+		if recover() == nil {
+			t.Error("ID and a different Dynamic key should panic at render")
+		}
+	}()
+	canvas.New().ID("other").Dynamic("mykey").RenderBytes()
 }
 
 func TestMemoiseKey(t *testing.T) {
