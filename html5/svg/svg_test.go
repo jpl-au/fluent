@@ -6,19 +6,76 @@ import (
 	"bytes"
 	"testing"
 
+	"github.com/jpl-au/fluent/html5/attr/accumulate"
+	"github.com/jpl-au/fluent/html5/attr/additive"
+	"github.com/jpl-au/fluent/html5/attr/animationfill"
+	"github.com/jpl-au/fluent/html5/attr/blendmode"
+	"github.com/jpl-au/fluent/html5/attr/calcmode"
+	"github.com/jpl-au/fluent/html5/attr/channelselector"
+	"github.com/jpl-au/fluent/html5/attr/colormatrixtype"
+	"github.com/jpl-au/fluent/html5/attr/compositeoperator"
+	"github.com/jpl-au/fluent/html5/attr/crossorigin"
 	"github.com/jpl-au/fluent/html5/attr/dominantbaseline"
-	"github.com/jpl-au/fluent/html5/attr/gradientunits"
+	"github.com/jpl-au/fluent/html5/attr/edgemode"
 	"github.com/jpl-au/fluent/html5/attr/lengthadjust"
+	"github.com/jpl-au/fluent/html5/attr/morphologyoperator"
+	"github.com/jpl-au/fluent/html5/attr/restart"
 	"github.com/jpl-au/fluent/html5/attr/spreadmethod"
+	"github.com/jpl-au/fluent/html5/attr/stitchtiles"
 	"github.com/jpl-au/fluent/html5/attr/strokelinecap"
 	"github.com/jpl-au/fluent/html5/attr/strokelinejoin"
+	"github.com/jpl-au/fluent/html5/attr/target"
 	"github.com/jpl-au/fluent/html5/attr/textanchor"
+	"github.com/jpl-au/fluent/html5/attr/transfertype"
+	"github.com/jpl-au/fluent/html5/attr/transformtype"
+	"github.com/jpl-au/fluent/html5/attr/turbulencetype"
+	"github.com/jpl-au/fluent/html5/attr/units"
 	"github.com/jpl-au/fluent/html5/svg"
 )
 
+func TestRenderA(t *testing.T) {
+	got := string(svg.A().Href("href").Target(target.Custom("target")).Download("download").Rel("rel").HrefLang("hreflang").Type("type").Class("class").AutoFocus().Fill("fill").StrokeWidth("stroke-width").StrokeLineCap(strokelinecap.Custom("stroke-linecap")).StrokeLineJoin(strokelinejoin.Custom("stroke-linejoin")).OnClick("onclick").RenderBytes())
+	want := "<a href=\"href\" target=\"target\" download=\"download\" rel=\"rel\" hreflang=\"hreflang\" type=\"type\" class=\"class\" autofocus fill=\"fill\" stroke-width=\"stroke-width\" stroke-linecap=\"stroke-linecap\" stroke-linejoin=\"stroke-linejoin\" onclick=\"onclick\"></a>"
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
+func TestRenderAnimate(t *testing.T) {
+	got := string(svg.Animate().AttributeName("attributeName").Values("values").From("from").To("to").By("by").Begin("begin").Dur("dur").End("end").Min("min").Max("max").RepeatCount("repeatCount").RepeatDur("repeatDur").Restart(restart.Custom("restart")).Fill(animationfill.Custom("fill")).CalcMode(calcmode.Custom("calcMode")).KeyTimes("keyTimes").KeySplines("keySplines").Additive(additive.Custom("additive")).Accumulate(accumulate.Custom("accumulate")).Href("href").Class("class").AutoFocus().StrokeWidth("stroke-width").StrokeLineCap(strokelinecap.Custom("stroke-linecap")).StrokeLineJoin(strokelinejoin.Custom("stroke-linejoin")).OnClick("onclick").RenderBytes())
+	want := "<animate attributeName=\"attributeName\" values=\"values\" from=\"from\" to=\"to\" by=\"by\" begin=\"begin\" dur=\"dur\" end=\"end\" min=\"min\" max=\"max\" repeatCount=\"repeatCount\" repeatDur=\"repeatDur\" restart=\"restart\" fill=\"fill\" calcMode=\"calcMode\" keyTimes=\"keyTimes\" keySplines=\"keySplines\" additive=\"additive\" accumulate=\"accumulate\" href=\"href\" class=\"class\" autofocus stroke-width=\"stroke-width\" stroke-linecap=\"stroke-linecap\" stroke-linejoin=\"stroke-linejoin\" onclick=\"onclick\"></animate>"
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
+func TestRenderAnimateMotion(t *testing.T) {
+	got := string(svg.AnimateMotion().Path("path").KeyPoints("keyPoints").Rotate("rotate").Origin("origin").Values("values").From("from").To("to").By("by").Begin("begin").Dur("dur").End("end").RepeatCount("repeatCount").RepeatDur("repeatDur").Restart(restart.Custom("restart")).Fill(animationfill.Custom("fill")).CalcMode(calcmode.Custom("calcMode")).KeyTimes("keyTimes").KeySplines("keySplines").Additive(additive.Custom("additive")).Accumulate(accumulate.Custom("accumulate")).Href("href").Class("class").AutoFocus().StrokeWidth("stroke-width").StrokeLineCap(strokelinecap.Custom("stroke-linecap")).StrokeLineJoin(strokelinejoin.Custom("stroke-linejoin")).OnClick("onclick").RenderBytes())
+	want := "<animateMotion path=\"path\" keyPoints=\"keyPoints\" rotate=\"rotate\" origin=\"origin\" values=\"values\" from=\"from\" to=\"to\" by=\"by\" begin=\"begin\" dur=\"dur\" end=\"end\" repeatCount=\"repeatCount\" repeatDur=\"repeatDur\" restart=\"restart\" fill=\"fill\" calcMode=\"calcMode\" keyTimes=\"keyTimes\" keySplines=\"keySplines\" additive=\"additive\" accumulate=\"accumulate\" href=\"href\" class=\"class\" autofocus stroke-width=\"stroke-width\" stroke-linecap=\"stroke-linecap\" stroke-linejoin=\"stroke-linejoin\" onclick=\"onclick\"></animateMotion>"
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
+func TestRenderAnimateTransform(t *testing.T) {
+	got := string(svg.AnimateTransform().AttributeName("attributeName").Type(transformtype.Custom("type")).Values("values").From("from").To("to").By("by").Begin("begin").Dur("dur").End("end").RepeatCount("repeatCount").RepeatDur("repeatDur").Restart(restart.Custom("restart")).Fill(animationfill.Custom("fill")).CalcMode(calcmode.Custom("calcMode")).KeyTimes("keyTimes").KeySplines("keySplines").Additive(additive.Custom("additive")).Accumulate(accumulate.Custom("accumulate")).Href("href").Class("class").AutoFocus().StrokeWidth("stroke-width").StrokeLineCap(strokelinecap.Custom("stroke-linecap")).StrokeLineJoin(strokelinejoin.Custom("stroke-linejoin")).OnClick("onclick").RenderBytes())
+	want := "<animateTransform attributeName=\"attributeName\" type=\"type\" values=\"values\" from=\"from\" to=\"to\" by=\"by\" begin=\"begin\" dur=\"dur\" end=\"end\" repeatCount=\"repeatCount\" repeatDur=\"repeatDur\" restart=\"restart\" fill=\"fill\" calcMode=\"calcMode\" keyTimes=\"keyTimes\" keySplines=\"keySplines\" additive=\"additive\" accumulate=\"accumulate\" href=\"href\" class=\"class\" autofocus stroke-width=\"stroke-width\" stroke-linecap=\"stroke-linecap\" stroke-linejoin=\"stroke-linejoin\" onclick=\"onclick\"></animateTransform>"
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
 func TestRenderCircle(t *testing.T) {
 	got := string(svg.Circle().Cx("cx").Cy("cy").R("r").Class("class").AutoFocus().Fill("fill").StrokeWidth("stroke-width").StrokeLineCap(strokelinecap.Custom("stroke-linecap")).StrokeLineJoin(strokelinejoin.Custom("stroke-linejoin")).OnClick("onclick").RenderBytes())
-	want := "<circle cx=\"cx\" cy=\"cy\" r=\"r\" class=\"class\" autofocus fill=\"fill\" stroke-width=\"stroke-width\" stroke-linecap=\"stroke-linecap\" stroke-linejoin=\"stroke-linejoin\" onclick=\"onclick\" />"
+	want := "<circle cx=\"cx\" cy=\"cy\" r=\"r\" class=\"class\" autofocus fill=\"fill\" stroke-width=\"stroke-width\" stroke-linecap=\"stroke-linecap\" stroke-linejoin=\"stroke-linejoin\" onclick=\"onclick\"></circle>"
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
+func TestRenderClipPath(t *testing.T) {
+	got := string(svg.ClipPath().ClipPathUnits(units.Custom("clipPathUnits")).Class("class").AutoFocus().Fill("fill").StrokeWidth("stroke-width").StrokeLineCap(strokelinecap.Custom("stroke-linecap")).StrokeLineJoin(strokelinejoin.Custom("stroke-linejoin")).OnClick("onclick").RenderBytes())
+	want := "<clipPath clipPathUnits=\"clipPathUnits\" class=\"class\" autofocus fill=\"fill\" stroke-width=\"stroke-width\" stroke-linecap=\"stroke-linecap\" stroke-linejoin=\"stroke-linejoin\" onclick=\"onclick\"></clipPath>"
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
 	}
@@ -32,9 +89,233 @@ func TestRenderDefs(t *testing.T) {
 	}
 }
 
+func TestRenderDesc(t *testing.T) {
+	got := string(svg.Desc("hello").Class("class").AutoFocus().Fill("fill").StrokeWidth("stroke-width").StrokeLineCap(strokelinecap.Custom("stroke-linecap")).StrokeLineJoin(strokelinejoin.Custom("stroke-linejoin")).OnClick("onclick").RenderBytes())
+	want := "<desc class=\"class\" autofocus fill=\"fill\" stroke-width=\"stroke-width\" stroke-linecap=\"stroke-linecap\" stroke-linejoin=\"stroke-linejoin\" onclick=\"onclick\">hello</desc>"
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
 func TestRenderEllipse(t *testing.T) {
 	got := string(svg.Ellipse().Cx("cx").Cy("cy").Rx("rx").Ry("ry").Class("class").AutoFocus().Fill("fill").StrokeWidth("stroke-width").StrokeLineCap(strokelinecap.Custom("stroke-linecap")).StrokeLineJoin(strokelinejoin.Custom("stroke-linejoin")).OnClick("onclick").RenderBytes())
-	want := "<ellipse cx=\"cx\" cy=\"cy\" rx=\"rx\" ry=\"ry\" class=\"class\" autofocus fill=\"fill\" stroke-width=\"stroke-width\" stroke-linecap=\"stroke-linecap\" stroke-linejoin=\"stroke-linejoin\" onclick=\"onclick\" />"
+	want := "<ellipse cx=\"cx\" cy=\"cy\" rx=\"rx\" ry=\"ry\" class=\"class\" autofocus fill=\"fill\" stroke-width=\"stroke-width\" stroke-linecap=\"stroke-linecap\" stroke-linejoin=\"stroke-linejoin\" onclick=\"onclick\"></ellipse>"
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
+func TestRenderFeBlend(t *testing.T) {
+	got := string(svg.FeBlend().In("in").In2("in2").Mode(blendmode.Custom("mode")).X("x").Y("y").Width("width").Height("height").Result("result").Class("class").AutoFocus().Fill("fill").StrokeWidth("stroke-width").StrokeLineCap(strokelinecap.Custom("stroke-linecap")).StrokeLineJoin(strokelinejoin.Custom("stroke-linejoin")).OnClick("onclick").RenderBytes())
+	want := "<feBlend in=\"in\" in2=\"in2\" mode=\"mode\" x=\"x\" y=\"y\" width=\"width\" height=\"height\" result=\"result\" class=\"class\" autofocus fill=\"fill\" stroke-width=\"stroke-width\" stroke-linecap=\"stroke-linecap\" stroke-linejoin=\"stroke-linejoin\" onclick=\"onclick\"></feBlend>"
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
+func TestRenderFeColorMatrix(t *testing.T) {
+	got := string(svg.FeColorMatrix().In("in").Type(colormatrixtype.Custom("type")).Values("values").X("x").Y("y").Width("width").Height("height").Result("result").Class("class").AutoFocus().Fill("fill").StrokeWidth("stroke-width").StrokeLineCap(strokelinecap.Custom("stroke-linecap")).StrokeLineJoin(strokelinejoin.Custom("stroke-linejoin")).OnClick("onclick").RenderBytes())
+	want := "<feColorMatrix in=\"in\" type=\"type\" values=\"values\" x=\"x\" y=\"y\" width=\"width\" height=\"height\" result=\"result\" class=\"class\" autofocus fill=\"fill\" stroke-width=\"stroke-width\" stroke-linecap=\"stroke-linecap\" stroke-linejoin=\"stroke-linejoin\" onclick=\"onclick\"></feColorMatrix>"
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
+func TestRenderFeComponentTransfer(t *testing.T) {
+	got := string(svg.FeComponentTransfer().In("in").X("x").Y("y").Width("width").Height("height").Result("result").Class("class").AutoFocus().Fill("fill").StrokeWidth("stroke-width").StrokeLineCap(strokelinecap.Custom("stroke-linecap")).StrokeLineJoin(strokelinejoin.Custom("stroke-linejoin")).OnClick("onclick").RenderBytes())
+	want := "<feComponentTransfer in=\"in\" x=\"x\" y=\"y\" width=\"width\" height=\"height\" result=\"result\" class=\"class\" autofocus fill=\"fill\" stroke-width=\"stroke-width\" stroke-linecap=\"stroke-linecap\" stroke-linejoin=\"stroke-linejoin\" onclick=\"onclick\"></feComponentTransfer>"
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
+func TestRenderFeComposite(t *testing.T) {
+	got := string(svg.FeComposite().In("in").In2("in2").Operator(compositeoperator.Custom("operator")).K1("k1").K2("k2").K3("k3").K4("k4").X("x").Y("y").Width("width").Height("height").Result("result").Class("class").AutoFocus().Fill("fill").StrokeWidth("stroke-width").StrokeLineCap(strokelinecap.Custom("stroke-linecap")).StrokeLineJoin(strokelinejoin.Custom("stroke-linejoin")).OnClick("onclick").RenderBytes())
+	want := "<feComposite in=\"in\" in2=\"in2\" operator=\"operator\" k1=\"k1\" k2=\"k2\" k3=\"k3\" k4=\"k4\" x=\"x\" y=\"y\" width=\"width\" height=\"height\" result=\"result\" class=\"class\" autofocus fill=\"fill\" stroke-width=\"stroke-width\" stroke-linecap=\"stroke-linecap\" stroke-linejoin=\"stroke-linejoin\" onclick=\"onclick\"></feComposite>"
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
+func TestRenderFeConvolveMatrix(t *testing.T) {
+	got := string(svg.FeConvolveMatrix().In("in").Order("order").KernelMatrix("kernelMatrix").Divisor("divisor").Bias("bias").TargetX("targetX").TargetY("targetY").EdgeMode(edgemode.Custom("edgeMode")).PreserveAlpha("preserveAlpha").X("x").Y("y").Width("width").Height("height").Result("result").Class("class").AutoFocus().Fill("fill").StrokeWidth("stroke-width").StrokeLineCap(strokelinecap.Custom("stroke-linecap")).StrokeLineJoin(strokelinejoin.Custom("stroke-linejoin")).OnClick("onclick").RenderBytes())
+	want := "<feConvolveMatrix in=\"in\" order=\"order\" kernelMatrix=\"kernelMatrix\" divisor=\"divisor\" bias=\"bias\" targetX=\"targetX\" targetY=\"targetY\" edgeMode=\"edgeMode\" preserveAlpha=\"preserveAlpha\" x=\"x\" y=\"y\" width=\"width\" height=\"height\" result=\"result\" class=\"class\" autofocus fill=\"fill\" stroke-width=\"stroke-width\" stroke-linecap=\"stroke-linecap\" stroke-linejoin=\"stroke-linejoin\" onclick=\"onclick\"></feConvolveMatrix>"
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
+func TestRenderFeDiffuseLighting(t *testing.T) {
+	got := string(svg.FeDiffuseLighting().In("in").SurfaceScale("surfaceScale").DiffuseConstant("diffuseConstant").LightingColor("lighting-color").X("x").Y("y").Width("width").Height("height").Result("result").Class("class").AutoFocus().Fill("fill").StrokeWidth("stroke-width").StrokeLineCap(strokelinecap.Custom("stroke-linecap")).StrokeLineJoin(strokelinejoin.Custom("stroke-linejoin")).OnClick("onclick").RenderBytes())
+	want := "<feDiffuseLighting in=\"in\" surfaceScale=\"surfaceScale\" diffuseConstant=\"diffuseConstant\" lighting-color=\"lighting-color\" x=\"x\" y=\"y\" width=\"width\" height=\"height\" result=\"result\" class=\"class\" autofocus fill=\"fill\" stroke-width=\"stroke-width\" stroke-linecap=\"stroke-linecap\" stroke-linejoin=\"stroke-linejoin\" onclick=\"onclick\"></feDiffuseLighting>"
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
+func TestRenderFeDisplacementMap(t *testing.T) {
+	got := string(svg.FeDisplacementMap().In("in").In2("in2").Scale("scale").XChannelSelector(channelselector.Custom("xChannelSelector")).YChannelSelector(channelselector.Custom("yChannelSelector")).X("x").Y("y").Width("width").Height("height").Result("result").Class("class").AutoFocus().Fill("fill").StrokeWidth("stroke-width").StrokeLineCap(strokelinecap.Custom("stroke-linecap")).StrokeLineJoin(strokelinejoin.Custom("stroke-linejoin")).OnClick("onclick").RenderBytes())
+	want := "<feDisplacementMap in=\"in\" in2=\"in2\" scale=\"scale\" xChannelSelector=\"xChannelSelector\" yChannelSelector=\"yChannelSelector\" x=\"x\" y=\"y\" width=\"width\" height=\"height\" result=\"result\" class=\"class\" autofocus fill=\"fill\" stroke-width=\"stroke-width\" stroke-linecap=\"stroke-linecap\" stroke-linejoin=\"stroke-linejoin\" onclick=\"onclick\"></feDisplacementMap>"
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
+func TestRenderFeDistantLight(t *testing.T) {
+	got := string(svg.FeDistantLight().Azimuth("azimuth").Elevation("elevation").Class("class").AutoFocus().Fill("fill").StrokeWidth("stroke-width").StrokeLineCap(strokelinecap.Custom("stroke-linecap")).StrokeLineJoin(strokelinejoin.Custom("stroke-linejoin")).OnClick("onclick").RenderBytes())
+	want := "<feDistantLight azimuth=\"azimuth\" elevation=\"elevation\" class=\"class\" autofocus fill=\"fill\" stroke-width=\"stroke-width\" stroke-linecap=\"stroke-linecap\" stroke-linejoin=\"stroke-linejoin\" onclick=\"onclick\"></feDistantLight>"
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
+func TestRenderFeDropShadow(t *testing.T) {
+	got := string(svg.FeDropShadow().In("in").Dx("dx").Dy("dy").StdDeviation("stdDeviation").FloodColor("flood-color").FloodOpacity("flood-opacity").X("x").Y("y").Width("width").Height("height").Result("result").Class("class").AutoFocus().Fill("fill").StrokeWidth("stroke-width").StrokeLineCap(strokelinecap.Custom("stroke-linecap")).StrokeLineJoin(strokelinejoin.Custom("stroke-linejoin")).OnClick("onclick").RenderBytes())
+	want := "<feDropShadow in=\"in\" dx=\"dx\" dy=\"dy\" stdDeviation=\"stdDeviation\" flood-color=\"flood-color\" flood-opacity=\"flood-opacity\" x=\"x\" y=\"y\" width=\"width\" height=\"height\" result=\"result\" class=\"class\" autofocus fill=\"fill\" stroke-width=\"stroke-width\" stroke-linecap=\"stroke-linecap\" stroke-linejoin=\"stroke-linejoin\" onclick=\"onclick\"></feDropShadow>"
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
+func TestRenderFeFlood(t *testing.T) {
+	got := string(svg.FeFlood().FloodColor("flood-color").FloodOpacity("flood-opacity").X("x").Y("y").Width("width").Height("height").Result("result").Class("class").AutoFocus().Fill("fill").StrokeWidth("stroke-width").StrokeLineCap(strokelinecap.Custom("stroke-linecap")).StrokeLineJoin(strokelinejoin.Custom("stroke-linejoin")).OnClick("onclick").RenderBytes())
+	want := "<feFlood flood-color=\"flood-color\" flood-opacity=\"flood-opacity\" x=\"x\" y=\"y\" width=\"width\" height=\"height\" result=\"result\" class=\"class\" autofocus fill=\"fill\" stroke-width=\"stroke-width\" stroke-linecap=\"stroke-linecap\" stroke-linejoin=\"stroke-linejoin\" onclick=\"onclick\"></feFlood>"
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
+func TestRenderFeFuncA(t *testing.T) {
+	got := string(svg.FeFuncA().Type(transfertype.Custom("type")).TableValues("tableValues").Slope("slope").Intercept("intercept").Amplitude("amplitude").Exponent("exponent").Offset("offset").Class("class").AutoFocus().Fill("fill").StrokeWidth("stroke-width").StrokeLineCap(strokelinecap.Custom("stroke-linecap")).StrokeLineJoin(strokelinejoin.Custom("stroke-linejoin")).OnClick("onclick").RenderBytes())
+	want := "<feFuncA type=\"type\" tableValues=\"tableValues\" slope=\"slope\" intercept=\"intercept\" amplitude=\"amplitude\" exponent=\"exponent\" offset=\"offset\" class=\"class\" autofocus fill=\"fill\" stroke-width=\"stroke-width\" stroke-linecap=\"stroke-linecap\" stroke-linejoin=\"stroke-linejoin\" onclick=\"onclick\"></feFuncA>"
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
+func TestRenderFeFuncB(t *testing.T) {
+	got := string(svg.FeFuncB().Type(transfertype.Custom("type")).TableValues("tableValues").Slope("slope").Intercept("intercept").Amplitude("amplitude").Exponent("exponent").Offset("offset").Class("class").AutoFocus().Fill("fill").StrokeWidth("stroke-width").StrokeLineCap(strokelinecap.Custom("stroke-linecap")).StrokeLineJoin(strokelinejoin.Custom("stroke-linejoin")).OnClick("onclick").RenderBytes())
+	want := "<feFuncB type=\"type\" tableValues=\"tableValues\" slope=\"slope\" intercept=\"intercept\" amplitude=\"amplitude\" exponent=\"exponent\" offset=\"offset\" class=\"class\" autofocus fill=\"fill\" stroke-width=\"stroke-width\" stroke-linecap=\"stroke-linecap\" stroke-linejoin=\"stroke-linejoin\" onclick=\"onclick\"></feFuncB>"
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
+func TestRenderFeFuncG(t *testing.T) {
+	got := string(svg.FeFuncG().Type(transfertype.Custom("type")).TableValues("tableValues").Slope("slope").Intercept("intercept").Amplitude("amplitude").Exponent("exponent").Offset("offset").Class("class").AutoFocus().Fill("fill").StrokeWidth("stroke-width").StrokeLineCap(strokelinecap.Custom("stroke-linecap")).StrokeLineJoin(strokelinejoin.Custom("stroke-linejoin")).OnClick("onclick").RenderBytes())
+	want := "<feFuncG type=\"type\" tableValues=\"tableValues\" slope=\"slope\" intercept=\"intercept\" amplitude=\"amplitude\" exponent=\"exponent\" offset=\"offset\" class=\"class\" autofocus fill=\"fill\" stroke-width=\"stroke-width\" stroke-linecap=\"stroke-linecap\" stroke-linejoin=\"stroke-linejoin\" onclick=\"onclick\"></feFuncG>"
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
+func TestRenderFeFuncR(t *testing.T) {
+	got := string(svg.FeFuncR().Type(transfertype.Custom("type")).TableValues("tableValues").Slope("slope").Intercept("intercept").Amplitude("amplitude").Exponent("exponent").Offset("offset").Class("class").AutoFocus().Fill("fill").StrokeWidth("stroke-width").StrokeLineCap(strokelinecap.Custom("stroke-linecap")).StrokeLineJoin(strokelinejoin.Custom("stroke-linejoin")).OnClick("onclick").RenderBytes())
+	want := "<feFuncR type=\"type\" tableValues=\"tableValues\" slope=\"slope\" intercept=\"intercept\" amplitude=\"amplitude\" exponent=\"exponent\" offset=\"offset\" class=\"class\" autofocus fill=\"fill\" stroke-width=\"stroke-width\" stroke-linecap=\"stroke-linecap\" stroke-linejoin=\"stroke-linejoin\" onclick=\"onclick\"></feFuncR>"
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
+func TestRenderFeGaussianBlur(t *testing.T) {
+	got := string(svg.FeGaussianBlur().In("in").StdDeviation("stdDeviation").EdgeMode(edgemode.Custom("edgeMode")).X("x").Y("y").Width("width").Height("height").Result("result").Class("class").AutoFocus().Fill("fill").StrokeWidth("stroke-width").StrokeLineCap(strokelinecap.Custom("stroke-linecap")).StrokeLineJoin(strokelinejoin.Custom("stroke-linejoin")).OnClick("onclick").RenderBytes())
+	want := "<feGaussianBlur in=\"in\" stdDeviation=\"stdDeviation\" edgeMode=\"edgeMode\" x=\"x\" y=\"y\" width=\"width\" height=\"height\" result=\"result\" class=\"class\" autofocus fill=\"fill\" stroke-width=\"stroke-width\" stroke-linecap=\"stroke-linecap\" stroke-linejoin=\"stroke-linejoin\" onclick=\"onclick\"></feGaussianBlur>"
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
+func TestRenderFeImage(t *testing.T) {
+	got := string(svg.FeImage().Href("href").PreserveAspectRatio("preserveAspectRatio").Crossorigin(crossorigin.Custom("crossorigin")).X("x").Y("y").Width("width").Height("height").Result("result").Class("class").AutoFocus().Fill("fill").StrokeWidth("stroke-width").StrokeLineCap(strokelinecap.Custom("stroke-linecap")).StrokeLineJoin(strokelinejoin.Custom("stroke-linejoin")).OnClick("onclick").RenderBytes())
+	want := "<feImage href=\"href\" preserveAspectRatio=\"preserveAspectRatio\" crossorigin=\"crossorigin\" x=\"x\" y=\"y\" width=\"width\" height=\"height\" result=\"result\" class=\"class\" autofocus fill=\"fill\" stroke-width=\"stroke-width\" stroke-linecap=\"stroke-linecap\" stroke-linejoin=\"stroke-linejoin\" onclick=\"onclick\"></feImage>"
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
+func TestRenderFeMerge(t *testing.T) {
+	got := string(svg.FeMerge().X("x").Y("y").Width("width").Height("height").Result("result").Class("class").AutoFocus().Fill("fill").StrokeWidth("stroke-width").StrokeLineCap(strokelinecap.Custom("stroke-linecap")).StrokeLineJoin(strokelinejoin.Custom("stroke-linejoin")).OnClick("onclick").RenderBytes())
+	want := "<feMerge x=\"x\" y=\"y\" width=\"width\" height=\"height\" result=\"result\" class=\"class\" autofocus fill=\"fill\" stroke-width=\"stroke-width\" stroke-linecap=\"stroke-linecap\" stroke-linejoin=\"stroke-linejoin\" onclick=\"onclick\"></feMerge>"
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
+func TestRenderFeMergeNode(t *testing.T) {
+	got := string(svg.FeMergeNode().In("in").Class("class").AutoFocus().Fill("fill").StrokeWidth("stroke-width").StrokeLineCap(strokelinecap.Custom("stroke-linecap")).StrokeLineJoin(strokelinejoin.Custom("stroke-linejoin")).OnClick("onclick").RenderBytes())
+	want := "<feMergeNode in=\"in\" class=\"class\" autofocus fill=\"fill\" stroke-width=\"stroke-width\" stroke-linecap=\"stroke-linecap\" stroke-linejoin=\"stroke-linejoin\" onclick=\"onclick\"></feMergeNode>"
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
+func TestRenderFeMorphology(t *testing.T) {
+	got := string(svg.FeMorphology().In("in").Operator(morphologyoperator.Custom("operator")).Radius("radius").X("x").Y("y").Width("width").Height("height").Result("result").Class("class").AutoFocus().Fill("fill").StrokeWidth("stroke-width").StrokeLineCap(strokelinecap.Custom("stroke-linecap")).StrokeLineJoin(strokelinejoin.Custom("stroke-linejoin")).OnClick("onclick").RenderBytes())
+	want := "<feMorphology in=\"in\" operator=\"operator\" radius=\"radius\" x=\"x\" y=\"y\" width=\"width\" height=\"height\" result=\"result\" class=\"class\" autofocus fill=\"fill\" stroke-width=\"stroke-width\" stroke-linecap=\"stroke-linecap\" stroke-linejoin=\"stroke-linejoin\" onclick=\"onclick\"></feMorphology>"
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
+func TestRenderFeOffset(t *testing.T) {
+	got := string(svg.FeOffset().In("in").Dx("dx").Dy("dy").X("x").Y("y").Width("width").Height("height").Result("result").Class("class").AutoFocus().Fill("fill").StrokeWidth("stroke-width").StrokeLineCap(strokelinecap.Custom("stroke-linecap")).StrokeLineJoin(strokelinejoin.Custom("stroke-linejoin")).OnClick("onclick").RenderBytes())
+	want := "<feOffset in=\"in\" dx=\"dx\" dy=\"dy\" x=\"x\" y=\"y\" width=\"width\" height=\"height\" result=\"result\" class=\"class\" autofocus fill=\"fill\" stroke-width=\"stroke-width\" stroke-linecap=\"stroke-linecap\" stroke-linejoin=\"stroke-linejoin\" onclick=\"onclick\"></feOffset>"
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
+func TestRenderFePointLight(t *testing.T) {
+	got := string(svg.FePointLight().X("x").Y("y").Z("z").Class("class").AutoFocus().Fill("fill").StrokeWidth("stroke-width").StrokeLineCap(strokelinecap.Custom("stroke-linecap")).StrokeLineJoin(strokelinejoin.Custom("stroke-linejoin")).OnClick("onclick").RenderBytes())
+	want := "<fePointLight x=\"x\" y=\"y\" z=\"z\" class=\"class\" autofocus fill=\"fill\" stroke-width=\"stroke-width\" stroke-linecap=\"stroke-linecap\" stroke-linejoin=\"stroke-linejoin\" onclick=\"onclick\"></fePointLight>"
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
+func TestRenderFeSpecularLighting(t *testing.T) {
+	got := string(svg.FeSpecularLighting().In("in").SurfaceScale("surfaceScale").SpecularConstant("specularConstant").SpecularExponent("specularExponent").LightingColor("lighting-color").X("x").Y("y").Width("width").Height("height").Result("result").Class("class").AutoFocus().Fill("fill").StrokeWidth("stroke-width").StrokeLineCap(strokelinecap.Custom("stroke-linecap")).StrokeLineJoin(strokelinejoin.Custom("stroke-linejoin")).OnClick("onclick").RenderBytes())
+	want := "<feSpecularLighting in=\"in\" surfaceScale=\"surfaceScale\" specularConstant=\"specularConstant\" specularExponent=\"specularExponent\" lighting-color=\"lighting-color\" x=\"x\" y=\"y\" width=\"width\" height=\"height\" result=\"result\" class=\"class\" autofocus fill=\"fill\" stroke-width=\"stroke-width\" stroke-linecap=\"stroke-linecap\" stroke-linejoin=\"stroke-linejoin\" onclick=\"onclick\"></feSpecularLighting>"
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
+func TestRenderFeSpotLight(t *testing.T) {
+	got := string(svg.FeSpotLight().X("x").Y("y").Z("z").PointsAtX("pointsAtX").PointsAtY("pointsAtY").PointsAtZ("pointsAtZ").SpecularExponent("specularExponent").LimitingConeAngle("limitingConeAngle").Class("class").AutoFocus().Fill("fill").StrokeWidth("stroke-width").StrokeLineCap(strokelinecap.Custom("stroke-linecap")).StrokeLineJoin(strokelinejoin.Custom("stroke-linejoin")).OnClick("onclick").RenderBytes())
+	want := "<feSpotLight x=\"x\" y=\"y\" z=\"z\" pointsAtX=\"pointsAtX\" pointsAtY=\"pointsAtY\" pointsAtZ=\"pointsAtZ\" specularExponent=\"specularExponent\" limitingConeAngle=\"limitingConeAngle\" class=\"class\" autofocus fill=\"fill\" stroke-width=\"stroke-width\" stroke-linecap=\"stroke-linecap\" stroke-linejoin=\"stroke-linejoin\" onclick=\"onclick\"></feSpotLight>"
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
+func TestRenderFeTile(t *testing.T) {
+	got := string(svg.FeTile().In("in").X("x").Y("y").Width("width").Height("height").Result("result").Class("class").AutoFocus().Fill("fill").StrokeWidth("stroke-width").StrokeLineCap(strokelinecap.Custom("stroke-linecap")).StrokeLineJoin(strokelinejoin.Custom("stroke-linejoin")).OnClick("onclick").RenderBytes())
+	want := "<feTile in=\"in\" x=\"x\" y=\"y\" width=\"width\" height=\"height\" result=\"result\" class=\"class\" autofocus fill=\"fill\" stroke-width=\"stroke-width\" stroke-linecap=\"stroke-linecap\" stroke-linejoin=\"stroke-linejoin\" onclick=\"onclick\"></feTile>"
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
+func TestRenderFeTurbulence(t *testing.T) {
+	got := string(svg.FeTurbulence().BaseFrequency("baseFrequency").NumOctaves("numOctaves").Seed("seed").StitchTiles(stitchtiles.Custom("stitchTiles")).Type(turbulencetype.Custom("type")).X("x").Y("y").Width("width").Height("height").Result("result").Class("class").AutoFocus().Fill("fill").StrokeWidth("stroke-width").StrokeLineCap(strokelinecap.Custom("stroke-linecap")).StrokeLineJoin(strokelinejoin.Custom("stroke-linejoin")).OnClick("onclick").RenderBytes())
+	want := "<feTurbulence baseFrequency=\"baseFrequency\" numOctaves=\"numOctaves\" seed=\"seed\" stitchTiles=\"stitchTiles\" type=\"type\" x=\"x\" y=\"y\" width=\"width\" height=\"height\" result=\"result\" class=\"class\" autofocus fill=\"fill\" stroke-width=\"stroke-width\" stroke-linecap=\"stroke-linecap\" stroke-linejoin=\"stroke-linejoin\" onclick=\"onclick\"></feTurbulence>"
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
+func TestRenderFilter(t *testing.T) {
+	got := string(svg.Filter().X("x").Y("y").Width("width").Height("height").FilterUnits(units.Custom("filterUnits")).PrimitiveUnits(units.Custom("primitiveUnits")).Href("href").Class("class").AutoFocus().Fill("fill").StrokeWidth("stroke-width").StrokeLineCap(strokelinecap.Custom("stroke-linecap")).StrokeLineJoin(strokelinejoin.Custom("stroke-linejoin")).OnClick("onclick").RenderBytes())
+	want := "<filter x=\"x\" y=\"y\" width=\"width\" height=\"height\" filterUnits=\"filterUnits\" primitiveUnits=\"primitiveUnits\" href=\"href\" class=\"class\" autofocus fill=\"fill\" stroke-width=\"stroke-width\" stroke-linecap=\"stroke-linecap\" stroke-linejoin=\"stroke-linejoin\" onclick=\"onclick\"></filter>"
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
+func TestRenderForeignObject(t *testing.T) {
+	got := string(svg.ForeignObject().X("x").Y("y").Width("width").Height("height").Class("class").AutoFocus().Fill("fill").StrokeWidth("stroke-width").StrokeLineCap(strokelinecap.Custom("stroke-linecap")).StrokeLineJoin(strokelinejoin.Custom("stroke-linejoin")).OnClick("onclick").RenderBytes())
+	want := "<foreignObject x=\"x\" y=\"y\" width=\"width\" height=\"height\" class=\"class\" autofocus fill=\"fill\" stroke-width=\"stroke-width\" stroke-linecap=\"stroke-linecap\" stroke-linejoin=\"stroke-linejoin\" onclick=\"onclick\"></foreignObject>"
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
 	}
@@ -48,17 +329,57 @@ func TestRenderG(t *testing.T) {
 	}
 }
 
+func TestRenderImage(t *testing.T) {
+	got := string(svg.Image().X("x").Y("y").Width("width").Height("height").Href("href").PreserveAspectRatio("preserveAspectRatio").Crossorigin(crossorigin.Custom("crossorigin")).Class("class").AutoFocus().Fill("fill").StrokeWidth("stroke-width").StrokeLineCap(strokelinecap.Custom("stroke-linecap")).StrokeLineJoin(strokelinejoin.Custom("stroke-linejoin")).OnClick("onclick").RenderBytes())
+	want := "<image x=\"x\" y=\"y\" width=\"width\" height=\"height\" href=\"href\" preserveAspectRatio=\"preserveAspectRatio\" crossorigin=\"crossorigin\" class=\"class\" autofocus fill=\"fill\" stroke-width=\"stroke-width\" stroke-linecap=\"stroke-linecap\" stroke-linejoin=\"stroke-linejoin\" onclick=\"onclick\"></image>"
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
 func TestRenderLine(t *testing.T) {
 	got := string(svg.Line().X1("x1").Y1("y1").X2("x2").Y2("y2").Class("class").AutoFocus().Fill("fill").StrokeWidth("stroke-width").StrokeLineCap(strokelinecap.Custom("stroke-linecap")).StrokeLineJoin(strokelinejoin.Custom("stroke-linejoin")).OnClick("onclick").RenderBytes())
-	want := "<line x1=\"x1\" y1=\"y1\" x2=\"x2\" y2=\"y2\" class=\"class\" autofocus fill=\"fill\" stroke-width=\"stroke-width\" stroke-linecap=\"stroke-linecap\" stroke-linejoin=\"stroke-linejoin\" onclick=\"onclick\" />"
+	want := "<line x1=\"x1\" y1=\"y1\" x2=\"x2\" y2=\"y2\" class=\"class\" autofocus fill=\"fill\" stroke-width=\"stroke-width\" stroke-linecap=\"stroke-linecap\" stroke-linejoin=\"stroke-linejoin\" onclick=\"onclick\"></line>"
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
 	}
 }
 
 func TestRenderLinearGradient(t *testing.T) {
-	got := string(svg.LinearGradient().X1("x1").Y1("y1").X2("x2").Y2("y2").GradientUnits(gradientunits.Custom("gradientUnits")).GradientTransform("gradientTransform").SpreadMethod(spreadmethod.Custom("spreadMethod")).Href("href").Class("class").AutoFocus().Fill("fill").StrokeWidth("stroke-width").StrokeLineCap(strokelinecap.Custom("stroke-linecap")).StrokeLineJoin(strokelinejoin.Custom("stroke-linejoin")).OnClick("onclick").RenderBytes())
+	got := string(svg.LinearGradient().X1("x1").Y1("y1").X2("x2").Y2("y2").GradientUnits(units.Custom("gradientUnits")).GradientTransform("gradientTransform").SpreadMethod(spreadmethod.Custom("spreadMethod")).Href("href").Class("class").AutoFocus().Fill("fill").StrokeWidth("stroke-width").StrokeLineCap(strokelinecap.Custom("stroke-linecap")).StrokeLineJoin(strokelinejoin.Custom("stroke-linejoin")).OnClick("onclick").RenderBytes())
 	want := "<linearGradient x1=\"x1\" y1=\"y1\" x2=\"x2\" y2=\"y2\" gradientUnits=\"gradientUnits\" gradientTransform=\"gradientTransform\" spreadMethod=\"spreadMethod\" href=\"href\" class=\"class\" autofocus fill=\"fill\" stroke-width=\"stroke-width\" stroke-linecap=\"stroke-linecap\" stroke-linejoin=\"stroke-linejoin\" onclick=\"onclick\"></linearGradient>"
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
+func TestRenderMarker(t *testing.T) {
+	got := string(svg.Marker().MarkerWidth("markerWidth").MarkerHeight("markerHeight").MarkerUnits("markerUnits").RefX("refX").RefY("refY").Orient("orient").ViewBox("viewBox").PreserveAspectRatio("preserveAspectRatio").Class("class").AutoFocus().Fill("fill").StrokeWidth("stroke-width").StrokeLineCap(strokelinecap.Custom("stroke-linecap")).StrokeLineJoin(strokelinejoin.Custom("stroke-linejoin")).OnClick("onclick").RenderBytes())
+	want := "<marker markerWidth=\"markerWidth\" markerHeight=\"markerHeight\" markerUnits=\"markerUnits\" refX=\"refX\" refY=\"refY\" orient=\"orient\" viewBox=\"viewBox\" preserveAspectRatio=\"preserveAspectRatio\" class=\"class\" autofocus fill=\"fill\" stroke-width=\"stroke-width\" stroke-linecap=\"stroke-linecap\" stroke-linejoin=\"stroke-linejoin\" onclick=\"onclick\"></marker>"
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
+func TestRenderMask(t *testing.T) {
+	got := string(svg.Mask().X("x").Y("y").Width("width").Height("height").MaskUnits(units.Custom("maskUnits")).MaskContentUnits(units.Custom("maskContentUnits")).Class("class").AutoFocus().Fill("fill").StrokeWidth("stroke-width").StrokeLineCap(strokelinecap.Custom("stroke-linecap")).StrokeLineJoin(strokelinejoin.Custom("stroke-linejoin")).OnClick("onclick").RenderBytes())
+	want := "<mask x=\"x\" y=\"y\" width=\"width\" height=\"height\" maskUnits=\"maskUnits\" maskContentUnits=\"maskContentUnits\" class=\"class\" autofocus fill=\"fill\" stroke-width=\"stroke-width\" stroke-linecap=\"stroke-linecap\" stroke-linejoin=\"stroke-linejoin\" onclick=\"onclick\"></mask>"
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
+func TestRenderMetadata(t *testing.T) {
+	got := string(svg.Metadata().Class("class").AutoFocus().Fill("fill").StrokeWidth("stroke-width").StrokeLineCap(strokelinecap.Custom("stroke-linecap")).StrokeLineJoin(strokelinejoin.Custom("stroke-linejoin")).OnClick("onclick").RenderBytes())
+	want := "<metadata class=\"class\" autofocus fill=\"fill\" stroke-width=\"stroke-width\" stroke-linecap=\"stroke-linecap\" stroke-linejoin=\"stroke-linejoin\" onclick=\"onclick\"></metadata>"
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
+func TestRenderMpath(t *testing.T) {
+	got := string(svg.Mpath().Href("href").Class("class").AutoFocus().Fill("fill").StrokeWidth("stroke-width").StrokeLineCap(strokelinecap.Custom("stroke-linecap")).StrokeLineJoin(strokelinejoin.Custom("stroke-linejoin")).OnClick("onclick").RenderBytes())
+	want := "<mpath href=\"href\" class=\"class\" autofocus fill=\"fill\" stroke-width=\"stroke-width\" stroke-linecap=\"stroke-linecap\" stroke-linejoin=\"stroke-linejoin\" onclick=\"onclick\"></mpath>"
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
 	}
@@ -66,7 +387,15 @@ func TestRenderLinearGradient(t *testing.T) {
 
 func TestRenderPath(t *testing.T) {
 	got := string(svg.Path().D("d").Class("class").AutoFocus().Fill("fill").StrokeWidth("stroke-width").StrokeLineCap(strokelinecap.Custom("stroke-linecap")).StrokeLineJoin(strokelinejoin.Custom("stroke-linejoin")).OnClick("onclick").RenderBytes())
-	want := "<path d=\"d\" class=\"class\" autofocus fill=\"fill\" stroke-width=\"stroke-width\" stroke-linecap=\"stroke-linecap\" stroke-linejoin=\"stroke-linejoin\" onclick=\"onclick\" />"
+	want := "<path d=\"d\" class=\"class\" autofocus fill=\"fill\" stroke-width=\"stroke-width\" stroke-linecap=\"stroke-linecap\" stroke-linejoin=\"stroke-linejoin\" onclick=\"onclick\"></path>"
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
+func TestRenderPattern(t *testing.T) {
+	got := string(svg.Pattern().X("x").Y("y").Width("width").Height("height").PatternUnits(units.Custom("patternUnits")).PatternContentUnits(units.Custom("patternContentUnits")).PatternTransform("patternTransform").ViewBox("viewBox").PreserveAspectRatio("preserveAspectRatio").Href("href").Class("class").AutoFocus().Fill("fill").StrokeWidth("stroke-width").StrokeLineCap(strokelinecap.Custom("stroke-linecap")).StrokeLineJoin(strokelinejoin.Custom("stroke-linejoin")).OnClick("onclick").RenderBytes())
+	want := "<pattern x=\"x\" y=\"y\" width=\"width\" height=\"height\" patternUnits=\"patternUnits\" patternContentUnits=\"patternContentUnits\" patternTransform=\"patternTransform\" viewBox=\"viewBox\" preserveAspectRatio=\"preserveAspectRatio\" href=\"href\" class=\"class\" autofocus fill=\"fill\" stroke-width=\"stroke-width\" stroke-linecap=\"stroke-linecap\" stroke-linejoin=\"stroke-linejoin\" onclick=\"onclick\"></pattern>"
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
 	}
@@ -74,7 +403,7 @@ func TestRenderPath(t *testing.T) {
 
 func TestRenderPolygon(t *testing.T) {
 	got := string(svg.Polygon().Points("points").Class("class").AutoFocus().Fill("fill").StrokeWidth("stroke-width").StrokeLineCap(strokelinecap.Custom("stroke-linecap")).StrokeLineJoin(strokelinejoin.Custom("stroke-linejoin")).OnClick("onclick").RenderBytes())
-	want := "<polygon points=\"points\" class=\"class\" autofocus fill=\"fill\" stroke-width=\"stroke-width\" stroke-linecap=\"stroke-linecap\" stroke-linejoin=\"stroke-linejoin\" onclick=\"onclick\" />"
+	want := "<polygon points=\"points\" class=\"class\" autofocus fill=\"fill\" stroke-width=\"stroke-width\" stroke-linecap=\"stroke-linecap\" stroke-linejoin=\"stroke-linejoin\" onclick=\"onclick\"></polygon>"
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
 	}
@@ -82,14 +411,14 @@ func TestRenderPolygon(t *testing.T) {
 
 func TestRenderPolyline(t *testing.T) {
 	got := string(svg.Polyline().Points("points").Class("class").AutoFocus().Fill("fill").StrokeWidth("stroke-width").StrokeLineCap(strokelinecap.Custom("stroke-linecap")).StrokeLineJoin(strokelinejoin.Custom("stroke-linejoin")).OnClick("onclick").RenderBytes())
-	want := "<polyline points=\"points\" class=\"class\" autofocus fill=\"fill\" stroke-width=\"stroke-width\" stroke-linecap=\"stroke-linecap\" stroke-linejoin=\"stroke-linejoin\" onclick=\"onclick\" />"
+	want := "<polyline points=\"points\" class=\"class\" autofocus fill=\"fill\" stroke-width=\"stroke-width\" stroke-linecap=\"stroke-linecap\" stroke-linejoin=\"stroke-linejoin\" onclick=\"onclick\"></polyline>"
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
 	}
 }
 
 func TestRenderRadialGradient(t *testing.T) {
-	got := string(svg.RadialGradient().Cx("cx").Cy("cy").R("r").Fx("fx").Fy("fy").Fr("fr").GradientUnits(gradientunits.Custom("gradientUnits")).GradientTransform("gradientTransform").SpreadMethod(spreadmethod.Custom("spreadMethod")).Href("href").Class("class").AutoFocus().Fill("fill").StrokeWidth("stroke-width").StrokeLineCap(strokelinecap.Custom("stroke-linecap")).StrokeLineJoin(strokelinejoin.Custom("stroke-linejoin")).OnClick("onclick").RenderBytes())
+	got := string(svg.RadialGradient().Cx("cx").Cy("cy").R("r").Fx("fx").Fy("fy").Fr("fr").GradientUnits(units.Custom("gradientUnits")).GradientTransform("gradientTransform").SpreadMethod(spreadmethod.Custom("spreadMethod")).Href("href").Class("class").AutoFocus().Fill("fill").StrokeWidth("stroke-width").StrokeLineCap(strokelinecap.Custom("stroke-linecap")).StrokeLineJoin(strokelinejoin.Custom("stroke-linejoin")).OnClick("onclick").RenderBytes())
 	want := "<radialGradient cx=\"cx\" cy=\"cy\" r=\"r\" fx=\"fx\" fy=\"fy\" fr=\"fr\" gradientUnits=\"gradientUnits\" gradientTransform=\"gradientTransform\" spreadMethod=\"spreadMethod\" href=\"href\" class=\"class\" autofocus fill=\"fill\" stroke-width=\"stroke-width\" stroke-linecap=\"stroke-linecap\" stroke-linejoin=\"stroke-linejoin\" onclick=\"onclick\"></radialGradient>"
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
@@ -98,7 +427,23 @@ func TestRenderRadialGradient(t *testing.T) {
 
 func TestRenderRect(t *testing.T) {
 	got := string(svg.Rect().X("x").Y("y").Width("width").Height("height").Rx("rx").Ry("ry").Class("class").AutoFocus().Fill("fill").StrokeWidth("stroke-width").StrokeLineCap(strokelinecap.Custom("stroke-linecap")).StrokeLineJoin(strokelinejoin.Custom("stroke-linejoin")).OnClick("onclick").RenderBytes())
-	want := "<rect x=\"x\" y=\"y\" width=\"width\" height=\"height\" rx=\"rx\" ry=\"ry\" class=\"class\" autofocus fill=\"fill\" stroke-width=\"stroke-width\" stroke-linecap=\"stroke-linecap\" stroke-linejoin=\"stroke-linejoin\" onclick=\"onclick\" />"
+	want := "<rect x=\"x\" y=\"y\" width=\"width\" height=\"height\" rx=\"rx\" ry=\"ry\" class=\"class\" autofocus fill=\"fill\" stroke-width=\"stroke-width\" stroke-linecap=\"stroke-linecap\" stroke-linejoin=\"stroke-linejoin\" onclick=\"onclick\"></rect>"
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
+func TestRenderScript(t *testing.T) {
+	got := string(svg.Script().Href("href").Type("type").Crossorigin(crossorigin.Custom("crossorigin")).Class("class").AutoFocus().Fill("fill").StrokeWidth("stroke-width").StrokeLineCap(strokelinecap.Custom("stroke-linecap")).StrokeLineJoin(strokelinejoin.Custom("stroke-linejoin")).OnClick("onclick").RenderBytes())
+	want := "<script href=\"href\" type=\"type\" crossorigin=\"crossorigin\" class=\"class\" autofocus fill=\"fill\" stroke-width=\"stroke-width\" stroke-linecap=\"stroke-linecap\" stroke-linejoin=\"stroke-linejoin\" onclick=\"onclick\"></script>"
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
+func TestRenderSet(t *testing.T) {
+	got := string(svg.Set().AttributeName("attributeName").To("to").Begin("begin").Dur("dur").End("end").Min("min").Max("max").RepeatCount("repeatCount").RepeatDur("repeatDur").Restart(restart.Custom("restart")).Fill(animationfill.Custom("fill")).Href("href").Class("class").AutoFocus().StrokeWidth("stroke-width").StrokeLineCap(strokelinecap.Custom("stroke-linecap")).StrokeLineJoin(strokelinejoin.Custom("stroke-linejoin")).OnClick("onclick").RenderBytes())
+	want := "<set attributeName=\"attributeName\" to=\"to\" begin=\"begin\" dur=\"dur\" end=\"end\" min=\"min\" max=\"max\" repeatCount=\"repeatCount\" repeatDur=\"repeatDur\" restart=\"restart\" fill=\"fill\" href=\"href\" class=\"class\" autofocus stroke-width=\"stroke-width\" stroke-linecap=\"stroke-linecap\" stroke-linejoin=\"stroke-linejoin\" onclick=\"onclick\"></set>"
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
 	}
@@ -106,7 +451,15 @@ func TestRenderRect(t *testing.T) {
 
 func TestRenderStop(t *testing.T) {
 	got := string(svg.Stop().Offset("offset").StopColor("stop-color").StopOpacity("stop-opacity").Class("class").AutoFocus().Fill("fill").StrokeWidth("stroke-width").StrokeLineCap(strokelinecap.Custom("stroke-linecap")).StrokeLineJoin(strokelinejoin.Custom("stroke-linejoin")).OnClick("onclick").RenderBytes())
-	want := "<stop offset=\"offset\" stop-color=\"stop-color\" stop-opacity=\"stop-opacity\" class=\"class\" autofocus fill=\"fill\" stroke-width=\"stroke-width\" stroke-linecap=\"stroke-linecap\" stroke-linejoin=\"stroke-linejoin\" onclick=\"onclick\" />"
+	want := "<stop offset=\"offset\" stop-color=\"stop-color\" stop-opacity=\"stop-opacity\" class=\"class\" autofocus fill=\"fill\" stroke-width=\"stroke-width\" stroke-linecap=\"stroke-linecap\" stroke-linejoin=\"stroke-linejoin\" onclick=\"onclick\"></stop>"
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
+func TestRenderStyle(t *testing.T) {
+	got := string(svg.Style().Type("type").Media("media").Title("title").Class("class").AutoFocus().Fill("fill").StrokeWidth("stroke-width").StrokeLineCap(strokelinecap.Custom("stroke-linecap")).StrokeLineJoin(strokelinejoin.Custom("stroke-linejoin")).OnClick("onclick").RenderBytes())
+	want := "<style type=\"type\" media=\"media\" title=\"title\" class=\"class\" autofocus fill=\"fill\" stroke-width=\"stroke-width\" stroke-linecap=\"stroke-linecap\" stroke-linejoin=\"stroke-linejoin\" onclick=\"onclick\"></style>"
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
 	}
@@ -120,6 +473,22 @@ func TestRenderElement(t *testing.T) {
 	}
 }
 
+func TestRenderSwitchElement(t *testing.T) {
+	got := string(svg.Switch().Class("class").AutoFocus().Fill("fill").StrokeWidth("stroke-width").StrokeLineCap(strokelinecap.Custom("stroke-linecap")).StrokeLineJoin(strokelinejoin.Custom("stroke-linejoin")).OnClick("onclick").RenderBytes())
+	want := "<switch class=\"class\" autofocus fill=\"fill\" stroke-width=\"stroke-width\" stroke-linecap=\"stroke-linecap\" stroke-linejoin=\"stroke-linejoin\" onclick=\"onclick\"></switch>"
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
+func TestRenderSymbol(t *testing.T) {
+	got := string(svg.Symbol().X("x").Y("y").Width("width").Height("height").ViewBox("viewBox").PreserveAspectRatio("preserveAspectRatio").RefX("refX").RefY("refY").Class("class").AutoFocus().Fill("fill").StrokeWidth("stroke-width").StrokeLineCap(strokelinecap.Custom("stroke-linecap")).StrokeLineJoin(strokelinejoin.Custom("stroke-linejoin")).OnClick("onclick").RenderBytes())
+	want := "<symbol x=\"x\" y=\"y\" width=\"width\" height=\"height\" viewBox=\"viewBox\" preserveAspectRatio=\"preserveAspectRatio\" refX=\"refX\" refY=\"refY\" class=\"class\" autofocus fill=\"fill\" stroke-width=\"stroke-width\" stroke-linecap=\"stroke-linecap\" stroke-linejoin=\"stroke-linejoin\" onclick=\"onclick\"></symbol>"
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
 func TestRenderText(t *testing.T) {
 	got := string(svg.Text("hello").X("x").Y("y").Dx("dx").Dy("dy").TextAnchor(textanchor.Custom("text-anchor")).DominantBaseline(dominantbaseline.Custom("dominant-baseline")).LetterSpacing("letter-spacing").Rotate("rotate").TextLength("textLength").LengthAdjust(lengthadjust.Custom("lengthAdjust")).Class("class").AutoFocus().Fill("fill").StrokeWidth("stroke-width").StrokeLineCap(strokelinecap.Custom("stroke-linecap")).StrokeLineJoin(strokelinejoin.Custom("stroke-linejoin")).OnClick("onclick").RenderBytes())
 	want := "<text x=\"x\" y=\"y\" dx=\"dx\" dy=\"dy\" text-anchor=\"text-anchor\" dominant-baseline=\"dominant-baseline\" letter-spacing=\"letter-spacing\" rotate=\"rotate\" textLength=\"textLength\" lengthAdjust=\"lengthAdjust\" class=\"class\" autofocus fill=\"fill\" stroke-width=\"stroke-width\" stroke-linecap=\"stroke-linecap\" stroke-linejoin=\"stroke-linejoin\" onclick=\"onclick\">hello</text>"
@@ -128,9 +497,41 @@ func TestRenderText(t *testing.T) {
 	}
 }
 
+func TestRenderTextPath(t *testing.T) {
+	got := string(svg.TextPath("hello").Href("href").StartOffset("startOffset").Method("method").Spacing("spacing").Side("side").TextLength("textLength").LengthAdjust(lengthadjust.Custom("lengthAdjust")).Class("class").AutoFocus().Fill("fill").StrokeWidth("stroke-width").StrokeLineCap(strokelinecap.Custom("stroke-linecap")).StrokeLineJoin(strokelinejoin.Custom("stroke-linejoin")).OnClick("onclick").RenderBytes())
+	want := "<textPath href=\"href\" startOffset=\"startOffset\" method=\"method\" spacing=\"spacing\" side=\"side\" textLength=\"textLength\" lengthAdjust=\"lengthAdjust\" class=\"class\" autofocus fill=\"fill\" stroke-width=\"stroke-width\" stroke-linecap=\"stroke-linecap\" stroke-linejoin=\"stroke-linejoin\" onclick=\"onclick\">hello</textPath>"
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
+func TestRenderTitle(t *testing.T) {
+	got := string(svg.Title("hello").Class("class").AutoFocus().Fill("fill").StrokeWidth("stroke-width").StrokeLineCap(strokelinecap.Custom("stroke-linecap")).StrokeLineJoin(strokelinejoin.Custom("stroke-linejoin")).OnClick("onclick").RenderBytes())
+	want := "<title class=\"class\" autofocus fill=\"fill\" stroke-width=\"stroke-width\" stroke-linecap=\"stroke-linecap\" stroke-linejoin=\"stroke-linejoin\" onclick=\"onclick\">hello</title>"
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
 func TestRenderTspan(t *testing.T) {
 	got := string(svg.TSpan("hello").X("x").Y("y").Dx("dx").Dy("dy").TextAnchor(textanchor.Custom("text-anchor")).DominantBaseline(dominantbaseline.Custom("dominant-baseline")).LetterSpacing("letter-spacing").Rotate("rotate").TextLength("textLength").LengthAdjust(lengthadjust.Custom("lengthAdjust")).Class("class").AutoFocus().Fill("fill").StrokeWidth("stroke-width").StrokeLineCap(strokelinecap.Custom("stroke-linecap")).StrokeLineJoin(strokelinejoin.Custom("stroke-linejoin")).OnClick("onclick").RenderBytes())
 	want := "<tspan x=\"x\" y=\"y\" dx=\"dx\" dy=\"dy\" text-anchor=\"text-anchor\" dominant-baseline=\"dominant-baseline\" letter-spacing=\"letter-spacing\" rotate=\"rotate\" textLength=\"textLength\" lengthAdjust=\"lengthAdjust\" class=\"class\" autofocus fill=\"fill\" stroke-width=\"stroke-width\" stroke-linecap=\"stroke-linecap\" stroke-linejoin=\"stroke-linejoin\" onclick=\"onclick\">hello</tspan>"
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
+func TestRenderUse(t *testing.T) {
+	got := string(svg.Use().X("x").Y("y").Width("width").Height("height").Href("href").Class("class").AutoFocus().Fill("fill").StrokeWidth("stroke-width").StrokeLineCap(strokelinecap.Custom("stroke-linecap")).StrokeLineJoin(strokelinejoin.Custom("stroke-linejoin")).OnClick("onclick").RenderBytes())
+	want := "<use x=\"x\" y=\"y\" width=\"width\" height=\"height\" href=\"href\" class=\"class\" autofocus fill=\"fill\" stroke-width=\"stroke-width\" stroke-linecap=\"stroke-linecap\" stroke-linejoin=\"stroke-linejoin\" onclick=\"onclick\"></use>"
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
+func TestRenderView(t *testing.T) {
+	got := string(svg.View().ViewBox("viewBox").PreserveAspectRatio("preserveAspectRatio").Class("class").AutoFocus().Fill("fill").StrokeWidth("stroke-width").StrokeLineCap(strokelinecap.Custom("stroke-linecap")).StrokeLineJoin(strokelinejoin.Custom("stroke-linejoin")).OnClick("onclick").RenderBytes())
+	want := "<view viewBox=\"viewBox\" preserveAspectRatio=\"preserveAspectRatio\" class=\"class\" autofocus fill=\"fill\" stroke-width=\"stroke-width\" stroke-linecap=\"stroke-linecap\" stroke-linejoin=\"stroke-linejoin\" onclick=\"onclick\"></view>"
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
 	}
@@ -157,15 +558,25 @@ func TestNestedTree(t *testing.T) {
 			svg.Stop().Offset("0").StopColor("#fff"),
 		).ID("grad")),
 	).ViewBox("0 0 10 10").RenderBytes())
-	if got != "<svg viewBox=\"0 0 10 10\" xmlns=\"http://www.w3.org/2000/svg\"><rect x=\"0\" fill=\"var(--blue)\" /><defs><linearGradient id=\"grad\"><stop offset=\"0\" stop-color=\"#fff\" /></linearGradient></defs></svg>" {
-		t.Errorf("got %q, want %q", got, "<svg viewBox=\"0 0 10 10\" xmlns=\"http://www.w3.org/2000/svg\"><rect x=\"0\" fill=\"var(--blue)\" /><defs><linearGradient id=\"grad\"><stop offset=\"0\" stop-color=\"#fff\" /></linearGradient></defs></svg>")
+	if got != "<svg viewBox=\"0 0 10 10\" xmlns=\"http://www.w3.org/2000/svg\"><rect x=\"0\" fill=\"var(--blue)\"></rect><defs><linearGradient id=\"grad\"><stop offset=\"0\" stop-color=\"#fff\"></stop></linearGradient></defs></svg>" {
+		t.Errorf("got %q, want %q", got, "<svg viewBox=\"0 0 10 10\" xmlns=\"http://www.w3.org/2000/svg\"><rect x=\"0\" fill=\"var(--blue)\"></rect><defs><linearGradient id=\"grad\"><stop offset=\"0\" stop-color=\"#fff\"></stop></linearGradient></defs></svg>")
 	}
 }
 
 func TestDynamicKey(t *testing.T) {
 	got := string(svg.Rect().Dynamic("k").RenderBytes())
-	if got != "<rect id=\"k\" />" {
-		t.Errorf("got %q, want %q", got, "<rect id=\"k\" />")
+	if got != "<rect id=\"k\"></rect>" {
+		t.Errorf("got %q, want %q", got, "<rect id=\"k\"></rect>")
+	}
+}
+
+func TestShapeContent(t *testing.T) {
+	got := string(svg.Circle(
+		svg.Title("Q3 revenue"),
+		svg.Animate().AttributeName("r").To("30"),
+	).Cx("50").Cy("50").R("20").RenderBytes())
+	if got != "<circle cx=\"50\" cy=\"50\" r=\"20\"><title>Q3 revenue</title><animate attributeName=\"r\" to=\"30\"></animate></circle>" {
+		t.Errorf("got %q, want %q", got, "<circle cx=\"50\" cy=\"50\" r=\"20\"><title>Q3 revenue</title><animate attributeName=\"r\" to=\"30\"></animate></circle>")
 	}
 }
 

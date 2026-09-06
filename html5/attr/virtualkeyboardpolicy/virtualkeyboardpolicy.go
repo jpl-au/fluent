@@ -2,7 +2,7 @@
 
 // Package virtualkeyboardpolicy defines the [VirtualKeyboardPolicy] type and its predefined values.
 //
-// Virtual keyboard display behavior on touch devices. Controls when on-screen keyboards
+// Virtual keyboard display behaviour on touch devices. Controls when on-screen keyboards
 // appear and hide for better user experience in web applications.
 package virtualkeyboardpolicy
 
@@ -12,18 +12,18 @@ import (
 
 // VirtualKeyboardPolicy is a typed value for the HTML virtualkeyboardpolicy attribute.
 //
-// Virtual keyboard display behavior on touch devices. Controls when on-screen keyboards
+// Virtual keyboard display behaviour on touch devices. Controls when on-screen keyboards
 // appear and hide for better user experience in web applications.
 type VirtualKeyboardPolicy []byte
 
 // Variables for VirtualKeyboardPolicy values
 var (
-	// Auto Automatic virtual keyboard behavior based on browser heuristics. Browser decides
+	// Auto Automatic virtual keyboard behaviour based on browser heuristics. Browser decides
 	// when to show or hide virtual keyboard based on element focus and interaction.
 	Auto = VirtualKeyboardPolicy("auto")
 
 	// Manual Manual virtual keyboard control via JavaScript. Application controls virtual
-	// keyboard visibility programmatically instead of relying on automatic behavior.
+	// keyboard visibility programmatically instead of relying on automatic behaviour.
 	Manual = VirtualKeyboardPolicy("manual")
 )
 

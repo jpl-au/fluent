@@ -18,8 +18,8 @@ type Sandbox []byte
 
 // Variables for Sandbox values
 var (
-	// AllowDownloads Allow downloads initiated by user interaction. Permits file downloads triggered by
-	// user clicks or actions within the sandboxed iframe content.
+	// AllowDownloads Lifts the sandbox restriction on downloads. The browser's other download
+	// policies still apply.
 	AllowDownloads = Sandbox("allow-downloads")
 
 	// AllowForms Allow form submission within the sandboxed content. Permits forms to be submitted
@@ -42,16 +42,19 @@ var (
 	// content to open new browser windows or tabs.
 	AllowPopups = Sandbox("allow-popups")
 
-	// AllowPopupsToEscapeSandbox Allow popups to inherit full browser permissions. Popup windows opened from sandboxed
-	// content will not be restricted by sandbox policies.
+	// AllowPopupsToEscapeSandbox Allows newly opened browsing contexts to avoid inheriting this iframe's
+	// sandbox flags. It does not itself grant permission to open popups or bypass
+	// other browser restrictions.
 	AllowPopupsToEscapeSandbox = Sandbox("allow-popups-to-escape-sandbox")
 
 	// AllowPresentation Allow presentation API for external displays. Permits content to use presentation
 	// mode for projectors, secondary monitors, or casting devices.
 	AllowPresentation = Sandbox("allow-presentation")
 
-	// AllowSameOrigin Treat content as same-origin instead of unique origin. Allows access to cookies,
-	// localStorage, and same-origin resources. Use carefully for security.
+	// AllowSameOrigin Preserves the document's actual origin instead of assigning an opaque one.
+	// It does not make a cross-origin document same-origin with its parent.
+	// Combining this with allow-scripts for same-origin content can let that content
+	// remove its sandbox.
 	AllowSameOrigin = Sandbox("allow-same-origin")
 
 	// AllowScripts Allow JavaScript execution within sandboxed content. Permits scripts to run but

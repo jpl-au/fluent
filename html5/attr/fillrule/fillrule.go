@@ -2,9 +2,10 @@
 
 // Package fillrule defines the [FillRule] type and its predefined values.
 //
-// Algorithm that decides which regions of a self-intersecting or nested path
-// are inside it and get filled. A typed value so only valid fill-rule keywords
-// compile.
+// Determines which regions of a path are filled when subpaths overlap or the
+// path crosses itself. Nonzero accounts for path direction and winding. Evenodd
+// alternates inside and outside at each crossing. The choice determines whether
+// nested subpaths form filled regions or holes.
 package fillrule
 
 import (
@@ -13,9 +14,10 @@ import (
 
 // FillRule is a typed value for the SVG fill-rule attribute.
 //
-// Algorithm that decides which regions of a self-intersecting or nested path
-// are inside it and get filled. A typed value so only valid fill-rule keywords
-// compile.
+// Determines which regions of a path are filled when subpaths overlap or the
+// path crosses itself. Nonzero accounts for path direction and winding. Evenodd
+// alternates inside and outside at each crossing. The choice determines whether
+// nested subpaths form filled regions or holes.
 type FillRule []byte
 
 // Variables for FillRule values

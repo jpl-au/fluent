@@ -2,11 +2,10 @@
 
 // Package input provides constructors and methods for the HTML <input> element.
 //
-// The <input> HTML element creates interactive form controls for collecting user data. The type attribute
-// determines the control's appearance and behaviour, with over 20 different types including text, password,
-// email, number, date, checkbox, radio, file, and more. Each type provides appropriate validation, input
-// methods, and user interfaces. Essential for all forms requiring user input, from simple searches to complex
-// data entry applications.
+// The <input> element represents a form control whose type determines its
+// behaviour, such as text entry, file selection, a checkbox or a submit button.
+// Name identifies submitted values. Validation and other attributes apply only
+// to the input types that support them.
 package input
 
 import (
@@ -356,7 +355,9 @@ func Image(name string, src string) *Element {
 
 // Name sets the name attribute.
 //
-// Specifies the name of the input control, which is used to identify the field when form data is submitted to the server. The name attribute is essential for form processing and must be unique within the form context (except for radio buttons that should share the same name to form a group). This value becomes the key in form data when submitted.
+// The name used for this control's submitted form entries. Several controls
+// can share a name, producing repeated entries. Radio buttons with the same
+// form owner use a shared name to form an exclusive group.
 func (e *Element) Name(name string) *Element {
 	e.name = node.EscapeAttribute(name)
 	return e
@@ -364,7 +365,10 @@ func (e *Element) Name(name string) *Element {
 
 // Value sets the value attribute.
 //
-// Defines the initial value of the input control. For text-based inputs, this sets the default text displayed in the field. For buttons, it defines the text shown on the button. For checkboxes and radio buttons, it specifies the value that will be submitted if the control is selected. The value can be changed by user interaction or JavaScript.
+// Defines the initial value of the input control. For text-based inputs, this
+// sets the default text in the field. For buttons, it defines the button text.
+// For checkboxes and radio buttons, it specifies the value submitted when the
+// control is selected. User interaction or JavaScript can change the value.
 func (e *Element) Value(value string) *Element {
 	v := node.EscapeAttribute(value)
 	e.value = &v
@@ -373,7 +377,9 @@ func (e *Element) Value(value string) *Element {
 
 // Type sets the type attribute.
 //
-// Determines the type of input control to display and how it behaves. This fundamentally changes the input's appearance and functionality. Common types include 'text' (default), 'password', 'email', 'number', 'date', 'checkbox', 'radio', 'file', 'submit', 'button', and many others. Each type has its own validation rules and user interface.
+// Selects the control's behaviour, including its input format, validation and
+// user interface. For example, checkbox represents a checked state, file
+// selects files and submit submits a form. The default is text.
 func (e *Element) Type(inputType inputtype.InputType) *Element {
 	e.inputType = inputType
 	return e
@@ -381,7 +387,9 @@ func (e *Element) Type(inputType inputtype.InputType) *Element {
 
 // Src sets the src attribute.
 //
-// Valid only for image input type, this attribute specifies the URL of the image to display on the submit button. The image serves as both a visual element and a functional submit button. If the image fails to load, the alt text is displayed instead. The image should clearly indicate its purpose as a clickable submit control to users.
+// Specifies the submit-button image URL for type="image". If the image fails
+// to load, the alt text is displayed instead. Choose an image that makes the
+// button's action clear.
 func (e *Element) Src(url string) *Element {
 	e.src = node.EscapeAttribute(url)
 	return e
@@ -415,7 +423,9 @@ func (e *Element) Accept(types ...accept.Accept) *Element {
 
 // Alt sets the alt attribute.
 //
-// Valid only for image input type, this attribute provides alternative text for the image. It displays if the image source is missing or fails to load, and is crucial for accessibility as screen readers use this text to describe the image to users with visual impairments. The text should concisely describe the image's purpose or content.
+// Provides alternative text for an image submit button. Describe the button's
+// action, such as 'Search', so its purpose remains available to screen readers
+// and when the image cannot be displayed.
 func (e *Element) Alt(text string) *Element {
 	e.SetAttribute("alt", text)
 	return e
@@ -423,7 +433,10 @@ func (e *Element) Alt(text string) *Element {
 
 // AutoComplete sets the autocomplete attribute.
 //
-// Controls the browser's autocomplete behavior for the input field. Values include 'on' (default), 'off', or specific autocomplete tokens like 'name', 'email', 'current-password', 'new-password', 'address-line1', etc. This helps browsers provide relevant suggestions and assists users in filling forms more quickly while maintaining security for sensitive fields.
+// Identifies the information expected by the field for browser autofill.
+// Values include 'on', 'off' and field tokens such as 'name', 'email',
+// 'current-password' and 'new-password'. Suggestions depend on browser and
+// user settings. When omitted, the field inherits its form's setting.
 func (e *Element) AutoComplete(value autocomplete.AutoComplete) *Element {
 	e.autocomplete = value
 	return e
@@ -439,7 +452,9 @@ func (e *Element) Capture(value capture.Capture) *Element {
 
 // Checked sets the checked attribute.
 //
-// Valid only for checkbox and radio input types, this boolean attribute indicates whether the control is selected by default when the page loads. For checkboxes, it determines the initial checked state. For radio buttons, only one radio button in a group (same name) should be checked initially. This state can be changed through user interaction or JavaScript.
+// Sets the initial checked state for checkbox and radio inputs. For a radio
+// group, choose at most one initially checked option. User interaction or
+// JavaScript can change the checked state after loading.
 //
 // Calling without an argument sets the attribute. Pass a bool to control presence conditionally.
 func (e *Element) Checked(conds ...bool) *Element {
@@ -475,7 +490,9 @@ func (e *Element) Disabled(conds ...bool) *Element {
 
 // Form sets the form attribute.
 //
-// Associates the input with a specific form element by referencing the form's ID attribute. This allows the input to be part of a form even when it's not physically located inside the form element in the HTML structure. This is particularly useful for complex layouts where form controls need to be positioned separately from the main form element while maintaining logical association.
+// The id of the form that owns the input. It must identify a form in the same
+// document and allows the control to participate in that form even when it is
+// not nested inside it.
 func (e *Element) Form(formID string) *Element {
 	e.SetAttribute("form", formID)
 	return e
@@ -483,7 +500,9 @@ func (e *Element) Form(formID string) *Element {
 
 // FormAction sets the formaction attribute.
 //
-// Valid only for submit and image input types, this attribute specifies an alternative URL for form submission, overriding the form's action attribute. This allows different submit buttons to send form data to different endpoints, enabling scenarios like 'Save' vs 'Save and Continue' buttons or multiple processing paths from a single form.
+// The destination URL used when this submit or image control submits its
+// form. It overrides the form's action for that submission, allowing buttons
+// such as Save and Preview to use different destinations.
 //
 // Fluent filters this URL at render time: http, https, mailto, tel, sms and relative URLs
 // render as given; any other scheme (javascript:, data:, file:, a custom protocol) renders as the
@@ -496,7 +515,9 @@ func (e *Element) FormAction(url string) *Element {
 
 // FormEncType sets the formenctype attribute.
 //
-// Valid only for submit and image input types, this attribute specifies how form data should be encoded when submitted, overriding the form's enctype attribute. Common values include 'application/x-www-form-urlencoded' (default), 'multipart/form-data' (required for file uploads), and 'text/plain'. This allows different submit buttons to use different encoding methods as needed.
+// Overrides the form's enctype for submission through this submit or image
+// input. Values include 'application/x-www-form-urlencoded',
+// 'multipart/form-data' and 'text/plain'. Use multipart/form-data for file uploads.
 func (e *Element) FormEncType(enctype enctype.EncType) *Element {
 	e.enctype = enctype
 	return e
@@ -512,7 +533,9 @@ func (e *Element) FormMethod(method formmethod.FormMethod) *Element {
 
 // FormNoValidate sets the formnovalidate attribute.
 //
-// Valid only for submit and image input types, this boolean attribute indicates that form validation should be bypassed when the form is submitted via this control. This overrides the form's validation behavior, allowing submission of forms that might contain invalid data. This is useful for 'Save Draft' functionality or when validation should be performed server-side instead.
+// Bypasses interactive constraint validation when this submit or image input
+// submits its form. Use for actions such as saving an incomplete draft.
+// Server-side validation remains necessary for submitted data.
 //
 // Calling without an argument sets the attribute. Pass a bool to control presence conditionally.
 func (e *Element) FormNoValidate(conds ...bool) *Element {
@@ -542,7 +565,9 @@ func (e *Element) Height(height int) *Element {
 
 // List sets the list attribute.
 //
-// Associates the input with a datalist element by referencing its ID, providing a list of predefined options that users can choose from. This creates an autocomplete dropdown that helps users select from common values while still allowing custom input. The datalist provides suggestions but doesn't restrict input to only those values, offering flexibility while improving user experience.
+// The id of a datalist containing suggested values for the control. These
+// suggestions do not restrict the value to the listed options. Use the input's
+// validation attributes for constraints.
 func (e *Element) List(datalistId string) *Element {
 	e.SetAttribute("list", datalistId)
 	return e
@@ -558,7 +583,9 @@ func (e *Element) Max(max string) *Element {
 
 // MaxLength sets the maxlength attribute.
 //
-// Defines the maximum number of characters that can be entered in text-based input types (text, password, search, tel, url, email). The browser enforces this limit during user input and validates it during form submission. This helps prevent excessively long input and can be used to match database field constraints or business rules for data length.
+// The maximum permitted length for supported text input types, measured in
+// UTF-16 code units. Browsers can limit user entry to this length. This is a
+// text-length constraint. It does not limit the encoded byte size of a submission.
 func (e *Element) MaxLength(length int) *Element {
 	e.maxlength = &length
 	return e
@@ -574,7 +601,9 @@ func (e *Element) Min(min string) *Element {
 
 // MinLength sets the minlength attribute.
 //
-// Defines the minimum number of characters required in text-based input types before the input is considered valid. Unlike maxlength which prevents further input, minlength allows shorter input but marks it as invalid during validation. This is useful for enforcing password complexity, ensuring meaningful text input, or meeting data quality requirements.
+// The minimum permitted non-empty user-entered value length for supported
+// text input types, measured in UTF-16 code units. It does not require a value.
+// Combine it with required when an empty input must also be rejected.
 func (e *Element) MinLength(length int) *Element {
 	e.SetAttribute("minlength", strconv.Itoa(length))
 	return e
@@ -582,7 +611,8 @@ func (e *Element) MinLength(length int) *Element {
 
 // Multiple sets the multiple attribute.
 //
-// Valid for email and file input types, this boolean attribute allows multiple values to be entered or selected. For email inputs, users can enter multiple email addresses separated by commas. For file inputs, users can select multiple files simultaneously. This attribute significantly changes the input's behavior and the format of submitted data.
+// Allows multiple values for email and file inputs. Email inputs accept
+// comma-separated addresses. File inputs allow multiple selected files.
 //
 // Calling without an argument sets the attribute. Pass a bool to control presence conditionally.
 func (e *Element) Multiple(conds ...bool) *Element {
@@ -604,7 +634,9 @@ func (e *Element) Pattern(regex string) *Element {
 
 // Placeholder sets the placeholder attribute.
 //
-// Provides a hint or example text that appears in the input field when it's empty, helping users understand what type of information is expected. The placeholder text disappears when the user starts typing and should not replace proper labeling. It should be concise, descriptive, and provide an example of valid input format rather than instructions or labels.
+// A short hint displayed while the control is empty, such as an example of
+// the expected format. It disappears during entry and must not replace the
+// control's label.
 func (e *Element) Placeholder(text string) *Element {
 	e.placeholder = node.EscapeAttribute(text)
 	return e
@@ -612,7 +644,8 @@ func (e *Element) Placeholder(text string) *Element {
 
 // PopoverTarget sets the popovertarget attribute.
 //
-// Transforms the input into a popover control button by specifying the ID of the element that should be shown or hidden when the input is interacted with. This creates a connection between the input and a popover element, enabling the input to trigger popover display. This is part of the modern web platform's native popover functionality for creating overlay content.
+// Names the popover controlled by this input button, using the popover's ID.
+// Activation performs the action selected by popovertargetaction.
 func (e *Element) PopoverTarget(elementID string) *Element {
 	e.SetAttribute("popovertarget", elementID)
 	return e
@@ -620,7 +653,9 @@ func (e *Element) PopoverTarget(elementID string) *Element {
 
 // PopoverTargetAction sets the popovertargetaction attribute.
 //
-// Used in conjunction with popoverTarget, this attribute specifies the action to perform on the targeted popover element. Valid values include 'toggle' (default - show if hidden, hide if shown), 'show' (only show the popover), and 'hide' (only hide the popover). This provides fine-grained control over popover behavior and enables different inputs to perform different actions on the same popover.
+// Selects the action for the popover named by popovertarget. Toggle shows a
+// hidden popover or hides a shown one. Show and hide request their named
+// actions. The default is toggle.
 func (e *Element) PopoverTargetAction(action popovertargetaction.PopoverTargetAction) *Element {
 	e.popovertargetaction = action
 	return e
@@ -642,7 +677,10 @@ func (e *Element) ReadOnly(conds ...bool) *Element {
 
 // Required sets the required attribute.
 //
-// This boolean attribute indicates that the input must have a value before the form can be submitted. The browser will prevent form submission and typically display an error message if required fields are empty. This provides built-in client-side validation and helps ensure that essential data is collected. Required fields are often marked visually with asterisks or other indicators.
+// Requires a value during constraint validation for input types that support it.
+// A required checkbox must be checked. For radios, a selection in the same-name
+// group satisfies the requirement. It has no effect on types such as hidden,
+// range, or color.
 //
 // Calling without an argument sets the attribute. Pass a bool to control presence conditionally.
 func (e *Element) Required(conds ...bool) *Element {
@@ -656,7 +694,9 @@ func (e *Element) Required(conds ...bool) *Element {
 
 // Size sets the size attribute.
 //
-// Specifies the visible width of text-based input controls in average character widths. While this provides a rough guide for the input's display size, it doesn't limit the amount of text that can be entered (use maxlength for that). Modern web development typically uses CSS for more precise sizing, but this attribute remains useful for quick sizing without stylesheets.
+// The visible width of supported text input controls, measured in characters.
+// It does not limit the value's length. Use maxlength for that constraint.
+// CSS can control the final displayed width.
 func (e *Element) Size(size int) *Element {
 	e.SetAttribute("size", strconv.Itoa(size))
 	return e
@@ -704,10 +744,9 @@ func (e *Element) ColorSpace(colorspace string) *Element {
 
 // Class sets the class attribute.
 //
-// A space-separated list of CSS class names assigned to the element. Classes are the primary mechanism for
-// styling elements with CSS and selecting elements with JavaScript. Multiple classes can be applied to create
-// flexible, reusable styling systems and enable complex element selection patterns. Essential for
-// component-based architectures and maintainable CSS.
+// A space-separated list of class names used by CSS selectors and script.
+// The same class can be shared by many elements, and an element can belong
+// to several classes. Repeated Class calls append to the list.
 func (e *Element) Class(class string) *Element {
 	class = node.EscapeAttribute(class)
 	if e.class == "" {
@@ -720,10 +759,9 @@ func (e *Element) Class(class string) *Element {
 
 // ID sets the id attribute.
 //
-// Defines a unique identifier that must be unique across the entire document. Used for fragment navigation
-// (URL anchors), JavaScript element selection, CSS styling with ID selectors, form label associations, and
-// ARIA relationships. IDs have higher CSS specificity than classes and should be used sparingly for truly
-// unique elements.
+// An identifier that must be unique within the document. It can be referenced
+// by URL fragments, labels, ARIA relationships, CSS selectors and script.
+// Use class for a name shared by several elements.
 func (e *Element) ID(id string) *Element {
 	e.id = node.EscapeAttribute(id)
 	return e
@@ -731,10 +769,9 @@ func (e *Element) ID(id string) *Element {
 
 // Style sets the style attribute.
 //
-// Contains inline CSS declarations applied directly to the element with the highest specificity. While convenient
-// for dynamic styling and testing, inline styles should be used sparingly as they override external stylesheets
-// and make maintenance difficult. Best used for programmatically generated styles, dynamic values, or critical
-// above-the-fold styling.
+// Inline CSS declarations for this element, without a selector or braces.
+// For example, "color: navy; margin-top: 1rem". Inline declarations participate
+// in the CSS cascade. They do not override every other source of styling.
 func (e *Element) Style(css string) *Element {
 	css = node.EscapeAttribute(css)
 	if e.global().Style == "" {
@@ -759,8 +796,8 @@ func (e *Element) Title(text string) *Element {
 // An enumerated attribute indicating that the element is not yet, or is no longer, relevant. For example, it can
 // be used to hide elements of the page that can't be used until the login process has been completed. The
 // browser won't render such elements. This attribute must not be used to hide content that could legitimately
-// be shown. When called with no arguments, sets hidden to true. Pass hidden.UntilFound for content that should
-// be findable by find-in-page or fragment navigation.
+// be shown. When called with no arguments, sets hidden to true. Pass hidden.UntilFound to keep hidden
+// content findable by find-in-page or fragment navigation.
 func (e *Element) Hidden(value ...hidden.Hidden) *Element {
 	if len(value) > 0 {
 		e.hidden = value[0]
@@ -772,9 +809,10 @@ func (e *Element) Hidden(value ...hidden.Hidden) *Element {
 
 // TabIndex sets the tabindex attribute.
 //
-// An integer attribute indicating if the element can take input focus (is focusable), if it should participate to
-// sequential keyboard navigation, and if so, at what position. It can take several values: a negative value, 0, or
-// a positive value.
+// Controls focusability and order in sequential keyboard navigation. A value
+// of 0 follows document order. A negative value permits programmatic focus
+// without adding a tab stop. Positive values create an explicit navigation
+// order that must be kept consistent with the document.
 func (e *Element) TabIndex(index int) *Element {
 	e.tabindex = &index
 	return e
@@ -793,8 +831,9 @@ func (e *Element) Role(role string) *Element {
 
 // Lang sets the lang attribute.
 //
-// Helps define the language of an element the language that non-editable elements are in, or the language that
-// editable elements should be written in by the user.
+// The language of the element's content, given as a BCP 47 tag such as "en"
+// or "fr-CA". Descendants inherit the language unless they specify another.
+// It informs pronunciation, text processing and language-sensitive styling.
 func (e *Element) Lang(language string) *Element {
 	e.global().Lang = node.EscapeAttribute(language)
 	return e
@@ -802,10 +841,9 @@ func (e *Element) Lang(language string) *Element {
 
 // AccessKey sets the accesskey attribute.
 //
-// Defines keyboard shortcuts for quick element access, typically activated with Alt+key (varies by browser/OS).
-// Accepts space-separated characters, with browsers using the first available key on the current keyboard layout.
-// Essential for accessibility and power-user workflows, but should be used thoughtfully to avoid conflicts with
-// browser/OS shortcuts.
+// A space-separated list of single-character shortcut candidates. The browser
+// chooses an available key and its modifier combination. Avoid relying on an
+// access key as the only way to activate a control.
 func (e *Element) AccessKey(key string) *Element {
 	key = node.EscapeAttribute(key)
 	if e.global().AccessKey == "" {
@@ -829,10 +867,9 @@ func (e *Element) Anchor(id string) *Element {
 
 // AriaLabel sets the aria-label attribute.
 //
-// Provides an accessible label for the element that overrides any other labeling (such as text content or
-// associated label elements). This is essential for accessibility when the visible text doesn't adequately
-// describe the element's purpose. Screen readers and other assistive technologies use this as the primary label
-// for the element.
+// An accessible name for an element whose role permits naming, for example
+// a button containing only an icon. Prefer an associated visible label when
+// available. Aria-labelledby takes precedence when it supplies a name.
 func (e *Element) AriaLabel(label string) *Element {
 	e.global().AriaLabel = node.EscapeAttribute(label)
 	return e
@@ -840,14 +877,14 @@ func (e *Element) AriaLabel(label string) *Element {
 
 // SetAria sets an ARIA attribute on the element. The key is automatically prefixed with "aria-".
 //
-// Sets ARIA (Accessible Rich Internet Applications) attributes that provide semantic meaning to elements for
-// assistive technologies. ARIA attributes describe element roles, properties, and states that help screen
-// readers and other accessibility tools understand and interact with dynamic web content. Essential for creating
-// accessible web applications.
+// Sets an aria-prefixed property or state for assistive technologies. Supply
+// the name without the aria- prefix, such as 'expanded' or 'label'. Choose
+// attributes appropriate to the element's role. ARIA does not add the interaction
+// behaviour it describes.
 //
-// The prefixed key is written to the rendered output verbatim. It is code, not data: pass a fixed,
+// The prefixed key is written to the rendered output verbatim. Pass a fixed,
 // developer-controlled key. Never build the key from user input - a key containing a space, quote,
-// "=", "/" or ">" changes the markup structure. The value is escaped; the key is not.
+// "=", "/" or ">" changes the markup structure. The value is escaped. The key is not escaped.
 func (e *Element) SetAria(key string, value string) *Element {
 	e.SetAttribute("aria-"+key, value)
 	return e
@@ -855,9 +892,9 @@ func (e *Element) SetAria(key string, value string) *Element {
 
 // AutoCapitalize sets the autocapitalize attribute.
 //
-// Controls automatic text capitalization on virtual keyboards (mobile devices). Improves mobile user experience
-// by reducing manual capitalization, especially useful for forms collecting names, addresses, and titles.
-// Possible values: off, none, on, sentences, words, characters.
+// Hints how to capitalise text entry, particularly on virtual keyboards.
+// Values select no capitalisation, sentence starts, words or all characters.
+// It does not transform an existing value or enforce a validation rule.
 func (e *Element) AutoCapitalize(value autocapitalize.AutoCapitalize) *Element {
 	e.global().AutoCapitalize = value
 	return e
@@ -865,10 +902,9 @@ func (e *Element) AutoCapitalize(value autocapitalize.AutoCapitalize) *Element {
 
 // AutoCorrect sets the autocorrect attribute.
 //
-// Controls automatic spell-checking and text correction on mobile devices and some browsers. Useful for disabling
-// corrections in fields where technical terms, codes, or names are entered, or where user input should remain
-// exactly as typed.
-// Possible values: on, off.
+// Controls whether the browser may correct text during editing. Disabling it
+// can preserve intentionally unusual input such as names or codes. It is
+// separate from spellcheck, which controls spelling-error feedback.
 func (e *Element) AutoCorrect(value autocorrect.AutoCorrect) *Element {
 	e.global().AutoCorrect = value
 	return e
@@ -876,10 +912,9 @@ func (e *Element) AutoCorrect(value autocorrect.AutoCorrect) *Element {
 
 // AutoFocus sets the autofocus attribute.
 //
-// Automatically focuses the element when the page loads or when a dialog containing it is displayed. Should be
-// used sparingly as it can interfere with accessibility tools and user navigation expectations. Most effective
-// on primary input fields in forms or search boxes where immediate input is expected. Only one element per
-// document should have autofocus.
+// Requests focus when the page loads or a containing dialog or popover is
+// shown. Automatic focus can move the user's reading position, so choose an
+// element that is appropriate for the interaction being opened.
 //
 // Calling without an argument sets the attribute. Pass a bool to control presence conditionally.
 func (e *Element) AutoFocus(conds ...bool) *Element {
@@ -893,7 +928,7 @@ func (e *Element) AutoFocus(conds ...bool) *Element {
 
 // ContentEditable sets the contenteditable attribute.
 //
-// An enumerated attribute indicating if the element should be editable by the user. If so, the browser modifies
+// An enumerated attribute indicating if the user can edit the element. If so, the browser modifies
 // its widget to allow editing.
 // Possible values: true, false, plaintext-only.
 func (e *Element) ContentEditable(value contenteditable.ContentEditable) *Element {
@@ -908,9 +943,9 @@ func (e *Element) ContentEditable(value contenteditable.ContentEditable) *Elemen
 // via the HTMLElement interface of the element the attribute is set on. The HTMLElement.dataset property gives
 // access to them.
 //
-// The prefixed key is written to the rendered output verbatim. It is code, not data: pass a fixed,
+// The prefixed key is written to the rendered output verbatim. Pass a fixed,
 // developer-controlled key. Never build the key from user input - a key containing a space, quote,
-// "=", "/" or ">" changes the markup structure. The value is escaped; the key is not.
+// "=", "/" or ">" changes the markup structure. The value is escaped. The key is not escaped.
 func (e *Element) SetData(key string, value string) *Element {
 	e.SetAttribute("data-"+key, value)
 	return e
@@ -946,7 +981,9 @@ func (e *Element) EnterKeyHint(hint enterkeyhint.EnterKeyHint) *Element {
 
 // ExportParts sets the exportparts attribute.
 //
-// Used to transitively export shadow parts from a nested shadow tree into a containing light tree.
+// Exports named parts from a shadow tree so they can be styled through an
+// outer component. Use comma-separated names or mappings such as
+// "label: button-label" to rename a part at the boundary.
 func (e *Element) ExportParts(parts string) *Element {
 	e.global().ExportParts = node.EscapeAttribute(parts)
 	return e
@@ -954,8 +991,9 @@ func (e *Element) ExportParts(parts string) *Element {
 
 // Inert sets the inert attribute.
 //
-// A boolean value that makes the browser disregard user input events for the element. Useful when click events are
-// present.
+// Makes the element and its descendants unavailable for user interaction,
+// including focus and activation, and excludes them from the accessibility
+// tree. It does not hide them visually.
 //
 // Calling without an argument sets the attribute. Pass a bool to control presence conditionally.
 func (e *Element) Inert(conds ...bool) *Element {
@@ -980,7 +1018,7 @@ func (e *Element) InputMode(mode inputmode.InputMode) *Element {
 
 // Is sets the is attribute.
 //
-// Allows you to specify that a standard HTML element should behave like a registered custom built-in element.
+// Identifies a registered customised built-in element that extends this standard HTML element.
 func (e *Element) Is(element string) *Element {
 	e.SetAttribute("is", element)
 	return e
@@ -996,8 +1034,9 @@ func (e *Element) ItemID(id string) *Element {
 
 // ItemProp sets the itemprop attribute.
 //
-// Used to add properties to an item. Every HTML element may have an itemprop attribute specified, where an
-// itemprop consists of a name and value pair.
+// A space-separated list of microdata property names belonging to an item.
+// The property's value is taken from the element according to its type,
+// such as text content or an href, src or datetime attribute.
 func (e *Element) ItemProp(properties string) *Element {
 	e.global().ItemProp = node.EscapeAttribute(properties)
 	return e
@@ -1005,8 +1044,9 @@ func (e *Element) ItemProp(properties string) *Element {
 
 // ItemRef sets the itemref attribute.
 //
-// Properties that are not descendants of an element with the itemscope attribute can be associated with the item
-// using an itemref.
+// A space-separated list of element ids containing additional properties of
+// a microdata item. Use it on the element with itemscope to include properties
+// that are not its descendants.
 func (e *Element) ItemRef(refs string) *Element {
 	e.global().ItemRef = node.EscapeAttribute(refs)
 	return e
@@ -1029,8 +1069,8 @@ func (e *Element) ItemScope(conds ...bool) *Element {
 
 // ItemType sets the itemtype attribute.
 //
-// Specifies the URL of the vocabulary that will be used to define itemprops (item properties) in the data
-// structure.
+// One or more vocabulary type URLs for an item declared with itemscope.
+// The vocabulary defines the property names used by its itemprop attributes.
 func (e *Element) ItemType(itemType string) *Element {
 	e.SetAttribute("itemtype", itemType)
 	return e
@@ -1039,7 +1079,7 @@ func (e *Element) ItemType(itemType string) *Element {
 // Nonce sets the nonce attribute.
 //
 // A cryptographic nonce ("number used once") which can be used by Content Security Policy to determine whether
-// or not a given fetch will be allowed to proceed.
+// or not a given fetch is allowed to proceed.
 func (e *Element) Nonce(value string) *Element {
 	e.SetAttribute("nonce", value)
 	return e
@@ -1091,7 +1131,7 @@ func (e *Element) SpellCheck(value spellcheck.Spellcheck) *Element {
 // Translate sets the translate attribute.
 //
 // An enumerated attribute that is used to specify whether an element's attribute values and the values of its
-// Text node children are to be translated when the page is localized, or whether to leave them unchanged.
+// Text node children are to be translated when the page is localised, or whether to leave them unchanged.
 // Possible values: yes, no.
 func (e *Element) Translate(value translate.Translate) *Element {
 	e.global().Translate = value
@@ -1100,7 +1140,7 @@ func (e *Element) Translate(value translate.Translate) *Element {
 
 // VirtualKeyboardPolicy sets the virtualkeyboardpolicy attribute.
 //
-// An enumerated attribute used to control the on-screen virtual keyboard behavior on devices such as tablets,
+// An enumerated attribute used to control the on-screen virtual keyboard behaviour on devices such as tablets,
 // mobile phones, or other devices where a hardware keyboard may not be available for elements that its content
 // is editable (for example, it is an <input> or <textarea> element, or an element with the contenteditable
 // attribute set).
@@ -1112,9 +1152,9 @@ func (e *Element) VirtualKeyboardPolicy(policy virtualkeyboardpolicy.VirtualKeyb
 
 // WritingSuggestions sets the writingsuggestions attribute.
 //
-// An enumerated attribute indicating if browser-provided writing suggestions should be enabled under the scope of
-// the element or not.
-// Possible values: true, false.
+// Controls whether the browser may offer writing suggestions while content
+// is edited. Suggestions depend on browser and user settings. Enabling them
+// does not guarantee a particular grammar or prediction feature.
 func (e *Element) WritingSuggestions(value writingsuggestions.WritingSuggestions) *Element {
 	e.global().WritingSuggestions = value
 	return e
@@ -1122,9 +1162,9 @@ func (e *Element) WritingSuggestions(value writingsuggestions.WritingSuggestions
 
 // OnClick sets the onclick attribute.
 //
-// Fired when an element is clicked with a pointing device (mouse, trackpad, or touch). The most commonly used event for
-// user interactions, triggering actions like navigation, form submission, modal opening, or any interactive behavior.
-// Available on virtually all elements, making it the primary event for user interface interactions.
+// Fired when a control is activated with the primary pointer button or an
+// applicable keyboard action. Native links and buttons provide keyboard
+// activation as well as pointer interaction.
 func (e *Element) OnClick(handler string) *Element {
 	e.event().OnClick = node.EscapeAttribute(handler)
 	return e
@@ -1132,10 +1172,9 @@ func (e *Element) OnClick(handler string) *Element {
 
 // OnChange sets the onchange attribute.
 //
-// Fired when the value of a form control has been committed by the user and the element loses focus. Differs from
-// oninput which fires on every keystroke. Used on <input>, <select>, and <textarea> elements for form validation,
-// data processing, dependent field updates, and saving draft changes. Essential for form workflows and user input
-// handling.
+// Fired when the user commits a change to a form control. Text controls usually
+// commit on losing focus. Checkboxes, radio buttons and selections can commit
+// immediately. Use input to observe edits as they occur.
 func (e *Element) OnChange(handler string) *Element {
 	e.event().OnChange = node.EscapeAttribute(handler)
 	return e
@@ -1143,9 +1182,9 @@ func (e *Element) OnChange(handler string) *Element {
 
 // OnInput sets the oninput attribute.
 //
-// Fired immediately when the value of an input element changes (every keystroke, paste, etc.). Unlike onchange, it
-// fires before the element loses focus. Used on <input>, <select>, and <textarea> for real-time validation,
-// auto-save, search suggestions, character counters, or live form updates. Perfect for responsive user interfaces.
+// Fired when user input changes a control's value or editable content, including
+// typing, pasting and deletion. It reports changes before a later change event
+// commits them. Setting a value from script does not itself fire input.
 func (e *Element) OnInput(handler string) *Element {
 	e.event().OnInput = node.EscapeAttribute(handler)
 	return e
@@ -1153,9 +1192,9 @@ func (e *Element) OnInput(handler string) *Element {
 
 // OnFocus sets the onfocus attribute.
 //
-// Fired when an element receives focus, typically through clicking, tabbing, or programmatic focus(). Commonly used
-// on form elements to show input helpers, highlight fields, display validation messages, auto-select content, or
-// trigger contextual UI changes. Essential for accessibility and guided user experiences.
+// Fired when an element receives focus through navigation, pointer interaction
+// or focus(). It does not bubble. Use focusin when a parent needs to observe
+// focus changes among its descendants.
 func (e *Element) OnFocus(handler string) *Element {
 	e.event().OnFocus = node.EscapeAttribute(handler)
 	return e
@@ -1163,9 +1202,9 @@ func (e *Element) OnFocus(handler string) *Element {
 
 // OnBlur sets the onblur attribute.
 //
-// Fired when an element loses focus, typically when the user clicks elsewhere or tabs to another element. Commonly
-// used on form inputs (<input>, <textarea>, <select>) to validate input, save drafts, hide dropdowns, or trigger
-// field-specific actions. Essential for form validation workflows and user experience enhancements.
+// Fired when an element loses focus. It does not bubble. Use focusout for
+// bubbling notifications. The event reports focus loss. It does not indicate whether the
+// control's value changed.
 func (e *Element) OnBlur(handler string) *Element {
 	e.event().OnBlur = node.EscapeAttribute(handler)
 	return e
@@ -1173,9 +1212,9 @@ func (e *Element) OnBlur(handler string) *Element {
 
 // OnSubmit sets the onsubmit attribute.
 //
-// Fired when a form is submitted, either by clicking a submit button or pressing Enter in a form field. Occurs on
-// <form> elements and provides the last opportunity to validate data, prevent submission with preventDefault(), show
-// loading states, or perform custom submission handling like AJAX requests.
+// Fired on a form when submission is requested and interactive validation
+// succeeds. Call preventDefault() to handle submission in script. Calling
+// form.submit() directly bypasses this event and interactive validation.
 func (e *Element) OnSubmit(handler string) *Element {
 	e.event().OnSubmit = node.EscapeAttribute(handler)
 	return e
@@ -1183,9 +1222,9 @@ func (e *Element) OnSubmit(handler string) *Element {
 
 // OnLoad sets the onload attribute.
 //
-// Fired when a resource and all its dependencies have finished loading successfully. Commonly used on images,
-// scripts, stylesheets, iframes, and the window object. Essential for initializing functionality, showing content,
-// removing loading indicators, starting animations, or executing code that depends on loaded resources.
+// Fired when the associated resource has loaded. A window load event also
+// waits for dependent resources. An individual element's event concerns its
+// resource. Use it for work that requires that resource to be available.
 func (e *Element) OnLoad(handler string) *Element {
 	e.SetAttribute("onload", handler)
 	return e
@@ -1193,10 +1232,9 @@ func (e *Element) OnLoad(handler string) *Element {
 
 // OnError sets the onerror attribute.
 //
-// Fired when an error occurs during resource loading or processing. Common on images, scripts, stylesheets, media
-// elements, and other resources that can fail to load. Essential for error handling, showing fallback content,
-// implementing retry logic, logging failures, or providing user-friendly error messages when resources are
-// unavailable.
+// Fired when a resource cannot be loaded or processed, such as a failed image
+// or script request. A handler can provide fallback content or report the
+// failure. The available error details depend on the resource and event target.
 func (e *Element) OnError(handler string) *Element {
 	e.SetAttribute("onerror", handler)
 	return e
@@ -1206,9 +1244,9 @@ func (e *Element) OnError(handler string) *Element {
 //
 // Generic method to add an event using SetEvent(key, value)
 //
-// The key is written to the rendered output verbatim. It is code, not data: pass a fixed,
+// The key is written to the rendered output verbatim. Pass a fixed,
 // developer-controlled key. Never build the key from user input - a key containing a space, quote,
-// "=", "/" or ">" changes the markup structure. The value is escaped; the key is not.
+// "=", "/" or ">" changes the markup structure. The value is escaped. The key is not escaped.
 func (e *Element) SetEvent(key string, value string) *Element {
 	e.SetAttribute(key, value)
 	return e
@@ -1230,7 +1268,7 @@ func (e *Element) OnAbort(handler string) *Element {
 // Fired when an input field's autocomplete functionality successfully provides a suggestion that the user accepts.
 // This occurs on <input> elements with autocomplete="on" when the browser's autocomplete dropdown is used to fill
 // the field. Useful for tracking user interaction with browser autocomplete features, form analytics, and
-// implementing custom behavior when autocomplete values are selected.
+// implementing custom behaviour when autocomplete values are selected.
 //
 // Deprecated: Removed from the WHATWG living standard. Was in an older HTML5 draft.
 func (e *Element) OnAutoComplete(handler string) *Element {
@@ -1263,9 +1301,8 @@ func (e *Element) OnCancel(handler string) *Element {
 
 // OnCanPlay sets the oncanplay attribute.
 //
-// Fired when enough media data has been loaded to begin playback, but not necessarily to play through to the end
-// without buffering. Occurs on <audio> and <video> elements when the media is ready to start playing. Useful for
-// showing play buttons, enabling media controls, preloading indicators, or triggering autoplay functionality.
+// Fired on audio or video when enough data is available to begin playback.
+// It does not indicate that the browser can play to the end without buffering.
 func (e *Element) OnCanPlay(handler string) *Element {
 	e.SetAttribute("oncanplay", handler)
 	return e
@@ -1273,9 +1310,9 @@ func (e *Element) OnCanPlay(handler string) *Element {
 
 // OnCanPlayThrough sets the oncanplaythrough attribute.
 //
-// Fired when enough media data has been loaded to play through to the end without interruption for buffering.
-// Occurs on <audio> and <video> elements when the entire media file can be played smoothly. Ideal for hiding
-// loading spinners, enabling higher quality playback options, or triggering seamless media experiences.
+// Fired on audio or video when the browser estimates that playback can reach
+// the end without stopping to buffer. This is an estimate based on available
+// data and download rate. It does not guarantee that the whole file has loaded.
 func (e *Element) OnCanPlayThrough(handler string) *Element {
 	e.SetAttribute("oncanplaythrough", handler)
 	return e
@@ -1307,7 +1344,7 @@ func (e *Element) OnContextMenu(handler string) *Element {
 //
 // Fired when the active cues of a TextTrack change, typically in video subtitles, captions, or chapter markers.
 // Occurs on <track> elements when different text cues become active during media playback. Useful for implementing
-// custom subtitle styling, accessibility features, chapter navigation, or synchronized content based on video
+// custom subtitle styling, accessibility features, chapter navigation, or synchronised content based on video
 // timestamps.
 func (e *Element) OnCueChange(handler string) *Element {
 	e.SetAttribute("oncuechange", handler)
@@ -1316,9 +1353,9 @@ func (e *Element) OnCueChange(handler string) *Element {
 
 // OnDblClick sets the ondblclick attribute.
 //
-// Fired when an element is double-clicked rapidly (two clicks in quick succession). Commonly used for actions like
-// opening files, editing text in place, zooming, or toggling between states. Note that ondblclick typically
-// prevents the second onclick event from firing, making it suitable for distinct double-click actions.
+// Fired after two clicks on the same element within the system's double-click
+// interval. The click events occur before dblclick. Handling dblclick does not
+// suppress either click.
 func (e *Element) OnDblClick(handler string) *Element {
 	e.SetAttribute("ondblclick", handler)
 	return e
@@ -1326,10 +1363,9 @@ func (e *Element) OnDblClick(handler string) *Element {
 
 // OnDrag sets the ondrag attribute.
 //
-// Fired repeatedly (every few hundred milliseconds) during a drag operation while the user is dragging an element.
-// Used on draggable elements to provide visual feedback, update drag ghost images, track drag progress, or
-// implement custom drag behaviors. Essential for smooth drag-and-drop interfaces and interactive element
-// manipulation.
+// Fired periodically on the source element during a drag operation. The event's
+// dataTransfer object describes the operation. Use dragstart to initialise its
+// data and dragend to finish source-side handling.
 func (e *Element) OnDrag(handler string) *Element {
 	e.SetAttribute("ondrag", handler)
 	return e
@@ -1337,9 +1373,9 @@ func (e *Element) OnDrag(handler string) *Element {
 
 // OnDragEnd sets the ondragend attribute.
 //
-// Fired when a drag operation concludes, whether successful (dropped on valid target) or cancelled (Escape key,
-// invalid drop zone). Occurs on the dragged element and is useful for cleanup operations, resetting drag states,
-// removing visual indicators, or logging drag completion. Always fires after ondrop or dragover events complete.
+// Fired on the source element when a drag operation ends, including cancellation
+// or a drop that was not accepted. Use it to clear the source's drag state
+// regardless of whether the target received a drop event.
 func (e *Element) OnDragEnd(handler string) *Element {
 	e.SetAttribute("ondragend", handler)
 	return e
@@ -1349,7 +1385,7 @@ func (e *Element) OnDragEnd(handler string) *Element {
 //
 // Fired when a dragged element first enters a potential drop target. Occurs on the drop target element and is
 // commonly used to highlight drop zones, show insertion indicators, or prepare the target for receiving dropped
-// content. Often paired with preventing default behavior to indicate the target accepts drops.
+// content. Often paired with preventing default behaviour to indicate the target accepts drops.
 func (e *Element) OnDragEnter(handler string) *Element {
 	e.SetAttribute("ondragenter", handler)
 	return e
@@ -1357,9 +1393,9 @@ func (e *Element) OnDragEnter(handler string) *Element {
 
 // OnDragLeave sets the ondragleave attribute.
 //
-// Fired when a dragged element exits a drop target area. Occurs on the drop target element and is typically used
-// to remove drop zone highlights, hide insertion indicators, or reset the target's visual state. Important for
-// maintaining clean visual feedback during drag operations and avoiding stuck highlight states.
+// Fired when dragged content leaves a potential drop target. It can be used
+// to clear a drop indicator. Transitions between nested targets may require
+// tracking which part of the drop area is still active.
 func (e *Element) OnDragLeave(handler string) *Element {
 	e.SetAttribute("ondragleave", handler)
 	return e
@@ -1367,9 +1403,9 @@ func (e *Element) OnDragLeave(handler string) *Element {
 
 // OnDragOver sets the ondragover attribute.
 //
-// Fired repeatedly while a dragged element hovers over a drop target. Essential for enabling drops - must call
-// preventDefault() to allow dropping. Used to update drop indicators, determine exact drop position, provide
-// visual feedback, or validate whether the current drag data is acceptable for this drop target.
+// Fired repeatedly over a potential drop target. Call preventDefault() when
+// the target accepts the dragged data, and set dataTransfer.dropEffect to
+// indicate the intended operation.
 func (e *Element) OnDragOver(handler string) *Element {
 	e.SetAttribute("ondragover", handler)
 	return e
@@ -1377,10 +1413,9 @@ func (e *Element) OnDragOver(handler string) *Element {
 
 // OnDragStart sets the ondragstart attribute.
 //
-// Fired when a drag operation begins, triggered by the user starting to drag a draggable element. Occurs on the
-// source element being dragged and is used to set drag data with setData(), customize the drag image, define
-// allowed drag effects, or prepare the element for dragging. The foundation event for all drag-and-drop
-// operations.
+// Fired on the source when a drag begins. Use dataTransfer.setData() to supply
+// the drag's data and setDragImage() to customise its image. Cancelling the
+// event prevents the drag from starting.
 func (e *Element) OnDragStart(handler string) *Element {
 	e.SetAttribute("ondragstart", handler)
 	return e
@@ -1442,7 +1477,7 @@ func (e *Element) OnInvalid(handler string) *Element {
 //
 // Fired when a key is pressed down, before any character is generated. Captures all keys including modifiers
 // (Ctrl, Alt, Shift), function keys, and arrows. Used for keyboard shortcuts, game controls, navigation,
-// preventing default key behavior, or implementing custom key handling. Fires repeatedly when key is held down.
+// preventing default key behaviour, or implementing custom key handling. Fires repeatedly when key is held down.
 func (e *Element) OnKeyDown(handler string) *Element {
 	e.event().OnKeyDown = node.EscapeAttribute(handler)
 	return e
@@ -1450,10 +1485,9 @@ func (e *Element) OnKeyDown(handler string) *Element {
 
 // OnKeyPress sets the onkeypress attribute.
 //
-// Fired when a key press results in a character being generated. Only triggers for printable characters, not for
-// modifier or function keys. Deprecated in favor of onkeydown and oninput events. Historically used for character
-// input validation, but modern applications should use onkeydown for key detection and oninput for content
-// changes.
+// Legacy keyboard event for character-producing key presses. Use keydown for
+// keyboard commands and beforeinput or input for text editing, including input
+// that does not come from a physical keyboard.
 func (e *Element) OnKeyPress(handler string) *Element {
 	e.SetAttribute("onkeypress", handler)
 	return e
@@ -1463,7 +1497,7 @@ func (e *Element) OnKeyPress(handler string) *Element {
 //
 // Fired when a pressed key is released. Often paired with onkeydown for complete key interaction handling. Used
 // for ending keyboard shortcuts, stopping repeated actions, implementing key combinations, detecting when modifier
-// keys are released, or triggering actions that should occur after key input is complete.
+// keys are released, or triggering actions after key input is complete.
 func (e *Element) OnKeyUp(handler string) *Element {
 	e.event().OnKeyUp = node.EscapeAttribute(handler)
 	return e
@@ -1483,7 +1517,7 @@ func (e *Element) OnLoadedData(handler string) *Element {
 //
 // Fired when media metadata (duration, dimensions, text tracks) has been loaded. Occurs on <audio> and <video>
 // elements before actual media data loads. Useful for setting up player UI, configuring progress bars, enabling
-// seeking, displaying video dimensions, or initializing media-dependent features.
+// seeking, displaying video dimensions, or initialising media-dependent features.
 func (e *Element) OnLoadedMetadata(handler string) *Element {
 	e.SetAttribute("onloadedmetadata", handler)
 	return e
@@ -1493,7 +1527,7 @@ func (e *Element) OnLoadedMetadata(handler string) *Element {
 //
 // Fired when the browser begins loading a resource, typically on media elements, images, or during fetch
 // operations. Indicates the start of the loading process before any data is actually received. Useful for showing
-// loading indicators, starting progress tracking, initializing loading states, or logging load attempts.
+// loading indicators, starting progress tracking, initialising loading states, or logging load attempts.
 func (e *Element) OnLoadStart(handler string) *Element {
 	e.SetAttribute("onloadstart", handler)
 	return e
@@ -1511,9 +1545,9 @@ func (e *Element) OnMouseDown(handler string) *Element {
 
 // OnMouseEnter sets the onmouseenter attribute.
 //
-// Fired when the mouse pointer enters an element's boundaries. Does not bubble and only fires once when entering,
-// not when moving over child elements. Perfect for hover effects, tooltips, dropdown menus, highlighting
-// elements, or triggering UI changes when users mouse over interactive components.
+// Fired when the pointer enters an element and its descendants from outside.
+// It does not bubble and is not retriggered solely by moving between that
+// element and its children. Use mouseover for delegated handlers.
 func (e *Element) OnMouseEnter(handler string) *Element {
 	e.SetAttribute("onmouseenter", handler)
 	return e
@@ -1522,7 +1556,7 @@ func (e *Element) OnMouseEnter(handler string) *Element {
 // OnMouseLeave sets the onmouseleave attribute.
 //
 // Fired when the mouse pointer exits an element's boundaries. Does not bubble and only fires when leaving the
-// element, not when moving to child elements. Paired with onmouseenter for clean hover states, hiding tooltips,
+// element. Moving to a child element does not trigger it. Paired with onmouseenter for hover states, hiding tooltips,
 // closing dropdowns, or removing highlights when users stop hovering.
 func (e *Element) OnMouseLeave(handler string) *Element {
 	e.SetAttribute("onmouseleave", handler)
@@ -1543,7 +1577,7 @@ func (e *Element) OnMouseMove(handler string) *Element {
 //
 // Fired when the mouse pointer leaves an element or moves to one of its child elements. Unlike onmouseleave, this
 // event bubbles and can fire when moving over child elements. Less commonly used than onmouseleave due to its
-// bubbling behavior, but useful for specific event delegation scenarios.
+// bubbling behaviour, but useful for specific event delegation scenarios.
 func (e *Element) OnMouseOut(handler string) *Element {
 	e.SetAttribute("onmouseout", handler)
 	return e
@@ -1553,7 +1587,7 @@ func (e *Element) OnMouseOut(handler string) *Element {
 //
 // Fired when the mouse pointer enters an element or moves to one of its child elements. Unlike onmouseenter, this
 // event bubbles and can fire multiple times when moving over child elements. Less commonly used than onmouseenter
-// due to its bubbling behavior, but useful for event delegation or complex hover tracking.
+// due to its bubbling behaviour, but useful for event delegation or complex hover tracking.
 func (e *Element) OnMouseOver(handler string) *Element {
 	e.SetAttribute("onmouseover", handler)
 	return e
@@ -1571,9 +1605,9 @@ func (e *Element) OnMouseUp(handler string) *Element {
 
 // OnMouseWheel sets the onmousewheel attribute.
 //
-// Fired when the mouse wheel is scrolled. Detects vertical and horizontal scrolling from mouse wheels or trackpad
-// gestures. Used for custom scrolling behavior, zooming, volume controls, image galleries, or implementing
-// scroll-based interactions. Provides delta values for scroll direction and amount.
+// Legacy mousewheel event for wheel input. Use wheel for new handlers, with
+// deltaX, deltaY and deltaMode to interpret the movement. Legacy wheelDelta
+// values use different units and signs.
 //
 // Deprecated: Not in the WHATWG living standard. Use OnWheel instead.
 func (e *Element) OnMouseWheel(handler string) *Element {
@@ -1605,7 +1639,7 @@ func (e *Element) OnPlay(handler string) *Element {
 //
 // Fired when media playback actually begins after being paused or delayed due to buffering. Occurs on <audio> and
 // <video> elements when media is actively playing content. Used for updating player UI, starting progress
-// tracking, enabling playback-dependent features, or triggering actions that should occur during active playback.
+// tracking, enabling playback-dependent features, or triggering actions during active playback.
 func (e *Element) OnPlaying(handler string) *Element {
 	e.SetAttribute("onplaying", handler)
 	return e
@@ -1625,7 +1659,7 @@ func (e *Element) OnProgress(handler string) *Element {
 //
 // Fired when media playback speed changes. Occurs on <audio> and <video> elements when the playbackRate property
 // is modified (e.g., 0.5x, 1x, 1.5x, 2x speed). Used for updating speed indicators, adjusting UI controls,
-// synchronizing playback-dependent animations, or implementing custom playback speed controls.
+// synchronising playback-dependent animations, or implementing custom playback speed controls.
 func (e *Element) OnRateChange(handler string) *Element {
 	e.SetAttribute("onratechange", handler)
 	return e
@@ -1643,9 +1677,9 @@ func (e *Element) OnReset(handler string) *Element {
 
 // OnResize sets the onresize attribute.
 //
-// Fired when the browser window or element is resized. Commonly used on the window object to handle viewport
-// changes, but also available on resizable elements. Essential for responsive design, updating layouts,
-// recalculating positions, adjusting canvas sizes, or triggering responsive behavior based on size changes.
+// Fired when the document's window is resized. Ordinary HTML elements do not
+// emit resize when their CSS dimensions change. Observe those changes with
+// ResizeObserver.
 func (e *Element) OnResize(handler string) *Element {
 	e.SetAttribute("onresize", handler)
 	return e
@@ -1717,9 +1751,9 @@ func (e *Element) OnSort(handler string) *Element {
 
 // OnStalled sets the onstalled attribute.
 //
-// Fired when media loading stalls due to network issues or server problems. Occurs on <audio> and <video>
-// elements when expected data doesn't arrive. Used for showing network error messages, implementing retry logic,
-// switching to alternative sources, or providing fallback content when media loading fails.
+// Fired on audio or video when the browser is trying to fetch media but data
+// is not arriving. The download may resume later. This event does not by
+// itself mean the resource has permanently failed.
 func (e *Element) OnStalled(handler string) *Element {
 	e.SetAttribute("onstalled", handler)
 	return e
@@ -1727,9 +1761,9 @@ func (e *Element) OnStalled(handler string) *Element {
 
 // OnSuspend sets the onsuspend attribute.
 //
-// Fired when media loading is intentionally suspended, typically when the browser decides it has loaded enough
-// data for current needs. Occurs on <audio> and <video> elements as an optimization. Used for managing loading
-// states, updating progress indicators, or implementing custom buffering strategies.
+// Fired on audio or video when the browser intentionally stops fetching media.
+// This can happen because it has enough data or is following its loading policy.
+// It is distinct from stalled, where expected data is not arriving.
 func (e *Element) OnSuspend(handler string) *Element {
 	e.SetAttribute("onsuspend", handler)
 	return e
@@ -1737,9 +1771,9 @@ func (e *Element) OnSuspend(handler string) *Element {
 
 // OnTimeUpdate sets the ontimeupdate attribute.
 //
-// Fired regularly during media playback as the currentTime advances. Occurs on <audio> and <video> elements,
-// typically 4 times per second during playback. Essential for updating progress bars, synchronized content, time
-// displays, subtitle timing, or any functionality that needs to track playback position in real-time.
+// Fired on audio or video when the playback position changes, including during
+// playback and seeking. Notifications are not frame-accurate and their rate
+// varies. Read currentTime to update a playback-position display.
 func (e *Element) OnTimeUpdate(handler string) *Element {
 	e.SetAttribute("ontimeupdate", handler)
 	return e
@@ -1747,9 +1781,9 @@ func (e *Element) OnTimeUpdate(handler string) *Element {
 
 // OnToggle sets the ontoggle attribute.
 //
-// Fired when a <details> element is opened or closed by clicking its <summary> or programmatically changing the
-// open attribute. Used for lazy loading collapsed content, animating expand/collapse transitions, saving user
-// preferences, analytics tracking, or implementing custom accordion behaviors.
+// Fired after details, a popover or a dialog changes its open or closed state.
+// Use it to update related controls after the transition. Multiple state
+// changes can be coalesced into a single notification.
 func (e *Element) OnToggle(handler string) *Element {
 	e.SetAttribute("ontoggle", handler)
 	return e
@@ -1759,7 +1793,7 @@ func (e *Element) OnToggle(handler string) *Element {
 //
 // Fired when media volume or muted state changes. Occurs on <audio> and <video> elements when the volume
 // property is modified or when toggling between muted and unmuted states. Used for updating volume sliders, mute
-// button states, saving user preferences, or synchronizing audio controls across multiple media elements.
+// button states, saving user preferences, or synchronising audio controls across multiple media elements.
 func (e *Element) OnVolumeChange(handler string) *Element {
 	e.SetAttribute("onvolumechange", handler)
 	return e
@@ -1797,9 +1831,9 @@ func (e *Element) OnWheel(handler string) *Element {
 
 // OnCopy sets the oncopy attribute.
 //
-// Fired when the user initiates a copy action through keyboard shortcut or context menu. Occurs on the focused
-// element or selection. Can be used to modify clipboard content with setData(), track copy analytics, show copy
-// confirmation, or prevent copying of sensitive content with preventDefault().
+// Fired when a copy action is requested. To replace the default copied content,
+// write to the event's clipboardData and call preventDefault(). Cancelling
+// this event is not a protection against access to displayed content.
 func (e *Element) OnCopy(handler string) *Element {
 	e.SetAttribute("oncopy", handler)
 	return e
@@ -1807,9 +1841,9 @@ func (e *Element) OnCopy(handler string) *Element {
 
 // OnCut sets the oncut attribute.
 //
-// Fired when the user initiates a cut action through keyboard shortcut or context menu. Similar to oncopy but
-// also removes the selected content. Can be used to modify clipboard content, prevent cutting in read-only
-// contexts, track content removal, or implement custom cut behaviour.
+// Fired when a cut action is requested. A custom handler can set clipboardData
+// and cancel the default action, but must then handle removal of the selected
+// content itself.
 func (e *Element) OnCut(handler string) *Element {
 	e.SetAttribute("oncut", handler)
 	return e
@@ -1817,9 +1851,9 @@ func (e *Element) OnCut(handler string) *Element {
 
 // OnPaste sets the onpaste attribute.
 //
-// Fired when the user pastes content from the clipboard through keyboard shortcut or context menu. Provides
-// access to clipboard data via getData(). Used for sanitising pasted content, handling rich text or file pastes,
-// implementing custom paste logic, or preventing unwanted paste formats.
+// Fired when a paste action is requested. Read clipboardData to inspect text
+// or files, and call preventDefault() if the handler inserts its own
+// processed content instead of the default paste.
 func (e *Element) OnPaste(handler string) *Element {
 	e.SetAttribute("onpaste", handler)
 	return e
@@ -1837,9 +1871,9 @@ func (e *Element) OnScrollEnd(handler string) *Element {
 
 // OnFormData sets the onformdata attribute.
 //
-// Fired after the entry list representing the form's data is constructed during form submission. Occurs on
-// <form> elements and allows modification of form data before it is sent. Useful for appending custom data,
-// transforming field values, or implementing custom serialisation logic.
+// Fired on a form after its data entry list is constructed, including when
+// new FormData(form) is called. The event's formData object can be updated
+// to add or change entries without creating hidden controls.
 func (e *Element) OnFormData(handler string) *Element {
 	e.SetAttribute("onformdata", handler)
 	return e
@@ -1927,9 +1961,9 @@ func (e *Element) OnTransitionStart(handler string) *Element {
 
 // OnBeforeToggle sets the onbeforetoggle attribute.
 //
-// Fired before a popover or <details> element changes its open/closed state. Can be cancelled with
-// preventDefault() to prevent the state change. Useful for validation before showing popovers, confirming
-// closure of unsaved content, or implementing conditional toggle logic.
+// Fired before a popover or dialog changes between open and closed states.
+// The oldState and newState properties describe the transition. Opening can
+// be cancelled. Closing cannot be cancelled. Details elements report changes through toggle.
 func (e *Element) OnBeforeToggle(handler string) *Element {
 	e.SetAttribute("onbeforetoggle", handler)
 	return e
@@ -1937,9 +1971,9 @@ func (e *Element) OnBeforeToggle(handler string) *Element {
 
 // OnBeforeInput sets the onbeforeinput attribute.
 //
-// Fired before the DOM is updated with new input. Unlike oninput which fires after the change, onbeforeinput
-// fires before and can be cancelled with preventDefault(). Provides inputType for distinguishing between typing,
-// pasting, deleting, and formatting. Useful for input filtering, custom undo/redo, or preventing specific edits.
+// Fired before many user edits update an input, textarea or editable element.
+// The inputType property describes the edit, such as insertion or deletion. Some edits are
+// not cancellable, so check cancelable before relying on preventDefault().
 func (e *Element) OnBeforeInput(handler string) *Element {
 	e.SetAttribute("onbeforeinput", handler)
 	return e
@@ -1947,7 +1981,7 @@ func (e *Element) OnBeforeInput(handler string) *Element {
 
 // OnBeforeMatch sets the onbeforematch attribute.
 //
-// Fired on an element with the hidden="until-found" attribute just before it is revealed by find-in-page or
+// Fired on an element with the hidden="until-found" attribute immediately before it is revealed by find-in-page or
 // fragment navigation. Allows preparation before the element becomes visible, such as loading content, expanding
 // collapsed sections, or initialising components that were deferred while hidden.
 func (e *Element) OnBeforeMatch(handler string) *Element {
@@ -1967,9 +2001,9 @@ func (e *Element) OnCommand(handler string) *Element {
 
 // OnContextLost sets the oncontextlost attribute.
 //
-// Fired when the rendering context of a <canvas> element is lost, typically due to GPU resource pressure or
-// device changes. Used for showing fallback content, pausing rendering loops, releasing resources, or notifying
-// users that the canvas display may be temporarily unavailable.
+// Fired when a canvas's 2D rendering context is lost. Rendering resources and
+// state may need to be recreated after contextrestored. WebGL uses the
+// separate webglcontextlost event.
 func (e *Element) OnContextLost(handler string) *Element {
 	e.SetAttribute("oncontextlost", handler)
 	return e
@@ -1977,9 +2011,9 @@ func (e *Element) OnContextLost(handler string) *Element {
 
 // OnContextRestored sets the oncontextrestored attribute.
 //
-// Fired when a previously lost rendering context of a <canvas> element is restored. Used for re-initialising
-// rendering state, reloading textures and shaders, resuming rendering loops, or rebuilding the canvas display
-// after a context loss event.
+// Fired when a canvas's 2D rendering context becomes available after a loss.
+// Reinitialise drawing state and redraw the content. WebGL uses the separate
+// webglcontextrestored event.
 func (e *Element) OnContextRestored(handler string) *Element {
 	e.SetAttribute("oncontextrestored", handler)
 	return e
@@ -1997,9 +2031,9 @@ func (e *Element) OnSecurityPolicyViolation(handler string) *Element {
 
 // OnSlotChange sets the onslotchange attribute.
 //
-// Fired when the nodes assigned to a <slot> element change, either by adding, removing, or replacing slotted
-// content. Occurs on <slot> elements within shadow DOM trees. Used for updating shadow DOM rendering, tracking
-// content projection changes, or implementing reactive slot-based component patterns.
+// Fired on a slot when its assigned nodes change. It does not report edits
+// inside an already assigned node. Read assignedNodes() or assignedElements()
+// to inspect the current assignment.
 func (e *Element) OnSlotChange(handler string) *Element {
 	e.SetAttribute("onslotchange", handler)
 	return e
@@ -2087,9 +2121,9 @@ func (e *Element) OnPointerCancel(handler string) *Element {
 
 // OnGotPointerCapture sets the ongotpointercapture attribute.
 //
-// Fired when an element receives pointer capture via setPointerCapture(). While captured, all subsequent
-// pointer events for that pointer are directed to the capturing element regardless of position. Used for
-// confirming capture acquisition in drag operations, slider controls, and custom scroll implementations.
+// Fired when an element gains capture for a pointer. Subsequent pointer events
+// are targeted to that element while capture is active, allowing a drag to
+// continue outside its bounds. PointerId identifies the captured pointer.
 func (e *Element) OnGotPointerCapture(handler string) *Element {
 	e.SetAttribute("ongotpointercapture", handler)
 	return e
@@ -2097,9 +2131,8 @@ func (e *Element) OnGotPointerCapture(handler string) *Element {
 
 // OnLostPointerCapture sets the onlostpointercapture attribute.
 //
-// Fired when an element loses pointer capture, either via releasePointerCapture(), pointer release, or
-// browser cancellation. Used for cleanup after drag operations, resetting element state, and finalising
-// interactions that relied on pointer capture for consistent event delivery.
+// Fired when pointer capture is released, including automatic release after
+// pointerup or pointercancel. Use it to clear state that depends on capture.
 func (e *Element) OnLostPointerCapture(handler string) *Element {
 	e.SetAttribute("onlostpointercapture", handler)
 	return e

@@ -22,7 +22,7 @@ var (
 	// values to define the clickable rectangular region.
 	Rect = Shape("rect")
 
-	// Circle Circular area defined by center point and radius. Requires coords with center x, y
+	// Circle Circular area defined by centre point and radius. Requires coords with centre x, y
 	// coordinates and radius value to define the clickable circular region.
 	Circle = Shape("circle")
 

@@ -2,8 +2,9 @@
 
 // Package preload defines the [Preload] type and its predefined values.
 //
-// Media content preload behavior hint for optimal user experience. Controls how much media
-// content is downloaded in advance to balance startup speed with bandwidth usage.
+// Hints how much audio or video data to fetch before playback is requested.
+// The browser may ignore the hint, and autoplay can require more data regardless
+// of this setting. Preloading does not start playback.
 package preload
 
 import (
@@ -12,22 +13,23 @@ import (
 
 // Preload is a typed value for the HTML preload attribute.
 //
-// Media content preload behavior hint for optimal user experience. Controls how much media
-// content is downloaded in advance to balance startup speed with bandwidth usage.
+// Hints how much audio or video data to fetch before playback is requested.
+// The browser may ignore the hint, and autoplay can require more data regardless
+// of this setting. Preloading does not start playback.
 type Preload []byte
 
 // Variables for Preload values
 var (
-	// None Do not preload any media content. Provides fastest page load time but slower media startup
-	// when user initiates playback. Best for bandwidth-constrained environments.
+	// None Requests that no media data be fetched in advance. Use when playback is
+	// unlikely or when avoiding unnecessary data transfer matters.
 	None = Preload("none")
 
-	// Metadata Preload only metadata (duration, dimensions, first frame). Balanced approach that enables
-	// UI setup while conserving bandwidth. Good compromise for most use cases.
+	// Metadata Requests media metadata, such as duration and dimensions, without fetching
+	// the whole resource. Reading metadata may still require some media data.
 	Metadata = Preload("metadata")
 
-	// Auto Preload the entire media file. Provides fastest media startup time but slower initial page
-	// load and higher bandwidth usage. Default browser behavior.
+	// Auto Allows the browser to fetch the entire resource in advance. This can reduce
+	// playback startup delay at the cost of data transfer for media never played.
 	Auto = Preload("auto")
 )
 

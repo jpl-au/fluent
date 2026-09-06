@@ -2,9 +2,10 @@
 
 // Package dominantbaseline defines the [DominantBaseline] type and its predefined values.
 //
-// Which baseline of the text is placed at the element's y position. Pair it
-// with text-anchor to centre text on a point. A typed value so only valid
-// dominant-baseline keywords compile.
+// Selects the baseline used to align SVG text, such as alphabetic or central.
+// For horizontal text, it controls vertical alignment at the text position.
+// The text-anchor attribute controls alignment along the line. Using central with
+// text-anchor="middle" centres a horizontal label on its position.
 package dominantbaseline
 
 import (
@@ -13,9 +14,10 @@ import (
 
 // DominantBaseline is a typed value for the SVG dominant-baseline attribute.
 //
-// Which baseline of the text is placed at the element's y position. Pair it
-// with text-anchor to centre text on a point. A typed value so only valid
-// dominant-baseline keywords compile.
+// Selects the baseline used to align SVG text, such as alphabetic or central.
+// For horizontal text, it controls vertical alignment at the text position.
+// The text-anchor attribute controls alignment along the line. Using central with
+// text-anchor="middle" centres a horizontal label on its position.
 type DominantBaseline []byte
 
 // Variables for DominantBaseline values

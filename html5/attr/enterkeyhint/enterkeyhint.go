@@ -2,8 +2,9 @@
 
 // Package enterkeyhint defines the [EnterKeyHint] type and its predefined values.
 //
-// Action label or icon hint for the enter key on virtual keyboards. Improves mobile user
-// experience by providing context-appropriate keyboard actions and visual cues.
+// Hints the label or icon shown on a virtual keyboard's enter key. Choose a
+// label matching the action the interface implements. The hint does not itself
+// submit a form, change focus, or perform the labelled action.
 package enterkeyhint
 
 import (
@@ -12,14 +13,15 @@ import (
 
 // EnterKeyHint is a typed value for the HTML enterkeyhint attribute.
 //
-// Action label or icon hint for the enter key on virtual keyboards. Improves mobile user
-// experience by providing context-appropriate keyboard actions and visual cues.
+// Hints the label or icon shown on a virtual keyboard's enter key. Choose a
+// label matching the action the interface implements. The hint does not itself
+// submit a form, change focus, or perform the labelled action.
 type EnterKeyHint []byte
 
 // Variables for EnterKeyHint values
 var (
-	// Enter Standard enter key behavior. Typically shows "Enter" or return arrow icon.
-	// Default behavior for most text input without specific action context.
+	// Enter Requests an enter or return label, suggesting a line break or ordinary
+	// enter-key action rather than a named task such as search or send.
 	Enter = EnterKeyHint("enter")
 
 	// Done Indicates completion of input. Shows "Done" label and suggests finishing current

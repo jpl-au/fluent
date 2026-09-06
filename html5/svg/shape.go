@@ -17,11 +17,63 @@ import (
 	txt "github.com/jpl-au/fluent/text"
 )
 
-// Shape is the sealed interface implemented by every SVG element and by Raw.
-// Only Shapes compose as svg children, so non-SVG nodes are a compile error.
+// Shape is the sealed interface implemented by every drawable, structural, text,
+// paint server, animation and filter element, and by Raw. Only Shapes compose as
+// children of the root, g, defs, symbol, pattern, marker, mask, clipPath and
+// switch, so a non-SVG node is a compile error.
 type Shape interface {
 	node.Node
 	isSVGShape()
+}
+
+// FilterPrimitive is the sealed interface implemented by the fe* elements. Only
+// primitives compose as children of a filter, and a primitive composes nowhere
+// else.
+type FilterPrimitive interface {
+	node.Node
+	isSVGFilterPrimitive()
+}
+
+// LightSource is the sealed interface implemented by feDistantLight, fePointLight
+// and feSpotLight, the only children of the lighting primitives feDiffuseLighting
+// and feSpecularLighting.
+type LightSource interface {
+	node.Node
+	isSVGLightSource()
+}
+
+// TransferFunction is the sealed interface implemented by feFuncR, feFuncG,
+// feFuncB and feFuncA, the only children of feComponentTransfer.
+type TransferFunction interface {
+	node.Node
+	isSVGTransferFunction()
+}
+
+// ShapeContent is the sealed interface for what a shape, Use or Image may
+// contain: the descriptive elements Title, Desc and Metadata, the animation
+// elements, the paint servers, and ClipPath, Marker, Mask, Script and Style.
+// It is what lets a shape carry its own accessible name and animation. A
+// second shape is not ShapeContent, so nesting one shape in another is a
+// compile error.
+type ShapeContent interface {
+	node.Node
+	isSVGShapeContent()
+}
+
+// PrimitiveContent is the sealed interface for what a filter primitive, light
+// source, transfer function or gradient Stop may contain: the descriptive
+// elements, Animate, Set, Script and Style. These elements are animated rather
+// than drawn into, so they take no graphical children.
+type PrimitiveContent interface {
+	node.Node
+	isSVGPrimitiveContent()
+}
+
+// Descriptive is the sealed interface implemented by Title, Desc and Metadata,
+// the only children an animation element, MPath or View may contain.
+type Descriptive interface {
+	node.Node
+	isSVGDescriptive()
 }
 
 // rawShape wraps a verbatim node so an arbitrary SVG fragment satisfies Shape.

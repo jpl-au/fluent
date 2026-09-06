@@ -2,9 +2,10 @@
 
 // Package pointerevents defines the [PointerEvents] type and its predefined values.
 //
-// Which parts of an element are the target of pointer events, and whether the
-// fill and stroke count only when painted or visible. A typed value so only valid
-// pointer-events keywords compile.
+// Controls which parts of an SVG element can be the target of pointer events.
+// Values distinguish the fill, stroke and bounding box, with some requiring
+// paint or visibility. None excludes the element itself from hit testing, while
+// values such as all allow unpainted or hidden geometry to be targeted.
 package pointerevents
 
 import (
@@ -13,9 +14,10 @@ import (
 
 // PointerEvents is a typed value for the SVG pointer-events attribute.
 //
-// Which parts of an element are the target of pointer events, and whether the
-// fill and stroke count only when painted or visible. A typed value so only valid
-// pointer-events keywords compile.
+// Controls which parts of an SVG element can be the target of pointer events.
+// Values distinguish the fill, stroke and bounding box, with some requiring
+// paint or visibility. None excludes the element itself from hit testing, while
+// values such as all allow unpainted or hidden geometry to be targeted.
 type PointerEvents []byte
 
 // Variables for PointerEvents values

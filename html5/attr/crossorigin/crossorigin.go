@@ -2,8 +2,9 @@
 
 // Package crossorigin defines the [CrossOrigin] type and its predefined values.
 //
-// Cross-Origin Resource Sharing (CORS) configuration for external resources. Controls whether
-// credentials are sent with cross-origin requests and enables secure resource sharing.
+// Selects the CORS mode for fetching a resource and whether cross-origin
+// credentials are included. The server must return appropriate CORS headers.
+// For images, a successful CORS fetch allows use in a canvas without tainting it.
 package crossorigin
 
 import (
@@ -12,18 +13,20 @@ import (
 
 // CrossOrigin is a typed value for the HTML crossorigin attribute.
 //
-// Cross-Origin Resource Sharing (CORS) configuration for external resources. Controls whether
-// credentials are sent with cross-origin requests and enables secure resource sharing.
+// Selects the CORS mode for fetching a resource and whether cross-origin
+// credentials are included. The server must return appropriate CORS headers.
+// For images, a successful CORS fetch allows use in a canvas without tainting it.
 type CrossOrigin []byte
 
 // Variables for CrossOrigin values
 var (
-	// Anonymous Send cross-origin requests without credentials (cookies, auth headers excluded). Safe for
-	// public CDN resources and enables canvas pixel access for CORS-enabled images.
+	// Anonymous Uses CORS without credentials for cross-origin requests. Same-origin
+	// requests can still include credentials.
 	Anonymous = CrossOrigin("anonymous")
 
-	// UseCredentials Send cross-origin requests with credentials included. Server must explicitly allow with
-	// Access-Control-Allow-Credentials: true header for this to work properly.
+	// UseCredentials Uses CORS with credentials, including for cross-origin requests. The server
+	// must allow credentials and explicitly allow the requesting origin rather
+	// than using a wildcard.
 	UseCredentials = CrossOrigin("use-credentials")
 )
 

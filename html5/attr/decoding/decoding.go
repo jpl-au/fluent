@@ -2,8 +2,9 @@
 
 // Package decoding defines the [Decoding] type and its predefined values.
 //
-// Image decoding priority hint for browser optimization. Controls when images are processed
-// and painted to balance performance with user experience and page responsiveness.
+// Hints whether to coordinate image decoding with other content when painting.
+// This affects presentation scheduling. It does not change fetch priority or
+// guarantee when an image becomes visible.
 package decoding
 
 import (
@@ -12,22 +13,23 @@ import (
 
 // Decoding is a typed value for the HTML decoding attribute.
 //
-// Image decoding priority hint for browser optimization. Controls when images are processed
-// and painted to balance performance with user experience and page responsiveness.
+// Hints whether to coordinate image decoding with other content when painting.
+// This affects presentation scheduling. It does not change fetch priority or
+// guarantee when an image becomes visible.
 type Decoding []byte
 
 // Variables for Decoding values
 var (
-	// Sync Decode image synchronously for immediate presentation. Blocks other tasks until
-	// image is processed. Best for critical above-the-fold images that must appear instantly.
+	// Sync Prefers presenting the image and other content together, even if painting
+	// must wait for image decoding.
 	Sync = Decoding("sync")
 
-	// Async Decode image asynchronously to avoid blocking other tasks. Allows page interaction
-	// while image processes in background. Good for non-critical images.
+	// Async Prefers allowing other content to be painted without waiting for image
+	// decoding. The image can appear in a later paint.
 	Async = Decoding("async")
 
-	// Auto Let browser decide optimal decoding strategy based on image importance and context.
-	// Default behavior that balances performance with user experience automatically.
+	// Auto Leaves the choice of decoding and presentation strategy to the browser.
+	// This is the default when no decoding hint is provided.
 	Auto = Decoding("auto")
 )
 

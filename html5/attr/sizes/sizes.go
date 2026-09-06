@@ -2,8 +2,9 @@
 
 // Package sizes defines the [Size] type and its predefined values.
 //
-// Responsive image size constants for sizes attribute. Predefined size values
-// and media queries for common responsive image patterns and breakpoints.
+// Describes the expected rendered width of a responsive image so the browser
+// can select from srcset candidates with width descriptors. It does not set the
+// image's CSS width. Choose a value that matches the width defined by the layout.
 package sizes
 
 import (
@@ -12,58 +13,60 @@ import (
 
 // Size is a typed value for the HTML sizes attribute.
 //
-// Responsive image size constants for sizes attribute. Predefined size values
-// and media queries for common responsive image patterns and breakpoints.
+// Describes the expected rendered width of a responsive image so the browser
+// can select from srcset candidates with width descriptors. It does not set the
+// image's CSS width. Choose a value that matches the width defined by the layout.
 type Size []byte
 
 // Variables for Size values
 var (
-	// FullWidth Full viewport width sizing for hero images and full-width banners.
-	// Image scales to match the complete width of the browser window.
+	// FullWidth Declares an expected image width of 100vw, matching a layout where the
+	// image spans the viewport.
 	FullWidth = Size("100vw")
 
-	// HalfWidth Half viewport width sizing for two-column layouts and side-by-side content.
-	// Image occupies exactly half the browser window width.
+	// HalfWidth Declares an expected image width of 50vw, matching half the viewport.
+	// Account for gutters separately if the layout includes them.
 	HalfWidth = Size("50vw")
 
-	// ThirdWidth One-third viewport width sizing for three-column layouts and grid systems.
-	// Image takes up one-third of the browser window width.
+	// ThirdWidth Declares an expected image width of 33vw, approximately one third of the
+	// viewport. The value is rounded to 33 percent.
 	ThirdWidth = Size("33vw")
 
-	// QuarterWidth Quarter viewport width sizing for four-column layouts and compact grids.
-	// Image occupies one-fourth of the browser window width.
+	// QuarterWidth Declares an expected image width of 25vw, matching one quarter of the
+	// viewport.
 	QuarterWidth = Size("25vw")
 
-	// Small Small fixed width suitable for thumbnails and compact image displays.
-	// Common size for mobile-first designs and thumbnail galleries.
+	// Small Declares an expected image width of 320 CSS pixels, independent of viewport
+	// width. The browser also considers pixel density when selecting a source.
 	Small = Size("320px")
 
-	// Medium Medium fixed width for standard content images and article photos.
-	// Balanced size for most content images in responsive designs.
+	// Medium Declares an expected image width of 640 CSS pixels, independent of viewport
+	// width. The browser also considers pixel density when selecting a source.
 	Medium = Size("640px")
 
-	// Large Large fixed width for hero images and prominent visual content.
-	// Suitable for desktop displays and high-impact imagery.
+	// Large Declares an expected image width of 1024 CSS pixels, independent of viewport
+	// width. The browser also considers pixel density when selecting a source.
 	Large = Size("1024px")
 
-	// ExtraLarge Extra large fixed width for full-screen backgrounds and high-resolution displays.
-	// Maximum size for wide desktop screens and 4K displays.
+	// ExtraLarge Declares an expected image width of 1920 CSS pixels, independent of viewport
+	// width. This does not limit source resolution or set a maximum layout width.
 	ExtraLarge = Size("1920px")
 
-	// MobileFullTabletHalf Full width on mobile devices, half width on tablets and desktop.
-	// Common pattern for responsive content that stacks on mobile.
+	// MobileFullTabletHalf Declares an expected width of 100vw at viewport widths up to 767px,
+	// and 50vw above that breakpoint. The condition tests viewport width.
+	// It does not identify the device type.
 	MobileFullTabletHalf = Size("(max-width: 767px) 100vw, 50vw")
 
-	// MobileFullDesktopThird Full width on mobile, one-third width on larger screens.
-	// Ideal for three-column desktop layouts that stack on mobile.
+	// MobileFullDesktopThird Declares an expected width of 100vw at viewport widths up to 767px,
+	// and 33vw above that breakpoint. Match the layout's column widths to this hint.
 	MobileFullDesktopThird = Size("(max-width: 767px) 100vw, 33vw")
 
-	// ResponsiveHero Full width on mobile and tablet, fixed large size on desktop.
-	// Perfect for hero images that need different behaviors per device.
+	// ResponsiveHero Declares an expected width of 100vw at viewport widths up to 1023px,
+	// and 1200px above that breakpoint.
 	ResponsiveHero = Size("(max-width: 767px) 100vw, (max-width: 1023px) 100vw, 1200px")
 
-	// ResponsiveContent Full width on mobile, half width on tablet, third width on desktop.
-	// Standard responsive pattern for content images in flexible layouts.
+	// ResponsiveContent Declares an expected width of 100vw up to 767px, 50vw from above 767px
+	// through 1023px, and 33vw above 1023px.
 	ResponsiveContent = Size("(max-width: 767px) 100vw, (max-width: 1023px) 50vw, 33vw")
 )
 

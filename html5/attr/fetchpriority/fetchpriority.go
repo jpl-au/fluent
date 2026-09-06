@@ -2,8 +2,9 @@
 
 // Package fetchpriority defines the [FetchPriority] type and its predefined values.
 //
-// Resource loading priority hint for browser optimization. Helps browsers prioritize
-// critical resources for better user experience and perceived performance.
+// Hints a resource's fetch priority relative to other resources of the same
+// type. The browser determines the final priority. This does not force immediate
+// loading or change a lazy-loaded resource into an eager one.
 package fetchpriority
 
 import (
@@ -12,22 +13,23 @@ import (
 
 // FetchPriority is a typed value for the HTML fetchpriority attribute.
 //
-// Resource loading priority hint for browser optimization. Helps browsers prioritize
-// critical resources for better user experience and perceived performance.
+// Hints a resource's fetch priority relative to other resources of the same
+// type. The browser determines the final priority. This does not force immediate
+// loading or change a lazy-loaded resource into an eager one.
 type FetchPriority []byte
 
 // Variables for FetchPriority values
 var (
-	// High High priority resource loading. Browser should prioritize this resource over others.
-	// Best for hero images, above-the-fold content, and critical visual elements.
+	// High Requests a higher fetch priority than other resources of the same type.
+	// Use selectively for resources important to the initial view.
 	High = FetchPriority("high")
 
-	// Low Low priority resource loading. Browser should deprioritize this resource.
-	// Suitable for below-the-fold images, decorative elements, and non-critical content.
+	// Low Requests a lower fetch priority than other resources of the same type.
+	// Use for resources that can wait behind more important requests.
 	Low = FetchPriority("low")
 
-	// Auto Automatic priority based on browser heuristics and resource context. Default
-	// behavior that lets browser determine optimal loading priority.
+	// Auto Leaves fetch priority to the browser's normal scheduling rules.
+	// This is the default when no priority hint is provided.
 	Auto = FetchPriority("auto")
 )
 

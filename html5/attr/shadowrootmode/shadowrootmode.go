@@ -21,7 +21,7 @@ type ShadowRootMode []byte
 // Variables for ShadowRootMode values
 var (
 	// Open The shadow root is reachable from script as Element.shadowRoot. Styles and markup
-	// are still encapsulated; only the reference is exposed.
+	// are still encapsulated. Only the reference is exposed.
 	Open = ShadowRootMode("open")
 
 	// Closed The shadow root is not reachable from script: Element.shadowRoot returns null.

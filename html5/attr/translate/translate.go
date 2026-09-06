@@ -2,8 +2,8 @@
 
 // Package translate defines the [Translate] type and its predefined values.
 //
-// Translation behavior for element content and attributes. Controls whether automatic
-// translation services should translate the element's text content.
+// Indicates whether translation tools can translate the element's text content
+// and translatable attributes when localising the page.
 package translate
 
 import (
@@ -12,18 +12,18 @@ import (
 
 // Translate is a typed value for the HTML translate attribute.
 //
-// Translation behavior for element content and attributes. Controls whether automatic
-// translation services should translate the element's text content.
+// Indicates whether translation tools can translate the element's text content
+// and translatable attributes when localising the page.
 type Translate []byte
 
 // Variables for Translate values
 var (
-	// Yes Enable translation of element content. Automatic translation services should
-	// translate text content and translatable attributes when page is localized.
+	// Yes Marks text content and translatable attributes for translation when the
+	// page is localised.
 	Yes = Translate("yes")
 
-	// No Disable translation of element content. Automatic translation services should
-	// leave text content unchanged, preserving original language and formatting.
+	// No Requests that translation tools preserve the original text content and
+	// translatable attribute values.
 	No = Translate("no")
 )
 

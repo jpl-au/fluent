@@ -2,8 +2,9 @@
 
 // Package dir defines the [Dir] type and its predefined values.
 //
-// Text directionality for element content. Controls reading order and text alignment
-// for different languages and writing systems, essential for internationalization.
+// Sets the base text direction used by the bidirectional text algorithm.
+// This determines how mixed-direction text is ordered. It is distinct from
+// choosing a language with lang or setting a CSS writing mode.
 package dir
 
 import (
@@ -12,8 +13,9 @@ import (
 
 // Dir is a typed value for the HTML dir attribute.
 //
-// Text directionality for element content. Controls reading order and text alignment
-// for different languages and writing systems, essential for internationalization.
+// Sets the base text direction used by the bidirectional text algorithm.
+// This determines how mixed-direction text is ordered. It is distinct from
+// choosing a language with lang or setting a CSS writing mode.
 type Dir []byte
 
 // Variables for Dir values

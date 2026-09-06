@@ -2,9 +2,10 @@
 
 // Package autocomplete defines the [AutoComplete] type and its predefined values.
 //
-// Browser autocomplete behaviour for form fields. Controls automatic value suggestions
-// and form filling to improve user experience while maintaining security. Accepts
-// field tokens (standalone values) and optional modifier prefixes for context.
+// Identifies the information a form field expects so the browser can offer
+// appropriate autofill suggestions. Field tokens can be combined with section
+// and shipping or billing prefixes. Suggestions depend on browser support,
+// user settings, and available data. These tokens do not validate input.
 package autocomplete
 
 import (
@@ -13,9 +14,10 @@ import (
 
 // AutoComplete is a typed value for the HTML autocomplete attribute.
 //
-// Browser autocomplete behaviour for form fields. Controls automatic value suggestions
-// and form filling to improve user experience while maintaining security. Accepts
-// field tokens (standalone values) and optional modifier prefixes for context.
+// Identifies the information a form field expects so the browser can offer
+// appropriate autofill suggestions. Field tokens can be combined with section
+// and shipping or billing prefixes. Suggestions depend on browser support,
+// user settings, and available data. These tokens do not validate input.
 type AutoComplete []byte
 
 // Variables for AutoComplete values
@@ -24,8 +26,8 @@ var (
 	// values or use autofill data based on input context and type.
 	On = AutoComplete("on")
 
-	// Off Disable autocomplete completely. No suggestions or autofill provided. Recommended
-	// for sensitive fields, one-time passwords, or security-critical inputs.
+	// Off Requests that the browser not automatically fill or suggest values for the
+	// field. Browsers and password managers may ignore this request for login fields.
 	Off = AutoComplete("off")
 
 	// Name Full name autocomplete suggestions. Browser provides name-based autofill from
@@ -60,20 +62,21 @@ var (
 	// or account names associated with the current site.
 	Username = AutoComplete("username")
 
-	// CurrentPassword Current password field for existing account login. Password managers will suggest
-	// stored passwords for the current site and username combination.
+	// CurrentPassword Identifies an existing account password. Password managers can use it with
+	// the username field to offer saved credentials for the site.
 	CurrentPassword = AutoComplete("current-password")
 
-	// NewPassword New password field for account creation or password changes. Password managers
-	// will generate strong passwords and avoid suggesting existing passwords.
+	// NewPassword Identifies a password being created or changed. Password managers can offer
+	// a generated password instead of filling the current one.
 	NewPassword = AutoComplete("new-password")
 
 	// OneTimeCode One-time password or verification code for multi-factor authentication. Browser
 	// may auto-fill from SMS or authenticator apps when available.
 	OneTimeCode = AutoComplete("one-time-code")
 
-	// WebAuthn Web Authentication passkey credential. Triggers the browser's passkey or
-	// security key authentication flow for passwordless sign-in.
+	// WebAuthn Allows passkey suggestions in autofill when used as the final token, for
+	// example after username. It accompanies a pending Web Authentication request
+	// with conditional mediation. The token alone does not start authentication.
 	WebAuthn = AutoComplete("webauthn")
 
 	// Organization Company or organisation name. Browser suggests organisation names from user
@@ -113,7 +116,7 @@ var (
 	AddressLevel3 = AutoComplete("address-level3")
 
 	// AddressLevel4 Fourth administrative level for the most specific locality.
-	// Used in regions with very detailed address hierarchies.
+	// Used in regions with detailed address hierarchies.
 	AddressLevel4 = AutoComplete("address-level4")
 
 	// Country Country code in ISO 3166-1 alpha-2 format (e.g. AU, GB, US). Browser
@@ -192,8 +195,8 @@ var (
 	// from stored payment methods.
 	CCFamilyName = AutoComplete("cc-family-name")
 
-	// CCNumber Payment card number. Browser suggests card numbers from stored payment
-	// methods with appropriate security handling.
+	// CCNumber Identifies a payment card number for autofill from saved payment details.
+	// The token does not validate the number or determine how it is stored.
 	CCNumber = AutoComplete("cc-number")
 
 	// CCExp Payment card expiration date in MM/YY or MM/YYYY format. Browser
@@ -208,8 +211,8 @@ var (
 	// years from stored payment methods.
 	CCExpYear = AutoComplete("cc-exp-year")
 
-	// CCCSC Payment card security code (CVV, CVC, or CSC). Browser may suggest
-	// from stored methods but typically requires manual entry for security.
+	// CCCSC Identifies the payment card security code, such as CVV, CVC, or CSC.
+	// Availability of autofill for this field depends on the browser and user settings.
 	CCCSC = AutoComplete("cc-csc")
 
 	// CCType Payment card type or network (e.g. Visa, Mastercard, Amex). Browser
@@ -228,8 +231,8 @@ var (
 	// Browser suggests languages from user locale settings.
 	Language = AutoComplete("language")
 
-	// BDay Full birth date. Browser suggests dates from user profiles
-	// and previous entries. Typically shown as a date picker.
+	// BDay Identifies a full birth date for autofill. The input's type determines its
+	// editing interface. This token does not create a date picker.
 	BDay = AutoComplete("bday")
 
 	// BDayDay Day component of birth date as a numeric value (1-31).

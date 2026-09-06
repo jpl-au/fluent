@@ -2,8 +2,8 @@
 
 // Package autocapitalize defines the [AutoCapitalize] type and its predefined values.
 //
-// Controls automatic text capitalization on virtual keyboards (mobile devices). Improves mobile
-// user experience by reducing manual capitalization for names, addresses, and titles.
+// Controls automatic text capitalisation on virtual keyboards. The input method
+// can capitalise sentences, words, or all characters to suit the expected text.
 package autocapitalize
 
 import (
@@ -12,33 +12,33 @@ import (
 
 // AutoCapitalize is a typed value for the HTML autocapitalize attribute.
 //
-// Controls automatic text capitalization on virtual keyboards (mobile devices). Improves mobile
-// user experience by reducing manual capitalization for names, addresses, and titles.
+// Controls automatic text capitalisation on virtual keyboards. The input method
+// can capitalise sentences, words, or all characters to suit the expected text.
 type AutoCapitalize []byte
 
 // Variables for AutoCapitalize values
 var (
-	// Off Disable automatic capitalization. No text is automatically capitalized. Best for
+	// Off Disable automatic capitalisation. No text is automatically capitalised. Useful for
 	// technical terms, codes, usernames, or when precise text entry is required.
 	Off = AutoCapitalize("off")
 
-	// None Same as 'off' - disable automatic capitalization. Alternative syntax that achieves
-	// identical behavior to the 'off' value.
+	// None Same as 'off' - disable automatic capitalisation. Alternative syntax that achieves
+	// identical behaviour to the 'off' value.
 	None = AutoCapitalize("none")
 
-	// On Enable automatic capitalization using default behavior. Typically capitalizes the
+	// On Enable automatic capitalisation using default behaviour. Typically capitalises the
 	// first letter of sentences, similar to 'sentences' value.
 	On = AutoCapitalize("on")
 
-	// Sentences Capitalize the first letter of each sentence. Standard behavior for most text input
+	// Sentences Capitalise the first letter of each sentence. Standard behaviour for most text input
 	// where users enter natural language content like messages or comments.
 	Sentences = AutoCapitalize("sentences")
 
-	// Words Capitalize the first letter of each word. Useful for fields like names, titles,
-	// addresses where each word should start with a capital letter.
+	// Words Capitalise the first letter of each word. Use for text that calls for
+	// initial capitals, such as some names or titles.
 	Words = AutoCapitalize("words")
 
-	// Characters Capitalize every character entered. Creates ALL CAPS text input, useful for
+	// Characters Capitalise every character entered. Creates ALL CAPS text input, useful for
 	// special codes, abbreviations, or when uppercase input is required.
 	Characters = AutoCapitalize("characters")
 )

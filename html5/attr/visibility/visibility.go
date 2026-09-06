@@ -2,8 +2,10 @@
 
 // Package visibility defines the [Visibility] type and its predefined values.
 //
-// Whether an element is drawn. A typed value so only valid visibility keywords
-// compile.
+// Controls whether an SVG element is visible without removing it from layout.
+// Hidden elements still contribute to bounding boxes and text layout. The value
+// is inherited, but a descendant can set visible to be shown inside a hidden
+// group. Use display="none" to suppress an element and all its descendants.
 package visibility
 
 import (
@@ -12,8 +14,10 @@ import (
 
 // Visibility is a typed value for the SVG visibility attribute.
 //
-// Whether an element is drawn. A typed value so only valid visibility keywords
-// compile.
+// Controls whether an SVG element is visible without removing it from layout.
+// Hidden elements still contribute to bounding boxes and text layout. The value
+// is inherited, but a descendant can set visible to be shown inside a hidden
+// group. Use display="none" to suppress an element and all its descendants.
 type Visibility []byte
 
 // Variables for Visibility values

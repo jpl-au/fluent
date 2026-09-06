@@ -2,8 +2,9 @@
 
 // Package method defines the [Method] type and its predefined values.
 //
-// HTTP method to use when submitting form data. Controls how form data is sent to the server
-// and affects URL visibility, data size limits, and caching behavior.
+// Selects how a form is submitted. GET puts form entries in the URL query.
+// POST sends them in the request body. The dialog method instead closes a
+// containing dialog without sending a request.
 package method
 
 import (
@@ -12,22 +13,23 @@ import (
 
 // Method is a typed value for the HTML method attribute.
 //
-// HTTP method to use when submitting form data. Controls how form data is sent to the server
-// and affects URL visibility, data size limits, and caching behavior.
+// Selects how a form is submitted. GET puts form entries in the URL query.
+// POST sends them in the request body. The dialog method instead closes a
+// containing dialog without sending a request.
 type Method []byte
 
 // Variables for Method values
 var (
-	// Get Send form data as URL parameters in query string. Data is visible in URL and browser
-	// history. Limited data size and suitable for non-sensitive search forms.
+	// Get Submits form entries in the URL query. Use for retrieval, such as searches,
+	// where the resulting URL can be bookmarked or shared.
 	Get = Method("get")
 
-	// Post Send form data in request body. Data is not visible in URL, supports larger payloads,
-	// and is required for file uploads and sensitive information.
+	// Post Submits form entries in the request body. Use with multipart/form-data for
+	// file uploads. Keeping data out of the URL does not encrypt the request.
 	Post = Method("post")
 
-	// Dialog Close containing dialog and submit form data. Special method for forms inside dialog
-	// elements that closes the dialog when submitted.
+	// Dialog Closes the containing dialog without sending form data to a server.
+	// The activated submit button's value becomes the dialog's returnValue.
 	Dialog = Method("dialog")
 )
 

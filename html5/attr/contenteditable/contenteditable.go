@@ -2,8 +2,9 @@
 
 // Package contenteditable defines the [ContentEditable] type and its predefined values.
 //
-// Controls whether element content can be edited by the user. Enables in-place editing
-// functionality and rich text editing capabilities within web pages.
+// Controls whether the user can edit an element's contents. The setting is
+// inherited when omitted, so an element can be editable through an ancestor.
+// Use plaintext-only to discard formatting while editing.
 package contenteditable
 
 import (
@@ -12,8 +13,9 @@ import (
 
 // ContentEditable is a typed value for the HTML contenteditable attribute.
 //
-// Controls whether element content can be edited by the user. Enables in-place editing
-// functionality and rich text editing capabilities within web pages.
+// Controls whether the user can edit an element's contents. The setting is
+// inherited when omitted, so an element can be editable through an ancestor.
+// Use plaintext-only to discard formatting while editing.
 type ContentEditable []byte
 
 // Variables for ContentEditable values
@@ -22,12 +24,13 @@ var (
 	// with content as if it were a text editor. Supports rich text editing.
 	True = ContentEditable("true")
 
-	// False Element content is not editable (default). Content is read-only and users cannot
-	// modify it directly through the interface.
+	// False Disables editing of this element even when an ancestor is editable.
+	// It does not prevent scripts from changing the contents.
 	False = ContentEditable("false")
 
-	// PlaintextOnly Element content is editable but only as plain text. Rich formatting is stripped
-	// and only plain text editing is allowed, preventing HTML injection.
+	// PlaintextOnly Enables plain-text editing and strips formatting from pasted content.
+	// This controls the editing interface. It does not sanitise content inserted
+	// by application code.
 	PlaintextOnly = ContentEditable("plaintext-only")
 )
 

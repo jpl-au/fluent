@@ -62,18 +62,18 @@ func TestRawTextCtor(t *testing.T) {
 }
 
 func TestTextfCtor(t *testing.T) {
-	app := "Fluent"
+	app := "Dashboard"
 	got := string(noscript.Textf("%s requires JavaScript.", app).RenderBytes())
-	want := `<noscript>Fluent requires JavaScript.</noscript>`
+	want := `<noscript>Dashboard requires JavaScript.</noscript>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
 	}
 }
 
 func TestRawTextfCtor(t *testing.T) {
-	app := "Fluent"
+	app := "Dashboard"
 	got := string(noscript.RawTextf("<p>%s requires <strong>JavaScript</strong>.</p>", app).RenderBytes())
-	want := `<noscript><p>Fluent requires <strong>JavaScript</strong>.</p></noscript>`
+	want := `<noscript><p>Dashboard requires <strong>JavaScript</strong>.</p></noscript>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
 	}

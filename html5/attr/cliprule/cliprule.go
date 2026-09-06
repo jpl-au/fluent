@@ -2,8 +2,10 @@
 
 // Package cliprule defines the [ClipRule] type and its predefined values.
 //
-// Fill rule applied to the shapes inside a clipPath when the clip region is
-// computed. A typed value so only valid clip-rule keywords compile.
+// Determines which regions of shapes inside a clipPath belong to the clipping
+// area. Nonzero uses the direction and winding of the paths. Evenodd alternates
+// inside and outside at each crossing. This attribute affects clipping geometry,
+// not the fill of shapes outside the clipPath.
 package cliprule
 
 import (
@@ -12,8 +14,10 @@ import (
 
 // ClipRule is a typed value for the SVG clip-rule attribute.
 //
-// Fill rule applied to the shapes inside a clipPath when the clip region is
-// computed. A typed value so only valid clip-rule keywords compile.
+// Determines which regions of shapes inside a clipPath belong to the clipping
+// area. Nonzero uses the direction and winding of the paths. Evenodd alternates
+// inside and outside at each crossing. This attribute affects clipping geometry,
+// not the fill of shapes outside the clipPath.
 type ClipRule []byte
 
 // Variables for ClipRule values

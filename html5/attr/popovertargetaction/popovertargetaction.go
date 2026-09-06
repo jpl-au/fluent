@@ -19,7 +19,7 @@ type PopoverTargetAction []byte
 // Variables for PopoverTargetAction values
 var (
 	// Toggle Toggle popover visibility between shown and hidden states. If popover is hidden,
-	// show it; if popover is shown, hide it. Default behavior for most interactions.
+	// show it. If the popover is shown, hide it. This is the default action.
 	Toggle = PopoverTargetAction("toggle")
 
 	// Show Show the target popover if it's currently hidden. If popover is already shown,

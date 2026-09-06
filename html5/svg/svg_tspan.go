@@ -173,8 +173,9 @@ func (e *tspan) Transform(transform string) *tspan {
 
 // TransformOrigin sets the transform-origin attribute.
 //
-// The point a transform rotates or scales around, as CSS keywords or lengths such as "center" or
-// "50% 50%". The default is the origin of the user coordinate system, not the centre of the element.
+// The point around which a transform rotates or scales, given as CSS keywords,
+// lengths or percentages. Most SVG elements default to 0 0. Root svg elements
+// and svg children of foreignObject default to 50% 50%.
 func (e *tspan) TransformOrigin(origin string) *tspan {
 	e.svg().TransformOrigin = node.EscapeAttribute(origin)
 	return e
@@ -203,7 +204,9 @@ func (e *tspan) Lang(lang string) *tspan {
 
 // AutoFocus sets the autofocus attribute.
 //
-// Requests focus for the element when the document loads. Only one element in a document should carry it.
+// Requests focus when the document loads, or when the containing dialog or
+// popover opens. At most one element in each autofocus scope may carry the
+// attribute. A dialog or popover establishes a separate scope.
 //
 // Calling without an argument sets the attribute. Pass a bool to control presence conditionally.
 func (e *tspan) AutoFocus(conds ...bool) *tspan {
@@ -217,9 +220,9 @@ func (e *tspan) AutoFocus(conds ...bool) *tspan {
 
 // SetAria sets an aria-* attribute. The key is prefixed with "aria-".
 //
-// The prefixed key is written to the rendered output verbatim. It is code, not data: pass a fixed,
+// The prefixed key is written to the rendered output verbatim. Pass a fixed,
 // developer-controlled key. Never build the key from user input - a key containing a space, quote,
-// "=", "/" or ">" changes the markup structure. The value is escaped; the key is not.
+// "=", "/" or ">" changes the markup structure. The value is escaped. The key is not escaped.
 func (e *tspan) SetAria(key string, value string) *tspan {
 	e.SetAttribute("aria-"+key, value)
 	return e
@@ -230,9 +233,9 @@ func (e *tspan) SetAria(key string, value string) *tspan {
 // SVG 2 permits custom data attributes on every element, with the same meaning as in HTML. The
 // values are available to scripts through the element's dataset property.
 //
-// The prefixed key is written to the rendered output verbatim. It is code, not data: pass a fixed,
+// The prefixed key is written to the rendered output verbatim. Pass a fixed,
 // developer-controlled key. Never build the key from user input - a key containing a space, quote,
-// "=", "/" or ">" changes the markup structure. The value is escaped; the key is not.
+// "=", "/" or ">" changes the markup structure. The value is escaped. The key is not escaped.
 func (e *tspan) SetData(key string, value string) *tspan {
 	e.SetAttribute("data-"+key, value)
 	return e
@@ -311,8 +314,9 @@ func (e *tspan) StrokeMiterLimit(limit string) *tspan {
 
 // FillRule sets the fill-rule attribute.
 //
-// How the inside of a self-intersecting or nested path is decided. Icon paths with holes usually need
-// evenodd.
+// Determines which regions of overlapping or self-intersecting paths are filled.
+// Nonzero accounts for path direction and winding. Evenodd alternates between
+// inside and outside at each crossing, allowing nested subpaths to form holes.
 func (e *tspan) FillRule(rule fillrule.FillRule) *tspan {
 	e.svg().FillRule = rule
 	return e
@@ -399,8 +403,9 @@ func (e *tspan) PointerEvents(events pointerevents.PointerEvents) *tspan {
 
 // VectorEffect sets the vector-effect attribute.
 //
-// How the stroke responds to transforms. non-scaling-stroke keeps the stroke width constant when the
-// element or the viewport scales, which charts and diagrams usually want.
+// Controls the effect of transformations on SVG rendering. Non-scaling-stroke
+// keeps stroke width constant as the geometry scales, which can keep outlines
+// legible at different zoom levels.
 func (e *tspan) VectorEffect(effect vectoreffect.VectorEffect) *tspan {
 	e.svg().VectorEffect = effect
 	return e
@@ -408,8 +413,8 @@ func (e *tspan) VectorEffect(effect vectoreffect.VectorEffect) *tspan {
 
 // ShapeRendering sets the shape-rendering attribute.
 //
-// A hint to the renderer on the trade-off between speed, crisp edges and geometric precision. crispEdges
-// turns off anti-aliasing so axis-aligned lines stay sharp.
+// A hint to the renderer on the trade-off between speed, crisp edges and geometric precision. With
+// crispEdges, the renderer may disable anti-aliasing or align edges with device pixels.
 func (e *tspan) ShapeRendering(rendering shaperendering.ShapeRendering) *tspan {
 	e.svg().ShapeRendering = rendering
 	return e
@@ -452,9 +457,9 @@ func (e *tspan) FontStyle(style string) *tspan {
 
 // OnClick sets the onclick attribute.
 //
-// Fired when an element is clicked with a pointing device (mouse, trackpad, or touch). The most commonly used event for
-// user interactions, triggering actions like navigation, form submission, modal opening, or any interactive behavior.
-// Available on virtually all elements, making it the primary event for user interface interactions.
+// Fired when a control is activated with the primary pointer button or an
+// applicable keyboard action. Native links and buttons provide keyboard
+// activation as well as pointer interaction.
 func (e *tspan) OnClick(handler string) *tspan {
 	e.event().OnClick = node.EscapeAttribute(handler)
 	return e
@@ -462,10 +467,9 @@ func (e *tspan) OnClick(handler string) *tspan {
 
 // OnChange sets the onchange attribute.
 //
-// Fired when the value of a form control has been committed by the user and the element loses focus. Differs from
-// oninput which fires on every keystroke. Used on <input>, <select>, and <textarea> elements for form validation,
-// data processing, dependent field updates, and saving draft changes. Essential for form workflows and user input
-// handling.
+// Fired when the user commits a change to a form control. Text controls usually
+// commit on losing focus. Checkboxes, radio buttons and selections can commit
+// immediately. Use input to observe edits as they occur.
 func (e *tspan) OnChange(handler string) *tspan {
 	e.event().OnChange = node.EscapeAttribute(handler)
 	return e
@@ -473,9 +477,9 @@ func (e *tspan) OnChange(handler string) *tspan {
 
 // OnInput sets the oninput attribute.
 //
-// Fired immediately when the value of an input element changes (every keystroke, paste, etc.). Unlike onchange, it
-// fires before the element loses focus. Used on <input>, <select>, and <textarea> for real-time validation,
-// auto-save, search suggestions, character counters, or live form updates. Perfect for responsive user interfaces.
+// Fired when user input changes a control's value or editable content, including
+// typing, pasting and deletion. It reports changes before a later change event
+// commits them. Setting a value from script does not itself fire input.
 func (e *tspan) OnInput(handler string) *tspan {
 	e.event().OnInput = node.EscapeAttribute(handler)
 	return e
@@ -483,9 +487,9 @@ func (e *tspan) OnInput(handler string) *tspan {
 
 // OnFocus sets the onfocus attribute.
 //
-// Fired when an element receives focus, typically through clicking, tabbing, or programmatic focus(). Commonly used
-// on form elements to show input helpers, highlight fields, display validation messages, auto-select content, or
-// trigger contextual UI changes. Essential for accessibility and guided user experiences.
+// Fired when an element receives focus through navigation, pointer interaction
+// or focus(). It does not bubble. Use focusin when a parent needs to observe
+// focus changes among its descendants.
 func (e *tspan) OnFocus(handler string) *tspan {
 	e.event().OnFocus = node.EscapeAttribute(handler)
 	return e
@@ -493,9 +497,9 @@ func (e *tspan) OnFocus(handler string) *tspan {
 
 // OnBlur sets the onblur attribute.
 //
-// Fired when an element loses focus, typically when the user clicks elsewhere or tabs to another element. Commonly
-// used on form inputs (<input>, <textarea>, <select>) to validate input, save drafts, hide dropdowns, or trigger
-// field-specific actions. Essential for form validation workflows and user experience enhancements.
+// Fired when an element loses focus. It does not bubble. Use focusout for
+// bubbling notifications. The event reports focus loss. It does not indicate whether the
+// control's value changed.
 func (e *tspan) OnBlur(handler string) *tspan {
 	e.event().OnBlur = node.EscapeAttribute(handler)
 	return e
@@ -503,9 +507,9 @@ func (e *tspan) OnBlur(handler string) *tspan {
 
 // OnSubmit sets the onsubmit attribute.
 //
-// Fired when a form is submitted, either by clicking a submit button or pressing Enter in a form field. Occurs on
-// <form> elements and provides the last opportunity to validate data, prevent submission with preventDefault(), show
-// loading states, or perform custom submission handling like AJAX requests.
+// Fired on a form when submission is requested and interactive validation
+// succeeds. Call preventDefault() to handle submission in script. Calling
+// form.submit() directly bypasses this event and interactive validation.
 func (e *tspan) OnSubmit(handler string) *tspan {
 	e.event().OnSubmit = node.EscapeAttribute(handler)
 	return e
@@ -513,9 +517,9 @@ func (e *tspan) OnSubmit(handler string) *tspan {
 
 // OnLoad sets the onload attribute.
 //
-// Fired when a resource and all its dependencies have finished loading successfully. Commonly used on images,
-// scripts, stylesheets, iframes, and the window object. Essential for initializing functionality, showing content,
-// removing loading indicators, starting animations, or executing code that depends on loaded resources.
+// Fired when the associated resource has loaded. A window load event also
+// waits for dependent resources. An individual element's event concerns its
+// resource. Use it for work that requires that resource to be available.
 func (e *tspan) OnLoad(handler string) *tspan {
 	e.SetAttribute("onload", handler)
 	return e
@@ -523,10 +527,9 @@ func (e *tspan) OnLoad(handler string) *tspan {
 
 // OnError sets the onerror attribute.
 //
-// Fired when an error occurs during resource loading or processing. Common on images, scripts, stylesheets, media
-// elements, and other resources that can fail to load. Essential for error handling, showing fallback content,
-// implementing retry logic, logging failures, or providing user-friendly error messages when resources are
-// unavailable.
+// Fired when a resource cannot be loaded or processed, such as a failed image
+// or script request. A handler can provide fallback content or report the
+// failure. The available error details depend on the resource and event target.
 func (e *tspan) OnError(handler string) *tspan {
 	e.SetAttribute("onerror", handler)
 	return e
@@ -536,9 +539,9 @@ func (e *tspan) OnError(handler string) *tspan {
 //
 // Generic method to add an event using SetEvent(key, value)
 //
-// The key is written to the rendered output verbatim. It is code, not data: pass a fixed,
+// The key is written to the rendered output verbatim. Pass a fixed,
 // developer-controlled key. Never build the key from user input - a key containing a space, quote,
-// "=", "/" or ">" changes the markup structure. The value is escaped; the key is not.
+// "=", "/" or ">" changes the markup structure. The value is escaped. The key is not escaped.
 func (e *tspan) SetEvent(key string, value string) *tspan {
 	e.SetAttribute(key, value)
 	return e
@@ -560,7 +563,7 @@ func (e *tspan) OnAbort(handler string) *tspan {
 // Fired when an input field's autocomplete functionality successfully provides a suggestion that the user accepts.
 // This occurs on <input> elements with autocomplete="on" when the browser's autocomplete dropdown is used to fill
 // the field. Useful for tracking user interaction with browser autocomplete features, form analytics, and
-// implementing custom behavior when autocomplete values are selected.
+// implementing custom behaviour when autocomplete values are selected.
 //
 // Deprecated: Removed from the WHATWG living standard. Was in an older HTML5 draft.
 func (e *tspan) OnAutoComplete(handler string) *tspan {
@@ -593,9 +596,8 @@ func (e *tspan) OnCancel(handler string) *tspan {
 
 // OnCanPlay sets the oncanplay attribute.
 //
-// Fired when enough media data has been loaded to begin playback, but not necessarily to play through to the end
-// without buffering. Occurs on <audio> and <video> elements when the media is ready to start playing. Useful for
-// showing play buttons, enabling media controls, preloading indicators, or triggering autoplay functionality.
+// Fired on audio or video when enough data is available to begin playback.
+// It does not indicate that the browser can play to the end without buffering.
 func (e *tspan) OnCanPlay(handler string) *tspan {
 	e.SetAttribute("oncanplay", handler)
 	return e
@@ -603,9 +605,9 @@ func (e *tspan) OnCanPlay(handler string) *tspan {
 
 // OnCanPlayThrough sets the oncanplaythrough attribute.
 //
-// Fired when enough media data has been loaded to play through to the end without interruption for buffering.
-// Occurs on <audio> and <video> elements when the entire media file can be played smoothly. Ideal for hiding
-// loading spinners, enabling higher quality playback options, or triggering seamless media experiences.
+// Fired on audio or video when the browser estimates that playback can reach
+// the end without stopping to buffer. This is an estimate based on available
+// data and download rate. It does not guarantee that the whole file has loaded.
 func (e *tspan) OnCanPlayThrough(handler string) *tspan {
 	e.SetAttribute("oncanplaythrough", handler)
 	return e
@@ -637,7 +639,7 @@ func (e *tspan) OnContextMenu(handler string) *tspan {
 //
 // Fired when the active cues of a TextTrack change, typically in video subtitles, captions, or chapter markers.
 // Occurs on <track> elements when different text cues become active during media playback. Useful for implementing
-// custom subtitle styling, accessibility features, chapter navigation, or synchronized content based on video
+// custom subtitle styling, accessibility features, chapter navigation, or synchronised content based on video
 // timestamps.
 func (e *tspan) OnCueChange(handler string) *tspan {
 	e.SetAttribute("oncuechange", handler)
@@ -646,9 +648,9 @@ func (e *tspan) OnCueChange(handler string) *tspan {
 
 // OnDblClick sets the ondblclick attribute.
 //
-// Fired when an element is double-clicked rapidly (two clicks in quick succession). Commonly used for actions like
-// opening files, editing text in place, zooming, or toggling between states. Note that ondblclick typically
-// prevents the second onclick event from firing, making it suitable for distinct double-click actions.
+// Fired after two clicks on the same element within the system's double-click
+// interval. The click events occur before dblclick. Handling dblclick does not
+// suppress either click.
 func (e *tspan) OnDblClick(handler string) *tspan {
 	e.SetAttribute("ondblclick", handler)
 	return e
@@ -656,10 +658,9 @@ func (e *tspan) OnDblClick(handler string) *tspan {
 
 // OnDrag sets the ondrag attribute.
 //
-// Fired repeatedly (every few hundred milliseconds) during a drag operation while the user is dragging an element.
-// Used on draggable elements to provide visual feedback, update drag ghost images, track drag progress, or
-// implement custom drag behaviors. Essential for smooth drag-and-drop interfaces and interactive element
-// manipulation.
+// Fired periodically on the source element during a drag operation. The event's
+// dataTransfer object describes the operation. Use dragstart to initialise its
+// data and dragend to finish source-side handling.
 func (e *tspan) OnDrag(handler string) *tspan {
 	e.SetAttribute("ondrag", handler)
 	return e
@@ -667,9 +668,9 @@ func (e *tspan) OnDrag(handler string) *tspan {
 
 // OnDragEnd sets the ondragend attribute.
 //
-// Fired when a drag operation concludes, whether successful (dropped on valid target) or cancelled (Escape key,
-// invalid drop zone). Occurs on the dragged element and is useful for cleanup operations, resetting drag states,
-// removing visual indicators, or logging drag completion. Always fires after ondrop or dragover events complete.
+// Fired on the source element when a drag operation ends, including cancellation
+// or a drop that was not accepted. Use it to clear the source's drag state
+// regardless of whether the target received a drop event.
 func (e *tspan) OnDragEnd(handler string) *tspan {
 	e.SetAttribute("ondragend", handler)
 	return e
@@ -679,7 +680,7 @@ func (e *tspan) OnDragEnd(handler string) *tspan {
 //
 // Fired when a dragged element first enters a potential drop target. Occurs on the drop target element and is
 // commonly used to highlight drop zones, show insertion indicators, or prepare the target for receiving dropped
-// content. Often paired with preventing default behavior to indicate the target accepts drops.
+// content. Often paired with preventing default behaviour to indicate the target accepts drops.
 func (e *tspan) OnDragEnter(handler string) *tspan {
 	e.SetAttribute("ondragenter", handler)
 	return e
@@ -687,9 +688,9 @@ func (e *tspan) OnDragEnter(handler string) *tspan {
 
 // OnDragLeave sets the ondragleave attribute.
 //
-// Fired when a dragged element exits a drop target area. Occurs on the drop target element and is typically used
-// to remove drop zone highlights, hide insertion indicators, or reset the target's visual state. Important for
-// maintaining clean visual feedback during drag operations and avoiding stuck highlight states.
+// Fired when dragged content leaves a potential drop target. It can be used
+// to clear a drop indicator. Transitions between nested targets may require
+// tracking which part of the drop area is still active.
 func (e *tspan) OnDragLeave(handler string) *tspan {
 	e.SetAttribute("ondragleave", handler)
 	return e
@@ -697,9 +698,9 @@ func (e *tspan) OnDragLeave(handler string) *tspan {
 
 // OnDragOver sets the ondragover attribute.
 //
-// Fired repeatedly while a dragged element hovers over a drop target. Essential for enabling drops - must call
-// preventDefault() to allow dropping. Used to update drop indicators, determine exact drop position, provide
-// visual feedback, or validate whether the current drag data is acceptable for this drop target.
+// Fired repeatedly over a potential drop target. Call preventDefault() when
+// the target accepts the dragged data, and set dataTransfer.dropEffect to
+// indicate the intended operation.
 func (e *tspan) OnDragOver(handler string) *tspan {
 	e.SetAttribute("ondragover", handler)
 	return e
@@ -707,10 +708,9 @@ func (e *tspan) OnDragOver(handler string) *tspan {
 
 // OnDragStart sets the ondragstart attribute.
 //
-// Fired when a drag operation begins, triggered by the user starting to drag a draggable element. Occurs on the
-// source element being dragged and is used to set drag data with setData(), customize the drag image, define
-// allowed drag effects, or prepare the element for dragging. The foundation event for all drag-and-drop
-// operations.
+// Fired on the source when a drag begins. Use dataTransfer.setData() to supply
+// the drag's data and setDragImage() to customise its image. Cancelling the
+// event prevents the drag from starting.
 func (e *tspan) OnDragStart(handler string) *tspan {
 	e.SetAttribute("ondragstart", handler)
 	return e
@@ -772,7 +772,7 @@ func (e *tspan) OnInvalid(handler string) *tspan {
 //
 // Fired when a key is pressed down, before any character is generated. Captures all keys including modifiers
 // (Ctrl, Alt, Shift), function keys, and arrows. Used for keyboard shortcuts, game controls, navigation,
-// preventing default key behavior, or implementing custom key handling. Fires repeatedly when key is held down.
+// preventing default key behaviour, or implementing custom key handling. Fires repeatedly when key is held down.
 func (e *tspan) OnKeyDown(handler string) *tspan {
 	e.event().OnKeyDown = node.EscapeAttribute(handler)
 	return e
@@ -780,10 +780,9 @@ func (e *tspan) OnKeyDown(handler string) *tspan {
 
 // OnKeyPress sets the onkeypress attribute.
 //
-// Fired when a key press results in a character being generated. Only triggers for printable characters, not for
-// modifier or function keys. Deprecated in favor of onkeydown and oninput events. Historically used for character
-// input validation, but modern applications should use onkeydown for key detection and oninput for content
-// changes.
+// Legacy keyboard event for character-producing key presses. Use keydown for
+// keyboard commands and beforeinput or input for text editing, including input
+// that does not come from a physical keyboard.
 func (e *tspan) OnKeyPress(handler string) *tspan {
 	e.SetAttribute("onkeypress", handler)
 	return e
@@ -793,7 +792,7 @@ func (e *tspan) OnKeyPress(handler string) *tspan {
 //
 // Fired when a pressed key is released. Often paired with onkeydown for complete key interaction handling. Used
 // for ending keyboard shortcuts, stopping repeated actions, implementing key combinations, detecting when modifier
-// keys are released, or triggering actions that should occur after key input is complete.
+// keys are released, or triggering actions after key input is complete.
 func (e *tspan) OnKeyUp(handler string) *tspan {
 	e.event().OnKeyUp = node.EscapeAttribute(handler)
 	return e
@@ -813,7 +812,7 @@ func (e *tspan) OnLoadedData(handler string) *tspan {
 //
 // Fired when media metadata (duration, dimensions, text tracks) has been loaded. Occurs on <audio> and <video>
 // elements before actual media data loads. Useful for setting up player UI, configuring progress bars, enabling
-// seeking, displaying video dimensions, or initializing media-dependent features.
+// seeking, displaying video dimensions, or initialising media-dependent features.
 func (e *tspan) OnLoadedMetadata(handler string) *tspan {
 	e.SetAttribute("onloadedmetadata", handler)
 	return e
@@ -823,7 +822,7 @@ func (e *tspan) OnLoadedMetadata(handler string) *tspan {
 //
 // Fired when the browser begins loading a resource, typically on media elements, images, or during fetch
 // operations. Indicates the start of the loading process before any data is actually received. Useful for showing
-// loading indicators, starting progress tracking, initializing loading states, or logging load attempts.
+// loading indicators, starting progress tracking, initialising loading states, or logging load attempts.
 func (e *tspan) OnLoadStart(handler string) *tspan {
 	e.SetAttribute("onloadstart", handler)
 	return e
@@ -841,9 +840,9 @@ func (e *tspan) OnMouseDown(handler string) *tspan {
 
 // OnMouseEnter sets the onmouseenter attribute.
 //
-// Fired when the mouse pointer enters an element's boundaries. Does not bubble and only fires once when entering,
-// not when moving over child elements. Perfect for hover effects, tooltips, dropdown menus, highlighting
-// elements, or triggering UI changes when users mouse over interactive components.
+// Fired when the pointer enters an element and its descendants from outside.
+// It does not bubble and is not retriggered solely by moving between that
+// element and its children. Use mouseover for delegated handlers.
 func (e *tspan) OnMouseEnter(handler string) *tspan {
 	e.SetAttribute("onmouseenter", handler)
 	return e
@@ -852,7 +851,7 @@ func (e *tspan) OnMouseEnter(handler string) *tspan {
 // OnMouseLeave sets the onmouseleave attribute.
 //
 // Fired when the mouse pointer exits an element's boundaries. Does not bubble and only fires when leaving the
-// element, not when moving to child elements. Paired with onmouseenter for clean hover states, hiding tooltips,
+// element. Moving to a child element does not trigger it. Paired with onmouseenter for hover states, hiding tooltips,
 // closing dropdowns, or removing highlights when users stop hovering.
 func (e *tspan) OnMouseLeave(handler string) *tspan {
 	e.SetAttribute("onmouseleave", handler)
@@ -873,7 +872,7 @@ func (e *tspan) OnMouseMove(handler string) *tspan {
 //
 // Fired when the mouse pointer leaves an element or moves to one of its child elements. Unlike onmouseleave, this
 // event bubbles and can fire when moving over child elements. Less commonly used than onmouseleave due to its
-// bubbling behavior, but useful for specific event delegation scenarios.
+// bubbling behaviour, but useful for specific event delegation scenarios.
 func (e *tspan) OnMouseOut(handler string) *tspan {
 	e.SetAttribute("onmouseout", handler)
 	return e
@@ -883,7 +882,7 @@ func (e *tspan) OnMouseOut(handler string) *tspan {
 //
 // Fired when the mouse pointer enters an element or moves to one of its child elements. Unlike onmouseenter, this
 // event bubbles and can fire multiple times when moving over child elements. Less commonly used than onmouseenter
-// due to its bubbling behavior, but useful for event delegation or complex hover tracking.
+// due to its bubbling behaviour, but useful for event delegation or complex hover tracking.
 func (e *tspan) OnMouseOver(handler string) *tspan {
 	e.SetAttribute("onmouseover", handler)
 	return e
@@ -901,9 +900,9 @@ func (e *tspan) OnMouseUp(handler string) *tspan {
 
 // OnMouseWheel sets the onmousewheel attribute.
 //
-// Fired when the mouse wheel is scrolled. Detects vertical and horizontal scrolling from mouse wheels or trackpad
-// gestures. Used for custom scrolling behavior, zooming, volume controls, image galleries, or implementing
-// scroll-based interactions. Provides delta values for scroll direction and amount.
+// Legacy mousewheel event for wheel input. Use wheel for new handlers, with
+// deltaX, deltaY and deltaMode to interpret the movement. Legacy wheelDelta
+// values use different units and signs.
 //
 // Deprecated: Not in the WHATWG living standard. Use OnWheel instead.
 func (e *tspan) OnMouseWheel(handler string) *tspan {
@@ -935,7 +934,7 @@ func (e *tspan) OnPlay(handler string) *tspan {
 //
 // Fired when media playback actually begins after being paused or delayed due to buffering. Occurs on <audio> and
 // <video> elements when media is actively playing content. Used for updating player UI, starting progress
-// tracking, enabling playback-dependent features, or triggering actions that should occur during active playback.
+// tracking, enabling playback-dependent features, or triggering actions during active playback.
 func (e *tspan) OnPlaying(handler string) *tspan {
 	e.SetAttribute("onplaying", handler)
 	return e
@@ -955,7 +954,7 @@ func (e *tspan) OnProgress(handler string) *tspan {
 //
 // Fired when media playback speed changes. Occurs on <audio> and <video> elements when the playbackRate property
 // is modified (e.g., 0.5x, 1x, 1.5x, 2x speed). Used for updating speed indicators, adjusting UI controls,
-// synchronizing playback-dependent animations, or implementing custom playback speed controls.
+// synchronising playback-dependent animations, or implementing custom playback speed controls.
 func (e *tspan) OnRateChange(handler string) *tspan {
 	e.SetAttribute("onratechange", handler)
 	return e
@@ -973,9 +972,9 @@ func (e *tspan) OnReset(handler string) *tspan {
 
 // OnResize sets the onresize attribute.
 //
-// Fired when the browser window or element is resized. Commonly used on the window object to handle viewport
-// changes, but also available on resizable elements. Essential for responsive design, updating layouts,
-// recalculating positions, adjusting canvas sizes, or triggering responsive behavior based on size changes.
+// Fired when the document's window is resized. Ordinary HTML elements do not
+// emit resize when their CSS dimensions change. Observe those changes with
+// ResizeObserver.
 func (e *tspan) OnResize(handler string) *tspan {
 	e.SetAttribute("onresize", handler)
 	return e
@@ -1047,9 +1046,9 @@ func (e *tspan) OnSort(handler string) *tspan {
 
 // OnStalled sets the onstalled attribute.
 //
-// Fired when media loading stalls due to network issues or server problems. Occurs on <audio> and <video>
-// elements when expected data doesn't arrive. Used for showing network error messages, implementing retry logic,
-// switching to alternative sources, or providing fallback content when media loading fails.
+// Fired on audio or video when the browser is trying to fetch media but data
+// is not arriving. The download may resume later. This event does not by
+// itself mean the resource has permanently failed.
 func (e *tspan) OnStalled(handler string) *tspan {
 	e.SetAttribute("onstalled", handler)
 	return e
@@ -1057,9 +1056,9 @@ func (e *tspan) OnStalled(handler string) *tspan {
 
 // OnSuspend sets the onsuspend attribute.
 //
-// Fired when media loading is intentionally suspended, typically when the browser decides it has loaded enough
-// data for current needs. Occurs on <audio> and <video> elements as an optimization. Used for managing loading
-// states, updating progress indicators, or implementing custom buffering strategies.
+// Fired on audio or video when the browser intentionally stops fetching media.
+// This can happen because it has enough data or is following its loading policy.
+// It is distinct from stalled, where expected data is not arriving.
 func (e *tspan) OnSuspend(handler string) *tspan {
 	e.SetAttribute("onsuspend", handler)
 	return e
@@ -1067,9 +1066,9 @@ func (e *tspan) OnSuspend(handler string) *tspan {
 
 // OnTimeUpdate sets the ontimeupdate attribute.
 //
-// Fired regularly during media playback as the currentTime advances. Occurs on <audio> and <video> elements,
-// typically 4 times per second during playback. Essential for updating progress bars, synchronized content, time
-// displays, subtitle timing, or any functionality that needs to track playback position in real-time.
+// Fired on audio or video when the playback position changes, including during
+// playback and seeking. Notifications are not frame-accurate and their rate
+// varies. Read currentTime to update a playback-position display.
 func (e *tspan) OnTimeUpdate(handler string) *tspan {
 	e.SetAttribute("ontimeupdate", handler)
 	return e
@@ -1077,9 +1076,9 @@ func (e *tspan) OnTimeUpdate(handler string) *tspan {
 
 // OnToggle sets the ontoggle attribute.
 //
-// Fired when a <details> element is opened or closed by clicking its <summary> or programmatically changing the
-// open attribute. Used for lazy loading collapsed content, animating expand/collapse transitions, saving user
-// preferences, analytics tracking, or implementing custom accordion behaviors.
+// Fired after details, a popover or a dialog changes its open or closed state.
+// Use it to update related controls after the transition. Multiple state
+// changes can be coalesced into a single notification.
 func (e *tspan) OnToggle(handler string) *tspan {
 	e.SetAttribute("ontoggle", handler)
 	return e
@@ -1089,7 +1088,7 @@ func (e *tspan) OnToggle(handler string) *tspan {
 //
 // Fired when media volume or muted state changes. Occurs on <audio> and <video> elements when the volume
 // property is modified or when toggling between muted and unmuted states. Used for updating volume sliders, mute
-// button states, saving user preferences, or synchronizing audio controls across multiple media elements.
+// button states, saving user preferences, or synchronising audio controls across multiple media elements.
 func (e *tspan) OnVolumeChange(handler string) *tspan {
 	e.SetAttribute("onvolumechange", handler)
 	return e
@@ -1127,9 +1126,9 @@ func (e *tspan) OnWheel(handler string) *tspan {
 
 // OnCopy sets the oncopy attribute.
 //
-// Fired when the user initiates a copy action through keyboard shortcut or context menu. Occurs on the focused
-// element or selection. Can be used to modify clipboard content with setData(), track copy analytics, show copy
-// confirmation, or prevent copying of sensitive content with preventDefault().
+// Fired when a copy action is requested. To replace the default copied content,
+// write to the event's clipboardData and call preventDefault(). Cancelling
+// this event is not a protection against access to displayed content.
 func (e *tspan) OnCopy(handler string) *tspan {
 	e.SetAttribute("oncopy", handler)
 	return e
@@ -1137,9 +1136,9 @@ func (e *tspan) OnCopy(handler string) *tspan {
 
 // OnCut sets the oncut attribute.
 //
-// Fired when the user initiates a cut action through keyboard shortcut or context menu. Similar to oncopy but
-// also removes the selected content. Can be used to modify clipboard content, prevent cutting in read-only
-// contexts, track content removal, or implement custom cut behaviour.
+// Fired when a cut action is requested. A custom handler can set clipboardData
+// and cancel the default action, but must then handle removal of the selected
+// content itself.
 func (e *tspan) OnCut(handler string) *tspan {
 	e.SetAttribute("oncut", handler)
 	return e
@@ -1147,9 +1146,9 @@ func (e *tspan) OnCut(handler string) *tspan {
 
 // OnPaste sets the onpaste attribute.
 //
-// Fired when the user pastes content from the clipboard through keyboard shortcut or context menu. Provides
-// access to clipboard data via getData(). Used for sanitising pasted content, handling rich text or file pastes,
-// implementing custom paste logic, or preventing unwanted paste formats.
+// Fired when a paste action is requested. Read clipboardData to inspect text
+// or files, and call preventDefault() if the handler inserts its own
+// processed content instead of the default paste.
 func (e *tspan) OnPaste(handler string) *tspan {
 	e.SetAttribute("onpaste", handler)
 	return e
@@ -1167,9 +1166,9 @@ func (e *tspan) OnScrollEnd(handler string) *tspan {
 
 // OnFormData sets the onformdata attribute.
 //
-// Fired after the entry list representing the form's data is constructed during form submission. Occurs on
-// <form> elements and allows modification of form data before it is sent. Useful for appending custom data,
-// transforming field values, or implementing custom serialisation logic.
+// Fired on a form after its data entry list is constructed, including when
+// new FormData(form) is called. The event's formData object can be updated
+// to add or change entries without creating hidden controls.
 func (e *tspan) OnFormData(handler string) *tspan {
 	e.SetAttribute("onformdata", handler)
 	return e
@@ -1257,9 +1256,9 @@ func (e *tspan) OnTransitionStart(handler string) *tspan {
 
 // OnBeforeToggle sets the onbeforetoggle attribute.
 //
-// Fired before a popover or <details> element changes its open/closed state. Can be cancelled with
-// preventDefault() to prevent the state change. Useful for validation before showing popovers, confirming
-// closure of unsaved content, or implementing conditional toggle logic.
+// Fired before a popover or dialog changes between open and closed states.
+// The oldState and newState properties describe the transition. Opening can
+// be cancelled. Closing cannot be cancelled. Details elements report changes through toggle.
 func (e *tspan) OnBeforeToggle(handler string) *tspan {
 	e.SetAttribute("onbeforetoggle", handler)
 	return e
@@ -1267,9 +1266,9 @@ func (e *tspan) OnBeforeToggle(handler string) *tspan {
 
 // OnBeforeInput sets the onbeforeinput attribute.
 //
-// Fired before the DOM is updated with new input. Unlike oninput which fires after the change, onbeforeinput
-// fires before and can be cancelled with preventDefault(). Provides inputType for distinguishing between typing,
-// pasting, deleting, and formatting. Useful for input filtering, custom undo/redo, or preventing specific edits.
+// Fired before many user edits update an input, textarea or editable element.
+// The inputType property describes the edit, such as insertion or deletion. Some edits are
+// not cancellable, so check cancelable before relying on preventDefault().
 func (e *tspan) OnBeforeInput(handler string) *tspan {
 	e.SetAttribute("onbeforeinput", handler)
 	return e
@@ -1277,7 +1276,7 @@ func (e *tspan) OnBeforeInput(handler string) *tspan {
 
 // OnBeforeMatch sets the onbeforematch attribute.
 //
-// Fired on an element with the hidden="until-found" attribute just before it is revealed by find-in-page or
+// Fired on an element with the hidden="until-found" attribute immediately before it is revealed by find-in-page or
 // fragment navigation. Allows preparation before the element becomes visible, such as loading content, expanding
 // collapsed sections, or initialising components that were deferred while hidden.
 func (e *tspan) OnBeforeMatch(handler string) *tspan {
@@ -1297,9 +1296,9 @@ func (e *tspan) OnCommand(handler string) *tspan {
 
 // OnContextLost sets the oncontextlost attribute.
 //
-// Fired when the rendering context of a <canvas> element is lost, typically due to GPU resource pressure or
-// device changes. Used for showing fallback content, pausing rendering loops, releasing resources, or notifying
-// users that the canvas display may be temporarily unavailable.
+// Fired when a canvas's 2D rendering context is lost. Rendering resources and
+// state may need to be recreated after contextrestored. WebGL uses the
+// separate webglcontextlost event.
 func (e *tspan) OnContextLost(handler string) *tspan {
 	e.SetAttribute("oncontextlost", handler)
 	return e
@@ -1307,9 +1306,9 @@ func (e *tspan) OnContextLost(handler string) *tspan {
 
 // OnContextRestored sets the oncontextrestored attribute.
 //
-// Fired when a previously lost rendering context of a <canvas> element is restored. Used for re-initialising
-// rendering state, reloading textures and shaders, resuming rendering loops, or rebuilding the canvas display
-// after a context loss event.
+// Fired when a canvas's 2D rendering context becomes available after a loss.
+// Reinitialise drawing state and redraw the content. WebGL uses the separate
+// webglcontextrestored event.
 func (e *tspan) OnContextRestored(handler string) *tspan {
 	e.SetAttribute("oncontextrestored", handler)
 	return e
@@ -1327,9 +1326,9 @@ func (e *tspan) OnSecurityPolicyViolation(handler string) *tspan {
 
 // OnSlotChange sets the onslotchange attribute.
 //
-// Fired when the nodes assigned to a <slot> element change, either by adding, removing, or replacing slotted
-// content. Occurs on <slot> elements within shadow DOM trees. Used for updating shadow DOM rendering, tracking
-// content projection changes, or implementing reactive slot-based component patterns.
+// Fired on a slot when its assigned nodes change. It does not report edits
+// inside an already assigned node. Read assignedNodes() or assignedElements()
+// to inspect the current assignment.
 func (e *tspan) OnSlotChange(handler string) *tspan {
 	e.SetAttribute("onslotchange", handler)
 	return e
@@ -1417,9 +1416,9 @@ func (e *tspan) OnPointerCancel(handler string) *tspan {
 
 // OnGotPointerCapture sets the ongotpointercapture attribute.
 //
-// Fired when an element receives pointer capture via setPointerCapture(). While captured, all subsequent
-// pointer events for that pointer are directed to the capturing element regardless of position. Used for
-// confirming capture acquisition in drag operations, slider controls, and custom scroll implementations.
+// Fired when an element gains capture for a pointer. Subsequent pointer events
+// are targeted to that element while capture is active, allowing a drag to
+// continue outside its bounds. PointerId identifies the captured pointer.
 func (e *tspan) OnGotPointerCapture(handler string) *tspan {
 	e.SetAttribute("ongotpointercapture", handler)
 	return e
@@ -1427,9 +1426,8 @@ func (e *tspan) OnGotPointerCapture(handler string) *tspan {
 
 // OnLostPointerCapture sets the onlostpointercapture attribute.
 //
-// Fired when an element loses pointer capture, either via releasePointerCapture(), pointer release, or
-// browser cancellation. Used for cleanup after drag operations, resetting element state, and finalising
-// interactions that relied on pointer capture for consistent event delivery.
+// Fired when pointer capture is released, including automatic release after
+// pointerup or pointercancel. Use it to clear state that depends on capture.
 func (e *tspan) OnLostPointerCapture(handler string) *tspan {
 	e.SetAttribute("onlostpointercapture", handler)
 	return e
@@ -1748,5 +1746,5 @@ func (e *tspan) Attributes() *[]node.Attribute {
 	return e.attr
 }
 
-// isSVGShape seals tspan as an SVG Shape.
+// isSVGShape seals tspan as a Shape.
 func (*tspan) isSVGShape() {}

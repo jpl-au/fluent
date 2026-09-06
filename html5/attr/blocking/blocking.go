@@ -2,8 +2,8 @@
 
 // Package blocking defines the [Blocking] type and its predefined values.
 //
-// Controls blocking behavior for resource loading. Indicates that certain operations
-// should be blocked until the resource is loaded.
+// Controls blocking behaviour for resource loading. Requests that the browser
+// block the specified operations until the resource is loaded.
 package blocking
 
 import (
@@ -12,8 +12,8 @@ import (
 
 // Blocking is a typed value for the HTML blocking attribute.
 //
-// Controls blocking behavior for resource loading. Indicates that certain operations
-// should be blocked until the resource is loaded.
+// Controls blocking behaviour for resource loading. Requests that the browser
+// block the specified operations until the resource is loaded.
 type Blocking []byte
 
 // Variables for Blocking values

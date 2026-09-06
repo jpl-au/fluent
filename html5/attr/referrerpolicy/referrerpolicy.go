@@ -2,8 +2,9 @@
 
 // Package referrerpolicy defines the [ReferrerPolicy] type and its predefined values.
 //
-// Controls how much referrer information is sent when fetching resources or navigating to links.
-// Helps protect user privacy by limiting information shared about the referring page.
+// Determines how much of the referring URL accompanies a request. Policies
+// can distinguish same-origin, cross-origin, and HTTPS-to-HTTP requests.
+// Referrer URLs exclude fragments and user information regardless of policy.
 package referrerpolicy
 
 import (
@@ -12,42 +13,44 @@ import (
 
 // ReferrerPolicy is a typed value for the HTML referrerpolicy attribute.
 //
-// Controls how much referrer information is sent when fetching resources or navigating to links.
-// Helps protect user privacy by limiting information shared about the referring page.
+// Determines how much of the referring URL accompanies a request. Policies
+// can distinguish same-origin, cross-origin, and HTTPS-to-HTTP requests.
+// Referrer URLs exclude fragments and user information regardless of policy.
 type ReferrerPolicy []byte
 
 // Variables for ReferrerPolicy values
 var (
-	// NoReferrer No referrer information is sent with requests. Provides maximum privacy protection by
-	// completely hiding the source page URL from the destination.
+	// NoReferrer Omits referrer information from requests, including same-origin requests.
 	NoReferrer = ReferrerPolicy("no-referrer")
 
-	// NoReferrerWhenDowngrade No referrer when downgrading from HTTPS to HTTP (default browser behavior). Protects against
-	// leaking secure page URLs to insecure destinations.
+	// NoReferrerWhenDowngrade Sends the referring URL except on HTTPS-to-HTTP requests, where the referrer
+	// is omitted. This is not the default policy.
 	NoReferrerWhenDowngrade = ReferrerPolicy("no-referrer-when-downgrade")
 
-	// Origin Only the origin (protocol, domain, port) is sent as referrer information. Provides basic
-	// privacy while allowing destination to know the source domain.
+	// Origin Sends only the referring origin: scheme, host, and port. Paths and query
+	// parameters are omitted, including on same-origin requests.
 	Origin = ReferrerPolicy("origin")
 
-	// OriginWhenCrossOrigin Full URL for same-origin requests, origin only for cross-origin requests. Balances
-	// functionality with privacy for different request types.
+	// OriginWhenCrossOrigin Sends the referring URL for same-origin requests and only its origin for
+	// cross-origin requests. Unlike strict-origin-when-cross-origin, it does not
+	// suppress the origin on HTTPS-to-HTTP requests.
 	OriginWhenCrossOrigin = ReferrerPolicy("origin-when-cross-origin")
 
-	// SameOrigin Referrer information sent for same-origin requests only, none for cross-origin. Keeps
-	// referrer data within the same domain for privacy.
+	// SameOrigin Sends the referring URL for same-origin requests and omits the referrer
+	// for cross-origin requests.
 	SameOrigin = ReferrerPolicy("same-origin")
 
-	// StrictOrigin Origin only, no referrer when downgrading from HTTPS to HTTP. More secure version of
-	// origin policy with downgrade protection.
+	// StrictOrigin Sends only the referring origin, except on HTTPS-to-HTTP requests, where
+	// it omits the referrer.
 	StrictOrigin = ReferrerPolicy("strict-origin")
 
-	// StrictOriginWhenCrossOrigin Full URL for same-origin, origin for cross-origin, no referrer when downgrading. Most
-	// comprehensive policy balancing security and functionality.
+	// StrictOriginWhenCrossOrigin Sends the referring URL for same-origin requests, only its origin for
+	// cross-origin requests, and no referrer on HTTPS-to-HTTP requests.
+	// This is the default policy when no other policy is specified.
 	StrictOriginWhenCrossOrigin = ReferrerPolicy("strict-origin-when-cross-origin")
 
-	// UnsafeUrl Always send full URL as referrer. Least secure option that may leak sensitive information
-	// including query parameters and path details.
+	// UnsafeUrl Sends the referring URL even on cross-origin and HTTPS-to-HTTP requests.
+	// Paths and query parameters can therefore be disclosed to the destination.
 	UnsafeUrl = ReferrerPolicy("unsafe-url")
 )
 

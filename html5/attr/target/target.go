@@ -18,12 +18,13 @@ type Target []byte
 
 // Variables for Target values
 var (
-	// Self Opens in the same frame/window (default behavior). Content loads in the current browsing context
+	// Self Opens in the same frame/window (default behaviour). Content loads in the current browsing context
 	// without creating new windows or tabs.
 	Self = Target("_self")
 
-	// Blank Opens in a new window or tab. Always use with rel='noopener noreferrer' for security when
-	// linking to external sites to prevent potential security vulnerabilities.
+	// Blank Requests a new browsing context, usually a tab or window according to
+	// browser preferences. The noopener relationship prevents an opener reference.
+	// The noreferrer relationship separately suppresses referrer information.
 	Blank = Target("_blank")
 
 	// Parent Opens in the parent frame. If no parent frame exists, behaves exactly like _self and loads

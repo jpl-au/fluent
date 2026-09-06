@@ -2,8 +2,10 @@
 
 // Package media defines the [Media] type and its predefined values.
 //
-// Media query constants for responsive design and device targeting. Predefined
-// media queries for common breakpoints and device characteristics.
+// Media types and queries for conditional resource use. Width breakpoints test
+// the viewport in CSS pixels. They do not identify a device category. Choose
+// conditions matching the layout. Mobile, tablet, and desktop names are only
+// breakpoint labels.
 package media
 
 import (
@@ -12,8 +14,10 @@ import (
 
 // Media is a typed value for the HTML media attribute.
 //
-// Media query constants for responsive design and device targeting. Predefined
-// media queries for common breakpoints and device characteristics.
+// Media types and queries for conditional resource use. Width breakpoints test
+// the viewport in CSS pixels. They do not identify a device category. Choose
+// conditions matching the layout. Mobile, tablet, and desktop names are only
+// breakpoint labels.
 type Media []byte
 
 // Variables for Media values
@@ -23,55 +27,55 @@ var (
 	Screen = Media("screen")
 
 	// Print Printed pages and print preview mode. Used for print-specific styling
-	// and layout optimizations when users print web pages.
+	// and layout optimisations when users print web pages.
 	Print = Media("print")
 
-	// All All media types including screen, print, speech, and others.
-	// Default value when no specific media targeting is needed.
+	// All Matches all media types. Use when the resource applies without restriction
+	// to a particular output medium.
 	All = Media("all")
 
-	// Speech Screen readers and speech synthesizers for accessibility.
-	// Used for audio presentation and assistive technology optimization.
+	// Speech Legacy media type for speech output. It is deprecated and does not provide
+	// a reliable way to target screen readers. Use semantic markup for accessibility.
 	Speech = Media("speech")
 
-	// Mobile Mobile devices with screens up to 767px wide. Targets phones
-	// and small mobile devices in portrait orientation.
+	// Mobile Matches viewport widths up to 767 CSS pixels, including narrow windows on
+	// desktop devices. It does not identify phones.
 	Mobile = Media("(max-width: 767px)")
 
-	// Tablet Tablet devices with screens between 768px and 1023px wide.
-	// Covers most tablets in both portrait and landscape modes.
+	// Tablet Matches viewport widths from 768 through 1023 CSS pixels. It does not
+	// identify tablets or their physical screen sizes.
 	Tablet = Media("(min-width: 768px) and (max-width: 1023px)")
 
-	// Desktop Desktop computers and large screens 1024px and wider.
-	// Targets laptop screens, desktop monitors, and large displays.
+	// Desktop Matches viewport widths of at least 1024 CSS pixels, regardless of the
+	// device displaying the page.
 	Desktop = Media("(min-width: 1024px)")
 
-	// SmallMobile Small mobile phones with screens up to 479px wide.
-	// Targets compact smartphones and narrow mobile devices.
+	// SmallMobile Matches viewport widths up to 479 CSS pixels. Use for layouts designed for
+	// this width range, rather than as a test for a particular phone.
 	SmallMobile = Media("(max-width: 479px)")
 
-	// LargeMobile Large mobile phones with screens between 480px and 767px.
-	// Covers larger smartphones and phablet devices.
+	// LargeMobile Matches viewport widths from 480 through 767 CSS pixels. The condition
+	// measures the viewport. It does not measure the device's physical screen.
 	LargeMobile = Media("(min-width: 480px) and (max-width: 767px)")
 
-	// SmallTablet Small tablets and portrait iPad-sized devices.
-	// Targets compact tablets and medium-sized screens.
+	// SmallTablet Matches viewport widths from 768 through 991 CSS pixels. The condition
+	// measures the viewport. It does not measure the device's physical screen.
 	SmallTablet = Media("(min-width: 768px) and (max-width: 991px)")
 
-	// LargeTablet Large tablets and laptop screens up to 1199px wide.
-	// Covers landscape tablets and smaller laptop displays.
+	// LargeTablet Matches viewport widths from 992 through 1199 CSS pixels. The condition
+	// can match either a tablet or a desktop browser window.
 	LargeTablet = Media("(min-width: 992px) and (max-width: 1199px)")
 
-	// LargeDesktop Large desktop screens and high-resolution displays.
-	// Targets wide monitors, large laptops, and desktop computers.
+	// LargeDesktop Matches viewport widths of at least 1200 CSS pixels. This does not imply
+	// a particular screen resolution or pixel density.
 	LargeDesktop = Media("(min-width: 1200px)")
 
-	// Portrait Devices in portrait orientation where height exceeds width.
-	// Common for mobile phones and rotated tablets.
+	// Portrait Matches a viewport whose height is at least its width. This tests viewport
+	// proportions. It does not use a physical device orientation sensor.
 	Portrait = Media("(orientation: portrait)")
 
-	// Landscape Devices in landscape orientation where width exceeds height.
-	// Common for desktop screens and rotated mobile devices.
+	// Landscape Matches a viewport wider than it is tall. Resizing a browser window can
+	// change this condition without rotating a device.
 	Landscape = Media("(orientation: landscape)")
 
 	// Retina High-resolution displays with 2x pixel density or higher.

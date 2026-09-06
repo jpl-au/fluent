@@ -2,8 +2,9 @@
 
 // Package rel defines the [Rel] type and its predefined values.
 //
-// Link relationship between current document and linked resource. Defines semantic meaning
-// and helps browsers optimize resource loading, security, and user experience.
+// Describes the relationship between a document and a linked resource.
+// Some values describe hyperlinks. Others cause link elements to fetch external
+// resources. Choose values supported by the element carrying the relationship.
 package rel
 
 import (
@@ -12,13 +13,14 @@ import (
 
 // Rel is a typed value for the HTML rel attribute.
 //
-// Link relationship between current document and linked resource. Defines semantic meaning
-// and helps browsers optimize resource loading, security, and user experience.
+// Describes the relationship between a document and a linked resource.
+// Some values describe hyperlinks. Others cause link elements to fetch external
+// resources. Choose values supported by the element carrying the relationship.
 type Rel []byte
 
 // Variables for Rel values
 var (
-	// Stylesheet CSS stylesheet resource for styling the document. Browser will load and apply CSS
+	// Stylesheet CSS stylesheet resource for styling the document. The browser loads and applies CSS
 	// rules to the current page for visual presentation and layout.
 	Stylesheet = Rel("stylesheet")
 
@@ -26,12 +28,13 @@ var (
 	// and application interfaces. Supports various image formats and sizes.
 	Icon = Rel("icon")
 
-	// Preload High-priority resource to load early in page lifecycle. Browser fetches resource
-	// immediately for later use. Requires 'as' attribute for resource type specification.
+	// Preload Requests an early fetch for a resource needed by the current page. Set as
+	// to its destination and match the eventual request so the fetched resource
+	// can be reused. Preload does not itself apply or execute the resource.
 	Preload = Rel("preload")
 
 	// Prefetch Low-priority resource likely to be needed in future navigation. Browser may fetch
-	// resource during idle time for performance optimization of subsequent pages.
+	// resource during idle time for performance optimisation of subsequent pages.
 	Prefetch = Rel("prefetch")
 
 	// DnsPrefetch Resolve DNS for external domain before resource is actually needed. Reduces connection
@@ -39,23 +42,23 @@ var (
 	DnsPrefetch = Rel("dns-prefetch")
 
 	// Preconnect Establish early connection to external origin including DNS, TCP, and TLS negotiation.
-	// Optimizes performance for resources from third-party domains.
+	// Optimises performance for resources from third-party domains.
 	Preconnect = Rel("preconnect")
 
-	// Canonical Preferred URL for current content to prevent duplicate content issues. Tells search
-	// engines which URL to index when multiple URLs have similar content.
+	// Canonical Identifies the preferred URL for equivalent document content. It is a hint
+	// to consumers such as search engines. It does not redirect requests or guarantee indexing.
 	Canonical = Rel("canonical")
 
 	// Alternate Alternative representation of current document. May specify different language, format,
-	// or media type version of the same content for accessibility and internationalization.
+	// or media type version of the same content for accessibility and internationalisation.
 	Alternate = Rel("alternate")
 
 	// Prev Previous document in a sequence or series. Helps users and search engines understand
 	// document relationships and navigate through sequential content.
 	Prev = Rel("prev")
 
-	// Next Next document in a sequence or series. Enables prefetching and provides navigation
-	// hints for sequential content like articles or pagination.
+	// Next Identifies the next document in a sequence, such as the following page of
+	// an article. It does not itself request prefetching.
 	Next = Rel("next")
 
 	// Help Help documentation or support resource related to current document. Provides contextual
@@ -66,8 +69,8 @@ var (
 	// usage rights and redistribution terms for the document.
 	License = Rel("license")
 
-	// Manifest Web app manifest file containing metadata about the application. Enables progressive
-	// web app features like installation and offline capabilities.
+	// Manifest Links to a web app manifest containing application metadata such as names,
+	// icons, and launch settings. Offline behaviour requires separate implementation.
 	Manifest = Rel("manifest")
 
 	// ModulePreload JavaScript module to preload for improved performance. Browser fetches and compiles
@@ -78,24 +81,26 @@ var (
 	// and readers identify who created the content.
 	Author = Rel("author")
 
-	// Bookmark Permanent link (permalink) for the nearest ancestor section. Provides a stable
-	// URL for bookmarking or referencing a specific section of content.
+	// Bookmark Provides a permalink for the nearest ancestor article, or for the section
+	// most closely associated with the link when there is no ancestor article.
 	Bookmark = Rel("bookmark")
 
-	// Expect Render-blocking hint indicating the linked element is expected in the document.
-	// Browser delays rendering until the expected element is parsed.
+	// Expect Identifies a document fragment expected during parsing. Combined with
+	// blocking="render" on a link element, it delays rendering while the expected
+	// fragment has not yet been parsed.
 	Expect = Rel("expect")
 
-	// External Indicates the link points to an external site not part of the current domain.
-	// Helps search engines understand site boundaries and link relationships.
+	// External Identifies a link to a resource outside the current site. This describes
+	// a site relationship. It does not necessarily imply a different domain or origin.
 	External = Rel("external")
 
 	// Me Indicates the linked resource represents the person who owns the current document.
 	// Used for identity verification and IndieWeb authentication patterns.
 	Me = Rel("me")
 
-	// NoFollow Indicates the link is not endorsed by the author. Tells search engines not to
-	// pass ranking credit through the link. Common for user-generated content.
+	// NoFollow Indicates that the author does not endorse the referenced document or that
+	// the link has a primarily commercial relationship. Search engines determine
+	// how they use this hint.
 	NoFollow = Rel("nofollow")
 
 	// NoOpener Prevents the opened page from accessing window.opener. Security measure for links
@@ -106,8 +111,8 @@ var (
 	// source page URL from the destination. Implies noopener behaviour.
 	NoReferrer = Rel("noreferrer")
 
-	// Opener Allows the opened page to access window.opener. Reverses the default noopener
-	// behaviour for cross-origin links that need a browsing context reference.
+	// Opener Requests an opener relationship for a newly opened browsing context,
+	// allowing a window.opener reference where browser isolation policies permit it.
 	Opener = Rel("opener")
 
 	// PrivacyPolicy Link to the privacy policy governing data collection on the current page.

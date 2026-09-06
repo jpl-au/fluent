@@ -108,6 +108,14 @@ func TestJavaScriptCtor(t *testing.T) {
 	}
 }
 
+func TestJSONCtor(t *testing.T) {
+	got := string(script.JSON(`{"key": "value"}`).RenderBytes())
+	want := `<script type="application/json">{"key": "value"}</script>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
 func TestSrcAttr(t *testing.T) {
 	got := string(script.New().Src("test").RenderBytes())
 	want := `<script src="test"></script>`

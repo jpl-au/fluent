@@ -2,8 +2,9 @@
 
 // Package writingsuggestions defines the [WritingSuggestions] type and its predefined values.
 //
-// Browser writing suggestions and corrections for text input elements. Controls whether
-// browsers provide spelling, grammar, and writing assistance features.
+// Controls whether the browser may offer writing suggestions while editing.
+// Available assistance depends on the browser and user settings. This setting
+// is separate from spellcheck and autocorrect.
 package writingsuggestions
 
 import (
@@ -12,18 +13,19 @@ import (
 
 // WritingSuggestions is a typed value for the HTML writingsuggestions attribute.
 //
-// Browser writing suggestions and corrections for text input elements. Controls whether
-// browsers provide spelling, grammar, and writing assistance features.
+// Controls whether the browser may offer writing suggestions while editing.
+// Available assistance depends on the browser and user settings. This setting
+// is separate from spellcheck and autocorrect.
 type WritingSuggestions []byte
 
 // Variables for WritingSuggestions values
 var (
-	// True Enable browser writing suggestions including spelling corrections, grammar checks,
-	// and predictive text. Improves text quality with automated assistance.
+	// True Allows browser-provided writing suggestions where available. This does not
+	// guarantee suggestions for every field or language.
 	True = WritingSuggestions("true")
 
-	// False Disable browser writing suggestions and corrections. No automated assistance is
-	// provided, preserving user input exactly as typed without modifications.
+	// False Disables browser-provided writing suggestions for the element. It does not
+	// disable separately controlled spell-checking or automatic correction.
 	False = WritingSuggestions("false")
 )
 

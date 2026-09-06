@@ -703,9 +703,8 @@ func Ruby(nodes ...node.Node) *ruby.Element {
 }
 
 // S creates a new s element with optional child nodes.
-// Examples:
-// S() renders <s></s>
-// S(text.Text("Old price: $100")) renders <s>Old price: $100</s>
+// Example: S(text.Text("Old price: $100"))
+// Renders: <s>Old price: $100</s>
 func S(nodes ...node.Node) *s.Element {
 	return s.New(nodes...)
 }

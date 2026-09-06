@@ -20,8 +20,8 @@ type Hidden []byte
 
 // Variables for Hidden values
 var (
-	// True Element is fully hidden from rendering. The browser will not display the element
-	// and it will not participate in layout or be accessible to assistive technologies.
+	// True Hides the element from layout and accessibility presentation. CSS rules
+	// that override its display value can make it visible again.
 	True = Hidden("true")
 
 	// UntilFound Element is hidden but findable. The browser hides the element from rendering but

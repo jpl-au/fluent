@@ -2,7 +2,7 @@
 
 // Package inputtype defines the [InputType] type and its predefined values.
 //
-// Input control type determining appearance, behavior, and validation. Fundamentally changes
+// Input control type determining appearance, behaviour, and validation. Determines
 // how users interact with the input and what data format is expected.
 package inputtype
 
@@ -12,7 +12,7 @@ import (
 
 // InputType is a typed value for the HTML inputtype attribute.
 //
-// Input control type determining appearance, behavior, and validation. Fundamentally changes
+// Input control type determining appearance, behaviour, and validation. Determines
 // how users interact with the input and what data format is expected.
 type InputType []byte
 
@@ -22,8 +22,9 @@ var (
 	// names, addresses, search terms, and freeform text content.
 	Text = InputType("text")
 
-	// Password Password input field with masked characters. Text is hidden from view for security
-	// and password managers can provide auto-fill functionality.
+	// Password Single-line text input that visually masks its value. Masking does not
+	// encrypt the value. Password managers can use autocomplete tokens to identify
+	// login and password-creation fields.
 	Password = InputType("password")
 
 	// Email Email address input with built-in validation. Mobile devices show email keyboard
@@ -31,14 +32,14 @@ var (
 	Email = InputType("email")
 
 	// Search Search input field with search-specific styling. May show clear button and
-	// search-optimized virtual keyboard on mobile devices.
+	// search-optimised virtual keyboard on mobile devices.
 	Search = InputType("search")
 
 	// Tel Telephone number input field. Mobile devices display numeric keypad with
 	// phone-specific characters like +, *, and # for easier number entry.
 	Tel = InputType("tel")
 
-	// Url URL input with built-in validation and URL-optimized keyboard. Browser validates
+	// Url URL input with built-in validation and URL-optimised keyboard. Browser validates
 	// URL format and mobile keyboards show .com shortcuts and forward slash.
 	Url = InputType("url")
 
@@ -46,8 +47,9 @@ var (
 	// attributes for value constraints and validation.
 	Number = InputType("number")
 
-	// Range Slider control for selecting numeric values within a range. Displays as horizontal
-	// slider with draggable handle for intuitive value selection.
+	// Range Selects a numeric value between minimum and maximum bounds, usually with
+	// a slider. Use when choosing an approximate value is sufficient. Use number
+	// when users need to enter an exact numeric value.
 	Range = InputType("range")
 
 	// Date Date picker input for selecting calendar dates. Shows native date picker widget
@@ -84,28 +86,29 @@ var (
 	// with same name create mutually exclusive option groups.
 	Radio = InputType("radio")
 
-	// File File upload input allowing users to select files from their device. Supports
-	// multiple file selection and file type restrictions via accept attribute.
+	// File Lets the user choose files for upload. The multiple attribute allows more
+	// than one file, and accept provides file-picker hints rather than validating
+	// the selected contents.
 	File = InputType("file")
 
 	// Submit Submit button that triggers form submission when clicked. Displays as button
 	// with customizable text and submits form data to specified action URL.
 	Submit = InputType("submit")
 
-	// Button Generic button input without default behavior. Used with JavaScript for custom
+	// Button Generic button input without default behaviour. Used with JavaScript for custom
 	// actions, interactions, and dynamic functionality within forms.
 	Button = InputType("button")
 
-	// Reset Reset button that clears all form fields to their initial values. Restores
-	// form to original state, undoing any user changes or entries.
+	// Reset Restores controls in the owning form to their default values and checked
+	// states. This does not necessarily empty the fields.
 	Reset = InputType("reset")
 
 	// Hidden Hidden input field not displayed to users. Used for storing data, tokens,
 	// IDs, or other values that need to be submitted with forms invisibly.
 	Hidden = InputType("hidden")
 
-	// Color Color picker input for selecting colors. Shows native color picker widget
-	// allowing users to choose colors visually with preview and hex/RGB values.
+	// Color Colour picker input for selecting colours. Shows a native colour picker widget
+	// allowing users to choose colours visually with preview and hex/RGB values.
 	Color = InputType("color")
 
 	// Image Image-based submit button using custom graphics. Functions like submit button

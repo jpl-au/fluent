@@ -2,8 +2,9 @@
 
 // Package strokelinejoin defines the [StrokeLineJoin] type and its predefined values.
 //
-// Shape used at the corners where two stroked segments meet. A typed value so
-// only valid stroke-linejoin keywords compile.
+// Controls the stroke outline where two path segments meet. Miter extends their
+// outer edges to a point, round joins them with an arc, and bevel cuts across the
+// corner. Stroke-miterlimit limits the length of sharp miter joins.
 package strokelinejoin
 
 import (
@@ -12,8 +13,9 @@ import (
 
 // StrokeLineJoin is a typed value for the SVG stroke-linejoin attribute.
 //
-// Shape used at the corners where two stroked segments meet. A typed value so
-// only valid stroke-linejoin keywords compile.
+// Controls the stroke outline where two path segments meet. Miter extends their
+// outer edges to a point, round joins them with an arc, and bevel cuts across the
+// corner. Stroke-miterlimit limits the length of sharp miter joins.
 type StrokeLineJoin []byte
 
 // Variables for StrokeLineJoin values

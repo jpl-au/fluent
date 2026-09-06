@@ -2,7 +2,7 @@
 
 // Package popover defines the [Popover] type and its predefined values.
 //
-// Popover behavior for elements designated as popover content. Controls how popovers
+// Popover behaviour for elements designated as popover content. Controls how popovers
 // are managed, dismissed, and interact with other page elements.
 package popover
 
@@ -12,13 +12,13 @@ import (
 
 // Popover is a typed value for the HTML popover attribute.
 //
-// Popover behavior for elements designated as popover content. Controls how popovers
+// Popover behaviour for elements designated as popover content. Controls how popovers
 // are managed, dismissed, and interact with other page elements.
 type Popover []byte
 
 // Variables for Popover values
 var (
-	// Auto Automatic popover management with light dismiss behavior. Popover closes when
+	// Auto Automatic popover management with light dismiss behaviour. Popover closes when
 	// user clicks outside, presses Escape, or opens another auto popover.
 	Auto = Popover("auto")
 

@@ -2,9 +2,9 @@
 
 // Package lengthadjust defines the [LengthAdjust] type and its predefined values.
 //
-// How a text or tspan element stretches or compresses its content to reach the
-// length given by textLength. A typed value so only valid lengthAdjust keywords
-// compile.
+// Controls how SVG text is fitted to the length specified by textLength.
+// Spacing changes the gaps between glyphs while preserving their shapes.
+// SpacingAndGlyphs also scales the glyphs. The default is spacing.
 package lengthadjust
 
 import (
@@ -13,9 +13,9 @@ import (
 
 // LengthAdjust is a typed value for the SVG lengthAdjust attribute.
 //
-// How a text or tspan element stretches or compresses its content to reach the
-// length given by textLength. A typed value so only valid lengthAdjust keywords
-// compile.
+// Controls how SVG text is fitted to the length specified by textLength.
+// Spacing changes the gaps between glyphs while preserving their shapes.
+// SpacingAndGlyphs also scales the glyphs. The default is spacing.
 type LengthAdjust []byte
 
 // Variables for LengthAdjust values

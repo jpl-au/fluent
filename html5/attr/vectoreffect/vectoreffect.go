@@ -2,8 +2,10 @@
 
 // Package vectoreffect defines the [VectorEffect] type and its predefined values.
 //
-// How the stroke of an element responds to transforms on the element and its
-// ancestors. A typed value so only valid vector-effect keywords compile.
+// Controls how SVG rendering responds to transformations. Non-scaling-stroke
+// keeps stroke width constant when a shape is scaled, while none allows it to
+// scale with the geometry. Other vector-effect values are experimental and
+// have limited browser support.
 package vectoreffect
 
 import (
@@ -12,8 +14,10 @@ import (
 
 // VectorEffect is a typed value for the SVG vector-effect attribute.
 //
-// How the stroke of an element responds to transforms on the element and its
-// ancestors. A typed value so only valid vector-effect keywords compile.
+// Controls how SVG rendering responds to transformations. Non-scaling-stroke
+// keeps stroke width constant when a shape is scaled, while none allows it to
+// scale with the geometry. Other vector-effect values are experimental and
+// have limited browser support.
 type VectorEffect []byte
 
 // Variables for VectorEffect values

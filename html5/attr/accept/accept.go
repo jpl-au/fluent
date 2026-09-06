@@ -2,8 +2,9 @@
 
 // Package accept defines the [Accept] type and its predefined values.
 //
-// File type constants for input accept attribute. Predefined MIME types, extensions,
-// and wildcards for file upload restrictions with proper guardrails and IntelliSense.
+// Lists the MIME types, filename extensions, or media categories suggested by
+// a file input's picker. These hints do not validate uploaded content.
+// Combine MIME types and extensions when needed for file-picker support.
 package accept
 
 import (
@@ -12,8 +13,9 @@ import (
 
 // Accept is a typed value for the HTML accept attribute.
 //
-// File type constants for input accept attribute. Predefined MIME types, extensions,
-// and wildcards for file upload restrictions with proper guardrails and IntelliSense.
+// Lists the MIME types, filename extensions, or media categories suggested by
+// a file input's picker. These hints do not validate uploaded content.
+// Combine MIME types and extensions when needed for file-picker support.
 type Accept []byte
 
 // Variables for Accept values
@@ -38,32 +40,32 @@ var (
 	// Supports transparency and is ideal for logos and simple graphics.
 	ImagePNG = Accept("image/png")
 
-	// ImageGIF GIF image format supporting simple animations and limited color palettes.
+	// ImageGIF GIF image format supporting simple animations and limited colour palettes.
 	// Legacy format still used for simple animations and basic graphics.
 	ImageGIF = Accept("image/gif")
 
-	// ImageWebP WebP image format providing superior compression compared to JPEG and PNG.
-	// Modern format with excellent compression ratios and quality.
+	// ImageWebP Suggests WebP images by MIME type. WebP supports lossy and lossless images,
+	// transparency, and animation.
 	ImageWebP = Accept("image/webp")
 
-	// ImageSVG Scalable Vector Graphics format for resolution-independent vector images.
-	// Perfect for icons, logos, and graphics that need to scale cleanly.
+	// ImageSVG Suggests SVG images by MIME type. SVG describes graphics using XML.
+	// Selecting this type does not check or sanitise the file's contents.
 	ImageSVG = Accept("image/svg+xml")
 
-	// MimePDF PDF document format for portable documents that preserve formatting.
-	// Universal document format supported across all platforms and devices.
+	// MimePDF Suggests PDF documents by MIME type, for uploads that need to preserve
+	// page layout across readers.
 	MimePDF = Accept("application/pdf")
 
 	// MimeMSWord Microsoft Word document format for older .doc files (Office 97-2003).
 	// Legacy Word format still commonly used for document exchange.
 	MimeMSWord = Accept("application/msword")
 
-	// MimeWordDOCX Microsoft Word document format for modern .docx files (Office 2007+).
-	// Current standard Word format with better compression and features.
+	// MimeWordDOCX Suggests .docx Word documents by MIME type. Use MimeMSWord separately
+	// to also offer the older .doc format.
 	MimeWordDOCX = Accept("application/vnd.openxmlformats-officedocument.wordprocessingml.document")
 
-	// TextPlain Plain text files without any formatting or special encoding.
-	// Simple text content readable by any text editor or application.
+	// TextPlain Suggests plain-text files by MIME type. The type does not specify the
+	// character encoding or validate the file's contents.
 	TextPlain = Accept("text/plain")
 
 	// TextCSV Comma-separated values format for structured data and spreadsheets.
@@ -78,8 +80,8 @@ var (
 	// Legacy Excel format still commonly used for spreadsheet data exchange.
 	MimeExcel = Accept("application/vnd.ms-excel")
 
-	// MimeExcelXLSX Microsoft Excel spreadsheet format for modern .xlsx files (Office 2007+).
-	// Current standard Excel format with better compression and features.
+	// MimeExcelXLSX Suggests .xlsx Excel workbooks by MIME type. Use MimeExcel separately
+	// to also offer the older .xls format.
 	MimeExcelXLSX = Accept("application/vnd.openxmlformats-officedocument.spreadsheetml.sheet")
 
 	// MimeZip ZIP archive format for compressed file collections. Universal archive format
@@ -98,16 +100,16 @@ var (
 	// Preferred for graphics, screenshots, and images requiring transparency.
 	PNG = Accept(".png")
 
-	// GIF GIF file extension for simple animations and limited-color graphics.
+	// GIF GIF file extension for simple animations and limited-colour graphics.
 	// Traditional format for web animations and simple graphics.
 	GIF = Accept(".gif")
 
-	// WebP WebP file extension for modern efficient image compression format.
-	// Next-generation image format with superior compression capabilities.
+	// WebP Suggests files with the .webp extension. This matches a filename suffix,
+	// not a check that the contents are a valid WebP image.
 	WebP = Accept(".webp")
 
-	// SVG SVG file extension for scalable vector graphics and illustrations.
-	// Vector format perfect for icons and graphics requiring infinite scaling.
+	// SVG Suggests files with the .svg extension for SVG graphics. This matches a
+	// filename suffix. It does not check the XML or its contents.
 	SVG = Accept(".svg")
 
 	// PDF PDF file extension for portable document format files.
@@ -118,12 +120,12 @@ var (
 	// Older Word format compatible with Office 97-2003 versions.
 	DOC = Accept(".doc")
 
-	// DOCX Microsoft Word document extension for modern format files.
-	// Current Word standard with better compression and feature support.
+	// DOCX Suggests files with the .docx extension for Word documents. Combine with
+	// the matching MIME type when needed for file-picker support.
 	DOCX = Accept(".docx")
 
-	// TXT Plain text file extension for simple unformatted text content.
-	// Universal text format readable by any text editor or system.
+	// TXT Suggests files with the .txt extension for plain text. The extension does
+	// not identify a character encoding.
 	TXT = Accept(".txt")
 
 	// CSV Comma-separated values file extension for tabular data format.
@@ -138,8 +140,8 @@ var (
 	// Older Excel format compatible with Office 97-2003 versions.
 	XLS = Accept(".xls")
 
-	// XLSX Microsoft Excel file extension for modern spreadsheet format.
-	// Current Excel standard with better compression and feature support.
+	// XLSX Suggests files with the .xlsx extension for Excel workbooks. Combine with
+	// the matching MIME type when needed for file-picker support.
 	XLSX = Accept(".xlsx")
 
 	// XML XML file extension for structured markup documents.
@@ -150,20 +152,20 @@ var (
 	// Universal archive format for bundling and compressing multiple files.
 	ZIP = Accept(".zip")
 
-	// VideoMP4 MP4 video format with broad compatibility and good compression.
-	// Most widely supported video format for web and mobile applications.
+	// VideoMP4 Suggests MP4 video by MIME type. The container can hold different codecs,
+	// so the hint does not guarantee that the browser can play the selected file.
 	VideoMP4 = Accept("video/mp4")
 
-	// VideoWebM WebM video format optimized for web delivery and streaming.
-	// Open-source format with excellent compression for web applications.
+	// VideoWebM Suggests WebM video by MIME type. Playback depends on the codecs in the
+	// selected file and the browser's support for them.
 	VideoWebM = Accept("video/webm")
 
-	// AudioMP3 MP3 audio format with universal compatibility and good compression.
-	// Most widely supported audio format across all devices and platforms.
+	// AudioMP3 Suggests MP3 audio by MIME type. The hint identifies the expected audio
+	// format but does not check the selected file's codec.
 	AudioMP3 = Accept("audio/mpeg")
 
-	// AudioWAV WAV audio format providing uncompressed high-quality audio.
-	// Lossless format ideal for professional audio and high-fidelity recordings.
+	// AudioWAV Suggests WAV audio by MIME type. WAV is a container, commonly holding
+	// uncompressed PCM audio. The MIME type does not guarantee its encoding.
 	AudioWAV = Accept("audio/wav")
 )
 

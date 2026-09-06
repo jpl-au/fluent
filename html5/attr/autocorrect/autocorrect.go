@@ -2,8 +2,9 @@
 
 // Package autocorrect defines the [AutoCorrect] type and its predefined values.
 //
-// Automatic text correction on mobile devices and browsers. Controls whether browsers
-// automatically correct spelling and text input for improved user experience.
+// Controls automatic text correction during editing where the browser or input
+// method supports it. This is distinct from spelling underlines and does not
+// validate the field's value.
 package autocorrect
 
 import (
@@ -12,18 +13,19 @@ import (
 
 // AutoCorrect is a typed value for the HTML autocorrect attribute.
 //
-// Automatic text correction on mobile devices and browsers. Controls whether browsers
-// automatically correct spelling and text input for improved user experience.
+// Controls automatic text correction during editing where the browser or input
+// method supports it. This is distinct from spelling underlines and does not
+// validate the field's value.
 type AutoCorrect []byte
 
 // Variables for AutoCorrect values
 var (
-	// On Enable automatic text correction and spelling fixes. Browser or device will
-	// automatically correct misspelled words and apply predictive text suggestions.
+	// On Enables automatic correction where available. The corrections offered or
+	// applied depend on the browser, input method, and user settings.
 	On = AutoCorrect("on")
 
-	// Off Disable automatic text correction. No spelling fixes or predictive corrections
-	// are applied, preserving exact user input including intentional misspellings.
+	// Off Disables automatic correction for the field where supported. Spelling
+	// underlines and other editing assistance have separate settings.
 	Off = AutoCorrect("off")
 )
 

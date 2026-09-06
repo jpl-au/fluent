@@ -54,8 +54,8 @@ func TestStaticCtor(t *testing.T) {
 }
 
 func TestRawTextCtor(t *testing.T) {
-	got := string(h1.RawText("<span class=\"logo\">Fluent</span>").RenderBytes())
-	want := `<h1><span class="logo">Fluent</span></h1>`
+	got := string(h1.RawText("<span class=\"logo\">Dashboard</span>").RenderBytes())
+	want := `<h1><span class="logo">Dashboard</span></h1>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
 	}
@@ -71,9 +71,9 @@ func TestTextfCtor(t *testing.T) {
 }
 
 func TestRawTextfCtor(t *testing.T) {
-	app := "Fluent"
+	app := "Dashboard"
 	got := string(h1.RawTextf("<span class=\"logo\">%s</span>", app).RenderBytes())
-	want := `<h1><span class="logo">Fluent</span></h1>`
+	want := `<h1><span class="logo">Dashboard</span></h1>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
 	}

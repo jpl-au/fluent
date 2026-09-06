@@ -2,9 +2,10 @@
 
 // Package shaperendering defines the [ShapeRendering] type and its predefined values.
 //
-// Hint to the renderer on the trade-off between speed, crisp edges and
-// geometric precision when drawing shapes. A typed value so only valid
-// shape-rendering keywords compile.
+// Provides a rendering hint for SVG shapes, balancing speed, edge contrast and
+// geometric precision. OptimizeSpeed favours speed, crispEdges favours sharp
+// edges, and geometricPrecision favours accurate geometry. These are priorities
+// for the renderer. They do not guarantee anti-aliasing or pixel alignment.
 package shaperendering
 
 import (
@@ -13,20 +14,22 @@ import (
 
 // ShapeRendering is a typed value for the SVG shape-rendering attribute.
 //
-// Hint to the renderer on the trade-off between speed, crisp edges and
-// geometric precision when drawing shapes. A typed value so only valid
-// shape-rendering keywords compile.
+// Provides a rendering hint for SVG shapes, balancing speed, edge contrast and
+// geometric precision. OptimizeSpeed favours speed, crispEdges favours sharp
+// edges, and geometricPrecision favours accurate geometry. These are priorities
+// for the renderer. They do not guarantee anti-aliasing or pixel alignment.
 type ShapeRendering []byte
 
 // Variables for ShapeRendering values
 var (
-	// Auto The renderer chooses, usually favouring precision with anti-aliasing. This is the SVG default.
+	// Auto Balance speed, edge contrast and geometric precision, giving precision more importance. This is the SVG default.
 	Auto = ShapeRendering("auto")
 
-	// OptimizeSpeed Favour speed over precision and edge quality. Renderers usually turn off anti-aliasing.
+	// OptimizeSpeed Favour speed over precision and edge quality. The renderer may disable anti-aliasing.
 	OptimizeSpeed = ShapeRendering("optimizeSpeed")
 
-	// CrispEdges Favour sharp edges over precision and speed. Renderers turn off anti-aliasing and may snap lines to pixels, so axis-aligned lines stay one pixel wide.
+	// CrispEdges Favour sharp edges over precision and speed. The renderer may disable anti-aliasing or adjust line
+	// positions and widths to align edges with device pixels.
 	CrispEdges = ShapeRendering("crispEdges")
 
 	// GeometricPrecision Favour geometric precision over speed and edge quality.

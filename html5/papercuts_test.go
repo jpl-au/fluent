@@ -270,7 +270,7 @@ func TestSVGConcurrentFirstRender(t *testing.T) {
 		}()
 	}
 	wg.Wait()
-	want := `<rect id="shared" />`
+	want := `<rect id="shared"></rect>`
 	for i, got := range results {
 		if got != want {
 			t.Errorf("render %d: got %q, want %q", i, got, want)

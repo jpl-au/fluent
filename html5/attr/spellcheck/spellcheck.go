@@ -2,8 +2,9 @@
 
 // Package spellcheck defines the [Spellcheck] type and its predefined values.
 //
-// Controls browser spell-checking and text correction features. Affects whether browsers
-// highlight misspelled words and provide correction suggestions for text input.
+// Controls whether editable text is eligible for spelling and grammar checking.
+// The browser and user settings determine the assistance provided. This setting
+// is separate from automatic replacement of typed text.
 package spellcheck
 
 import (
@@ -12,18 +13,19 @@ import (
 
 // Spellcheck is a typed value for the HTML spellcheck attribute.
 //
-// Controls browser spell-checking and text correction features. Affects whether browsers
-// highlight misspelled words and provide correction suggestions for text input.
+// Controls whether editable text is eligible for spelling and grammar checking.
+// The browser and user settings determine the assistance provided. This setting
+// is separate from automatic replacement of typed text.
 type Spellcheck []byte
 
 // Variables for Spellcheck values
 var (
-	// True Enable spell-checking for element content. Browser will highlight misspelled words
-	// and provide correction suggestions. Improves text quality for user-generated content.
+	// True Allows spelling and grammar checking of editable text. The browser decides
+	// how to indicate problems and offer corrections.
 	True = Spellcheck("true")
 
-	// False Disable spell-checking for element content. No spelling corrections or highlights
-	// are provided. Useful for technical terms, code, names, or specialized vocabulary.
+	// False Disables spelling and grammar checking for the element. Useful for code or
+	// other input where dictionary-based suggestions are inappropriate.
 	False = Spellcheck("false")
 )
 

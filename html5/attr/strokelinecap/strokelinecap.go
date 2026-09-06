@@ -2,8 +2,9 @@
 
 // Package strokelinecap defines the [StrokeLineCap] type and its predefined values.
 //
-// Shape used at the open ends of a stroked path, line, or polyline. A typed
-// value so only valid stroke-linecap keywords compile.
+// Controls the shape of the stroke at open path endpoints. Butt stops at the
+// endpoint. Round adds a semicircle. Square extends the stroke by half its width.
+// The choice changes the visible length of a line without changing its geometry.
 package strokelinecap
 
 import (
@@ -12,8 +13,9 @@ import (
 
 // StrokeLineCap is a typed value for the SVG stroke-linecap attribute.
 //
-// Shape used at the open ends of a stroked path, line, or polyline. A typed
-// value so only valid stroke-linecap keywords compile.
+// Controls the shape of the stroke at open path endpoints. Butt stops at the
+// endpoint. Round adds a semicircle. Square extends the stroke by half its width.
+// The choice changes the visible length of a line without changing its geometry.
 type StrokeLineCap []byte
 
 // Variables for StrokeLineCap values

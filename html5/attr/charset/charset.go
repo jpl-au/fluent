@@ -3,7 +3,7 @@
 // Package charset defines the [Charset] type and its predefined values.
 //
 // Character encoding constants for accept-charset and meta charset attributes.
-// Standard character encodings for proper text processing and internationalization.
+// Standard character encodings for text processing and internationalisation.
 package charset
 
 import (
@@ -13,7 +13,7 @@ import (
 // Charset is a typed value for the HTML charset attribute.
 //
 // Character encoding constants for accept-charset and meta charset attributes.
-// Standard character encodings for proper text processing and internationalization.
+// Standard character encodings for text processing and internationalisation.
 type Charset []byte
 
 // Variables for Charset values

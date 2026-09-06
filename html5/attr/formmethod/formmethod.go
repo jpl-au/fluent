@@ -2,8 +2,9 @@
 
 // Package formmethod defines the [FormMethod] type and its predefined values.
 //
-// HTTP method override for individual submit inputs. Allows different submit buttons
-// to use different HTTP methods, overriding the form's default method attribute.
+// Overrides the owning form's submission method for the activated submit
+// button. GET and POST send form data. The dialog method closes a containing dialog
+// without sending a request.
 package formmethod
 
 import (
@@ -12,22 +13,23 @@ import (
 
 // FormMethod is a typed value for the HTML formmethod attribute.
 //
-// HTTP method override for individual submit inputs. Allows different submit buttons
-// to use different HTTP methods, overriding the form's default method attribute.
+// Overrides the owning form's submission method for the activated submit
+// button. GET and POST send form data. The dialog method closes a containing dialog
+// without sending a request.
 type FormMethod []byte
 
 // Variables for FormMethod values
 var (
-	// Get Use HTTP GET method for form submission. Data appears in URL parameters and is
-	// visible in browser history. Suitable for search forms and non-sensitive data.
+	// Get Submits form entries in the URL query. Use for retrieval, such as searches,
+	// where the resulting URL can be bookmarked or shared.
 	Get = FormMethod("get")
 
-	// Post Use HTTP POST method for form submission. Data is sent in request body and not
-	// visible in URL. Required for sensitive data, file uploads, and data modification.
+	// Post Submits form entries in the request body. Use with multipart/form-data for
+	// file uploads. Keeping data out of the URL does not encrypt the request.
 	Post = FormMethod("post")
 
-	// Dialog Close the containing dialog and submit the form data. Special method for forms
-	// inside dialog elements that closes the dialog when submitted.
+	// Dialog Closes the containing dialog without sending form data to a server.
+	// The activated submit button's value becomes the dialog's returnValue.
 	Dialog = FormMethod("dialog")
 )
 

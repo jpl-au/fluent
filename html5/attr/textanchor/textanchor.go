@@ -2,8 +2,10 @@
 
 // Package textanchor defines the [TextAnchor] type and its predefined values.
 //
-// Horizontal alignment of a text element relative to its x position. A typed
-// value so only valid text-anchor keywords compile.
+// Aligns each SVG text chunk relative to its initial text position. Start and
+// end follow the text direction. Middle centres the chunk on that position.
+// For horizontal text this controls alignment along the x axis. It does not set the vertical
+// baseline.
 package textanchor
 
 import (
@@ -12,8 +14,10 @@ import (
 
 // TextAnchor is a typed value for the SVG text-anchor attribute.
 //
-// Horizontal alignment of a text element relative to its x position. A typed
-// value so only valid text-anchor keywords compile.
+// Aligns each SVG text chunk relative to its initial text position. Start and
+// end follow the text direction. Middle centres the chunk on that position.
+// For horizontal text this controls alignment along the x axis. It does not set the vertical
+// baseline.
 type TextAnchor []byte
 
 // Variables for TextAnchor values

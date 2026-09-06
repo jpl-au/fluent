@@ -2,8 +2,10 @@
 
 // Package as defines the [As] type and its predefined values.
 //
-// Resource type hint for preload links. Required with rel="preload" to specify content type
-// for proper prioritization, parsing, and CSP application by the browser.
+// Identifies the request destination for a preload or modulepreload link.
+// The destination affects request headers, content security policy checks,
+// and reuse of the fetched resource. Supported values differ by link relation.
+// A destination is not a MIME type and does not itself execute the resource.
 package as
 
 import (
@@ -12,62 +14,65 @@ import (
 
 // As is a typed value for the HTML as attribute.
 //
-// Resource type hint for preload links. Required with rel="preload" to specify content type
-// for proper prioritization, parsing, and CSP application by the browser.
+// Identifies the request destination for a preload or modulepreload link.
+// The destination affects request headers, content security policy checks,
+// and reuse of the fetched resource. Supported values differ by link relation.
+// A destination is not a MIME type and does not itself execute the resource.
 type As []byte
 
 // Variables for As values
 var (
-	// Audio Audio resource for media playback. Browser prioritizes and applies audio-specific
-	// optimizations and content security policies for music, sound effects, or podcasts.
+	// Audio Identifies an audio request destination. A preload does not start playback.
+	// Media preloading support depends on the browser.
 	Audio = As("audio")
 
-	// Document HTML document resource for navigation or embedding. Browser applies document parsing
-	// and security policies for iframe content or navigation targets.
+	// Document Identifies a document request destination. This does not navigate to the
+	// resource or insert an embedded document.
 	Document = As("document")
 
-	// Embed Resource for embedding via object or embed elements. Browser applies appropriate
-	// security policies and loading strategies for plugin or embedded content.
+	// Embed Identifies an embed request destination. The destination describes the
+	// intended consumer. It does not guarantee support for a plugin or media format.
 	Embed = As("embed")
 
-	// Fetch Resource for JavaScript fetch() or XHR requests. Generic type for API responses,
-	// JSON data, or other programmatically loaded content.
+	// Fetch Identifies a resource intended for fetch() or XMLHttpRequest,
+	// such as an API response. Match the eventual request's CORS and credentials
+	// settings so the preload can be reused.
 	Fetch = As("fetch")
 
-	// Font Font resource for text rendering. Browser applies font loading optimizations
-	// and CORS policies for web fonts and typography resources.
+	// Font Identifies a font request destination. Font preloads need matching CORS
+	// settings, including for same-origin fonts.
 	Font = As("font")
 
-	// Image Image resource for visual content. Browser applies image-specific optimizations,
-	// decoding strategies, and security policies for graphics and photos.
+	// Image Identifies an image request destination. For responsive image preloads,
+	// match the image's source selection using imagesrcset and imagesizes.
 	Image = As("image")
 
-	// JSON JSON data resource for structured content. Browser applies JSON-specific parsing
-	// and content security policies for data loaded via fetch or module imports.
+	// JSON Identifies a JSON module destination for modulepreload. For JSON retrieved
+	// by fetch(), use the fetch destination instead.
 	JSON = As("json")
 
-	// Object Resource for object elements including plugins, embedded media, or interactive content.
-	// Browser applies object-specific loading and security policies.
+	// Object Identifies an object request destination. The destination does not guarantee
+	// support for the embedded resource's format.
 	Object = As("object")
 
-	// Script JavaScript resource for code execution. Browser applies script loading optimizations,
-	// CSP policies, and execution strategies for performance and security.
+	// Script Identifies a script request destination. Preloading fetches the resource
+	// for later use. It does not execute the script.
 	Script = As("script")
 
-	// Style CSS stylesheet resource for visual presentation. Browser prioritizes style loading
-	// to prevent layout shifts and applies CSS-specific parsing optimizations.
+	// Style Identifies a stylesheet request destination. A preload does not apply the
+	// stylesheet. It must also be linked or otherwise used as a stylesheet.
 	Style = As("style")
 
-	// Track Text track resource for media captions, subtitles, or descriptions. Browser applies
-	// track-specific loading for accessibility and media synchronization.
+	// Track Identifies a text-track request destination, such as WebVTT captions.
+	// The track element controls how the fetched track is used.
 	Track = As("track")
 
-	// Video Video resource for media playback. Browser applies video-specific optimizations,
-	// buffering strategies, and security policies for motion picture content.
+	// Video Identifies a video request destination. A preload does not start playback.
+	// Media preloading support depends on the browser.
 	Video = As("video")
 
-	// Worker Web Worker script for background processing. Browser applies worker-specific loading
-	// and execution policies for multithreaded JavaScript applications.
+	// Worker Identifies a worker script destination where supported by the link relation.
+	// Preloading does not create or start a worker.
 	Worker = As("worker")
 )
 

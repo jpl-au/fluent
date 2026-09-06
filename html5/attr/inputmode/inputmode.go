@@ -2,8 +2,9 @@
 
 // Package inputmode defines the [InputMode] type and its predefined values.
 //
-// Virtual keyboard configuration hint for optimal text input. Tells mobile devices
-// which keyboard type to display based on expected input content and format.
+// Hints which virtual keyboard best suits the expected input. It does not
+// restrict entered characters or validate the value. Available keys and layout
+// depend on the device, language, and input method.
 package inputmode
 
 import (
@@ -12,8 +13,9 @@ import (
 
 // InputMode is a typed value for the HTML inputmode attribute.
 //
-// Virtual keyboard configuration hint for optimal text input. Tells mobile devices
-// which keyboard type to display based on expected input content and format.
+// Hints which virtual keyboard best suits the expected input. It does not
+// restrict entered characters or validate the value. Available keys and layout
+// depend on the device, language, and input method.
 type InputMode []byte
 
 // Variables for InputMode values
@@ -27,7 +29,7 @@ var (
 	Text = InputMode("text")
 
 	// Tel Telephone number keyboard with digits 0-9, *, #, and other phone-related keys.
-	// Optimized for entering phone numbers and dial pad interactions.
+	// Optimised for entering phone numbers and dial pad interactions.
 	Tel = InputMode("tel")
 
 	// Url URL keyboard with easy access to /, ., and common URL characters.
@@ -35,19 +37,19 @@ var (
 	Url = InputMode("url")
 
 	// Email Email keyboard with @ symbol and domain shortcuts (.com, .org, etc).
-	// Optimized for email address entry with relevant character accessibility.
+	// Optimised for email address entry with relevant character accessibility.
 	Email = InputMode("email")
 
-	// Numeric Numeric keyboard with digits 0-9 and basic mathematical operators.
-	// For entering numbers, quantities, and simple numeric calculations.
+	// Numeric Requests a keyboard suited to digits 0-9. A minus key is not guaranteed.
+	// Use decimal when a decimal separator is needed.
 	Numeric = InputMode("numeric")
 
-	// Decimal Decimal number keyboard with digits and decimal point. Specifically designed
-	// for monetary values, measurements, and decimal number input.
+	// Decimal Requests a numeric keyboard with the locale's decimal separator, such as
+	// a point or comma. A minus key is not guaranteed.
 	Decimal = InputMode("decimal")
 
-	// Search Search-optimized keyboard with search action button. May include search
-	// suggestions and quick access to common search operators.
+	// Search Requests a keyboard suited to search input, commonly with a search-labelled
+	// action key. The hint does not implement searching.
 	Search = InputMode("search")
 )
 

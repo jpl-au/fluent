@@ -18,7 +18,7 @@ type Loading []byte
 
 // Variables for Loading values
 var (
-	// Eager Loads the resource immediately when encountered in HTML parsing. Default behavior that
+	// Eager Loads the resource immediately when encountered in HTML parsing. Default behaviour that
 	// ensures resources are available as soon as possible.
 	Eager = Loading("eager")
 

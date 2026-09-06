@@ -2,8 +2,10 @@
 
 // Package spreadmethod defines the [SpreadMethod] type and its predefined values.
 //
-// How a gradient fills the area outside the range of its vector or radius. A
-// typed value so only valid spreadMethod keywords compile.
+// Controls how a gradient paints outside its defined range. Pad extends the
+// end colours, reflect alternates forward and reversed copies, and repeat
+// restarts the gradient in the same direction. It applies to both linear and
+// radial gradients. Pad is the default.
 package spreadmethod
 
 import (
@@ -12,8 +14,10 @@ import (
 
 // SpreadMethod is a typed value for the SVG spreadMethod attribute.
 //
-// How a gradient fills the area outside the range of its vector or radius. A
-// typed value so only valid spreadMethod keywords compile.
+// Controls how a gradient paints outside its defined range. Pad extends the
+// end colours, reflect alternates forward and reversed copies, and repeat
+// restarts the gradient in the same direction. It applies to both linear and
+// radial gradients. Pad is the default.
 type SpreadMethod []byte
 
 // Variables for SpreadMethod values
