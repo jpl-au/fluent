@@ -41,13 +41,11 @@ import (
 type Element struct {
 	bufferhint          atomic.Int64
 	enctype             enctype.EncType
-	first               [1]node.Node
 	hidden              hidden.Hidden
 	method              formmethod.FormMethod
 	nodes               []node.Node
 	popovertargetaction popovertargetaction.PopoverTargetAction
 	target              target.Target
-	txt                 text.Node
 	buttonType          string
 	class               string
 	draggable           string
@@ -65,6 +63,12 @@ type Element struct {
 	formnovalidate      bool
 	inert               bool
 	itemscope           bool
+}
+
+// textChild keeps the text and child slice together, independently of the parent.
+type textChild struct {
+	txt   text.Node
+	first [1]node.Node
 }
 
 // global returns the GlobalAttributes, initializing if nil
@@ -96,99 +100,91 @@ func New(nodes ...node.Node) *Element {
 // Example: button.Text("Click Me")
 // Renders: <button>Click Me</button>
 func Text(str string) *Element {
-	e := &Element{
-		txt: *text.Text(str),
+	child := &textChild{txt: *text.Text(str)}
+	child.first[0] = &child.txt
+	return &Element{
+		nodes: child.first[:],
 	}
-	e.first[0] = &e.txt
-	e.nodes = e.first[:]
-	return e
 }
 
 // Static creates a new button element with static text content. Uses text.Static which is not HTML-escaped and is JIT-optimisable.
 // Example: button.Static("Submit")
 // Renders: <button>Submit</button>
 func Static(str string) *Element {
-	e := &Element{
-		txt: *text.Static(str),
+	child := &textChild{txt: *text.Static(str)}
+	child.first[0] = &child.txt
+	return &Element{
+		nodes: child.first[:],
 	}
-	e.first[0] = &e.txt
-	e.nodes = e.first[:]
-	return e
 }
 
 // RawText creates a new button element with raw text content. Uses text.RawText which is not HTML-escaped.
 // Example: button.RawText("<b>Submit</b>")
 // Renders: <button><b>Submit</b></button>
 func RawText(str string) *Element {
-	e := &Element{
-		txt: *text.RawText(str),
+	child := &textChild{txt: *text.RawText(str)}
+	child.first[0] = &child.txt
+	return &Element{
+		nodes: child.first[:],
 	}
-	e.first[0] = &e.txt
-	e.nodes = e.first[:]
-	return e
 }
 
 // Textf creates a new button element with formatted text content. Uses text.Textf which HTML-escapes the output.
 // Example: button.Textf("Save %s", title)
 // Renders: <button>Save Dashboard</button>
 func Textf(format string, args ...any) *Element {
-	e := &Element{
-		txt: *text.Text(fmt.Sprintf(format, args...)),
+	child := &textChild{txt: *text.Text(fmt.Sprintf(format, args...))}
+	child.first[0] = &child.txt
+	return &Element{
+		nodes: child.first[:],
 	}
-	e.first[0] = &e.txt
-	e.nodes = e.first[:]
-	return e
 }
 
 // RawTextf creates a new button element with formatted raw text content. Uses text.RawTextf which is not HTML-escaped.
 // Example: button.RawTextf("<span class=\"icon\">%s</span> Save", icon)
 // Renders: <button><span class="icon">★</span> Save</button>
 func RawTextf(format string, args ...any) *Element {
-	e := &Element{
-		txt: *text.RawText(fmt.Sprintf(format, args...)),
+	child := &textChild{txt: *text.RawText(fmt.Sprintf(format, args...))}
+	child.first[0] = &child.txt
+	return &Element{
+		nodes: child.first[:],
 	}
-	e.first[0] = &e.txt
-	e.nodes = e.first[:]
-	return e
 }
 
 // Submit creates a submit button with text content
 // Example: button.Submit("Send Form")
 // Renders: <button type="submit">Send Form</button>
 func Submit(str string) *Element {
-	e := &Element{
-		txt:        *text.Text(str),
+	child := &textChild{txt: *text.Text(str)}
+	child.first[0] = &child.txt
+	return &Element{
+		nodes:      child.first[:],
 		buttonType: "submit",
 	}
-	e.first[0] = &e.txt
-	e.nodes = e.first[:]
-	return e
 }
 
 // Reset creates a reset button with text content
 // Example: button.Reset("Clear Form")
 // Renders: <button type="reset">Clear Form</button>
 func Reset(str string) *Element {
-	e := &Element{
-		txt:        *text.Text(str),
+	child := &textChild{txt: *text.Text(str)}
+	child.first[0] = &child.txt
+	return &Element{
+		nodes:      child.first[:],
 		buttonType: "reset",
 	}
-	e.first[0] = &e.txt
-	e.nodes = e.first[:]
-	return e
 }
 
 // Button creates a generic button with text content
 // Example: button.Button("Click Me")
 // Renders: <button type="button">Click Me</button>
 func Button(str string) *Element {
-	e := &Element{
-		txt:        *text.Text(str),
+	child := &textChild{txt: *text.Text(str)}
+	child.first[0] = &child.txt
+	return &Element{
+		nodes:      child.first[:],
 		buttonType: "button",
 	}
-	e.first[0] = &e.txt
-	e.nodes = e.first[:]
-	return e
 }
 
 // Command sets the command attribute.

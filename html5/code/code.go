@@ -36,10 +36,8 @@ import (
 // Element represents the <code> HTML element.
 type Element struct {
 	bufferhint atomic.Int64
-	first      [1]node.Node
 	hidden     hidden.Hidden
 	nodes      []node.Node
-	txt        text.Node
 	class      string
 	draggable  string
 	dynamic    string
@@ -52,6 +50,12 @@ type Element struct {
 	autofocus  bool
 	inert      bool
 	itemscope  bool
+}
+
+// textChild keeps the text and child slice together, independently of the parent.
+type textChild struct {
+	txt   text.Node
+	first [1]node.Node
 }
 
 // global returns the GlobalAttributes, initializing if nil
@@ -83,60 +87,55 @@ func New(nodes ...node.Node) *Element {
 // Example: code.Text("fmt.Println()")
 // Renders: <code>fmt.Println()</code>
 func Text(str string) *Element {
-	e := &Element{
-		txt: *text.Text(str),
+	child := &textChild{txt: *text.Text(str)}
+	child.first[0] = &child.txt
+	return &Element{
+		nodes: child.first[:],
 	}
-	e.first[0] = &e.txt
-	e.nodes = e.first[:]
-	return e
 }
 
 // Static creates a new code element with static text content. Uses text.Static which is not HTML-escaped and is JIT-optimisable.
 // Example: code.Static("fmt.Println()")
 // Renders: <code>fmt.Println()</code>
 func Static(str string) *Element {
-	e := &Element{
-		txt: *text.Static(str),
+	child := &textChild{txt: *text.Static(str)}
+	child.first[0] = &child.txt
+	return &Element{
+		nodes: child.first[:],
 	}
-	e.first[0] = &e.txt
-	e.nodes = e.first[:]
-	return e
 }
 
 // RawText creates a new code element with raw text content. Uses text.RawText which is not HTML-escaped.
 // Example: code.RawText("fmt.Println()")
 // Renders: <code>fmt.Println()</code>
 func RawText(str string) *Element {
-	e := &Element{
-		txt: *text.RawText(str),
+	child := &textChild{txt: *text.RawText(str)}
+	child.first[0] = &child.txt
+	return &Element{
+		nodes: child.first[:],
 	}
-	e.first[0] = &e.txt
-	e.nodes = e.first[:]
-	return e
 }
 
 // Textf creates a new code element with formatted text content. Uses text.Textf which HTML-escapes the output.
 // Example: code.Textf("fmt.%s()", "Println")
 // Renders: <code>fmt.Println()</code>
 func Textf(format string, args ...any) *Element {
-	e := &Element{
-		txt: *text.Text(fmt.Sprintf(format, args...)),
+	child := &textChild{txt: *text.Text(fmt.Sprintf(format, args...))}
+	child.first[0] = &child.txt
+	return &Element{
+		nodes: child.first[:],
 	}
-	e.first[0] = &e.txt
-	e.nodes = e.first[:]
-	return e
 }
 
 // RawTextf creates a new code element with formatted raw text content. Uses text.RawTextf which is not HTML-escaped.
 // Example: code.RawTextf("fmt.%s()", "Println")
 // Renders: <code>fmt.Println()</code>
 func RawTextf(format string, args ...any) *Element {
-	e := &Element{
-		txt: *text.RawText(fmt.Sprintf(format, args...)),
+	child := &textChild{txt: *text.RawText(fmt.Sprintf(format, args...))}
+	child.first[0] = &child.txt
+	return &Element{
+		nodes: child.first[:],
 	}
-	e.first[0] = &e.txt
-	e.nodes = e.first[:]
-	return e
 }
 
 // Class sets the class attribute.

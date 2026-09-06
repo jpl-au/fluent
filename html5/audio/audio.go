@@ -43,12 +43,10 @@ type Element struct {
 	bufferhint            atomic.Int64
 	controlslist          controlslist.ControlsList
 	crossorigin           crossorigin.CrossOrigin
-	first                 [1]node.Node
 	hidden                hidden.Hidden
 	loading               loading.Loading
 	nodes                 []node.Node
 	preload               preload.Preload
-	txt                   text.Node
 	class                 string
 	draggable             string
 	dynamic               string
@@ -67,6 +65,12 @@ type Element struct {
 	itemscope             bool
 	loop                  bool
 	muted                 bool
+}
+
+// textChild keeps the text and child slice together, independently of the parent.
+type textChild struct {
+	txt   text.Node
+	first [1]node.Node
 }
 
 // global returns the GlobalAttributes, initializing if nil
@@ -98,12 +102,11 @@ func New(nodes ...node.Node) *Element {
 // Example: audio.Fallback("Your browser does not support audio.")
 // Renders: <audio>Your browser does not support audio.</audio>
 func Fallback(fallback string) *Element {
-	e := &Element{
-		txt: *text.Text(fallback),
+	child := &textChild{txt: *text.Text(fallback)}
+	child.first[0] = &child.txt
+	return &Element{
+		nodes: child.first[:],
 	}
-	e.first[0] = &e.txt
-	e.nodes = e.first[:]
-	return e
 }
 
 // Sources creates a new audio element with multiple <source> child elements.

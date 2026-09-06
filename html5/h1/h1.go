@@ -35,10 +35,8 @@ import (
 // Element represents the <h1> HTML element.
 type Element struct {
 	bufferhint atomic.Int64
-	first      [1]node.Node
 	hidden     hidden.Hidden
 	nodes      []node.Node
-	txt        text.Node
 	class      string
 	draggable  string
 	dynamic    string
@@ -51,6 +49,12 @@ type Element struct {
 	autofocus  bool
 	inert      bool
 	itemscope  bool
+}
+
+// textChild keeps the text and child slice together, independently of the parent.
+type textChild struct {
+	txt   text.Node
+	first [1]node.Node
 }
 
 // global returns the GlobalAttributes, initializing if nil
@@ -82,60 +86,55 @@ func New(nodes ...node.Node) *Element {
 // Example: h1.Text("Page Title")
 // Renders: <h1>Page Title</h1>
 func Text(str string) *Element {
-	e := &Element{
-		txt: *text.Text(str),
+	child := &textChild{txt: *text.Text(str)}
+	child.first[0] = &child.txt
+	return &Element{
+		nodes: child.first[:],
 	}
-	e.first[0] = &e.txt
-	e.nodes = e.first[:]
-	return e
 }
 
 // Static creates a new h1 element with static text content. Uses text.Static which is not HTML-escaped and is JIT-optimisable.
 // Example: h1.Static("Dashboard")
 // Renders: <h1>Dashboard</h1>
 func Static(str string) *Element {
-	e := &Element{
-		txt: *text.Static(str),
+	child := &textChild{txt: *text.Static(str)}
+	child.first[0] = &child.txt
+	return &Element{
+		nodes: child.first[:],
 	}
-	e.first[0] = &e.txt
-	e.nodes = e.first[:]
-	return e
 }
 
 // RawText creates a new h1 element with raw text content. Uses text.RawText which is not HTML-escaped.
 // Example: h1.RawText("<span class=\"logo\">Fluent</span>")
 // Renders: <h1><span class="logo">Fluent</span></h1>
 func RawText(str string) *Element {
-	e := &Element{
-		txt: *text.RawText(str),
+	child := &textChild{txt: *text.RawText(str)}
+	child.first[0] = &child.txt
+	return &Element{
+		nodes: child.first[:],
 	}
-	e.first[0] = &e.txt
-	e.nodes = e.first[:]
-	return e
 }
 
 // Textf creates a new h1 element with formatted text content. Uses text.Textf which HTML-escapes the output.
 // Example: h1.Textf("Welcome, %s", name)
 // Renders: <h1>Welcome, Mary</h1>
 func Textf(format string, args ...any) *Element {
-	e := &Element{
-		txt: *text.Text(fmt.Sprintf(format, args...)),
+	child := &textChild{txt: *text.Text(fmt.Sprintf(format, args...))}
+	child.first[0] = &child.txt
+	return &Element{
+		nodes: child.first[:],
 	}
-	e.first[0] = &e.txt
-	e.nodes = e.first[:]
-	return e
 }
 
 // RawTextf creates a new h1 element with formatted raw text content. Uses text.RawTextf which is not HTML-escaped.
 // Example: h1.RawTextf("<span class=\"logo\">%s</span>", app)
 // Renders: <h1><span class="logo">Fluent</span></h1>
 func RawTextf(format string, args ...any) *Element {
-	e := &Element{
-		txt: *text.RawText(fmt.Sprintf(format, args...)),
+	child := &textChild{txt: *text.RawText(fmt.Sprintf(format, args...))}
+	child.first[0] = &child.txt
+	return &Element{
+		nodes: child.first[:],
 	}
-	e.first[0] = &e.txt
-	e.nodes = e.first[:]
-	return e
 }
 
 // Class sets the class attribute.

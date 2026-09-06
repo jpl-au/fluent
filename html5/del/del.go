@@ -36,10 +36,8 @@ import (
 // Element represents the <del> HTML element.
 type Element struct {
 	bufferhint atomic.Int64
-	first      [1]node.Node
 	hidden     hidden.Hidden
 	nodes      []node.Node
-	txt        text.Node
 	class      string
 	draggable  string
 	dynamic    string
@@ -52,6 +50,12 @@ type Element struct {
 	autofocus  bool
 	inert      bool
 	itemscope  bool
+}
+
+// textChild keeps the text and child slice together, independently of the parent.
+type textChild struct {
+	txt   text.Node
+	first [1]node.Node
 }
 
 // global returns the GlobalAttributes, initializing if nil
@@ -83,60 +87,55 @@ func New(nodes ...node.Node) *Element {
 // Example: del.Text("This text was deleted")
 // Renders: <del>This text was deleted</del>
 func Text(str string) *Element {
-	e := &Element{
-		txt: *text.Text(str),
+	child := &textChild{txt: *text.Text(str)}
+	child.first[0] = &child.txt
+	return &Element{
+		nodes: child.first[:],
 	}
-	e.first[0] = &e.txt
-	e.nodes = e.first[:]
-	return e
 }
 
 // Static creates a new del element with static text content. Uses text.Static which is not HTML-escaped and is JIT-optimisable.
 // Example: del.Static("This feature has been removed.")
 // Renders: <del>This feature has been removed.</del>
 func Static(str string) *Element {
-	e := &Element{
-		txt: *text.Static(str),
+	child := &textChild{txt: *text.Static(str)}
+	child.first[0] = &child.txt
+	return &Element{
+		nodes: child.first[:],
 	}
-	e.first[0] = &e.txt
-	e.nodes = e.first[:]
-	return e
 }
 
 // RawText creates a new del element with raw text content. Uses text.RawText which is not HTML-escaped.
 // Example: del.RawText("<s>old price: $50</s>")
 // Renders: <del><s>old price: $50</s></del>
 func RawText(str string) *Element {
-	e := &Element{
-		txt: *text.RawText(str),
+	child := &textChild{txt: *text.RawText(str)}
+	child.first[0] = &child.txt
+	return &Element{
+		nodes: child.first[:],
 	}
-	e.first[0] = &e.txt
-	e.nodes = e.first[:]
-	return e
 }
 
 // Textf creates a new del element with formatted text content. Uses text.Textf which HTML-escapes the output.
 // Example: del.Textf("price: $%d", oldPrice)
 // Renders: <del>price: $50</del>
 func Textf(format string, args ...any) *Element {
-	e := &Element{
-		txt: *text.Text(fmt.Sprintf(format, args...)),
+	child := &textChild{txt: *text.Text(fmt.Sprintf(format, args...))}
+	child.first[0] = &child.txt
+	return &Element{
+		nodes: child.first[:],
 	}
-	e.first[0] = &e.txt
-	e.nodes = e.first[:]
-	return e
 }
 
 // RawTextf creates a new del element with formatted raw text content. Uses text.RawTextf which is not HTML-escaped.
 // Example: del.RawTextf("<s>%s</s>", oldText)
 // Renders: <del><s>removed</s></del>
 func RawTextf(format string, args ...any) *Element {
-	e := &Element{
-		txt: *text.RawText(fmt.Sprintf(format, args...)),
+	child := &textChild{txt: *text.RawText(fmt.Sprintf(format, args...))}
+	child.first[0] = &child.txt
+	return &Element{
+		nodes: child.first[:],
 	}
-	e.first[0] = &e.txt
-	e.nodes = e.first[:]
-	return e
 }
 
 // Dated creates a del element with text content and a timestamp indicating
@@ -144,11 +143,11 @@ func RawTextf(format string, args ...any) *Element {
 // Example: del.Dated("old price: $50", "2024-01-15")
 // Renders: <del datetime="2024-01-15">old price: $50</del>
 func Dated(str string, datetime string) *Element {
+	child := &textChild{txt: *text.Text(str)}
+	child.first[0] = &child.txt
 	e := &Element{
-		txt: *text.Text(str),
+		nodes: child.first[:],
 	}
-	e.first[0] = &e.txt
-	e.nodes = e.first[:]
 	e.DateTime(datetime)
 	return e
 }
@@ -158,11 +157,11 @@ func Dated(str string, datetime string) *Element {
 // Example: del.Cited("removed paragraph", "/changelog#v2.1")
 // Renders: <del cite="/changelog#v2.1">removed paragraph</del>
 func Cited(str string, cite string) *Element {
+	child := &textChild{txt: *text.Text(str)}
+	child.first[0] = &child.txt
 	e := &Element{
-		txt: *text.Text(str),
+		nodes: child.first[:],
 	}
-	e.first[0] = &e.txt
-	e.nodes = e.first[:]
 	e.Cite(cite)
 	return e
 }
@@ -173,11 +172,11 @@ func Cited(str string, cite string) *Element {
 // Example: del.Full("old price: $50", "/changelog", "2024-01-15")
 // Renders: <del cite="/changelog" datetime="2024-01-15">old price: $50</del>
 func Full(str string, cite string, datetime string) *Element {
+	child := &textChild{txt: *text.Text(str)}
+	child.first[0] = &child.txt
 	e := &Element{
-		txt: *text.Text(str),
+		nodes: child.first[:],
 	}
-	e.first[0] = &e.txt
-	e.nodes = e.first[:]
 	e.Cite(cite)
 	e.DateTime(datetime)
 	return e

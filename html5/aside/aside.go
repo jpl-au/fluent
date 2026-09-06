@@ -37,10 +37,8 @@ import (
 // Element represents the <aside> HTML element.
 type Element struct {
 	bufferhint atomic.Int64
-	first      [1]node.Node
 	hidden     hidden.Hidden
 	nodes      []node.Node
-	txt        text.Node
 	class      string
 	draggable  string
 	dynamic    string
@@ -53,6 +51,12 @@ type Element struct {
 	autofocus  bool
 	inert      bool
 	itemscope  bool
+}
+
+// textChild keeps the text and child slice together, independently of the parent.
+type textChild struct {
+	txt   text.Node
+	first [1]node.Node
 }
 
 // global returns the GlobalAttributes, initializing if nil
@@ -84,60 +88,55 @@ func New(nodes ...node.Node) *Element {
 // Example: aside.Text("Related articles")
 // Renders: <aside>Related articles</aside>
 func Text(str string) *Element {
-	e := &Element{
-		txt: *text.Text(str),
+	child := &textChild{txt: *text.Text(str)}
+	child.first[0] = &child.txt
+	return &Element{
+		nodes: child.first[:],
 	}
-	e.first[0] = &e.txt
-	e.nodes = e.first[:]
-	return e
 }
 
 // Static creates a new aside element with static text content. Uses text.Static which is not HTML-escaped and is JIT-optimisable.
 // Example: aside.Static("Did you know?")
 // Renders: <aside>Did you know?</aside>
 func Static(str string) *Element {
-	e := &Element{
-		txt: *text.Static(str),
+	child := &textChild{txt: *text.Static(str)}
+	child.first[0] = &child.txt
+	return &Element{
+		nodes: child.first[:],
 	}
-	e.first[0] = &e.txt
-	e.nodes = e.first[:]
-	return e
 }
 
 // RawText creates a new aside element with raw text content. Uses text.RawText which is not HTML-escaped.
 // Example: aside.RawText("<blockquote>A pull quote</blockquote>")
 // Renders: <aside><blockquote>A pull quote</blockquote></aside>
 func RawText(str string) *Element {
-	e := &Element{
-		txt: *text.RawText(str),
+	child := &textChild{txt: *text.RawText(str)}
+	child.first[0] = &child.txt
+	return &Element{
+		nodes: child.first[:],
 	}
-	e.first[0] = &e.txt
-	e.nodes = e.first[:]
-	return e
 }
 
 // Textf creates a new aside element with formatted text content. Uses text.Textf which HTML-escapes the output.
 // Example: aside.Textf("About %s", name)
 // Renders: <aside>About Mary</aside>
 func Textf(format string, args ...any) *Element {
-	e := &Element{
-		txt: *text.Text(fmt.Sprintf(format, args...)),
+	child := &textChild{txt: *text.Text(fmt.Sprintf(format, args...))}
+	child.first[0] = &child.txt
+	return &Element{
+		nodes: child.first[:],
 	}
-	e.first[0] = &e.txt
-	e.nodes = e.first[:]
-	return e
 }
 
 // RawTextf creates a new aside element with formatted raw text content. Uses text.RawTextf which is not HTML-escaped.
 // Example: aside.RawTextf("<p>By %s</p>", name)
 // Renders: <aside><p>By Mary</p></aside>
 func RawTextf(format string, args ...any) *Element {
-	e := &Element{
-		txt: *text.RawText(fmt.Sprintf(format, args...)),
+	child := &textChild{txt: *text.RawText(fmt.Sprintf(format, args...))}
+	child.first[0] = &child.txt
+	return &Element{
+		nodes: child.first[:],
 	}
-	e.first[0] = &e.txt
-	e.nodes = e.first[:]
-	return e
 }
 
 // Class sets the class attribute.

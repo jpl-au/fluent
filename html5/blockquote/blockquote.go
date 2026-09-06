@@ -36,10 +36,8 @@ import (
 // Element represents the <blockquote> HTML element.
 type Element struct {
 	bufferhint atomic.Int64
-	first      [1]node.Node
 	hidden     hidden.Hidden
 	nodes      []node.Node
-	txt        text.Node
 	cite       string
 	class      string
 	draggable  string
@@ -53,6 +51,12 @@ type Element struct {
 	autofocus  bool
 	inert      bool
 	itemscope  bool
+}
+
+// textChild keeps the text and child slice together, independently of the parent.
+type textChild struct {
+	txt   text.Node
+	first [1]node.Node
 }
 
 // global returns the GlobalAttributes, initializing if nil
@@ -94,86 +98,79 @@ func NewCite(cite string, nodes ...node.Node) *Element {
 // Example: blockquote.Text("To be or not to be.")
 // Renders: <blockquote>To be or not to be.</blockquote>
 func Text(str string) *Element {
-	e := &Element{
-		txt: *text.Text(str),
+	child := &textChild{txt: *text.Text(str)}
+	child.first[0] = &child.txt
+	return &Element{
+		nodes: child.first[:],
 	}
-	e.first[0] = &e.txt
-	e.nodes = e.first[:]
-	return e
 }
 
 // Textf creates a new blockquote element with formatted text content. Uses text.Textf which HTML-escapes the output.
 // Example: blockquote.Textf("%s once said...", name)
 // Renders: <blockquote>Mary once said...</blockquote>
 func Textf(format string, args ...any) *Element {
-	e := &Element{
-		txt: *text.Text(fmt.Sprintf(format, args...)),
+	child := &textChild{txt: *text.Text(fmt.Sprintf(format, args...))}
+	child.first[0] = &child.txt
+	return &Element{
+		nodes: child.first[:],
 	}
-	e.first[0] = &e.txt
-	e.nodes = e.first[:]
-	return e
 }
 
 // TextCite creates a new blockquote element with a citation URL and text content.
 // Example: blockquote.TextCite("https://example.com/source", "Quoted text.")
 // Renders: <blockquote cite="https://example.com/source">Quoted text.</blockquote>
 func TextCite(cite string, str string) *Element {
-	e := &Element{
-		txt:  *text.Text(str),
-		cite: node.EscapeAttribute(cite),
+	child := &textChild{txt: *text.Text(str)}
+	child.first[0] = &child.txt
+	return &Element{
+		nodes: child.first[:],
+		cite:  node.EscapeAttribute(cite),
 	}
-	e.first[0] = &e.txt
-	e.nodes = e.first[:]
-	return e
 }
 
 // Static creates a new blockquote element with static text content. Uses text.Static which is not HTML-escaped and is JIT-optimisable.
 // Example: blockquote.Static("Quoted text.")
 // Renders: <blockquote>Quoted text.</blockquote>
 func Static(str string) *Element {
-	e := &Element{
-		txt: *text.Static(str),
+	child := &textChild{txt: *text.Static(str)}
+	child.first[0] = &child.txt
+	return &Element{
+		nodes: child.first[:],
 	}
-	e.first[0] = &e.txt
-	e.nodes = e.first[:]
-	return e
 }
 
 // RawText creates a new blockquote element with raw text content. Uses text.RawText which is not HTML-escaped.
 // Example: blockquote.RawText("<p>Quoted text.</p>")
 // Renders: <blockquote><p>Quoted text.</p></blockquote>
 func RawText(str string) *Element {
-	e := &Element{
-		txt: *text.RawText(str),
+	child := &textChild{txt: *text.RawText(str)}
+	child.first[0] = &child.txt
+	return &Element{
+		nodes: child.first[:],
 	}
-	e.first[0] = &e.txt
-	e.nodes = e.first[:]
-	return e
 }
 
 // RawTextf creates a new blockquote element with formatted raw text content. Uses text.RawTextf which is not HTML-escaped.
 // Example: blockquote.RawTextf("<p>%s</p>", quote)
 // Renders: <blockquote><p>To be or not to be.</p></blockquote>
 func RawTextf(format string, args ...any) *Element {
-	e := &Element{
-		txt: *text.RawText(fmt.Sprintf(format, args...)),
+	child := &textChild{txt: *text.RawText(fmt.Sprintf(format, args...))}
+	child.first[0] = &child.txt
+	return &Element{
+		nodes: child.first[:],
 	}
-	e.first[0] = &e.txt
-	e.nodes = e.first[:]
-	return e
 }
 
 // RawTextCite creates a new blockquote element with a citation URL and raw text content as unescaped HTML.
 // Example: blockquote.RawTextCite("https://example.com/source", "<p>Quoted text.</p>")
 // Renders: <blockquote cite="https://example.com/source"><p>Quoted text.</p></blockquote>
 func RawTextCite(cite string, str string) *Element {
-	e := &Element{
-		txt:  *text.RawText(str),
-		cite: node.EscapeAttribute(cite),
+	child := &textChild{txt: *text.RawText(str)}
+	child.first[0] = &child.txt
+	return &Element{
+		nodes: child.first[:],
+		cite:  node.EscapeAttribute(cite),
 	}
-	e.first[0] = &e.txt
-	e.nodes = e.first[:]
-	return e
 }
 
 // Cite sets the cite attribute.

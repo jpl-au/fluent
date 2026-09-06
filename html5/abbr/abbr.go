@@ -36,10 +36,8 @@ import (
 // Element represents the <abbr> HTML element.
 type Element struct {
 	bufferhint atomic.Int64
-	first      [1]node.Node
 	hidden     hidden.Hidden
 	nodes      []node.Node
-	txt        text.Node
 	class      string
 	draggable  string
 	dynamic    string
@@ -53,6 +51,12 @@ type Element struct {
 	autofocus  bool
 	inert      bool
 	itemscope  bool
+}
+
+// textChild keeps the text and child slice together, independently of the parent.
+type textChild struct {
+	txt   text.Node
+	first [1]node.Node
 }
 
 // global returns the GlobalAttributes, initializing if nil
@@ -85,60 +89,55 @@ func New(nodes ...node.Node) *Element {
 // Example: abbr.Text("HTML")
 // Renders: <abbr>HTML</abbr>
 func Text(abbreviation string) *Element {
-	e := &Element{
-		txt: *text.Text(abbreviation),
+	child := &textChild{txt: *text.Text(abbreviation)}
+	child.first[0] = &child.txt
+	return &Element{
+		nodes: child.first[:],
 	}
-	e.first[0] = &e.txt
-	e.nodes = e.first[:]
-	return e
 }
 
 // Static creates a new abbreviation element with static text content. Uses text.Static which is not HTML-escaped and is JIT-optimisable.
 // Example: abbr.Static("HTML")
 // Renders: <abbr>HTML</abbr>
 func Static(abbreviation string) *Element {
-	e := &Element{
-		txt: *text.Static(abbreviation),
+	child := &textChild{txt: *text.Static(abbreviation)}
+	child.first[0] = &child.txt
+	return &Element{
+		nodes: child.first[:],
 	}
-	e.first[0] = &e.txt
-	e.nodes = e.first[:]
-	return e
 }
 
 // RawText creates a new abbreviation element with raw text content. Uses text.RawText which is not HTML-escaped.
 // Example: abbr.RawText("<strong>HTML</strong>")
 // Renders: <abbr><strong>HTML</strong></abbr>
 func RawText(abbreviation string) *Element {
-	e := &Element{
-		txt: *text.RawText(abbreviation),
+	child := &textChild{txt: *text.RawText(abbreviation)}
+	child.first[0] = &child.txt
+	return &Element{
+		nodes: child.first[:],
 	}
-	e.first[0] = &e.txt
-	e.nodes = e.first[:]
-	return e
 }
 
 // Textf creates a new abbreviation element with formatted text content. Uses text.Textf which HTML-escapes the output.
 // Example: abbr.Textf("v%d", 2)
 // Renders: <abbr>v2</abbr>
 func Textf(format string, args ...any) *Element {
-	e := &Element{
-		txt: *text.Text(fmt.Sprintf(format, args...)),
+	child := &textChild{txt: *text.Text(fmt.Sprintf(format, args...))}
+	child.first[0] = &child.txt
+	return &Element{
+		nodes: child.first[:],
 	}
-	e.first[0] = &e.txt
-	e.nodes = e.first[:]
-	return e
 }
 
 // RawTextf creates a new abbreviation element with formatted raw text content. Uses text.RawTextf which is not HTML-escaped.
 // Example: abbr.RawTextf("<b>%s</b>", "HTML")
 // Renders: <abbr><b>HTML</b></abbr>
 func RawTextf(format string, args ...any) *Element {
-	e := &Element{
-		txt: *text.RawText(fmt.Sprintf(format, args...)),
+	child := &textChild{txt: *text.RawText(fmt.Sprintf(format, args...))}
+	child.first[0] = &child.txt
+	return &Element{
+		nodes: child.first[:],
 	}
-	e.first[0] = &e.txt
-	e.nodes = e.first[:]
-	return e
 }
 
 // Titled creates a new abbreviation element with both the abbreviation text and its full expansion in the title
@@ -146,13 +145,12 @@ func RawTextf(format string, args ...any) *Element {
 // Example: abbr.Titled("HTML", "HyperText Markup Language")
 // Renders: <abbr title="HyperText Markup Language">HTML</abbr>
 func Titled(abbreviation string, title string) *Element {
-	e := &Element{
-		txt:   *text.Text(abbreviation),
+	child := &textChild{txt: *text.Text(abbreviation)}
+	child.first[0] = &child.txt
+	return &Element{
+		nodes: child.first[:],
 		title: node.EscapeAttribute(title),
 	}
-	e.first[0] = &e.txt
-	e.nodes = e.first[:]
-	return e
 }
 
 // Title sets the title attribute.

@@ -35,10 +35,8 @@ import (
 // Element represents the <ins> HTML element.
 type Element struct {
 	bufferhint atomic.Int64
-	first      [1]node.Node
 	hidden     hidden.Hidden
 	nodes      []node.Node
-	txt        text.Node
 	cite       string
 	class      string
 	dateTime   string
@@ -53,6 +51,12 @@ type Element struct {
 	autofocus  bool
 	inert      bool
 	itemscope  bool
+}
+
+// textChild keeps the text and child slice together, independently of the parent.
+type textChild struct {
+	txt   text.Node
+	first [1]node.Node
 }
 
 // global returns the GlobalAttributes, initializing if nil
@@ -84,60 +88,55 @@ func New(nodes ...node.Node) *Element {
 // Example: ins.Text("new price: $40")
 // Renders: <ins>new price: $40</ins>
 func Text(str string) *Element {
-	e := &Element{
-		txt: *text.Text(str),
+	child := &textChild{txt: *text.Text(str)}
+	child.first[0] = &child.txt
+	return &Element{
+		nodes: child.first[:],
 	}
-	e.first[0] = &e.txt
-	e.nodes = e.first[:]
-	return e
 }
 
 // Static creates a new ins element with static text content. Uses text.Static which is not HTML-escaped and is JIT-optimisable.
 // Example: ins.Static("This section was added.")
 // Renders: <ins>This section was added.</ins>
 func Static(str string) *Element {
-	e := &Element{
-		txt: *text.Static(str),
+	child := &textChild{txt: *text.Static(str)}
+	child.first[0] = &child.txt
+	return &Element{
+		nodes: child.first[:],
 	}
-	e.first[0] = &e.txt
-	e.nodes = e.first[:]
-	return e
 }
 
 // RawText creates a new ins element with raw text content. Uses text.RawText which is not HTML-escaped.
 // Example: ins.RawText("<p>New paragraph added.</p>")
 // Renders: <ins><p>New paragraph added.</p></ins>
 func RawText(str string) *Element {
-	e := &Element{
-		txt: *text.RawText(str),
+	child := &textChild{txt: *text.RawText(str)}
+	child.first[0] = &child.txt
+	return &Element{
+		nodes: child.first[:],
 	}
-	e.first[0] = &e.txt
-	e.nodes = e.first[:]
-	return e
 }
 
 // Textf creates a new ins element with formatted text content. Uses text.Textf which HTML-escapes the output.
 // Example: ins.Textf("price: $%d", newPrice)
 // Renders: <ins>price: $30</ins>
 func Textf(format string, args ...any) *Element {
-	e := &Element{
-		txt: *text.Text(fmt.Sprintf(format, args...)),
+	child := &textChild{txt: *text.Text(fmt.Sprintf(format, args...))}
+	child.first[0] = &child.txt
+	return &Element{
+		nodes: child.first[:],
 	}
-	e.first[0] = &e.txt
-	e.nodes = e.first[:]
-	return e
 }
 
 // RawTextf creates a new ins element with formatted raw text content. Uses text.RawTextf which is not HTML-escaped.
 // Example: ins.RawTextf("<strong>%s</strong>", newText)
 // Renders: <ins><strong>updated</strong></ins>
 func RawTextf(format string, args ...any) *Element {
-	e := &Element{
-		txt: *text.RawText(fmt.Sprintf(format, args...)),
+	child := &textChild{txt: *text.RawText(fmt.Sprintf(format, args...))}
+	child.first[0] = &child.txt
+	return &Element{
+		nodes: child.first[:],
 	}
-	e.first[0] = &e.txt
-	e.nodes = e.first[:]
-	return e
 }
 
 // Dated creates an ins element with text content and a timestamp indicating
@@ -145,13 +144,12 @@ func RawTextf(format string, args ...any) *Element {
 // Example: ins.Dated("new price: $40", "2024-01-15")
 // Renders: <ins datetime="2024-01-15">new price: $40</ins>
 func Dated(str string, datetime string) *Element {
-	e := &Element{
-		txt:      *text.Text(str),
+	child := &textChild{txt: *text.Text(str)}
+	child.first[0] = &child.txt
+	return &Element{
+		nodes:    child.first[:],
 		dateTime: node.EscapeAttribute(datetime),
 	}
-	e.first[0] = &e.txt
-	e.nodes = e.first[:]
-	return e
 }
 
 // Cited creates an ins element with text content and a URL documenting the
@@ -159,13 +157,12 @@ func Dated(str string, datetime string) *Element {
 // Example: ins.Cited("new paragraph", "/changelog#v2.2")
 // Renders: <ins cite="/changelog#v2.2">new paragraph</ins>
 func Cited(str string, cite string) *Element {
-	e := &Element{
-		txt:  *text.Text(str),
-		cite: node.EscapeAttribute(cite),
+	child := &textChild{txt: *text.Text(str)}
+	child.first[0] = &child.txt
+	return &Element{
+		nodes: child.first[:],
+		cite:  node.EscapeAttribute(cite),
 	}
-	e.first[0] = &e.txt
-	e.nodes = e.first[:]
-	return e
 }
 
 // Full creates an ins element with text content, a citation URL, and a
@@ -174,14 +171,13 @@ func Cited(str string, cite string) *Element {
 // Example: ins.Full("new price: $40", "/changelog", "2024-01-15")
 // Renders: <ins cite="/changelog" datetime="2024-01-15">new price: $40</ins>
 func Full(str string, cite string, datetime string) *Element {
-	e := &Element{
-		txt:      *text.Text(str),
+	child := &textChild{txt: *text.Text(str)}
+	child.first[0] = &child.txt
+	return &Element{
+		nodes:    child.first[:],
 		cite:     node.EscapeAttribute(cite),
 		dateTime: node.EscapeAttribute(datetime),
 	}
-	e.first[0] = &e.txt
-	e.nodes = e.first[:]
-	return e
 }
 
 // Cite sets the cite attribute.

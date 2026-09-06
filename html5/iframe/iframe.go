@@ -40,13 +40,11 @@ import (
 // Element represents the <iframe> HTML element.
 type Element struct {
 	bufferhint      atomic.Int64
-	first           [1]node.Node
 	hidden          hidden.Hidden
 	loading         loading.Loading
 	nodes           []node.Node
 	referrerpolicy  referrerpolicy.ReferrerPolicy
 	sandbox         sandbox.Sandbox
-	txt             text.Node
 	class           string
 	draggable       string
 	dynamic         string
@@ -63,6 +61,12 @@ type Element struct {
 	credentialless  bool
 	inert           bool
 	itemscope       bool
+}
+
+// textChild keeps the text and child slice together, independently of the parent.
+type textChild struct {
+	txt   text.Node
+	first [1]node.Node
 }
 
 // global returns the GlobalAttributes, initializing if nil
@@ -94,60 +98,55 @@ func New(nodes ...node.Node) *Element {
 // Example: iframe.Text("Your browser does not support iframes.")
 // Renders: <iframe>Your browser does not support iframes.</iframe>
 func Text(str string) *Element {
-	e := &Element{
-		txt: *text.Text(str),
+	child := &textChild{txt: *text.Text(str)}
+	child.first[0] = &child.txt
+	return &Element{
+		nodes: child.first[:],
 	}
-	e.first[0] = &e.txt
-	e.nodes = e.first[:]
-	return e
 }
 
 // Static creates a new iframe element with static fallback text content. Uses text.Static which is not HTML-escaped and is JIT-optimisable.
 // Example: iframe.Static("Loading embedded content...")
 // Renders: <iframe>Loading embedded content...</iframe>
 func Static(str string) *Element {
-	e := &Element{
-		txt: *text.Static(str),
+	child := &textChild{txt: *text.Static(str)}
+	child.first[0] = &child.txt
+	return &Element{
+		nodes: child.first[:],
 	}
-	e.first[0] = &e.txt
-	e.nodes = e.first[:]
-	return e
 }
 
 // RawText creates a new iframe element with raw fallback content. Uses text.RawText which is not HTML-escaped.
 // Example: iframe.RawText("<p>Fallback content</p>")
 // Renders: <iframe><p>Fallback content</p></iframe>
 func RawText(str string) *Element {
-	e := &Element{
-		txt: *text.RawText(str),
+	child := &textChild{txt: *text.RawText(str)}
+	child.first[0] = &child.txt
+	return &Element{
+		nodes: child.first[:],
 	}
-	e.first[0] = &e.txt
-	e.nodes = e.first[:]
-	return e
 }
 
 // Textf creates a new iframe element with formatted fallback text content. Uses text.Textf which HTML-escapes the output.
 // Example: iframe.Textf("Loading %s...", page)
 // Renders: <iframe>Loading Home...</iframe>
 func Textf(format string, args ...any) *Element {
-	e := &Element{
-		txt: *text.Text(fmt.Sprintf(format, args...)),
+	child := &textChild{txt: *text.Text(fmt.Sprintf(format, args...))}
+	child.first[0] = &child.txt
+	return &Element{
+		nodes: child.first[:],
 	}
-	e.first[0] = &e.txt
-	e.nodes = e.first[:]
-	return e
 }
 
 // RawTextf creates a new iframe element with formatted raw fallback content. Uses text.RawTextf which is not HTML-escaped.
 // Example: iframe.RawTextf("<p>Loading <strong>%s</strong>...</p>", page)
 // Renders: <iframe><p>Loading <strong>Home</strong>...</p></iframe>
 func RawTextf(format string, args ...any) *Element {
-	e := &Element{
-		txt: *text.RawText(fmt.Sprintf(format, args...)),
+	child := &textChild{txt: *text.RawText(fmt.Sprintf(format, args...))}
+	child.first[0] = &child.txt
+	return &Element{
+		nodes: child.first[:],
 	}
-	e.first[0] = &e.txt
-	e.nodes = e.first[:]
-	return e
 }
 
 // Lazy creates an iframe element with lazy loading enabled for improved performance.

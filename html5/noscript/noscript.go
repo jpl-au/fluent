@@ -35,10 +35,8 @@ import (
 // Element represents the <noscript> HTML element.
 type Element struct {
 	bufferhint atomic.Int64
-	first      [1]node.Node
 	hidden     hidden.Hidden
 	nodes      []node.Node
-	txt        text.Node
 	class      string
 	draggable  string
 	dynamic    string
@@ -51,6 +49,12 @@ type Element struct {
 	autofocus  bool
 	inert      bool
 	itemscope  bool
+}
+
+// textChild keeps the text and child slice together, independently of the parent.
+type textChild struct {
+	txt   text.Node
+	first [1]node.Node
 }
 
 // global returns the GlobalAttributes, initializing if nil
@@ -82,60 +86,55 @@ func New(nodes ...node.Node) *Element {
 // Example: noscript.Text("Please enable JavaScript to use this application.")
 // Renders: <noscript>Please enable JavaScript to use this application.</noscript>
 func Text(content string) *Element {
-	e := &Element{
-		txt: *text.Text(content),
+	child := &textChild{txt: *text.Text(content)}
+	child.first[0] = &child.txt
+	return &Element{
+		nodes: child.first[:],
 	}
-	e.first[0] = &e.txt
-	e.nodes = e.first[:]
-	return e
 }
 
 // Static creates a new noscript element with static text content. Uses text.Static which is not HTML-escaped and is JIT-optimisable.
 // Example: noscript.Static("JavaScript is required.")
 // Renders: <noscript>JavaScript is required.</noscript>
 func Static(content string) *Element {
-	e := &Element{
-		txt: *text.Static(content),
+	child := &textChild{txt: *text.Static(content)}
+	child.first[0] = &child.txt
+	return &Element{
+		nodes: child.first[:],
 	}
-	e.first[0] = &e.txt
-	e.nodes = e.first[:]
-	return e
 }
 
 // RawText creates a new noscript element with raw text content. Uses text.RawText which is not HTML-escaped.
 // Example: noscript.RawText("<p>Please <a href=\"/basic\">use the basic version</a>.</p>")
 // Renders: <noscript><p>Please <a href="/basic">use the basic version</a>.</p></noscript>
 func RawText(content string) *Element {
-	e := &Element{
-		txt: *text.RawText(content),
+	child := &textChild{txt: *text.RawText(content)}
+	child.first[0] = &child.txt
+	return &Element{
+		nodes: child.first[:],
 	}
-	e.first[0] = &e.txt
-	e.nodes = e.first[:]
-	return e
 }
 
 // Textf creates a new noscript element with formatted text content. Uses text.Textf which HTML-escapes the output.
 // Example: noscript.Textf("%s requires JavaScript.", app)
 // Renders: <noscript>Fluent requires JavaScript.</noscript>
 func Textf(format string, args ...any) *Element {
-	e := &Element{
-		txt: *text.Text(fmt.Sprintf(format, args...)),
+	child := &textChild{txt: *text.Text(fmt.Sprintf(format, args...))}
+	child.first[0] = &child.txt
+	return &Element{
+		nodes: child.first[:],
 	}
-	e.first[0] = &e.txt
-	e.nodes = e.first[:]
-	return e
 }
 
 // RawTextf creates a new noscript element with formatted raw text content. Uses text.RawTextf which is not HTML-escaped.
 // Example: noscript.RawTextf("<p>%s requires <strong>JavaScript</strong>.</p>", app)
 // Renders: <noscript><p>Fluent requires <strong>JavaScript</strong>.</p></noscript>
 func RawTextf(format string, args ...any) *Element {
-	e := &Element{
-		txt: *text.RawText(fmt.Sprintf(format, args...)),
+	child := &textChild{txt: *text.RawText(fmt.Sprintf(format, args...))}
+	child.first[0] = &child.txt
+	return &Element{
+		nodes: child.first[:],
 	}
-	e.first[0] = &e.txt
-	e.nodes = e.first[:]
-	return e
 }
 
 // Class sets the class attribute.

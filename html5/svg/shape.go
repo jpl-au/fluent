@@ -5,8 +5,14 @@ package svg
 import (
 	"bytes"
 
+	"github.com/jpl-au/fluent/html5/attr/cliprule"
+	"github.com/jpl-au/fluent/html5/attr/fillrule"
+	"github.com/jpl-au/fluent/html5/attr/pointerevents"
+	"github.com/jpl-au/fluent/html5/attr/shaperendering"
 	"github.com/jpl-au/fluent/html5/attr/strokelinecap"
 	"github.com/jpl-au/fluent/html5/attr/strokelinejoin"
+	"github.com/jpl-au/fluent/html5/attr/vectoreffect"
+	"github.com/jpl-au/fluent/html5/attr/visibility"
 	"github.com/jpl-au/fluent/node"
 	txt "github.com/jpl-au/fluent/text"
 )
@@ -34,29 +40,42 @@ func Raw(s string) Shape {
 // svgAttrs is the shared SVG attribute surface (the svg mixin). Every shape
 // embeds it via a lazily-initialised pointer reached through the svg() accessor.
 type svgAttrs struct {
-	ID              string
-	Class           string
-	Style           string
-	Transform       string
-	TabIndex        string
-	Role            string
-	Fill            string
-	Stroke          string
-	StrokeWidth     string
-	StrokeLineCap   strokelinecap.StrokeLineCap
-	StrokeLineJoin  strokelinejoin.StrokeLineJoin
-	StrokeDashArray string
-	Opacity         string
-	FillOpacity     string
-	StrokeOpacity   string
-	OnClick         string
-	OnMouseDown     string
-	OnMouseUp       string
-	OnMouseMove     string
-	OnMouseOver     string
-	OnMouseOut      string
-	OnFocus         string
-	OnBlur          string
+	ID               string
+	Class            string
+	Style            string
+	Transform        string
+	TransformOrigin  string
+	TabIndex         string
+	Role             string
+	Lang             string
+	AutoFocus        bool
+	Fill             string
+	Stroke           string
+	StrokeWidth      string
+	StrokeLineCap    strokelinecap.StrokeLineCap
+	StrokeLineJoin   strokelinejoin.StrokeLineJoin
+	StrokeDashArray  string
+	Opacity          string
+	FillOpacity      string
+	StrokeOpacity    string
+	StrokeDashOffset string
+	StrokeMiterLimit string
+	FillRule         fillrule.FillRule
+	ClipRule         cliprule.ClipRule
+	ClipPath         string
+	Mask             string
+	Filter           string
+	Color            string
+	Cursor           string
+	Display          string
+	Visibility       visibility.Visibility
+	PointerEvents    pointerevents.PointerEvents
+	VectorEffect     vectoreffect.VectorEffect
+	ShapeRendering   shaperendering.ShapeRendering
+	FontFamily       string
+	FontSize         string
+	FontWeight       string
+	FontStyle        string
 }
 
 // AttributeBuilder writes the shared svg attributes in declaration order.
@@ -81,6 +100,11 @@ func (a *svgAttrs) AttributeBuilder(buf *bytes.Buffer) {
 		buf.WriteString(a.Transform)
 		buf.Write(MarkupQuote)
 	}
+	if a.TransformOrigin != "" {
+		buf.Write(AttrTransformOrigin)
+		buf.WriteString(a.TransformOrigin)
+		buf.Write(MarkupQuote)
+	}
 	if a.TabIndex != "" {
 		buf.Write(AttrTabIndex)
 		buf.WriteString(a.TabIndex)
@@ -90,6 +114,14 @@ func (a *svgAttrs) AttributeBuilder(buf *bytes.Buffer) {
 		buf.Write(AttrRole)
 		buf.WriteString(a.Role)
 		buf.Write(MarkupQuote)
+	}
+	if a.Lang != "" {
+		buf.Write(AttrLang)
+		buf.WriteString(a.Lang)
+		buf.Write(MarkupQuote)
+	}
+	if a.AutoFocus {
+		buf.Write(AttrAutoFocus)
 	}
 	if a.Fill != "" {
 		buf.Write(AttrFill)
@@ -136,44 +168,94 @@ func (a *svgAttrs) AttributeBuilder(buf *bytes.Buffer) {
 		buf.WriteString(a.StrokeOpacity)
 		buf.Write(MarkupQuote)
 	}
-	if a.OnClick != "" {
-		buf.Write(AttrOnClick)
-		buf.WriteString(a.OnClick)
+	if a.StrokeDashOffset != "" {
+		buf.Write(AttrStrokeDashOffset)
+		buf.WriteString(a.StrokeDashOffset)
 		buf.Write(MarkupQuote)
 	}
-	if a.OnMouseDown != "" {
-		buf.Write(AttrOnMouseDown)
-		buf.WriteString(a.OnMouseDown)
+	if a.StrokeMiterLimit != "" {
+		buf.Write(AttrStrokeMiterLimit)
+		buf.WriteString(a.StrokeMiterLimit)
 		buf.Write(MarkupQuote)
 	}
-	if a.OnMouseUp != "" {
-		buf.Write(AttrOnMouseUp)
-		buf.WriteString(a.OnMouseUp)
+	if len(a.FillRule) > 0 {
+		buf.Write(AttrFillRule)
+		buf.Write(a.FillRule)
 		buf.Write(MarkupQuote)
 	}
-	if a.OnMouseMove != "" {
-		buf.Write(AttrOnMouseMove)
-		buf.WriteString(a.OnMouseMove)
+	if len(a.ClipRule) > 0 {
+		buf.Write(AttrClipRule)
+		buf.Write(a.ClipRule)
 		buf.Write(MarkupQuote)
 	}
-	if a.OnMouseOver != "" {
-		buf.Write(AttrOnMouseOver)
-		buf.WriteString(a.OnMouseOver)
+	if a.ClipPath != "" {
+		buf.Write(AttrClipPath)
+		buf.WriteString(a.ClipPath)
 		buf.Write(MarkupQuote)
 	}
-	if a.OnMouseOut != "" {
-		buf.Write(AttrOnMouseOut)
-		buf.WriteString(a.OnMouseOut)
+	if a.Mask != "" {
+		buf.Write(AttrMask)
+		buf.WriteString(a.Mask)
 		buf.Write(MarkupQuote)
 	}
-	if a.OnFocus != "" {
-		buf.Write(AttrOnFocus)
-		buf.WriteString(a.OnFocus)
+	if a.Filter != "" {
+		buf.Write(AttrFilter)
+		buf.WriteString(a.Filter)
 		buf.Write(MarkupQuote)
 	}
-	if a.OnBlur != "" {
-		buf.Write(AttrOnBlur)
-		buf.WriteString(a.OnBlur)
+	if a.Color != "" {
+		buf.Write(AttrColor)
+		buf.WriteString(a.Color)
+		buf.Write(MarkupQuote)
+	}
+	if a.Cursor != "" {
+		buf.Write(AttrCursor)
+		buf.WriteString(a.Cursor)
+		buf.Write(MarkupQuote)
+	}
+	if a.Display != "" {
+		buf.Write(AttrDisplay)
+		buf.WriteString(a.Display)
+		buf.Write(MarkupQuote)
+	}
+	if len(a.Visibility) > 0 {
+		buf.Write(AttrVisibility)
+		buf.Write(a.Visibility)
+		buf.Write(MarkupQuote)
+	}
+	if len(a.PointerEvents) > 0 {
+		buf.Write(AttrPointerEvents)
+		buf.Write(a.PointerEvents)
+		buf.Write(MarkupQuote)
+	}
+	if len(a.VectorEffect) > 0 {
+		buf.Write(AttrVectorEffect)
+		buf.Write(a.VectorEffect)
+		buf.Write(MarkupQuote)
+	}
+	if len(a.ShapeRendering) > 0 {
+		buf.Write(AttrShapeRendering)
+		buf.Write(a.ShapeRendering)
+		buf.Write(MarkupQuote)
+	}
+	if a.FontFamily != "" {
+		buf.Write(AttrFontFamily)
+		buf.WriteString(a.FontFamily)
+		buf.Write(MarkupQuote)
+	}
+	if a.FontSize != "" {
+		buf.Write(AttrFontSize)
+		buf.WriteString(a.FontSize)
+		buf.Write(MarkupQuote)
+	}
+	if a.FontWeight != "" {
+		buf.Write(AttrFontWeight)
+		buf.WriteString(a.FontWeight)
+		buf.Write(MarkupQuote)
+	}
+	if a.FontStyle != "" {
+		buf.Write(AttrFontStyle)
+		buf.WriteString(a.FontStyle)
 		buf.Write(MarkupQuote)
 	}
 }

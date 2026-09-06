@@ -1,8 +1,12 @@
 package html5_test
 
 import (
+	"bytes"
+	"runtime"
 	"strings"
+	"sync"
 	"testing"
+	"weak"
 
 	"github.com/jpl-au/fluent/html5/a"
 	"github.com/jpl-au/fluent/html5/area"
@@ -18,12 +22,15 @@ import (
 	"github.com/jpl-au/fluent/html5/object"
 	"github.com/jpl-au/fluent/html5/ol"
 	"github.com/jpl-au/fluent/html5/option"
+	"github.com/jpl-au/fluent/html5/pre"
 	"github.com/jpl-au/fluent/html5/progress"
 	"github.com/jpl-au/fluent/html5/source"
+	"github.com/jpl-au/fluent/html5/svg"
 	"github.com/jpl-au/fluent/html5/td"
 	"github.com/jpl-au/fluent/html5/textarea"
 	"github.com/jpl-au/fluent/html5/th"
 	"github.com/jpl-au/fluent/html5/video"
+	"github.com/jpl-au/fluent/text"
 )
 
 // TestZeroMeaningfulAttributesRender covers attributes where zero and absent
@@ -174,5 +181,99 @@ func TestDraggableIsEnumerated(t *testing.T) {
 	}
 	if got := string(a.New().Draggable(false).RenderBytes()); !strings.Contains(got, ` draggable="false"`) {
 		t.Errorf(`Draggable(false) should render draggable="false", got %q`, got)
+	}
+}
+
+// TestInputEmptyValueRenders covers value="" on the controls where an absent
+// value means something else: a checkbox or radio without a value submits "on",
+// so a caller who passes an empty string must get the attribute. The Value
+// setter follows the same rule.
+func TestInputEmptyValueRenders(t *testing.T) {
+	cases := []struct {
+		name string
+		html string
+		want string
+	}{
+		{"checkbox", string(input.Checkbox("flag", "").RenderBytes()), `<input name="flag" value="" type="checkbox">`},
+		{"radio", string(input.Radio("flag", "").RenderBytes()), `<input name="flag" value="" type="radio">`},
+		{"setter", string(input.New().Value("").RenderBytes()), `<input value="">`},
+	}
+	for _, tc := range cases {
+		if tc.html != tc.want {
+			t.Errorf("%s: got %q, want %q", tc.name, tc.html, tc.want)
+		}
+	}
+}
+
+// TestLeadingNewlineSurvives covers pre and textarea, whose start tag HTML
+// follows with one discarded newline. The element writes that newline itself,
+// so content that begins with a newline keeps it after parsing, and the split
+// render path writes the same bytes as the whole one.
+func TestLeadingNewlineSurvives(t *testing.T) {
+	cases := []struct {
+		name string
+		html string
+		want string
+	}{
+		{"textarea", string(textarea.Text("\nfirst\nsecond").RenderBytes()), "<textarea>\n\nfirst\nsecond</textarea>"},
+		{"pre", string(pre.Text("\nfirst").RenderBytes()), "<pre>\n\nfirst</pre>"},
+		{"empty textarea", string(textarea.New().RenderBytes()), "<textarea>\n</textarea>"},
+	}
+	for _, tc := range cases {
+		if tc.html != tc.want {
+			t.Errorf("%s: got %q, want %q", tc.name, tc.html, tc.want)
+		}
+	}
+
+	el := textarea.Text("value")
+	var split bytes.Buffer
+	el.RenderOpen(&split)
+	for _, child := range el.Nodes() {
+		child.RenderBuilder(&split)
+	}
+	el.RenderClose(&split)
+	if whole := string(el.RenderBytes()); split.String() != whole {
+		t.Errorf("split render %q differs from whole render %q", split.String(), whole)
+	}
+}
+
+// TestTextReplaceReleasesContent covers the text fast path: the text node a
+// constructor creates must not stay reachable from the element once Replace
+// has dropped it, or a long-lived element retains its first content for as
+// long as it lives.
+func TestTextReplaceReleasesContent(t *testing.T) {
+	el := div.Text("first content")
+	released := weak.Make(el.Nodes()[0].(*text.Node))
+	el.Replace()
+	runtime.GC()
+	if released.Value() != nil {
+		t.Error("replaced text node is still reachable from the element")
+	}
+	if got := string(el.RenderBytes()); got != "<div></div>" {
+		t.Errorf("got %q after Replace, want an empty div", got)
+	}
+}
+
+// TestSVGConcurrentFirstRender covers rendering one keyed shape from several
+// goroutines before any shared attribute was set. Rendering must not allocate
+// the shared attribute struct, or the first renders race on its pointer. The
+// race detector catches a regression; without it the outputs must still agree.
+func TestSVGConcurrentFirstRender(t *testing.T) {
+	shape := svg.Rect().Dynamic("shared")
+	results := make([]string, 8)
+	var wg sync.WaitGroup
+	for i := range results {
+		wg.Add(1)
+		go func() {
+			defer wg.Done()
+			results[i] = string(shape.RenderBytes())
+		}()
+	}
+	wg.Wait()
+	want := `<rect id="shared" />`
+	for i, got := range results {
+		if got != want {
+			t.Errorf("render %d: got %q, want %q", i, got, want)
+		}
 	}
 }

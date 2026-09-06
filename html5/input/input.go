@@ -61,12 +61,12 @@ type Element struct {
 	name                string
 	placeholder         string
 	src                 string
-	value               string
 	attr                *[]node.Attribute
 	ea                  *html5.EventAttributes
 	ga                  *html5.GlobalAttributes
 	maxlength           *int
 	tabindex            *int
+	value               *string
 	alpha               bool
 	autofocus           bool
 	checked             bool
@@ -106,10 +106,15 @@ func New() *Element {
 // Example: input.Text("title", "Mr")
 // Renders: <input name="title" value="Mr" type="text">
 func Text(name string, value string) *Element {
+	var valueVal *string
+	if value != "" {
+		v := node.EscapeAttribute(value)
+		valueVal = &v
+	}
 	return &Element{
 		inputType: inputtype.Text,
 		name:      node.EscapeAttribute(name),
-		value:     node.EscapeAttribute(value),
+		value:     valueVal,
 	}
 }
 
@@ -237,10 +242,11 @@ func Week(name string) *Element {
 // Example: input.Checkbox("agree", "yes")
 // Renders: <input name="agree" value="yes" type="checkbox">
 func Checkbox(name string, value string) *Element {
+	valueVal := node.EscapeAttribute(value)
 	return &Element{
 		inputType: inputtype.Checkbox,
 		name:      node.EscapeAttribute(name),
-		value:     node.EscapeAttribute(value),
+		value:     &valueVal,
 	}
 }
 
@@ -248,10 +254,11 @@ func Checkbox(name string, value string) *Element {
 // Example: input.Radio("gender", "male")
 // Renders: <input name="gender" value="male" type="radio">
 func Radio(name string, value string) *Element {
+	valueVal := node.EscapeAttribute(value)
 	return &Element{
 		inputType: inputtype.Radio,
 		name:      node.EscapeAttribute(name),
-		value:     node.EscapeAttribute(value),
+		value:     &valueVal,
 	}
 }
 
@@ -269,9 +276,14 @@ func File(name string) *Element {
 // Example: input.Submit("Submit Form")
 // Renders: <input value="Submit Form" type="submit">
 func Submit(value string) *Element {
+	var valueVal *string
+	if value != "" {
+		v := node.EscapeAttribute(value)
+		valueVal = &v
+	}
 	return &Element{
 		inputType: inputtype.Submit,
-		value:     node.EscapeAttribute(value),
+		value:     valueVal,
 	}
 }
 
@@ -279,9 +291,14 @@ func Submit(value string) *Element {
 // Example: input.Button("Click Me")
 // Renders: <input value="Click Me" type="button">
 func Button(value string) *Element {
+	var valueVal *string
+	if value != "" {
+		v := node.EscapeAttribute(value)
+		valueVal = &v
+	}
 	return &Element{
 		inputType: inputtype.Button,
-		value:     node.EscapeAttribute(value),
+		value:     valueVal,
 	}
 }
 
@@ -289,9 +306,14 @@ func Button(value string) *Element {
 // Example: input.Reset("Clear Form")
 // Renders: <input value="Clear Form" type="reset">
 func Reset(value string) *Element {
+	var valueVal *string
+	if value != "" {
+		v := node.EscapeAttribute(value)
+		valueVal = &v
+	}
 	return &Element{
 		inputType: inputtype.Reset,
-		value:     node.EscapeAttribute(value),
+		value:     valueVal,
 	}
 }
 
@@ -299,10 +321,15 @@ func Reset(value string) *Element {
 // Example: input.Hidden("csrf_token", "abc123")
 // Renders: <input name="csrf_token" value="abc123" type="hidden">
 func Hidden(name string, value string) *Element {
+	var valueVal *string
+	if value != "" {
+		v := node.EscapeAttribute(value)
+		valueVal = &v
+	}
 	return &Element{
 		inputType: inputtype.Hidden,
 		name:      node.EscapeAttribute(name),
-		value:     node.EscapeAttribute(value),
+		value:     valueVal,
 	}
 }
 
@@ -339,7 +366,8 @@ func (e *Element) Name(name string) *Element {
 //
 // Defines the initial value of the input control. For text-based inputs, this sets the default text displayed in the field. For buttons, it defines the text shown on the button. For checkboxes and radio buttons, it specifies the value that will be submitted if the control is selected. The value can be changed by user interaction or JavaScript.
 func (e *Element) Value(value string) *Element {
-	e.value = node.EscapeAttribute(value)
+	v := node.EscapeAttribute(value)
+	e.value = &v
 	return e
 }
 
@@ -2270,9 +2298,9 @@ func (e *Element) AttributeBuilder(buf *bytes.Buffer) {
 		buf.WriteString(e.name)
 		buf.Write(html5.MarkupQuote)
 	}
-	if e.value != "" {
+	if e.value != nil {
 		buf.Write(html5.AttrValue)
-		buf.WriteString(e.value)
+		buf.WriteString(*e.value)
 		buf.Write(html5.MarkupQuote)
 	}
 	if len(e.inputType) > 0 {

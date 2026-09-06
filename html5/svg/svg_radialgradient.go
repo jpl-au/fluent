@@ -9,34 +9,55 @@ import (
 	"sync/atomic"
 
 	"github.com/jpl-au/fluent"
+	"github.com/jpl-au/fluent/html5"
+	"github.com/jpl-au/fluent/html5/attr/cliprule"
+	"github.com/jpl-au/fluent/html5/attr/fillrule"
 	"github.com/jpl-au/fluent/html5/attr/gradientunits"
+	"github.com/jpl-au/fluent/html5/attr/pointerevents"
+	"github.com/jpl-au/fluent/html5/attr/shaperendering"
+	"github.com/jpl-au/fluent/html5/attr/spreadmethod"
 	"github.com/jpl-au/fluent/html5/attr/strokelinecap"
 	"github.com/jpl-au/fluent/html5/attr/strokelinejoin"
+	"github.com/jpl-au/fluent/html5/attr/vectoreffect"
+	"github.com/jpl-au/fluent/html5/attr/visibility"
 	"github.com/jpl-au/fluent/node"
 )
 
 // radialGradient represents the <radialGradient> SVG element.
 type radialGradient struct {
-	bufferhint    atomic.Int64
-	gradientUnits gradientunits.GradientUnits
-	nodes         []node.Node
-	cx            string
-	cy            string
-	dynamic       string
-	fx            string
-	fy            string
-	memoise       any
-	r             string
-	attr          *[]node.Attribute
-	sa            *svgAttrs
+	bufferhint        atomic.Int64
+	gradientUnits     gradientunits.GradientUnits
+	nodes             []node.Node
+	spreadMethod      spreadmethod.SpreadMethod
+	cx                string
+	cy                string
+	dynamic           string
+	fr                string
+	fx                string
+	fy                string
+	gradientTransform string
+	href              string
+	memoise           any
+	r                 string
+	attr              *[]node.Attribute
+	ea                *html5.EventAttributes
+	sa                *svgAttrs
 }
 
-// svg returns the shared svg attributes, initialising if nil.
+// svg returns the shared svgAttrs, initialising if nil.
 func (e *radialGradient) svg() *svgAttrs {
 	if e.sa == nil {
 		e.sa = &svgAttrs{}
 	}
 	return e.sa
+}
+
+// event returns the shared html5.EventAttributes, initialising if nil.
+func (e *radialGradient) event() *html5.EventAttributes {
+	if e.ea == nil {
+		e.ea = &html5.EventAttributes{}
+	}
+	return e.ea
 }
 
 // RadialGradient defines a radial colour gradient centred at (cx,cy) with radius
@@ -81,9 +102,44 @@ func (e *radialGradient) Fy(value string) *radialGradient {
 	return e
 }
 
+// Fr sets the fr attribute.
+//
+// The radius of the focal circle. The gradient runs from this circle at (fx,fy) out to the end circle of
+// radius r at (cx,cy). The default is 0, a focal point.
+func (e *radialGradient) Fr(value string) *radialGradient {
+	e.fr = node.EscapeAttribute(value)
+	return e
+}
+
 // GradientUnits sets the gradientUnits attribute.
 func (e *radialGradient) GradientUnits(value gradientunits.GradientUnits) *radialGradient {
 	e.gradientUnits = value
+	return e
+}
+
+// GradientTransform sets the gradientTransform attribute.
+//
+// A transform list applied to the gradient's coordinate system, for example "scale(1 0.5)" to flatten a
+// radial gradient into an ellipse.
+func (e *radialGradient) GradientTransform(value string) *radialGradient {
+	e.gradientTransform = node.EscapeAttribute(value)
+	return e
+}
+
+// SpreadMethod sets the spreadMethod attribute.
+//
+// How the gradient fills the area beyond the end circle: pad with the end colour, reflect, or repeat.
+func (e *radialGradient) SpreadMethod(value spreadmethod.SpreadMethod) *radialGradient {
+	e.spreadMethod = value
+	return e
+}
+
+// Href sets the href attribute.
+//
+// A reference to another gradient, as "#id", whose stops and attributes this gradient inherits unless it
+// sets its own. Define the stops once and reuse them with a different geometry.
+func (e *radialGradient) Href(value string) *radialGradient {
+	e.href = node.EscapeAttribute(value)
 	return e
 }
 
@@ -116,6 +172,15 @@ func (e *radialGradient) Transform(transform string) *radialGradient {
 	return e
 }
 
+// TransformOrigin sets the transform-origin attribute.
+//
+// The point a transform rotates or scales around, as CSS keywords or lengths such as "center" or
+// "50% 50%". The default is the origin of the user coordinate system, not the centre of the element.
+func (e *radialGradient) TransformOrigin(origin string) *radialGradient {
+	e.svg().TransformOrigin = node.EscapeAttribute(origin)
+	return e
+}
+
 // TabIndex sets the tabindex attribute.
 func (e *radialGradient) TabIndex(index string) *radialGradient {
 	e.svg().TabIndex = node.EscapeAttribute(index)
@@ -128,6 +193,29 @@ func (e *radialGradient) Role(role string) *radialGradient {
 	return e
 }
 
+// Lang sets the lang attribute.
+//
+// A BCP 47 language tag for the element's text content, such as "en" or "fr-CA". Assistive technology
+// and font selection use it. Descendants inherit it.
+func (e *radialGradient) Lang(lang string) *radialGradient {
+	e.svg().Lang = node.EscapeAttribute(lang)
+	return e
+}
+
+// AutoFocus sets the autofocus attribute.
+//
+// Requests focus for the element when the document loads. Only one element in a document should carry it.
+//
+// Calling without an argument sets the attribute. Pass a bool to control presence conditionally.
+func (e *radialGradient) AutoFocus(conds ...bool) *radialGradient {
+	if len(conds) > 0 {
+		e.svg().AutoFocus = conds[0]
+	} else {
+		e.svg().AutoFocus = true
+	}
+	return e
+}
+
 // SetAria sets an aria-* attribute. The key is prefixed with "aria-".
 //
 // The prefixed key is written to the rendered output verbatim. It is code, not data: pass a fixed,
@@ -135,6 +223,19 @@ func (e *radialGradient) Role(role string) *radialGradient {
 // "=", "/" or ">" changes the markup structure. The value is escaped; the key is not.
 func (e *radialGradient) SetAria(key string, value string) *radialGradient {
 	e.SetAttribute("aria-"+key, value)
+	return e
+}
+
+// SetData sets a data-* attribute. The key is prefixed with "data-".
+//
+// SVG 2 permits custom data attributes on every element, with the same meaning as in HTML. The
+// values are available to scripts through the element's dataset property.
+//
+// The prefixed key is written to the rendered output verbatim. It is code, not data: pass a fixed,
+// developer-controlled key. Never build the key from user input - a key containing a space, quote,
+// "=", "/" or ">" changes the markup structure. The value is escaped; the key is not.
+func (e *radialGradient) SetData(key string, value string) *radialGradient {
+	e.SetAttribute("data-"+key, value)
 	return e
 }
 
@@ -192,51 +293,1206 @@ func (e *radialGradient) StrokeOpacity(opacity string) *radialGradient {
 	return e
 }
 
+// StrokeDashOffset sets the stroke-dashoffset attribute.
+//
+// Where along the dash pattern the stroke starts. Animate it to move a dash pattern along a path.
+func (e *radialGradient) StrokeDashOffset(offset string) *radialGradient {
+	e.svg().StrokeDashOffset = node.EscapeAttribute(offset)
+	return e
+}
+
+// StrokeMiterLimit sets the stroke-miterlimit attribute.
+//
+// The ratio at which a miter join is cut to a bevel, so sharp corners do not extend far past the path.
+// Applies when stroke-linejoin is miter. The default is 4.
+func (e *radialGradient) StrokeMiterLimit(limit string) *radialGradient {
+	e.svg().StrokeMiterLimit = node.EscapeAttribute(limit)
+	return e
+}
+
+// FillRule sets the fill-rule attribute.
+//
+// How the inside of a self-intersecting or nested path is decided. Icon paths with holes usually need
+// evenodd.
+func (e *radialGradient) FillRule(rule fillrule.FillRule) *radialGradient {
+	e.svg().FillRule = rule
+	return e
+}
+
+// ClipRule sets the clip-rule attribute.
+//
+// The fill rule for shapes inside a clipPath when the clip region is computed. It has no effect outside
+// a clipPath.
+func (e *radialGradient) ClipRule(rule cliprule.ClipRule) *radialGradient {
+	e.svg().ClipRule = rule
+	return e
+}
+
+// ClipPath sets the clip-path attribute.
+//
+// A reference to a clipPath element, as "url(#id)", or a CSS basic shape such as "circle(40%)". Only the
+// parts of the element inside the clip render.
+func (e *radialGradient) ClipPath(clip string) *radialGradient {
+	e.svg().ClipPath = node.EscapeAttribute(clip)
+	return e
+}
+
+// Mask sets the mask attribute.
+//
+// A reference to a mask element, as "url(#id)". The luminance of the mask sets the opacity of the element
+// per pixel.
+func (e *radialGradient) Mask(mask string) *radialGradient {
+	e.svg().Mask = node.EscapeAttribute(mask)
+	return e
+}
+
+// Filter sets the filter attribute.
+//
+// A reference to a filter element, as "url(#id)", or a CSS filter function such as "blur(2px)".
+func (e *radialGradient) Filter(filter string) *radialGradient {
+	e.svg().Filter = node.EscapeAttribute(filter)
+	return e
+}
+
+// Color sets the color attribute.
+//
+// The value the currentColor keyword resolves to for this element and its descendants. Set it once on a
+// group and use fill="currentColor" on the shapes inside.
+func (e *radialGradient) Color(color string) *radialGradient {
+	e.svg().Color = node.EscapeAttribute(color)
+	return e
+}
+
+// Cursor sets the cursor attribute.
+//
+// The mouse cursor shown over the element, as a CSS cursor keyword such as "pointer".
+func (e *radialGradient) Cursor(cursor string) *radialGradient {
+	e.svg().Cursor = node.EscapeAttribute(cursor)
+	return e
+}
+
+// Display sets the display attribute.
+//
+// A CSS display value. "none" removes the element and its descendants from rendering. Unlike visibility,
+// a descendant of a display="none" element cannot be shown again.
+func (e *radialGradient) Display(display string) *radialGradient {
+	e.svg().Display = node.EscapeAttribute(display)
+	return e
+}
+
+// Visibility sets the visibility attribute.
+//
+// Whether the element is drawn. A hidden element keeps its place and a descendant can set visible to be
+// drawn again.
+func (e *radialGradient) Visibility(value visibility.Visibility) *radialGradient {
+	e.svg().Visibility = value
+	return e
+}
+
+// PointerEvents sets the pointer-events attribute.
+//
+// Which parts of the element are the target of pointer events. none lets events pass through to the
+// element below, which is the usual setting for overlays and decorations.
+func (e *radialGradient) PointerEvents(events pointerevents.PointerEvents) *radialGradient {
+	e.svg().PointerEvents = events
+	return e
+}
+
+// VectorEffect sets the vector-effect attribute.
+//
+// How the stroke responds to transforms. non-scaling-stroke keeps the stroke width constant when the
+// element or the viewport scales, which charts and diagrams usually want.
+func (e *radialGradient) VectorEffect(effect vectoreffect.VectorEffect) *radialGradient {
+	e.svg().VectorEffect = effect
+	return e
+}
+
+// ShapeRendering sets the shape-rendering attribute.
+//
+// A hint to the renderer on the trade-off between speed, crisp edges and geometric precision. crispEdges
+// turns off anti-aliasing so axis-aligned lines stay sharp.
+func (e *radialGradient) ShapeRendering(rendering shaperendering.ShapeRendering) *radialGradient {
+	e.svg().ShapeRendering = rendering
+	return e
+}
+
+// FontFamily sets the font-family attribute.
+//
+// The font family list for text in the element and its descendants, in CSS syntax. Set it on a group or
+// the root to apply to every text element inside.
+func (e *radialGradient) FontFamily(family string) *radialGradient {
+	e.svg().FontFamily = node.EscapeAttribute(family)
+	return e
+}
+
+// FontSize sets the font-size attribute.
+//
+// The font size for text in the element and its descendants, as a length or a CSS keyword. A bare number
+// is in user units.
+func (e *radialGradient) FontSize(size string) *radialGradient {
+	e.svg().FontSize = node.EscapeAttribute(size)
+	return e
+}
+
+// FontWeight sets the font-weight attribute.
+//
+// The font weight for text in the element and its descendants: a CSS keyword such as "bold" or a number
+// from 100 to 900.
+func (e *radialGradient) FontWeight(weight string) *radialGradient {
+	e.svg().FontWeight = node.EscapeAttribute(weight)
+	return e
+}
+
+// FontStyle sets the font-style attribute.
+//
+// The font style for text in the element and its descendants: "normal", "italic" or "oblique".
+func (e *radialGradient) FontStyle(style string) *radialGradient {
+	e.svg().FontStyle = node.EscapeAttribute(style)
+	return e
+}
+
 // OnClick sets the onclick attribute.
+//
+// Fired when an element is clicked with a pointing device (mouse, trackpad, or touch). The most commonly used event for
+// user interactions, triggering actions like navigation, form submission, modal opening, or any interactive behavior.
+// Available on virtually all elements, making it the primary event for user interface interactions.
 func (e *radialGradient) OnClick(handler string) *radialGradient {
-	e.svg().OnClick = node.EscapeAttribute(handler)
+	e.event().OnClick = node.EscapeAttribute(handler)
 	return e
 }
 
-// OnMouseDown sets the onmousedown attribute.
-func (e *radialGradient) OnMouseDown(handler string) *radialGradient {
-	e.svg().OnMouseDown = node.EscapeAttribute(handler)
+// OnChange sets the onchange attribute.
+//
+// Fired when the value of a form control has been committed by the user and the element loses focus. Differs from
+// oninput which fires on every keystroke. Used on <input>, <select>, and <textarea> elements for form validation,
+// data processing, dependent field updates, and saving draft changes. Essential for form workflows and user input
+// handling.
+func (e *radialGradient) OnChange(handler string) *radialGradient {
+	e.event().OnChange = node.EscapeAttribute(handler)
 	return e
 }
 
-// OnMouseUp sets the onmouseup attribute.
-func (e *radialGradient) OnMouseUp(handler string) *radialGradient {
-	e.svg().OnMouseUp = node.EscapeAttribute(handler)
-	return e
-}
-
-// OnMouseMove sets the onmousemove attribute.
-func (e *radialGradient) OnMouseMove(handler string) *radialGradient {
-	e.svg().OnMouseMove = node.EscapeAttribute(handler)
-	return e
-}
-
-// OnMouseOver sets the onmouseover attribute.
-func (e *radialGradient) OnMouseOver(handler string) *radialGradient {
-	e.svg().OnMouseOver = node.EscapeAttribute(handler)
-	return e
-}
-
-// OnMouseOut sets the onmouseout attribute.
-func (e *radialGradient) OnMouseOut(handler string) *radialGradient {
-	e.svg().OnMouseOut = node.EscapeAttribute(handler)
+// OnInput sets the oninput attribute.
+//
+// Fired immediately when the value of an input element changes (every keystroke, paste, etc.). Unlike onchange, it
+// fires before the element loses focus. Used on <input>, <select>, and <textarea> for real-time validation,
+// auto-save, search suggestions, character counters, or live form updates. Perfect for responsive user interfaces.
+func (e *radialGradient) OnInput(handler string) *radialGradient {
+	e.event().OnInput = node.EscapeAttribute(handler)
 	return e
 }
 
 // OnFocus sets the onfocus attribute.
+//
+// Fired when an element receives focus, typically through clicking, tabbing, or programmatic focus(). Commonly used
+// on form elements to show input helpers, highlight fields, display validation messages, auto-select content, or
+// trigger contextual UI changes. Essential for accessibility and guided user experiences.
 func (e *radialGradient) OnFocus(handler string) *radialGradient {
-	e.svg().OnFocus = node.EscapeAttribute(handler)
+	e.event().OnFocus = node.EscapeAttribute(handler)
 	return e
 }
 
 // OnBlur sets the onblur attribute.
+//
+// Fired when an element loses focus, typically when the user clicks elsewhere or tabs to another element. Commonly
+// used on form inputs (<input>, <textarea>, <select>) to validate input, save drafts, hide dropdowns, or trigger
+// field-specific actions. Essential for form validation workflows and user experience enhancements.
 func (e *radialGradient) OnBlur(handler string) *radialGradient {
-	e.svg().OnBlur = node.EscapeAttribute(handler)
+	e.event().OnBlur = node.EscapeAttribute(handler)
+	return e
+}
+
+// OnSubmit sets the onsubmit attribute.
+//
+// Fired when a form is submitted, either by clicking a submit button or pressing Enter in a form field. Occurs on
+// <form> elements and provides the last opportunity to validate data, prevent submission with preventDefault(), show
+// loading states, or perform custom submission handling like AJAX requests.
+func (e *radialGradient) OnSubmit(handler string) *radialGradient {
+	e.event().OnSubmit = node.EscapeAttribute(handler)
+	return e
+}
+
+// OnLoad sets the onload attribute.
+//
+// Fired when a resource and all its dependencies have finished loading successfully. Commonly used on images,
+// scripts, stylesheets, iframes, and the window object. Essential for initializing functionality, showing content,
+// removing loading indicators, starting animations, or executing code that depends on loaded resources.
+func (e *radialGradient) OnLoad(handler string) *radialGradient {
+	e.SetAttribute("onload", handler)
+	return e
+}
+
+// OnError sets the onerror attribute.
+//
+// Fired when an error occurs during resource loading or processing. Common on images, scripts, stylesheets, media
+// elements, and other resources that can fail to load. Essential for error handling, showing fallback content,
+// implementing retry logic, logging failures, or providing user-friendly error messages when resources are
+// unavailable.
+func (e *radialGradient) OnError(handler string) *radialGradient {
+	e.SetAttribute("onerror", handler)
+	return e
+}
+
+// SetEvent sets a custom event handler attribute on the element. Prefer the typed On*() methods where they exist.
+//
+// Generic method to add an event using SetEvent(key, value)
+//
+// The key is written to the rendered output verbatim. It is code, not data: pass a fixed,
+// developer-controlled key. Never build the key from user input - a key containing a space, quote,
+// "=", "/" or ">" changes the markup structure. The value is escaped; the key is not.
+func (e *radialGradient) SetEvent(key string, value string) *radialGradient {
+	e.SetAttribute(key, value)
+	return e
+}
+
+// OnAbort sets the onabort attribute.
+//
+// Fired when loading of a resource (image, audio, video, or other media) has been aborted before it completed
+// successfully. This occurs when the user navigates away from the page, cancels the download, or when the loading
+// is interrupted programmatically. Commonly used on media elements (<audio>, <video>), images (<img>), and objects
+// (<object>) to handle interrupted loading states and clean up resources.
+func (e *radialGradient) OnAbort(handler string) *radialGradient {
+	e.SetAttribute("onabort", handler)
+	return e
+}
+
+// OnAutoComplete sets the onautocomplete attribute.
+//
+// Fired when an input field's autocomplete functionality successfully provides a suggestion that the user accepts.
+// This occurs on <input> elements with autocomplete="on" when the browser's autocomplete dropdown is used to fill
+// the field. Useful for tracking user interaction with browser autocomplete features, form analytics, and
+// implementing custom behavior when autocomplete values are selected.
+//
+// Deprecated: Removed from the WHATWG living standard. Was in an older HTML5 draft.
+func (e *radialGradient) OnAutoComplete(handler string) *radialGradient {
+	e.SetAttribute("onautocomplete", handler)
+	return e
+}
+
+// OnAutoCompleteError sets the onautocompleteerror attribute.
+//
+// Fired when an input field's autocomplete functionality encounters an error while attempting to provide
+// suggestions. This occurs on <input> elements with autocomplete="on" when the browser fails to retrieve or
+// process autocomplete data. Useful for error handling in forms, fallback autocomplete implementations, and
+// debugging autocomplete issues.
+//
+// Deprecated: Removed from the WHATWG living standard. Was in an older HTML5 draft.
+func (e *radialGradient) OnAutoCompleteError(handler string) *radialGradient {
+	e.SetAttribute("onautocompleteerror", handler)
+	return e
+}
+
+// OnCancel sets the oncancel attribute.
+//
+// Fired when a <dialog> element is cancelled, typically by pressing the Escape key. This event allows you to handle
+// dialog cancellation gracefully, perform cleanup operations, reset form state, or prevent the dialog from closing
+// by calling preventDefault(). Useful for confirming unsaved changes before closing modal dialogs.
+func (e *radialGradient) OnCancel(handler string) *radialGradient {
+	e.SetAttribute("oncancel", handler)
+	return e
+}
+
+// OnCanPlay sets the oncanplay attribute.
+//
+// Fired when enough media data has been loaded to begin playback, but not necessarily to play through to the end
+// without buffering. Occurs on <audio> and <video> elements when the media is ready to start playing. Useful for
+// showing play buttons, enabling media controls, preloading indicators, or triggering autoplay functionality.
+func (e *radialGradient) OnCanPlay(handler string) *radialGradient {
+	e.SetAttribute("oncanplay", handler)
+	return e
+}
+
+// OnCanPlayThrough sets the oncanplaythrough attribute.
+//
+// Fired when enough media data has been loaded to play through to the end without interruption for buffering.
+// Occurs on <audio> and <video> elements when the entire media file can be played smoothly. Ideal for hiding
+// loading spinners, enabling higher quality playback options, or triggering seamless media experiences.
+func (e *radialGradient) OnCanPlayThrough(handler string) *radialGradient {
+	e.SetAttribute("oncanplaythrough", handler)
+	return e
+}
+
+// OnClose sets the onclose attribute.
+//
+// Fired when a <dialog> element is closed, either programmatically or by user action. Unlike oncancel, this event
+// fires for all dialog closing methods (close button, form submission, JavaScript close()). Useful for cleanup
+// operations, saving dialog state, triggering follow-up actions, or updating the parent page based on dialog
+// results.
+func (e *radialGradient) OnClose(handler string) *radialGradient {
+	e.SetAttribute("onclose", handler)
+	return e
+}
+
+// OnContextMenu sets the oncontextmenu attribute.
+//
+// Fired when the user attempts to open a context menu, typically via right-click, Shift+F10, or long-press on
+// touch devices. Can be prevented with preventDefault() to implement custom context menus. Commonly used for
+// creating application-specific menus, disabling right-click functionality, or providing contextual actions based
+// on the target element.
+func (e *radialGradient) OnContextMenu(handler string) *radialGradient {
+	e.SetAttribute("oncontextmenu", handler)
+	return e
+}
+
+// OnCueChange sets the oncuechange attribute.
+//
+// Fired when the active cues of a TextTrack change, typically in video subtitles, captions, or chapter markers.
+// Occurs on <track> elements when different text cues become active during media playback. Useful for implementing
+// custom subtitle styling, accessibility features, chapter navigation, or synchronized content based on video
+// timestamps.
+func (e *radialGradient) OnCueChange(handler string) *radialGradient {
+	e.SetAttribute("oncuechange", handler)
+	return e
+}
+
+// OnDblClick sets the ondblclick attribute.
+//
+// Fired when an element is double-clicked rapidly (two clicks in quick succession). Commonly used for actions like
+// opening files, editing text in place, zooming, or toggling between states. Note that ondblclick typically
+// prevents the second onclick event from firing, making it suitable for distinct double-click actions.
+func (e *radialGradient) OnDblClick(handler string) *radialGradient {
+	e.SetAttribute("ondblclick", handler)
+	return e
+}
+
+// OnDrag sets the ondrag attribute.
+//
+// Fired repeatedly (every few hundred milliseconds) during a drag operation while the user is dragging an element.
+// Used on draggable elements to provide visual feedback, update drag ghost images, track drag progress, or
+// implement custom drag behaviors. Essential for smooth drag-and-drop interfaces and interactive element
+// manipulation.
+func (e *radialGradient) OnDrag(handler string) *radialGradient {
+	e.SetAttribute("ondrag", handler)
+	return e
+}
+
+// OnDragEnd sets the ondragend attribute.
+//
+// Fired when a drag operation concludes, whether successful (dropped on valid target) or cancelled (Escape key,
+// invalid drop zone). Occurs on the dragged element and is useful for cleanup operations, resetting drag states,
+// removing visual indicators, or logging drag completion. Always fires after ondrop or dragover events complete.
+func (e *radialGradient) OnDragEnd(handler string) *radialGradient {
+	e.SetAttribute("ondragend", handler)
+	return e
+}
+
+// OnDragEnter sets the ondragenter attribute.
+//
+// Fired when a dragged element first enters a potential drop target. Occurs on the drop target element and is
+// commonly used to highlight drop zones, show insertion indicators, or prepare the target for receiving dropped
+// content. Often paired with preventing default behavior to indicate the target accepts drops.
+func (e *radialGradient) OnDragEnter(handler string) *radialGradient {
+	e.SetAttribute("ondragenter", handler)
+	return e
+}
+
+// OnDragLeave sets the ondragleave attribute.
+//
+// Fired when a dragged element exits a drop target area. Occurs on the drop target element and is typically used
+// to remove drop zone highlights, hide insertion indicators, or reset the target's visual state. Important for
+// maintaining clean visual feedback during drag operations and avoiding stuck highlight states.
+func (e *radialGradient) OnDragLeave(handler string) *radialGradient {
+	e.SetAttribute("ondragleave", handler)
+	return e
+}
+
+// OnDragOver sets the ondragover attribute.
+//
+// Fired repeatedly while a dragged element hovers over a drop target. Essential for enabling drops - must call
+// preventDefault() to allow dropping. Used to update drop indicators, determine exact drop position, provide
+// visual feedback, or validate whether the current drag data is acceptable for this drop target.
+func (e *radialGradient) OnDragOver(handler string) *radialGradient {
+	e.SetAttribute("ondragover", handler)
+	return e
+}
+
+// OnDragStart sets the ondragstart attribute.
+//
+// Fired when a drag operation begins, triggered by the user starting to drag a draggable element. Occurs on the
+// source element being dragged and is used to set drag data with setData(), customize the drag image, define
+// allowed drag effects, or prepare the element for dragging. The foundation event for all drag-and-drop
+// operations.
+func (e *radialGradient) OnDragStart(handler string) *radialGradient {
+	e.SetAttribute("ondragstart", handler)
+	return e
+}
+
+// OnDrop sets the ondrop attribute.
+//
+// Fired when a dragged element is successfully dropped on a drop target. Occurs after dragover events and
+// represents the completion of a drag-and-drop operation. Used to process the dropped data with getData(), move
+// elements, update application state, or trigger follow-up actions. Must call preventDefault() in dragover to
+// enable dropping.
+func (e *radialGradient) OnDrop(handler string) *radialGradient {
+	e.SetAttribute("ondrop", handler)
+	return e
+}
+
+// OnDurationChange sets the ondurationchange attribute.
+//
+// Fired when the duration of media content becomes available or changes. Occurs on <audio> and <video> elements
+// when metadata is loaded or when switching to different media sources. Useful for updating progress bars,
+// calculating playback positions, enabling seeking controls, or displaying total media duration to users.
+func (e *radialGradient) OnDurationChange(handler string) *radialGradient {
+	e.SetAttribute("ondurationchange", handler)
+	return e
+}
+
+// OnEmptied sets the onemptied attribute.
+//
+// Fired when media element is reset to empty state, typically when load() is called to reload media or when the
+// source changes. Occurs on <audio> and <video> elements and indicates that previous media data is no longer
+// available. Useful for resetting player UI, clearing cached data, showing loading states, or preparing for new
+// media content.
+func (e *radialGradient) OnEmptied(handler string) *radialGradient {
+	e.SetAttribute("onemptied", handler)
+	return e
+}
+
+// OnEnded sets the onended attribute.
+//
+// Fired when media playback reaches the end of the content. Occurs on <audio> and <video> elements when the media
+// finishes playing naturally (not when paused or stopped by user). Commonly used for playing next track, showing
+// replay options, triggering analytics, hiding playback controls, or starting related content.
+func (e *radialGradient) OnEnded(handler string) *radialGradient {
+	e.SetAttribute("onended", handler)
+	return e
+}
+
+// OnInvalid sets the oninvalid attribute.
+//
+// Fired when form validation fails on a submittable element during form submission. Occurs before the form submits
+// when built-in HTML5 validation constraints are not met (required, pattern, min/max, etc.). Used for custom
+// validation messages, focusing invalid fields, preventing submission, or implementing custom validation UI.
+func (e *radialGradient) OnInvalid(handler string) *radialGradient {
+	e.SetAttribute("oninvalid", handler)
+	return e
+}
+
+// OnKeyDown sets the onkeydown attribute.
+//
+// Fired when a key is pressed down, before any character is generated. Captures all keys including modifiers
+// (Ctrl, Alt, Shift), function keys, and arrows. Used for keyboard shortcuts, game controls, navigation,
+// preventing default key behavior, or implementing custom key handling. Fires repeatedly when key is held down.
+func (e *radialGradient) OnKeyDown(handler string) *radialGradient {
+	e.event().OnKeyDown = node.EscapeAttribute(handler)
+	return e
+}
+
+// OnKeyPress sets the onkeypress attribute.
+//
+// Fired when a key press results in a character being generated. Only triggers for printable characters, not for
+// modifier or function keys. Deprecated in favor of onkeydown and oninput events. Historically used for character
+// input validation, but modern applications should use onkeydown for key detection and oninput for content
+// changes.
+func (e *radialGradient) OnKeyPress(handler string) *radialGradient {
+	e.SetAttribute("onkeypress", handler)
+	return e
+}
+
+// OnKeyUp sets the onkeyup attribute.
+//
+// Fired when a pressed key is released. Often paired with onkeydown for complete key interaction handling. Used
+// for ending keyboard shortcuts, stopping repeated actions, implementing key combinations, detecting when modifier
+// keys are released, or triggering actions that should occur after key input is complete.
+func (e *radialGradient) OnKeyUp(handler string) *radialGradient {
+	e.event().OnKeyUp = node.EscapeAttribute(handler)
+	return e
+}
+
+// OnLoadedData sets the onloadeddata attribute.
+//
+// Fired when enough media data has loaded to render the first frame. Occurs on <audio> and <video> elements when
+// initial media content is available for display. Useful for showing video thumbnails, enabling scrubbing
+// controls, displaying media dimensions, or indicating that media is ready for interaction.
+func (e *radialGradient) OnLoadedData(handler string) *radialGradient {
+	e.SetAttribute("onloadeddata", handler)
+	return e
+}
+
+// OnLoadedMetadata sets the onloadedmetadata attribute.
+//
+// Fired when media metadata (duration, dimensions, text tracks) has been loaded. Occurs on <audio> and <video>
+// elements before actual media data loads. Useful for setting up player UI, configuring progress bars, enabling
+// seeking, displaying video dimensions, or initializing media-dependent features.
+func (e *radialGradient) OnLoadedMetadata(handler string) *radialGradient {
+	e.SetAttribute("onloadedmetadata", handler)
+	return e
+}
+
+// OnLoadStart sets the onloadstart attribute.
+//
+// Fired when the browser begins loading a resource, typically on media elements, images, or during fetch
+// operations. Indicates the start of the loading process before any data is actually received. Useful for showing
+// loading indicators, starting progress tracking, initializing loading states, or logging load attempts.
+func (e *radialGradient) OnLoadStart(handler string) *radialGradient {
+	e.SetAttribute("onloadstart", handler)
+	return e
+}
+
+// OnMouseDown sets the onmousedown attribute.
+//
+// Fired when a mouse button is pressed down on an element. The first part of a click interaction, followed by
+// mouseup. Used for drag operations, custom button effects, games, drawing applications, or implementing custom
+// click behaviors. Can distinguish between left, middle, and right mouse buttons.
+func (e *radialGradient) OnMouseDown(handler string) *radialGradient {
+	e.SetAttribute("onmousedown", handler)
+	return e
+}
+
+// OnMouseEnter sets the onmouseenter attribute.
+//
+// Fired when the mouse pointer enters an element's boundaries. Does not bubble and only fires once when entering,
+// not when moving over child elements. Perfect for hover effects, tooltips, dropdown menus, highlighting
+// elements, or triggering UI changes when users mouse over interactive components.
+func (e *radialGradient) OnMouseEnter(handler string) *radialGradient {
+	e.SetAttribute("onmouseenter", handler)
+	return e
+}
+
+// OnMouseLeave sets the onmouseleave attribute.
+//
+// Fired when the mouse pointer exits an element's boundaries. Does not bubble and only fires when leaving the
+// element, not when moving to child elements. Paired with onmouseenter for clean hover states, hiding tooltips,
+// closing dropdowns, or removing highlights when users stop hovering.
+func (e *radialGradient) OnMouseLeave(handler string) *radialGradient {
+	e.SetAttribute("onmouseleave", handler)
+	return e
+}
+
+// OnMouseMove sets the onmousemove attribute.
+//
+// Fired continuously while the mouse moves over an element. Can fire many times per second, so consider throttling
+// for performance. Used for mouse tracking, custom cursors, drag operations, drawing applications, interactive
+// games, or creating mouse-following effects. Provides precise cursor position data.
+func (e *radialGradient) OnMouseMove(handler string) *radialGradient {
+	e.SetAttribute("onmousemove", handler)
+	return e
+}
+
+// OnMouseOut sets the onmouseout attribute.
+//
+// Fired when the mouse pointer leaves an element or moves to one of its child elements. Unlike onmouseleave, this
+// event bubbles and can fire when moving over child elements. Less commonly used than onmouseleave due to its
+// bubbling behavior, but useful for specific event delegation scenarios.
+func (e *radialGradient) OnMouseOut(handler string) *radialGradient {
+	e.SetAttribute("onmouseout", handler)
+	return e
+}
+
+// OnMouseOver sets the onmouseover attribute.
+//
+// Fired when the mouse pointer enters an element or moves to one of its child elements. Unlike onmouseenter, this
+// event bubbles and can fire multiple times when moving over child elements. Less commonly used than onmouseenter
+// due to its bubbling behavior, but useful for event delegation or complex hover tracking.
+func (e *radialGradient) OnMouseOver(handler string) *radialGradient {
+	e.SetAttribute("onmouseover", handler)
+	return e
+}
+
+// OnMouseUp sets the onmouseup attribute.
+//
+// Fired when a mouse button is released after being pressed down. Completes a click interaction when combined
+// with mousedown. Used for finishing drag operations, custom button behaviors, click completion handling, or
+// implementing mouse-based interactions that require both press and release detection.
+func (e *radialGradient) OnMouseUp(handler string) *radialGradient {
+	e.SetAttribute("onmouseup", handler)
+	return e
+}
+
+// OnMouseWheel sets the onmousewheel attribute.
+//
+// Fired when the mouse wheel is scrolled. Detects vertical and horizontal scrolling from mouse wheels or trackpad
+// gestures. Used for custom scrolling behavior, zooming, volume controls, image galleries, or implementing
+// scroll-based interactions. Provides delta values for scroll direction and amount.
+//
+// Deprecated: Not in the WHATWG living standard. Use OnWheel instead.
+func (e *radialGradient) OnMouseWheel(handler string) *radialGradient {
+	e.SetAttribute("onmousewheel", handler)
+	return e
+}
+
+// OnPause sets the onpause attribute.
+//
+// Fired when media playback is paused, either by user action or programmatically. Occurs on <audio> and <video>
+// elements when playback stops but remains ready to resume. Used for updating play/pause buttons, saving playback
+// position, pausing related animations, analytics tracking, or triggering pause-related functionality.
+func (e *radialGradient) OnPause(handler string) *radialGradient {
+	e.SetAttribute("onpause", handler)
+	return e
+}
+
+// OnPlay sets the onplay attribute.
+//
+// Fired when media playback is requested to start, either by user action or programmatically. Occurs on <audio>
+// and <video> elements when transitioning from paused to playing state. Note this fires when play is requested,
+// not when actually playing (use onplaying for that). Used for updating UI controls and preparing for playback.
+func (e *radialGradient) OnPlay(handler string) *radialGradient {
+	e.SetAttribute("onplay", handler)
+	return e
+}
+
+// OnPlaying sets the onplaying attribute.
+//
+// Fired when media playback actually begins after being paused or delayed due to buffering. Occurs on <audio> and
+// <video> elements when media is actively playing content. Used for updating player UI, starting progress
+// tracking, enabling playback-dependent features, or triggering actions that should occur during active playback.
+func (e *radialGradient) OnPlaying(handler string) *radialGradient {
+	e.SetAttribute("onplaying", handler)
+	return e
+}
+
+// OnProgress sets the onprogress attribute.
+//
+// Fired periodically during media loading to indicate download progress. Occurs on <audio> and <video> elements
+// and provides information about how much content has been buffered. Used for updating progress bars, showing
+// buffering indicators, enabling progressive playback, or estimating load completion times.
+func (e *radialGradient) OnProgress(handler string) *radialGradient {
+	e.SetAttribute("onprogress", handler)
+	return e
+}
+
+// OnRateChange sets the onratechange attribute.
+//
+// Fired when media playback speed changes. Occurs on <audio> and <video> elements when the playbackRate property
+// is modified (e.g., 0.5x, 1x, 1.5x, 2x speed). Used for updating speed indicators, adjusting UI controls,
+// synchronizing playback-dependent animations, or implementing custom playback speed controls.
+func (e *radialGradient) OnRateChange(handler string) *radialGradient {
+	e.SetAttribute("onratechange", handler)
+	return e
+}
+
+// OnReset sets the onreset attribute.
+//
+// Fired when a form is reset to its initial state, either by clicking a reset button or calling the form's
+// reset() method. Occurs on <form> elements and provides an opportunity to handle the reset action, clear custom
+// validation states, reset dynamic content, or prevent the reset if needed.
+func (e *radialGradient) OnReset(handler string) *radialGradient {
+	e.SetAttribute("onreset", handler)
+	return e
+}
+
+// OnResize sets the onresize attribute.
+//
+// Fired when the browser window or element is resized. Commonly used on the window object to handle viewport
+// changes, but also available on resizable elements. Essential for responsive design, updating layouts,
+// recalculating positions, adjusting canvas sizes, or triggering responsive behavior based on size changes.
+func (e *radialGradient) OnResize(handler string) *radialGradient {
+	e.SetAttribute("onresize", handler)
+	return e
+}
+
+// OnScroll sets the onscroll attribute.
+//
+// Fired when an element's scroll position changes. Can fire rapidly during scrolling, so consider throttling for
+// performance. Used for implementing scroll-based animations, infinite scroll, sticky headers, scroll progress
+// indicators, lazy loading, or triggering content updates based on scroll position.
+func (e *radialGradient) OnScroll(handler string) *radialGradient {
+	e.SetAttribute("onscroll", handler)
+	return e
+}
+
+// OnSeeked sets the onseeked attribute.
+//
+// Fired when a media seek operation completes successfully. Occurs on <audio> and <video> elements after the user
+// or code changes the currentTime position and the media has moved to the new location. Used for updating progress
+// indicators, resuming playback, hiding seeking UI, or triggering actions after successful time navigation.
+func (e *radialGradient) OnSeeked(handler string) *radialGradient {
+	e.SetAttribute("onseeked", handler)
+	return e
+}
+
+// OnSeeking sets the onseeking attribute.
+//
+// Fired when a media seek operation begins. Occurs on <audio> and <video> elements when the user or code starts
+// changing the currentTime position. Used for showing seeking indicators, pausing dependent animations, updating
+// UI to reflect seeking state, or preparing for playback position changes.
+func (e *radialGradient) OnSeeking(handler string) *radialGradient {
+	e.SetAttribute("onseeking", handler)
+	return e
+}
+
+// OnSelect sets the onselect attribute.
+//
+// Fired when text is selected within an input field or textarea. Occurs on <input> and <textarea> elements when
+// users highlight text. Used for implementing text formatting tools, copy shortcuts, selection-based actions, text
+// analysis features, or providing contextual options for selected content.
+func (e *radialGradient) OnSelect(handler string) *radialGradient {
+	e.SetAttribute("onselect", handler)
+	return e
+}
+
+// OnShow sets the onshow attribute.
+//
+// Fired when a context menu element was displayed. Originally associated with the legacy HTML context menu
+// feature. Browser support was limited to older versions of Firefox. Modern alternatives include the
+// Intersection Observer API for visibility detection or OnBeforeToggle and OnToggle for popover elements.
+//
+// Deprecated: Removed from the WHATWG living standard. Was used with legacy context menus.
+func (e *radialGradient) OnShow(handler string) *radialGradient {
+	e.SetAttribute("onshow", handler)
+	return e
+}
+
+// OnSort sets the onsort attribute.
+//
+// Non-standard event intended for sortable list or table reordering. Not defined in the WHATWG living standard
+// or any W3C specification. Used in some libraries and custom implementations for saving sort preferences,
+// updating data models, and triggering dependent updates.
+//
+// Deprecated: Not part of any HTML specification. Use custom JavaScript events for sort handling.
+func (e *radialGradient) OnSort(handler string) *radialGradient {
+	e.SetAttribute("onsort", handler)
+	return e
+}
+
+// OnStalled sets the onstalled attribute.
+//
+// Fired when media loading stalls due to network issues or server problems. Occurs on <audio> and <video>
+// elements when expected data doesn't arrive. Used for showing network error messages, implementing retry logic,
+// switching to alternative sources, or providing fallback content when media loading fails.
+func (e *radialGradient) OnStalled(handler string) *radialGradient {
+	e.SetAttribute("onstalled", handler)
+	return e
+}
+
+// OnSuspend sets the onsuspend attribute.
+//
+// Fired when media loading is intentionally suspended, typically when the browser decides it has loaded enough
+// data for current needs. Occurs on <audio> and <video> elements as an optimization. Used for managing loading
+// states, updating progress indicators, or implementing custom buffering strategies.
+func (e *radialGradient) OnSuspend(handler string) *radialGradient {
+	e.SetAttribute("onsuspend", handler)
+	return e
+}
+
+// OnTimeUpdate sets the ontimeupdate attribute.
+//
+// Fired regularly during media playback as the currentTime advances. Occurs on <audio> and <video> elements,
+// typically 4 times per second during playback. Essential for updating progress bars, synchronized content, time
+// displays, subtitle timing, or any functionality that needs to track playback position in real-time.
+func (e *radialGradient) OnTimeUpdate(handler string) *radialGradient {
+	e.SetAttribute("ontimeupdate", handler)
+	return e
+}
+
+// OnToggle sets the ontoggle attribute.
+//
+// Fired when a <details> element is opened or closed by clicking its <summary> or programmatically changing the
+// open attribute. Used for lazy loading collapsed content, animating expand/collapse transitions, saving user
+// preferences, analytics tracking, or implementing custom accordion behaviors.
+func (e *radialGradient) OnToggle(handler string) *radialGradient {
+	e.SetAttribute("ontoggle", handler)
+	return e
+}
+
+// OnVolumeChange sets the onvolumechange attribute.
+//
+// Fired when media volume or muted state changes. Occurs on <audio> and <video> elements when the volume
+// property is modified or when toggling between muted and unmuted states. Used for updating volume sliders, mute
+// button states, saving user preferences, or synchronizing audio controls across multiple media elements.
+func (e *radialGradient) OnVolumeChange(handler string) *radialGradient {
+	e.SetAttribute("onvolumechange", handler)
+	return e
+}
+
+// OnWaiting sets the onwaiting attribute.
+//
+// Fired when media playback stops due to insufficient buffered data and is waiting for more content to load.
+// Occurs on <audio> and <video> elements during playback interruptions. Used for showing buffering spinners,
+// reducing quality temporarily, implementing adaptive streaming, or providing user feedback during loading delays.
+func (e *radialGradient) OnWaiting(handler string) *radialGradient {
+	e.SetAttribute("onwaiting", handler)
+	return e
+}
+
+// OnAuxClick sets the onauxclick attribute.
+//
+// Fired when a non-primary pointing device button is clicked (typically middle or right mouse button). Unlike
+// onclick which only fires for the primary button, onauxclick captures secondary button interactions. Useful for
+// implementing middle-click to open in new tab, custom right-click actions, or distinguishing between button types.
+func (e *radialGradient) OnAuxClick(handler string) *radialGradient {
+	e.SetAttribute("onauxclick", handler)
+	return e
+}
+
+// OnWheel sets the onwheel attribute.
+//
+// Fired when a wheel button of a pointing device is rotated. Replaces the non-standard onmousewheel event.
+// Provides deltaX, deltaY, and deltaZ values for precise scroll direction and amount detection. Used for custom
+// scrolling, zooming, volume controls, image galleries, or scroll-based interactions.
+func (e *radialGradient) OnWheel(handler string) *radialGradient {
+	e.SetAttribute("onwheel", handler)
+	return e
+}
+
+// OnCopy sets the oncopy attribute.
+//
+// Fired when the user initiates a copy action through keyboard shortcut or context menu. Occurs on the focused
+// element or selection. Can be used to modify clipboard content with setData(), track copy analytics, show copy
+// confirmation, or prevent copying of sensitive content with preventDefault().
+func (e *radialGradient) OnCopy(handler string) *radialGradient {
+	e.SetAttribute("oncopy", handler)
+	return e
+}
+
+// OnCut sets the oncut attribute.
+//
+// Fired when the user initiates a cut action through keyboard shortcut or context menu. Similar to oncopy but
+// also removes the selected content. Can be used to modify clipboard content, prevent cutting in read-only
+// contexts, track content removal, or implement custom cut behaviour.
+func (e *radialGradient) OnCut(handler string) *radialGradient {
+	e.SetAttribute("oncut", handler)
+	return e
+}
+
+// OnPaste sets the onpaste attribute.
+//
+// Fired when the user pastes content from the clipboard through keyboard shortcut or context menu. Provides
+// access to clipboard data via getData(). Used for sanitising pasted content, handling rich text or file pastes,
+// implementing custom paste logic, or preventing unwanted paste formats.
+func (e *radialGradient) OnPaste(handler string) *radialGradient {
+	e.SetAttribute("onpaste", handler)
+	return e
+}
+
+// OnScrollEnd sets the onscrollend attribute.
+//
+// Fired when scrolling has completed and the scroll position has settled. Unlike onscroll which fires repeatedly
+// during scrolling, onscrollend fires once when the scroll operation finishes. Useful for lazy loading, saving
+// scroll position, triggering animations after scroll completes, or updating UI based on final scroll position.
+func (e *radialGradient) OnScrollEnd(handler string) *radialGradient {
+	e.SetAttribute("onscrollend", handler)
+	return e
+}
+
+// OnFormData sets the onformdata attribute.
+//
+// Fired after the entry list representing the form's data is constructed during form submission. Occurs on
+// <form> elements and allows modification of form data before it is sent. Useful for appending custom data,
+// transforming field values, or implementing custom serialisation logic.
+func (e *radialGradient) OnFormData(handler string) *radialGradient {
+	e.SetAttribute("onformdata", handler)
+	return e
+}
+
+// OnAnimationCancel sets the onanimationcancel attribute.
+//
+// Fired when a CSS animation is cancelled unexpectedly, such as when the animation-name is removed or the
+// element is hidden. Unlike onanimationend, this fires for abnormal termination. Useful for cleanup operations,
+// resetting element state, or triggering fallback behaviour when animations are interrupted.
+func (e *radialGradient) OnAnimationCancel(handler string) *radialGradient {
+	e.SetAttribute("onanimationcancel", handler)
+	return e
+}
+
+// OnAnimationEnd sets the onanimationend attribute.
+//
+// Fired when a CSS animation completes all its iterations successfully. Occurs after the final iteration of the
+// animation finishes. Used for removing animation classes, triggering follow-up animations, updating element
+// state, or chaining sequential animation effects.
+func (e *radialGradient) OnAnimationEnd(handler string) *radialGradient {
+	e.SetAttribute("onanimationend", handler)
+	return e
+}
+
+// OnAnimationIteration sets the onanimationiteration attribute.
+//
+// Fired when a CSS animation completes one iteration and begins the next. Only fires for animations with more
+// than one iteration. Useful for updating counters, changing animation parameters between cycles, triggering
+// synchronised effects, or implementing progress tracking for looping animations.
+func (e *radialGradient) OnAnimationIteration(handler string) *radialGradient {
+	e.SetAttribute("onanimationiteration", handler)
+	return e
+}
+
+// OnAnimationStart sets the onanimationstart attribute.
+//
+// Fired when a CSS animation begins playing. Occurs after any animation-delay has elapsed and the first
+// keyframe starts. Used for showing animation-dependent UI, starting synchronised effects, tracking animation
+// activity, or implementing animation-aware state management.
+func (e *radialGradient) OnAnimationStart(handler string) *radialGradient {
+	e.SetAttribute("onanimationstart", handler)
+	return e
+}
+
+// OnTransitionCancel sets the ontransitioncancel attribute.
+//
+// Fired when a CSS transition is cancelled, such as when the transitioning property is removed or the element
+// is hidden. Unlike ontransitionend, this fires for abnormal termination. Useful for cleanup, resetting state,
+// or triggering fallback behaviour when transitions are interrupted.
+func (e *radialGradient) OnTransitionCancel(handler string) *radialGradient {
+	e.SetAttribute("ontransitioncancel", handler)
+	return e
+}
+
+// OnTransitionEnd sets the ontransitionend attribute.
+//
+// Fired when a CSS transition completes successfully. Occurs after the transition duration has elapsed and the
+// property reaches its target value. Used for removing transition classes, triggering follow-up transitions,
+// updating element state, or chaining sequential transition effects.
+func (e *radialGradient) OnTransitionEnd(handler string) *radialGradient {
+	e.SetAttribute("ontransitionend", handler)
+	return e
+}
+
+// OnTransitionRun sets the ontransitionrun attribute.
+//
+// Fired when a CSS transition is first created, before any delay period. Occurs at the moment the transition is
+// added to the set of running transitions. Useful for tracking when transitions are triggered, showing pending
+// transition indicators, or preparing for upcoming visual changes.
+func (e *radialGradient) OnTransitionRun(handler string) *radialGradient {
+	e.SetAttribute("ontransitionrun", handler)
+	return e
+}
+
+// OnTransitionStart sets the ontransitionstart attribute.
+//
+// Fired when a CSS transition begins its active phase, after any transition-delay has elapsed. Used for showing
+// transition-dependent UI, starting synchronised effects, tracking active transitions, or implementing
+// transition-aware state management.
+func (e *radialGradient) OnTransitionStart(handler string) *radialGradient {
+	e.SetAttribute("ontransitionstart", handler)
+	return e
+}
+
+// OnBeforeToggle sets the onbeforetoggle attribute.
+//
+// Fired before a popover or <details> element changes its open/closed state. Can be cancelled with
+// preventDefault() to prevent the state change. Useful for validation before showing popovers, confirming
+// closure of unsaved content, or implementing conditional toggle logic.
+func (e *radialGradient) OnBeforeToggle(handler string) *radialGradient {
+	e.SetAttribute("onbeforetoggle", handler)
+	return e
+}
+
+// OnBeforeInput sets the onbeforeinput attribute.
+//
+// Fired before the DOM is updated with new input. Unlike oninput which fires after the change, onbeforeinput
+// fires before and can be cancelled with preventDefault(). Provides inputType for distinguishing between typing,
+// pasting, deleting, and formatting. Useful for input filtering, custom undo/redo, or preventing specific edits.
+func (e *radialGradient) OnBeforeInput(handler string) *radialGradient {
+	e.SetAttribute("onbeforeinput", handler)
+	return e
+}
+
+// OnBeforeMatch sets the onbeforematch attribute.
+//
+// Fired on an element with the hidden="until-found" attribute just before it is revealed by find-in-page or
+// fragment navigation. Allows preparation before the element becomes visible, such as loading content, expanding
+// collapsed sections, or initialising components that were deferred while hidden.
+func (e *radialGradient) OnBeforeMatch(handler string) *radialGradient {
+	e.SetAttribute("onbeforematch", handler)
+	return e
+}
+
+// OnCommand sets the oncommand attribute.
+//
+// Fired when a button with a commandfor attribute is activated, dispatched on the target element referenced by
+// commandfor. Provides the invoking element via the source property. Used for implementing declarative command
+// patterns where buttons control other elements like dialogs, popovers, or custom components.
+func (e *radialGradient) OnCommand(handler string) *radialGradient {
+	e.SetAttribute("oncommand", handler)
+	return e
+}
+
+// OnContextLost sets the oncontextlost attribute.
+//
+// Fired when the rendering context of a <canvas> element is lost, typically due to GPU resource pressure or
+// device changes. Used for showing fallback content, pausing rendering loops, releasing resources, or notifying
+// users that the canvas display may be temporarily unavailable.
+func (e *radialGradient) OnContextLost(handler string) *radialGradient {
+	e.SetAttribute("oncontextlost", handler)
+	return e
+}
+
+// OnContextRestored sets the oncontextrestored attribute.
+//
+// Fired when a previously lost rendering context of a <canvas> element is restored. Used for re-initialising
+// rendering state, reloading textures and shaders, resuming rendering loops, or rebuilding the canvas display
+// after a context loss event.
+func (e *radialGradient) OnContextRestored(handler string) *radialGradient {
+	e.SetAttribute("oncontextrestored", handler)
+	return e
+}
+
+// OnSecurityPolicyViolation sets the onsecuritypolicyviolation attribute.
+//
+// Fired when a Content Security Policy (CSP) violation occurs. Provides details about the violated directive,
+// blocked resource, and policy. Used for CSP violation reporting, security monitoring, debugging blocked
+// resources, or implementing custom violation handling and logging.
+func (e *radialGradient) OnSecurityPolicyViolation(handler string) *radialGradient {
+	e.SetAttribute("onsecuritypolicyviolation", handler)
+	return e
+}
+
+// OnSlotChange sets the onslotchange attribute.
+//
+// Fired when the nodes assigned to a <slot> element change, either by adding, removing, or replacing slotted
+// content. Occurs on <slot> elements within shadow DOM trees. Used for updating shadow DOM rendering, tracking
+// content projection changes, or implementing reactive slot-based component patterns.
+func (e *radialGradient) OnSlotChange(handler string) *radialGradient {
+	e.SetAttribute("onslotchange", handler)
+	return e
+}
+
+// OnPointerDown sets the onpointerdown attribute.
+//
+// Fired when a pointer (mouse, pen, or touch) becomes active over an element. Unifies mouse, touch, and pen
+// input into a single event model. Provides pointerId for tracking individual pointers in multi-touch scenarios.
+// Used for initiating drag operations, drawing, and pointer-aware interactions.
+func (e *radialGradient) OnPointerDown(handler string) *radialGradient {
+	e.SetAttribute("onpointerdown", handler)
+	return e
+}
+
+// OnPointerUp sets the onpointerup attribute.
+//
+// Fired when a pointer is released after being pressed. Completes a pointer interaction when combined with
+// onpointerdown. Provides pointerId for identifying which pointer was released. Used for completing drag
+// operations, click detection, and finishing pointer-based interactions.
+func (e *radialGradient) OnPointerUp(handler string) *radialGradient {
+	e.SetAttribute("onpointerup", handler)
+	return e
+}
+
+// OnPointerMove sets the onpointermove attribute.
+//
+// Fired when a pointer changes coordinates over an element. Can fire rapidly during movement, so consider
+// throttling for performance. Provides pressure, tilt, and twist data for pen input. Used for drawing, drag
+// tracking, hover effects, and custom cursor behaviour.
+func (e *radialGradient) OnPointerMove(handler string) *radialGradient {
+	e.SetAttribute("onpointermove", handler)
+	return e
+}
+
+// OnPointerEnter sets the onpointerenter attribute.
+//
+// Fired when a pointer enters an element's boundaries. Does not bubble and does not fire when moving over
+// child elements. Unified equivalent of onmouseenter for all pointer types. Used for hover effects, tooltips,
+// and UI highlighting that works across mouse, touch, and pen input.
+func (e *radialGradient) OnPointerEnter(handler string) *radialGradient {
+	e.SetAttribute("onpointerenter", handler)
+	return e
+}
+
+// OnPointerLeave sets the onpointerleave attribute.
+//
+// Fired when a pointer exits an element's boundaries. Does not bubble and does not fire when moving to child
+// elements. Unified equivalent of onmouseleave for all pointer types. Used for removing hover states, hiding
+// tooltips, and cleaning up pointer-related visual feedback.
+func (e *radialGradient) OnPointerLeave(handler string) *radialGradient {
+	e.SetAttribute("onpointerleave", handler)
+	return e
+}
+
+// OnPointerOver sets the onpointerover attribute.
+//
+// Fired when a pointer enters an element or moves to one of its child elements. Unlike onpointerenter, this
+// event bubbles. Useful for event delegation scenarios where pointer entry needs to be detected on a parent
+// element for any of its descendants.
+func (e *radialGradient) OnPointerOver(handler string) *radialGradient {
+	e.SetAttribute("onpointerover", handler)
+	return e
+}
+
+// OnPointerOut sets the onpointerout attribute.
+//
+// Fired when a pointer leaves an element or moves to one of its child elements. Unlike onpointerleave, this
+// event bubbles. Useful for event delegation scenarios where pointer exit needs to be detected on a parent
+// element for any of its descendants.
+func (e *radialGradient) OnPointerOut(handler string) *radialGradient {
+	e.SetAttribute("onpointerout", handler)
+	return e
+}
+
+// OnPointerCancel sets the onpointercancel attribute.
+//
+// Fired when a pointer interaction is cancelled by the browser, such as when a touch is interrupted by a
+// system gesture, the device orientation changes, or too many simultaneous pointers are active. Used for
+// aborting drag operations, resetting interaction state, and handling interrupted pointer sequences.
+func (e *radialGradient) OnPointerCancel(handler string) *radialGradient {
+	e.SetAttribute("onpointercancel", handler)
+	return e
+}
+
+// OnGotPointerCapture sets the ongotpointercapture attribute.
+//
+// Fired when an element receives pointer capture via setPointerCapture(). While captured, all subsequent
+// pointer events for that pointer are directed to the capturing element regardless of position. Used for
+// confirming capture acquisition in drag operations, slider controls, and custom scroll implementations.
+func (e *radialGradient) OnGotPointerCapture(handler string) *radialGradient {
+	e.SetAttribute("ongotpointercapture", handler)
+	return e
+}
+
+// OnLostPointerCapture sets the onlostpointercapture attribute.
+//
+// Fired when an element loses pointer capture, either via releasePointerCapture(), pointer release, or
+// browser cancellation. Used for cleanup after drag operations, resetting element state, and finalising
+// interactions that relied on pointer capture for consistent event delivery.
+func (e *radialGradient) OnLostPointerCapture(handler string) *radialGradient {
+	e.SetAttribute("onlostpointercapture", handler)
+	return e
+}
+
+// OnTouchStart sets the ontouchstart attribute.
+//
+// Fired when one or more touch points are placed on the touch surface. Provides a TouchList with all active
+// touches. Used for initiating touch interactions, detecting gestures, implementing swipe or pinch handling,
+// and starting touch-based drag operations on mobile devices.
+func (e *radialGradient) OnTouchStart(handler string) *radialGradient {
+	e.SetAttribute("ontouchstart", handler)
+	return e
+}
+
+// OnTouchEnd sets the ontouchend attribute.
+//
+// Fired when one or more touch points are removed from the touch surface. Provides changedTouches for the
+// ended touches. Used for completing touch interactions, detecting tap gestures, finishing swipe or drag
+// operations, and cleaning up touch-related state on mobile devices.
+func (e *radialGradient) OnTouchEnd(handler string) *radialGradient {
+	e.SetAttribute("ontouchend", handler)
+	return e
+}
+
+// OnTouchMove sets the ontouchmove attribute.
+//
+// Fired when one or more touch points move along the touch surface. Can fire rapidly during movement. Provides
+// updated coordinates for all active touches. Used for tracking swipe gestures, implementing custom scrolling,
+// touch-based drawing, and multi-touch interactions on mobile devices.
+func (e *radialGradient) OnTouchMove(handler string) *radialGradient {
+	e.SetAttribute("ontouchmove", handler)
+	return e
+}
+
+// OnTouchCancel sets the ontouchcancel attribute.
+//
+// Fired when a touch interaction is disrupted, such as when a system dialog appears, the touch surface receives
+// more touches than it can track, or the browser cancels the touch sequence. Used for aborting touch gestures,
+// resetting interaction state, and handling interrupted touch sequences gracefully.
+func (e *radialGradient) OnTouchCancel(handler string) *radialGradient {
+	e.SetAttribute("ontouchcancel", handler)
+	return e
+}
+
+// OnSelectStart sets the onselectstart attribute.
+//
+// Fired when a new text selection is initiated by the user, typically by clicking and beginning to drag.
+// Can be cancelled with preventDefault() to prevent selection. Used for implementing custom selection
+// behaviour, preventing text selection during drag operations, or tracking when users begin selecting content.
+func (e *radialGradient) OnSelectStart(handler string) *radialGradient {
+	e.SetAttribute("onselectstart", handler)
+	return e
+}
+
+// OnSelectionChange sets the onselectionchange attribute.
+//
+// Fired when the current text selection changes, including when the selection is extended, collapsed, or
+// cleared. Used for implementing selection-dependent toolbars, tracking selected text for formatting tools,
+// updating word counts, or providing contextual actions based on the current selection.
+func (e *radialGradient) OnSelectionChange(handler string) *radialGradient {
+	e.SetAttribute("onselectionchange", handler)
 	return e
 }
 
@@ -410,20 +1666,44 @@ func (e *radialGradient) AttributeBuilder(buf *bytes.Buffer) {
 		buf.WriteString(e.fy)
 		buf.Write(MarkupQuote)
 	}
+	if e.fr != "" {
+		buf.Write(AttrFr)
+		buf.WriteString(e.fr)
+		buf.Write(MarkupQuote)
+	}
 	if len(e.gradientUnits) > 0 {
 		buf.Write(AttrGradientUnits)
 		buf.Write(e.gradientUnits)
 		buf.Write(MarkupQuote)
 	}
+	if e.gradientTransform != "" {
+		buf.Write(AttrGradientTransform)
+		buf.WriteString(e.gradientTransform)
+		buf.Write(MarkupQuote)
+	}
+	if len(e.spreadMethod) > 0 {
+		buf.Write(AttrSpreadMethod)
+		buf.Write(e.spreadMethod)
+		buf.Write(MarkupQuote)
+	}
+	if e.href != "" {
+		buf.Write(AttrHref)
+		buf.WriteString(e.href)
+		buf.Write(MarkupQuote)
+	}
 
 	if e.dynamic != "" {
 		key := node.EscapeAttribute(e.dynamic)
-		if e.svg().ID == "" {
+		var id string
+		if e.sa != nil {
+			id = e.sa.ID
+		}
+		if id == "" {
 			buf.Write(AttrID)
 			buf.WriteString(key)
 			buf.Write(MarkupQuote)
-		} else if e.svg().ID != key {
-			panic("fluent: ID " + e.svg().ID + " conflicts with Dynamic key " + e.dynamic + " - a Dynamic key renders as the element's id, so set one or the other")
+		} else if id != key {
+			panic("fluent: ID " + id + " conflicts with Dynamic key " + e.dynamic + " - a Dynamic key renders as the element's id, so set one or the other")
 		}
 	}
 
@@ -440,6 +1720,10 @@ func (e *radialGradient) AttributeBuilder(buf *bytes.Buffer) {
 
 	if e.sa != nil {
 		e.sa.AttributeBuilder(buf)
+	}
+
+	if e.ea != nil {
+		e.ea.AttributeBuilder(buf)
 	}
 }
 

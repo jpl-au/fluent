@@ -38,13 +38,11 @@ import (
 // Element represents the <a> HTML element.
 type Element struct {
 	bufferhint     atomic.Int64
-	first          [1]node.Node
 	hidden         hidden.Hidden
 	nodes          []node.Node
 	referrerpolicy referrerpolicy.ReferrerPolicy
 	rel            rel.Rel
 	target         target.Target
-	txt            text.Node
 	class          string
 	draggable      string
 	dynamic        string
@@ -59,6 +57,12 @@ type Element struct {
 	autofocus      bool
 	inert          bool
 	itemscope      bool
+}
+
+// textChild keeps the text and child slice together, independently of the parent.
+type textChild struct {
+	txt   text.Node
+	first [1]node.Node
 }
 
 // global returns the GlobalAttributes, initializing if nil
@@ -95,164 +99,151 @@ func New(nodes ...node.Node) *Element {
 // inert node.UnsafeURL sentinel instead. For a trusted off-allowlist value use SetAttribute
 // (escaped but unfiltered) or SetAttributeRaw; register node.OnUnsafeURL to observe rejections.
 func Link(href string, str string) *Element {
-	e := &Element{
-		txt:  *text.Text(str),
-		href: node.EscapeAttribute(node.FilterURL(href)),
+	child := &textChild{txt: *text.Text(str)}
+	child.first[0] = &child.txt
+	return &Element{
+		nodes: child.first[:],
+		href:  node.EscapeAttribute(node.FilterURL(href)),
 	}
-	e.first[0] = &e.txt
-	e.nodes = e.first[:]
-	return e
 }
 
 // Text creates a new anchor element with text content. Uses text.Text which HTML-escapes the output.
 // Example: a.Text("Click here")
 // Renders: <a>Click here</a>
 func Text(str string) *Element {
-	e := &Element{
-		txt: *text.Text(str),
+	child := &textChild{txt: *text.Text(str)}
+	child.first[0] = &child.txt
+	return &Element{
+		nodes: child.first[:],
 	}
-	e.first[0] = &e.txt
-	e.nodes = e.first[:]
-	return e
 }
 
 // Static creates a new anchor element with static text content. Uses text.Static which is not HTML-escaped and is JIT-optimisable.
 // Example: a.Static("Click here")
 // Renders: <a>Click here</a>
 func Static(str string) *Element {
-	e := &Element{
-		txt: *text.Static(str),
+	child := &textChild{txt: *text.Static(str)}
+	child.first[0] = &child.txt
+	return &Element{
+		nodes: child.first[:],
 	}
-	e.first[0] = &e.txt
-	e.nodes = e.first[:]
-	return e
 }
 
 // RawText creates a new anchor element with raw text content. Uses text.RawText which is not HTML-escaped.
 // Example: a.RawText("Click <em>here</em>")
 // Renders: <a>Click <em>here</em></a>
 func RawText(str string) *Element {
-	e := &Element{
-		txt: *text.RawText(str),
+	child := &textChild{txt: *text.RawText(str)}
+	child.first[0] = &child.txt
+	return &Element{
+		nodes: child.first[:],
 	}
-	e.first[0] = &e.txt
-	e.nodes = e.first[:]
-	return e
 }
 
 // Textf creates a new anchor element with formatted text content. Uses text.Textf which HTML-escapes the output.
 // Example: a.Textf("Hello %s", name)
 // Renders: <a>Hello Mary</a>
 func Textf(format string, args ...any) *Element {
-	e := &Element{
-		txt: *text.Text(fmt.Sprintf(format, args...)),
+	child := &textChild{txt: *text.Text(fmt.Sprintf(format, args...))}
+	child.first[0] = &child.txt
+	return &Element{
+		nodes: child.first[:],
 	}
-	e.first[0] = &e.txt
-	e.nodes = e.first[:]
-	return e
 }
 
 // RawTextf creates a new anchor element with formatted raw text content. Uses text.RawTextf which is not HTML-escaped.
 // Example: a.RawTextf("Hello <em>%s</em>", name)
 // Renders: <a>Hello <em>Mary</em></a>
 func RawTextf(format string, args ...any) *Element {
-	e := &Element{
-		txt: *text.RawText(fmt.Sprintf(format, args...)),
+	child := &textChild{txt: *text.RawText(fmt.Sprintf(format, args...))}
+	child.first[0] = &child.txt
+	return &Element{
+		nodes: child.first[:],
 	}
-	e.first[0] = &e.txt
-	e.nodes = e.first[:]
-	return e
 }
 
 // MailTo creates a new anchor element with mailto scheme that opens the user's email client
 // Example: a.MailTo("john@example.com", "Email John")
 // Renders: <a href="mailto:john@example.com">Email John</a>
 func MailTo(email string, str string) *Element {
-	e := &Element{
-		txt:  *text.Text(str),
-		href: "mailto:" + node.EscapeAttribute(email),
+	child := &textChild{txt: *text.Text(str)}
+	child.first[0] = &child.txt
+	return &Element{
+		nodes: child.first[:],
+		href:  "mailto:" + node.EscapeAttribute(email),
 	}
-	e.first[0] = &e.txt
-	e.nodes = e.first[:]
-	return e
 }
 
 // JumpTo creates a new anchor element for internal page navigation (fragment identifier)
 // Example: a.JumpTo("section1", "Go to Section 1")
 // Renders: <a href="#section1">Go to Section 1</a>
 func JumpTo(anchor string, str string) *Element {
-	e := &Element{
-		txt:  *text.Text(str),
-		href: "#" + node.EscapeAttribute(anchor),
+	child := &textChild{txt: *text.Text(str)}
+	child.first[0] = &child.txt
+	return &Element{
+		nodes: child.first[:],
+		href:  "#" + node.EscapeAttribute(anchor),
 	}
-	e.first[0] = &e.txt
-	e.nodes = e.first[:]
-	return e
 }
 
 // Tel creates a new anchor element with tel scheme that initiates a phone call on mobile devices
 // Example: a.Tel("+1234567890", "Call Me")
 // Renders: <a href="tel:+1234567890">Call Me</a>
 func Tel(number string, str string) *Element {
-	e := &Element{
-		txt:  *text.Text(str),
-		href: "tel:" + node.EscapeAttribute(number),
+	child := &textChild{txt: *text.Text(str)}
+	child.first[0] = &child.txt
+	return &Element{
+		nodes: child.first[:],
+		href:  "tel:" + node.EscapeAttribute(number),
 	}
-	e.first[0] = &e.txt
-	e.nodes = e.first[:]
-	return e
 }
 
 // SMS creates a new anchor element with SMS scheme that opens the messaging app on mobile devices
 // Example: a.SMS("+1234567890", "Send SMS")
 // Renders: <a href="sms:+1234567890">Send SMS</a>
 func SMS(number string, str string) *Element {
-	e := &Element{
-		txt:  *text.Text(str),
-		href: "sms:" + node.EscapeAttribute(number),
+	child := &textChild{txt: *text.Text(str)}
+	child.first[0] = &child.txt
+	return &Element{
+		nodes: child.first[:],
+		href:  "sms:" + node.EscapeAttribute(number),
 	}
-	e.first[0] = &e.txt
-	e.nodes = e.first[:]
-	return e
 }
 
 // FTP creates a new anchor element with FTP protocol
 // Example: a.FTP("files.example.com/folder", "Download Files")
 // Renders: <a href="ftp://files.example.com/folder">Download Files</a>
 func FTP(url string, str string) *Element {
-	e := &Element{
-		txt:  *text.Text(str),
-		href: "ftp://" + node.EscapeAttribute(url),
+	child := &textChild{txt: *text.Text(str)}
+	child.first[0] = &child.txt
+	return &Element{
+		nodes: child.first[:],
+		href:  "ftp://" + node.EscapeAttribute(url),
 	}
-	e.first[0] = &e.txt
-	e.nodes = e.first[:]
-	return e
 }
 
 // DataURL creates a new anchor element with data URL for embedded content or downloads
 // Example: a.DataURL("Download Text", "text/plain", "Hello%20World")
 // Renders: <a href="data:text/plain,Hello%20World">Download Text</a>
 func DataURL(str string, mime string, data string) *Element {
-	e := &Element{
-		txt:  *text.Text(str),
-		href: fmt.Sprintf("data:%v,%v", node.EscapeAttribute(mime), node.EscapeAttribute(data)),
+	child := &textChild{txt: *text.Text(str)}
+	child.first[0] = &child.txt
+	return &Element{
+		nodes: child.first[:],
+		href:  fmt.Sprintf("data:%v,%v", node.EscapeAttribute(mime), node.EscapeAttribute(data)),
 	}
-	e.first[0] = &e.txt
-	e.nodes = e.first[:]
-	return e
 }
 
 // Base64Data creates a new anchor element with base64 data URL for binary content downloads
 // Example: a.Base64Data("Download Image", "image/png", "iVBORw0KGgoAAAANS...")
 // Renders: <a href="data:image/png;base64,iVBORw0KGgoAAAANS...">Download Image</a>
 func Base64Data(str string, mime string, data string) *Element {
-	e := &Element{
-		txt:  *text.Text(str),
-		href: fmt.Sprintf("data:%v;base64,%v", node.EscapeAttribute(mime), node.EscapeAttribute(data)),
+	child := &textChild{txt: *text.Text(str)}
+	child.first[0] = &child.txt
+	return &Element{
+		nodes: child.first[:],
+		href:  fmt.Sprintf("data:%v;base64,%v", node.EscapeAttribute(mime), node.EscapeAttribute(data)),
 	}
-	e.first[0] = &e.txt
-	e.nodes = e.first[:]
-	return e
 }
 
 // Download creates a download link that prompts the user to save the linked
@@ -267,12 +258,12 @@ func Base64Data(str string, mime string, data string) *Element {
 // inert node.UnsafeURL sentinel instead. For a trusted off-allowlist value use SetAttribute
 // (escaped but unfiltered) or SetAttributeRaw; register node.OnUnsafeURL to observe rejections.
 func Download(str string, href string, filename string) *Element {
+	child := &textChild{txt: *text.Text(str)}
+	child.first[0] = &child.txt
 	e := &Element{
-		txt:  *text.Text(str),
-		href: node.EscapeAttribute(node.FilterURL(href)),
+		nodes: child.first[:],
+		href:  node.EscapeAttribute(node.FilterURL(href)),
 	}
-	e.first[0] = &e.txt
-	e.nodes = e.first[:]
 	e.Download(filename)
 	return e
 }

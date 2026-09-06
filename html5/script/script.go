@@ -3,6 +3,10 @@
 // Package script provides constructors and methods for the HTML <script> element.
 //
 // The <script> HTML element is used to embed executable code or data; this is typically used to embed or refer to JavaScript code. The <script> element can also be used with other languages, such as WebGL's GLSL shader programming language and JSON.
+// To embed data for a client script, serialise it with the JSON library of your choice and pass the
+// result to RawText with Type set to application/json. Go's encoding/json escapes <, > and & inside
+// strings by default, which keeps a closing script tag inside a value from ending the element. Do not
+// disable that escaping for data embedded here.
 package script
 
 import (
@@ -41,11 +45,9 @@ type Element struct {
 	bufferhint     atomic.Int64
 	crossorigin    crossorigin.CrossOrigin
 	fetchpriority  fetchpriority.FetchPriority
-	first          [1]node.Node
 	hidden         hidden.Hidden
 	nodes          []node.Node
 	referrerpolicy referrerpolicy.ReferrerPolicy
-	txt            text.Node
 	class          string
 	draggable      string
 	dynamic        string
@@ -65,6 +67,12 @@ type Element struct {
 	inert          bool
 	itemscope      bool
 	noModule       bool
+}
+
+// textChild keeps the text and child slice together, independently of the parent.
+type textChild struct {
+	txt   text.Node
+	first [1]node.Node
 }
 
 // global returns the GlobalAttributes, initializing if nil
@@ -97,12 +105,11 @@ func New(nodes ...node.Node) *Element {
 // Example: script.Text("console.log('Hello');")
 // Renders: <script>console.log(&#39;Hello&#39;);</script>
 func Text(content string) *Element {
-	e := &Element{
-		txt: *text.Text(content),
+	child := &textChild{txt: *text.Text(content)}
+	child.first[0] = &child.txt
+	return &Element{
+		nodes: child.first[:],
 	}
-	e.first[0] = &e.txt
-	e.nodes = e.first[:]
-	return e
 }
 
 // Static creates a new script element with static inline JavaScript. Uses text.Static which is not HTML-escaped
@@ -110,12 +117,11 @@ func Text(content string) *Element {
 // Example: script.Static("alert('Hi');")
 // Renders: <script>alert('Hi');</script>
 func Static(content string) *Element {
-	e := &Element{
-		txt: *text.Static(content),
+	child := &textChild{txt: *text.Static(content)}
+	child.first[0] = &child.txt
+	return &Element{
+		nodes: child.first[:],
 	}
-	e.first[0] = &e.txt
-	e.nodes = e.first[:]
-	return e
 }
 
 // RawText creates a new script element with raw inline JavaScript. Uses text.RawText which is not HTML-escaped.
@@ -123,12 +129,11 @@ func Static(content string) *Element {
 // Example: script.RawText("var x = 1;")
 // Renders: <script>var x = 1;</script>
 func RawText(content string) *Element {
-	e := &Element{
-		txt: *text.RawText(content),
+	child := &textChild{txt: *text.RawText(content)}
+	child.first[0] = &child.txt
+	return &Element{
+		nodes: child.first[:],
 	}
-	e.first[0] = &e.txt
-	e.nodes = e.first[:]
-	return e
 }
 
 // Textf creates a new script element with formatted text content. Uses text.Textf which HTML-escapes the output.
@@ -136,12 +141,11 @@ func RawText(content string) *Element {
 // Example: script.Textf("console.log('%s');", msg)
 // Renders: <script>console.log(&#39;hello&#39;);</script>
 func Textf(format string, args ...any) *Element {
-	e := &Element{
-		txt: *text.Text(fmt.Sprintf(format, args...)),
+	child := &textChild{txt: *text.Text(fmt.Sprintf(format, args...))}
+	child.first[0] = &child.txt
+	return &Element{
+		nodes: child.first[:],
 	}
-	e.first[0] = &e.txt
-	e.nodes = e.first[:]
-	return e
 }
 
 // RawTextf creates a new script element with formatted raw inline JavaScript. Uses text.RawTextf which is not
@@ -149,12 +153,11 @@ func Textf(format string, args ...any) *Element {
 // Example: script.RawTextf("var %s = %d;", varName, val)
 // Renders: <script>var x = 42;</script>
 func RawTextf(format string, args ...any) *Element {
-	e := &Element{
-		txt: *text.RawText(fmt.Sprintf(format, args...)),
+	child := &textChild{txt: *text.RawText(fmt.Sprintf(format, args...))}
+	child.first[0] = &child.txt
+	return &Element{
+		nodes: child.first[:],
 	}
-	e.first[0] = &e.txt
-	e.nodes = e.first[:]
-	return e
 }
 
 // Src creates a script element that loads an external script file
@@ -199,19 +202,6 @@ func JavaScript(src string) *Element {
 		src:        node.EscapeAttribute(node.FilterURL(src)),
 		scriptType: "text/javascript",
 	}
-}
-
-// JSON creates a script element with JSON data
-// Example: script.JSON("{\"key\": \"value\"}")
-// Renders: <script type="application/json">{"key": "value"}</script>
-func JSON(data string) *Element {
-	e := &Element{
-		txt:        *text.RawText(data),
-		scriptType: "application/json",
-	}
-	e.first[0] = &e.txt
-	e.nodes = e.first[:]
-	return e
 }
 
 // Src sets the src attribute.
