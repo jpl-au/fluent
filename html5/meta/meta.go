@@ -80,6 +80,18 @@ func New() *Element {
 	return &Element{}
 }
 
+// Name creates a meta element with a metadata name and content value.
+// Use it for metadata without a dedicated constructor. Both values are
+// HTML-escaped as attribute values.
+// Example: meta.Name("application-name", "My App")
+// Renders: <meta name="application-name" content="My App">
+func Name(name string, content string) *Element {
+	return &Element{
+		name:    node.EscapeAttribute(name),
+		content: node.EscapeAttribute(content),
+	}
+}
+
 // Charset creates a new meta element declaring character encoding.
 // Example: meta.Charset(charset.Custom("custom"))
 // Renders: <meta charset="custom">

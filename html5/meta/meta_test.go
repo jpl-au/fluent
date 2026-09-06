@@ -30,6 +30,14 @@ func TestNewCtor(t *testing.T) {
 	}
 }
 
+func TestNameCtor(t *testing.T) {
+	got := string(meta.Name("application-name", "My App").RenderBytes())
+	want := `<meta name="application-name" content="My App">`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
 func TestCharsetCtor(t *testing.T) {
 	got := string(meta.Charset(charset.Custom("custom")).RenderBytes())
 	want := `<meta charset="custom">`
@@ -1559,6 +1567,13 @@ func TestSetAttributeRaw(t *testing.T) {
 	want := `<meta data-sample="a&amp;b">`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
+func TestNameNoBreakout(t *testing.T) {
+	got := meta.Name("\"><script>", "\"><script>").RenderBytes()
+	if bytes.Contains(got, []byte("\"><script>")) {
+		t.Errorf("hostile value reached the output unescaped: %s", got)
 	}
 }
 

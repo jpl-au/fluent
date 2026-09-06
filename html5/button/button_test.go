@@ -259,6 +259,30 @@ func TestTypeAttr(t *testing.T) {
 	}
 }
 
+func TestSubmitAttr(t *testing.T) {
+	got := string(button.New().Submit().RenderBytes())
+	want := `<button type="submit"></button>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
+func TestResetAttr(t *testing.T) {
+	got := string(button.New().Reset().RenderBytes())
+	want := `<button type="reset"></button>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
+func TestButtonAttr(t *testing.T) {
+	got := string(button.New().Button().RenderBytes())
+	want := `<button type="button"></button>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
 func TestValueAttr(t *testing.T) {
 	got := string(button.New().Value("test").RenderBytes())
 	want := `<button value="test"></button>`

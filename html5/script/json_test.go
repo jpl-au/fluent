@@ -7,7 +7,18 @@ import (
 	"github.com/jpl-au/fluent/html5/script"
 )
 
-func TestJSONPreservesBytes(t *testing.T) {
+var contentConstructors = []struct {
+	name, scriptType string
+	build            func(string) *script.Element
+}{
+	{"JSON", "application/json", script.JSON},
+	{"InlineModule", "module", script.InlineModule},
+	{"ImportMap", "importmap", script.ImportMap},
+	{"SpeculationRules", "speculationrules", script.SpeculationRules},
+	{"JSONLD", "application/ld+json", script.JSONLD},
+}
+
+func TestScriptContentPreservesBytes(t *testing.T) {
 	tests := []struct {
 		name, data string
 	}{
@@ -27,37 +38,39 @@ func TestJSONPreservesBytes(t *testing.T) {
 		{"empty", ""},
 		{"invalid JSON", "invalid JSON"},
 	}
-	for _, tt := range tests {
-		t.Run(tt.name, func(t *testing.T) {
-			e := script.JSON(tt.data)
-			want := `<script type="application/json">` + tt.data + `</script>`
-			if got := string(e.RenderBytes()); got != want {
-				t.Fatalf("got %q, want %q", got, want)
-			}
+	for _, ctor := range contentConstructors {
+		for _, tt := range tests {
+			t.Run(ctor.name+"/"+tt.name, func(t *testing.T) {
+				e := ctor.build(tt.data)
+				want := `<script type="` + ctor.scriptType + `">` + tt.data + `</script>`
+				if got := string(e.RenderBytes()); got != want {
+					t.Fatalf("got %q, want %q", got, want)
+				}
 
-			var children bytes.Buffer
-			for _, child := range e.Nodes() {
-				child.RenderBuilder(&children)
-			}
-			if children.String() != tt.data {
-				t.Fatalf("child content changed: got %q, want %q", children.String(), tt.data)
-			}
+				var children bytes.Buffer
+				for _, child := range e.Nodes() {
+					child.RenderBuilder(&children)
+				}
+				if children.String() != tt.data {
+					t.Fatalf("child content changed: got %q, want %q", children.String(), tt.data)
+				}
 
-			var split bytes.Buffer
-			e.RenderOpen(&split)
-			split.Write(children.Bytes())
-			e.RenderClose(&split)
-			if split.String() != want {
-				t.Errorf("split render got %q, want %q", split.String(), want)
-			}
-			var rendered, built, written bytes.Buffer
-			e.Render(&rendered)
-			e.RenderBuilder(&built)
-			n, err := e.WriteTo(&written)
-			if err != nil || n != int64(len(want)) || written.String() != want || rendered.String() != want || built.String() != want {
-				t.Errorf("render methods disagree: Render=%q, RenderBuilder=%q, WriteTo=%q (%d, %v)", rendered.String(), built.String(), written.String(), n, err)
-			}
-		})
+				var split bytes.Buffer
+				e.RenderOpen(&split)
+				split.Write(children.Bytes())
+				e.RenderClose(&split)
+				if split.String() != want {
+					t.Errorf("split render got %q, want %q", split.String(), want)
+				}
+				var rendered, built, written bytes.Buffer
+				e.Render(&rendered)
+				e.RenderBuilder(&built)
+				n, err := e.WriteTo(&written)
+				if err != nil || n != int64(len(want)) || written.String() != want || rendered.String() != want || built.String() != want {
+					t.Errorf("render methods disagree: Render=%q, RenderBuilder=%q, WriteTo=%q (%d, %v)", rendered.String(), built.String(), written.String(), n, err)
+				}
+			})
+		}
 	}
 }
 
@@ -70,15 +83,17 @@ func TestJSONWithAttributes(t *testing.T) {
 	}
 }
 
-func FuzzJSONPreservesBytes(f *testing.F) {
+func FuzzScriptContentPreservesBytes(f *testing.F) {
 	for _, value := range []string{"plain", "</script>", "<!--<script>", "<&>\u2028\u2029"} {
 		f.Add(value)
 	}
 	f.Fuzz(func(t *testing.T, data string) {
-		got := string(script.JSON(data).RenderBytes())
-		want := `<script type="application/json">` + data + `</script>`
-		if got != want {
-			t.Fatalf("got %q, want %q", got, want)
+		for _, ctor := range contentConstructors {
+			got := string(ctor.build(data).RenderBytes())
+			want := `<script type="` + ctor.scriptType + `">` + data + `</script>`
+			if got != want {
+				t.Fatalf("got %q, want %q", got, want)
+			}
 		}
 	})
 }

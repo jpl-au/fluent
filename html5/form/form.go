@@ -129,6 +129,24 @@ func Post(action string, nodes ...node.Node) *Element {
 	}
 }
 
+// Multipart creates a POST form with multipart/form-data encoding and the
+// specified action URL. Use it to submit file contents alongside other fields.
+// Example: form.Multipart("/upload", input.File("document"))
+// Renders: <form action="/upload" method="post" enctype="multipart/form-data"><input name="document" type="file"></form>
+//
+// Fluent filters this URL at render time: http, https, mailto, tel, sms and relative URLs
+// render as given; any other scheme (javascript:, data:, file:, a custom protocol) renders as the
+// inert node.UnsafeURL sentinel instead. For a trusted off-allowlist value use SetAttribute
+// (escaped but unfiltered) or SetAttributeRaw; register node.OnUnsafeURL to observe rejections.
+func Multipart(action string, nodes ...node.Node) *Element {
+	return &Element{
+		nodes:   nodes,
+		method:  method.Post,
+		enctype: enctype.MultipartFormData,
+		action:  node.EscapeAttribute(node.FilterURL(action)),
+	}
+}
+
 // Dialog creates a form that closes its nearest ancestor dialog on submission
 // without sending a request. The activated submit button's value becomes the
 // dialog's returnValue.

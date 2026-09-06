@@ -139,6 +139,54 @@ func Preload(href string, as as.As) *Element {
 	}
 }
 
+// ModulePreload creates a link that requests a JavaScript module before it
+// is needed. The browser fetches and prepares the module for later execution.
+// Example: link.ModulePreload("/app.js")
+// Renders: <link rel="modulepreload" href="/app.js">
+//
+// Fluent filters this URL at render time: http, https, mailto, tel, sms and relative URLs
+// render as given; any other scheme (javascript:, data:, file:, a custom protocol) renders as the
+// inert node.UnsafeURL sentinel instead. For a trusted off-allowlist value use SetAttribute
+// (escaped but unfiltered) or SetAttributeRaw; register node.OnUnsafeURL to observe rejections.
+func ModulePreload(href string) *Element {
+	return &Element{
+		rel:  rel.ModulePreload,
+		href: node.EscapeAttribute(node.FilterURL(href)),
+	}
+}
+
+// Preconnect creates a link that hints the browser to establish a connection
+// to an origin before a resource is requested. Pass the origin URL.
+// Example: link.Preconnect("https://cdn.example.com")
+// Renders: <link rel="preconnect" href="https://cdn.example.com">
+//
+// Fluent filters this URL at render time: http, https, mailto, tel, sms and relative URLs
+// render as given; any other scheme (javascript:, data:, file:, a custom protocol) renders as the
+// inert node.UnsafeURL sentinel instead. For a trusted off-allowlist value use SetAttribute
+// (escaped but unfiltered) or SetAttributeRaw; register node.OnUnsafeURL to observe rejections.
+func Preconnect(href string) *Element {
+	return &Element{
+		rel:  rel.Preconnect,
+		href: node.EscapeAttribute(node.FilterURL(href)),
+	}
+}
+
+// Manifest creates a link to a web app manifest. The manifest describes
+// application metadata such as its name, icons and start URL.
+// Example: link.Manifest("/app.webmanifest")
+// Renders: <link rel="manifest" href="/app.webmanifest">
+//
+// Fluent filters this URL at render time: http, https, mailto, tel, sms and relative URLs
+// render as given; any other scheme (javascript:, data:, file:, a custom protocol) renders as the
+// inert node.UnsafeURL sentinel instead. For a trusted off-allowlist value use SetAttribute
+// (escaped but unfiltered) or SetAttributeRaw; register node.OnUnsafeURL to observe rejections.
+func Manifest(href string) *Element {
+	return &Element{
+		rel:  rel.Manifest,
+		href: node.EscapeAttribute(node.FilterURL(href)),
+	}
+}
+
 // Canonical creates a link element declaring the canonical URL for the page.
 // Important for SEO when the same content is accessible at multiple
 // URLs. Search engines use this to consolidate ranking signals.

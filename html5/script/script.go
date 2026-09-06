@@ -190,6 +190,20 @@ func Module(src string) *Element {
 	}
 }
 
+// InlineModule creates a script element containing an inline JavaScript module.
+// The code is written verbatim. The caller must prepare it for embedding in
+// HTML, including protection against closing script tags inside strings.
+// Example: script.InlineModule(`import { start } from "/app.js"; start();`)
+// Renders: <script type="module">import { start } from "/app.js"; start();</script>
+func InlineModule(code string) *Element {
+	child := &textChild{txt: *text.RawText(code)}
+	child.first[0] = &child.txt
+	return &Element{
+		nodes:      child.first[:],
+		scriptType: "module",
+	}
+}
+
 // JavaScript creates a script element explicitly with JavaScript type
 // Example: script.JavaScript("script.js")
 // Renders: <script src="script.js" type="text/javascript"></script>
@@ -216,6 +230,52 @@ func JSON(data string) *Element {
 	return &Element{
 		nodes:      child.first[:],
 		scriptType: "application/json",
+	}
+}
+
+// ImportMap creates a script element containing a JSON import map.
+// The browser uses the map to resolve module specifiers. Place it before
+// module scripts that use those mappings.
+// The data is written verbatim. The caller must supply valid import-map JSON
+// prepared for embedding in HTML, including protection against closing script tags.
+// Example: script.ImportMap(`{"imports":{"app":"/app.js"}}`)
+// Renders: <script type="importmap">{"imports":{"app":"/app.js"}}</script>
+func ImportMap(data string) *Element {
+	child := &textChild{txt: *text.RawText(data)}
+	child.first[0] = &child.txt
+	return &Element{
+		nodes:      child.first[:],
+		scriptType: "importmap",
+	}
+}
+
+// SpeculationRules creates a script element containing JSON rules for
+// prefetching or prerendering pages that a user might visit next.
+// The data is written verbatim. The caller must supply valid speculation-rules
+// JSON prepared for embedding in HTML, including protection against closing script tags.
+// Example: script.SpeculationRules(`{"prefetch":[{"source":"list","urls":["/next"]}]}`)
+// Renders: <script type="speculationrules">{"prefetch":[{"source":"list","urls":["/next"]}]}</script>
+func SpeculationRules(data string) *Element {
+	child := &textChild{txt: *text.RawText(data)}
+	child.first[0] = &child.txt
+	return &Element{
+		nodes:      child.first[:],
+		scriptType: "speculationrules",
+	}
+}
+
+// JSONLD creates a script element containing a JSON-LD data block.
+// JSON-LD describes structured data using linked-data vocabularies.
+// The data is written verbatim. The caller must supply valid JSON-LD prepared
+// for embedding in HTML, including protection against closing script tags.
+// Example: script.JSONLD(`{"@context":"https://schema.org","@type":"Person","name":"Alex"}`)
+// Renders: <script type="application/ld+json">{"@context":"https://schema.org","@type":"Person","name":"Alex"}</script>
+func JSONLD(data string) *Element {
+	child := &textChild{txt: *text.RawText(data)}
+	child.first[0] = &child.txt
+	return &Element{
+		nodes:      child.first[:],
+		scriptType: "application/ld+json",
 	}
 }
 

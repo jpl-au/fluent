@@ -321,6 +321,42 @@ func (e *Element) Type(value string) *Element {
 	return e
 }
 
+// Submit sets type="submit".
+//
+// Activating the button submits its associated form. Existing children are
+// preserved. A later Type, Reset or Button call replaces this setting.
+// Example: button.New(span.Text("Save")).Submit()
+// Renders: <button type="submit"><span>Save</span></button>
+func (e *Element) Submit() *Element {
+	e.buttonType = node.EscapeAttribute("submit")
+	return e
+}
+
+// Reset sets type="reset".
+//
+// Activating the button restores its associated form controls to their
+// default values. Existing children are preserved. A later Type, Submit or
+// Button call replaces this setting.
+// Example: button.New(span.Text("Clear")).Reset()
+// Renders: <button type="reset"><span>Clear</span></button>
+func (e *Element) Reset() *Element {
+	e.buttonType = node.EscapeAttribute("reset")
+	return e
+}
+
+// Button sets type="button".
+//
+// Activating the button has no built-in form submission or reset action.
+// Use it for controls with scripted actions or declarative command targets.
+// Existing children are preserved. A later Type, Submit or Reset call
+// replaces this setting.
+// Example: button.New(span.Text("Open menu")).Button()
+// Renders: <button type="button"><span>Open menu</span></button>
+func (e *Element) Button() *Element {
+	e.buttonType = node.EscapeAttribute("button")
+	return e
+}
+
 // Value sets the value attribute.
 //
 // Defines the value associated with the button's name when it's submitted with the form data.

@@ -60,6 +60,30 @@ func TestPreloadCtor(t *testing.T) {
 	}
 }
 
+func TestModulePreloadCtor(t *testing.T) {
+	got := string(link.ModulePreload("/app.js").RenderBytes())
+	want := `<link rel="modulepreload" href="/app.js">`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
+func TestPreconnectCtor(t *testing.T) {
+	got := string(link.Preconnect("https://cdn.example.com").RenderBytes())
+	want := `<link rel="preconnect" href="https://cdn.example.com">`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
+func TestManifestCtor(t *testing.T) {
+	got := string(link.Manifest("/app.webmanifest").RenderBytes())
+	want := `<link rel="manifest" href="/app.webmanifest">`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
 func TestCanonicalCtor(t *testing.T) {
 	got := string(link.Canonical("https://example.com/page").RenderBytes())
 	want := `<link rel="canonical" href="https://example.com/page">`
@@ -1679,6 +1703,27 @@ func TestStylesheetNoBreakout(t *testing.T) {
 
 func TestIconNoBreakout(t *testing.T) {
 	got := link.Icon("\"><script>").RenderBytes()
+	if bytes.Contains(got, []byte("\"><script>")) {
+		t.Errorf("hostile value reached the output unescaped: %s", got)
+	}
+}
+
+func TestModulePreloadNoBreakout(t *testing.T) {
+	got := link.ModulePreload("\"><script>").RenderBytes()
+	if bytes.Contains(got, []byte("\"><script>")) {
+		t.Errorf("hostile value reached the output unescaped: %s", got)
+	}
+}
+
+func TestPreconnectNoBreakout(t *testing.T) {
+	got := link.Preconnect("\"><script>").RenderBytes()
+	if bytes.Contains(got, []byte("\"><script>")) {
+		t.Errorf("hostile value reached the output unescaped: %s", got)
+	}
+}
+
+func TestManifestNoBreakout(t *testing.T) {
+	got := link.Manifest("\"><script>").RenderBytes()
 	if bytes.Contains(got, []byte("\"><script>")) {
 		t.Errorf("hostile value reached the output unescaped: %s", got)
 	}

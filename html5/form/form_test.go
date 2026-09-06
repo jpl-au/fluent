@@ -61,6 +61,14 @@ func TestPostCtor(t *testing.T) {
 	}
 }
 
+func TestMultipartCtor(t *testing.T) {
+	got := string(form.Multipart("/upload", input.File("document")).RenderBytes())
+	want := `<form action="/upload" method="post" enctype="multipart/form-data"><input name="document" type="file"></form>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
 func TestDialogCtor(t *testing.T) {
 	got := string(form.Dialog(button.Submit("Confirm"), button.Button("Cancel")).RenderBytes())
 	want := `<form method="dialog"><button type="submit">Confirm</button><button type="button">Cancel</button></form>`
@@ -1690,6 +1698,13 @@ func TestGetNoBreakout(t *testing.T) {
 
 func TestPostNoBreakout(t *testing.T) {
 	got := form.Post("\"><script>").RenderBytes()
+	if bytes.Contains(got, []byte("\"><script>")) {
+		t.Errorf("hostile value reached the output unescaped: %s", got)
+	}
+}
+
+func TestMultipartNoBreakout(t *testing.T) {
+	got := form.Multipart("\"><script>").RenderBytes()
 	if bytes.Contains(got, []byte("\"><script>")) {
 		t.Errorf("hostile value reached the output unescaped: %s", got)
 	}

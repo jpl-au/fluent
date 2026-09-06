@@ -100,6 +100,14 @@ func TestModuleCtor(t *testing.T) {
 	}
 }
 
+func TestInlineModuleCtor(t *testing.T) {
+	got := string(script.InlineModule(`import { start } from "/app.js"; start();`).RenderBytes())
+	want := `<script type="module">import { start } from "/app.js"; start();</script>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
 func TestJavaScriptCtor(t *testing.T) {
 	got := string(script.JavaScript("script.js").RenderBytes())
 	want := `<script src="script.js" type="text/javascript"></script>`
@@ -111,6 +119,30 @@ func TestJavaScriptCtor(t *testing.T) {
 func TestJSONCtor(t *testing.T) {
 	got := string(script.JSON(`{"key": "value"}`).RenderBytes())
 	want := `<script type="application/json">{"key": "value"}</script>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
+func TestImportMapCtor(t *testing.T) {
+	got := string(script.ImportMap(`{"imports":{"app":"/app.js"}}`).RenderBytes())
+	want := `<script type="importmap">{"imports":{"app":"/app.js"}}</script>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
+func TestSpeculationRulesCtor(t *testing.T) {
+	got := string(script.SpeculationRules(`{"prefetch":[{"source":"list","urls":["/next"]}]}`).RenderBytes())
+	want := `<script type="speculationrules">{"prefetch":[{"source":"list","urls":["/next"]}]}</script>`
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
+func TestJSONLDCtor(t *testing.T) {
+	got := string(script.JSONLD(`{"@context":"https://schema.org","@type":"Person","name":"Alex"}`).RenderBytes())
+	want := `<script type="application/ld+json">{"@context":"https://schema.org","@type":"Person","name":"Alex"}</script>`
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
 	}
