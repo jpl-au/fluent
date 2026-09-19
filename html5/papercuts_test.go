@@ -263,11 +263,9 @@ func TestSVGConcurrentFirstRender(t *testing.T) {
 	results := make([]string, 8)
 	var wg sync.WaitGroup
 	for i := range results {
-		wg.Add(1)
-		go func() {
-			defer wg.Done()
+		wg.Go(func() {
 			results[i] = string(shape.RenderBytes())
-		}()
+		})
 	}
 	wg.Wait()
 	want := `<rect id="shared"></rect>`

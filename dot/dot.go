@@ -339,7 +339,7 @@ func Dl(nodes ...node.Node) *dl.Element {
 }
 
 // Dropdown creates a new select element with option and optgroup child elements.
-// Example: Dropdown(option.Option("Red", "red"), option.Option("Blue", "blue"))
+// Example: Dropdown(option.Option("red", "Red"), option.Option("blue", "Blue"))
 // Renders: <select><option value="red">Red</option><option value="blue">Blue</option></select>
 func Dropdown(nodes ...node.Node) *dropdown.Element {
 	return dropdown.New(nodes...)

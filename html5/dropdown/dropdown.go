@@ -78,7 +78,7 @@ func (e *Element) event() *html5.EventAttributes {
 }
 
 // New creates a new select element with option and optgroup child elements.
-// Example: dropdown.New(option.Option("Red", "red"), option.Option("Blue", "blue"))
+// Example: dropdown.New(option.Option("red", "Red"), option.Option("blue", "Blue"))
 // Renders: <select><option value="red">Red</option><option value="blue">Blue</option></select>
 func New(nodes ...node.Node) *Element {
 	return &Element{
